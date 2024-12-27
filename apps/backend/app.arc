@@ -1,8 +1,26 @@
 @app
 backend
 
+@http
+any /api/v1/auth/*
+
 @static
 spa true
+
+@tables
+
+next-auth
+  pk *String
+  sk **String
+  expires TTL
+  encrypt true
+
+@indexes-indexes
+
+next-auth
+  pk *String
+  sk **String
+  name GSI1
 
 @plugins
 architect/plugin-typescript
