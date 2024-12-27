@@ -7,6 +7,7 @@
     "dev": "run-p dev:backend dev:frontend",
     "dev:backend": "cd apps/backend && pnpm arc sandbox",
     "dev:frontend": "cd apps/frontend && vite",
+    "build": "pnpm build:frontend",
     "build:frontend": "cd apps/frontend && tsc -b && vite build",
     "lint:frontend": "cd apps/frontend && eslint .",
     "preview:frontend": "cd apps/frontend && vite preview"

@@ -1,9 +1,6 @@
 @app
 backend
 
-@http
-get /
-
 @static
 spa true
 
