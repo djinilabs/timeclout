@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "run-p dev:backend dev:frontend",
     "dev:backend": "cd apps/backend && pnpm arc sandbox",
     "dev:frontend": "cd apps/frontend && vite",
     "build:frontend": "cd apps/frontend && tsc -b && vite build",
@@ -28,6 +29,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
+    "npm-run-all": "^4.1.5",
     "source-map-support": "^0.5.21",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
