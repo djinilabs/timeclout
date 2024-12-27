@@ -4,16 +4,34 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_OPTIONS=\"--enable-source-maps\" cd apps/backend && pnpm arc sandbox",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:backend": "cd apps/backend && pnpm arc sandbox",
+    "dev:frontend": "cd apps/frontend && vite",
+    "build:frontend": "cd apps/frontend && tsc -b && vite build",
+    "lint:frontend": "cd apps/frontend && eslint .",
+    "preview:frontend": "cd apps/frontend && vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
   "devDependencies": {
     "@architect/architect": "^11.1.0",
     "@architect/plugin-typescript": "^2.1.0",
-    "source-map-support": "^0.5.21"
+    "@eslint/js": "^9.17.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react-swc": "^3.7.2",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "source-map-support": "^0.5.21",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.18.2",
+    "vite": "^6.0.5"
   },
   "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
 }

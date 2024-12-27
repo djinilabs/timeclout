@@ -4,6 +4,8 @@ backend
 @http
 get /
 
+@static
+spa true
 
 @plugins
 architect/plugin-typescript
