@@ -6,11 +6,7 @@ import { DynamoDBAdapter } from "@auth/dynamodb-adapter";
 import Mailgun from "next-auth/providers/mailgun";
 
 const config: DynamoDBClientConfig = {
-  credentials: {
-    accessKeyId: process.env.AUTH_DYNAMODB_ID,
-    secretAccessKey: process.env.AUTH_DYNAMODB_SECRET,
-  },
-  region: process.env.AUTH_DYNAMODB_REGION,
+  // region: process.env.AUTH_DYNAMODB_REGION,
   endpoint: process.env.AUTH_DYNAMODB_ENDPOINT,
 };
 
@@ -26,7 +22,11 @@ app.set("trust proxy", true);
 
 app.use(
   "/api/v1/auth/*",
-  ExpressAuth({ providers: [Mailgun], adapter: DynamoDBAdapter(client) })
+  ExpressAuth({
+    providers: [Mailgun({ name: "Email" })],
+    adapter: DynamoDBAdapter(client),
+    debug: true,
+  })
 );
 
 export { app };
