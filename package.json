@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "run-p dev:backend dev:frontend",
     "dev:backend": "cd apps/backend && pnpm arc sandbox",
-    "dev:frontend": "cd apps/frontend && vite",
+    "dev:frontend": "run-p dev:frontend:app dev:frontend:styles",
+    "dev:frontend:app": "cd apps/frontend && vite",
+    "dev:frontend:styles": "pnpm tailwindcss -i ./apps/frontend/src/input.css -o ./apps/frontend/src/output.css --watch",
     "build": "pnpm build:frontend",
     "build:frontend": "cd apps/frontend && tsc -b && vite build",
     "lint:frontend": "cd apps/frontend && eslint .",
@@ -16,8 +18,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.2.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
     "@architect/architect": "^11.1.0",
