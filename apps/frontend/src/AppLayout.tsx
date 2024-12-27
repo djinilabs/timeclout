@@ -90,8 +90,8 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
                 <div className="flex h-16 shrink-0 items-center">
                   <img
-                    alt="Your Company"
-                    src="https://tailwindui.com/plus/img/logos/mark.svg?color=white"
+                    alt="Team Time Table"
+                    src="/images/tt3.png"
                     className="h-8 w-auto"
                   />
                 </div>
@@ -175,8 +175,8 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <img
-                alt="Your Company"
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=white"
+                alt="Team Time Table"
+                src="/images/tt3.svg"
                 className="h-8 w-auto"
               />
             </div>
