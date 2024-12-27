@@ -177,7 +177,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
               <img
                 alt="Team Time Table"
                 src="/images/tt3.svg"
-                className="h-8 w-auto"
+                className="h-20 w-auto"
               />
             </div>
             <nav className="flex flex-1 flex-col">
