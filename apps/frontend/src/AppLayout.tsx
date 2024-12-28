@@ -91,8 +91,8 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
                 <div className="flex h-16 shrink-0 items-center">
                   <img
                     alt="Team Time Table"
-                    src="/images/tt3.png"
-                    className="h-8 w-auto"
+                    src="/images/tt3.svg"
+                    className="h-20 w-auto"
                   />
                 </div>
                 <nav className="flex flex-1 flex-col">
