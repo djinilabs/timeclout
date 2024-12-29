@@ -15,7 +15,7 @@ next-auth
   expires TTL
   encrypt true
 
-@indexes-indexes
+@tables-indexes
 
 next-auth
   pk *String

@@ -1,0 +1,26 @@
+diff --git a/providers/mailgun.js b/providers/mailgun.js
+index 30fdaaf785c995ab5f8792b76092b73bc0334111..d90d4f76c52b6a87579c3641b3757206a9ac37b0 100644
+--- a/providers/mailgun.js
++++ b/providers/mailgun.js
+@@ -39,18 +39,18 @@ export default function MailGun(config) {
+         from: "Auth.js <no-reply@authjs.dev>",
+         maxAge: 24 * 60 * 60,
+         async sendVerificationRequest(params) {
+-            const { identifier: to, provider, url, theme } = params;
++            const { identifier: identifier, provider, url, theme } = params;
+             const { host } = new URL(url);
+             const domain = provider.from?.split("@").at(1);
+             if (!domain)
+                 throw new Error("malformed Mailgun domain");
+             const form = new FormData();
+             form.append("from", `${provider.name} <${provider.from}>`);
+-            form.append("to", to);
++            form.append("to", identifier);
+             form.append("subject", `Sign in to ${host}`);
+             form.append("html", html({ host, url, theme }));
+             form.append("text", text({ host, url }));
+-            const res = await fetch(`https://api.mailgun.net/v3/${domain}/messages`, {
++            const res = await fetch(`https://api.eu.mailgun.net/v3/${domain}/messages`, {
+                 method: "POST",
+                 headers: {
+                     Authorization: `Basic ${btoa(`api:${provider.apiKey}`)}`,

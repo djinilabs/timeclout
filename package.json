@@ -18,6 +18,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@architect/functions": "^8.1.6",
+    "@auth/core": "^0.37.4",
     "@auth/dynamodb-adapter": "^2.7.4",
     "@auth/express": "^0.8.4",
     "@aws-sdk/client-dynamodb": "^3.716.0",
@@ -26,6 +28,7 @@
     "@heroicons/react": "^2.2.0",
     "@types/node": "^22.10.2",
     "@vendia/serverless-express": "^4.12.6",
+    "aws-sdk": "^2.1692.0",
     "express": "^4.21.2",
     "next-auth": "5.0.0-beta.25",
     "react": "^18.3.1",
@@ -51,5 +54,11 @@
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5"
   },
-  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
+  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf",
+  "pnpm": {
+    "patchedDependencies": {
+      "@architect/functions": "patches/@architect__functions.patch",
+      "@auth/core": "patches/@auth__core.patch"
+    }
+  }
 }
