@@ -20,4 +20,8 @@ export default defineConfig({
     sourcemap: true,
     outDir: "../backend/public",
   },
+  define: {
+    "process.env": {},
+    global: "globalThis",
+  },
 });
