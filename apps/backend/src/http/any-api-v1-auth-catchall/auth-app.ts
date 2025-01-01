@@ -21,13 +21,24 @@ export const createApp = async () => {
   app.use(
     "/api/v1/auth/*",
     ExpressAuth({
-      providers: [Mailgun({ name: "Email", from: "info@tt3.app" })],
+      session: {
+        strategy: "jwt",
+      },
+      providers: [Mailgun({ name: "TT3", from: "info@tt3.app" })],
       adapter: DynamoDBAdapter(clientDoc, {
         tableName,
         indexPartitionKey: "pk",
         indexSortKey: "sk",
       }),
       debug: true,
+      callbacks: {
+        async jwt({ token, user, account, profile }) {
+          if (account?.type === "email" && account.providerAccountId) {
+            token.email = account.providerAccountId;
+          }
+          return token;
+        },
+      },
     })
   );
 

@@ -9,7 +9,6 @@ const userNavigation = [
 
 export const UserTopBarMenu = () => {
   const { data: session } = useSession();
-  console.log(session);
   return (
     <Menu as="div" className="relative">
       <MenuButton className="-m-1.5 flex items-center p-1.5">
