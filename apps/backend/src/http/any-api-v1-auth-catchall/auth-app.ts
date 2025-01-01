@@ -8,6 +8,7 @@ import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 export const createApp = async () => {
   const app = express();
   app.set("trust proxy", true);
+  // @ts-expect-error
   const client = await tables({
     awsSdkClient: true,
     awsjsonMarshall: { convertClassInstanceToMap: true },
