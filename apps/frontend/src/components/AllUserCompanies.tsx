@@ -51,10 +51,15 @@ export const AllUserCompanies = () => {
     return <NoCompanies />;
   }
   return (
-    <ul>
-      {allCompanies.data?.companies.map((company: Company) => (
-        <li key={company.id}>{company.id}</li>
-      ))}
-    </ul>
+    <div>
+      <div className="border-b border-gray-200 pb-5">
+        <h3 className="text-base font-semibold text-gray-900">Companies</h3>
+      </div>
+      <ul>
+        {allCompanies.data?.companies.map((company: Company) => (
+          <li key={company.id}>{company.id}</li>
+        ))}
+      </ul>
+    </div>
   );
 };

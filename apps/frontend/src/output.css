@@ -923,6 +923,12 @@ video {
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .self-center {
   align-self: center;
 }
@@ -1123,6 +1129,10 @@ video {
 
 .pr-10 {
   padding-right: 2.5rem;
+}
+
+.pb-5 {
+  padding-bottom: 1.25rem;
 }
 
 .text-center {
@@ -1452,6 +1462,11 @@ video {
   color: rgb(99 102 241 / var(--tw-text-opacity, 1));
 }
 
+.hover\:text-gray-700:hover {
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
+}
+
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -1595,6 +1610,10 @@ video {
 
   .sm\:col-start-1 {
     grid-column-start: 1;
+  }
+
+  .sm\:flex {
+    display: flex;
   }
 
   .sm\:size-4 {
