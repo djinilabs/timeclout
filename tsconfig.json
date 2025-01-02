@@ -4,5 +4,12 @@
     "paths": {
       "@/graphql": ["./libs/graphql/src"]
     }
-  }
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
+  "include": ["**/*.ts", "**/*.graphqls"],
+  "compileOnSave": true
 }
