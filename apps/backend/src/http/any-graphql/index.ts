@@ -22,14 +22,15 @@ export async function handler(
   event: APIGatewayEvent,
   lambdaContext: Context
 ): Promise<APIGatewayProxyResult> {
+  console.log("event:", event);
   const response = await yoga.fetch(
-    event.path +
+    (event.path ?? event.rawPath) +
       "?" +
       new URLSearchParams(
         (event.queryStringParameters as Record<string, string>) || {}
       ).toString(),
     {
-      method: event.httpMethod,
+      method: event.requestContext.http.method,
       headers: event.headers as HeadersInit,
       body: event.body
         ? Buffer.from(event.body, event.isBase64Encoded ? "base64" : "utf8")

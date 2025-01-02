@@ -31,7 +31,6 @@ export const createApp = async () => {
         indexPartitionKey: "pk",
         indexSortKey: "sk",
       }),
-      debug: true,
       callbacks: {
         async jwt({ token, user, account, profile }) {
           if (account?.type === "email" && account.providerAccountId) {

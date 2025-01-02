@@ -21,6 +21,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { UserTopBarMenu } from "./components/UserTopBarMenu";
+import { Toaster } from "react-hot-toast";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
@@ -45,6 +46,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
+      <Toaster />
       <div>
         <Dialog
           open={sidebarOpen}
