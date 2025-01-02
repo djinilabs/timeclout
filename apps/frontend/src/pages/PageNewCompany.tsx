@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
 
 export const PageNewCompany = () => {
@@ -82,10 +81,7 @@ export const PageNewCompany = () => {
                           ) : null}
                         </div>
                         {field.state.meta.errors.length > 0 ? (
-                          <p
-                            id="email-error"
-                            className="mt-2 text-sm text-red-600"
-                          >
+                          <p className="mt-2 text-sm text-red-600">
                             {field.state.meta.errors.join(", ")}
                           </p>
                         ) : null}
