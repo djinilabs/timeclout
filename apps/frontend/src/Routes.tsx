@@ -2,6 +2,7 @@ import { FC } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Root } from "./routes/Root";
 import { RequiresSession } from "./components/RequiresSession";
+import { NewCompany } from "./routes/NewCompany";
 
 export const AppRoutes: FC = () => {
   return (
@@ -16,7 +17,15 @@ export const AppRoutes: FC = () => {
           }
         />
         <Route
-          path="/d/:domain"
+          path="/c/new"
+          element={
+            <RequiresSession>
+              <NewCompany />
+            </RequiresSession>
+          }
+        />
+        <Route
+          path="/c/:company"
           element={
             <RequiresSession>
               <Root />
@@ -24,7 +33,7 @@ export const AppRoutes: FC = () => {
           }
         />
         <Route
-          path="/d/:domain/o/:organization"
+          path="/c/:company/u/:unit"
           element={
             <RequiresSession>
               <Root />
@@ -32,7 +41,7 @@ export const AppRoutes: FC = () => {
           }
         />
         <Route
-          path="/d/:domain/o/:organization/t/:team"
+          path="/c/:company/u/:unit/t/:team"
           element={
             <RequiresSession>
               <Root />
