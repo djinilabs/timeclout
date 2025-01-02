@@ -61,6 +61,7 @@ export const PageNewCompany = () => {
                         </label>
                         <div className="mt-2 grid grid-cols-1">
                           <input
+                            autoFocus
                             id={field.name}
                             name={field.name}
                             type="text"
