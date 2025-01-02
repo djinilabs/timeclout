@@ -68,9 +68,9 @@ export const PageNewCompany = () => {
                             onBlur={field.handleBlur}
                             onChange={(e) => field.handleChange(e.target.value)}
                             placeholder="ACME Inc"
-                            className={`col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline outline-1 -outline-offset-1 placeholder:text-red-300 focus:outline focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
+                            className={`col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline outline-1 -outline-offset-1 focus:outline focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
                               field.state.meta.errors.length > 0
-                                ? "outline-red-300 focus:outline-red-600 "
+                                ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
                                 : ""
                             }`}
                           />
