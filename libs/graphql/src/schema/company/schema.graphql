@@ -1,0 +1,15 @@
+type Company {
+  id: ID!
+  name: String!
+}
+
+extend type Mutation {
+  createCompany(name: String!): Company!
+  updateCompany(id: ID!, name: String!): Company!
+  deleteCompany(id: ID!): Company!
+}
+
+extend type Query {
+  companies: [Company!]!
+  company(id: ID!): Company!
+}

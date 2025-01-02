@@ -3,6 +3,7 @@ backend
 
 @http
 any /api/v1/auth/*
+any /graphql
 
 @static
 spa true
@@ -31,4 +32,5 @@ region eu-west-2
 
 @typescript
 build dist
-base-runtime nodejs18.x
+base-runtime nodejs20.x
+esbuild-config ../../esbuild-config.js

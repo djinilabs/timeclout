@@ -1,0 +1,5 @@
+type Query
+type Mutation
+
+# https://github.com/Urigo/graphql-scalars/blob/master/src/scalars/iso-date/DateTime.ts
+scalar DateTime
