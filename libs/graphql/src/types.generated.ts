@@ -19,8 +19,8 @@ export type Scalars = {
 
 export type Company = {
   __typename?: 'Company';
-  id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+  pk: Scalars['ID']['output'];
 };
 
 export type Mutation = {
@@ -37,13 +37,13 @@ export type MutationcreateCompanyArgs = {
 
 
 export type MutationdeleteCompanyArgs = {
-  id: Scalars['ID']['input'];
+  pk: Scalars['ID']['input'];
 };
 
 
 export type MutationupdateCompanyArgs = {
-  id: Scalars['ID']['input'];
   name: Scalars['String']['input'];
+  pk: Scalars['ID']['input'];
 };
 
 export type Query = {
@@ -54,7 +54,7 @@ export type Query = {
 
 
 export type QuerycompanyArgs = {
-  id: Scalars['ID']['input'];
+  pk: Scalars['ID']['input'];
 };
 
 
@@ -129,8 +129,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Company: ResolverTypeWrapper<Company>;
-  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -140,8 +140,8 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Company: Company;
-  ID: Scalars['ID']['output'];
   String: Scalars['String']['output'];
+  ID: Scalars['ID']['output'];
   DateTime: Scalars['DateTime']['output'];
   Mutation: {};
   Query: {};
@@ -149,8 +149,8 @@ export type ResolversParentTypes = {
 };
 
 export type CompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -160,13 +160,13 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationcreateCompanyArgs, 'name'>>;
-  deleteCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationdeleteCompanyArgs, 'id'>>;
-  updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'id' | 'name'>>;
+  deleteCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationdeleteCompanyArgs, 'pk'>>;
+  updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'name' | 'pk'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   companies?: Resolver<Array<ResolversTypes['Company']>, ParentType, ContextType>;
-  company?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<QuerycompanyArgs, 'id'>>;
+  company?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<QuerycompanyArgs, 'pk'>>;
 };
 
 export type Resolvers<ContextType = any> = {

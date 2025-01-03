@@ -27,10 +27,10 @@ export type TableSchema = (typeof tableSchemas)[TableName];
 export type Table = TableBase & z.infer<TableSchema>;
 
 export type TableAPI<T extends Table> = {
-  delete: (key: string) => Promise<void>;
+  delete: (key: string) => Promise<T>;
   get: (key: string) => Promise<T | undefined>;
-  update: (item: Partial<T>) => Promise<void>;
-  create: (item: T) => Promise<void>;
+  update: (item: Partial<T>) => Promise<T>;
+  create: (item: T) => Promise<T>;
 };
 
 export type DatabaseSchema = {

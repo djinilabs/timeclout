@@ -57,7 +57,7 @@ export const AllUserCompanies = () => {
       </div>
       <ul>
         {allCompanies.data?.companies.map((company: Company) => (
-          <li key={company.id}>{company.id}</li>
+          <li key={company.pk}>{company.name}</li>
         ))}
       </ul>
     </div>

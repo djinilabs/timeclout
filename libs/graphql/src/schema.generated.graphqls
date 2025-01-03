@@ -1,17 +1,17 @@
 type Company {
-  id: ID!
   name: String!
+  pk: ID!
 }
 
 scalar DateTime
 
 type Mutation {
   createCompany(name: String!): Company!
-  deleteCompany(id: ID!): Company!
-  updateCompany(id: ID!, name: String!): Company!
+  deleteCompany(pk: ID!): Company!
+  updateCompany(name: String!, pk: ID!): Company!
 }
 
 type Query {
   companies: [Company!]!
-  company(id: ID!): Company!
+  company(pk: ID!): Company!
 }

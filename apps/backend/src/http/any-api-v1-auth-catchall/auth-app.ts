@@ -4,6 +4,7 @@ import { tables } from "@architect/functions";
 import Mailgun from "next-auth/providers/mailgun";
 import { DynamoDBAdapter } from "@auth/dynamodb-adapter";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
+import { database } from "@/tables";
 
 export const createApp = async () => {
   const app = express();
@@ -41,7 +42,11 @@ export const createApp = async () => {
       },
       events: {
         signIn: async ({ user, account, profile }) => {
-          console.log(user, account, profile);
+          const { entity } = await database();
+          await entity.update({
+            pk: `users/${user.id}`,
+            user,
+          });
         },
       },
     })

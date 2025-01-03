@@ -18,8 +18,8 @@ export type Scalars = {
 
 export type Company = {
   __typename?: 'Company';
-  id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+  pk: Scalars['ID']['output'];
 };
 
 export type Mutation = {
@@ -36,13 +36,13 @@ export type MutationCreateCompanyArgs = {
 
 
 export type MutationDeleteCompanyArgs = {
-  id: Scalars['ID']['input'];
+  pk: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateCompanyArgs = {
-  id: Scalars['ID']['input'];
   name: Scalars['String']['input'];
+  pk: Scalars['ID']['input'];
 };
 
 export type Query = {
@@ -53,5 +53,5 @@ export type Query = {
 
 
 export type QueryCompanyArgs = {
-  id: Scalars['ID']['input'];
+  pk: Scalars['ID']['input'];
 };

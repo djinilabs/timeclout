@@ -4,7 +4,7 @@ import { DatabaseSchema, TableAPI, TableName, tableSchemas } from "./schema";
 import { tableApi } from "./tableApi";
 import { z } from "zod";
 
-export const database = once(async (): Promise<Promise<DatabaseSchema>> => {
+export const database = once(async (): Promise<DatabaseSchema> => {
   const client = await tables();
   const existingTables = Array.from(
     Object.keys(await client.reflect())

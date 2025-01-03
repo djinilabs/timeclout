@@ -2,14 +2,21 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/graphql": ["./libs/graphql/src"]
-    }
+      "@/graphql": ["./libs/graphql/src"],
+      "@/tables": ["./libs/tables/src"]
+    },
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "lib": ["esnext"],
+    "jsx": "react-jsx",
   },
   "ts-node": {
     "compilerOptions": {
       "module": "commonjs"
     }
   },
-  "include": ["**/*.ts", "**/*.graphqls"],
-  "compileOnSave": true
+  "include": ["**/*.ts", "**/*.tsx" , "**/*.graphqls"],
+  "compileOnSave": true,
+  "exclude": ["node_modules", "dist", ".pnpm", "dist"]
 }

@@ -7,7 +7,7 @@ export const handlingErrors = (handler: Handler) => {
       return await handler(event, context);
     } catch (error) {
       const boomed = boomify(error);
-      if (boomed.isServer)) {
+      if (boomed.isServer) {
         console.error(boomed);
       }
       const { statusCode, headers, payload } = boomed.output;
@@ -19,4 +19,3 @@ export const handlingErrors = (handler: Handler) => {
     }
   };
 };
-
