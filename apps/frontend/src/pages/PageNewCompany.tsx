@@ -2,12 +2,20 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
+import { createCompanyMutation } from "../graphql/mutations/createCompany";
+import { useMutation } from "urql";
 
 export const PageNewCompany = () => {
   const navigate = useNavigate();
-  const form = useForm({
+  const [, createCompany] = useMutation(createCompanyMutation);
+  const form = useForm<{ "company-name": string }>({
     onSubmit: async ({ value }) => {
-      console.log(value);
+      const response = await createCompany({ name: value["company-name"] });
+      if (response.error) {
+        toast.error("Error creating company: " + response.error.message);
+      } else {
+        navigate("/");
+      }
     },
     onSubmitInvalid: () => {
       toast.error("Please fill in all fields");

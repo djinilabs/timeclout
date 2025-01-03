@@ -16,6 +16,15 @@ next-auth
   expires TTL
   encrypt true
 
+entity
+  pk *String
+  encrypt true
+
+permission
+  pk *String
+  entityId String
+  encrypt true
+
 @tables-indexes
 
 next-auth

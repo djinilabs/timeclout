@@ -39,6 +39,11 @@ export const createApp = async () => {
           return token;
         },
       },
+      events: {
+        signIn: async ({ user, account, profile }) => {
+          console.log(user, account, profile);
+        },
+      },
     })
   );
 
