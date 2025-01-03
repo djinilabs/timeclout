@@ -3,7 +3,7 @@ import { gql } from "urql";
 export const allCompaniesQuery = gql`
   query AllCompanies {
     companies {
-      id
+      pk
       name
     }
   }

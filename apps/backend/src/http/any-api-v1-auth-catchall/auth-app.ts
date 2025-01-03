@@ -43,9 +43,11 @@ export const createApp = async () => {
       events: {
         signIn: async ({ user, account, profile }) => {
           const { entity } = await database();
+          const userPk = `users/${user.id}`;
           await entity.update({
-            pk: `users/${user.id}`,
-            user,
+            pk: userPk,
+            updatedBy: userPk,
+            ...user,
           });
         },
       },

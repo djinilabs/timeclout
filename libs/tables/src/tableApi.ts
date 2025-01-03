@@ -1,5 +1,5 @@
 import { ArcTable } from "@architect/functions/types/tables";
-import { Table, TableAPI, TableName, TableSchemas } from "./schema";
+import { TableAPI, TableName, TableSchemas } from "./schema";
 import { z } from "zod";
 import { notFound } from "@hapi/boom";
 
@@ -11,8 +11,8 @@ export const tableApi = <
   tableName: TTableName,
   lowLevelTable: ArcTable<{ pk: string }>,
   schema: TTableSchema
-): TableAPI<Table> => {
-  const self: TableAPI<Table> = {
+): TableAPI<TTableName> => {
+  const self: TableAPI<TTableName> = {
     delete: async (key: string) => {
       const item = await self.get(key);
       if (!item) {
@@ -52,13 +52,21 @@ export const tableApi = <
       return schema.parse({ ...previous, ...newAttributeValues });
     },
     create: async (item: Omit<TTableRecord, "version">) => {
-      const parsedItem = schema.parse({ version: 1, ...item });
+      const parsedItem = schema.parse({
+        version: 1,
+        createdAt: new Date().toISOString(),
+        createdBy: item.pk,
+        ...item,
+      });
       await lowLevelTable.update({
         Key: { pk: item.pk },
         AttributeUpdates: parsedItem,
         ConditionExpression: "attribute_not_exists(pk)",
       });
       return parsedItem;
+    },
+    query: async (query) => {
+      return (await lowLevelTable.query(query)).Items;
     },
   };
   return self;

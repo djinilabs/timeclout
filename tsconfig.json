@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/utils": ["./libs/utils/src"],
       "@/graphql": ["./libs/graphql/src"],
       "@/tables": ["./libs/tables/src"]
     },

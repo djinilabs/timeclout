@@ -1,8 +1,8 @@
 import { tables } from "@architect/functions";
-import once from "ramda/src/once";
+import { z } from "zod";
+import { once } from "@/utils";
 import { DatabaseSchema, TableAPI, TableName, tableSchemas } from "./schema";
 import { tableApi } from "./tableApi";
-import { z } from "zod";
 
 export const database = once(async (): Promise<DatabaseSchema> => {
   const client = await tables();
@@ -16,10 +16,7 @@ export const database = once(async (): Promise<DatabaseSchema> => {
       return [
         tableName,
         tableApi<typeof tableName>(tableName, lowLevelTable, schema),
-      ] as [
-        typeof tableName,
-        TableAPI<z.infer<(typeof tableSchemas)[typeof tableName]>>
-      ];
+      ] as [typeof tableName, TableAPI<typeof tableName>];
     })
   ) as DatabaseSchema;
 });

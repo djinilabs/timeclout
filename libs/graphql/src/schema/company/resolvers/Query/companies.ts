@@ -7,5 +7,5 @@ export const companies: NonNullable<QueryResolvers["companies"]> = async (
   _ctx
 ) => {
   const { entity } = await database();
-  return entity.list();
+  return entity.query({});
 };
