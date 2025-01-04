@@ -17,6 +17,7 @@ export const tableSchemas: Record<TableName, ZodSchema> = {
   permission: TableBaseSchema.extend({
     resourceType: z.string(),
     entityId: z.string(),
+    parentPk: z.string().optional(),
   }),
 };
 

@@ -23,6 +23,8 @@ entity
 permission
   pk *String
   entityId **String
+  resourceType String
+  parentPk String
   encrypt true
 
 @tables-indexes

@@ -23,6 +23,7 @@ export type Company = {
   createdBy: User;
   name: Scalars['String']['output'];
   pk: Scalars['ID']['output'];
+  units: Array<Unit>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
@@ -58,7 +59,17 @@ export type Query = {
 
 
 export type QuerycompanyArgs = {
-  pk: Scalars['ID']['input'];
+  companyPk: Scalars['ID']['input'];
+};
+
+export type Unit = {
+  __typename?: 'Unit';
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: User;
+  name: Scalars['String']['output'];
+  pk: Scalars['ID']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
 };
 
 export type User = {
@@ -145,6 +156,7 @@ export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  Unit: ResolverTypeWrapper<Unit>;
   User: ResolverTypeWrapper<User>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
 };
@@ -157,6 +169,7 @@ export type ResolversParentTypes = {
   DateTime: Scalars['DateTime']['output'];
   Mutation: {};
   Query: {};
+  Unit: Unit;
   User: User;
   Boolean: Scalars['Boolean']['output'];
 };
@@ -166,6 +179,7 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  units?: Resolver<Array<ResolversTypes['Unit']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -183,7 +197,17 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   companies?: Resolver<Array<ResolversTypes['Company']>, ParentType, ContextType>;
-  company?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<QuerycompanyArgs, 'pk'>>;
+  company?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<QuerycompanyArgs, 'companyPk'>>;
+};
+
+export type UnitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Unit'] = ResolversParentTypes['Unit']> = {
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -198,6 +222,7 @@ export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Unit?: UnitResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

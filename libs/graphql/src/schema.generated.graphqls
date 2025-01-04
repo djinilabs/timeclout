@@ -3,6 +3,7 @@ type Company {
   createdBy: User!
   name: String!
   pk: ID!
+  units: [Unit!]!
   updatedAt: DateTime
   updatedBy: User
 }
@@ -17,7 +18,16 @@ type Mutation {
 
 type Query {
   companies: [Company!]!
-  company(pk: ID!): Company!
+  company(companyPk: ID!): Company!
+}
+
+type Unit {
+  createdAt: DateTime!
+  createdBy: User!
+  name: String!
+  pk: ID!
+  updatedAt: DateTime
+  updatedBy: User
 }
 
 type User {

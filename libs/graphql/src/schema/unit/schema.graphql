@@ -1,0 +1,8 @@
+type Unit {
+  pk: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  createdBy: User!
+  updatedBy: User
+}

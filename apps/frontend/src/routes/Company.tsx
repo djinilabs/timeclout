@@ -1,5 +1,5 @@
-import { CompanyPage } from "../pages/CompanyPage";
+import { PageCompany } from "../pages/PageCompany";
 
 export const Company = () => {
-  return <CompanyPage />;
+  return <PageCompany />;
 };

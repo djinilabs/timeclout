@@ -16,7 +16,16 @@ const defaultClientOpts = (): ClientOptions => ({
   },
   requestPolicy: "cache-and-network",
   suspense: true,
-  exchanges: [cacheExchange(), fetchExchange],
+  exchanges: [
+    cacheExchange({
+      keys: {
+        Company: (c: any) => c.pk,
+        User: (u: any) => u.pk,
+        Unit: (u: any) => u.pk,
+      },
+    }),
+    fetchExchange,
+  ],
 });
 
 export const clientOptions = (options: Partial<ClientOptions>): ClientOptions =>

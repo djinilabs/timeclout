@@ -6,6 +6,7 @@ import    { createCompany as Mutation_createCompany } from './schema/company/res
 import    { deleteCompany as Mutation_deleteCompany } from './schema/company/resolvers/Mutation/deleteCompany';
 import    { updateCompany as Mutation_updateCompany } from './schema/company/resolvers/Mutation/updateCompany';
 import    { Company } from './schema/company/resolvers/Company';
+import    { Unit } from './schema/unit/resolvers/Unit';
 import    { User } from './schema/base/resolvers/User';
 import    { DateTimeResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
@@ -13,6 +14,7 @@ import    { DateTimeResolver } from 'graphql-scalars';
       Mutation: { createCompany: Mutation_createCompany,deleteCompany: Mutation_deleteCompany,updateCompany: Mutation_updateCompany },
       
       Company: Company,
+Unit: Unit,
 User: User,
 DateTime: DateTimeResolver
     }

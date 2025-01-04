@@ -5,6 +5,7 @@ type Company {
   updatedAt: DateTime
   createdBy: User!
   updatedBy: User
+  units: [Unit!]!
 }
 
 extend type Mutation {
@@ -15,5 +16,5 @@ extend type Mutation {
 
 extend type Query {
   companies: [Company!]!
-  company(pk: ID!): Company!
+  company(companyPk: ID!): Company!
 }

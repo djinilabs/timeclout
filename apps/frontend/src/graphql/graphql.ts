@@ -22,6 +22,7 @@ export type Company = {
   createdBy: User;
   name: Scalars['String']['output'];
   pk: Scalars['ID']['output'];
+  units: Array<Unit>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
@@ -57,7 +58,17 @@ export type Query = {
 
 
 export type QueryCompanyArgs = {
-  pk: Scalars['ID']['input'];
+  companyPk: Scalars['ID']['input'];
+};
+
+export type Unit = {
+  __typename?: 'Unit';
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: User;
+  name: Scalars['String']['output'];
+  pk: Scalars['ID']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
 };
 
 export type User = {
