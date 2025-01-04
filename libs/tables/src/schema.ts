@@ -12,6 +12,7 @@ const TableBaseSchema = z.object({
 export const tableSchemas: Record<TableName, ZodSchema> = {
   entity: TableBaseSchema.extend({
     name: z.string(),
+    email: z.string().email().optional(),
   }),
   permission: TableBaseSchema.extend({
     resourceType: z.string(),

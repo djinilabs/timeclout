@@ -1,6 +1,10 @@
 type Company {
+  createdAt: DateTime!
+  createdBy: User!
   name: String!
   pk: ID!
+  updatedAt: DateTime
+  updatedBy: User
 }
 
 scalar DateTime
@@ -14,4 +18,10 @@ type Mutation {
 type Query {
   companies: [Company!]!
   company(pk: ID!): Company!
+}
+
+type User {
+  email: String!
+  name: String!
+  pk: ID!
 }

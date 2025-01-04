@@ -2,7 +2,7 @@ import { database } from "@/tables";
 import type { QueryResolvers } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 
-export const companies: NonNullable<QueryResolvers["companies"]> = async (
+export const companies: NonNullable<QueryResolvers['companies']> = async (
   _parent,
   _arg,
   _ctx
@@ -10,11 +10,15 @@ export const companies: NonNullable<QueryResolvers["companies"]> = async (
   const session = await requireSession(_ctx);
   console.log("session:", session);
   const { permission, entity } = await database();
+  const userPk = `users/${session.user.id}`;
+  console.log("userPk:", userPk);
   const permissions = await permission.query({
-    IndexName: "byResourceType",
-    KeyConditionExpression: "resourceType = :resourceType",
+    IndexName: "byResourceTypeAndEntityId",
+    KeyConditionExpression:
+      "resourceType = :resourceType AND entityId = :entityId  ",
     ExpressionAttributeValues: {
       ":resourceType": "companies",
+      ":entityId": userPk,
     },
   });
   console.log("permissions:", permissions);

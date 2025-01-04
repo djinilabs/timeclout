@@ -1,6 +1,10 @@
 type Company {
   pk: ID!
   name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  createdBy: User!
+  updatedBy: User
 }
 
 extend type Mutation {

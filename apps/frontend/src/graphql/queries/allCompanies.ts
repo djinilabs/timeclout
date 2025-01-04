@@ -5,6 +5,18 @@ export const allCompaniesQuery = gql`
     companies {
       pk
       name
+      createdAt
+      createdBy {
+        pk
+        email
+        name
+      }
+      updatedAt
+      updatedBy {
+        pk
+        email
+        name
+      }
     }
   }
 `;

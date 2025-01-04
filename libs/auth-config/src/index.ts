@@ -44,18 +44,24 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     },
     events: {
       signIn: async ({ user, isNewUser }) => {
+        console.log("signIn", user, isNewUser);
         const { entity } = await database();
         const userPk = `users/${user.id}`;
         if (isNewUser) {
           await entity.create({
             pk: userPk,
             name: user.name ?? user.email ?? "Unknown",
+            email: user.email,
+            createdAt: new Date().toISOString(),
             createdBy: userPk,
             ...user,
           });
         } else {
           await entity.update({
             pk: userPk,
+            name: user.name ?? user.email ?? "Unknown",
+            email: user.email,
+            updatedAt: new Date().toISOString(),
             updatedBy: userPk,
             ...user,
           });

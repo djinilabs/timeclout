@@ -18,8 +18,12 @@ export type Scalars = {
 
 export type Company = {
   __typename?: 'Company';
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: User;
   name: Scalars['String']['output'];
   pk: Scalars['ID']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
 };
 
 export type Mutation = {
@@ -54,4 +58,11 @@ export type Query = {
 
 export type QueryCompanyArgs = {
   pk: Scalars['ID']['input'];
+};
+
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  pk: Scalars['ID']['output'];
 };

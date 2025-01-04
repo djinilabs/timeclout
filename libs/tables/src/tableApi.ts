@@ -54,6 +54,7 @@ export const tableApi = <
       const newItem = {
         ...previousItem,
         version: previousItem.version + 1,
+        updatedAt: new Date().toISOString(),
         ...item,
       };
 
@@ -73,7 +74,6 @@ export const tableApi = <
       const parsedItem = schema.parse({
         version: 1,
         createdAt: new Date().toISOString(),
-        createdBy: item.pk,
         ...item,
       });
       console.log("parsedItem", parsedItem);

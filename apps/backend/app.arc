@@ -22,7 +22,7 @@ entity
 
 permission
   pk *String
-  entityId String
+  entityId **String
   encrypt true
 
 @tables-indexes
@@ -34,7 +34,8 @@ next-auth
 
 permission
   resourceType *String
-  name byResourceType
+  entityId **String
+  name byResourceTypeAndEntityId
 
 @plugins
 architect/plugin-typescript
