@@ -34,7 +34,7 @@ export const AppRoutes: FC = () => {
           }
         />
         <Route
-          path="/companies/:company/u/:unit"
+          path="/companies/:company/units/:unit"
           element={
             <RequiresSession>
               <Root />
@@ -42,7 +42,7 @@ export const AppRoutes: FC = () => {
           }
         />
         <Route
-          path="/companies/:company/u/:unit/t/:team"
+          path="/companies/:company/units/:unit/teams/:team"
           element={
             <RequiresSession>
               <Root />

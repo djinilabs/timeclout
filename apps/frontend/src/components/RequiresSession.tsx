@@ -6,6 +6,7 @@ export const RequiresSession: FC<PropsWithChildren> = ({ children }) => {
     window.location.href =
       "/api/v1/auth/signin?callbackUrl=" +
       encodeURIComponent(window.location.href);
+    return null;
   }
   return <>{children}</>;
 };
