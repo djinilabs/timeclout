@@ -2,6 +2,7 @@ import { ArcTable } from "@architect/functions/types/tables";
 import { TableAPI, TableName, TableSchemas } from "./schema";
 import { z } from "zod";
 import { notFound } from "@hapi/boom";
+import { AwsLiteDynamoDB } from "@aws-lite/dynamodb-types";
 
 export const tableApi = <
   TTableName extends TableName,
@@ -10,6 +11,8 @@ export const tableApi = <
 >(
   tableName: TTableName,
   lowLevelTable: ArcTable<{ pk: string }>,
+  lowLevelClient: AwsLiteDynamoDB,
+  lowLevelTableName: string,
   schema: TTableSchema
 ): TableAPI<TTableName> => {
   const self: TableAPI<TTableName> = {
@@ -31,25 +34,32 @@ export const tableApi = <
     update: async (
       item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>
     ) => {
-      const previous = (await self.get(item.pk)) as TTableRecord | undefined;
-      if (!previous) {
+      const previousItem = (await self.get(item.pk)) as
+        | TTableRecord
+        | undefined;
+      if (!previousItem) {
         throw notFound(
           `Error updating table ${tableName}: Item with pk ${item.pk} not found`
         );
       }
 
-      const newAttributeValues = { version: previous.version + 1, ...item };
+      const newItem = {
+        ...previousItem,
+        version: previousItem.version + 1,
+        ...item,
+      };
 
-      await lowLevelTable.update({
-        Key: { pk: item.pk },
-        AttributeUpdates: newAttributeValues,
+      await lowLevelClient.PutItem({
+        Item: newItem,
+        TableName: lowLevelTableName,
         ConditionExpression: "#version = :version",
         ExpressionAttributeValues: {
-          ":version": previous.version,
+          ":version": previousItem.version,
         },
         ExpressionAttributeNames: { "#version": "version" },
       });
-      return schema.parse({ ...previous, ...newAttributeValues });
+
+      return newItem;
     },
     create: async (item: Omit<TTableRecord, "version">) => {
       const parsedItem = schema.parse({
@@ -59,11 +69,13 @@ export const tableApi = <
         ...item,
       });
       console.log("parsedItem", parsedItem);
-      await lowLevelTable.update({
-        Key: { pk: item.pk },
-        AttributeUpdates: parsedItem,
+
+      await lowLevelClient.PutItem({
+        Item: parsedItem,
+        TableName: lowLevelTableName,
         ConditionExpression: "attribute_not_exists(pk)",
       });
+
       return parsedItem;
     },
     query: async (query) => {

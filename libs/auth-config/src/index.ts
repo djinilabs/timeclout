@@ -30,28 +30,31 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       indexSortKey: "sk",
     }),
     callbacks: {
-      async jwt({ token, account }) {
+      async jwt({ token, account, user, profile }) {
+        console.log("$$$$$$jwt", token, account, user, profile);
         if (account?.type === "email" && account.providerAccountId) {
           token.email = account.providerAccountId;
+          token.id = token.sub;
         }
         return token;
       },
     },
     events: {
-      signIn: async ({ user, account, profile }) => {
+      signIn: async ({ user, isNewUser }) => {
         const { entity } = await database();
         const userPk = `users/${user.id}`;
-        if (await entity.get(userPk)) {
-          await entity.update({
-            pk: userPk,
-            updatedBy: userPk,
-            ...user,
-          });
-        } else {
+        console.log("$$$$$$signIn isNewUser", isNewUser, user);
+        if (isNewUser) {
           await entity.create({
             pk: userPk,
             name: user.name ?? user.email ?? "Unknown",
             createdBy: userPk,
+            ...user,
+          });
+        } else {
+          await entity.update({
+            pk: userPk,
+            updatedBy: userPk,
             ...user,
           });
         }

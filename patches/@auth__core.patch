@@ -1,0 +1,13 @@
+diff --git a/providers/mailgun.js b/providers/mailgun.js
+index 30fdaaf785c995ab5f8792b76092b73bc0334111..08d1bd96e7ec84b9286ae5f09b6f30bdeff45949 100644
+--- a/providers/mailgun.js
++++ b/providers/mailgun.js
+@@ -50,7 +50,7 @@ export default function MailGun(config) {
+             form.append("subject", `Sign in to ${host}`);
+             form.append("html", html({ host, url, theme }));
+             form.append("text", text({ host, url }));
+-            const res = await fetch(`https://api.mailgun.net/v3/${domain}/messages`, {
++            const res = await fetch(`https://api.eu.mailgun.net/v3/${domain}/messages`, {
+                 method: "POST",
+                 headers: {
+                     Authorization: `Basic ${btoa(`api:${provider.apiKey}`)}`,
