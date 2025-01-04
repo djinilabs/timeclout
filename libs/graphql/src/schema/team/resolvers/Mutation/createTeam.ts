@@ -1,10 +1,10 @@
-import { requireSession } from "libs/graphql/src/session/requireSession";
+import { requireSession } from "../../../../session/requireSession";
 import type { MutationResolvers } from "./../../../../types.generated";
 import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { nanoid } from "nanoid";
 
-export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
+export const createTeam: NonNullable<MutationResolvers['createTeam']> = async (
   _parent,
   arg,
   _ctx
@@ -13,38 +13,38 @@ export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
   const userPk = `users/${session.user.id}`;
 
   const { entity, permission } = await database();
-  const companyPk = `companies/${arg.companyPk}`;
+  const unitPk = `units/${arg.unitPk}`;
   const permissionRecord = await permission.query({
     KeyConditionExpression: "pk = :pk AND entityId = :entityId",
     ExpressionAttributeValues: {
-      ":pk": companyPk,
+      ":pk": unitPk,
       ":entityId": userPk,
     },
   });
   if (!permissionRecord) {
     throw new Error("User does not have permission to access this company");
   }
-  const company = await entity.get(companyPk);
-  if (!company) {
-    throw notFound("Company with pk ${arg.companyPk} not found");
+  const unit = await entity.get(unitPk);
+  if (!unit) {
+    throw notFound("Unit with pk ${arg.unitPk} not found");
   }
 
-  const unitPk = `units/${nanoid()}`;
-  const unit = {
-    pk: unitPk,
+  const teamPk = `teams/${nanoid()}`;
+  const team = {
+    pk: teamPk,
     createdBy: userPk,
     createdAt: new Date().toISOString(),
     name: arg.name,
   };
-  await entity.create(unit);
+  await entity.create(team);
 
   await permission.create({
-    pk: unitPk,
+    pk: teamPk,
     createdBy: userPk,
     createdAt: new Date().toISOString(),
     entityId: userPk,
-    resourceType: "units",
-    parentPk: companyPk,
+    resourceType: "teams",
+    parentPk: unitPk,
   });
   return unit;
 };

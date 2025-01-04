@@ -3,9 +3,7 @@ import { nanoid } from "nanoid";
 import type { MutationResolvers } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 
-export const createCompany: NonNullable<
-  MutationResolvers["createCompany"]
-> = async (_parent, arg, _ctx) => {
+export const createCompany: NonNullable<MutationResolvers['createCompany']> = async (_parent, arg, _ctx) => {
   const session = await requireSession(_ctx);
   const userPk = `users/${session.user.id}`;
   const companyPk = `companies/${nanoid()}`;

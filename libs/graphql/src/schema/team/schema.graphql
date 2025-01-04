@@ -1,0 +1,14 @@
+type Team {
+  pk: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  createdBy: User!
+  updatedBy: User
+}
+
+extend type Mutation {
+  createTeam(unitPk: ID!, name: String!): Team!
+  updateTeam(pk: ID!, name: String!): Team!
+  deleteTeam(pk: ID!): Team!
+}

@@ -30,16 +30,25 @@ export type Company = {
 export type Mutation = {
   __typename?: 'Mutation';
   createCompany: Company;
+  createTeam: Team;
   createUnit: Unit;
   deleteCompany: Company;
+  deleteTeam: Team;
   deleteUnit: Unit;
   updateCompany: Company;
+  updateTeam: Team;
   updateUnit: Unit;
 };
 
 
 export type MutationCreateCompanyArgs = {
   name: Scalars['String']['input'];
+};
+
+
+export type MutationCreateTeamArgs = {
+  name: Scalars['String']['input'];
+  unitPk: Scalars['ID']['input'];
 };
 
 
@@ -50,6 +59,11 @@ export type MutationCreateUnitArgs = {
 
 
 export type MutationDeleteCompanyArgs = {
+  pk: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteTeamArgs = {
   pk: Scalars['ID']['input'];
 };
 
@@ -65,6 +79,12 @@ export type MutationUpdateCompanyArgs = {
 };
 
 
+export type MutationUpdateTeamArgs = {
+  name: Scalars['String']['input'];
+  pk: Scalars['ID']['input'];
+};
+
+
 export type MutationUpdateUnitArgs = {
   name: Scalars['String']['input'];
   pk: Scalars['ID']['input'];
@@ -74,11 +94,27 @@ export type Query = {
   __typename?: 'Query';
   companies: Array<Company>;
   company: Company;
+  unit: Unit;
 };
 
 
 export type QueryCompanyArgs = {
   companyPk: Scalars['ID']['input'];
+};
+
+
+export type QueryUnitArgs = {
+  unitPk: Scalars['ID']['input'];
+};
+
+export type Team = {
+  __typename?: 'Team';
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: User;
+  name: Scalars['String']['output'];
+  pk: Scalars['ID']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
 };
 
 export type Unit = {
@@ -87,6 +123,7 @@ export type Unit = {
   createdBy: User;
   name: Scalars['String']['output'];
   pk: Scalars['ID']['output'];
+  teams: Array<Team>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };

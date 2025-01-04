@@ -1,10 +1,12 @@
 import { FC } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Root } from "./routes/Root";
 import { RequiresSession } from "./components/RequiresSession";
+import { Root } from "./routes/Root";
 import { NewCompany } from "./routes/NewCompany";
 import { Company } from "./routes/Company";
 import { NewUnit } from "./routes/NewUnit";
+import { Unit } from "./routes/Unit";
+import { NewTeam } from "./routes/NewTeam";
 
 export const AppRoutes: FC = () => {
   return (
@@ -46,7 +48,15 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/units/:unit"
           element={
             <RequiresSession>
-              <Root />
+              <Unit />
+            </RequiresSession>
+          }
+        />
+        <Route
+          path="/companies/:company/units/:unit/teams/new"
+          element={
+            <RequiresSession>
+              <NewTeam />
             </RequiresSession>
           }
         />
