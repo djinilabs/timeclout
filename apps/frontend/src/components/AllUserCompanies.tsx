@@ -35,7 +35,7 @@ const NoCompanies = () => {
           type="button"
           className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           onClick={() => {
-            navigate("/c/new");
+            navigate("/companies/new");
           }}
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />
@@ -71,7 +71,7 @@ export const AllUserCompanies = () => {
             <button
               type="button"
               onClick={() => {
-                navigate("/c/new");
+                navigate("/companies/new");
               }}
               className="relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
@@ -115,7 +115,7 @@ export const AllUserCompanies = () => {
               </div>
               <div className="flex flex-none items-center gap-x-4">
                 <a
-                  href={`/c/${company.pk}`}
+                  href={`/${company.pk}`}
                   className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                 >
                   View company<span className="sr-only">, {company.name}</span>
@@ -134,26 +134,10 @@ export const AllUserCompanies = () => {
                   >
                     <MenuItem>
                       <a
-                        href="#"
+                        href={`/${company.pk}`}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                       >
                         Edit<span className="sr-only">, {company.name}</span>
-                      </a>
-                    </MenuItem>
-                    <MenuItem>
-                      <a
-                        href="#"
-                        className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
-                      >
-                        Move<span className="sr-only">, {company.name}</span>
-                      </a>
-                    </MenuItem>
-                    <MenuItem>
-                      <a
-                        href="#"
-                        className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
-                      >
-                        Delete<span className="sr-only">, {company.name}</span>
                       </a>
                     </MenuItem>
                   </MenuItems>

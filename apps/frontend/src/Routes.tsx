@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Root } from "./routes/Root";
 import { RequiresSession } from "./components/RequiresSession";
 import { NewCompany } from "./routes/NewCompany";
+import { Company } from "./routes/Company";
 
 export const AppRoutes: FC = () => {
   return (
@@ -17,7 +18,7 @@ export const AppRoutes: FC = () => {
           }
         />
         <Route
-          path="/c/new"
+          path="/companies/new"
           element={
             <RequiresSession>
               <NewCompany />
@@ -25,7 +26,15 @@ export const AppRoutes: FC = () => {
           }
         />
         <Route
-          path="/c/:company"
+          path="/companies/:company"
+          element={
+            <RequiresSession>
+              <Company />
+            </RequiresSession>
+          }
+        />
+        <Route
+          path="/companies/:company/u/:unit"
           element={
             <RequiresSession>
               <Root />
@@ -33,15 +42,7 @@ export const AppRoutes: FC = () => {
           }
         />
         <Route
-          path="/c/:company/u/:unit"
-          element={
-            <RequiresSession>
-              <Root />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/c/:company/u/:unit/t/:team"
+          path="/companies/:company/u/:unit/t/:team"
           element={
             <RequiresSession>
               <Root />
