@@ -20,6 +20,12 @@ export const companyQuery = gql`
       units {
         pk
         name
+        createdAt
+        createdBy {
+          pk
+          email
+          name
+        }
       }
     }
   }

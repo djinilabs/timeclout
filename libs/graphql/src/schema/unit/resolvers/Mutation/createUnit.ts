@@ -37,5 +37,14 @@ export const createUnit: NonNullable<MutationResolvers["createUnit"]> = async (
     name: arg.name,
   };
   await entity.create(unit);
+
+  await permission.create({
+    pk: unitPk,
+    createdBy: userPk,
+    createdAt: new Date().toISOString(),
+    entityId: userPk,
+    resourceType: "units",
+    parentPk: companyPk,
+  });
   return unit;
 };
