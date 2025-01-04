@@ -15,7 +15,9 @@ export const BreadcrumbNav = () => {
 
   const company = queryResponse.data?.company;
 
-  const unit = company?.units.find((unit) => unit.pk === `units/${unitPk}`);
+  const unit = company?.units.find(
+    (unit: any) => unit.pk === `units/${unitPk}`
+  );
 
   return (
     <nav aria-label="Breadcrumb" className="flex mb-8">

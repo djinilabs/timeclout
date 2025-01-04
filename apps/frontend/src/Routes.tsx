@@ -7,6 +7,7 @@ import { Company } from "./routes/Company";
 import { NewUnit } from "./routes/NewUnit";
 import { Unit } from "./routes/Unit";
 import { NewTeam } from "./routes/NewTeam";
+import { Team } from "./routes/Team";
 
 export const AppRoutes: FC = () => {
   return (
@@ -64,7 +65,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/units/:unit/teams/:team"
           element={
             <RequiresSession>
-              <Root />
+              <Team />
             </RequiresSession>
           }
         />
