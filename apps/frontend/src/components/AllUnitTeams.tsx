@@ -133,7 +133,7 @@ export const AllUnitTeams = () => {
                   href={`/companies/${companyPk}/${unit.pk}/${team.pk}`}
                   className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                 >
-                  View unit<span className="sr-only">, {team.name}</span>
+                  View team<span className="sr-only">, {team.name}</span>
                 </a>
                 <Menu as="div" className="relative flex-none">
                   <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
