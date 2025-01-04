@@ -11,6 +11,9 @@ patchedDependencies:
   '@auth/core':
     hash: mjmokbix73gz4ryxj2thxy6gtq
     path: patches/@auth__core.patch
+  '@auth/express':
+    hash: jxgvnkr3gylgk64d5xrrkh4lym
+    path: patches/@auth__express.patch
 
 importers:
 
@@ -27,7 +30,7 @@ importers:
         version: 2.7.4(@aws-sdk/client-dynamodb@3.716.0)(@aws-sdk/lib-dynamodb@3.716.0(@aws-sdk/client-dynamodb@3.716.0))
       '@auth/express':
         specifier: ^0.8.4
-        version: 0.8.4(express@4.21.2)
+        version: 0.8.4(patch_hash=jxgvnkr3gylgk64d5xrrkh4lym)(express@4.21.2)
       '@aws-lite/apigatewaymanagementapi-types':
         specifier: ^0.0.13
         version: 0.0.13
@@ -5464,7 +5467,7 @@ snapshots:
       - '@simplewebauthn/server'
       - nodemailer
 
-  '@auth/express@0.8.4(express@4.21.2)':
+  '@auth/express@0.8.4(patch_hash=jxgvnkr3gylgk64d5xrrkh4lym)(express@4.21.2)':
     dependencies:
       '@auth/core': 0.37.4(patch_hash=mjmokbix73gz4ryxj2thxy6gtq)
       express: 4.21.2

@@ -2,9 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/utils": ["./libs/utils/src"],
+      "@/auth-config": ["./libs/auth-config/src"],
       "@/graphql": ["./libs/graphql/src"],
-      "@/tables": ["./libs/tables/src"]
+      "@/tables": ["./libs/tables/src"],
+      "@/utils": ["./libs/utils/src"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

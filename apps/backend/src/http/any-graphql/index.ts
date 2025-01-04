@@ -4,20 +4,18 @@ import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 // @ts-ignore
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
 import { handlingErrors } from "../../utils/handlingErrors";
+import { ResolverContext } from "@/graphql";
 
 // console.log("schema:", schema);
 
-const yoga = createYoga<{
-  event: APIGatewayEvent;
-  lambdaContext: Context;
-}>({
+const yoga = createYoga<ResolverContext>({
   // You need to specify the path to your lambda function
   graphqlEndpoint: "/graphql",
   schema: createSchema({
     typeDefs: schema,
     resolvers,
   }),
-  logging: false,
+  logging: true,
 });
 
 export const handler = handlingErrors(
@@ -25,7 +23,6 @@ export const handler = handlingErrors(
     event: APIGatewayEvent,
     lambdaContext: Context
   ): Promise<APIGatewayProxyResult> => {
-    console.log("event:", event);
     const response = await yoga.fetch(
       (event.path ?? event.rawPath) +
         "?" +

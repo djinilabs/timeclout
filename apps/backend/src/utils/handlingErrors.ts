@@ -9,6 +9,8 @@ export const handlingErrors = (handler: Handler) => {
       const boomed = boomify(error);
       if (boomed.isServer) {
         console.error(boomed);
+      } else {
+        console.warn(boomed);
       }
       const { statusCode, headers, payload } = boomed.output;
       return {

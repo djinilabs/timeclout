@@ -3,7 +3,10 @@ import { createApp } from "./auth-app";
 
 const createHandler = async () => {
   const app = await createApp();
-  return serverlessExpress({ app });
+  return serverlessExpress({
+    app,
+    respondWithErrors: true,
+  });
 };
 
 export const handler = async (
