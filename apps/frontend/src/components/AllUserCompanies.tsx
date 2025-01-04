@@ -47,7 +47,7 @@ export const AllUserCompanies = () => {
   const [allCompanies] = useQuery({
     query: allCompaniesQuery,
   });
-  if (!allCompanies.data) {
+  if (!allCompanies.data?.companies?.length) {
     return <NoCompanies />;
   }
   return (

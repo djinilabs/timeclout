@@ -32,6 +32,10 @@ next-auth
   sk **String
   name GSI1
 
+permission
+  resourceType *String
+  name byResourceType
+
 @plugins
 architect/plugin-typescript
 

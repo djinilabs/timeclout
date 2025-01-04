@@ -9,13 +9,12 @@ const TableBaseSchema = z.object({
   updatedBy: z.string().optional(),
 });
 
-type TableBase = z.infer<typeof TableBaseSchema>;
-
 export const tableSchemas: Record<TableName, ZodSchema> = {
   entity: TableBaseSchema.extend({
     name: z.string(),
   }),
   permission: TableBaseSchema.extend({
+    resourceType: z.string(),
     entityId: z.string(),
   }),
 };
@@ -39,6 +38,7 @@ export type TableAPI<
 > = {
   delete: (key: string) => Promise<TTableRecord>;
   get: (key: string) => Promise<TTableRecord | undefined>;
+  batchGet: (keys: string[]) => Promise<TTableRecord[]>;
   update: (item: Partial<TTableRecord>) => Promise<TTableRecord>;
   create: (item: TTableRecord) => Promise<TTableRecord>;
   query: (query: Query) => Promise<TTableRecord[]>;

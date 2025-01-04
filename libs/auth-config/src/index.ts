@@ -31,19 +31,21 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     }),
     callbacks: {
       async jwt({ token, account, user, profile }) {
-        console.log("$$$$$$jwt", token, account, user, profile);
         if (account?.type === "email" && account.providerAccountId) {
           token.email = account.providerAccountId;
           token.id = token.sub;
         }
         return token;
       },
+      async session({ session, user, token }) {
+        session.user.id = token.sub;
+        return session;
+      },
     },
     events: {
       signIn: async ({ user, isNewUser }) => {
         const { entity } = await database();
         const userPk = `users/${user.id}`;
-        console.log("$$$$$$signIn isNewUser", isNewUser, user);
         if (isNewUser) {
           await entity.create({
             pk: userPk,

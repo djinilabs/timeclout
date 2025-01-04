@@ -31,6 +31,14 @@ export const tableApi = <
         .optional()
         .parse(await await lowLevelTable.get({ pk: key }));
     },
+    batchGet: async (keys: string[]) => {
+      const items = await lowLevelClient.BatchGetItem({
+        RequestItems: {
+          [lowLevelTableName]: { Keys: keys.map((key) => ({ pk: key })) },
+        },
+      });
+      return z.array(schema).parse(items.Responses[lowLevelTableName]);
+    },
     update: async (
       item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>
     ) => {
