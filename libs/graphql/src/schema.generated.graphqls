@@ -12,8 +12,11 @@ scalar DateTime
 
 type Mutation {
   createCompany(name: String!): Company!
+  createUnit(companyPk: ID!, name: String!): Unit!
   deleteCompany(pk: ID!): Company!
+  deleteUnit(pk: ID!): Unit!
   updateCompany(name: String!, pk: ID!): Company!
+  updateUnit(name: String!, pk: ID!): Unit!
 }
 
 type Query {

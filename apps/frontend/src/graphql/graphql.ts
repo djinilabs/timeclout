@@ -30,12 +30,21 @@ export type Company = {
 export type Mutation = {
   __typename?: 'Mutation';
   createCompany: Company;
+  createUnit: Unit;
   deleteCompany: Company;
+  deleteUnit: Unit;
   updateCompany: Company;
+  updateUnit: Unit;
 };
 
 
 export type MutationCreateCompanyArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationCreateUnitArgs = {
+  companyPk: Scalars['ID']['input'];
   name: Scalars['String']['input'];
 };
 
@@ -45,7 +54,18 @@ export type MutationDeleteCompanyArgs = {
 };
 
 
+export type MutationDeleteUnitArgs = {
+  pk: Scalars['ID']['input'];
+};
+
+
 export type MutationUpdateCompanyArgs = {
+  name: Scalars['String']['input'];
+  pk: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateUnitArgs = {
   name: Scalars['String']['input'];
   pk: Scalars['ID']['input'];
 };

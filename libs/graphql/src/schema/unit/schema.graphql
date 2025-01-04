@@ -6,3 +6,9 @@ type Unit {
   createdBy: User!
   updatedBy: User
 }
+
+extend type Mutation {
+  createUnit(companyPk: ID!, name: String!): Unit!
+  updateUnit(pk: ID!, name: String!): Unit!
+  deleteUnit(pk: ID!): Unit!
+}

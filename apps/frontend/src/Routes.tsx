@@ -4,6 +4,7 @@ import { Root } from "./routes/Root";
 import { RequiresSession } from "./components/RequiresSession";
 import { NewCompany } from "./routes/NewCompany";
 import { Company } from "./routes/Company";
+import { NewUnit } from "./routes/NewUnit";
 
 export const AppRoutes: FC = () => {
   return (
@@ -30,6 +31,14 @@ export const AppRoutes: FC = () => {
           element={
             <RequiresSession>
               <Company />
+            </RequiresSession>
+          }
+        />
+        <Route
+          path="/companies/:company/units/new"
+          element={
+            <RequiresSession>
+              <NewUnit />
             </RequiresSession>
           }
         />

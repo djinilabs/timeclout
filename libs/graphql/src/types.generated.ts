@@ -31,12 +31,21 @@ export type Company = {
 export type Mutation = {
   __typename?: 'Mutation';
   createCompany: Company;
+  createUnit: Unit;
   deleteCompany: Company;
+  deleteUnit: Unit;
   updateCompany: Company;
+  updateUnit: Unit;
 };
 
 
 export type MutationcreateCompanyArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationcreateUnitArgs = {
+  companyPk: Scalars['ID']['input'];
   name: Scalars['String']['input'];
 };
 
@@ -46,7 +55,18 @@ export type MutationdeleteCompanyArgs = {
 };
 
 
+export type MutationdeleteUnitArgs = {
+  pk: Scalars['ID']['input'];
+};
+
+
 export type MutationupdateCompanyArgs = {
+  name: Scalars['String']['input'];
+  pk: Scalars['ID']['input'];
+};
+
+
+export type MutationupdateUnitArgs = {
   name: Scalars['String']['input'];
   pk: Scalars['ID']['input'];
 };
@@ -191,8 +211,11 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationcreateCompanyArgs, 'name'>>;
+  createUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationcreateUnitArgs, 'companyPk' | 'name'>>;
   deleteCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationdeleteCompanyArgs, 'pk'>>;
+  deleteUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationdeleteUnitArgs, 'pk'>>;
   updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'name' | 'pk'>>;
+  updateUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitArgs, 'name' | 'pk'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
