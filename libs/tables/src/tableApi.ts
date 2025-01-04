@@ -58,6 +58,7 @@ export const tableApi = <
         createdBy: item.pk,
         ...item,
       });
+      console.log("parsedItem", parsedItem);
       await lowLevelTable.update({
         Key: { pk: item.pk },
         AttributeUpdates: parsedItem,

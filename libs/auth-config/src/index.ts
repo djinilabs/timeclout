@@ -19,6 +19,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     client._doc as unknown as DynamoDBDocument;
 
   return {
+    basePath: "/api/v1/auth",
     session: {
       strategy: "jwt",
     },
