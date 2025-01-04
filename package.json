@@ -47,6 +47,7 @@
     "graphql": "^16.10.0",
     "graphql-scalars": "^1.24.0",
     "graphql-yoga": "^5.10.8",
+    "javascript-time-ago": "^2.5.11",
     "nanoid": "^5.0.9",
     "next-auth": "5.0.0-beta.25",
     "react": "^18.3.1",
@@ -54,6 +55,7 @@
     "react-hot-toast": "^2.5.1",
     "react-router": "^7.1.1",
     "react-router-dom": "^7.1.1",
+    "react-time-ago": "^7.3.3",
     "tailwindcss": "^3.4.17",
     "urql": "^4.2.1",
     "zod": "^3.24.1"

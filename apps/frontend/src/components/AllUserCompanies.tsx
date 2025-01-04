@@ -1,6 +1,7 @@
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import ReactTimeAgo from "react-time-ago";
 import { type Company } from "../graphql/graphql";
 import { allCompaniesQuery } from "../graphql/queries/allCompanies";
 import { useQuery } from "../hooks/useQuery";
@@ -102,10 +103,7 @@ export const AllUserCompanies = () => {
                 </div>
                 <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
                   <p className="whitespace-nowrap">
-                    Created at{" "}
-                    <time dateTime={company.createdAt}>
-                      {company.createdAt}
-                    </time>
+                    Created <ReactTimeAgo date={company.createdAt} />
                   </p>
                   <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
                     <circle r={1} cx={1} cy={1} />
