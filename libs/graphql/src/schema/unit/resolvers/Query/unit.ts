@@ -4,7 +4,7 @@ import { notFound } from "@hapi/boom";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { QueryResolvers, Unit } from "./../../../../types.generated";
 
-export const unit: NonNullable<QueryResolvers["unit"]> = async (
+export const unit: NonNullable<QueryResolvers['unit']> = async (
   _parent,
   arg,
   _ctx

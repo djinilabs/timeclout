@@ -5,7 +5,7 @@ import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
 import { giveAuthorization } from "../../../../auth/giveAuthorization";
 
-export const createUnit: NonNullable<MutationResolvers["createUnit"]> = async (
+export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
   _parent,
   arg,
   _ctx

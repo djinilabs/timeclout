@@ -15,10 +15,15 @@ export const tableSchemas = {
     email: z.string().email().optional(),
   }),
   permission: TableBaseSchema.extend({
-    sk: z.string(),
+    sk: z.string(), // user pk
     resourceType: z.string(),
     parentPk: z.string().optional(),
     type: z.number().int().min(1),
+  }),
+  invitation: TableBaseSchema.extend({
+    pk: z.string(), // user pk
+    sk: z.string(), // resource pk
+    permissionType: z.number().int().min(1),
   }),
 } as const;
 
@@ -36,7 +41,7 @@ export const resourceRef = (resourceType: ResourceType, id: string) =>
   `${resourceType}/${id}`;
 
 export type TableSchemas = typeof tableSchemas;
-export type TableName = "entity" | "permission";
+export type TableName = "entity" | "permission" | "invitation";
 
 export type Query = {
   IndexName?: string;
@@ -64,4 +69,5 @@ export type TableAPI<
 export type DatabaseSchema = {
   entity: TableAPI<"entity">;
   permission: TableAPI<"permission">;
+  invitation: TableAPI<"invitation">;
 };

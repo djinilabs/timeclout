@@ -4,7 +4,7 @@ import { notFound } from "@hapi/boom";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { PERMISSION_LEVELS } from "@/tables";
 
-export const company: NonNullable<QueryResolvers["company"]> = async (
+export const company: NonNullable<QueryResolvers['company']> = async (
   _parent,
   arg,
   ctx

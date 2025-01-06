@@ -5,7 +5,7 @@ import { PERMISSION_LEVELS } from "@/tables";
 import type { MutationResolvers, Team } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const updateTeam: NonNullable<MutationResolvers["updateTeam"]> = async (
+export const updateTeam: NonNullable<MutationResolvers['updateTeam']> = async (
   _parent,
   _arg,
   _ctx

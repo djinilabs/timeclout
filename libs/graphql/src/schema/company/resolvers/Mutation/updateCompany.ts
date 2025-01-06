@@ -2,9 +2,7 @@ import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
 import type { Company, MutationResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { notFound } from "@hapi/boom";
-export const updateCompany: NonNullable<
-  MutationResolvers["updateCompany"]
-> = async (_parent, _arg, _ctx) => {
+export const updateCompany: NonNullable<MutationResolvers['updateCompany']> = async (_parent, _arg, _ctx) => {
   const companyRef = resourceRef("companies", _arg.pk);
   await ensureAuthorized(_ctx, companyRef, PERMISSION_LEVELS.WRITE);
   const { entity } = await database();

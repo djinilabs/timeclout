@@ -4,7 +4,7 @@ import { notFound } from "@hapi/boom";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
 
-export const updateUnit: NonNullable<MutationResolvers["updateUnit"]> = async (
+export const updateUnit: NonNullable<MutationResolvers['updateUnit']> = async (
   _parent,
   _arg,
   _ctx

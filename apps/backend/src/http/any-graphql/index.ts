@@ -15,6 +15,7 @@ const yoga = createYoga<ResolverContext>({
     typeDefs: schema,
     resolvers,
   }),
+  maskedErrors: false,
   logging: true,
 });
 

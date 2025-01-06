@@ -6,6 +6,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -28,12 +29,28 @@ export type Company = {
   updatedBy?: Maybe<User>;
 };
 
+export type Invitation = {
+  __typename?: 'Invitation';
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: User;
+  permissionType: Scalars['Int']['output'];
+  pk: Scalars['String']['output'];
+  sk: Scalars['String']['output'];
+  toEntity: InvitationEntity;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
+};
+
+export type InvitationEntity = Company | Team | Unit;
+
 export type Mutation = {
   __typename?: 'Mutation';
   createCompany: Company;
+  createInvitation: Invitation;
   createTeam: Team;
   createUnit: Unit;
   deleteCompany: Company;
+  deleteInvitation: Invitation;
   deleteTeam: Team;
   deleteUnit: Unit;
   updateCompany: Company;
@@ -44,6 +61,13 @@ export type Mutation = {
 
 export type MutationcreateCompanyArgs = {
   name: Scalars['String']['input'];
+};
+
+
+export type MutationcreateInvitationArgs = {
+  invitedUserPk: Scalars['ID']['input'];
+  permissionType: Scalars['Int']['input'];
+  toEntityPk: Scalars['ID']['input'];
 };
 
 
@@ -61,6 +85,12 @@ export type MutationcreateUnitArgs = {
 
 export type MutationdeleteCompanyArgs = {
   pk: Scalars['ID']['input'];
+};
+
+
+export type MutationdeleteInvitationArgs = {
+  pk: Scalars['ID']['input'];
+  sk: Scalars['ID']['input'];
 };
 
 
@@ -95,12 +125,26 @@ export type Query = {
   __typename?: 'Query';
   companies: Array<Company>;
   company: Company;
+  invitation: Invitation;
+  invitationsTo: Array<Invitation>;
+  myInvitations: Array<Invitation>;
   unit: Unit;
 };
 
 
 export type QuerycompanyArgs = {
   companyPk: Scalars['ID']['input'];
+};
+
+
+export type QueryinvitationArgs = {
+  pk: Scalars['ID']['input'];
+  sk: Scalars['ID']['input'];
+};
+
+
+export type QueryinvitationsToArgs = {
+  toEntityPk: Scalars['ID']['input'];
 };
 
 
@@ -203,6 +247,10 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
+/** Mapping of union types */
+export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
+  InvitationEntity: ( Company & { __typename: 'Company' } ) | ( Team & { __typename: 'Team' } ) | ( Unit & { __typename: 'Unit' } );
+};
 
 
 /** Mapping between all available schema types and the resolvers types */
@@ -211,6 +259,9 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  Invitation: ResolverTypeWrapper<Omit<Invitation, 'toEntity'> & { toEntity: ResolversTypes['InvitationEntity'] }>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  InvitationEntity: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['InvitationEntity']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Team: ResolverTypeWrapper<Team>;
@@ -225,6 +276,9 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
   ID: Scalars['ID']['output'];
   DateTime: Scalars['DateTime']['output'];
+  Invitation: Omit<Invitation, 'toEntity'> & { toEntity: ResolversParentTypes['InvitationEntity'] };
+  Int: Scalars['Int']['output'];
+  InvitationEntity: ResolversUnionTypes<ResolversParentTypes>['InvitationEntity'];
   Mutation: {};
   Query: {};
   Team: Team;
@@ -248,11 +302,29 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
+export type InvitationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Invitation'] = ResolversParentTypes['Invitation']> = {
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  permissionType?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  toEntity?: Resolver<ResolversTypes['InvitationEntity'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type InvitationEntityResolvers<ContextType = any, ParentType extends ResolversParentTypes['InvitationEntity'] = ResolversParentTypes['InvitationEntity']> = {
+  __resolveType?: TypeResolveFn<'Company' | 'Team' | 'Unit', ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationcreateCompanyArgs, 'name'>>;
+  createInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationcreateInvitationArgs, 'invitedUserPk' | 'permissionType' | 'toEntityPk'>>;
   createTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationcreateTeamArgs, 'name' | 'unitPk'>>;
   createUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationcreateUnitArgs, 'companyPk' | 'name'>>;
   deleteCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationdeleteCompanyArgs, 'pk'>>;
+  deleteInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationdeleteInvitationArgs, 'pk' | 'sk'>>;
   deleteTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationdeleteTeamArgs, 'pk'>>;
   deleteUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationdeleteUnitArgs, 'pk'>>;
   updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'name' | 'pk'>>;
@@ -263,6 +335,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   companies?: Resolver<Array<ResolversTypes['Company']>, ParentType, ContextType>;
   company?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<QuerycompanyArgs, 'companyPk'>>;
+  invitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<QueryinvitationArgs, 'pk' | 'sk'>>;
+  invitationsTo?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType, RequireFields<QueryinvitationsToArgs, 'toEntityPk'>>;
+  myInvitations?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType>;
   unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<QueryunitArgs, 'unitPk'>>;
 };
 
@@ -297,6 +372,8 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type Resolvers<ContextType = any> = {
   Company?: CompanyResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
+  Invitation?: InvitationResolvers<ContextType>;
+  InvitationEntity?: InvitationEntityResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;

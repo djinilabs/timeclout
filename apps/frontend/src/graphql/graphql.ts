@@ -27,12 +27,28 @@ export type Company = {
   updatedBy?: Maybe<User>;
 };
 
+export type Invitation = {
+  __typename?: 'Invitation';
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: User;
+  permissionType: Scalars['Int']['output'];
+  pk: Scalars['String']['output'];
+  sk: Scalars['String']['output'];
+  toEntity: InvitationEntity;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
+};
+
+export type InvitationEntity = Company | Team | Unit;
+
 export type Mutation = {
   __typename?: 'Mutation';
   createCompany: Company;
+  createInvitation: Invitation;
   createTeam: Team;
   createUnit: Unit;
   deleteCompany: Company;
+  deleteInvitation: Invitation;
   deleteTeam: Team;
   deleteUnit: Unit;
   updateCompany: Company;
@@ -43,6 +59,13 @@ export type Mutation = {
 
 export type MutationCreateCompanyArgs = {
   name: Scalars['String']['input'];
+};
+
+
+export type MutationCreateInvitationArgs = {
+  invitedUserPk: Scalars['ID']['input'];
+  permissionType: Scalars['Int']['input'];
+  toEntityPk: Scalars['ID']['input'];
 };
 
 
@@ -60,6 +83,12 @@ export type MutationCreateUnitArgs = {
 
 export type MutationDeleteCompanyArgs = {
   pk: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteInvitationArgs = {
+  pk: Scalars['ID']['input'];
+  sk: Scalars['ID']['input'];
 };
 
 
@@ -94,12 +123,26 @@ export type Query = {
   __typename?: 'Query';
   companies: Array<Company>;
   company: Company;
+  invitation: Invitation;
+  invitationsTo: Array<Invitation>;
+  myInvitations: Array<Invitation>;
   unit: Unit;
 };
 
 
 export type QueryCompanyArgs = {
   companyPk: Scalars['ID']['input'];
+};
+
+
+export type QueryInvitationArgs = {
+  pk: Scalars['ID']['input'];
+  sk: Scalars['ID']['input'];
+};
+
+
+export type QueryInvitationsToArgs = {
+  toEntityPk: Scalars['ID']['input'];
 };
 
 

@@ -2,7 +2,7 @@ import { database } from "@/tables";
 import type { Company, QueryResolvers } from "./../../../../types.generated";
 import { getAuthorized } from "libs/graphql/src/auth/getAuthorized";
 
-export const companies: NonNullable<QueryResolvers["companies"]> = async (
+export const companies: NonNullable<QueryResolvers['companies']> = async (
   _parent,
   _arg,
   _ctx

@@ -28,6 +28,11 @@ permission
   type Number
   encrypt true
 
+invitation
+  pk *String 
+  sk **String
+  encrypt true
+
 @tables-indexes
 
 next-auth
