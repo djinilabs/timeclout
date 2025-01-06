@@ -5,6 +5,7 @@ import    { company as Query_company } from './schema/company/resolvers/Query/co
 import    { invitation as Query_invitation } from './schema/invitation/resolvers/Query/invitation';
 import    { invitationsTo as Query_invitationsTo } from './schema/invitation/resolvers/Query/invitationsTo';
 import    { myInvitations as Query_myInvitations } from './schema/invitation/resolvers/Query/myInvitations';
+import    { team as Query_team } from './schema/team/resolvers/Query/team';
 import    { unit as Query_unit } from './schema/unit/resolvers/Query/unit';
 import    { createCompany as Mutation_createCompany } from './schema/company/resolvers/Mutation/createCompany';
 import    { createInvitation as Mutation_createInvitation } from './schema/invitation/resolvers/Mutation/createInvitation';
@@ -24,7 +25,7 @@ import    { Unit } from './schema/unit/resolvers/Unit';
 import    { User } from './schema/base/resolvers/User';
 import    { DateTimeResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
-      Query: { companies: Query_companies,company: Query_company,invitation: Query_invitation,invitationsTo: Query_invitationsTo,myInvitations: Query_myInvitations,unit: Query_unit },
+      Query: { companies: Query_companies,company: Query_company,invitation: Query_invitation,invitationsTo: Query_invitationsTo,myInvitations: Query_myInvitations,team: Query_team,unit: Query_unit },
       Mutation: { createCompany: Mutation_createCompany,createInvitation: Mutation_createInvitation,createTeam: Mutation_createTeam,createUnit: Mutation_createUnit,deleteCompany: Mutation_deleteCompany,deleteInvitation: Mutation_deleteInvitation,deleteTeam: Mutation_deleteTeam,deleteUnit: Mutation_deleteUnit,updateCompany: Mutation_updateCompany,updateTeam: Mutation_updateTeam,updateUnit: Mutation_updateUnit },
       
       Company: Company,

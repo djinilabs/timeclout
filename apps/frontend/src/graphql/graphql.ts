@@ -63,15 +63,15 @@ export type MutationCreateCompanyArgs = {
 
 
 export type MutationCreateInvitationArgs = {
-  invitedUserPk: Scalars['ID']['input'];
+  invitedUserEmail: Scalars['String']['input'];
   permissionType: Scalars['Int']['input'];
-  toEntityPk: Scalars['ID']['input'];
+  toEntityPk: Scalars['String']['input'];
 };
 
 
 export type MutationCreateTeamArgs = {
   name: Scalars['String']['input'];
-  unitPk: Scalars['ID']['input'];
+  unitPk: Scalars['String']['input'];
 };
 
 
@@ -126,6 +126,7 @@ export type Query = {
   invitation: Invitation;
   invitationsTo: Array<Invitation>;
   myInvitations: Array<Invitation>;
+  team: Team;
   unit: Unit;
 };
 
@@ -143,6 +144,11 @@ export type QueryInvitationArgs = {
 
 export type QueryInvitationsToArgs = {
   toEntityPk: Scalars['ID']['input'];
+};
+
+
+export type QueryTeamArgs = {
+  teamPk: Scalars['String']['input'];
 };
 
 

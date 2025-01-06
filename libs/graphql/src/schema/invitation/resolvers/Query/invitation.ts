@@ -9,7 +9,7 @@ import type {
 import { requireSession } from "../../../../session/requireSession";
 import { isAuthorized } from "../../../../auth/isAuthorized";
 
-export const invitation: NonNullable<QueryResolvers["invitation"]> = async (
+export const invitation: NonNullable<QueryResolvers['invitation']> = async (
   _parent,
   _arg,
   ctx

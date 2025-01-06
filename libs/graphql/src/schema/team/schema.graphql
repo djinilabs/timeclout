@@ -8,7 +8,11 @@ type Team {
 }
 
 extend type Mutation {
-  createTeam(unitPk: ID!, name: String!): Team!
+  createTeam(unitPk: String!, name: String!): Team!
   updateTeam(pk: ID!, name: String!): Team!
   deleteTeam(pk: ID!): Team!
+}
+
+extend type Query {
+  team(teamPk: String!): Team!
 }

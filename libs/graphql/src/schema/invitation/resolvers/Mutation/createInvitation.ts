@@ -8,9 +8,7 @@ import type {
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const createInvitation: NonNullable<
-  MutationResolvers["createInvitation"]
-> = async (_parent, arg, ctx) => {
+export const createInvitation: NonNullable<MutationResolvers['createInvitation']> = async (_parent, arg, ctx) => {
   const actingUserPk = await ensureAuthorized(
     ctx,
     arg.toEntityPk,
@@ -23,7 +21,7 @@ export const createInvitation: NonNullable<
   }
   return invitation.create({
     pk: invitedTo.pk,
-    sk: arg.invitedUserPk,
+    sk: arg.invitedUserEmail,
     permissionType: arg.permissionType,
     createdBy: actingUserPk,
     createdAt: new Date().toISOString(),

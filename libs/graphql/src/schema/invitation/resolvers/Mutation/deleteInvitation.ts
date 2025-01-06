@@ -6,9 +6,7 @@ import type {
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const deleteInvitation: NonNullable<
-  MutationResolvers["deleteInvitation"]
-> = async (_parent, _arg, ctx) => {
+export const deleteInvitation: NonNullable<MutationResolvers['deleteInvitation']> = async (_parent, _arg, ctx) => {
   const { invitation } = await database();
   const invitationToDelete = await invitation.get(_arg.pk, _arg.sk);
   if (!invitationToDelete) {

@@ -2,9 +2,10 @@ import { HomeIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
 import { companyQuery } from "../graphql/queries/companyQuery";
+import { teamQuery } from "../graphql/queries/teamQuery";
 
 export const BreadcrumbNav = () => {
-  const { company: companyPk, unit: unitPk } = useParams();
+  const { company: companyPk, unit: unitPk, team: teamPk } = useParams();
 
   const [queryResponse] = useQuery({
     query: companyQuery,
@@ -18,6 +19,16 @@ export const BreadcrumbNav = () => {
   const unit = company?.units.find(
     (unit: any) => unit.pk === `units/${unitPk}`
   );
+
+  const [teamQueryResponse] = useQuery({
+    query: teamQuery,
+    variables: {
+      teamPk,
+    },
+    pause: !teamPk,
+  });
+
+  const team = teamQueryResponse.data?.team;
 
   return (
     <nav aria-label="Breadcrumb" className="flex mb-8">
@@ -74,25 +85,48 @@ export const BreadcrumbNav = () => {
               </div>
             </li>
             {unit ? (
-              <li key={unit.pk} className="flex">
-                <div className="flex items-center">
-                  <svg
-                    fill="currentColor"
-                    viewBox="0 0 24 44"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                    className="h-full w-6 shrink-0 text-gray-200"
-                  >
-                    <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-                  </svg>
-                  <a
-                    href={`/${company.pk}/${unit.pk}`}
-                    className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-                  >
-                    {unit.name}
-                  </a>
-                </div>
-              </li>
+              <>
+                <li key={unit.pk} className="flex">
+                  <div className="flex items-center">
+                    <svg
+                      fill="currentColor"
+                      viewBox="0 0 24 44"
+                      preserveAspectRatio="none"
+                      aria-hidden="true"
+                      className="h-full w-6 shrink-0 text-gray-200"
+                    >
+                      <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                    </svg>
+                    <a
+                      href={`/${company.pk}/${unit.pk}`}
+                      className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    >
+                      {unit.name}
+                    </a>
+                  </div>
+                </li>
+                {team ? (
+                  <li key={team.pk} className="flex">
+                    <div className="flex items-center">
+                      <svg
+                        fill="currentColor"
+                        viewBox="0 0 24 44"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                        className="h-full w-6 shrink-0 text-gray-200"
+                      >
+                        <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                      </svg>
+                      <a
+                        href={`/${company.pk}/${unit.pk}/${team.pk}`}
+                        className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                      >
+                        {team.name}
+                      </a>
+                    </div>
+                  </li>
+                ) : null}
+              </>
             ) : null}
           </>
         ) : null}
