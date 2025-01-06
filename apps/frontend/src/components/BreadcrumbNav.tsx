@@ -1,5 +1,5 @@
 import { HomeIcon } from "@heroicons/react/20/solid";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
 import { companyQuery } from "../graphql/queries/companyQuery";
 import { teamQuery } from "../graphql/queries/teamQuery";
@@ -38,10 +38,10 @@ export const BreadcrumbNav = () => {
       >
         <li key="home" className="flex">
           <div className="flex items-center">
-            <a href="/" className="text-gray-400 hover:text-gray-500">
+            <Link to="/" className="text-gray-400 hover:text-gray-500">
               <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
               <span className="sr-only">Home</span>
-            </a>
+            </Link>
           </div>
         </li>
         <li key="companies" className="flex">
@@ -55,12 +55,12 @@ export const BreadcrumbNav = () => {
             >
               <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
             </svg>
-            <a
-              href="/"
+            <Link
+              to="/"
               className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
             >
               Companies
-            </a>
+            </Link>
           </div>
         </li>
         {company ? (
@@ -76,12 +76,12 @@ export const BreadcrumbNav = () => {
                 >
                   <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
                 </svg>
-                <a
-                  href={`/${company.pk}`}
+                <Link
+                  to={`/${company.pk}`}
                   className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                 >
                   {company.name}
-                </a>
+                </Link>
               </div>
             </li>
             {unit ? (
@@ -97,12 +97,12 @@ export const BreadcrumbNav = () => {
                     >
                       <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
                     </svg>
-                    <a
-                      href={`/${company.pk}/${unit.pk}`}
+                    <Link
+                      to={`/${company.pk}/${unit.pk}`}
                       className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                     >
                       {unit.name}
-                    </a>
+                    </Link>
                   </div>
                 </li>
                 {team ? (
@@ -117,12 +117,12 @@ export const BreadcrumbNav = () => {
                       >
                         <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
                       </svg>
-                      <a
-                        href={`/${company.pk}/${unit.pk}/${team.pk}`}
+                      <Link
+                        to={`/${company.pk}/${unit.pk}/${team.pk}`}
                         className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                       >
                         {team.name}
-                      </a>
+                      </Link>
                     </div>
                   </li>
                 ) : null}

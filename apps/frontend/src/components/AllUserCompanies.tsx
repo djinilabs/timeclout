@@ -1,5 +1,5 @@
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import ReactTimeAgo from "react-time-ago";
 import { type Company } from "../graphql/graphql";
@@ -69,9 +69,7 @@ export const AllUserCompanies = () => {
             <h3 className="text-base font-semibold text-gray-900">Companies</h3>
           </div>
           <div className="ml-4 mt-2 shrink-0">
-            <Button onClick={() => navigate("/companies/new")}>
-              Create new company
-            </Button>
+            <Button to="/companies/new">Create new company</Button>
           </div>
         </div>
       </div>
@@ -109,12 +107,12 @@ export const AllUserCompanies = () => {
                 </div>
               </div>
               <div className="flex flex-none items-center gap-x-4">
-                <a
-                  href={`/${company.pk}`}
+                <Link
+                  to={`/${company.pk}`}
                   className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                 >
                   View company<span className="sr-only">, {company.name}</span>
-                </a>
+                </Link>
                 <Menu as="div" className="relative flex-none">
                   <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
                     <span className="sr-only">Open options</span>
@@ -128,12 +126,12 @@ export const AllUserCompanies = () => {
                     className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                   >
                     <MenuItem>
-                      <a
-                        href={`/${company.pk}`}
+                      <Link
+                        to={`/${company.pk}`}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                       >
                         Edit<span className="sr-only">, {company.name}</span>
-                      </a>
+                      </Link>
                     </MenuItem>
                   </MenuItems>
                 </Menu>

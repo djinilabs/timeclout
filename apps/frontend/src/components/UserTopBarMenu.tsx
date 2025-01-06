@@ -1,6 +1,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useSession, signOut } from "next-auth/react";
+import { Link } from "react-router-dom";
 
 const userNavigation = [
   { name: "Your profile", href: "#" },
@@ -37,13 +38,13 @@ export const UserTopBarMenu = () => {
       >
         {userNavigation.map((item) => (
           <MenuItem key={item.name}>
-            <a
-              href={item.href}
+            <Link
+              to={item.href}
               onClick={item.onClick}
               className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
             >
               {item.name}
-            </a>
+            </Link>
           </MenuItem>
         ))}
       </MenuItems>

@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useMemo } from "react";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { classNames } from "../utils/classNames";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export interface Tab {
   name: string;
@@ -61,9 +61,9 @@ export const Tabs: FC<TabsProps> = ({ tabs, onChange }) => {
         <div className="border-b border-gray-200">
           <nav aria-label="Tabs" className="-mb-px flex space-x-8">
             {tabs.map((tab) => (
-              <a
+              <Link
                 key={tab.name}
-                href={loc.pathname + "#" + tab.href}
+                to={loc.pathname + "#" + tab.href}
                 aria-current={
                   tab.href === currentTab?.href ? "page" : undefined
                 }
@@ -87,7 +87,7 @@ export const Tabs: FC<TabsProps> = ({ tabs, onChange }) => {
                     {tab.count}
                   </span>
                 ) : null}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>

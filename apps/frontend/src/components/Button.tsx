@@ -1,7 +1,9 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 export interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
+  to?: string;
   cancel?: boolean;
 }
 
@@ -21,10 +23,20 @@ const CancelButton: FC<PropsWithChildren<ButtonProps>> = ({
 };
 
 export const Button: FC<PropsWithChildren<ButtonProps>> = ({
-  onClick,
+  onClick: _onClick,
+  to,
   children,
   cancel,
 }) => {
+  const navigate = useNavigate();
+  const onClick = useCallback(() => {
+    if (to) {
+      navigate(to);
+    } else if (_onClick) {
+      _onClick();
+    }
+  }, [to, _onClick, navigate]);
+
   if (cancel) {
     return <CancelButton onClick={onClick}>{children}</CancelButton>;
   }
