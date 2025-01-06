@@ -5,18 +5,25 @@ import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
 import { handlingErrors } from "../../utils/handlingErrors";
 import { ResolverContext } from "@/graphql";
+import { useSentry } from "@envelop/sentry";
 
 // console.log("schema:", schema);
 
 const yoga = createYoga<ResolverContext>({
-  // You need to specify the path to your lambda function
   graphqlEndpoint: "/graphql",
   schema: createSchema({
     typeDefs: schema,
     resolvers,
   }),
   maskedErrors: false,
-  logging: true,
+  logging: "warn",
+  landingPage: false,
+  plugins: [
+    useSentry({
+      includeRawResult: false,
+      includeExecuteVariables: false,
+    }),
+  ],
 });
 
 export const handler = handlingErrors(

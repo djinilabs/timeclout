@@ -6,6 +6,7 @@ import { type Company } from "../graphql/graphql";
 import { allCompaniesQuery } from "../graphql/queries/allCompanies";
 import { useQuery } from "../hooks/useQuery";
 import { classNames } from "../utils/classNames";
+import { Button } from "./Button";
 
 const NoCompanies = () => {
   const navigate = useNavigate();
@@ -68,15 +69,9 @@ export const AllUserCompanies = () => {
             <h3 className="text-base font-semibold text-gray-900">Companies</h3>
           </div>
           <div className="ml-4 mt-2 shrink-0">
-            <button
-              type="button"
-              onClick={() => {
-                navigate("/companies/new");
-              }}
-              className="relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
+            <Button onClick={() => navigate("/companies/new")}>
               Create new company
-            </button>
+            </Button>
           </div>
         </div>
       </div>

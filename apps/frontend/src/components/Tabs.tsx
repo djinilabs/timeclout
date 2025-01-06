@@ -14,10 +14,10 @@ export interface TabsProps {
   onChange: (tab: Tab) => void;
 }
 
-export const Tabs: FC<TabsProps> = ({ tabs }) => {
+export const Tabs: FC<TabsProps> = ({ tabs, onChange }) => {
   const navigate = useNavigate();
 
-  const onChange = useCallback(
+  const onTabChange = useCallback(
     (tab: Tab | undefined) => {
       if (tab) {
         navigate(loc.pathname + "#" + tab.href);
@@ -28,11 +28,12 @@ export const Tabs: FC<TabsProps> = ({ tabs }) => {
 
   const loc = useLocation();
   const currentTab = useMemo(
-    () => tabs.find((tab) => tab.href == loc.hash.slice(1)),
+    () => tabs.find((tab) => tab.href == loc.hash.slice(1)) ?? tabs[0],
     [tabs, loc.hash]
   );
 
   useEffect(() => {
+    console.log("onChange", currentTab);
     onChange(currentTab);
   }, [currentTab]);
 
@@ -44,7 +45,7 @@ export const Tabs: FC<TabsProps> = ({ tabs }) => {
           aria-label="Select a tab"
           className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
           onChange={(e) =>
-            onChange(tabs.find((tab) => tab.name === e.target.value))
+            onTabChange(tabs.find((tab) => tab.name === e.target.value))
           }
         >
           {tabs.map((tab) => (

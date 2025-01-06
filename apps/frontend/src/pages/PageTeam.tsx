@@ -1,21 +1,18 @@
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { Suspense, useState } from "react";
 import { type Tab, Tabs } from "../components/Tabs";
+import { TeamMembers } from "../components/TeamMembers";
+import { TeamInvites } from "../components/TeamInvites";
 
 const tabs: Tab[] = [
-  { name: "Applied", href: "#applied", count: "52" },
-  {
-    name: "Phone Screening",
-    href: "phone-screening",
-    count: "6",
-  },
-  { name: "Interview", href: "interview", count: "4" },
-  { name: "Offer", href: "offer" },
-  { name: "Disqualified", href: "disqualified" },
+  { name: "Members", href: "members" },
+  { name: "Invites", href: "invites" },
 ];
 
 export const PageTeam = () => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
+
+  console.log("2", currentTab);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -23,6 +20,11 @@ export const PageTeam = () => {
         <BreadcrumbNav />
         <Tabs tabs={tabs} onChange={setCurrentTab} />
       </div>
+      {currentTab.href === "members" ? (
+        <TeamMembers />
+      ) : currentTab.href === "invites" ? (
+        <TeamInvites />
+      ) : null}
     </Suspense>
   );
 };

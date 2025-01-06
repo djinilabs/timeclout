@@ -8,6 +8,7 @@ import { NewUnit } from "./routes/NewUnit";
 import { Unit } from "./routes/Unit";
 import { NewTeam } from "./routes/NewTeam";
 import { Team } from "./routes/Team";
+import { NewTeamInvite } from "./routes/NewTeamInvite";
 
 export const AppRoutes: FC = () => {
   return (
@@ -66,6 +67,14 @@ export const AppRoutes: FC = () => {
           element={
             <RequiresSession>
               <Team />
+            </RequiresSession>
+          }
+        />
+        <Route
+          path="/companies/:company/units/:unit/teams/:team/invites/new"
+          element={
+            <RequiresSession>
+              <NewTeamInvite />
             </RequiresSession>
           }
         />
