@@ -33,7 +33,6 @@ export const Tabs: FC<TabsProps> = ({ tabs, onChange }) => {
   );
 
   useEffect(() => {
-    console.log("onChange", currentTab);
     onChange(currentTab);
   }, [currentTab]);
 

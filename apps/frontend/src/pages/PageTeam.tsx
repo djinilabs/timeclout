@@ -12,8 +12,6 @@ const tabs: Tab[] = [
 export const PageTeam = () => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
 
-  console.log("2", currentTab);
-
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div>
