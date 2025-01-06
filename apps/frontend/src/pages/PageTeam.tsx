@@ -6,7 +6,7 @@ import { TeamInvites } from "../components/TeamInvites";
 
 const tabs: Tab[] = [
   { name: "Members", href: "members" },
-  { name: "Invites", href: "invites" },
+  { name: "Invitations", href: "invitations" },
 ];
 
 export const PageTeam = () => {
@@ -22,7 +22,7 @@ export const PageTeam = () => {
       </div>
       {currentTab.href === "members" ? (
         <TeamMembers />
-      ) : currentTab.href === "invites" ? (
+      ) : currentTab.href === "invitations" ? (
         <TeamInvites />
       ) : null}
     </Suspense>
