@@ -1,17 +1,21 @@
+import { PERMISSION_LEVELS, resourceRef } from "@/tables";
 import { database } from "@/tables";
-import type { QueryResolvers } from "./../../../../types.generated";
 import { notFound } from "@hapi/boom";
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import type { QueryResolvers, Unit } from "./../../../../types.generated";
+
 export const unit: NonNullable<QueryResolvers["unit"]> = async (
   _parent,
   arg,
   _ctx
 ) => {
+  const unitPk = resourceRef("units", arg.unitPk);
+  await ensureAuthorized(_ctx, unitPk, PERMISSION_LEVELS.READ);
+
   const { entity } = await database();
-  const unitPk = `units/${arg.unitPk}`;
-  console.log("unitPk", unitPk);
-  const u = await entity.get(unitPk);
-  if (!u) {
+  const unit = await entity.get(unitPk);
+  if (!unit) {
     throw notFound("Unit not found");
   }
-  return u;
+  return unit as unknown as Unit;
 };

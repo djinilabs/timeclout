@@ -1,50 +1,41 @@
-import { requireSession } from "../../../../session/requireSession";
-import type { MutationResolvers } from "./../../../../types.generated";
-import { database } from "@/tables";
+import type { MutationResolvers, Team } from "./../../../../types.generated";
+import { database, resourceRef, PERMISSION_LEVELS } from "@/tables";
 import { notFound } from "@hapi/boom";
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { nanoid } from "nanoid";
+import { giveAuthorization } from "../../../../auth/giveAuthorization";
 
-export const createTeam: NonNullable<MutationResolvers['createTeam']> = async (
+export const createTeam: NonNullable<MutationResolvers["createTeam"]> = async (
   _parent,
   arg,
   _ctx
 ) => {
-  const session = await requireSession(_ctx);
-  const userPk = `users/${session.user.id}`;
-
-  const { entity, permission } = await database();
-  const unitPk = `units/${arg.unitPk}`;
-  const permissionRecord = await permission.query({
-    KeyConditionExpression: "pk = :pk AND entityId = :entityId",
-    ExpressionAttributeValues: {
-      ":pk": unitPk,
-      ":entityId": userPk,
-    },
-  });
-  if (!permissionRecord) {
-    throw new Error("User does not have permission to access this company");
-  }
-  const unit = await entity.get(unitPk);
+  const unitRef = resourceRef("units", arg.unitPk);
+  const userRef = await ensureAuthorized(
+    _ctx,
+    unitRef,
+    PERMISSION_LEVELS.WRITE
+  );
+  const { entity } = await database();
+  const unit = await entity.get(unitRef);
   if (!unit) {
     throw notFound("Unit with pk ${arg.unitPk} not found");
   }
-
-  const teamPk = `teams/${nanoid()}`;
+  const teamPk = resourceRef("teams", nanoid());
   const team = {
     pk: teamPk,
-    createdBy: userPk,
+    createdBy: userRef,
     createdAt: new Date().toISOString(),
     name: arg.name,
   };
   await entity.create(team);
 
-  await permission.create({
-    pk: teamPk,
-    createdBy: userPk,
-    createdAt: new Date().toISOString(),
-    entityId: userPk,
-    resourceType: "teams",
-    parentPk: unitPk,
-  });
-  return unit;
+  await giveAuthorization(
+    teamPk,
+    userRef,
+    PERMISSION_LEVELS.OWNER,
+    userRef,
+    unitRef
+  );
+  return team as unknown as Team;
 };

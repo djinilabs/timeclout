@@ -5,7 +5,7 @@ type Company {
   updatedAt: DateTime
   createdBy: User!
   updatedBy: User
-  units: [Unit!]!
+  units: [Unit!]
 }
 
 extend type Mutation {

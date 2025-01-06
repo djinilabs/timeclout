@@ -1,7 +1,18 @@
-import { database } from "@/tables";
-import type { MutationResolvers } from "./../../../../types.generated";
-
-export const updateCompany: NonNullable<MutationResolvers['updateCompany']> = async (_parent, _arg, _ctx) => {
+import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
+import type { Company, MutationResolvers } from "./../../../../types.generated";
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { notFound } from "@hapi/boom";
+export const updateCompany: NonNullable<
+  MutationResolvers["updateCompany"]
+> = async (_parent, _arg, _ctx) => {
+  const companyRef = resourceRef("companies", _arg.pk);
+  await ensureAuthorized(_ctx, companyRef, PERMISSION_LEVELS.WRITE);
   const { entity } = await database();
-  return entity.update({ pk: _arg.pk, name: _arg.name });
+  const company = await entity.get(companyRef);
+  if (!company) {
+    throw notFound("Company with pk ${_arg.pk} not found");
+  }
+  company.name = _arg.name;
+  await entity.update(company);
+  return company as unknown as Company;
 };

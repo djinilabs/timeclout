@@ -1,17 +1,24 @@
-import { database } from "@/tables";
-import type { QueryResolvers } from "./../../../../types.generated";
+import { database, resourceRef } from "@/tables";
+import type { Company, QueryResolvers } from "./../../../../types.generated";
 import { notFound } from "@hapi/boom";
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { PERMISSION_LEVELS } from "@/tables";
 
-export const company: NonNullable<QueryResolvers['company']> = async (
+export const company: NonNullable<QueryResolvers["company"]> = async (
   _parent,
-  arg
+  arg,
+  ctx
 ) => {
+  await ensureAuthorized(
+    ctx,
+    resourceRef("companies", arg.companyPk),
+    PERMISSION_LEVELS.READ
+  );
   const { entity } = await database();
-  const companyPk = `companies/${arg.companyPk}`;
-  console.log("companyPk", companyPk);
-  const c = await entity.get(companyPk);
+  console.log("get company", resourceRef("companies", arg.companyPk));
+  const c = await entity.get(resourceRef("companies", arg.companyPk));
   if (!c) {
     throw notFound("Company not found");
   }
-  return c;
+  return c as unknown as Company;
 };

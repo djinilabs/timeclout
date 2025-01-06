@@ -23,7 +23,7 @@ export type Company = {
   createdBy: User;
   name: Scalars['String']['output'];
   pk: Scalars['ID']['output'];
-  units: Array<Unit>;
+  units?: Maybe<Array<Unit>>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
@@ -238,7 +238,7 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  units?: Resolver<Array<ResolversTypes['Unit']>, ParentType, ContextType>;
+  units?: Resolver<Maybe<Array<ResolversTypes['Unit']>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

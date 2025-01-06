@@ -1,10 +1,10 @@
 import { tables } from "@architect/functions";
-import { z } from "zod";
 import { once } from "@/utils";
 import { DatabaseSchema, TableAPI, TableName, tableSchemas } from "./schema";
 import { tableApi } from "./tableApi";
 
 export const database = once(async (): Promise<DatabaseSchema> => {
+  // @ts-ignore
   const client = await tables();
   const existingTables = Array.from(
     Object.entries(await client.reflect())

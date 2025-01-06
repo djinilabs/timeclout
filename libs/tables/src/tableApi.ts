@@ -1,8 +1,25 @@
 import { ArcTable } from "@architect/functions/types/tables";
 import { TableAPI, TableName, TableSchemas } from "./schema";
-import { z } from "zod";
+import { z, ZodSchema } from "zod";
 import { notFound } from "@hapi/boom";
 import { AwsLiteDynamoDB } from "@aws-lite/dynamodb-types";
+
+// removes undefined values from the item
+const cleanItem = <T extends object>(item: T): T => {
+  return Object.fromEntries(
+    Object.entries(item).filter(([_, value]) => value !== undefined)
+  ) as T;
+};
+
+const parseItem = <T extends object>(item: T, schema: ZodSchema): T => {
+  return cleanItem(schema.parse(item));
+};
+
+const parsingItem =
+  <T extends object>(schema: ZodSchema) =>
+  (item: T): T => {
+    return cleanItem(schema.parse(item));
+  };
 
 export const tableApi = <
   TTableName extends TableName,
@@ -10,34 +27,47 @@ export const tableApi = <
   TTableRecord extends z.infer<TTableSchema> = z.infer<TTableSchema>
 >(
   tableName: TTableName,
-  lowLevelTable: ArcTable<{ pk: string }>,
+  lowLevelTable: ArcTable<{ pk: string; sk?: string }>,
   lowLevelClient: AwsLiteDynamoDB,
   lowLevelTableName: string,
   schema: TTableSchema
 ): TableAPI<TTableName> => {
   const self: TableAPI<TTableName> = {
-    delete: async (key: string) => {
-      const item = await self.get(key);
+    delete: async (pk: string, sk?: string) => {
+      const item = await self.get(pk, sk);
       if (!item) {
-        throw notFound(
-          `Error deleting table ${tableName}: Item with pk ${key} not found`
-        );
+        throw notFound(`Error deleting table ${tableName}: Item not found`);
       }
-      await lowLevelTable.delete({ pk: key });
+      await lowLevelTable.delete(sk ? { pk, sk } : { pk });
       return item;
     },
-    get: async (key: string) => {
-      return schema
-        .optional()
-        .parse(await await lowLevelTable.get({ pk: key }));
+    deleteAll: async (pk: string) => {
+      const items = (
+        await lowLevelTable.query({
+          KeyConditionExpression: "pk = :pk",
+          ExpressionAttributeValues: { ":pk": pk },
+        })
+      ).Items;
+
+      await Promise.all(items.map((item) => lowLevelTable.delete(item)));
+    },
+    get: async (pk: string, sk?: string) => {
+      const args = sk ? { pk, sk } : { pk };
+      console.log("get args", args);
+      return schema.optional().parse(await lowLevelTable.get(args));
     },
     batchGet: async (keys: string[]) => {
-      const items = await lowLevelClient.BatchGetItem({
-        RequestItems: {
-          [lowLevelTableName]: { Keys: keys.map((key) => ({ pk: key })) },
-        },
-      });
-      return z.array(schema).parse(items.Responses[lowLevelTableName]);
+      if (keys.length === 0) {
+        return [];
+      }
+      const items = (
+        await lowLevelClient.BatchGetItem({
+          RequestItems: {
+            [lowLevelTableName]: { Keys: keys.map((key) => ({ pk: key })) },
+          },
+        })
+      ).Responses[lowLevelTableName];
+      return items.map(parsingItem(schema));
     },
     update: async (
       item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>
@@ -59,7 +89,7 @@ export const tableApi = <
       };
 
       await lowLevelClient.PutItem({
-        Item: newItem,
+        Item: parseItem(newItem, schema),
         TableName: lowLevelTableName,
         ConditionExpression: "#version = :version",
         ExpressionAttributeValues: {
@@ -71,12 +101,14 @@ export const tableApi = <
       return newItem;
     },
     create: async (item: Omit<TTableRecord, "version">) => {
-      const parsedItem = schema.parse({
-        version: 1,
-        createdAt: new Date().toISOString(),
-        ...item,
-      });
-      console.log("parsedItem", parsedItem);
+      const parsedItem = parseItem(
+        {
+          version: 1,
+          createdAt: new Date().toISOString(),
+          ...item,
+        },
+        schema
+      );
 
       await lowLevelClient.PutItem({
         Item: parsedItem,

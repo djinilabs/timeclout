@@ -1,35 +1,28 @@
-import { requireSession } from "libs/graphql/src/session/requireSession";
-import type { MutationResolvers } from "./../../../../types.generated";
-import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { nanoid } from "nanoid";
+import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import type { MutationResolvers, Unit } from "./../../../../types.generated";
+import { giveAuthorization } from "../../../../auth/giveAuthorization";
 
-export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
+export const createUnit: NonNullable<MutationResolvers["createUnit"]> = async (
   _parent,
   arg,
   _ctx
 ) => {
-  const session = await requireSession(_ctx);
-  const userPk = `users/${session.user.id}`;
-
-  const { entity, permission } = await database();
-  const companyPk = `companies/${arg.companyPk}`;
-  const permissionRecord = await permission.query({
-    KeyConditionExpression: "pk = :pk AND entityId = :entityId",
-    ExpressionAttributeValues: {
-      ":pk": companyPk,
-      ":entityId": userPk,
-    },
-  });
-  if (!permissionRecord) {
-    throw new Error("User does not have permission to access this company");
-  }
+  const companyPk = resourceRef("companies", arg.companyPk);
+  const userPk = await ensureAuthorized(
+    _ctx,
+    companyPk,
+    PERMISSION_LEVELS.WRITE
+  );
+  const { entity } = await database();
   const company = await entity.get(companyPk);
   if (!company) {
     throw notFound("Company with pk ${arg.companyPk} not found");
   }
 
-  const unitPk = `units/${nanoid()}`;
+  const unitPk = resourceRef("units", nanoid());
   const unit = {
     pk: unitPk,
     createdBy: userPk,
@@ -38,13 +31,13 @@ export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
   };
   await entity.create(unit);
 
-  await permission.create({
-    pk: unitPk,
-    createdBy: userPk,
-    createdAt: new Date().toISOString(),
-    entityId: userPk,
-    resourceType: "units",
-    parentPk: companyPk,
-  });
-  return unit;
+  await giveAuthorization(
+    unitPk,
+    userPk,
+    PERMISSION_LEVELS.WRITE,
+    userPk,
+    companyPk
+  );
+
+  return unit as unknown as Unit;
 };

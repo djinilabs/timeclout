@@ -1,42 +1,27 @@
 // @ts-ignore
-import { database } from "@/tables";
-import { CompanyResolvers } from "../../../types.generated";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { CompanyResolvers, Unit, User } from "../../../types.generated";
 import { requireSession } from "../../../session/requireSession";
+import { getAuthorized } from "libs/graphql/src/auth/getAuthorized";
 
 export const Company: CompanyResolvers = {
   createdBy: async (parent) => {
     const { entity } = await database();
-    const user = await entity.get(parent.createdBy as unknown as string);
-    return user;
+    return entity.get(parent.createdBy as unknown as string) as Promise<User>;
   },
   updatedBy: async (parent) => {
     if (!parent.updatedBy) {
       return null;
     }
     const { entity } = await database();
-    return entity.get(parent.updatedBy as unknown as string);
+    return entity.get(parent.updatedBy as unknown as string) as Promise<User>;
   },
-  units: async (parent, _args, _ctx) => {
-    const { permission, entity } = await database();
-    const session = await requireSession(_ctx);
-    const userPk = `users/${session.user.id}`;
-    const permissions = await permission.query({
-      IndexName: "byResourceTypeAndEntityId",
-      KeyConditionExpression:
-        "resourceType = :resourceType AND entityId = :entityId",
-      FilterExpression: "parentPk = :parentPk",
-      ExpressionAttributeValues: {
-        ":resourceType": "units",
-        ":entityId": userPk,
-        ":parentPk": parent.pk,
-      },
-    });
-    console.log("units: permissions:", permissions);
-
-    if (permissions.length === 0) {
-      return [];
-    }
-
-    return entity.batchGet(permissions.map((p) => p.pk));
+  units: async (_parent, _args, ctx) => {
+    const { entity } = await database();
+    const permissions = await getAuthorized(ctx, "units");
+    console.log("unit permissions", permissions);
+    return entity.batchGet(permissions.map((p) => p.pk)) as unknown as Promise<
+      Unit[]
+    >;
   },
 };

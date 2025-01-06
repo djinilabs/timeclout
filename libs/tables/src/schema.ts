@@ -9,17 +9,31 @@ const TableBaseSchema = z.object({
   updatedBy: z.string().optional(),
 });
 
-export const tableSchemas: Record<TableName, ZodSchema> = {
+export const tableSchemas = {
   entity: TableBaseSchema.extend({
     name: z.string(),
     email: z.string().email().optional(),
   }),
   permission: TableBaseSchema.extend({
+    sk: z.string(),
     resourceType: z.string(),
-    entityId: z.string(),
     parentPk: z.string().optional(),
+    type: z.number().int().min(1),
   }),
+} as const;
+
+export type Permission = z.infer<typeof tableSchemas.permission>;
+
+export const PERMISSION_LEVELS = {
+  READ: 1,
+  WRITE: 2,
+  OWNER: 3,
 };
+
+export type ResourceType = "companies" | "units" | "users" | "teams";
+
+export const resourceRef = (resourceType: ResourceType, id: string) =>
+  `${resourceType}/${id}`;
 
 export type TableSchemas = typeof tableSchemas;
 export type TableName = "entity" | "permission";
@@ -38,8 +52,9 @@ export type TableAPI<
     TableSchemas[TTableName]
   >
 > = {
-  delete: (key: string) => Promise<TTableRecord>;
-  get: (key: string) => Promise<TTableRecord | undefined>;
+  delete: (key: string, sk?: string) => Promise<TTableRecord>;
+  deleteAll: (key: string) => Promise<void>;
+  get: (pk: string, sk?: string) => Promise<TTableRecord | undefined>;
   batchGet: (keys: string[]) => Promise<TTableRecord[]>;
   update: (item: Partial<TTableRecord>) => Promise<TTableRecord>;
   create: (item: TTableRecord) => Promise<TTableRecord>;

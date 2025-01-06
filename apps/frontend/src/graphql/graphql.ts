@@ -22,7 +22,7 @@ export type Company = {
   createdBy: User;
   name: Scalars['String']['output'];
   pk: Scalars['ID']['output'];
-  units: Array<Unit>;
+  units?: Maybe<Array<Unit>>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };

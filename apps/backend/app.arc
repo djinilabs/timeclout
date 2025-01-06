@@ -22,9 +22,10 @@ entity
 
 permission
   pk *String
-  entityId **String
+  sk **String
   resourceType String
   parentPk String
+  type Number
   encrypt true
 
 @tables-indexes
@@ -36,7 +37,7 @@ next-auth
 
 permission
   resourceType *String
-  entityId **String
+  sk **String
   name byResourceTypeAndEntityId
 
 @plugins
