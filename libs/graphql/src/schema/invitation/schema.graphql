@@ -3,6 +3,8 @@ union InvitationEntity = Company | Unit | Team
 type Invitation {
   pk: String!
   sk: String!
+  email: String!
+  emailMd5: String!
   createdAt: DateTime!
   updatedAt: DateTime
   createdBy: User!

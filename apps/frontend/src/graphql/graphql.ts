@@ -31,6 +31,8 @@ export type Invitation = {
   __typename?: 'Invitation';
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
+  email: Scalars['String']['output'];
+  emailMd5: Scalars['String']['output'];
   permissionType: Scalars['Int']['output'];
   pk: Scalars['String']['output'];
   sk: Scalars['String']['output'];

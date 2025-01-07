@@ -12,10 +12,12 @@ export const invitationsTo: NonNullable<QueryResolvers['invitationsTo']> = async
     PERMISSION_LEVELS.READ
   );
   const { invitation } = await database();
-  return invitation.query({
+  const invitations = (await invitation.query({
     KeyConditionExpression: "pk = :pk",
     ExpressionAttributeValues: {
       ":pk": arg.toEntityPk,
     },
-  }) as unknown as ResolversTypes["Invitation"][];
+  })) as unknown as ResolversTypes["Invitation"][];
+  console.log(invitations);
+  return invitations;
 };

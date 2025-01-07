@@ -33,6 +33,8 @@ export type Invitation = {
   __typename?: 'Invitation';
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
+  email: Scalars['String']['output'];
+  emailMd5: Scalars['String']['output'];
   permissionType: Scalars['Int']['output'];
   pk: Scalars['String']['output'];
   sk: Scalars['String']['output'];
@@ -309,6 +311,8 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 export type InvitationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Invitation'] = ResolversParentTypes['Invitation']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  emailMd5?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   permissionType?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

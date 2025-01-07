@@ -94,7 +94,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
           <div key="permission" className="w-full sm:max-w-xs">
             <form.Field
               name="permission"
-              defaultValue="2"
+              defaultValue="1"
               validators={{
                 onChange: ({ value }) => {
                   if (!value) {
@@ -107,8 +107,9 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
                   <div className="grid grid-cols-1">
                     <ListBox
                       options={[
-                        { key: "1", value: "Admin" },
-                        { key: "2", value: "Member" },
+                        { key: "1", value: "Member" },
+                        { key: "2", value: "Admin" },
+                        { key: "3", value: "Owner" },
                       ]}
                       selected={field.state.value ?? "2"}
                       onChange={(e) => field.handleChange(e)}

@@ -13,6 +13,8 @@ scalar DateTime
 type Invitation {
   createdAt: DateTime!
   createdBy: User!
+  email: String!
+  emailMd5: String!
   permissionType: Int!
   pk: String!
   sk: String!
