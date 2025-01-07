@@ -1,14 +1,15 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { Button } from "./Button";
 import { useParams } from "react-router-dom";
+import ReactTimeAgo from "react-time-ago";
+import { Button } from "./Button";
 import { useQuery } from "../hooks/useQuery";
 import { invitationsToTeamQuery } from "../graphql/queries/invitationsToTeam";
 import { Invitation } from "../graphql/graphql";
 import { Avatar } from "./Avatar";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
-import TimeAgo from "javascript-time-ago";
-import ReactTimeAgo from "react-time-ago";
+import { deleteInvitationMutation } from "../graphql/mutations/deleteInvitation";
+import { useMutation } from "urql";
 
 export const TeamInvites = () => {
   const { company, unit, team } = useParams();
@@ -19,7 +20,8 @@ export const TeamInvites = () => {
     },
     pollingIntervalMs: 10000,
   });
-  console.log(allInvitations);
+
+  const [, deleteInvitation] = useMutation(deleteInvitationMutation);
 
   return (
     <div className="mt-4">
@@ -33,7 +35,10 @@ export const TeamInvites = () => {
       </div>
       <ul role="list" className="divide-y divide-gray-100">
         {allInvitations?.data?.invitationsTo?.map((invitation: Invitation) => (
-          <li key={invitation.sk} className="flex justify-between gap-x-6 py-5">
+          <li
+            key={invitation.email}
+            className="flex justify-between gap-x-6 py-5"
+          >
             <div className="flex min-w-0 gap-x-4">
               <Avatar email={invitation.email} emailMd5={invitation.emailMd5} />
               <div className="min-w-0 flex-auto">
@@ -72,7 +77,10 @@ export const TeamInvites = () => {
                   <MenuItem>
                     <a
                       onClick={() => {
-                        console.log(invitation);
+                        deleteInvitation({
+                          pk: invitation.pk,
+                          sk: invitation.email,
+                        });
                       }}
                       className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                     >

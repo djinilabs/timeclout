@@ -22,6 +22,8 @@ const defaultClientOpts = (): ClientOptions => ({
         Company: (c: any) => c.pk,
         User: (u: any) => u.pk,
         Unit: (u: any) => u.pk,
+        Team: (i: any) => i.pk,
+        Invitation: (i: any) => `${i.pk}:${i.email}`,
       },
     }),
     fetchExchange,
