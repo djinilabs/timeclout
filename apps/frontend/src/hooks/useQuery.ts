@@ -2,10 +2,15 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQuery as urqlUseQuery } from "urql";
 
-export const useQuery = <TData = any>(
-  ...args: Parameters<typeof urqlUseQuery<TData>>
-): ReturnType<typeof urqlUseQuery<TData>> => {
-  const [result, reexecuteQuery] = urqlUseQuery(...args);
+type UseQueryProps<TData = any> = Parameters<typeof urqlUseQuery<TData>>[0] & {
+  pollingIntervalMs?: number;
+};
+
+export const useQuery = <TData = any>({
+  pollingIntervalMs,
+  ...props
+}: UseQueryProps<TData>): ReturnType<typeof urqlUseQuery<TData>> => {
+  const [result, reexecuteQuery] = urqlUseQuery(props);
   useEffect(() => {
     let handle: string | undefined;
     if (result.error) {
@@ -17,5 +22,13 @@ export const useQuery = <TData = any>(
       }
     };
   }, [result.error]);
+
+  useEffect(() => {
+    if (pollingIntervalMs) {
+      const interval = setInterval(() => reexecuteQuery(), pollingIntervalMs);
+      return () => clearInterval(interval);
+    }
+  }, [pollingIntervalMs, reexecuteQuery]);
+
   return [result, reexecuteQuery] as const;
 };

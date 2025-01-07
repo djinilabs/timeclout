@@ -1,11 +1,11 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "urql";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { companyQuery } from "../graphql/queries/companyQuery";
 import { BreadcrumbNav } from "./BreadcrumbNav";
 import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
+import { useQuery } from "../hooks/useQuery";
 
 const NoUnits = () => {
   const { company: companyPk } = useParams();
@@ -61,6 +61,7 @@ export const AllCompanyUnits = () => {
     variables: {
       companyPk,
     },
+    pollingIntervalMs: 10000,
   });
 
   const company = queryResponse.data?.company;

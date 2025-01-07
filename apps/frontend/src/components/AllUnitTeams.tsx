@@ -1,11 +1,11 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "urql";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { BreadcrumbNav } from "./BreadcrumbNav";
 import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
 import { unitQuery } from "../graphql/queries/unitQuery";
+import { useQuery } from "../hooks/useQuery";
 
 const NoTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
@@ -61,6 +61,7 @@ export const AllUnitTeams = () => {
     variables: {
       unitPk,
     },
+    pollingIntervalMs: 10000,
   });
 
   const unit = queryResponse.data?.unit;

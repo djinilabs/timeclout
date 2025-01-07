@@ -54,9 +54,9 @@ const statuses = {
 };
 
 export const AllUserCompanies = () => {
-  const navigate = useNavigate();
   const [allCompanies] = useQuery({
     query: allCompaniesQuery,
+    pollingIntervalMs: 10000,
   });
   if (!allCompanies.data?.companies?.length) {
     return <NoCompanies />;
