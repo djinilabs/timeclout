@@ -21,9 +21,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
         email: value["email"],
         permission: Number(value["permission"]),
       });
-      if (response.error) {
-        toast.error("Error creating company: " + response.error.message);
-      } else {
+      if (!response.error) {
         toast.success("Invitation sent");
         onDone();
       }

@@ -15,7 +15,7 @@ export const useMutation = <
   const [result, executeMutation] = urqlUseMutation(mutation);
   useEffect(() => {
     if (result.error) {
-      toast.error("Error accepting invitation: " + result.error.message);
+      toast.error("Error: " + result.error.message);
     }
   }, [result.error]);
   return [result, executeMutation] as const;

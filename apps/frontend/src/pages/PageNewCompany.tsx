@@ -12,9 +12,8 @@ export const PageNewCompany = () => {
   const form = useForm<{ "company-name": string }>({
     onSubmit: async ({ value }) => {
       const response = await createCompany({ name: value["company-name"] });
-      if (response.error) {
-        toast.error("Error creating company: " + response.error.message);
-      } else {
+      if (!response.error) {
+        toast.success("Company created");
         navigate("/");
       }
     },
