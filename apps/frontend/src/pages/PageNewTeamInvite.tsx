@@ -14,7 +14,7 @@ export const PageNewTeamInvite = () => {
           teamPk={`teams/${team}`}
           onDone={() =>
             navigate(
-              `/companies/${company}/units/${unit}/teams/${team}#invites`
+              `/companies/${company}/units/${unit}/teams/${team}#invitations`
             )
           }
         />
