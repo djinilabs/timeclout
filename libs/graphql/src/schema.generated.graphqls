@@ -2,7 +2,7 @@ type Company {
   createdAt: DateTime!
   createdBy: User!
   name: String!
-  pk: ID!
+  pk: String!
   units: [Unit!]
   updatedAt: DateTime
   updatedBy: User
@@ -27,31 +27,31 @@ type Mutation {
   createCompany(name: String!): Company!
   createInvitation(invitedUserEmail: String!, permissionType: Int!, toEntityPk: String!): Invitation!
   createTeam(name: String!, unitPk: String!): Team!
-  createUnit(companyPk: ID!, name: String!): Unit!
-  deleteCompany(pk: ID!): Company!
-  deleteInvitation(pk: ID!, sk: ID!): Invitation!
-  deleteTeam(pk: ID!): Team!
-  deleteUnit(pk: ID!): Unit!
-  updateCompany(name: String!, pk: ID!): Company!
-  updateTeam(name: String!, pk: ID!): Team!
-  updateUnit(name: String!, pk: ID!): Unit!
+  createUnit(companyPk: String!, name: String!): Unit!
+  deleteCompany(pk: String!): Company!
+  deleteInvitation(pk: String!, sk: String!): Invitation!
+  deleteTeam(pk: String!): Team!
+  deleteUnit(pk: String!): Unit!
+  updateCompany(name: String!, pk: String!): Company!
+  updateTeam(name: String!, pk: String!): Team!
+  updateUnit(name: String!, pk: String!): Unit!
 }
 
 type Query {
   companies: [Company!]!
-  company(companyPk: ID!): Company!
-  invitation(pk: ID!, sk: ID!): Invitation!
-  invitationsTo(toEntityPk: ID!): [Invitation!]!
+  company(companyPk: String!): Company!
+  invitation(pk: String!, sk: String!): Invitation!
+  invitationsTo(toEntityPk: String!): [Invitation!]!
   myInvitations: [Invitation!]!
   team(teamPk: String!): Team!
-  unit(unitPk: ID!): Unit!
+  unit(unitPk: String!): Unit!
 }
 
 type Team {
   createdAt: DateTime!
   createdBy: User!
   name: String!
-  pk: ID!
+  pk: String!
   updatedAt: DateTime
   updatedBy: User
 }
@@ -60,7 +60,7 @@ type Unit {
   createdAt: DateTime!
   createdBy: User!
   name: String!
-  pk: ID!
+  pk: String!
   teams: [Team!]!
   updatedAt: DateTime
   updatedBy: User
@@ -69,5 +69,5 @@ type Unit {
 type User {
   email: String!
   name: String!
-  pk: ID!
+  pk: String!
 }

@@ -11,8 +11,8 @@ export const PageNewTeamInvite = () => {
       <div>
         <BreadcrumbNav />
         <InviteToTeam
-          onSubmit={() => {}}
-          onCancel={() =>
+          teamPk={`teams/${team}`}
+          onDone={() =>
             navigate(
               `/companies/${company}/units/${unit}/teams/${team}#invites`
             )

@@ -1,7 +1,7 @@
 import { gql } from "urql";
 
 export const unitQuery = gql`
-  query unit($unitPk: ID!) {
+  query unit($unitPk: String!) {
     unit(unitPk: $unitPk) {
       pk
       name

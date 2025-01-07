@@ -10,7 +10,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string | number; }
+  ID: { input: string; output: string; }
   String: { input: string; output: string; }
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
@@ -23,7 +23,7 @@ export type Company = {
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   name: Scalars['String']['output'];
-  pk: Scalars['ID']['output'];
+  pk: Scalars['String']['output'];
   units?: Maybe<Array<Unit>>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
@@ -78,47 +78,47 @@ export type MutationcreateTeamArgs = {
 
 
 export type MutationcreateUnitArgs = {
-  companyPk: Scalars['ID']['input'];
+  companyPk: Scalars['String']['input'];
   name: Scalars['String']['input'];
 };
 
 
 export type MutationdeleteCompanyArgs = {
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 
 export type MutationdeleteInvitationArgs = {
-  pk: Scalars['ID']['input'];
-  sk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
 };
 
 
 export type MutationdeleteTeamArgs = {
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 
 export type MutationdeleteUnitArgs = {
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 
 export type MutationupdateCompanyArgs = {
   name: Scalars['String']['input'];
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 
 export type MutationupdateTeamArgs = {
   name: Scalars['String']['input'];
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 
 export type MutationupdateUnitArgs = {
   name: Scalars['String']['input'];
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -134,18 +134,18 @@ export type Query = {
 
 
 export type QuerycompanyArgs = {
-  companyPk: Scalars['ID']['input'];
+  companyPk: Scalars['String']['input'];
 };
 
 
 export type QueryinvitationArgs = {
-  pk: Scalars['ID']['input'];
-  sk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
 };
 
 
 export type QueryinvitationsToArgs = {
-  toEntityPk: Scalars['ID']['input'];
+  toEntityPk: Scalars['String']['input'];
 };
 
 
@@ -155,7 +155,7 @@ export type QueryteamArgs = {
 
 
 export type QueryunitArgs = {
-  unitPk: Scalars['ID']['input'];
+  unitPk: Scalars['String']['input'];
 };
 
 export type Team = {
@@ -163,7 +163,7 @@ export type Team = {
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   name: Scalars['String']['output'];
-  pk: Scalars['ID']['output'];
+  pk: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
@@ -173,7 +173,7 @@ export type Unit = {
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   name: Scalars['String']['output'];
-  pk: Scalars['ID']['output'];
+  pk: Scalars['String']['output'];
   teams: Array<Team>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
@@ -183,7 +183,7 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  pk: Scalars['ID']['output'];
+  pk: Scalars['String']['output'];
 };
 
 
@@ -263,7 +263,6 @@ export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
 export type ResolversTypes = {
   Company: ResolverTypeWrapper<Company>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Invitation: ResolverTypeWrapper<Omit<Invitation, 'toEntity'> & { toEntity: ResolversTypes['InvitationEntity'] }>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -280,7 +279,6 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Company: Company;
   String: Scalars['String']['output'];
-  ID: Scalars['ID']['output'];
   DateTime: Scalars['DateTime']['output'];
   Invitation: Omit<Invitation, 'toEntity'> & { toEntity: ResolversParentTypes['InvitationEntity'] };
   Int: Scalars['Int']['output'];
@@ -297,7 +295,7 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   units?: Resolver<Maybe<Array<ResolversTypes['Unit']>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
@@ -352,7 +350,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -362,7 +360,7 @@ export type UnitResolvers<ContextType = any, ParentType extends ResolversParentT
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   teams?: Resolver<Array<ResolversTypes['Team']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
@@ -372,7 +370,7 @@ export type UnitResolvers<ContextType = any, ParentType extends ResolversParentT
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

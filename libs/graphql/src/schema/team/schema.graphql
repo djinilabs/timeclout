@@ -1,5 +1,5 @@
 type Team {
-  pk: ID!
+  pk: String!
   name: String!
   createdAt: DateTime!
   updatedAt: DateTime
@@ -9,8 +9,8 @@ type Team {
 
 extend type Mutation {
   createTeam(unitPk: String!, name: String!): Team!
-  updateTeam(pk: ID!, name: String!): Team!
-  deleteTeam(pk: ID!): Team!
+  updateTeam(pk: String!, name: String!): Team!
+  deleteTeam(pk: String!): Team!
 }
 
 extend type Query {

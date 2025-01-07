@@ -1,5 +1,5 @@
 type Unit {
-  pk: ID!
+  pk: String!
   name: String!
   createdAt: DateTime!
   updatedAt: DateTime
@@ -9,11 +9,11 @@ type Unit {
 }
 
 extend type Mutation {
-  createUnit(companyPk: ID!, name: String!): Unit!
-  updateUnit(pk: ID!, name: String!): Unit!
-  deleteUnit(pk: ID!): Unit!
+  createUnit(companyPk: String!, name: String!): Unit!
+  updateUnit(pk: String!, name: String!): Unit!
+  deleteUnit(pk: String!): Unit!
 }
 
 extend type Query {
-  unit(unitPk: ID!): Unit!
+  unit(unitPk: String!): Unit!
 }

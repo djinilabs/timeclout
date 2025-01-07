@@ -21,7 +21,7 @@ export type Company = {
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   name: Scalars['String']['output'];
-  pk: Scalars['ID']['output'];
+  pk: Scalars['String']['output'];
   units?: Maybe<Array<Unit>>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
@@ -76,47 +76,47 @@ export type MutationCreateTeamArgs = {
 
 
 export type MutationCreateUnitArgs = {
-  companyPk: Scalars['ID']['input'];
+  companyPk: Scalars['String']['input'];
   name: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteCompanyArgs = {
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteInvitationArgs = {
-  pk: Scalars['ID']['input'];
-  sk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteTeamArgs = {
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteUnitArgs = {
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 
 export type MutationUpdateCompanyArgs = {
   name: Scalars['String']['input'];
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 
 export type MutationUpdateTeamArgs = {
   name: Scalars['String']['input'];
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 
 export type MutationUpdateUnitArgs = {
   name: Scalars['String']['input'];
-  pk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -132,18 +132,18 @@ export type Query = {
 
 
 export type QueryCompanyArgs = {
-  companyPk: Scalars['ID']['input'];
+  companyPk: Scalars['String']['input'];
 };
 
 
 export type QueryInvitationArgs = {
-  pk: Scalars['ID']['input'];
-  sk: Scalars['ID']['input'];
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
 };
 
 
 export type QueryInvitationsToArgs = {
-  toEntityPk: Scalars['ID']['input'];
+  toEntityPk: Scalars['String']['input'];
 };
 
 
@@ -153,7 +153,7 @@ export type QueryTeamArgs = {
 
 
 export type QueryUnitArgs = {
-  unitPk: Scalars['ID']['input'];
+  unitPk: Scalars['String']['input'];
 };
 
 export type Team = {
@@ -161,7 +161,7 @@ export type Team = {
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   name: Scalars['String']['output'];
-  pk: Scalars['ID']['output'];
+  pk: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
@@ -171,7 +171,7 @@ export type Unit = {
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   name: Scalars['String']['output'];
-  pk: Scalars['ID']['output'];
+  pk: Scalars['String']['output'];
   teams: Array<Team>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
@@ -181,5 +181,5 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  pk: Scalars['ID']['output'];
+  pk: Scalars['String']['output'];
 };

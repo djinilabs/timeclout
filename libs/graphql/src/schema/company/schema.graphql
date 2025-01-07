@@ -1,5 +1,5 @@
 type Company {
-  pk: ID!
+  pk: String!
   name: String!
   createdAt: DateTime!
   updatedAt: DateTime
@@ -10,11 +10,11 @@ type Company {
 
 extend type Mutation {
   createCompany(name: String!): Company!
-  updateCompany(pk: ID!, name: String!): Company!
-  deleteCompany(pk: ID!): Company!
+  updateCompany(pk: String!, name: String!): Company!
+  deleteCompany(pk: String!): Company!
 }
 
 extend type Query {
   companies: [Company!]!
-  company(companyPk: ID!): Company!
+  company(companyPk: String!): Company!
 }

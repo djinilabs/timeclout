@@ -1,12 +1,36 @@
 import { FC } from "react";
+import { useForm } from "@tanstack/react-form";
+import { useMutation } from "urql";
+import toast from "react-hot-toast";
+import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import { Button } from "./Button";
+import { inviteToTeamMutation } from "../graphql/mutations/inviteToTeam";
+import { ListBox } from "./ListBox";
 
 export interface InviteToTeamProps {
-  onSubmit: (email: string) => void;
-  onCancel: () => void;
+  teamPk: string;
+  onDone: () => void;
 }
 
-export const InviteToTeam: FC<InviteToTeamProps> = ({ onSubmit, onCancel }) => {
+export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
+  const [, inviteToTeam] = useMutation(inviteToTeamMutation);
+  const form = useForm<{ email: string; permission: string }>({
+    onSubmit: async ({ value }) => {
+      const response = await inviteToTeam({
+        teamPk,
+        email: value["email"],
+        permission: Number(value["permission"]),
+      });
+      if (response.error) {
+        toast.error("Error creating company: " + response.error.message);
+      } else {
+        onDone();
+      }
+    },
+    onSubmitInvalid: () => {
+      toast.error("Please fill in all fields");
+    },
+  });
   return (
     <div className="bg-white shadow sm:rounded-lg">
       <div className="px-4 py-5 sm:p-6">
@@ -20,26 +44,99 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ onSubmit, onCancel }) => {
           className="mt-5 sm:flex sm:items-center"
           onSubmit={(e) => {
             e.preventDefault();
-            onSubmit(e.currentTarget.email.value);
+            e.stopPropagation();
+            form.handleSubmit();
           }}
         >
-          <div className="w-full sm:max-w-xs">
-            <input
-              id="email"
+          <div key="email" className="w-full sm:max-w-xs">
+            <form.Field
               name="email"
-              type="email"
-              placeholder="name@example.com"
-              aria-label="Email"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              validators={{
+                onChange: ({ value }) => {
+                  if (!value) {
+                    return "Email is required";
+                  }
+                },
+              }}
+              children={(field) => {
+                return (
+                  <div className="grid grid-cols-1">
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      type="email"
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="name@example.com"
+                      aria-label="Email"
+                      className={`col-start-1 row-start-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 ${
+                        field.state.meta.errors.length > 0
+                          ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
+                          : ""
+                      }`}
+                    />
+                    {field.state.meta.errors.length > 0 ? (
+                      <ExclamationCircleIcon
+                        aria-hidden="true"
+                        className="pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4"
+                      />
+                    ) : null}
+                    {field.state.meta.errors.length > 0 ? (
+                      <p className="mt-2 text-sm text-red-600">
+                        {field.state.meta.errors.join(", ")}
+                      </p>
+                    ) : null}
+                  </div>
+                );
+              }}
+            />
+          </div>
+          <div key="permission" className="w-full sm:max-w-xs">
+            <form.Field
+              name="permission"
+              defaultValue="2"
+              validators={{
+                onChange: ({ value }) => {
+                  if (!value) {
+                    return "Please select a permission";
+                  }
+                },
+              }}
+              children={(field) => {
+                return (
+                  <div className="grid grid-cols-1">
+                    <ListBox
+                      options={[
+                        { key: "1", value: "Admin" },
+                        { key: "2", value: "Member" },
+                      ]}
+                      selected={field.state.value ?? "2"}
+                      onChange={(e) => field.handleChange(e)}
+                    />
+                    {field.state.meta.errors.length > 0 ? (
+                      <ExclamationCircleIcon
+                        aria-hidden="true"
+                        className="pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4"
+                      />
+                    ) : null}
+                    {field.state.meta.errors.length > 0 ? (
+                      <p className="mt-2 text-sm text-red-600">
+                        {field.state.meta.errors.join(", ")}
+                      </p>
+                    ) : null}
+                  </div>
+                );
+              }}
             />
           </div>
           <button
             type="submit"
+            disabled={form.state.isSubmitting}
             className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto"
           >
             Invite
           </button>
-          <Button cancel onClick={onCancel}>
+          <Button cancel onClick={onDone}>
             Cancel
           </Button>
         </form>

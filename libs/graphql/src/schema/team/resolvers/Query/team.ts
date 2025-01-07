@@ -1,7 +1,7 @@
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 import type { QueryResolvers, Team } from "./../../../../types.generated";
 import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
-export const team: NonNullable<QueryResolvers["team"]> = async (
+export const team: NonNullable<QueryResolvers['team']> = async (
   _parent,
   arg,
   ctx

@@ -1,7 +1,7 @@
 import { gql } from "urql";
 
 export const companyQuery = gql`
-  query company($companyPk: ID!) {
+  query company($companyPk: String!) {
     company(companyPk: $companyPk) {
       pk
       name

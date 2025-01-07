@@ -17,11 +17,11 @@ extend type Mutation {
     invitedUserEmail: String!
     permissionType: Int!
   ): Invitation!
-  deleteInvitation(pk: ID!, sk: ID!): Invitation!
+  deleteInvitation(pk: String!, sk: String!): Invitation!
 }
 
 extend type Query {
   myInvitations: [Invitation!]!
-  invitationsTo(toEntityPk: ID!): [Invitation!]!
-  invitation(pk: ID!, sk: ID!): Invitation!
+  invitationsTo(toEntityPk: String!): [Invitation!]!
+  invitation(pk: String!, sk: String!): Invitation!
 }
