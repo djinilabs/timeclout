@@ -18,6 +18,5 @@ export const invitationsTo: NonNullable<QueryResolvers['invitationsTo']> = async
       ":pk": arg.toEntityPk,
     },
   })) as unknown as ResolversTypes["Invitation"][];
-  console.log(invitations);
   return invitations;
 };

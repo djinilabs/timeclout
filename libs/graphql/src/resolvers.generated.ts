@@ -7,6 +7,7 @@ import    { invitationsTo as Query_invitationsTo } from './schema/invitation/res
 import    { myInvitations as Query_myInvitations } from './schema/invitation/resolvers/Query/myInvitations';
 import    { team as Query_team } from './schema/team/resolvers/Query/team';
 import    { unit as Query_unit } from './schema/unit/resolvers/Query/unit';
+import    { acceptInvitation as Mutation_acceptInvitation } from './schema/invitation/resolvers/Mutation/acceptInvitation';
 import    { createCompany as Mutation_createCompany } from './schema/company/resolvers/Mutation/createCompany';
 import    { createInvitation as Mutation_createInvitation } from './schema/invitation/resolvers/Mutation/createInvitation';
 import    { createTeam as Mutation_createTeam } from './schema/team/resolvers/Mutation/createTeam';
@@ -26,7 +27,7 @@ import    { User } from './schema/base/resolvers/User';
 import    { DateTimeResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
       Query: { companies: Query_companies,company: Query_company,invitation: Query_invitation,invitationsTo: Query_invitationsTo,myInvitations: Query_myInvitations,team: Query_team,unit: Query_unit },
-      Mutation: { createCompany: Mutation_createCompany,createInvitation: Mutation_createInvitation,createTeam: Mutation_createTeam,createUnit: Mutation_createUnit,deleteCompany: Mutation_deleteCompany,deleteInvitation: Mutation_deleteInvitation,deleteTeam: Mutation_deleteTeam,deleteUnit: Mutation_deleteUnit,updateCompany: Mutation_updateCompany,updateTeam: Mutation_updateTeam,updateUnit: Mutation_updateUnit },
+      Mutation: { acceptInvitation: Mutation_acceptInvitation,createCompany: Mutation_createCompany,createInvitation: Mutation_createInvitation,createTeam: Mutation_createTeam,createUnit: Mutation_createUnit,deleteCompany: Mutation_deleteCompany,deleteInvitation: Mutation_deleteInvitation,deleteTeam: Mutation_deleteTeam,deleteUnit: Mutation_deleteUnit,updateCompany: Mutation_updateCompany,updateTeam: Mutation_updateTeam,updateUnit: Mutation_updateUnit },
       
       Company: Company,
 Invitation: Invitation,

@@ -7,6 +7,14 @@ import type {
   ResolversUnionTypes,
   User,
 } from "./../../../types.generated";
+
+const entityTypeToGraphQlEntityType = {
+  companies: "Company",
+  teams: "Team",
+  units: "Unit",
+  users: "User",
+};
+
 export const Invitation: InvitationResolvers = {
   email: (parent) => {
     return parent.sk;
@@ -27,8 +35,16 @@ export const Invitation: InvitationResolvers = {
   },
   toEntity: async (parent) => {
     const { entity } = await database();
-    return entity.get(parent.pk) as unknown as Promise<
-      ResolversUnionTypes<ResolversTypes>["InvitationEntity"]
-    >;
+    const entityData = await entity.get(parent.pk);
+    const entityType =
+      entityTypeToGraphQlEntityType[entityData.pk.split("/")[0]];
+    const finalEntity = {
+      ...entityData,
+      __typename: entityType,
+    } as unknown as ResolversUnionTypes<ResolversTypes>["InvitationEntity"];
+
+    console.log("finalEntity", finalEntity);
+
+    return finalEntity;
   },
 };

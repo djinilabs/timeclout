@@ -9,6 +9,7 @@ import { Unit } from "./routes/Unit";
 import { NewTeam } from "./routes/NewTeam";
 import { Team } from "./routes/Team";
 import { NewTeamInvite } from "./routes/NewTeamInvite";
+import { InviteAccept } from "./routes/InviteAccept";
 
 export const AppRoutes: FC = () => {
   return (
@@ -19,6 +20,14 @@ export const AppRoutes: FC = () => {
           element={
             <RequiresSession>
               <Root />
+            </RequiresSession>
+          }
+        />
+        <Route
+          path="/invites/accept"
+          element={
+            <RequiresSession>
+              <InviteAccept />
             </RequiresSession>
           }
         />

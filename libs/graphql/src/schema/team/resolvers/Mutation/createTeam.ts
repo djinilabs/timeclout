@@ -24,6 +24,7 @@ export const createTeam: NonNullable<MutationResolvers['createTeam']> = async (
   const teamPk = resourceRef("teams", nanoid());
   const team = {
     pk: teamPk,
+    parentPk: unitRef,
     createdBy: userRef,
     createdAt: new Date().toISOString(),
     name: arg.name,

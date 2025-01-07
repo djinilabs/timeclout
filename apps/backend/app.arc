@@ -18,6 +18,8 @@ next-auth
 
 entity
   pk *String
+  name String
+  parentPk String
   encrypt true
 
 permission
@@ -44,6 +46,10 @@ permission
   resourceType *String
   sk **String
   name byResourceTypeAndEntityId
+
+invitation
+  secret *String
+  name bySecret
 
 @plugins
 architect/plugin-typescript

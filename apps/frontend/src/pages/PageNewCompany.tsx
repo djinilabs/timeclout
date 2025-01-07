@@ -3,8 +3,8 @@ import { useForm } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
 import { createCompanyMutation } from "../graphql/mutations/createCompany";
-import { useMutation } from "urql";
 import { Button } from "../components/Button";
+import { useMutation } from "../hooks/useMutation";
 
 export const PageNewCompany = () => {
   const navigate = useNavigate();

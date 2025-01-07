@@ -2,9 +2,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
-import { useMutation } from "urql";
 import { createUnitMutation } from "../graphql/mutations/createUnit";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
+import { useMutation } from "../hooks/useMutation";
 
 export const PageNewUnit = () => {
   const { company: companyPk } = useParams();

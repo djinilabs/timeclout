@@ -20,7 +20,7 @@ export const getInitials = (name: string) => {
 
   return name
     .split(/[\s\.]+/)
-    .map((w) => [...w][0])
+    .map((w) => w[0])
     .slice(0, 3)
     .join("")
     .toUpperCase();
@@ -55,7 +55,7 @@ export const Avatar = ({ emailMd5, email, size = 50 }: AvatarProps) => {
       <div
         aria-hidden="true"
         style={{
-          fontSize: size / (1.4 * Math.max([...initials].length, 2)),
+          fontSize: size / (1.4 * Math.max(initials.length, 2)),
           position: "absolute",
           fontFamily: "sans-serif",
           userSelect: "none",

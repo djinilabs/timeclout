@@ -7,7 +7,10 @@ import { getAuthorized } from "libs/graphql/src/auth/getAuthorized";
 export const Company: CompanyResolvers = {
   createdBy: async (parent) => {
     const { entity } = await database();
-    return entity.get(parent.createdBy as unknown as string) as Promise<User>;
+    console.log("Company::createdBy parent", parent);
+    const user = await entity.get(parent.createdBy as unknown as string);
+    console.log("Company::createdBy user", user);
+    return user as unknown as User;
   },
   updatedBy: async (parent) => {
     if (!parent.updatedBy) {

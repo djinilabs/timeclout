@@ -23,6 +23,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     session: {
       strategy: "jwt",
     },
+    secret: process.env.AUTH_SECRET,
     providers: [Mailgun({ name: "TT3", from: "info@tt3.app" })],
     adapter: DynamoDBAdapter(clientDoc, {
       tableName,
@@ -54,15 +55,6 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
             email: user.email,
             createdAt: new Date().toISOString(),
             createdBy: userPk,
-            ...user,
-          });
-        } else {
-          await entity.update({
-            pk: userPk,
-            name: user.name ?? user.email ?? "Unknown",
-            email: user.email,
-            updatedAt: new Date().toISOString(),
-            updatedBy: userPk,
             ...user,
           });
         }

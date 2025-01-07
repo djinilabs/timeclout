@@ -26,6 +26,7 @@ type Invitation {
 union InvitationEntity = Company | Team | Unit
 
 type Mutation {
+  acceptInvitation(secret: String!): Invitation!
   createCompany(name: String!): Company!
   createInvitation(invitedUserEmail: String!, permissionType: Int!, toEntityPk: String!): Invitation!
   createTeam(name: String!, unitPk: String!): Team!
@@ -42,7 +43,7 @@ type Mutation {
 type Query {
   companies: [Company!]!
   company(companyPk: String!): Company!
-  invitation(pk: String!, sk: String!): Invitation!
+  invitation(secret: String!): Invitation!
   invitationsTo(toEntityPk: String!): [Invitation!]!
   myInvitations: [Invitation!]!
   team(teamPk: String!): Team!

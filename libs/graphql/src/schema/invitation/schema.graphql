@@ -20,10 +20,11 @@ extend type Mutation {
     permissionType: Int!
   ): Invitation!
   deleteInvitation(pk: String!, sk: String!): Invitation!
+  acceptInvitation(secret: String!): Invitation!
 }
 
 extend type Query {
   myInvitations: [Invitation!]!
   invitationsTo(toEntityPk: String!): [Invitation!]!
-  invitation(pk: String!, sk: String!): Invitation!
+  invitation(secret: String!): Invitation!
 }

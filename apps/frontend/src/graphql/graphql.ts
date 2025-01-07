@@ -45,6 +45,7 @@ export type InvitationEntity = Company | Team | Unit;
 
 export type Mutation = {
   __typename?: 'Mutation';
+  acceptInvitation: Invitation;
   createCompany: Company;
   createInvitation: Invitation;
   createTeam: Team;
@@ -56,6 +57,11 @@ export type Mutation = {
   updateCompany: Company;
   updateTeam: Team;
   updateUnit: Unit;
+};
+
+
+export type MutationAcceptInvitationArgs = {
+  secret: Scalars['String']['input'];
 };
 
 
@@ -139,8 +145,7 @@ export type QueryCompanyArgs = {
 
 
 export type QueryInvitationArgs = {
-  pk: Scalars['String']['input'];
-  sk: Scalars['String']['input'];
+  secret: Scalars['String']['input'];
 };
 
 

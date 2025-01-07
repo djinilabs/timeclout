@@ -12,6 +12,7 @@ const TableBaseSchema = z.object({
 export const tableSchemas = {
   entity: TableBaseSchema.extend({
     name: z.string(),
+    parentPk: z.string().optional(),
     email: z.string().email().optional(),
   }),
   permission: TableBaseSchema.extend({
@@ -24,6 +25,7 @@ export const tableSchemas = {
     pk: z.string(), // user pk
     sk: z.string(), // resource pk
     permissionType: z.number().int().min(1),
+    secret: z.string(),
   }),
 } as const;
 
@@ -33,6 +35,17 @@ export const PERMISSION_LEVELS = {
   READ: 1,
   WRITE: 2,
   OWNER: 3,
+};
+
+export const permissionLevelToName = (level: number) => {
+  switch (level) {
+    case PERMISSION_LEVELS.READ:
+      return "Member";
+    case PERMISSION_LEVELS.WRITE:
+      return "Administrator";
+    case PERMISSION_LEVELS.OWNER:
+      return "Owner";
+  }
 };
 
 export type ResourceType = "companies" | "units" | "users" | "teams";
@@ -55,7 +68,7 @@ export type TableAPI<
   TTableName extends TableName,
   TTableRecord extends z.infer<TableSchemas[TTableName]> = z.infer<
     TableSchemas[TTableName]
-  >
+  >,
 > = {
   delete: (key: string, sk?: string) => Promise<TTableRecord>;
   deleteAll: (key: string) => Promise<void>;

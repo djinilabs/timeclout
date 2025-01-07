@@ -25,6 +25,7 @@ export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
   const unitPk = resourceRef("units", nanoid());
   const unit = {
     pk: unitPk,
+    parentPk: companyPk,
     createdBy: userPk,
     createdAt: new Date().toISOString(),
     name: arg.name,

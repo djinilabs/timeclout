@@ -24,7 +24,7 @@ const parsingItem =
 export const tableApi = <
   TTableName extends TableName,
   TTableSchema extends TableSchemas[TTableName] = TableSchemas[TTableName],
-  TTableRecord extends z.infer<TTableSchema> = z.infer<TTableSchema>
+  TTableRecord extends z.infer<TTableSchema> = z.infer<TTableSchema>,
 >(
   tableName: TTableName,
   lowLevelTable: ArcTable<{ pk: string; sk?: string }>,
@@ -53,7 +53,6 @@ export const tableApi = <
     },
     get: async (pk: string, sk?: string) => {
       const args = sk ? { pk, sk } : { pk };
-      console.log("get args", args);
       return schema.optional().parse(await lowLevelTable.get(args));
     },
     batchGet: async (keys: string[]) => {

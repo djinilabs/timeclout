@@ -8,6 +8,7 @@ import type {
 } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 import { isAuthorized } from "../../../../auth/isAuthorized";
+import { getDefined } from "@/utils";
 
 export const invitation: NonNullable<QueryResolvers['invitation']> = async (
   _parent,
@@ -15,10 +16,17 @@ export const invitation: NonNullable<QueryResolvers['invitation']> = async (
   ctx
 ) => {
   const { invitation } = await database();
-  const invitationToGet = await invitation.get(_arg.pk, _arg.sk);
-  if (!invitationToGet) {
+  const invitations = await invitation.query({
+    IndexName: "bySecret",
+    KeyConditionExpression: "secret = :secret",
+    ExpressionAttributeValues: {
+      ":secret": _arg.secret,
+    },
+  });
+  if (invitations.length === 0) {
     throw notFound("Invitation not found");
   }
+  const invitationToGet = getDefined(invitations[0]);
   const user = await requireSession(ctx);
   if (
     user.user.email === invitationToGet.sk ||

@@ -1,0 +1,55 @@
+import { FC } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { invitationBySecretQuery } from "../graphql/queries/invitationBySecret";
+import { useQuery } from "../hooks/useQuery";
+import { permissionTypeToString } from "../utils/permissionTypeToString";
+import { Button } from "./Button";
+import { acceptInvitationMutation } from "../graphql/mutations/acceptInvitation";
+import { useMutation } from "../hooks/useMutation";
+
+export const AcceptInvite: FC = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [invitationQueryResponse] = useQuery({
+    query: invitationBySecretQuery,
+    variables: {
+      secret: searchParams.get("secret"),
+    },
+  });
+  const invitation = invitationQueryResponse?.data?.invitation;
+
+  const [{ fetching }, acceptInvitation] = useMutation(
+    acceptInvitationMutation
+  );
+  const handleAcceptInvitation = async () => {
+    await acceptInvitation({ secret: searchParams.get("secret") });
+    navigate("/");
+  };
+
+  if (!invitation) {
+    return <div>Invitation not found</div>;
+  }
+
+  return (
+    <div className="bg-white shadow sm:rounded-lg">
+      <div className="px-4 py-5 sm:p-6">
+        <h3 className="text-base font-semibold text-gray-900">
+          You have been invited
+        </h3>
+        <div className="mt-2 max-w-xl text-sm text-gray-500">
+          <p>
+            You have been invited to join &quot;
+            <em>{invitation.toEntity.name}</em>&quot; with permission level{" "}
+            &quot;{permissionTypeToString(invitation.permissionType)}&quot;.
+          </p>
+          <p>Click the button below to accept the invitation.</p>
+        </div>
+        <div className="mt-5">
+          <Button disabled={fetching} onClick={handleAcceptInvitation}>
+            Accept Invitation
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};

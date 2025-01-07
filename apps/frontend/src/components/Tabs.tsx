@@ -62,7 +62,7 @@ export const Tabs: FC<TabsProps> = ({ tabs, onChange }) => {
             {tabs.map((tab) => (
               <Link
                 key={tab.name}
-                to={loc.pathname + "#" + tab.href}
+                to={"#" + tab.href}
                 aria-current={
                   tab.href === currentTab?.href ? "page" : undefined
                 }

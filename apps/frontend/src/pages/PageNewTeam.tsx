@@ -2,9 +2,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
-import { useMutation } from "urql";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { createTeamMutation } from "../graphql/mutations/createTeam";
+import { useMutation } from "../hooks/useMutation";
 
 export const PageNewTeam = () => {
   const { company: companyPk, unit: unitPk } = useParams();

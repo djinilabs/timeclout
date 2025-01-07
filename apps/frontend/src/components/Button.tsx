@@ -5,6 +5,7 @@ export interface ButtonProps {
   onClick?: () => void;
   to?: string;
   cancel?: boolean;
+  disabled?: boolean;
 }
 
 const CancelButton: FC<PropsWithChildren<ButtonProps>> = ({
@@ -27,6 +28,7 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = ({
   to,
   children,
   cancel,
+  disabled,
 }) => {
   const navigate = useNavigate();
   const onClick = useCallback(() => {
@@ -44,6 +46,7 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = ({
   return (
     <button
       type="button"
+      disabled={disabled}
       onClick={onClick}
       className="relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
     >

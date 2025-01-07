@@ -47,6 +47,7 @@ export type InvitationEntity = Company | Team | Unit;
 
 export type Mutation = {
   __typename?: 'Mutation';
+  acceptInvitation: Invitation;
   createCompany: Company;
   createInvitation: Invitation;
   createTeam: Team;
@@ -58,6 +59,11 @@ export type Mutation = {
   updateCompany: Company;
   updateTeam: Team;
   updateUnit: Unit;
+};
+
+
+export type MutationacceptInvitationArgs = {
+  secret: Scalars['String']['input'];
 };
 
 
@@ -141,8 +147,7 @@ export type QuerycompanyArgs = {
 
 
 export type QueryinvitationArgs = {
-  pk: Scalars['String']['input'];
-  sk: Scalars['String']['input'];
+  secret: Scalars['String']['input'];
 };
 
 
@@ -327,6 +332,7 @@ export type InvitationEntityResolvers<ContextType = any, ParentType extends Reso
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  acceptInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationacceptInvitationArgs, 'secret'>>;
   createCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationcreateCompanyArgs, 'name'>>;
   createInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationcreateInvitationArgs, 'invitedUserEmail' | 'permissionType' | 'toEntityPk'>>;
   createTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationcreateTeamArgs, 'name' | 'unitPk'>>;
@@ -343,7 +349,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   companies?: Resolver<Array<ResolversTypes['Company']>, ParentType, ContextType>;
   company?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<QuerycompanyArgs, 'companyPk'>>;
-  invitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<QueryinvitationArgs, 'pk' | 'sk'>>;
+  invitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<QueryinvitationArgs, 'secret'>>;
   invitationsTo?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType, RequireFields<QueryinvitationsToArgs, 'toEntityPk'>>;
   myInvitations?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;

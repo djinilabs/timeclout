@@ -9,7 +9,7 @@ import { Invitation } from "../graphql/graphql";
 import { Avatar } from "./Avatar";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
 import { deleteInvitationMutation } from "../graphql/mutations/deleteInvitation";
-import { useMutation } from "urql";
+import { useMutation } from "../hooks/useMutation";
 
 export const TeamInvites = () => {
   const { company, unit, team } = useParams();

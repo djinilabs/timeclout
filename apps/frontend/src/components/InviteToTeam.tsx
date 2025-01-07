@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { useForm } from "@tanstack/react-form";
-import { useMutation } from "urql";
 import toast from "react-hot-toast";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import { Button } from "./Button";
 import { inviteToTeamMutation } from "../graphql/mutations/inviteToTeam";
 import { ListBox } from "./ListBox";
+import { useMutation } from "../hooks/useMutation";
 
 export interface InviteToTeamProps {
   teamPk: string;
@@ -112,7 +112,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
                         { key: "3", value: "Owner" },
                       ]}
                       selected={field.state.value ?? "2"}
-                      onChange={(e) => field.handleChange(e)}
+                      onChange={(value) => field.handleChange(value.toString())}
                     />
                     {field.state.meta.errors.length > 0 ? (
                       <ExclamationCircleIcon
