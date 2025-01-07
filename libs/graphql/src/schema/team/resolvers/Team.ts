@@ -13,4 +13,29 @@ export const Team: TeamResolvers = {
     const { entity } = await database();
     return entity.get(parent.updatedBy as unknown as string) as unknown as User;
   },
+  members: async (parent) => {
+    const { permission, entity } = await database();
+    const permissions = await permission.query({
+      KeyConditionExpression: "pk = :pk",
+      ExpressionAttributeValues: {
+        ":pk": parent.pk,
+      },
+    });
+
+    const members = Object.fromEntries(
+      permissions.filter((p) => p.sk.startsWith("users/")).map((p) => [p.sk, p])
+    );
+
+    const users = await entity.batchGet(Object.keys(members));
+
+    return users.map((user) => {
+      const permission = members[user.pk];
+      const userWithPermission = {
+        ...user,
+        resourcePermission: permission.type,
+        resourcePermissionGivenAt: new Date(permission.createdAt),
+      };
+      return userWithPermission;
+    }) as unknown as User[];
+  },
 };

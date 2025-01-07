@@ -8,4 +8,7 @@ type User {
   pk: String!
   email: String!
   name: String!
+  emailMd5: String!
+  resourcePermission: Int
+  resourcePermissionGivenAt: DateTime
 }

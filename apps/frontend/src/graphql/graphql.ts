@@ -167,6 +167,7 @@ export type Team = {
   __typename?: 'Team';
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
+  members: Array<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -187,6 +188,9 @@ export type Unit = {
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
+  emailMd5: Scalars['String']['output'];
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  resourcePermission?: Maybe<Scalars['Int']['output']>;
+  resourcePermissionGivenAt?: Maybe<Scalars['DateTime']['output']>;
 };

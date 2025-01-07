@@ -5,6 +5,7 @@ type Team {
   updatedAt: DateTime
   createdBy: User!
   updatedBy: User
+  members: [User!]!
 }
 
 extend type Mutation {

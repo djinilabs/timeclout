@@ -169,6 +169,7 @@ export type Team = {
   __typename?: 'Team';
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
+  members: Array<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -189,8 +190,11 @@ export type Unit = {
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
+  emailMd5: Scalars['String']['output'];
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  resourcePermission?: Maybe<Scalars['Int']['output']>;
+  resourcePermissionGivenAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
 
@@ -359,6 +363,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
@@ -379,8 +384,11 @@ export type UnitResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  emailMd5?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  resourcePermission?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  resourcePermissionGivenAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

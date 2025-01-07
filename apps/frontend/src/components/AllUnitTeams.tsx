@@ -6,6 +6,7 @@ import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
 import { unitQuery } from "../graphql/queries/unitQuery";
 import { useQuery } from "../hooks/useQuery";
+import { Unit } from "../graphql/graphql";
 
 const NoTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();

@@ -7,9 +7,7 @@ import { getAuthorized } from "libs/graphql/src/auth/getAuthorized";
 export const Company: CompanyResolvers = {
   createdBy: async (parent) => {
     const { entity } = await database();
-    console.log("Company::createdBy parent", parent);
     const user = await entity.get(parent.createdBy as unknown as string);
-    console.log("Company::createdBy user", user);
     return user as unknown as User;
   },
   updatedBy: async (parent) => {
@@ -22,7 +20,6 @@ export const Company: CompanyResolvers = {
   units: async (_parent, _args, ctx) => {
     const { entity } = await database();
     const permissions = await getAuthorized(ctx, "units");
-    console.log("unit permissions", permissions);
     return entity.batchGet(permissions.map((p) => p.pk)) as unknown as Promise<
       Unit[]
     >;

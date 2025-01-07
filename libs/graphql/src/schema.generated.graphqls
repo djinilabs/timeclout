@@ -53,6 +53,7 @@ type Query {
 type Team {
   createdAt: DateTime!
   createdBy: User!
+  members: [User!]!
   name: String!
   pk: String!
   updatedAt: DateTime
@@ -71,6 +72,9 @@ type Unit {
 
 type User {
   email: String!
+  emailMd5: String!
   name: String!
   pk: String!
+  resourcePermission: Int
+  resourcePermissionGivenAt: DateTime
 }

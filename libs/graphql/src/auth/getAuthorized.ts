@@ -9,7 +9,6 @@ export const getAuthorized = async (
   const session = await requireSession(ctx);
   const { permission } = await database();
   const userPk = resourceRef("users", session.user.id);
-  console.log("getAuthorized", { userPk, resourceType });
   return permission.query({
     IndexName: "byResourceTypeAndEntityId",
     KeyConditionExpression: "resourceType = :resourceType AND sk = :sk  ",
