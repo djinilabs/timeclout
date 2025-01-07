@@ -24,6 +24,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
       if (response.error) {
         toast.error("Error creating company: " + response.error.message);
       } else {
+        toast.success("Invitation sent");
         onDone();
       }
     },

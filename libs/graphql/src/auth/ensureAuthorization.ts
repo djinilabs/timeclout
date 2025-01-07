@@ -11,9 +11,11 @@ export const ensureAuthorization = async (
   const { permission } = await database();
 
   const userPermission = await permission.get(resource, to);
-  if (userPermission != null && userPermission.type < level) {
-    userPermission.type = level;
-    await permission.update(userPermission);
+  if (userPermission != null) {
+    if (userPermission.type < level) {
+      userPermission.type = level;
+      await permission.update(userPermission);
+    }
   } else {
     await giveAuthorization(resource, to, level, givenBy, parent);
   }

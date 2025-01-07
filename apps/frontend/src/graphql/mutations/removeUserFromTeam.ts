@@ -1,0 +1,23 @@
+import { gql } from "urql";
+
+export const removeUserFromTeamMutation = gql`
+  mutation removeUserFromTeam($teamPk: String!, $userPk: String!) {
+    removeUserFromTeam(teamPk: $teamPk, userPk: $userPk) {
+      pk
+      name
+      createdAt
+      updatedAt
+      createdBy {
+        pk
+      }
+      members {
+        pk
+        name
+        email
+        emailMd5
+        resourcePermission
+        resourcePermissionGivenAt
+      }
+    }
+  }
+`;

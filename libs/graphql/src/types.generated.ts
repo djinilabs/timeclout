@@ -56,6 +56,7 @@ export type Mutation = {
   deleteInvitation: Invitation;
   deleteTeam: Team;
   deleteUnit: Unit;
+  removeUserFromTeam: Team;
   updateCompany: Company;
   updateTeam: Team;
   updateUnit: Unit;
@@ -109,6 +110,12 @@ export type MutationdeleteTeamArgs = {
 
 export type MutationdeleteUnitArgs = {
   pk: Scalars['String']['input'];
+};
+
+
+export type MutationremoveUserFromTeamArgs = {
+  teamPk: Scalars['String']['input'];
+  userPk: Scalars['String']['input'];
 };
 
 
@@ -345,6 +352,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationdeleteInvitationArgs, 'pk' | 'sk'>>;
   deleteTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationdeleteTeamArgs, 'pk'>>;
   deleteUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationdeleteUnitArgs, 'pk'>>;
+  removeUserFromTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationremoveUserFromTeamArgs, 'teamPk' | 'userPk'>>;
   updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'name' | 'pk'>>;
   updateTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamArgs, 'name' | 'pk'>>;
   updateUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitArgs, 'name' | 'pk'>>;

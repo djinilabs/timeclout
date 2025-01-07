@@ -36,7 +36,10 @@ export const tableApi = <
     delete: async (pk: string, sk?: string) => {
       const item = await self.get(pk, sk);
       if (!item) {
-        throw notFound(`Error deleting table ${tableName}: Item not found`);
+        console.warn("item not found", pk, sk);
+        throw notFound(
+          `Error deleting record in table ${tableName}: Item not found`
+        );
       }
       await lowLevelTable.delete(sk ? { pk, sk } : { pk });
       return item;

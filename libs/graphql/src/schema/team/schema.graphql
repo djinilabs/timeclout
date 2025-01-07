@@ -12,6 +12,7 @@ extend type Mutation {
   createTeam(unitPk: String!, name: String!): Team!
   updateTeam(pk: String!, name: String!): Team!
   deleteTeam(pk: String!): Team!
+  removeUserFromTeam(teamPk: String!, userPk: String!): Team!
 }
 
 extend type Query {

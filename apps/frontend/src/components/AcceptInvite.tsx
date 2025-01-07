@@ -6,6 +6,7 @@ import { permissionTypeToString } from "../utils/permissionTypeToString";
 import { Button } from "./Button";
 import { acceptInvitationMutation } from "../graphql/mutations/acceptInvitation";
 import { useMutation } from "../hooks/useMutation";
+import toast from "react-hot-toast";
 
 export const AcceptInvite: FC = () => {
   const [searchParams] = useSearchParams();
@@ -22,8 +23,13 @@ export const AcceptInvite: FC = () => {
     acceptInvitationMutation
   );
   const handleAcceptInvitation = async () => {
-    await acceptInvitation({ secret: searchParams.get("secret") });
-    navigate("/");
+    const result = await acceptInvitation({
+      secret: searchParams.get("secret"),
+    });
+    if (!result.error) {
+      toast.success("Invitation accepted");
+      navigate("/");
+    }
   };
 
   if (!invitation) {

@@ -7,6 +7,9 @@ import { useQuery } from "../hooks/useQuery";
 import { Avatar } from "./Avatar";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
 import ReactTimeAgo from "react-time-ago";
+import { useMutation } from "../hooks/useMutation";
+import { removeUserFromTeamMutation } from "../graphql/mutations/removeUserFromTeam";
+import toast from "react-hot-toast";
 
 export const TeamMembers = () => {
   const { company, unit, team: teamPk } = useParams();
@@ -19,6 +22,8 @@ export const TeamMembers = () => {
   });
 
   const teamMembers = queryResponse.data?.team?.members;
+
+  const [, removeUserFromTeam] = useMutation(removeUserFromTeamMutation);
 
   if (!teamMembers) {
     return null;
@@ -60,18 +65,11 @@ export const TeamMembers = () => {
                 <p className="text-sm/6 text-gray-900">
                   {permissionTypeToString(person.resourcePermission)}
                 </p>
-                {person.resourcePermissionGivenAt ? (
+                {person.resourcePermissionGivenAt && (
                   <p className="mt-1 text-xs/5 text-gray-500">
                     Joined{" "}
                     <ReactTimeAgo date={person.resourcePermissionGivenAt} />
                   </p>
-                ) : (
-                  <div className="mt-1 flex items-center gap-x-1.5">
-                    <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                      <div className="size-1.5 rounded-full bg-emerald-500" />
-                    </div>
-                    <p className="text-xs/5 text-gray-500">Online</p>
-                  </div>
                 )}
               </div>
               <Menu as="div" className="relative flex-none">
@@ -85,19 +83,19 @@ export const TeamMembers = () => {
                 >
                   <MenuItem>
                     <a
-                      href="#"
+                      onClick={async () => {
+                        const response = await removeUserFromTeam({
+                          teamPk,
+                          userPk: person.pk,
+                        });
+                        if (!response.error) {
+                          toast.success("User removed from team");
+                        }
+                      }}
                       className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                     >
-                      View profile
+                      Remove from team
                       <span className="sr-only">, {person.name}</span>
-                    </a>
-                  </MenuItem>
-                  <MenuItem>
-                    <a
-                      href="#"
-                      className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
-                    >
-                      Message<span className="sr-only">, {person.name}</span>
                     </a>
                   </MenuItem>
                 </MenuItems>

@@ -54,6 +54,7 @@ export type Mutation = {
   deleteInvitation: Invitation;
   deleteTeam: Team;
   deleteUnit: Unit;
+  removeUserFromTeam: Team;
   updateCompany: Company;
   updateTeam: Team;
   updateUnit: Unit;
@@ -107,6 +108,12 @@ export type MutationDeleteTeamArgs = {
 
 export type MutationDeleteUnitArgs = {
   pk: Scalars['String']['input'];
+};
+
+
+export type MutationRemoveUserFromTeamArgs = {
+  teamPk: Scalars['String']['input'];
+  userPk: Scalars['String']['input'];
 };
 
 
