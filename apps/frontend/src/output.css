@@ -1462,6 +1462,11 @@ video {
   padding-bottom: 4rem;
 }
 
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .pb-12 {
   padding-bottom: 3rem;
 }
@@ -2290,6 +2295,10 @@ video {
 
   .sm\:text-sm\/6 {
     font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .sm\:leading-6 {
     line-height: 1.5rem;
   }
 }
