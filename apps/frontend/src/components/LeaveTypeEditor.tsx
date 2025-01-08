@@ -6,9 +6,13 @@ import { ColorPicker } from "./ColorPicker";
 
 export type LeaveTypeEditorProps = {
   settings: any;
+  onSubmit: (values: any) => void;
 };
 
-export const LeaveTypeEditor = ({ settings }: LeaveTypeEditorProps) => {
+export const LeaveTypeEditor = ({
+  settings,
+  onSubmit,
+}: LeaveTypeEditorProps) => {
   const leaveTypes = leaveTypesSchema.parse(settings);
   const { settingId } = useParams();
   const leaveType = leaveTypes.find(
@@ -20,6 +24,16 @@ export const LeaveTypeEditor = ({ settings }: LeaveTypeEditorProps) => {
       name: leaveType?.name,
       icon: leaveType?.icon,
       color: leaveType?.color,
+      showInCalendarAs: leaveType?.showInCalendarAs,
+      visibleTo: leaveType?.visibleTo,
+      deductsFromAnnualAllowance: leaveType?.deductsFromAnnualAllowance,
+      needsManagerApproval: leaveType?.needsManagerApproval,
+    },
+    onSubmit: ({ value }) => {
+      const newSettings = leaveTypes.map((leaveType) =>
+        leaveType.name === settingId ? value : leaveType
+      );
+      onSubmit(newSettings);
     },
   });
 
@@ -30,7 +44,13 @@ export const LeaveTypeEditor = ({ settings }: LeaveTypeEditorProps) => {
   }
 
   return (
-    <form onSubmit={form.handleSubmit}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        form.handleSubmit();
+      }}
+    >
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base/7 font-semibold text-gray-900">
@@ -59,6 +79,7 @@ export const LeaveTypeEditor = ({ settings }: LeaveTypeEditorProps) => {
                         type="text"
                         value={field.state.value}
                         className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                        onChange={(e) => field.handleChange(e.target.value)}
                       />
                     </div>
                   </div>
@@ -101,6 +122,119 @@ export const LeaveTypeEditor = ({ settings }: LeaveTypeEditorProps) => {
                       value={field.state.value}
                       onChange={(value) => field.handleChange(value)}
                     />
+                  </div>
+                </div>
+              )}
+            />
+
+            <form.Field
+              name="showInCalendarAs"
+              children={(field) => (
+                <div className="sm:col-span-4">
+                  <label
+                    htmlFor={field.name}
+                    className="block text-sm/6 font-medium text-gray-900"
+                  >
+                    Show in calendar as
+                  </label>
+                  <div className="mt-2">
+                    <select
+                      id={field.name}
+                      value={field.state.value}
+                      onChange={(e) =>
+                        field.handleChange(
+                          e.target.value as "busy" | "available" | "ooo"
+                        )
+                      }
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                    >
+                      <option value="busy">Busy</option>
+                      <option value="available">Available</option>
+                      <option value="ooo">Out of Office</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+            />
+
+            <form.Field
+              name="visibleTo"
+              children={(field) => (
+                <div className="sm:col-span-4">
+                  <label
+                    htmlFor={field.name}
+                    className="block text-sm/6 font-medium text-gray-900"
+                  >
+                    Visible to
+                  </label>
+                  <div className="mt-2">
+                    <select
+                      id={field.name}
+                      value={field.state.value}
+                      onChange={(e) =>
+                        field.handleChange(
+                          e.target.value as "managers" | "employees"
+                        )
+                      }
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                    >
+                      <option value="managers">Managers only</option>
+                      <option value="employees">All employees</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+            />
+
+            <form.Field
+              name="deductsFromAnnualAllowance"
+              children={(field) => (
+                <div className="col-span-full">
+                  <div className="relative flex items-start">
+                    <div className="flex h-6 items-center">
+                      <input
+                        id={field.name}
+                        type="checkbox"
+                        checked={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.checked)}
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm leading-6">
+                      <label
+                        htmlFor={field.name}
+                        className="font-medium text-gray-900"
+                      >
+                        Deducts from annual allowance
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
+
+            <form.Field
+              name="needsManagerApproval"
+              children={(field) => (
+                <div className="col-span-full">
+                  <div className="relative flex items-start">
+                    <div className="flex h-6 items-center">
+                      <input
+                        id={field.name}
+                        type="checkbox"
+                        checked={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.checked)}
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm leading-6">
+                      <label
+                        htmlFor={field.name}
+                        className="font-medium text-gray-900"
+                      >
+                        Requires manager approval
+                      </label>
+                    </div>
                   </div>
                 </div>
               )}

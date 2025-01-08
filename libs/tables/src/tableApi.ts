@@ -121,12 +121,22 @@ export const tableApi = <
       return parsedItem;
     },
     upsert: async (item: TTableRecord) => {
-      const parsedItem = parseItem(item, schema);
       const existingItem = await self.get(item.pk, item.sk);
       if (existingItem) {
-        return self.update(parsedItem);
+        console.log("existingItem", existingItem);
+        const { createdAt, createdBy, ...rest } = item;
+        return self.update({
+          ...existingItem,
+          ...rest,
+        });
       }
-      return self.create(parsedItem);
+      console.log("existingItem");
+      const { updatedAt, updatedBy, version, ...rest } = item;
+      return self.create({
+        version: 1,
+        createdAt: new Date().toISOString(),
+        ...rest,
+      });
     },
     query: async (query) => {
       return (await lowLevelTable.query(query)).Items;
