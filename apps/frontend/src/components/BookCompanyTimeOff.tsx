@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { useForm } from "@tanstack/react-form";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 type FormValues = {
   type: string;

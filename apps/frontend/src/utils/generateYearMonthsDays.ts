@@ -58,7 +58,7 @@ export const generateYearMonthsDays = (year: number) => {
     const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
     console.log("daysInMonth", month.name, daysInMonth);
     for (let day = 1; day <= daysInMonth; day++) {
-      const date = `${year}-${monthIndex + 1}-${day}`;
+      const date = `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
       month.days.push({
         date,
         isCurrentMonth: true,
