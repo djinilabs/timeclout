@@ -10,7 +10,7 @@ export const CompanySettings = () => {
   const [tab, setTab] = useState(tabs[0]);
   return (
     <div>
-      <Tabs tabs={tabs} onChange={setTab} />
+      <Tabs tabs={tabs} onChange={setTab} tabPropName="settingsTab" />
       {tab.href === "leave-types" && <CompanyLeaveTypes />}
     </div>
   );

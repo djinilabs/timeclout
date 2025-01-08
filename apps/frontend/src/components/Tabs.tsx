@@ -1,7 +1,12 @@
 import { FC, useCallback, useEffect, useMemo } from "react";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { classNames } from "../utils/classNames";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 export interface Tab {
   name: string;
@@ -10,31 +15,39 @@ export interface Tab {
 }
 
 export interface TabsProps {
+  tabPropName?: string;
   tabs: Tab[];
   onChange: (tab: Tab) => void;
 }
 
-export const Tabs: FC<TabsProps> = ({ tabs, onChange }) => {
+export const Tabs: FC<TabsProps> = ({
+  tabs,
+  onChange,
+  tabPropName = "tab",
+}) => {
   const navigate = useNavigate();
+  const [params, setParams] = useSearchParams();
 
   const onTabChange = useCallback(
     (tab: Tab | undefined) => {
       if (tab) {
-        navigate(loc.pathname + "#" + tab.href);
+        setParams({ ...params, [tabPropName]: tab.href });
       }
     },
     [navigate]
   );
 
-  const loc = useLocation();
+  const currentTabName = params.get(tabPropName);
   const currentTab = useMemo(
-    () => tabs.find((tab) => tab.href == loc.hash.slice(1)) ?? tabs[0],
-    [tabs, loc.hash]
+    () => tabs.find((tab) => tab.href == currentTabName) ?? tabs[0],
+    [tabs, currentTabName]
   );
 
   useEffect(() => {
     onChange(currentTab);
   }, [currentTab]);
+
+  const location = useLocation();
 
   return (
     <>
@@ -62,7 +75,13 @@ export const Tabs: FC<TabsProps> = ({ tabs, onChange }) => {
             {tabs.map((tab) => (
               <Link
                 key={tab.name}
-                to={"#" + tab.href}
+                to={{
+                  pathname: location.pathname,
+                  search: new URLSearchParams({
+                    ...Object.fromEntries(params),
+                    [tabPropName]: tab.href,
+                  }).toString(),
+                }}
                 aria-current={
                   tab.href === currentTab?.href ? "page" : undefined
                 }
