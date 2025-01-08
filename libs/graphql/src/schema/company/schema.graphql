@@ -6,12 +6,18 @@ type Company {
   createdBy: User!
   updatedBy: User
   units: [Unit!]
+  settings(name: String!): JSON
 }
 
 extend type Mutation {
   createCompany(name: String!): Company!
   updateCompany(pk: String!, name: String!): Company!
   deleteCompany(pk: String!): Company!
+  updateCompanySettings(
+    companyPk: String!
+    name: String!
+    settings: JSON!
+  ): Company!
 }
 
 extend type Query {

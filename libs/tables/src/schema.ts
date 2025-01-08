@@ -2,6 +2,7 @@ import { z, ZodSchema } from "zod";
 
 const TableBaseSchema = z.object({
   pk: z.string(),
+  sk: z.string().optional(),
   version: z.number(),
   createdAt: z.string().datetime(),
   createdBy: z.string(),
@@ -11,19 +12,26 @@ const TableBaseSchema = z.object({
 
 export const tableSchemas = {
   entity: TableBaseSchema.extend({
+    // pk is entity pk
     name: z.string(),
     parentPk: z.string().optional(),
     email: z.string().email().optional(),
   }),
+  entity_settings: TableBaseSchema.extend({
+    // pk is entity pk
+    sk: z.string(), // settings name
+    settings: z.any(),
+  }),
   permission: TableBaseSchema.extend({
+    // pk is entity pk
     sk: z.string(), // user pk
     resourceType: z.string(),
     parentPk: z.string().optional(),
     type: z.number().int().min(1),
   }),
   invitation: TableBaseSchema.extend({
-    pk: z.string(), // user pk
-    sk: z.string(), // resource pk
+    // pk is invitation entity pk
+    sk: z.string(), // invitee pk
     permissionType: z.number().int().min(1),
     secret: z.string(),
   }),
@@ -54,7 +62,11 @@ export const resourceRef = (resourceType: ResourceType, id: string) =>
   `${resourceType}/${id}`;
 
 export type TableSchemas = typeof tableSchemas;
-export type TableName = "entity" | "permission" | "invitation";
+export type TableName =
+  | "entity"
+  | "permission"
+  | "invitation"
+  | "entity_settings";
 
 export type Query = {
   IndexName?: string;
@@ -75,6 +87,7 @@ export type TableAPI<
   get: (pk: string, sk?: string) => Promise<TTableRecord | undefined>;
   batchGet: (keys: string[]) => Promise<TTableRecord[]>;
   update: (item: Partial<TTableRecord>) => Promise<TTableRecord>;
+  upsert: (item: TTableRecord) => Promise<TTableRecord>;
   create: (item: TTableRecord) => Promise<TTableRecord>;
   query: (query: Query) => Promise<TTableRecord[]>;
 };
@@ -83,4 +96,5 @@ export type DatabaseSchema = {
   entity: TableAPI<"entity">;
   permission: TableAPI<"permission">;
   invitation: TableAPI<"invitation">;
+  entity_settings: TableAPI<"entity_settings">;
 };

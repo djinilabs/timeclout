@@ -74,7 +74,7 @@ export const tableApi = <
     update: async (
       item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>
     ) => {
-      const previousItem = (await self.get(item.pk)) as
+      const previousItem = (await self.get(item.pk, item.sk)) as
         | TTableRecord
         | undefined;
       if (!previousItem) {
@@ -119,6 +119,14 @@ export const tableApi = <
       });
 
       return parsedItem;
+    },
+    upsert: async (item: TTableRecord) => {
+      const parsedItem = parseItem(item, schema);
+      const existingItem = await self.get(item.pk, item.sk);
+      if (existingItem) {
+        return self.update(parsedItem);
+      }
+      return self.create(parsedItem);
     },
     query: async (query) => {
       return (await lowLevelTable.query(query)).Items;

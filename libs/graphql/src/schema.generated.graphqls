@@ -3,6 +3,7 @@ type Company {
   createdBy: User!
   name: String!
   pk: String!
+  settings(name: String!): JSON
   units: [Unit!]
   updatedAt: DateTime
   updatedBy: User
@@ -25,6 +26,8 @@ type Invitation {
 
 union InvitationEntity = Company | Team | Unit
 
+scalar JSON
+
 type Mutation {
   acceptInvitation(secret: String!): Invitation!
   createCompany(name: String!): Company!
@@ -37,6 +40,7 @@ type Mutation {
   deleteUnit(pk: String!): Unit!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
   updateCompany(name: String!, pk: String!): Company!
+  updateCompanySettings(companyPk: String!, name: String!, settings: JSON!): Company!
   updateTeam(name: String!, pk: String!): Team!
   updateUnit(name: String!, pk: String!): Unit!
 }

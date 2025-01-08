@@ -1,0 +1,38 @@
+export const defaultLeaveTypes = [
+  {
+    name: "Vacation",
+    showInCalendarAs: "ooo",
+    visibleTo: "employees",
+    deductsFromAnnualAllowance: true,
+    needsManagerApproval: true,
+    icon: "umbrella",
+    color: "green",
+  },
+  {
+    name: "Sick Leave",
+    showInCalendarAs: "ooo",
+    visibleTo: "managers",
+    deductsFromAnnualAllowance: false,
+    needsManagerApproval: true,
+    icon: "hospital",
+    color: "red",
+  },
+  {
+    name: "Parental Leave",
+    showInCalendarAs: "ooo",
+    visibleTo: "managers",
+    deductsFromAnnualAllowance: false,
+    needsManagerApproval: true,
+    icon: "stroller",
+    color: "blue",
+  },
+  {
+    name: "Meeting",
+    showInCalendarAs: "busy",
+    visibleTo: "employees",
+    deductsFromAnnualAllowance: false,
+    needsManagerApproval: true,
+    icon: "meeting",
+    color: "yellow",
+  },
+];

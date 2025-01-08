@@ -24,4 +24,8 @@ export const Company: CompanyResolvers = {
       Unit[]
     >;
   },
+  settings: async (parent, args) => {
+    const { entity_settings } = await database();
+    return (await entity_settings.get(parent.pk, args.name))?.settings;
+  },
 };

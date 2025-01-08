@@ -14,6 +14,7 @@ export const useQuery = <TData = any>({
   useEffect(() => {
     let handle: string | undefined;
     if (result.error) {
+      console.error(result.error);
       handle = toast.error("Error fetching companies: " + result.error.message);
     }
     return () => {

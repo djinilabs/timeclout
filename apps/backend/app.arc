@@ -22,6 +22,11 @@ entity
   parentPk String
   encrypt true
 
+entity_settings
+  pk *String
+  sk **String
+  encrypt true
+
 permission
   pk *String
   sk **String

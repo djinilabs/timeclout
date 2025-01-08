@@ -14,6 +14,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 };
 
 export type Company = {
@@ -22,9 +23,15 @@ export type Company = {
   createdBy: User;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  settings?: Maybe<Scalars['JSON']['output']>;
   units?: Maybe<Array<Unit>>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
+};
+
+
+export type CompanySettingsArgs = {
+  name: Scalars['String']['input'];
 };
 
 export type Invitation = {
@@ -56,6 +63,7 @@ export type Mutation = {
   deleteUnit: Unit;
   removeUserFromTeam: Team;
   updateCompany: Company;
+  updateCompanySettings: Company;
   updateTeam: Team;
   updateUnit: Unit;
 };
@@ -120,6 +128,13 @@ export type MutationRemoveUserFromTeamArgs = {
 export type MutationUpdateCompanyArgs = {
   name: Scalars['String']['input'];
   pk: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateCompanySettingsArgs = {
+  companyPk: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  settings: Scalars['JSON']['input'];
 };
 
 
