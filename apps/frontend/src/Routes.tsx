@@ -10,6 +10,7 @@ import { NewTeam } from "./routes/NewTeam";
 import { Team } from "./routes/Team";
 import { NewTeamInvite } from "./routes/NewTeamInvite";
 import { InviteAccept } from "./routes/InviteAccept";
+import { CompanySettings } from "./routes/CompanySettings";
 
 export const AppRoutes: FC = () => {
   return (
@@ -44,6 +45,14 @@ export const AppRoutes: FC = () => {
           element={
             <RequiresSession>
               <Company />
+            </RequiresSession>
+          }
+        />
+        <Route
+          path="/companies/:company/settings/:settingName/:settingId"
+          element={
+            <RequiresSession>
+              <CompanySettings />
             </RequiresSession>
           }
         />
