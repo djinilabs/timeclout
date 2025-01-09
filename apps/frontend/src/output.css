@@ -1493,6 +1493,10 @@ video {
   padding-top: 1.25rem;
 }
 
+.pb-6 {
+  padding-bottom: 1.5rem;
+}
+
 .text-left {
   text-align: left;
 }

@@ -1,7 +1,9 @@
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import { useForm } from "@tanstack/react-form";
-import { Button } from "./Button";
 import { useParams } from "react-router-dom";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
+import { Button } from "./Button";
 import { useQuery } from "../hooks/useQuery";
 import { companyWithSettingsQuery } from "../graphql/queries/companyWithSettings";
 import {
@@ -12,8 +14,7 @@ import {
 
 type FormValues = {
   type: string;
-  startDate: string;
-  endDate: string;
+  dateRange: [startDate?: string, endDate?: string];
   reason: string;
 };
 
@@ -41,8 +42,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   const form = useForm<FormValues>({
     defaultValues: {
       type: leaveTypes[0].name,
-      startDate: "",
-      endDate: "",
+      dateRange: [],
       reason: "",
     },
     onSubmit: ({ value }) => {
@@ -51,12 +51,12 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   });
 
   return (
-    <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+    <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12">
       <p className="mt-1 text-sm/6 text-gray-600 py-5">
         Book time off by filling this form:
       </p>
       <div className="flex py-5">
-        <div className="mx-auto max-w-2xl px-4 py-8">
+        <div className="">
           <form
             className="space-y-6"
             onSubmit={(e) => {
@@ -69,7 +69,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
               name="type"
               children={(field) => {
                 return (
-                  <>
+                  <div className="border-b border-gray-900/10 pb-6">
                     <legend className="text-sm/6 font-semibold text-gray-900">
                       Type of Leave
                     </legend>
@@ -81,7 +81,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                         <div key={leaveType.name} className="flex items-center">
                           <input
                             id={leaveType.name}
-                            name="leaveType"
+                            name={leaveType.name}
                             type="radio"
                             checked={field.state.value === leaveType.name}
                             onChange={() => field.handleChange(leaveType.name)}
@@ -97,40 +97,52 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                         </div>
                       ))}
                     </div>
-                  </>
+                  </div>
                 );
               }}
             />
 
-            <div>
-              <label
-                htmlFor="startDate"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Start Date
-              </label>
-              <input
-                type="date"
-                name="startDate"
-                id="startDate"
-                className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="endDate"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                End Date
-              </label>
-              <input
-                type="date"
-                name="endDate"
-                id="endDate"
-                className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <form.Field
+              name="dateRange"
+              children={(field) => {
+                const [startDate, endDate] = field.state.value.map((date) =>
+                  date ? new Date(date) : undefined
+                );
+                return (
+                  <div className="border-b border-gray-900/10 pb-6">
+                    <label
+                      htmlFor="dateRange"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Date range
+                    </label>
+                    <p className="mt-1 text-sm/6 text-gray-600">
+                      {startDate && endDate
+                        ? `From ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`
+                        : "Select the date range for your leave."}
+                    </p>
+                    <DayPicker
+                      mode="range"
+                      required
+                      selected={{
+                        from: startDate,
+                        to: endDate,
+                      }}
+                      disabled={{
+                        before: new Date(),
+                      }}
+                      numberOfMonths={2}
+                      onSelect={(range) =>
+                        field.handleChange([
+                          range?.from?.toISOString().split("T")[0],
+                          range?.to?.toISOString().split("T")[0],
+                        ])
+                      }
+                    />
+                  </div>
+                );
+              }}
+            />
 
             <div>
               <label
