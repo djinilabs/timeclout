@@ -135,6 +135,13 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                         before: new Date(),
                       }}
                       numberOfMonths={2}
+                      captionLayout="dropdown"
+                      startMonth={new Date()}
+                      endMonth={
+                        new Date(
+                          new Date().setMonth(new Date().getMonth() + 24)
+                        )
+                      }
                       onSelect={(range) =>
                         field.handleChange([
                           range?.from?.toISOString().split("T")[0],
