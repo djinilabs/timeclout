@@ -1,6 +1,14 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { useForm } from "@tanstack/react-form";
 import { Button } from "./Button";
+import { useParams } from "react-router-dom";
+import { useQuery } from "../hooks/useQuery";
+import { companyWithSettingsQuery } from "../graphql/queries/companyWithSettings";
+import {
+  leaveTypeColors,
+  leaveTypeIcons,
+  leaveTypesSchema,
+} from "../settings/leaveTypes";
 
 type FormValues = {
   type: string;
@@ -18,9 +26,21 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   onSubmit,
   onCancel,
 }) => {
+  const { company } = useParams();
+  const [companyWithSettings] = useQuery({
+    query: companyWithSettingsQuery,
+    variables: {
+      companyPk: company,
+      name: "leaveTypes",
+    },
+  });
+
+  const unparsedLeaveTypes = companyWithSettings?.data?.company?.settings;
+  const leaveTypes = leaveTypesSchema.parse(unparsedLeaveTypes);
+
   const form = useForm<FormValues>({
     defaultValues: {
-      type: "",
+      type: leaveTypes[0].name,
       startDate: "",
       endDate: "",
       reason: "",
@@ -29,12 +49,6 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
       onSubmit(value);
     },
   });
-
-  const leaveTypes = [
-    { id: "vacation", label: "Vacation" },
-    { id: "sick", label: "Sick Leave" },
-    { id: "personal", label: "Personal Leave" },
-  ];
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
@@ -51,33 +65,42 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
               form.handleSubmit();
             }}
           >
-            <fieldset>
-              <legend className="text-sm/6 font-semibold text-gray-900">
-                Type of Leave
-              </legend>
-              <p className="mt-1 text-sm/6 text-gray-600">
-                What type of leave are you planning to take?
-              </p>
-              <div className="mt-6 space-y-6">
-                {leaveTypes.map((leaveType) => (
-                  <div key={leaveType.id} className="flex items-center">
-                    <input
-                      defaultChecked={leaveType.id === "email"}
-                      id={leaveType.id}
-                      name="leaveType"
-                      type="radio"
-                      className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden"
-                    />
-                    <label
-                      htmlFor={leaveType.id}
-                      className="ml-3 block text-sm/6 font-medium text-gray-900"
-                    >
-                      {leaveType.label}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </fieldset>
+            <form.Field
+              name="type"
+              children={(field) => {
+                return (
+                  <>
+                    <legend className="text-sm/6 font-semibold text-gray-900">
+                      Type of Leave
+                    </legend>
+                    <p className="mt-1 text-sm/6 text-gray-600">
+                      What type of leave are you planning to take?
+                    </p>
+                    <div className="mt-6 space-y-3">
+                      {leaveTypes.map((leaveType) => (
+                        <div key={leaveType.name} className="flex items-center">
+                          <input
+                            id={leaveType.name}
+                            name="leaveType"
+                            type="radio"
+                            checked={field.state.value === leaveType.name}
+                            onChange={() => field.handleChange(leaveType.name)}
+                            className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden"
+                          />
+                          <label
+                            htmlFor={leaveType.name}
+                            className="ml-3 block text-sm/6 font-medium"
+                            style={{ color: leaveTypeColors[leaveType.color] }}
+                          >
+                            {leaveTypeIcons[leaveType.icon]} {leaveType.name}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                );
+              }}
+            />
 
             <div>
               <label
@@ -124,18 +147,30 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
               />
             </div>
 
-            <div className="mt-6 flex items-center justify-end gap-x-6">
-              <Button cancel onClick={() => onCancel()}>
-                Cancel
-              </Button>
-              <button
-                type="submit"
-                disabled={form.state.isSubmitting}
-                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Create
-              </button>
-            </div>
+            <form.Subscribe
+              children={(state) => {
+                const selectedLeaveType = leaveTypes.find(
+                  (leaveType) => leaveType.name === state.values.type
+                );
+                return (
+                  <div className="mt-6 flex items-center justify-end gap-x-6">
+                    <Button cancel onClick={() => onCancel()}>
+                      Cancel
+                    </Button>
+                    <button
+                      type="submit"
+                      disabled={form.state.isSubmitting}
+                      className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                      Submit{" "}
+                      {selectedLeaveType?.needsManagerApproval
+                        ? "and wait for approval"
+                        : ""}
+                    </button>
+                  </div>
+                );
+              }}
+            />
           </form>
         </div>
       </div>
