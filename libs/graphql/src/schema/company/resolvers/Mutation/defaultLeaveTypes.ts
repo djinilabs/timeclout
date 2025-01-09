@@ -35,4 +35,13 @@ export const defaultLeaveTypes = [
     icon: "meeting",
     color: "yellow",
   },
+  {
+    name: "Training",
+    showInCalendarAs: "busy",
+    visibleTo: "employees",
+    deductsFromAnnualAllowance: false,
+    needsManagerApproval: true,
+    icon: "book",
+    color: "purple",
+  },
 ];

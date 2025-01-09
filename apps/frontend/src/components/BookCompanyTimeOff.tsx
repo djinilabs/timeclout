@@ -92,7 +92,10 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                             className="ml-3 block text-sm/6 font-medium"
                             style={{ color: leaveTypeColors[leaveType.color] }}
                           >
-                            {leaveTypeIcons[leaveType.icon]} {leaveType.name}
+                            <span className="inline-flex items-center">
+                              {leaveTypeIcons[leaveType.icon]}&nbsp;
+                              {leaveType.name}
+                            </span>
                           </label>
                         </div>
                       ))}
@@ -164,6 +167,9 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                 const selectedLeaveType = leaveTypes.find(
                   (leaveType) => leaveType.name === state.values.type
                 );
+                const disabled =
+                  form.state.isSubmitting ||
+                  !state.values.dateRange.filter(Boolean).length;
                 return (
                   <div className="mt-6 flex items-center justify-end gap-x-6">
                     <Button cancel onClick={() => onCancel()}>
@@ -171,13 +177,18 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                     </Button>
                     <button
                       type="submit"
-                      disabled={form.state.isSubmitting}
-                      className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      disabled={disabled}
+                      className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
+                        disabled
+                          ? "bg-indigo-300 cursor-not-allowed"
+                          : "bg-indigo-600 hover:bg-indigo-500"
+                      }`}
                     >
-                      Submit{" "}
-                      {selectedLeaveType?.needsManagerApproval
-                        ? "and wait for approval"
-                        : ""}
+                      {disabled
+                        ? "Fill in all the form fields"
+                        : selectedLeaveType?.needsManagerApproval
+                          ? `Submit request for ${selectedLeaveType.name} and wait for approval`
+                          : `Create ${selectedLeaveType?.name} leave`}
                     </button>
                   </div>
                 );

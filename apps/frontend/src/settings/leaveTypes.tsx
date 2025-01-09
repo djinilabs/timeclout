@@ -6,6 +6,7 @@ import {
   FaBabyCarriage,
   FaUsers,
   FaHeart,
+  FaBook,
 } from "react-icons/fa";
 import { MdSelfImprovement } from "react-icons/md";
 import { type ReactNode } from "react";
@@ -18,6 +19,7 @@ export const leaveTypeIcons: Record<LeaveTypes[number]["icon"], ReactNode> = {
   meeting: <FaUsers />,
   compassionate: <FaHeart />,
   wellbeing: <MdSelfImprovement />,
+  book: <FaBook />,
 };
 
 export const leaveTypeColors: Record<LeaveTypes[number]["color"], string> = {
@@ -25,6 +27,7 @@ export const leaveTypeColors: Record<LeaveTypes[number]["color"], string> = {
   green: "#4ade80", // A fresh mint green
   red: "#f87171", // A soft coral red
   yellow: "#fbbf24", // A warm yellow
+  purple: "#a78bfa", // A soft purple
 };
 
 export const leaveTypesSchema = z.array(
@@ -42,8 +45,9 @@ export const leaveTypesSchema = z.array(
       "meeting",
       "compassionate",
       "wellbeing",
+      "book",
     ]),
-    color: z.enum(["green", "red", "blue", "yellow"]),
+    color: z.enum(["green", "red", "blue", "yellow", "purple"]),
   })
 );
 
