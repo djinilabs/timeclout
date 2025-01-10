@@ -5,7 +5,9 @@
       "@/auth-config": ["./libs/auth-config/src"],
       "@/graphql": ["./libs/graphql/src"],
       "@/tables": ["./libs/tables/src"],
-      "@/utils": ["./libs/utils/src"]
+      "@/utils": ["./libs/utils/src"],
+      "@/event-bus": ["./libs/event-bus/src"],
+      "@/send-email": ["./libs/send-email/src"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

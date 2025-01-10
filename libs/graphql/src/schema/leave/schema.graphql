@@ -1,0 +1,15 @@
+type Leave {
+  pk: String!
+  sk: String!
+  leaveRequestPk: String!
+  type: String!
+}
+
+input DeleteLeaveInput {
+  pk: String!
+  sk: String!
+}
+
+extend type Mutation {
+  deleteLeave(input: DeleteLeaveInput!): Leave!
+}

@@ -1,0 +1,43 @@
+type LeaveRequest {
+  pk: String!
+  sk: String!
+  endDate: String!
+  type: String!
+  approved: Boolean
+  approvedBy: [String!]
+  approvedAt: [DateTime!]
+  createdBy: String!
+  createdAt: DateTime!
+}
+
+input CreateLeaveRequestInput {
+  companyPk: String!
+  startDate: String!
+  endDate: String!
+  type: String!
+}
+
+input UpdateLeaveRequestInput {
+  pk: String!
+  sk: String!
+  startDate: String!
+  endDate: String!
+  type: String!
+}
+
+input DeleteLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+input ApproveLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+extend type Mutation {
+  createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
+  updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
+  deleteLeaveRequest(input: DeleteLeaveRequestInput!): LeaveRequest!
+  approveLeaveRequest(input: ApproveLeaveRequestInput!): LeaveRequest!
+}

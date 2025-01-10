@@ -40,6 +40,16 @@ invitation
   sk **String
   encrypt true
 
+leave_request
+  pk *String
+  sk **String
+  encrypt true
+
+leave
+  pk *String
+  sk **String
+  encrypt true
+
 @tables-indexes
 
 next-auth
@@ -55,6 +65,9 @@ permission
 invitation
   secret *String
   name bySecret
+
+@queues
+events
 
 @plugins
 architect/plugin-typescript

@@ -19,6 +19,11 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
+export type ApproveLeaveRequestInput = {
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
+};
+
 export type Company = {
   __typename?: 'Company';
   createdAt: Scalars['DateTime']['output'];
@@ -34,6 +39,23 @@ export type Company = {
 
 export type CompanysettingsArgs = {
   name: Scalars['String']['input'];
+};
+
+export type CreateLeaveRequestInput = {
+  companyPk: Scalars['String']['input'];
+  endDate: Scalars['String']['input'];
+  startDate: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
+export type DeleteLeaveInput = {
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
+};
+
+export type DeleteLeaveRequestInput = {
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
 };
 
 export type Invitation = {
@@ -52,20 +74,46 @@ export type Invitation = {
 
 export type InvitationEntity = Company | Team | Unit;
 
+export type Leave = {
+  __typename?: 'Leave';
+  leaveRequestPk: Scalars['String']['output'];
+  pk: Scalars['String']['output'];
+  sk: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type LeaveRequest = {
+  __typename?: 'LeaveRequest';
+  approved?: Maybe<Scalars['Boolean']['output']>;
+  approvedAt?: Maybe<Array<Scalars['DateTime']['output']>>;
+  approvedBy?: Maybe<Array<Scalars['String']['output']>>;
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: Scalars['String']['output'];
+  endDate: Scalars['String']['output'];
+  pk: Scalars['String']['output'];
+  sk: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation: Invitation;
+  approveLeaveRequest: LeaveRequest;
   createCompany: Company;
   createInvitation: Invitation;
+  createLeaveRequest: LeaveRequest;
   createTeam: Team;
   createUnit: Unit;
   deleteCompany: Company;
   deleteInvitation: Invitation;
+  deleteLeave: Leave;
+  deleteLeaveRequest: LeaveRequest;
   deleteTeam: Team;
   deleteUnit: Unit;
   removeUserFromTeam: Team;
   updateCompany: Company;
   updateCompanySettings: Company;
+  updateLeaveRequest: LeaveRequest;
   updateTeam: Team;
   updateUnit: Unit;
 };
@@ -73,6 +121,11 @@ export type Mutation = {
 
 export type MutationacceptInvitationArgs = {
   secret: Scalars['String']['input'];
+};
+
+
+export type MutationapproveLeaveRequestArgs = {
+  input: ApproveLeaveRequestInput;
 };
 
 
@@ -85,6 +138,11 @@ export type MutationcreateInvitationArgs = {
   invitedUserEmail: Scalars['String']['input'];
   permissionType: Scalars['Int']['input'];
   toEntityPk: Scalars['String']['input'];
+};
+
+
+export type MutationcreateLeaveRequestArgs = {
+  input: CreateLeaveRequestInput;
 };
 
 
@@ -108,6 +166,16 @@ export type MutationdeleteCompanyArgs = {
 export type MutationdeleteInvitationArgs = {
   pk: Scalars['String']['input'];
   sk: Scalars['String']['input'];
+};
+
+
+export type MutationdeleteLeaveArgs = {
+  input: DeleteLeaveInput;
+};
+
+
+export type MutationdeleteLeaveRequestArgs = {
+  input: DeleteLeaveRequestInput;
 };
 
 
@@ -137,6 +205,11 @@ export type MutationupdateCompanySettingsArgs = {
   companyPk: Scalars['String']['input'];
   name: Scalars['String']['input'];
   settings: Scalars['JSON']['input'];
+};
+
+
+export type MutationupdateLeaveRequestArgs = {
+  input: UpdateLeaveRequestInput;
 };
 
 
@@ -207,6 +280,14 @@ export type Unit = {
   teams: Array<Team>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
+};
+
+export type UpdateLeaveRequestInput = {
+  endDate: Scalars['String']['input'];
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
+  startDate: Scalars['String']['input'];
+  type: Scalars['String']['input'];
 };
 
 export type User = {
@@ -294,36 +375,50 @@ export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Company: ResolverTypeWrapper<Company>;
+  ApproveLeaveRequestInput: ApproveLeaveRequestInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Company: ResolverTypeWrapper<Company>;
+  CreateLeaveRequestInput: CreateLeaveRequestInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  DeleteLeaveInput: DeleteLeaveInput;
+  DeleteLeaveRequestInput: DeleteLeaveRequestInput;
   Invitation: ResolverTypeWrapper<Omit<Invitation, 'toEntity'> & { toEntity: ResolversTypes['InvitationEntity'] }>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   InvitationEntity: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['InvitationEntity']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
+  Leave: ResolverTypeWrapper<Leave>;
+  LeaveRequest: ResolverTypeWrapper<LeaveRequest>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Team: ResolverTypeWrapper<Team>;
   Unit: ResolverTypeWrapper<Unit>;
+  UpdateLeaveRequestInput: UpdateLeaveRequestInput;
   User: ResolverTypeWrapper<User>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Company: Company;
+  ApproveLeaveRequestInput: ApproveLeaveRequestInput;
   String: Scalars['String']['output'];
+  Company: Company;
+  CreateLeaveRequestInput: CreateLeaveRequestInput;
   DateTime: Scalars['DateTime']['output'];
+  DeleteLeaveInput: DeleteLeaveInput;
+  DeleteLeaveRequestInput: DeleteLeaveRequestInput;
   Invitation: Omit<Invitation, 'toEntity'> & { toEntity: ResolversParentTypes['InvitationEntity'] };
   Int: Scalars['Int']['output'];
   InvitationEntity: ResolversUnionTypes<ResolversParentTypes>['InvitationEntity'];
   JSON: Scalars['JSON']['output'];
+  Leave: Leave;
+  LeaveRequest: LeaveRequest;
+  Boolean: Scalars['Boolean']['output'];
   Mutation: {};
   Query: {};
   Team: Team;
   Unit: Unit;
+  UpdateLeaveRequestInput: UpdateLeaveRequestInput;
   User: User;
-  Boolean: Scalars['Boolean']['output'];
 };
 
 export type CompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = {
@@ -364,19 +459,45 @@ export interface JSONScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'JSON';
 }
 
+export type LeaveResolvers<ContextType = any, ParentType extends ResolversParentTypes['Leave'] = ResolversParentTypes['Leave']> = {
+  leaveRequestPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type LeaveRequestResolvers<ContextType = any, ParentType extends ResolversParentTypes['LeaveRequest'] = ResolversParentTypes['LeaveRequest']> = {
+  approved?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  approvedAt?: Resolver<Maybe<Array<ResolversTypes['DateTime']>>, ParentType, ContextType>;
+  approvedBy?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  endDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   acceptInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationacceptInvitationArgs, 'secret'>>;
+  approveLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationapproveLeaveRequestArgs, 'input'>>;
   createCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationcreateCompanyArgs, 'name'>>;
   createInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationcreateInvitationArgs, 'invitedUserEmail' | 'permissionType' | 'toEntityPk'>>;
+  createLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationcreateLeaveRequestArgs, 'input'>>;
   createTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationcreateTeamArgs, 'name' | 'unitPk'>>;
   createUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationcreateUnitArgs, 'companyPk' | 'name'>>;
   deleteCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationdeleteCompanyArgs, 'pk'>>;
   deleteInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationdeleteInvitationArgs, 'pk' | 'sk'>>;
+  deleteLeave?: Resolver<ResolversTypes['Leave'], ParentType, ContextType, RequireFields<MutationdeleteLeaveArgs, 'input'>>;
+  deleteLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationdeleteLeaveRequestArgs, 'input'>>;
   deleteTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationdeleteTeamArgs, 'pk'>>;
   deleteUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationdeleteUnitArgs, 'pk'>>;
   removeUserFromTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationremoveUserFromTeamArgs, 'teamPk' | 'userPk'>>;
   updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'name' | 'pk'>>;
   updateCompanySettings?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanySettingsArgs, 'companyPk' | 'name' | 'settings'>>;
+  updateLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationupdateLeaveRequestArgs, 'input'>>;
   updateTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamArgs, 'name' | 'pk'>>;
   updateUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitArgs, 'name' | 'pk'>>;
 };
@@ -429,6 +550,8 @@ export type Resolvers<ContextType = any> = {
   Invitation?: InvitationResolvers<ContextType>;
   InvitationEntity?: InvitationEntityResolvers<ContextType>;
   JSON?: GraphQLScalarType;
+  Leave?: LeaveResolvers<ContextType>;
+  LeaveRequest?: LeaveRequestResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;

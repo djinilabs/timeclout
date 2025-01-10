@@ -35,6 +35,22 @@ export const tableSchemas = {
     permissionType: z.number().int().min(1),
     secret: z.string(),
   }),
+  leave_request: TableBaseSchema.extend({
+    // pk is company/:companyPk/users/:userPk
+    sk: z.string().date(), // leave request startdate
+    endDate: z.string().date(),
+    type: z.string(),
+    reason: z.string().optional(),
+    approved: z.boolean(),
+    approvedBy: z.array(z.string()),
+    approvedAt: z.array(z.string().datetime().optional()),
+  }),
+  leave: TableBaseSchema.extend({
+    // pk is company/:companyPk/users/:userPk
+    sk: z.string().date(), // leave date
+    leaveRequestPk: z.string(),
+    type: z.string(),
+  }),
 } as const;
 
 export type Permission = z.infer<typeof tableSchemas.permission>;
@@ -66,7 +82,9 @@ export type TableName =
   | "entity"
   | "permission"
   | "invitation"
-  | "entity_settings";
+  | "entity_settings"
+  | "leave_request"
+  | "leave";
 
 export type Query = {
   IndexName?: string;
@@ -97,4 +115,6 @@ export type DatabaseSchema = {
   permission: TableAPI<"permission">;
   invitation: TableAPI<"invitation">;
   entity_settings: TableAPI<"entity_settings">;
+  leave_request: TableAPI<"leave_request">;
+  leave: TableAPI<"leave">;
 };

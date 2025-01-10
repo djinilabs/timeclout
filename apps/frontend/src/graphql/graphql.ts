@@ -17,6 +17,11 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
+export type ApproveLeaveRequestInput = {
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
+};
+
 export type Company = {
   __typename?: 'Company';
   createdAt: Scalars['DateTime']['output'];
@@ -32,6 +37,23 @@ export type Company = {
 
 export type CompanySettingsArgs = {
   name: Scalars['String']['input'];
+};
+
+export type CreateLeaveRequestInput = {
+  companyPk: Scalars['String']['input'];
+  endDate: Scalars['String']['input'];
+  startDate: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
+export type DeleteLeaveInput = {
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
+};
+
+export type DeleteLeaveRequestInput = {
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
 };
 
 export type Invitation = {
@@ -50,20 +72,46 @@ export type Invitation = {
 
 export type InvitationEntity = Company | Team | Unit;
 
+export type Leave = {
+  __typename?: 'Leave';
+  leaveRequestPk: Scalars['String']['output'];
+  pk: Scalars['String']['output'];
+  sk: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type LeaveRequest = {
+  __typename?: 'LeaveRequest';
+  approved?: Maybe<Scalars['Boolean']['output']>;
+  approvedAt?: Maybe<Array<Scalars['DateTime']['output']>>;
+  approvedBy?: Maybe<Array<Scalars['String']['output']>>;
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: Scalars['String']['output'];
+  endDate: Scalars['String']['output'];
+  pk: Scalars['String']['output'];
+  sk: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation: Invitation;
+  approveLeaveRequest: LeaveRequest;
   createCompany: Company;
   createInvitation: Invitation;
+  createLeaveRequest: LeaveRequest;
   createTeam: Team;
   createUnit: Unit;
   deleteCompany: Company;
   deleteInvitation: Invitation;
+  deleteLeave: Leave;
+  deleteLeaveRequest: LeaveRequest;
   deleteTeam: Team;
   deleteUnit: Unit;
   removeUserFromTeam: Team;
   updateCompany: Company;
   updateCompanySettings: Company;
+  updateLeaveRequest: LeaveRequest;
   updateTeam: Team;
   updateUnit: Unit;
 };
@@ -71,6 +119,11 @@ export type Mutation = {
 
 export type MutationAcceptInvitationArgs = {
   secret: Scalars['String']['input'];
+};
+
+
+export type MutationApproveLeaveRequestArgs = {
+  input: ApproveLeaveRequestInput;
 };
 
 
@@ -83,6 +136,11 @@ export type MutationCreateInvitationArgs = {
   invitedUserEmail: Scalars['String']['input'];
   permissionType: Scalars['Int']['input'];
   toEntityPk: Scalars['String']['input'];
+};
+
+
+export type MutationCreateLeaveRequestArgs = {
+  input: CreateLeaveRequestInput;
 };
 
 
@@ -106,6 +164,16 @@ export type MutationDeleteCompanyArgs = {
 export type MutationDeleteInvitationArgs = {
   pk: Scalars['String']['input'];
   sk: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteLeaveArgs = {
+  input: DeleteLeaveInput;
+};
+
+
+export type MutationDeleteLeaveRequestArgs = {
+  input: DeleteLeaveRequestInput;
 };
 
 
@@ -135,6 +203,11 @@ export type MutationUpdateCompanySettingsArgs = {
   companyPk: Scalars['String']['input'];
   name: Scalars['String']['input'];
   settings: Scalars['JSON']['input'];
+};
+
+
+export type MutationUpdateLeaveRequestArgs = {
+  input: UpdateLeaveRequestInput;
 };
 
 
@@ -205,6 +278,14 @@ export type Unit = {
   teams: Array<Team>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
+};
+
+export type UpdateLeaveRequestInput = {
+  endDate: Scalars['String']['input'];
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
+  startDate: Scalars['String']['input'];
+  type: Scalars['String']['input'];
 };
 
 export type User = {
