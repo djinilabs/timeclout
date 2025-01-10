@@ -5,7 +5,7 @@ import { notFound } from "@hapi/boom";
 import { leaveTypesSchema } from "apps/frontend/src/settings/leaveTypes";
 
 export const handleCreateLeaveRequest = async ({
-  leaveRequest,
+  value: { leaveRequest },
 }: EventBusEventCreateLeaveRequest) => {
   const { entity, entity_settings } = await database();
 
@@ -46,12 +46,34 @@ export const handleCreateLeaveRequest = async ({
   }
 
   if (!leaveType.needsManagerApproval) {
-    console.log("Leave type does not need manager approval");
+    console.log(
+      `Leave type ${leaveRequest.type} does not need manager approval`
+    );
     return;
   }
 
   // get teams the user that requested the leave is in
-  // get approving managers
+  // query by resource type and entity id
+  const teams = await entity.query({
+    IndexName: "byResourceTypeAndEntityId",
+    KeyConditionExpression:
+      "resourceType = :resourceType AND entityId = :entityId",
+    ExpressionAttributeValues: {
+      ":resourceType": "teams",
+      ":entityId": userRef,
+    },
+  });
+
+  // get approving managers for each team using entity_settings
+  const teamManagers = await Promise.all(
+    teams.map(async (team) => {
+      const teamRef = resourceRef("teams", team.pk);
+      const teamManagers = (await entity_settings.get(teamRef, "managers"))
+        ?.settings;
+      return teamManagers;
+    })
+  );
+
   // get approving manager emails
   // send emails to approving managers
 };
