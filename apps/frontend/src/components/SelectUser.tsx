@@ -46,7 +46,7 @@ export const SelectUser: FC<SelectUserProps> = ({ onChange, users }) => {
     >
       <div className="relative mt-2">
         <ComboboxInput
-          className="block w-full rounded-md bg-white py-1.5 pr-12 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+          className="block w-full rounded-md bg-white py-1.5 pr-12 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600 sm:text-sm/6"
           onChange={(event) => setQuery(event.target.value)}
           onBlur={() => setQuery("")}
           displayValue={(user: User) => user?.name}
@@ -64,14 +64,14 @@ export const SelectUser: FC<SelectUserProps> = ({ onChange, users }) => {
               <ComboboxOption
                 key={user.pk}
                 value={user}
-                className="group relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none data-focus:bg-indigo-600 data-focus:text-white data-focus:outline-hidden"
+                className="group relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none data-focus:bg-teal-600 data-focus:text-white data-focus:outline-hidden"
               >
                 <p className="flex items-center gap-x-2 group-data-selected:font-semibold">
                   <Avatar {...user} size={20} />
                   {user.name}
                 </p>
 
-                <span className="absolute inset-y-0 right-0 hidden items-center pr-4 text-indigo-600 group-data-focus:text-white group-data-selected:flex">
+                <span className="absolute inset-y-0 right-0 hidden items-center pr-4 text-teal-600 group-data-focus:text-white group-data-selected:flex">
                   <CheckIcon className="size-5" aria-hidden="true" />
                 </span>
               </ComboboxOption>

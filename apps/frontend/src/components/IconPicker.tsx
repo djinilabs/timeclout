@@ -18,7 +18,7 @@ export const IconPicker: FC<IconPickerProps> = ({ value, onChange }) => {
             }}
             className={`flex h-10 w-10 items-center justify-center rounded-md text-xl ${
               value === key
-                ? "bg-white text-gray-900 outline outline-2 outline-indigo-600"
+                ? "bg-white text-gray-900 outline outline-2 outline-teal-600"
                 : "bg-white text-gray-900 hover:bg-gray-50"
             }`}
           >

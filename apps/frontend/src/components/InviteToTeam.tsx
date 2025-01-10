@@ -68,7 +68,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
                       onChange={(e) => field.handleChange(e.target.value)}
                       placeholder="name@example.com"
                       aria-label="Email"
-                      className={`col-start-1 row-start-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 ${
+                      className={`col-start-1 row-start-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600 sm:text-sm/6 ${
                         field.state.meta.errors.length > 0
                           ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
                           : ""
@@ -132,7 +132,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
           <button
             type="submit"
             disabled={form.state.isSubmitting}
-            className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto"
+            className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 sm:ml-3 sm:mt-0 sm:w-auto"
           >
             Invite
           </button>

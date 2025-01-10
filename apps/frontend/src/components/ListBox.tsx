@@ -31,7 +31,7 @@ export const ListBox: FC<ListBoxProps> = ({ options, selected, onChange }) => {
   return (
     <Listbox value={selectedOption} onChange={onValueChange}>
       <div className="relative">
-        <ListboxButton className="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+        <ListboxButton className="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600 sm:text-sm/6">
           <span className="col-start-1 row-start-1 truncate pr-6">
             {selectedOption?.value ?? "Select one"}
           </span>
@@ -49,13 +49,13 @@ export const ListBox: FC<ListBoxProps> = ({ options, selected, onChange }) => {
             <ListboxOption
               key={option.key}
               value={option}
-              className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white data-[focus]:outline-none"
+              className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-teal-600 data-[focus]:text-white data-[focus]:outline-none"
             >
               <span className="block truncate font-normal group-data-[selected]:font-semibold">
                 {option.value}
               </span>
 
-              <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-[&:not([data-selected])]:hidden group-data-[focus]:text-white">
+              <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-teal-600 group-[&:not([data-selected])]:hidden group-data-[focus]:text-white">
                 <CheckIcon aria-hidden="true" className="size-5" />
               </span>
             </ListboxOption>

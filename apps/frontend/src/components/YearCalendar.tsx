@@ -57,7 +57,7 @@ export const YearCalendar = ({
             <div className="ml-6 h-6 w-px bg-gray-300" />
             <button
               type="button"
-              className="ml-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="ml-6 rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
               onClick={bookTimeOff}
             >
               Book Time Off
@@ -133,7 +133,7 @@ export const YearCalendar = ({
                       dateTime={day.date}
                       className={classNames(
                         day.isToday
-                          ? "bg-indigo-600 font-semibold text-white"
+                          ? "bg-teal-600 font-semibold text-white"
                           : "",
                         "mx-auto flex size-7 items-center justify-center rounded-full"
                       )}
