@@ -89,6 +89,7 @@ type Mutation {
   updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
   updateTeam(name: String!, pk: String!): Team!
   updateUnit(name: String!, pk: String!): Unit!
+  updateUnitSettings(name: String!, settings: JSON!, unitPk: String!): Unit!
 }
 
 type Query {
@@ -114,8 +115,10 @@ type Team {
 type Unit {
   createdAt: DateTime!
   createdBy: User!
+  members: [User!]!
   name: String!
   pk: String!
+  settings(name: String!): JSON
   teams: [Team!]!
   updatedAt: DateTime
   updatedBy: User

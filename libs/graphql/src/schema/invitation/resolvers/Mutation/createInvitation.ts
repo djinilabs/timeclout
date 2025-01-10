@@ -9,7 +9,7 @@ import type {
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { ResolverContext } from "../../../../resolverContext";
-import { sendEmail } from "../../../../email/sendEmail";
+import { sendEmail } from "@/send-email";
 
 export async function createHash(message: string) {
   const data = new TextEncoder().encode(message);
@@ -20,7 +20,9 @@ export async function createHash(message: string) {
     .toString();
 }
 
-export const createInvitation: NonNullable<MutationResolvers['createInvitation']> = async (_parent, arg, ctx) => {
+export const createInvitation: NonNullable<
+  MutationResolvers["createInvitation"]
+> = async (_parent, arg, ctx) => {
   const actingUserPk = await ensureAuthorized(
     ctx,
     arg.toEntityPk,

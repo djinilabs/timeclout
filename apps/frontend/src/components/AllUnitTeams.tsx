@@ -1,12 +1,10 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { BreadcrumbNav } from "./BreadcrumbNav";
 import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
 import { unitQuery } from "../graphql/queries/unitQuery";
 import { useQuery } from "../hooks/useQuery";
-import { Unit } from "../graphql/graphql";
 
 const NoTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
@@ -71,7 +69,6 @@ export const AllUnitTeams = () => {
 
   return (
     <div>
-      <BreadcrumbNav />
       <div className="mt-4">
         {!unit?.teams.length ? (
           <NoTeams />

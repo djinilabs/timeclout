@@ -6,12 +6,15 @@ type Unit {
   createdBy: User!
   updatedBy: User
   teams: [Team!]!
+  settings(name: String!): JSON
+  members: [User!]!
 }
 
 extend type Mutation {
   createUnit(companyPk: String!, name: String!): Unit!
   updateUnit(pk: String!, name: String!): Unit!
   deleteUnit(pk: String!): Unit!
+  updateUnitSettings(unitPk: String!, name: String!, settings: JSON!): Unit!
 }
 
 extend type Query {

@@ -130,7 +130,7 @@ export const tableApi = <
           ...rest,
         });
       }
-      console.log("existingItem");
+      console.log("NON existingItem");
       const { updatedAt, updatedBy, version, ...rest } = item;
       return self.create({
         version: 1,

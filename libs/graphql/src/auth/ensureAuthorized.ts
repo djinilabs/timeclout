@@ -15,7 +15,9 @@ export const ensureAuthorized = async (
     minimumPermission
   );
   if (!authorized) {
-    throw forbidden("User does not have permission to access this resouce");
+    throw forbidden(
+      `User does not have permission to access this resouce (${resource})`
+    );
   }
 
   return userPk;

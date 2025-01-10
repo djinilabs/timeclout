@@ -114,6 +114,7 @@ export type Mutation = {
   updateLeaveRequest: LeaveRequest;
   updateTeam: Team;
   updateUnit: Unit;
+  updateUnitSettings: Unit;
 };
 
 
@@ -222,6 +223,13 @@ export type MutationUpdateUnitArgs = {
   pk: Scalars['String']['input'];
 };
 
+
+export type MutationUpdateUnitSettingsArgs = {
+  name: Scalars['String']['input'];
+  settings: Scalars['JSON']['input'];
+  unitPk: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   companies: Array<Company>;
@@ -273,11 +281,18 @@ export type Unit = {
   __typename?: 'Unit';
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
+  members: Array<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  settings?: Maybe<Scalars['JSON']['output']>;
   teams: Array<Team>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
+};
+
+
+export type UnitSettingsArgs = {
+  name: Scalars['String']['input'];
 };
 
 export type UpdateLeaveRequestInput = {

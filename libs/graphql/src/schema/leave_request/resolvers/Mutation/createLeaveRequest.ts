@@ -6,9 +6,7 @@ import type {
 import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
 import { eventBus } from "@/event-bus";
 
-export const createLeaveRequest: NonNullable<
-  MutationResolvers["createLeaveRequest"]
-> = async (_parent, arg, ctx) => {
+export const createLeaveRequest: NonNullable<MutationResolvers['createLeaveRequest']> = async (_parent, arg, ctx) => {
   const companyResourceRef = resourceRef("companies", arg.input.companyPk);
   const userPk = await ensureAuthorized(
     ctx,

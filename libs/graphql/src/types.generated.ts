@@ -116,6 +116,7 @@ export type Mutation = {
   updateLeaveRequest: LeaveRequest;
   updateTeam: Team;
   updateUnit: Unit;
+  updateUnitSettings: Unit;
 };
 
 
@@ -224,6 +225,13 @@ export type MutationupdateUnitArgs = {
   pk: Scalars['String']['input'];
 };
 
+
+export type MutationupdateUnitSettingsArgs = {
+  name: Scalars['String']['input'];
+  settings: Scalars['JSON']['input'];
+  unitPk: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   companies: Array<Company>;
@@ -275,11 +283,18 @@ export type Unit = {
   __typename?: 'Unit';
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
+  members: Array<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  settings?: Maybe<Scalars['JSON']['output']>;
   teams: Array<Team>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
+};
+
+
+export type UnitsettingsArgs = {
+  name: Scalars['String']['input'];
 };
 
 export type UpdateLeaveRequestInput = {
@@ -500,6 +515,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationupdateLeaveRequestArgs, 'input'>>;
   updateTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamArgs, 'name' | 'pk'>>;
   updateUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitArgs, 'name' | 'pk'>>;
+  updateUnitSettings?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitSettingsArgs, 'name' | 'settings' | 'unitPk'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -526,8 +542,10 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
 export type UnitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Unit'] = ResolversParentTypes['Unit']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  settings?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<UnitsettingsArgs, 'name'>>;
   teams?: Resolver<Array<ResolversTypes['Team']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
