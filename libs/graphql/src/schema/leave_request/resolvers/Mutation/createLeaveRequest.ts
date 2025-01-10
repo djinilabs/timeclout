@@ -4,6 +4,7 @@ import type {
   MutationResolvers,
 } from "./../../../../types.generated";
 import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
+import { eventBus } from "@/event-bus";
 
 export const createLeaveRequest: NonNullable<
   MutationResolvers["createLeaveRequest"]
@@ -17,18 +18,21 @@ export const createLeaveRequest: NonNullable<
 
   const { leave_request } = await database();
 
-  const leaveRequest = await leave_request.create({
+  const leaveRequest = (await leave_request.create({
     pk: companyResourceRef,
     sk: arg.input.startDate,
     createdBy: userPk,
     createdAt: new Date().toISOString(),
     type: arg.input.type,
     endDate: arg.input.endDate,
+  })) as LeaveRequest;
+
+  await eventBus().emit({
+    key: "createLeaveRequest",
+    value: {
+      leaveRequest,
+    },
   });
 
-  await eventBus().emit("leave_request_created", {
-    leaveRequest,
-  });
-
-  return leaveRequest as LeaveRequest;
+  return leaveRequest;
 };
