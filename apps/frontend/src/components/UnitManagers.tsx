@@ -85,7 +85,7 @@ export const UnitManagers = () => {
                   className="flex items-center justify-between gap-x-6 py-2"
                 >
                   <Avatar {...manager} size={30} />
-                  <p>{manager.name}</p>
+                  <p className="text-sm text-gray-900">{manager.name}</p>
                   <Button onClick={() => removeUser(manager)}>
                     <TrashIcon className="h-4 w-4" />
                   </Button>

@@ -66,10 +66,10 @@ export const SelectUser: FC<SelectUserProps> = ({ onChange, users }) => {
                 value={user}
                 className="group relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none data-focus:bg-indigo-600 data-focus:text-white data-focus:outline-hidden"
               >
-                <span className="block truncate group-data-selected:font-semibold">
+                <p className="flex items-center gap-x-2 group-data-selected:font-semibold">
                   <Avatar {...user} size={20} />
-                  <span className="ml-2 text-sm font-medium">{user.name}</span>
-                </span>
+                  {user.name}
+                </p>
 
                 <span className="absolute inset-y-0 right-0 hidden items-center pr-4 text-indigo-600 group-data-focus:text-white group-data-selected:flex">
                   <CheckIcon className="size-5" aria-hidden="true" />
