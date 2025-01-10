@@ -42,6 +42,7 @@ export type CompanySettingsArgs = {
 export type CreateLeaveRequestInput = {
   companyPk: Scalars['String']['input'];
   endDate: Scalars['String']['input'];
+  reason: Scalars['String']['input'];
   startDate: Scalars['String']['input'];
   type: Scalars['String']['input'];
 };
@@ -89,6 +90,7 @@ export type LeaveRequest = {
   createdBy: Scalars['String']['output'];
   endDate: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  reason: Scalars['String']['output'];
   sk: Scalars['String']['output'];
   type: Scalars['String']['output'];
 };
@@ -298,6 +300,7 @@ export type UnitSettingsArgs = {
 export type UpdateLeaveRequestInput = {
   endDate: Scalars['String']['input'];
   pk: Scalars['String']['input'];
+  reason: Scalars['String']['input'];
   sk: Scalars['String']['input'];
   startDate: Scalars['String']['input'];
   type: Scalars['String']['input'];

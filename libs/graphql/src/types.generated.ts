@@ -44,6 +44,7 @@ export type CompanysettingsArgs = {
 export type CreateLeaveRequestInput = {
   companyPk: Scalars['String']['input'];
   endDate: Scalars['String']['input'];
+  reason: Scalars['String']['input'];
   startDate: Scalars['String']['input'];
   type: Scalars['String']['input'];
 };
@@ -91,6 +92,7 @@ export type LeaveRequest = {
   createdBy: Scalars['String']['output'];
   endDate: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  reason: Scalars['String']['output'];
   sk: Scalars['String']['output'];
   type: Scalars['String']['output'];
 };
@@ -300,6 +302,7 @@ export type UnitsettingsArgs = {
 export type UpdateLeaveRequestInput = {
   endDate: Scalars['String']['input'];
   pk: Scalars['String']['input'];
+  reason: Scalars['String']['input'];
   sk: Scalars['String']['input'];
   startDate: Scalars['String']['input'];
   type: Scalars['String']['input'];
@@ -490,6 +493,7 @@ export type LeaveRequestResolvers<ContextType = any, ParentType extends Resolver
   createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  reason?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

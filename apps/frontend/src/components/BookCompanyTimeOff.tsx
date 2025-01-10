@@ -12,14 +12,14 @@ import {
   leaveTypesSchema,
 } from "../settings/leaveTypes";
 
-type FormValues = {
+export type TimeOffRequest = {
   type: string;
   dateRange: [startDate?: string, endDate?: string];
   reason: string;
 };
 
-type BookCompanyTimeOffProps = {
-  onSubmit: (values: FormValues) => void;
+export type BookCompanyTimeOffProps = {
+  onSubmit: (values: TimeOffRequest) => void;
   onCancel: () => void;
 };
 
@@ -39,7 +39,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   const unparsedLeaveTypes = companyWithSettings?.data?.company?.settings;
   const leaveTypes = leaveTypesSchema.parse(unparsedLeaveTypes);
 
-  const form = useForm<FormValues>({
+  const form = useForm<TimeOffRequest>({
     defaultValues: {
       type: leaveTypes[0].name,
       dateRange: [],
@@ -154,20 +154,31 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
               }}
             />
 
-            <div>
-              <label
-                htmlFor="reason"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Reason
-              </label>
-              <textarea
-                name="reason"
-                id="reason"
-                rows={4}
-                className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <form.Field
+              name="reason"
+              children={(field) => {
+                return (
+                  <div className="border-b border-gray-900/10 pb-6">
+                    <div>
+                      <label
+                        htmlFor={field.name}
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Reason
+                      </label>
+                      <textarea
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        name={field.name}
+                        id={field.name}
+                        rows={4}
+                        className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                );
+              }}
+            />
 
             <form.Subscribe
               children={(state) => {

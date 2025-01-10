@@ -1,7 +1,7 @@
 import { ArcTable } from "@architect/functions/types/tables";
 import { TableAPI, TableName, TableSchemas } from "./schema";
 import { z, ZodSchema } from "zod";
-import { notFound } from "@hapi/boom";
+import { conflict, notFound } from "@hapi/boom";
 import { AwsLiteDynamoDB } from "@aws-lite/dynamodb-types";
 
 // removes undefined values from the item
@@ -90,15 +90,22 @@ export const tableApi = <
         ...item,
       };
 
-      await lowLevelClient.PutItem({
-        Item: parseItem(newItem, schema),
-        TableName: lowLevelTableName,
-        ConditionExpression: "#version = :version",
-        ExpressionAttributeValues: {
-          ":version": previousItem.version,
-        },
-        ExpressionAttributeNames: { "#version": "version" },
-      });
+      try {
+        await lowLevelClient.PutItem({
+          Item: parseItem(newItem, schema),
+          TableName: lowLevelTableName,
+          ConditionExpression: "#version = :version",
+          ExpressionAttributeValues: {
+            ":version": previousItem.version,
+          },
+          ExpressionAttributeNames: { "#version": "version" },
+        });
+      } catch (err: any) {
+        if (err.message.toLowerCase().includes("conditional request failed")) {
+          throw conflict("Item was outdated");
+        }
+        throw err;
+      }
 
       return newItem;
     },
@@ -112,11 +119,18 @@ export const tableApi = <
         schema
       );
 
-      await lowLevelClient.PutItem({
-        Item: parsedItem,
-        TableName: lowLevelTableName,
-        ConditionExpression: "attribute_not_exists(pk)",
-      });
+      try {
+        await lowLevelClient.PutItem({
+          Item: parsedItem,
+          TableName: lowLevelTableName,
+          ConditionExpression: "attribute_not_exists(pk)",
+        });
+      } catch (err: any) {
+        if (err.message.toLowerCase().includes("conditional request failed")) {
+          throw conflict("Item already exists");
+        }
+        throw err;
+      }
 
       return parsedItem;
     },

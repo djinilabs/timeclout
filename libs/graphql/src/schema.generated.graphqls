@@ -17,6 +17,7 @@ type Company {
 input CreateLeaveRequestInput {
   companyPk: String!
   endDate: String!
+  reason: String!
   startDate: String!
   type: String!
 }
@@ -65,6 +66,7 @@ type LeaveRequest {
   createdBy: String!
   endDate: String!
   pk: String!
+  reason: String!
   sk: String!
   type: String!
 }
@@ -127,6 +129,7 @@ type Unit {
 input UpdateLeaveRequestInput {
   endDate: String!
   pk: String!
+  reason: String!
   sk: String!
   startDate: String!
   type: String!

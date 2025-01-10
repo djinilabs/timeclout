@@ -4,6 +4,7 @@ import { once } from "@/utils";
 
 class EventBus {
   async emit(event: EventBusEvent) {
+    console.log("emitting event", event);
     await queues.publish({
       name: "events",
       payload: event,

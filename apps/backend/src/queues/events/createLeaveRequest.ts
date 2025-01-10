@@ -7,6 +7,7 @@ import { leaveTypesSchema } from "apps/frontend/src/settings/leaveTypes";
 export const handleCreateLeaveRequest = async ({
   value: { leaveRequest },
 }: EventBusEventCreateLeaveRequest) => {
+  console.log("handleCreateLeaveRequest", leaveRequest);
   const { entity, entity_settings } = await database();
 
   // get company from leave request

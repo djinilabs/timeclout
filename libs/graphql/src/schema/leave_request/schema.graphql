@@ -3,6 +3,7 @@ type LeaveRequest {
   sk: String!
   endDate: String!
   type: String!
+  reason: String!
   approved: Boolean
   approvedBy: [String!]
   approvedAt: [DateTime!]
@@ -15,6 +16,7 @@ input CreateLeaveRequestInput {
   startDate: String!
   endDate: String!
   type: String!
+  reason: String!
 }
 
 input UpdateLeaveRequestInput {
@@ -23,6 +25,7 @@ input UpdateLeaveRequestInput {
   startDate: String!
   endDate: String!
   type: String!
+  reason: String!
 }
 
 input DeleteLeaveRequestInput {

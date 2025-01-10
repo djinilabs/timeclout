@@ -28,7 +28,7 @@ export const UnitManagers = () => {
   console.log("unit", unit);
   const managers = (unit?.settings && managersSchema.parse(unit.settings))?.map(
     (managerUserKey: string) =>
-      unit.members.find((member) => member.pk === managerUserKey)
+      unit.members.find((member: User) => member.pk === managerUserKey)
   );
 
   const [, updateUnitSettings] = useMutation(updateUnitSettingsMutation);
@@ -47,7 +47,7 @@ export const UnitManagers = () => {
   );
 
   const addableUsers = unit?.members?.filter(
-    (member) => !managers?.includes(member)
+    (member: User) => !managers?.includes(member)
   );
 
   const removeUser = useCallback(
@@ -79,9 +79,9 @@ export const UnitManagers = () => {
               role="list"
               className="divide-y divide-gray-100 max-w-fit shadow-md p-4"
             >
-              {managers?.map((manager) => (
+              {managers?.map((manager: User) => (
                 <li
-                  key={manager}
+                  key={manager.pk}
                   className="flex items-center justify-between gap-x-6 py-2"
                 >
                   <Avatar {...manager} size={30} />

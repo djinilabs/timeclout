@@ -37,13 +37,14 @@ export const tableSchemas = {
   }),
   leave_request: TableBaseSchema.extend({
     // pk is company/:companyPk/users/:userPk
-    sk: z.string().date(), // leave request startdate
+    sk: z.string(), // leave request startdate
+    startDate: z.string().date(),
     endDate: z.string().date(),
     type: z.string(),
     reason: z.string().optional(),
-    approved: z.boolean(),
-    approvedBy: z.array(z.string()),
-    approvedAt: z.array(z.string().datetime().optional()),
+    approved: z.boolean().optional(),
+    approvedBy: z.array(z.string()).optional(),
+    approvedAt: z.array(z.string().datetime().optional()).optional(),
   }),
   leave: TableBaseSchema.extend({
     // pk is company/:companyPk/users/:userPk

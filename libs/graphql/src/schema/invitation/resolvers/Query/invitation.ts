@@ -10,7 +10,7 @@ import { requireSession } from "../../../../session/requireSession";
 import { isAuthorized } from "../../../../auth/isAuthorized";
 import { getDefined } from "@/utils";
 
-export const invitation: NonNullable<QueryResolvers["invitation"]> = async (
+export const invitation: NonNullable<QueryResolvers['invitation']> = async (
   _parent,
   _arg,
   ctx
