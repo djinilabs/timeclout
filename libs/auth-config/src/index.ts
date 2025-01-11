@@ -5,6 +5,7 @@ import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { once } from "@/utils";
 import { database } from "@/tables";
 import { ExpressAuthConfig } from "@auth/express";
+import { nanoid } from "nanoid";
 
 export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
   // @ts-expect-error
@@ -18,12 +19,20 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
   const clientDoc: DynamoDBDocument =
     client._doc as unknown as DynamoDBDocument;
 
+  const secret = process.env.AUTH_SECRET ?? nanoid();
+
   return {
     basePath: "/api/v1/auth",
     session: {
       strategy: "jwt",
     },
-    secret: process.env.AUTH_SECRET,
+    theme: {
+      colorScheme: "light",
+      logo: "/images/tt3.svg",
+      brandColor: "#008080",
+      buttonText: "Sign in",
+    },
+    secret,
     providers: [Mailgun({ name: "TT3", from: "info@tt3.app" })],
     adapter: DynamoDBAdapter(clientDoc, {
       tableName,
