@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "run-p dev:backend dev:frontend",
-    "dev:backend": "cd apps/backend && pnpm arc sandbox",
+    "dev:backend": "pnpm dev:update-env && cd apps/backend && pnpm arc sandbox",
+    "dev:update-env": "cd apps/backend && ts-node ../../scripts/updateEnv.ts",
     "dev:frontend": "run-p dev:frontend:app dev:frontend:styles",
     "dev:frontend:app": "cd apps/frontend && vite",
     "dev:frontend:styles": "pnpm tailwindcss -i ./apps/frontend/src/input.css -o ./apps/frontend/src/output.css --watch",
@@ -63,6 +64,7 @@
     "react-router-dom": "^7.1.1",
     "react-time-ago": "^7.3.3",
     "tailwindcss": "^3.4.17",
+    "ts-node": "^10.9.2",
     "urql": "^4.2.1",
     "zod": "^3.24.1"
   },
