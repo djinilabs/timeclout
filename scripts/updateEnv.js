@@ -1,12 +1,8 @@
 // @ts-check
 
-import { readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+const { readFileSync, writeFileSync } = require("node:fs");
+const { join } = require("node:path");
 
-/**
- * Generate a random 32 character string
- * @returns {string} A random 32 character string
- */
 function generateRandomString() {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -20,13 +16,7 @@ function generateRandomString() {
   return result;
 }
 
-/**
- * Add/update key-value pair(s) to a .env file
- * @param {Record<string, string>} env
- * @param {string|undefined} envPath
- * @param {boolean} comment
- */
-export function updateEnvFile(env, envPath = "") {
+function updateEnvFile(env, envPath = "") {
   const dotEnvFile = ".env";
   const file = join(process.cwd(), envPath, dotEnvFile);
   let content = "";

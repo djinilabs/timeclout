@@ -14,7 +14,6 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     awsjsonUnmarshall: { convertWithoutMapWrapper: false },
   });
   const tableName = await client.name("next-auth");
-
   const clientDoc: DynamoDBDocument =
     client._doc as unknown as DynamoDBDocument;
 
