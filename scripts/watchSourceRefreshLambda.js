@@ -8,7 +8,7 @@ const watcher = chokidar.watch("./libs", {
 
 console.log("Watching for changes in libs");
 
-watcher.on("all", async (event, path) => {
+watcher.on("all", async () => {
   try {
     // Find all index.ts files in both directories
     const httpFiles = glob("apps/backend/src/http/**/index.ts");
