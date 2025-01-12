@@ -1,15 +1,18 @@
-import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
+import {
+  APIGatewayProxyEventV2,
+  APIGatewayProxyResult,
+  Context,
+} from "aws-lambda";
 import { createSchema, createYoga } from "graphql-yoga";
 import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 // @ts-ignore
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
 import { handlingErrors } from "../../utils/handlingErrors";
-import { ResolverContext } from "@/graphql";
 import { useSentry } from "@envelop/sentry";
 
 // console.log("schema:", schema);
 
-const yoga = createYoga<ResolverContext>({
+const yoga = createYoga({
   graphqlEndpoint: "/graphql",
   schema: createSchema({
     typeDefs: schema,
@@ -28,11 +31,11 @@ const yoga = createYoga<ResolverContext>({
 
 export const handler = handlingErrors(
   async (
-    event: APIGatewayEvent,
+    event: APIGatewayProxyEventV2,
     lambdaContext: Context
   ): Promise<APIGatewayProxyResult> => {
     const response = await yoga.fetch(
-      (event.path ?? event.rawPath) +
+      event.rawPath +
         "?" +
         new URLSearchParams(
           (event.queryStringParameters as Record<string, string>) || {}

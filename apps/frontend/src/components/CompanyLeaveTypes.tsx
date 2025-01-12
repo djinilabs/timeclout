@@ -1,12 +1,8 @@
 import { useParams } from "react-router-dom";
 import { companyWithSettingsQuery } from "../graphql/queries/companyWithSettings";
 import { useQuery } from "../hooks/useQuery";
-import {
-  leaveTypeColors,
-  leaveTypeIcons,
-  LeaveTypes,
-  leaveTypesSchema,
-} from "../settings/leaveTypes";
+import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
+import { LeaveTypes, leaveTypesSchema } from "@/settings";
 
 export const CompanyLeaveTypes = () => {
   const { company: companyPk } = useParams();

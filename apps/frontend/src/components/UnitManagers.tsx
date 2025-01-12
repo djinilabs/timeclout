@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { TrashIcon } from "@heroicons/react/20/solid";
+import { managersSchema } from "@/settings";
 import { useQuery } from "../hooks/useQuery";
-import { managersSchema } from "../settings/managers";
 import { Avatar } from "./Avatar";
 import { unitWithMembersAndSettingsQuery } from "../graphql/queries/unitWithMembersAndSettingsQuery";
 import { SelectUser } from "./SelectUser";

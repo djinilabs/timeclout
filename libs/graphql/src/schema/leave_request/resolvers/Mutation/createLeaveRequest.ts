@@ -5,6 +5,8 @@ import type {
 } from "./../../../../types.generated";
 import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
 import { eventBus } from "@/event-bus";
+import { notFound } from "@hapi/boom";
+import { leaveTypesSchema } from "@/settings";
 
 export const createLeaveRequest: NonNullable<
   MutationResolvers["createLeaveRequest"]
@@ -16,7 +18,26 @@ export const createLeaveRequest: NonNullable<
     PERMISSION_LEVELS.READ
   );
 
-  const { leave_request } = await database();
+  const { leave_request, entity_settings } = await database();
+
+  const leaveTypeSettingsUnparsed = await entity_settings.get(
+    companyResourceRef,
+    "leaveTypes"
+  );
+
+  if (!leaveTypeSettingsUnparsed) {
+    throw notFound("Company leave type settings not found");
+  }
+
+  const leaveTypeSettings = leaveTypesSchema.parse(leaveTypeSettingsUnparsed);
+
+  const leaveType = leaveTypeSettings.find(
+    (type) => type.name === arg.input.type
+  );
+
+  if (!leaveType) {
+    throw notFound("Leave type not found");
+  }
 
   const leaveRequest = (await leave_request.create({
     pk: `${companyResourceRef}/${userPk}`,

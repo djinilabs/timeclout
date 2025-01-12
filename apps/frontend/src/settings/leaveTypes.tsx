@@ -1,4 +1,3 @@
-import { z } from "zod";
 import {
   FaUmbrellaBeach,
   FaSpa,
@@ -10,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { MdSelfImprovement } from "react-icons/md";
 import { type ReactNode } from "react";
+import { type LeaveTypes } from "@/settings";
 
 export const leaveTypeIcons: Record<LeaveTypes[number]["icon"], ReactNode> = {
   umbrella: <FaUmbrellaBeach />,
@@ -29,26 +29,3 @@ export const leaveTypeColors: Record<LeaveTypes[number]["color"], string> = {
   yellow: "#fbbf24", // A warm yellow
   purple: "#a78bfa", // A soft purple
 };
-
-export const leaveTypesSchema = z.array(
-  z.object({
-    name: z.string(),
-    showInCalendarAs: z.enum(["busy", "available", "ooo"]),
-    visibleTo: z.enum(["managers", "employees"]),
-    deductsFromAnnualAllowance: z.boolean(),
-    needsManagerApproval: z.boolean(),
-    icon: z.enum([
-      "umbrella",
-      "spa",
-      "hospital",
-      "stroller",
-      "meeting",
-      "compassionate",
-      "wellbeing",
-      "book",
-    ]),
-    color: z.enum(["green", "red", "blue", "yellow", "purple"]),
-  })
-);
-
-export type LeaveTypes = z.infer<typeof leaveTypesSchema>;

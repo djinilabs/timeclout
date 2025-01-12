@@ -1,6 +1,5 @@
 import { ExpressAuth } from "@auth/express";
 import express from "express";
-import { tables } from "@architect/functions";
 import { authConfig } from "@/auth-config";
 
 export const createApp = async () => {

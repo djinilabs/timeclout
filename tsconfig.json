@@ -7,7 +7,8 @@
       "@/tables": ["./libs/tables/src"],
       "@/utils": ["./libs/utils/src"],
       "@/event-bus": ["./libs/event-bus/src"],
-      "@/send-email": ["./libs/send-email/src"]
+      "@/send-email": ["./libs/send-email/src"],
+      "@/settings": ["./libs/settings/src"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

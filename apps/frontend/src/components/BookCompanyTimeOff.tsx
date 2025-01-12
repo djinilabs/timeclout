@@ -3,14 +3,11 @@ import { useForm } from "@tanstack/react-form";
 import { useParams } from "react-router-dom";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import { leaveTypesSchema } from "@/settings";
 import { Button } from "./Button";
 import { useQuery } from "../hooks/useQuery";
 import { companyWithSettingsQuery } from "../graphql/queries/companyWithSettings";
-import {
-  leaveTypeColors,
-  leaveTypeIcons,
-  leaveTypesSchema,
-} from "../settings/leaveTypes";
+import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
 
 export type TimeOffRequest = {
   type: string;

@@ -1,8 +1,7 @@
 import { EventBusEventCreateLeaveRequest } from "@/event-bus";
-import { sendEmail } from "@/send-email";
 import { database, resourceRef } from "@/tables";
 import { notFound } from "@hapi/boom";
-import { leaveTypesSchema } from "apps/frontend/src/settings/leaveTypes";
+import { leaveTypesSchema } from "@/settings";
 
 export const handleCreateLeaveRequest = async ({
   value: { leaveRequest },
@@ -11,7 +10,7 @@ export const handleCreateLeaveRequest = async ({
   const { entity, entity_settings } = await database();
 
   // get company from leave request
-  const { pk, sk } = leaveRequest;
+  const { pk } = leaveRequest;
   // pk has companies/:companyId/users/:userId
   // parse this
   const [, companyId, , userId] = pk.match(/^companies\/(.+?)\/users\/(.+?)$/)!;
