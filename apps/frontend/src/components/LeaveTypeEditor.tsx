@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
+import { leaveTypesSchema } from "@/settings";
 import { IconPicker } from "./IconPicker";
 import { ColorPicker } from "./ColorPicker";
-import { leaveTypesSchema } from "@/settings";
 
 export type LeaveTypeEditorProps = {
   settings: any;

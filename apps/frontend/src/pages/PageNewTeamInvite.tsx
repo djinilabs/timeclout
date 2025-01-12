@@ -1,7 +1,7 @@
 import { Suspense } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { InviteToTeam } from "../components/InviteToTeam";
-import { useNavigate, useParams } from "react-router-dom";
 
 export const PageNewTeamInvite = () => {
   const navigate = useNavigate();

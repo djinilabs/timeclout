@@ -1,7 +1,6 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useSession, signOut } from "next-auth/react";
-import { Link } from "react-router-dom";
 
 const userNavigation = [{ name: "Sign out", onClick: () => signOut() }];
 

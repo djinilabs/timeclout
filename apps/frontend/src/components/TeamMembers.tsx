@@ -1,15 +1,15 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { Button } from "./Button";
 import { useParams } from "react-router-dom";
+import ReactTimeAgo from "react-time-ago";
+import toast from "react-hot-toast";
+import { Button } from "./Button";
 import { teamWithMembersQuery } from "../graphql/queries/teamWithMembers";
 import { useQuery } from "../hooks/useQuery";
 import { Avatar } from "./Avatar";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
-import ReactTimeAgo from "react-time-ago";
 import { useMutation } from "../hooks/useMutation";
 import { removeUserFromTeamMutation } from "../graphql/mutations/removeUserFromTeam";
-import toast from "react-hot-toast";
 
 export const TeamMembers = () => {
   const { company, unit, team: teamPk } = useParams();

@@ -1,5 +1,5 @@
-import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { Suspense, useState } from "react";
+import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { type Tab, Tabs } from "../components/Tabs";
 import { TeamMembers } from "../components/TeamMembers";
 import { TeamInvites } from "../components/TeamInvites";

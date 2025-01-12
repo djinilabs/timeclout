@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { managersSchema } from "@/settings";
+import { unique } from "@/utils";
 import { useQuery } from "../hooks/useQuery";
 import { Avatar } from "./Avatar";
 import { unitWithMembersAndSettingsQuery } from "../graphql/queries/unitWithMembersAndSettingsQuery";
@@ -10,7 +11,6 @@ import { updateUnitSettingsMutation } from "../graphql/mutations/updateUnitSetti
 import { useMutation } from "../hooks/useMutation";
 import { Button } from "./Button";
 import { User } from "../graphql/graphql";
-import { unique } from "../../../../libs/utils/src";
 
 export const UnitManagers = () => {
   const { unit: unitPk } = useParams();
