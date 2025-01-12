@@ -1,6 +1,6 @@
 const chokidar = require("chokidar");
-const { openSync, closeSync } = require("fs");
 const { sync: glob } = require("glob");
+const { execSync } = require("child_process");
 
 const watcher = chokidar.watch("./libs", {
   ignoreInitial: true,
@@ -18,7 +18,7 @@ watcher.on("all", async (event, path) => {
     // Touch each file by reading and writing back its contents
     for (const file of allFiles) {
       console.log("Touching", file);
-      require('child_process').execSync(`touch "${file}"`);
+      execSync(`touch "${file}"`);
       await new Promise(resolve => setTimeout(resolve, 500));
     };
 
