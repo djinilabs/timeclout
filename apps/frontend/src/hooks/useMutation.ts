@@ -15,6 +15,7 @@ export const useMutation = <
   const [result, executeMutation] = urqlUseMutation(mutation);
   useEffect(() => {
     if (result.error) {
+      console.log("result.error", result.error.message);
       toast.error("Error: " + result.error.message);
     }
   }, [result.error]);

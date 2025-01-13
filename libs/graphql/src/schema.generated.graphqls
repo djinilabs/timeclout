@@ -68,6 +68,7 @@ type LeaveRequest {
   pk: String!
   reason: String!
   sk: String!
+  startDate: String!
   type: String!
 }
 

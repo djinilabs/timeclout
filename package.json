@@ -40,6 +40,7 @@
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "@react-email/components": "0.0.31",
+    "@react-email/text": "^0.0.11",
     "@sentry/node": "^8.47.0",
     "@sentry/tracing": "^7.114.0",
     "@tanstack/react-form": "^0.41.0",

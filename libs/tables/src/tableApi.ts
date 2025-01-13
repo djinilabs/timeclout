@@ -11,14 +11,15 @@ const cleanItem = <T extends object>(item: T): T => {
   ) as T;
 };
 
-const parseItem = <T extends object>(item: T, schema: ZodSchema): T => {
-  return cleanItem(schema.parse(item));
-};
-
 const parsingItem =
-  <T extends object>(schema: ZodSchema) =>
-  (item: T): T => {
-    return cleanItem(schema.parse(item));
+  <T extends object>(schema: ZodSchema, tableName: string) =>
+  (item: unknown, operation: string): T => {
+    try {
+      return cleanItem(schema.parse(item));
+    } catch (err) {
+      err.message = `Error parsing item when ${operation} in ${tableName}: ${err.message}`;
+      throw err;
+    }
   };
 
 export const tableApi = <
@@ -32,6 +33,7 @@ export const tableApi = <
   lowLevelTableName: string,
   schema: TTableSchema
 ): TableAPI<TTableName> => {
+  const parseItem = parsingItem(schema, tableName);
   const self: TableAPI<TTableName> = {
     delete: async (pk: string, sk?: string) => {
       const item = await self.get(pk, sk);
@@ -69,7 +71,7 @@ export const tableApi = <
           },
         })
       ).Responses[lowLevelTableName];
-      return items.map(parsingItem(schema));
+      return items.map((item) => parseItem(item, "batchGet"));
     },
     update: async (
       item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>
@@ -92,7 +94,7 @@ export const tableApi = <
 
       try {
         await lowLevelClient.PutItem({
-          Item: parseItem(newItem, schema),
+          Item: parseItem(newItem, "update"),
           TableName: lowLevelTableName,
           ConditionExpression: "#version = :version",
           ExpressionAttributeValues: {
@@ -116,7 +118,7 @@ export const tableApi = <
           createdAt: new Date().toISOString(),
           ...item,
         },
-        schema
+        "create"
       );
 
       try {

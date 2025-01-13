@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
-import { leaveTypesSchema } from "@/settings";
+import { leaveTypeParser } from "@/settings";
 import { IconPicker } from "./IconPicker";
 import { ColorPicker } from "./ColorPicker";
 
@@ -13,7 +13,7 @@ export const LeaveTypeEditor = ({
   settings,
   onSubmit,
 }: LeaveTypeEditorProps) => {
-  const leaveTypes = leaveTypesSchema.parse(settings);
+  const leaveTypes = leaveTypeParser.parse(settings);
   const { settingId } = useParams();
   const leaveType = leaveTypes.find(
     (leaveType) => leaveType.name === settingId

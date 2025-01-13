@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { TrashIcon } from "@heroicons/react/20/solid";
-import { managersSchema } from "@/settings";
+import { managersParser } from "@/settings";
 import { unique } from "@/utils";
 import { useQuery } from "../hooks/useQuery";
 import { Avatar } from "./Avatar";
@@ -26,7 +26,7 @@ export const UnitManagers = () => {
   });
   const unit = unitWithMembersAndSettingsQueryResponse?.data?.unit;
   console.log("unit", unit);
-  const managers = (unit?.settings && managersSchema.parse(unit.settings))?.map(
+  const managers = (unit?.settings && managersParser.parse(unit.settings))?.map(
     (managerUserKey: string) =>
       unit.members.find((member: User) => member.pk === managerUserKey)
   );

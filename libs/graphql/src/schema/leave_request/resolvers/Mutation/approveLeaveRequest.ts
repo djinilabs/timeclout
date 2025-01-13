@@ -1,3 +1,11 @@
+import type { MutationResolvers } from "./../../../../types.generated";
+export const approveLeaveRequest: NonNullable<
+  MutationResolvers["approveLeaveRequest"]
+> = async (_parent, _arg, _ctx) => {
+  // get company resource ref
+  
 
-        import type   { MutationResolvers } from './../../../../types.generated';
-        export const approveLeaveRequest: NonNullable<MutationResolvers['approveLeaveRequest']> = async (_parent, _arg, _ctx) => { /* Implement Mutation.approveLeaveRequest resolver logic here */ };
+  // make sure user has permission to approve leave request
+
+  // approve leave request
+};

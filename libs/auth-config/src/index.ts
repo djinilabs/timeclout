@@ -35,7 +35,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       indexSortKey: "sk",
     }),
     callbacks: {
-      async jwt({ token, account, user, profile }) {
+      async jwt({ token, account }) {
         if (account?.type === "email" && account.providerAccountId) {
           token.email = account.providerAccountId;
           token.id = token.sub;

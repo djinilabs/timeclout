@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const leaveTypesSchema = z.array(
+const leaveTypesSchema = z.array(
   z.object({
     name: z.string(),
     showInCalendarAs: z.enum(["busy", "available", "ooo"]),
@@ -20,5 +20,16 @@ export const leaveTypesSchema = z.array(
     color: z.enum(["green", "red", "blue", "yellow", "purple"]),
   })
 );
+
+export const leaveTypeParser = {
+  parse: (item: unknown) => {
+    try {
+      return leaveTypesSchema.parse(item);
+    } catch (err) {
+      err.message = `Error parsing leave type: ${err.message}`;
+      throw err;
+    }
+  },
+};
 
 export type LeaveTypes = z.infer<typeof leaveTypesSchema>;

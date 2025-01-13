@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { useParams } from "react-router-dom";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-import { leaveTypesSchema } from "@/settings";
+import { leaveTypeParser } from "@/settings";
 import { Button } from "./Button";
 import { useQuery } from "../hooks/useQuery";
 import { companyWithSettingsQuery } from "../graphql/queries/companyWithSettings";
@@ -34,7 +34,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   });
 
   const unparsedLeaveTypes = companyWithSettings?.data?.company?.settings;
-  const leaveTypes = leaveTypesSchema.parse(unparsedLeaveTypes);
+  const leaveTypes = leaveTypeParser.parse(unparsedLeaveTypes);
 
   const form = useForm<TimeOffRequest>({
     defaultValues: {

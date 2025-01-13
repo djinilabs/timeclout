@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { LeaveTypes, leaveTypesSchema } from "@/settings";
+import { LeaveTypes, leaveTypeParser } from "@/settings";
 import { companyWithSettingsQuery } from "../graphql/queries/companyWithSettings";
 import { useQuery } from "../hooks/useQuery";
 import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
@@ -16,7 +16,7 @@ export const CompanyLeaveTypes = () => {
   const company = companyWithSettingsQueryResponse?.data?.company;
   console.log("company", company);
   const leaveTypes: LeaveTypes | undefined =
-    company?.settings && leaveTypesSchema.parse(company.settings);
+    company?.settings && leaveTypeParser.parse(company.settings);
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
       <p className="mt-1 text-sm/6 text-gray-600 py-5">

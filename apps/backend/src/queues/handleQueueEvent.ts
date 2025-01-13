@@ -13,7 +13,10 @@ export const handleQueueEvent = async <T extends object>(
         try {
           handler(payload)
             .then((result) => resolve(result))
-            .catch(reject);
+            .catch((err) => {
+              console.error("Error processing event", err);
+              reject(err);
+            });
         } catch (error) {
           console.error("Error processing event", error);
           reject(error);

@@ -8,7 +8,8 @@
       "@/utils": ["./libs/utils/src"],
       "@/event-bus": ["./libs/event-bus/src"],
       "@/send-email": ["./libs/send-email/src"],
-      "@/settings": ["./libs/settings/src"]
+      "@/settings": ["./libs/settings/src"],
+      "@/emails": ["./libs/emails/src"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -22,7 +23,6 @@
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.graphqls"],
-  "files": ["**/*.ts", "**/*.tsx", "**/*.graphqls"],
   "compileOnSave": true,
   "exclude": ["node_modules", "dist", ".pnpm"]
 }

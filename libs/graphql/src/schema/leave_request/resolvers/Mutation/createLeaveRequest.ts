@@ -6,7 +6,7 @@ import type {
 import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
 import { eventBus } from "@/event-bus";
 import { notFound } from "@hapi/boom";
-import { leaveTypesSchema } from "@/settings";
+import { leaveTypeParser } from "@/settings";
 
 export const createLeaveRequest: NonNullable<
   MutationResolvers["createLeaveRequest"]
@@ -18,7 +18,7 @@ export const createLeaveRequest: NonNullable<
     PERMISSION_LEVELS.READ
   );
 
-  const { leave_request, entity_settings } = await database();
+  const { leave_request, entity_settings, leave } = await database();
 
   const leaveTypeSettingsUnparsed = await entity_settings.get(
     companyResourceRef,
@@ -29,7 +29,11 @@ export const createLeaveRequest: NonNullable<
     throw notFound("Company leave type settings not found");
   }
 
-  const leaveTypeSettings = leaveTypesSchema.parse(leaveTypeSettingsUnparsed);
+  console.log("leaveTypeSettingsUnparsed", leaveTypeSettingsUnparsed);
+
+  const leaveTypeSettings = leaveTypeParser.parse(
+    leaveTypeSettingsUnparsed.settings
+  );
 
   const leaveType = leaveTypeSettings.find(
     (type) => type.name === arg.input.type
@@ -48,7 +52,32 @@ export const createLeaveRequest: NonNullable<
     reason: arg.input.reason,
     createdBy: userPk,
     createdAt: new Date().toISOString(),
+    approved: !leaveType.needsManagerApproval,
+    approvedBy: leaveType.needsManagerApproval ? [] : [userPk],
+    approvedAt: leaveType.needsManagerApproval
+      ? []
+      : [new Date().toISOString()],
   })) as LeaveRequest;
+
+  if (!leaveType.needsManagerApproval) {
+    let startDate = arg.input.startDate;
+    const endDate = new Date(arg.input.endDate);
+    while (new Date(startDate) <= endDate) {
+      await leave.create({
+        pk: `${companyResourceRef}/${userPk}`,
+        sk: startDate,
+        type: arg.input.type,
+        leaveRequestPk: leaveRequest.pk,
+        createdBy: userPk,
+        createdAt: new Date().toISOString(),
+      });
+
+      // Move to next day
+      const nextDate = new Date(startDate);
+      nextDate.setDate(nextDate.getDate() + 1);
+      startDate = nextDate.toISOString().split("T")[0];
+    }
+  }
 
   await eventBus().emit({
     key: "createLeaveRequest",
