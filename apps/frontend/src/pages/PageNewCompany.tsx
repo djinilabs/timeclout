@@ -5,10 +5,16 @@ import toast from "react-hot-toast";
 import createCompanyMutation from "@/graphql-client/mutations/createCompany.graphql";
 import { Button } from "../components/Button";
 import { useMutation } from "../hooks/useMutation";
+import { Mutation, MutationCreateCompanyArgs } from "../graphql/graphql";
 
 export const PageNewCompany = () => {
   const navigate = useNavigate();
-  const [, createCompany] = useMutation(createCompanyMutation);
+
+  const [, createCompany] = useMutation<
+    Mutation["createCompany"],
+    MutationCreateCompanyArgs
+  >(createCompanyMutation);
+
   const form = useForm<{ "company-name": string }>({
     onSubmit: async ({ value }) => {
       const response = await createCompany({ name: value["company-name"] });

@@ -6,10 +6,12 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import toast from "react-hot-toast";
+import { getDefined } from "@/utils";
+import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRequest.graphql";
 import { YearCalendar } from "./YearCalendar";
 import { BookCompanyTimeOff, type TimeOffRequest } from "./BookCompanyTimeOff";
 import { useMutation } from "../hooks/useMutation";
-import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRequest.graphql";
+import { Mutation, MutationCreateLeaveRequestArgs } from "../graphql/graphql";
 
 export const CompanyTimeOff = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -17,7 +19,10 @@ export const CompanyTimeOff = () => {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
-  const [, createLeaveRequest] = useMutation(createLeaveRequestMutation);
+  const [, createLeaveRequest] = useMutation<
+    Mutation["createLeaveRequest"],
+    MutationCreateLeaveRequestArgs
+  >(createLeaveRequestMutation);
   const { company } = useParams();
   const onSubmit = useCallback(
     async (values: TimeOffRequest) => {
@@ -27,7 +32,7 @@ export const CompanyTimeOff = () => {
       }
       const result = await createLeaveRequest({
         input: {
-          companyPk: company,
+          companyPk: getDefined(company, "No company provided"),
           type: values.type,
           reason: values.reason,
           startDate: startDate,

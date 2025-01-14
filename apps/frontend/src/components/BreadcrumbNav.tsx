@@ -3,20 +3,25 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
+import { Query, QueryCompanyArgs } from "../graphql/graphql";
+import { getDefined } from "@/utils";
 
 export const BreadcrumbNav = () => {
   const { company: companyPk, unit: unitPk, team: teamPk } = useParams();
 
-  const [queryResponse] = useQuery({
+  const [queryResponse] = useQuery<
+    { company: Query["company"] },
+    QueryCompanyArgs
+  >({
     query: companyQuery,
     variables: {
-      companyPk,
+      companyPk: getDefined(companyPk, "No company provided"),
     },
   });
 
   const company = queryResponse.data?.company;
 
-  const unit = company?.units.find(
+  const unit = company?.units?.find(
     (unit: any) => unit.pk === `units/${unitPk}`
   );
 

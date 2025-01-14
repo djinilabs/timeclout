@@ -6,6 +6,13 @@ import { useQuery } from "../hooks/useQuery";
 import { LeaveTypeEditor } from "./LeaveTypeEditor";
 import { useMutation } from "../hooks/useMutation";
 import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
+import {
+  CompanySettingsArgs,
+  Mutation,
+  MutationUpdateCompanySettingsArgs,
+  Query,
+  QueryCompanyArgs,
+} from "../graphql/graphql";
 
 const settingEditor: Record<
   string,
@@ -16,18 +23,24 @@ const settingEditor: Record<
 
 export const EditCompanySetting = () => {
   const { company: companyPk, settingName } = useParams();
-  const [companyWithSettingsQueryResponse] = useQuery({
+  const [companyWithSettingsQueryResponse] = useQuery<
+    { company: Query["company"] },
+    QueryCompanyArgs & CompanySettingsArgs
+  >({
     query: companyWithSettingsQuery,
     variables: {
-      companyPk,
-      name: settingName,
+      companyPk: getDefined(companyPk, "No company provided"),
+      name: getDefined(settingName, "No setting name provided"),
     },
   });
   const company = companyWithSettingsQueryResponse?.data?.company;
   const settings = company?.settings;
   const Editor = settingEditor[getDefined(settingName)];
 
-  const [, updateCompanySettings] = useMutation(updateCompanySettingsMutation);
+  const [, updateCompanySettings] = useMutation<
+    Mutation["updateCompanySettings"],
+    MutationUpdateCompanySettingsArgs
+  >(updateCompanySettingsMutation);
   const navigate = useNavigate();
   const onSubmit = async (values: any) => {
     const response = await updateCompanySettings({

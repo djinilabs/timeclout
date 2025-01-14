@@ -2,18 +2,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
-import { BreadcrumbNav } from "../components/BreadcrumbNav";
+import { getDefined } from "@/utils";
 import createTeamMutation from "@/graphql-client/mutations/createTeam.graphql";
+import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { useMutation } from "../hooks/useMutation";
+import { Mutation, MutationCreateTeamArgs } from "../graphql/graphql";
 
 export const PageNewTeam = () => {
   const { company: companyPk, unit: unitPk } = useParams();
   const navigate = useNavigate();
-  const [, createTeam] = useMutation(createTeamMutation);
+  const [, createTeam] = useMutation<
+    Mutation["createTeam"],
+    MutationCreateTeamArgs
+  >(createTeamMutation);
   const form = useForm<{ "team-name": string }>({
     onSubmit: async ({ value }) => {
       const response = await createTeam({
-        unitPk,
+        unitPk: getDefined(unitPk, "No unit provided"),
         name: value["team-name"],
       });
       if (response.error) {

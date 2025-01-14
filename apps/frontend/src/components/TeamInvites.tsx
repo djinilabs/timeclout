@@ -5,7 +5,7 @@ import ReactTimeAgo from "react-time-ago";
 import { Button } from "./Button";
 import { useQuery } from "../hooks/useQuery";
 import invitationsToTeamQuery from "@/graphql-client/queries/invitationsToTeam.graphql";
-import { Invitation } from "../graphql/graphql";
+import { Invitation, QueryInvitationsToArgs } from "../graphql/graphql";
 import { Avatar } from "./Avatar";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
 import deleteInvitationMutation from "@/graphql-client/mutations/deleteInvitation.graphql";
@@ -13,7 +13,10 @@ import { useMutation } from "../hooks/useMutation";
 
 export const TeamInvites = () => {
   const { company, unit, team } = useParams();
-  const [allInvitations] = useQuery({
+  const [allInvitations] = useQuery<
+    { invitationsTo: Invitation[] },
+    QueryInvitationsToArgs
+  >({
     query: invitationsToTeamQuery,
     variables: {
       toEntityPk: `teams/${team}`,

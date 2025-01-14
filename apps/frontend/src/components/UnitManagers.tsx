@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { managersParser } from "@/settings";
-import { unique } from "@/utils";
+import { getDefined, unique } from "@/utils";
 import { useQuery } from "../hooks/useQuery";
 import { Avatar } from "./Avatar";
 import unitWithMembersAndSettingsQuery from "@/graphql-client/queries/unitWithMembersAndSettingsQuery.graphql";
@@ -10,17 +10,22 @@ import { SelectUser } from "./SelectUser";
 import updateUnitSettingsMutation from "@/graphql-client/mutations/updateUnitSettings.graphql";
 import { useMutation } from "../hooks/useMutation";
 import { Button } from "./Button";
-import { User } from "../graphql/graphql";
+import {
+  QueryUnitArgs,
+  Unit,
+  UnitSettingsArgs,
+  User,
+} from "../graphql/graphql";
 
 export const UnitManagers = () => {
   const { unit: unitPk } = useParams();
   const [
     unitWithMembersAndSettingsQueryResponse,
     reexecuteUnitWithMembersAndSettingsQuery,
-  ] = useQuery({
+  ] = useQuery<{ unit: Unit }, QueryUnitArgs & UnitSettingsArgs>({
     query: unitWithMembersAndSettingsQuery,
     variables: {
-      unitPk,
+      unitPk: getDefined(unitPk, "No unit provided"),
       name: "managers",
     },
   });

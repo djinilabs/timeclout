@@ -6,6 +6,7 @@ import { Button } from "./Button";
 import inviteToTeamMutation from "@/graphql-client/mutations/inviteToTeam.graphql";
 import { ListBox } from "./ListBox";
 import { useMutation } from "../hooks/useMutation";
+import { Mutation, MutationCreateInvitationArgs } from "../graphql/graphql";
 
 export interface InviteToTeamProps {
   teamPk: string;
@@ -13,13 +14,16 @@ export interface InviteToTeamProps {
 }
 
 export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
-  const [, inviteToTeam] = useMutation(inviteToTeamMutation);
+  const [, inviteToTeam] = useMutation<
+    Mutation["createInvitation"],
+    MutationCreateInvitationArgs
+  >(inviteToTeamMutation);
   const form = useForm<{ email: string; permission: string }>({
     onSubmit: async ({ value }) => {
       const response = await inviteToTeam({
-        teamPk,
-        email: value["email"],
-        permission: Number(value["permission"]),
+        toEntityPk: teamPk,
+        invitedUserEmail: value["email"],
+        permissionType: Number(value["permission"]),
       });
       if (!response.error) {
         toast.success("Invitation sent");

@@ -10,15 +10,16 @@ import { Avatar } from "./Avatar";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
 import { useMutation } from "../hooks/useMutation";
 import removeUserFromTeamMutation from "@/graphql-client/mutations/removeUserFromTeam.graphql";
-import { User } from "../graphql/graphql";
+import { QueryTeamArgs, Team, User } from "../graphql/graphql";
+import { getDefined } from "@/utils";
 
 export const TeamMembers = () => {
   const { company, unit, team: teamPk } = useParams();
 
-  const [queryResponse] = useQuery({
+  const [queryResponse] = useQuery<{ team: Team }, QueryTeamArgs>({
     query: teamWithMembersQuery,
     variables: {
-      teamPk,
+      teamPk: getDefined(teamPk, "No team provided"),
     },
   });
 

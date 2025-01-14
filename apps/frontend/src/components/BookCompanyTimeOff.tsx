@@ -3,11 +3,17 @@ import { useForm } from "@tanstack/react-form";
 import { useParams } from "react-router-dom";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import { getDefined } from "@/utils";
 import { leaveTypeParser } from "@/settings";
 import { Button } from "./Button";
 import { useQuery } from "../hooks/useQuery";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
+import {
+  CompanySettingsArgs,
+  Query,
+  QueryCompanyArgs,
+} from "../graphql/graphql";
 
 export type TimeOffRequest = {
   type: string;
@@ -25,10 +31,13 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   onCancel,
 }) => {
   const { company } = useParams();
-  const [companyWithSettings] = useQuery({
+  const [companyWithSettings] = useQuery<
+    { company: Query["company"] },
+    QueryCompanyArgs & CompanySettingsArgs
+  >({
     query: companyWithSettingsQuery,
     variables: {
-      companyPk: company,
+      companyPk: getDefined(company, "No company provided"),
       name: "leaveTypes",
     },
   });

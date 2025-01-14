@@ -15,6 +15,10 @@ const config: CodegenConfig = {
       config: {
         documentMode: "string",
       },
+      documents: [
+        "./apps/frontend/src/graphql/queries/*.graphql",
+        "./apps/frontend/src/graphql/mutations/*.graphql",
+      ],
     },
     "./schema.graphql": {
       plugins: ["schema-ast"],

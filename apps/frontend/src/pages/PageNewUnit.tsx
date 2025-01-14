@@ -4,16 +4,21 @@ import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
 import createUnitMutation from "@/graphql-client/mutations/createUnit.graphql";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
+import { getDefined } from "@/utils";
 import { useMutation } from "../hooks/useMutation";
+import { Mutation, MutationCreateUnitArgs } from "../graphql/graphql";
 
 export const PageNewUnit = () => {
   const { company: companyPk } = useParams();
   const navigate = useNavigate();
-  const [, createUnit] = useMutation(createUnitMutation);
+  const [, createUnit] = useMutation<
+    Mutation["createUnit"],
+    MutationCreateUnitArgs
+  >(createUnitMutation);
   const form = useForm<{ "unit-name": string }>({
     onSubmit: async ({ value }) => {
       const response = await createUnit({
-        companyPk,
+        companyPk: getDefined(companyPk, "No company provided"),
         name: value["unit-name"],
       });
       if (response.error) {

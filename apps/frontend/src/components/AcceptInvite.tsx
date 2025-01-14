@@ -1,30 +1,41 @@
 import { FC } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { getDefined } from "@/utils";
 import invitationBySecretQuery from "@/graphql-client/queries/invitationBySecret.graphql";
+import acceptInvitationMutation from "@/graphql-client/mutations/acceptInvitation.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
 import { Button } from "./Button";
-import acceptInvitationMutation from "@/graphql-client/mutations/acceptInvitation.graphql";
 import { useMutation } from "../hooks/useMutation";
 import toast from "react-hot-toast";
+import {
+  Mutation,
+  MutationAcceptInvitationArgs,
+  Query,
+  QueryInvitationArgs,
+} from "../graphql/graphql";
 
 export const AcceptInvite: FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [invitationQueryResponse] = useQuery({
+  const [invitationQueryResponse] = useQuery<
+    { invitation: Query["invitation"] },
+    QueryInvitationArgs
+  >({
     query: invitationBySecretQuery,
     variables: {
-      secret: searchParams.get("secret"),
+      secret: getDefined(searchParams.get("secret"), "No secret provided"),
     },
   });
   const invitation = invitationQueryResponse?.data?.invitation;
 
-  const [{ fetching }, acceptInvitation] = useMutation(
-    acceptInvitationMutation
-  );
+  const [{ fetching }, acceptInvitation] = useMutation<
+    Mutation["acceptInvitation"],
+    MutationAcceptInvitationArgs
+  >(acceptInvitationMutation);
   const handleAcceptInvitation = async () => {
     const result = await acceptInvitation({
-      secret: searchParams.get("secret"),
+      secret: getDefined(searchParams.get("secret"), "No secret provided"),
     });
     if (!result.error) {
       toast.success("Invitation accepted");
