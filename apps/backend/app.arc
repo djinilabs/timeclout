@@ -48,6 +48,7 @@ leave_request
 leave
   pk *String
   sk **String
+  leaveRequestPk String
   encrypt true
 
 @tables-indexes
@@ -65,6 +66,10 @@ permission
 invitation
   secret *String
   name bySecret
+
+leave
+  leaveRequestPk *String
+  name byLeaveRequestPk
 
 @queues
 events

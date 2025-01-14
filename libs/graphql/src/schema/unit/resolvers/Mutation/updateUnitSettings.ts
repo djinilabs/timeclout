@@ -4,9 +4,7 @@ import { resourceRef } from "@/utils";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const updateUnitSettings: NonNullable<
-  MutationResolvers["updateUnitSettings"]
-> = async (_parent, arg, ctx) => {
+export const updateUnitSettings: NonNullable<MutationResolvers['updateUnitSettings']> = async (_parent, arg, ctx) => {
   console.log("updateUnitSettings", arg);
   const unitRef = resourceRef("units", arg.unitPk);
   const userPk = await ensureAuthorized(ctx, unitRef, PERMISSION_LEVELS.WRITE);

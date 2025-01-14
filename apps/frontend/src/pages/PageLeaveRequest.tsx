@@ -1,15 +1,24 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
-import { LeaveRequest } from "../graphql/graphql";
+import { LeaveRequest, QueryLeaveRequestArgs } from "../graphql/graphql";
+import leaveRequestQuery from "@/graphql-client/queries/leaveRequest.graphql";
+import { getDefined } from "@/utils";
+import { LeaveRequest as LeaveRequestComponent } from "../components/LeaveRequest";
 
 export const PageLeaveRequest = () => {
-  const { company, user, startDate, endDate, leavetype } = useParams();
-  const [leaveRequest] = useQuery<{ leaveRequest: LeaveRequest }>({
-    query: getLeaveRequest,
+  const { company, user, startDate, endDate, leaveType } = useParams();
+  const [leaveRequest] = useQuery<
+    { leaveRequest: LeaveRequest },
+    QueryLeaveRequestArgs
+  >({
+    query: leaveRequestQuery,
     variables: {
-      pk: company,
-      sk: user,
+      pk: `companies/${company}/users/${user}`,
+      sk: `${startDate}/${endDate}/${leaveType}`,
     },
   });
-  return <div>LeaveRequest</div>;
+  if (!leaveRequest) {
+    return <div>LeaveRequest not found</div>;
+  }
+  return <LeaveRequestComponent {...leaveRequest} />;
 };

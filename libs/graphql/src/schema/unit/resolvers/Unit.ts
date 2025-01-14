@@ -1,4 +1,4 @@
-import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
+import { database, PERMISSION_LEVELS } from "@/tables";
 import type { Team, UnitResolvers, User } from "./../../../types.generated";
 import { getAuthorized } from "../../../../src/auth/getAuthorized";
 import { getAuthorizedForResource } from "libs/graphql/src/auth/getAuthorizedForResource";

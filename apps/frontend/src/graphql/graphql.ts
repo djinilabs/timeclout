@@ -239,6 +239,7 @@ export type Query = {
   company: Company;
   invitation: Invitation;
   invitationsTo: Array<Invitation>;
+  leaveRequest: LeaveRequest;
   myInvitations: Array<Invitation>;
   team: Team;
   unit: Unit;
@@ -257,6 +258,12 @@ export type QueryInvitationArgs = {
 
 export type QueryInvitationsToArgs = {
   toEntityPk: Scalars['String']['input'];
+};
+
+
+export type QueryLeaveRequestArgs = {
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
 };
 
 

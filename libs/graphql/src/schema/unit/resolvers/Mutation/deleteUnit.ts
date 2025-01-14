@@ -5,7 +5,7 @@ import { resourceRef } from "@/utils";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
 
-export const deleteUnit: NonNullable<MutationResolvers["deleteUnit"]> = async (
+export const deleteUnit: NonNullable<MutationResolvers['deleteUnit']> = async (
   _parent,
   _arg,
   _ctx

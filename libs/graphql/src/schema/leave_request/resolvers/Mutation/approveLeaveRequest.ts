@@ -7,9 +7,7 @@ import {
 import { forbidden, notFound } from "@hapi/boom";
 import { database } from "@/tables";
 import { getDefined, resourceRef } from "@/utils";
-export const approveLeaveRequest: NonNullable<
-  MutationResolvers["approveLeaveRequest"]
-> = async (_parent, arg, ctx) => {
+export const approveLeaveRequest: NonNullable<MutationResolvers['approveLeaveRequest']> = async (_parent, arg, ctx) => {
   // get company resource ref
   const user = await requireSession(ctx);
   if (!user.user) {
@@ -27,5 +25,6 @@ export const approveLeaveRequest: NonNullable<
     throw notFound();
   }
   // approve leave request
-  return approveLeaveRequestLogic(leaveRequest, userPk);
+  await approveLeaveRequestLogic(leaveRequest, userPk);
+  return leaveRequest;
 };

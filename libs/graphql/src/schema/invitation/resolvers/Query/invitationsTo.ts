@@ -5,9 +5,7 @@ import type {
 } from "./../../../../types.generated";
 import { database, PERMISSION_LEVELS } from "@/tables";
 
-export const invitationsTo: NonNullable<
-  QueryResolvers["invitationsTo"]
-> = async (_parent, arg, ctx) => {
+export const invitationsTo: NonNullable<QueryResolvers['invitationsTo']> = async (_parent, arg, ctx) => {
   const userPk = await ensureAuthorized(
     ctx,
     arg.toEntityPk,

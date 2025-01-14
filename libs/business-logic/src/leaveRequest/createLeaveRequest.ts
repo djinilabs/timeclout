@@ -4,6 +4,8 @@ import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { isLeaveRequestFullyApproved } from "./isLeaveRequestFullyApproved";
 import { ResourceRef } from "@/utils";
+import { approveLeaveRequest } from "./approveLeaveRequest";
+import { getLeaveType } from "./getLeaveType";
 export interface CreateLeaveRequestOptions {
   companyPk: ResourceRef;
   userPk: ResourceRef;
@@ -21,28 +23,9 @@ export const createLeaveRequest = async ({
   endDateAsString,
   reason,
 }: CreateLeaveRequestOptions) => {
-  const { leave_request, entity_settings, leave } = await database();
+  const { leave_request } = await database();
 
-  const leaveTypeSettingsUnparsed = await entity_settings.get(
-    companyPk,
-    "leaveTypes"
-  );
-
-  if (!leaveTypeSettingsUnparsed) {
-    throw notFound("Company leave type settings not found");
-  }
-
-  const leaveTypeSettings = leaveTypeParser.parse(
-    leaveTypeSettingsUnparsed.settings
-  );
-
-  const leaveType = leaveTypeSettings.find(
-    (type) => type.name === leaveTypeName
-  );
-
-  if (!leaveType) {
-    throw notFound("Leave type not found");
-  }
+  const leaveType = await getLeaveType(companyPk, leaveTypeName);
 
   const leaveRequest = await leave_request.create({
     pk: `${companyPk}/${userPk}`,
@@ -63,32 +46,15 @@ export const createLeaveRequest = async ({
     !leaveType.needsManagerApproval ||
     (await isLeaveRequestFullyApproved(leaveRequest))
   ) {
-    let startDate = new Date(startDateAsString);
-    const endDate = new Date(endDateAsString);
-    while (startDate <= endDate) {
-      const newLeave = {
-        pk: `${companyPk}/${userPk}`,
-        sk: startDate.toISOString().split("T")[0],
-        type: leaveTypeName,
-        leaveRequestPk: leaveRequest.pk,
-        createdBy: userPk,
-      };
-      console.log("creating newLeave", newLeave);
-      await leave.create(newLeave);
-
-      // Move to next day
-      const nextDate = new Date(startDate);
-      nextDate.setDate(nextDate.getDate() + 1);
-      startDate = nextDate;
-    }
+    await approveLeaveRequest(leaveRequest, userPk);
+  } else {
+    await eventBus().emit({
+      key: "createOrUpdateLeaveRequest",
+      value: {
+        leaveRequest,
+      },
+    });
   }
-
-  await eventBus().emit({
-    key: "createLeaveRequest",
-    value: {
-      leaveRequest,
-    },
-  });
 
   return leaveRequest;
 };

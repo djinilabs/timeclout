@@ -1,7 +1,7 @@
-import { EventBusEventCreateLeaveRequest } from "@/event-bus";
+import { EventBusEventCreatedOrUpdatedLeaveRequest } from "@/event-bus";
 import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
-import { leaveTypeParser, managersParser } from "@/settings";
+import { leaveTypeParser } from "@/settings";
 import { EmailParams, renderEmail } from "@/emails";
 import { sendEmail } from "@/send-email";
 import { getDefined } from "@/utils";
@@ -13,9 +13,9 @@ import {
   parseLeaveRequestPk,
 } from "@/business-logic";
 
-export const handleCreateLeaveRequest = async ({
+export const handleCreateOrUpdateLeaveRequest = async ({
   value: { leaveRequest },
-}: EventBusEventCreateLeaveRequest) => {
+}: EventBusEventCreatedOrUpdatedLeaveRequest) => {
   console.log("handleCreateLeaveRequest", leaveRequest);
 
   if (leaveRequest.approved) {

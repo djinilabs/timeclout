@@ -241,6 +241,7 @@ export type Query = {
   company: Company;
   invitation: Invitation;
   invitationsTo: Array<Invitation>;
+  leaveRequest: LeaveRequest;
   myInvitations: Array<Invitation>;
   team: Team;
   unit: Unit;
@@ -259,6 +260,12 @@ export type QueryinvitationArgs = {
 
 export type QueryinvitationsToArgs = {
   toEntityPk: Scalars['String']['input'];
+};
+
+
+export type QueryleaveRequestArgs = {
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
 };
 
 
@@ -529,6 +536,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   company?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<QuerycompanyArgs, 'companyPk'>>;
   invitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<QueryinvitationArgs, 'secret'>>;
   invitationsTo?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType, RequireFields<QueryinvitationsToArgs, 'toEntityPk'>>;
+  leaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<QueryleaveRequestArgs, 'pk' | 'sk'>>;
   myInvitations?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;
   unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<QueryunitArgs, 'unitPk'>>;

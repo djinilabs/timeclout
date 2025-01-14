@@ -5,7 +5,7 @@ import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { QueryResolvers, Unit } from "./../../../../types.generated";
 import { resourceRef } from "@/utils";
 
-export const unit: NonNullable<QueryResolvers["unit"]> = async (
+export const unit: NonNullable<QueryResolvers['unit']> = async (
   _parent,
   arg,
   _ctx

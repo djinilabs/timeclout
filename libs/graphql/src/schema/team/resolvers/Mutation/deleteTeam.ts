@@ -3,7 +3,7 @@ import type { MutationResolvers, Team } from "./../../../../types.generated";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { resourceRef } from "@/utils";
-export const deleteTeam: NonNullable<MutationResolvers["deleteTeam"]> = async (
+export const deleteTeam: NonNullable<MutationResolvers['deleteTeam']> = async (
   _parent,
   _arg,
   _ctx

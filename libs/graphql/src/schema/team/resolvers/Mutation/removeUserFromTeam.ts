@@ -5,9 +5,7 @@ import { PERMISSION_LEVELS } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { notAcceptable } from "@hapi/boom";
 import { resourceRef } from "@/utils";
-export const removeUserFromTeam: NonNullable<
-  MutationResolvers["removeUserFromTeam"]
-> = async (_parent, arg, ctx) => {
+export const removeUserFromTeam: NonNullable<MutationResolvers['removeUserFromTeam']> = async (_parent, arg, ctx) => {
   const teamRef = resourceRef("teams", arg.teamPk);
   const actorUserPk = await ensureAuthorized(
     ctx,

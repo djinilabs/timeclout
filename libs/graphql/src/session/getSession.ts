@@ -1,4 +1,4 @@
-import { APIGatewayEvent, APIGatewayProxyEventV2 } from "aws-lambda";
+import { APIGatewayProxyEventV2 } from "aws-lambda";
 import { getSession as getExpressSession } from "@auth/express";
 import { Request } from "express";
 import { ResolverContext } from "../resolverContext";
@@ -21,7 +21,7 @@ const eventToRequest = (event: APIGatewayProxyEventV2): Request => {
     method: "GET",
     headers: Object.fromEntries(headers.entries()),
     cookies: event.cookies,
-  };
+  } as Request;
 };
 
 export const getSession = async (ctx: ResolverContext) => {

@@ -5,11 +5,11 @@ type EventBusEventBase<TK extends string, TV extends object> = {
   value: TV;
 };
 
-export type EventBusEventCreateLeaveRequest = EventBusEventBase<
-  "createLeaveRequest",
+export type EventBusEventCreatedOrUpdatedLeaveRequest = EventBusEventBase<
+  "createOrUpdateLeaveRequest",
   {
     leaveRequest: LeaveRequestRecord;
   }
 >;
 
-export type EventBusEvent = EventBusEventCreateLeaveRequest;
+export type EventBusEvent = EventBusEventCreatedOrUpdatedLeaveRequest;

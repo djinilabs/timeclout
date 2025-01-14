@@ -134,6 +134,15 @@ declare module '@/graphql-client/mutations/invitationsToTeam.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/leaveRequest.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const leaveRequest: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/teamQuery.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

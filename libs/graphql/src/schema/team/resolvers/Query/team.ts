@@ -3,7 +3,7 @@ import type { QueryResolvers, Team } from "./../../../../types.generated";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const team: NonNullable<QueryResolvers["team"]> = async (
+export const team: NonNullable<QueryResolvers['team']> = async (
   _parent,
   arg,
   ctx

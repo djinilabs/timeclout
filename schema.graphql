@@ -105,6 +105,7 @@ type Query {
   company(companyPk: String!): Company!
   invitation(secret: String!): Invitation!
   invitationsTo(toEntityPk: String!): [Invitation!]!
+  leaveRequest(pk: String!, sk: String!): LeaveRequest!
   myInvitations: [Invitation!]!
   team(teamPk: String!): Team!
   unit(unitPk: String!): Unit!

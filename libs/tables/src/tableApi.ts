@@ -114,7 +114,12 @@ export const tableApi = <
 
       return newItem;
     },
-    create: async (item: Omit<TTableRecord, "version" | "createdAt">) => {
+    create: async (
+      item: Omit<
+        TTableRecord,
+        "version" | "createdAt" | "updatedAt" | "updatedBy"
+      >
+    ) => {
       const parsedItem = parseItem(
         {
           version: 1,

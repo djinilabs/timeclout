@@ -45,3 +45,7 @@ extend type Mutation {
   deleteLeaveRequest(input: DeleteLeaveRequestInput!): LeaveRequest!
   approveLeaveRequest(input: ApproveLeaveRequestInput!): LeaveRequest!
 }
+
+extend type Query {
+  leaveRequest(pk: String!, sk: String!): LeaveRequest!
+}
