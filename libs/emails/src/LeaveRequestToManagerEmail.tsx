@@ -31,6 +31,7 @@ export const LeaveRequestToManagerEmail: FC<
         </Text>
         <Text>
           Please review the request and approve or reject it.
+          <br />
           <Button href={continueUrl}>Click here to review the request</Button>
         </Text>
       </Body>

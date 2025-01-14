@@ -12,13 +12,13 @@ const validResourceTypes: Set<ResourceType> = new Set([
 ] as const);
 
 const getResourceRef = (r: string): ResourceRef => {
-  const match = r.match(/^(\w+)\/(\w+)$/);
+  const match = r.match(/^(\w+)\/(.+)$/);
   if (!match) {
-    throw new Error("Invalid resource reference");
+    throw new Error(`Invalid resource reference: ${r}`);
   }
   const [_, resourceType, id] = match;
   if (!validResourceTypes.has(resourceType as ResourceType)) {
-    throw new Error("Invalid resource type " + resourceType);
+    throw new Error(`Invalid resource type: ${resourceType}`);
   }
   return r as ResourceRef;
 };

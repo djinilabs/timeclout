@@ -55,14 +55,16 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
         const { entity } = await database();
         const userPk = resourceRef("users", getDefined(user.id));
         if (isNewUser) {
-          await entity.create({
+          const newUser = {
             pk: userPk,
             name: user.name || user.email || "Unknown",
             email: user.email,
             createdAt: new Date().toISOString(),
             createdBy: userPk,
             ...user,
-          });
+          };
+          console.log("creating new user", newUser);
+          await entity.create(newUser);
         }
       },
     },
