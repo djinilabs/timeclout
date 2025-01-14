@@ -4,8 +4,9 @@ import { notFound } from "@hapi/boom";
 import { leaveTypeParser, managersParser } from "@/settings";
 import { EmailParams, renderEmail } from "@/emails";
 import { sendEmail } from "@/send-email";
-import { getDefined, unique, ResourceRef } from "@/utils";
+import { getDefined } from "@/utils";
 import {
+  approveLeaveRequest as approveLeaveRequestLogic,
   getUnitManagersPks,
   getUserUnitsPks,
   isLeaveRequestFullyApproved,
@@ -21,17 +22,19 @@ export const handleCreateLeaveRequest = async ({
     return;
   }
 
+  const { pk } = leaveRequest;
+  const { companyRef, userRef } = parseLeaveRequestPk(pk);
+
   if (await isLeaveRequestFullyApproved(leaveRequest)) {
+    await approveLeaveRequestLogic(leaveRequest, userRef);
     return;
   }
 
-  const { entity, entity_settings, permission } = await database();
+  const { entity, entity_settings } = await database();
 
   // get company from leave request
-  const { pk } = leaveRequest;
   // pk has companies/:companyId/users/:userId
   // parse this
-  const { companyRef, userRef } = parseLeaveRequestPk(pk);
   const company = await entity.get(companyRef);
   if (!company) {
     throw notFound(`Company with id ${companyRef} not found`);

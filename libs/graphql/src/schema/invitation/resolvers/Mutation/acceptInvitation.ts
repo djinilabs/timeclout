@@ -1,5 +1,6 @@
 import { notFound } from "@hapi/boom";
-import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 import type {
   Invitation,
   MutationResolvers,
@@ -10,7 +11,9 @@ import { requireSession } from "../../../../session/requireSession";
 import { ensureAuthorization } from "../../../../auth/ensureAuthorization";
 import { getDefined } from "@/utils";
 
-export const acceptInvitation: NonNullable<MutationResolvers['acceptInvitation']> = async (_parent, arg, ctx) => {
+export const acceptInvitation: NonNullable<
+  MutationResolvers["acceptInvitation"]
+> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const { invitation, entity } = await database();
   const invitations = await invitation.query({

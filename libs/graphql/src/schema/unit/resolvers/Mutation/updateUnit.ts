@@ -1,10 +1,11 @@
-import { PERMISSION_LEVELS, resourceRef } from "@/tables";
+import { PERMISSION_LEVELS } from "@/tables";
 import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
+import { resourceRef } from "@/utils";
 
-export const updateUnit: NonNullable<MutationResolvers['updateUnit']> = async (
+export const updateUnit: NonNullable<MutationResolvers["updateUnit"]> = async (
   _parent,
   _arg,
   _ctx
