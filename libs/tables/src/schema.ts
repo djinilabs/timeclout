@@ -11,7 +11,7 @@ const validResourceTypes: Set<ResourceType> = new Set([
   "teams",
 ] as const);
 
-const getResourceRef = (r: string): ResourceRef => {
+export const getResourceRef = (r: string): ResourceRef => {
   const match = r.match(/^(\w+)\/(.+)$/);
   if (!match) {
     throw new Error(`Invalid resource reference: ${r}`);

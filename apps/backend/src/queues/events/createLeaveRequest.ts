@@ -1,32 +1,44 @@
 import { EventBusEventCreateLeaveRequest } from "@/event-bus";
-import { database, resourceRef } from "@/tables";
+import { database, ResourceRef, resourceRef } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { leaveTypeParser, managersParser } from "@/settings";
 import { EmailParams, renderEmail } from "@/emails";
 import { sendEmail } from "@/send-email";
 import { getDefined, unique } from "@/utils";
+import {
+  getUserUnitsPks,
+  isLeaveRequestFullyApproved,
+  parseLeaveRequestPk,
+} from "@/business-logic";
 
 export const handleCreateLeaveRequest = async ({
   value: { leaveRequest },
 }: EventBusEventCreateLeaveRequest) => {
   console.log("handleCreateLeaveRequest", leaveRequest);
+
+  if (leaveRequest.approved) {
+    return;
+  }
+
+  if (await isLeaveRequestFullyApproved(leaveRequest)) {
+    return;
+  }
+
   const { entity, entity_settings, permission } = await database();
 
   // get company from leave request
   const { pk } = leaveRequest;
   // pk has companies/:companyId/users/:userId
   // parse this
-  const [, companyId, userId] = pk.match(/^companies\/(.+?)\/users\/(.+?)$/)!;
-  const companyRef = resourceRef("companies", companyId);
+  const { companyRef, userRef } = parseLeaveRequestPk(pk);
   const company = await entity.get(companyRef);
   if (!company) {
-    throw notFound(`Company with id ${companyId} not found`);
+    throw notFound(`Company with id ${companyRef} not found`);
   }
 
-  const userRef = resourceRef("users", userId);
   const user = await entity.get(userRef);
   if (!user) {
-    throw notFound(`User with id ${userId} not found`);
+    throw notFound(`User with id ${companyRef} not found`);
   }
 
   // get company leave type settings;
@@ -35,7 +47,7 @@ export const handleCreateLeaveRequest = async ({
     "leaveTypes"
   );
   if (!companyLeaveTypeSettings) {
-    throw notFound(`Leave type settings for company ${companyId} not found`);
+    throw notFound(`Leave type settings for company ${companyRef} not found`);
   }
 
   const leaveTypes = leaveTypeParser.parse(companyLeaveTypeSettings.settings);
@@ -55,39 +67,24 @@ export const handleCreateLeaveRequest = async ({
     return;
   }
 
-  // get units the user that requested the leave is in
-  // query by resource type and entity id
-  const units = await permission.query({
-    IndexName: "byResourceTypeAndEntityId",
-    KeyConditionExpression: "resourceType = :resourceType AND sk = :sk",
-    ExpressionAttributeValues: {
-      ":resourceType": "units",
-      ":sk": userRef,
-    },
-  });
-
-  console.log("units", units);
+  const userUnitsPks = await getUserUnitsPks(userRef);
 
   // get approving managers for each team using entity_settings
   const unitManagerPks = unique(
     (
       await Promise.all(
-        units.map(async (unit) =>
+        userUnitsPks.map(async (unitPk) =>
           managersParser.parse(
-            (await entity_settings.get(unit.pk, "managers"))?.settings
+            (await entity_settings.get(unitPk, "managers"))?.settings
           )
         )
       )
-    ).flat()
+    ).flat() as ResourceRef[]
   );
-
-  console.log("unitManagerPks", unitManagerPks);
 
   const unitManagers = await Promise.all(
     unitManagerPks.map((pk) => entity.get(pk))
   );
-
-  console.log("unitManagers", unitManagers);
 
   for (const manager of unitManagers) {
     if (!manager) {
@@ -106,9 +103,7 @@ export const handleCreateLeaveRequest = async ({
       manager: manager,
       continueUrl: `${process.env.BASE_URL}/${leaveRequest.pk}/leave-requests/${leaveRequest.sk}`,
     };
-    console.log("emailParams", emailParams);
     const emailBody = await renderEmail(emailParams);
-    console.log(emailBody);
     await sendEmail({
       to: getDefined(manager.email, "Manager has no email"),
       subject: `[${company.name}] Leave Request`,

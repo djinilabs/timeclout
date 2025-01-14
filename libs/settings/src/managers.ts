@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { getResourceRef } from "@/tables";
 
-const managersSchema = z.array(z.string());
+const managersSchema = z.array(z.string().refine(getResourceRef));
 
 export const managersParser = {
   parse: (item: unknown) => {

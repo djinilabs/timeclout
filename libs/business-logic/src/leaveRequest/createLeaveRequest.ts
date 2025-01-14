@@ -1,11 +1,12 @@
 import { eventBus } from "@/event-bus";
 import { leaveTypeParser } from "@/settings";
-import { database, resourceRef } from "@/tables";
+import { database, ResourceRef, resourceRef } from "@/tables";
 import { notFound } from "@hapi/boom";
+import { isLeaveRequestFullyApproved } from "./isLeaveRequestFullyApproved";
 
 export interface CreateLeaveRequestOptions {
-  companyPk: string;
-  userPk: string;
+  companyPk: ResourceRef;
+  userPk: ResourceRef;
   leaveTypeName: string;
   startDateAsString: string;
   endDateAsString: string;
@@ -58,7 +59,10 @@ export const createLeaveRequest = async ({
       : [new Date().toISOString()],
   });
 
-  if (!leaveType.needsManagerApproval) {
+  if (
+    !leaveType.needsManagerApproval ||
+    (await isLeaveRequestFullyApproved(leaveRequest, userPk))
+  ) {
     let startDate = new Date(startDateAsString);
     const endDate = new Date(endDateAsString);
     while (startDate <= endDate) {
