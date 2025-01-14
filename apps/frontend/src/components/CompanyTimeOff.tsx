@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { YearCalendar } from "./YearCalendar";
 import { BookCompanyTimeOff, type TimeOffRequest } from "./BookCompanyTimeOff";
 import { useMutation } from "../hooks/useMutation";
-import { createLeaveRequestMutation } from "../graphql/mutations/createLeaveRequest";
+import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRequest.graphql";
 
 export const CompanyTimeOff = () => {
   const [year, setYear] = useState(new Date().getFullYear());

@@ -104,7 +104,7 @@ export const handleCreateLeaveRequest = async ({
       employingEntity: company.name,
       requester: user,
       manager: manager,
-      continueUrl: `${process.env.BASE_URL}/leave-requests/${leaveRequest.pk}/${leaveRequest.sk}`,
+      continueUrl: `${process.env.BASE_URL}/${leaveRequest.pk}/leave-requests/${leaveRequest.sk}`,
     };
     console.log("emailParams", emailParams);
     const emailBody = await renderEmail(emailParams);

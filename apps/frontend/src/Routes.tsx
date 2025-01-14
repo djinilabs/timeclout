@@ -11,6 +11,7 @@ import { Team } from "./routes/Team";
 import { NewTeamInvite } from "./routes/NewTeamInvite";
 import { InviteAccept } from "./routes/InviteAccept";
 import { CompanySettings } from "./routes/CompanySettings";
+import { LeaveRequest } from "./routes/LeaveRequest";
 
 export const AppRoutes: FC = () => {
   return (
@@ -45,6 +46,14 @@ export const AppRoutes: FC = () => {
           element={
             <RequiresSession>
               <Company />
+            </RequiresSession>
+          }
+        />
+        <Route
+          path="/companies/:company/users/:user/leave-requests/:startDate/:endDate/:leavetype"
+          element={
+            <RequiresSession>
+              <LeaveRequest />
             </RequiresSession>
           }
         />

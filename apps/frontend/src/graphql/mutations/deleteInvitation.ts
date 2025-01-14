@@ -1,9 +1,0 @@
-import { gql } from "urql";
-
-export const deleteInvitationMutation = gql`
-  mutation deleteInvitation($pk: String!, $sk: String!) {
-    deleteInvitation(pk: $pk, sk: $sk) {
-      pk
-    }
-  }
-`;

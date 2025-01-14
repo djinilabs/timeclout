@@ -79,4 +79,4 @@ region eu-west-2
 @typescript
 build dist
 base-runtime nodejs20.x
-esbuild-config ../../esbuild-config.js
+esbuild-config ../../esbuild-config.cjs

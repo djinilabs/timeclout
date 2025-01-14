@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { invitationBySecretQuery } from "../graphql/queries/invitationBySecret";
+import invitationBySecretQuery from "@/graphql-client/queries/invitationBySecret.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
 import { Button } from "./Button";
-import { acceptInvitationMutation } from "../graphql/mutations/acceptInvitation";
+import acceptInvitationMutation from "@/graphql-client/mutations/acceptInvitation.graphql";
 import { useMutation } from "../hooks/useMutation";
 import toast from "react-hot-toast";
 

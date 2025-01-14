@@ -3,7 +3,7 @@ import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
-import { unitQuery } from "../graphql/queries/unitQuery";
+import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { Team } from "../graphql/graphql";
 

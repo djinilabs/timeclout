@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
-import { createUnitMutation } from "../graphql/mutations/createUnit";
+import createUnitMutation from "@/graphql-client/mutations/createUnit.graphql";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { useMutation } from "../hooks/useMutation";
 

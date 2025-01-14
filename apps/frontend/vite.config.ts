@@ -1,10 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import graphqlLoader from "vite-plugin-graphql-loader";
 import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), graphqlLoader()],
 
   server: {
     open: true,
@@ -24,6 +25,7 @@ export default defineConfig({
       "@/auth-config": path.resolve(__dirname, "../../libs/auth-config/src"),
       "@/utils": path.resolve(__dirname, "../../libs/utils/src"),
       "@/settings": path.resolve(__dirname, "../../libs/settings/src"),
+      "@/graphql-client": path.resolve(__dirname, "./src/graphql"),
     },
   },
   build: {

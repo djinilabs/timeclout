@@ -1936,16 +1936,16 @@ video {
   outline-offset: -2px;
 }
 
+.focus\:outline-indigo-600:focus {
+  outline-color: #4f46e5;
+}
+
 .focus\:outline-red-600:focus {
   outline-color: #dc2626;
 }
 
 .focus\:outline-teal-600:focus {
   outline-color: #0d9488;
-}
-
-.focus\:outline-indigo-600:focus {
-  outline-color: #4f46e5;
 }
 
 .focus\:ring-2:focus {
@@ -2195,10 +2195,6 @@ video {
 
   .sm\:text-sm\/6 {
     font-size: 0.875rem;
-    line-height: 1.5rem;
-  }
-
-  .sm\:leading-6 {
     line-height: 1.5rem;
   }
 }

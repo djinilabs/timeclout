@@ -2,11 +2,12 @@
   "name": "tt3",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "run-p dev:backend dev:frontend",
     "dev:backend": "run-p dev:watch-source-refresh-lambda dev:backend:sandbox",
-    "dev:watch-source-refresh-lambda": "node scripts/watchSourceRefreshLambda.js",
+    "dev:watch-source-refresh-lambda": "node scripts/watchSourceRefreshLambda.cjs",
     "dev:backend:sandbox": "pnpm dev:update-env && cd apps/backend && pnpm arc sandbox",
     "dev:update-env": "cd apps/backend && node ../../scripts/updateEnv.js",
     "dev:frontend": "run-p dev:frontend:app dev:frontend:styles",
@@ -23,6 +24,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@0no-co/graphqlsp": "^1.12.16",
     "@architect/functions": "^8.1.6",
     "@auth/core": "^0.37.4",
     "@auth/dynamodb-adapter": "^2.7.4",
@@ -75,6 +77,7 @@
     "@architect/plugin-typescript": "^2.1.0",
     "@eslint/js": "^9.17.0",
     "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/typescript-graphql-files-modules": "^3.0.0",
     "@types/aws-lambda": "^8.10.147",
     "@types/express": "^5.0.0",
     "@types/react": "^18.3.18",
@@ -89,7 +92,8 @@
     "source-map-support": "^0.5.21",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "vite-plugin-graphql-loader": "^4.0.4"
   },
   "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf",
   "pnpm": {

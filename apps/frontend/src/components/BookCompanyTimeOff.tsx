@@ -6,7 +6,7 @@ import "react-day-picker/style.css";
 import { leaveTypeParser } from "@/settings";
 import { Button } from "./Button";
 import { useQuery } from "../hooks/useQuery";
-import { companyWithSettingsQuery } from "../graphql/queries/companyWithSettings";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
 
 export type TimeOffRequest = {

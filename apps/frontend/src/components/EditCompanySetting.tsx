@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { getDefined } from "../../../../libs/utils/src";
-import { companyWithSettingsQuery } from "../graphql/queries/companyWithSettings";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { LeaveTypeEditor } from "./LeaveTypeEditor";
 import { useMutation } from "../hooks/useMutation";
-import { updateCompanySettingsMutation } from "../graphql/mutations/updateCompanySettings";
+import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
 
 const settingEditor: Record<
   string,

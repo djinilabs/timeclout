@@ -316,3 +316,18 @@ export type User = {
   resourcePermission?: Maybe<Scalars['Int']['output']>;
   resourcePermissionGivenAt?: Maybe<Scalars['DateTime']['output']>;
 };
+
+export class TypedDocumentString<TResult, TVariables>
+  extends String
+  implements DocumentTypeDecoration<TResult, TVariables>
+{
+  __apiType?: DocumentTypeDecoration<TResult, TVariables>['__apiType'];
+
+  constructor(private value: string, public __meta__?: Record<string, any> | undefined) {
+    super(value);
+  }
+
+  toString(): string & DocumentTypeDecoration<TResult, TVariables> {
+    return this.value;
+  }
+}

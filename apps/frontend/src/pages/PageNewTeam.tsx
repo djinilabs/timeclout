@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
-import { createTeamMutation } from "../graphql/mutations/createTeam";
+import createTeamMutation from "@/graphql-client/mutations/createTeam.graphql";
 import { useMutation } from "../hooks/useMutation";
 
 export const PageNewTeam = () => {

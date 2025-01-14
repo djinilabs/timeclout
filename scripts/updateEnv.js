@@ -1,7 +1,7 @@
 // @ts-check
 
-const { readFileSync, writeFileSync } = require("node:fs");
-const { join } = require("node:path");
+import { readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 function generateRandomString() {
   const chars =

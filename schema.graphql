@@ -1,0 +1,151 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+input ApproveLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+type Company {
+  createdAt: DateTime!
+  createdBy: User!
+  name: String!
+  pk: String!
+  settings(name: String!): JSON
+  units: [Unit!]
+  updatedAt: DateTime
+  updatedBy: User
+}
+
+input CreateLeaveRequestInput {
+  companyPk: String!
+  endDate: String!
+  reason: String!
+  startDate: String!
+  type: String!
+}
+
+scalar DateTime
+
+input DeleteLeaveInput {
+  pk: String!
+  sk: String!
+}
+
+input DeleteLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+type Invitation {
+  createdAt: DateTime!
+  createdBy: User!
+  email: String!
+  emailMd5: String!
+  permissionType: Int!
+  pk: String!
+  sk: String!
+  toEntity: InvitationEntity!
+  updatedAt: DateTime
+  updatedBy: User
+}
+
+union InvitationEntity = Company | Team | Unit
+
+scalar JSON
+
+type Leave {
+  leaveRequestPk: String!
+  pk: String!
+  sk: String!
+  type: String!
+}
+
+type LeaveRequest {
+  approved: Boolean
+  approvedAt: [DateTime!]
+  approvedBy: [String!]
+  createdAt: DateTime!
+  createdBy: String!
+  endDate: String!
+  pk: String!
+  reason: String
+  sk: String!
+  startDate: String!
+  type: String!
+}
+
+type Mutation {
+  acceptInvitation(secret: String!): Invitation!
+  approveLeaveRequest(input: ApproveLeaveRequestInput!): LeaveRequest!
+  createCompany(name: String!): Company!
+  createInvitation(invitedUserEmail: String!, permissionType: Int!, toEntityPk: String!): Invitation!
+  createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
+  createTeam(name: String!, unitPk: String!): Team!
+  createUnit(companyPk: String!, name: String!): Unit!
+  deleteCompany(pk: String!): Company!
+  deleteInvitation(pk: String!, sk: String!): Invitation!
+  deleteLeave(input: DeleteLeaveInput!): Leave!
+  deleteLeaveRequest(input: DeleteLeaveRequestInput!): LeaveRequest!
+  deleteTeam(pk: String!): Team!
+  deleteUnit(pk: String!): Unit!
+  removeUserFromTeam(teamPk: String!, userPk: String!): Team!
+  updateCompany(name: String!, pk: String!): Company!
+  updateCompanySettings(companyPk: String!, name: String!, settings: JSON!): Company!
+  updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
+  updateTeam(name: String!, pk: String!): Team!
+  updateUnit(name: String!, pk: String!): Unit!
+  updateUnitSettings(name: String!, settings: JSON!, unitPk: String!): Unit!
+}
+
+type Query {
+  companies: [Company!]!
+  company(companyPk: String!): Company!
+  invitation(secret: String!): Invitation!
+  invitationsTo(toEntityPk: String!): [Invitation!]!
+  myInvitations: [Invitation!]!
+  team(teamPk: String!): Team!
+  unit(unitPk: String!): Unit!
+}
+
+type Team {
+  createdAt: DateTime!
+  createdBy: User!
+  members: [User!]!
+  name: String!
+  pk: String!
+  updatedAt: DateTime
+  updatedBy: User
+}
+
+type Unit {
+  createdAt: DateTime!
+  createdBy: User!
+  members: [User!]!
+  name: String!
+  pk: String!
+  settings(name: String!): JSON
+  teams: [Team!]!
+  updatedAt: DateTime
+  updatedBy: User
+}
+
+input UpdateLeaveRequestInput {
+  endDate: String!
+  pk: String!
+  reason: String!
+  sk: String!
+  startDate: String!
+  type: String!
+}
+
+type User {
+  email: String!
+  emailMd5: String!
+  name: String!
+  pk: String!
+  resourcePermission: Int
+  resourcePermissionGivenAt: DateTime
+}

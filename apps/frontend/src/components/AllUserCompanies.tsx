@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import ReactTimeAgo from "react-time-ago";
 import { type Company } from "../graphql/graphql";
-import { allCompaniesQuery } from "../graphql/queries/allCompanies";
+import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { classNames } from "../utils/classNames";
 import { Button } from "./Button";

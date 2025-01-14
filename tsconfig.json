@@ -2,6 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/graphql/queries": ["./apps/frontend/src/graphql/queries"],
+      "@/graphql/mutations": ["./apps/frontend/src/graphql/mutations"],
       "@/auth-config": ["./libs/auth-config/src"],
       "@/graphql": ["./libs/graphql/src"],
       "@/tables": ["./libs/tables/src"],
@@ -10,7 +12,7 @@
       "@/send-email": ["./libs/send-email/src"],
       "@/settings": ["./libs/settings/src"],
       "@/emails": ["./libs/emails/src"],
-      "@/business-logic": ["./libs/business-logic/src"]
+      "@/business-logic": ["./libs/business-logic/src"],
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -18,9 +20,15 @@
     "lib": ["esnext"],
     "jsx": "react-jsx",
     "strictNullChecks": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./schema.graphql"
+      }
+    ]
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.graphqls", "**/*.graphql"],
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.graphqls", "./**/*.graphql"],
   "compileOnSave": true,
   "exclude": ["node_modules", "dist", ".pnpm"]
 }

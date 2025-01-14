@@ -4,11 +4,11 @@ import { useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import { Button } from "./Button";
 import { useQuery } from "../hooks/useQuery";
-import { invitationsToTeamQuery } from "../graphql/queries/invitationsToTeam";
+import invitationsToTeamQuery from "@/graphql-client/queries/invitationsToTeam.graphql";
 import { Invitation } from "../graphql/graphql";
 import { Avatar } from "./Avatar";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
-import { deleteInvitationMutation } from "../graphql/mutations/deleteInvitation";
+import deleteInvitationMutation from "@/graphql-client/mutations/deleteInvitation.graphql";
 import { useMutation } from "../hooks/useMutation";
 
 export const TeamInvites = () => {

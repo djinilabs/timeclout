@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { LeaveTypes, leaveTypeParser } from "@/settings";
-import { companyWithSettingsQuery } from "../graphql/queries/companyWithSettings";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
 

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
-import { createCompanyMutation } from "../graphql/mutations/createCompany";
+import createCompanyMutation from "@/graphql-client/mutations/createCompany.graphql";
 import { Button } from "../components/Button";
 import { useMutation } from "../hooks/useMutation";
 
