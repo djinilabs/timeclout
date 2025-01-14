@@ -1,9 +1,9 @@
 import { database } from "@/tables";
-import { getDefined, resourceRef } from "@/utils";
+import { getDefined, ResourceRef, resourceRef } from "@/utils";
 import { ResolverContext } from "../resolverContext";
 import { requireSession } from "../session/requireSession";
 
-export type IsAuthorizedResult = [false] | [true, string];
+export type IsAuthorizedResult = [false] | [true, ResourceRef];
 
 export const isAuthorized = async (
   ctx: ResolverContext,

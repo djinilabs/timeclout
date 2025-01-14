@@ -1,6 +1,6 @@
-import { APIGatewayEvent, Context } from "aws-lambda";
+import { APIGatewayProxyEventV2, Context } from "aws-lambda";
 
 export type ResolverContext = {
-  event: APIGatewayEvent;
+  event: APIGatewayProxyEventV2;
   lambdaContext: Context;
 };

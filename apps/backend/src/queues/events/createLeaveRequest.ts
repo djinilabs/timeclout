@@ -6,6 +6,7 @@ import { EmailParams, renderEmail } from "@/emails";
 import { sendEmail } from "@/send-email";
 import { getDefined, unique, ResourceRef } from "@/utils";
 import {
+  getUnitManagersPks,
   getUserUnitsPks,
   isLeaveRequestFullyApproved,
   parseLeaveRequestPk,
@@ -70,17 +71,7 @@ export const handleCreateLeaveRequest = async ({
   const userUnitsPks = await getUserUnitsPks(userRef);
 
   // get approving managers for each team using entity_settings
-  const unitManagerPks = unique(
-    (
-      await Promise.all(
-        userUnitsPks.map(async (unitPk) =>
-          managersParser.parse(
-            (await entity_settings.get(unitPk, "managers"))?.settings
-          )
-        )
-      )
-    ).flat() as ResourceRef[]
-  );
+  const unitManagerPks = await getUnitManagersPks(userUnitsPks);
 
   const unitManagers = await Promise.all(
     unitManagerPks.map((pk) => entity.get(pk))

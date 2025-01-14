@@ -1,12 +1,13 @@
 import { forbidden } from "@hapi/boom";
 import { ResolverContext } from "../resolverContext";
 import { isAuthorized } from "./isAuthorized";
+import { ResourceRef } from "@/utils";
 
 export const ensureAuthorized = async (
   ctx: ResolverContext,
   resource: string,
   minimumPermission: number
-): Promise<string> => {
+): Promise<ResourceRef> => {
   const [authorized, userPk] = await isAuthorized(
     ctx,
     resource,
