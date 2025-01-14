@@ -1,27 +1,5 @@
+import { getResourceRef } from "@/utils";
 import { z, ZodSchema } from "zod";
-
-export type ResourceType = "companies" | "units" | "users" | "teams";
-
-export type ResourceRef = `${ResourceType}/${string}`;
-
-const validResourceTypes: Set<ResourceType> = new Set([
-  "companies",
-  "units",
-  "users",
-  "teams",
-] as const);
-
-export const getResourceRef = (r: string): ResourceRef => {
-  const match = r.match(/^(\w+)\/(.+)$/);
-  if (!match) {
-    throw new Error(`Invalid resource reference: ${r}`);
-  }
-  const [_, resourceType, id] = match;
-  if (!validResourceTypes.has(resourceType as ResourceType)) {
-    throw new Error(`Invalid resource type: ${resourceType}`);
-  }
-  return r as ResourceRef;
-};
 
 const TableBaseSchema = z.object({
   pk: z.string(),
@@ -81,6 +59,7 @@ export const tableSchemas = {
   }),
 } as const;
 
+export type EntityRecord = z.infer<typeof tableSchemas.entity>;
 export type PermissionRecord = z.infer<typeof tableSchemas.permission>;
 export type LeaveRequestRecord = z.infer<typeof tableSchemas.leave_request>;
 export type LeaveRecord = z.infer<typeof tableSchemas.leave>;
@@ -102,11 +81,6 @@ export const permissionLevelToName = (level: number) => {
       return "Owner";
   }
 };
-
-export const resourceRef = (
-  resourceType: ResourceType,
-  id: string
-): ResourceRef => `${resourceType}/${id}`;
 
 export type TableSchemas = typeof tableSchemas;
 export type TableName =
@@ -138,7 +112,10 @@ export type TableAPI<
   update: (item: Partial<TTableRecord>) => Promise<TTableRecord>;
   upsert: (item: Omit<TTableRecord, "version">) => Promise<TTableRecord>;
   create: (
-    item: Omit<TTableRecord, "version" | "createdAt">
+    item: Omit<
+      TTableRecord,
+      "version" | "createdAt" | "updatedAt" | "updatedBy"
+    >
   ) => Promise<TTableRecord>;
   query: (query: Query) => Promise<TTableRecord[]>;
 };

@@ -1,10 +1,10 @@
 import { EventBusEventCreateLeaveRequest } from "@/event-bus";
-import { database, ResourceRef, resourceRef } from "@/tables";
+import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { leaveTypeParser, managersParser } from "@/settings";
 import { EmailParams, renderEmail } from "@/emails";
 import { sendEmail } from "@/send-email";
-import { getDefined, unique } from "@/utils";
+import { getDefined, unique, ResourceRef } from "@/utils";
 import {
   getUserUnitsPks,
   isLeaveRequestFullyApproved,

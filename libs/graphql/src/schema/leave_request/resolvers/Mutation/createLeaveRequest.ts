@@ -1,12 +1,12 @@
-import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
-import type {
-  LeaveRequest,
-  MutationResolvers,
-} from "./../../../../types.generated";
-import { PERMISSION_LEVELS, resourceRef } from "@/tables";
+import { PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 import { createLeaveRequest as createLeaveRequestLogic } from "@/business-logic";
+import type { MutationResolvers } from "./../../../../types.generated";
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const createLeaveRequest: NonNullable<MutationResolvers['createLeaveRequest']> = async (_parent, arg, ctx) => {
+export const createLeaveRequest: NonNullable<
+  MutationResolvers["createLeaveRequest"]
+> = async (_parent, arg, ctx) => {
   const companyResourceRef = resourceRef("companies", arg.input.companyPk);
   const userPk = await ensureAuthorized(
     ctx,

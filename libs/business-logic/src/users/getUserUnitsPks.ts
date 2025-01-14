@@ -1,4 +1,5 @@
-import { database, ResourceRef } from "@/tables";
+import { database } from "@/tables";
+import { ResourceRef } from "@/utils";
 
 export const getUserUnitsPks = async (userRef: ResourceRef) => {
   const { permission } = await database();

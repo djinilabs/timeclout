@@ -1,5 +1,3 @@
-import { database, resourceRef } from "@/tables";
-import { requireSession } from "../session/requireSession";
 import { forbidden } from "@hapi/boom";
 import { ResolverContext } from "../resolverContext";
 import { isAuthorized } from "./isAuthorized";

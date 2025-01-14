@@ -3,6 +3,7 @@ import { TableAPI, TableName, TableSchemas } from "./schema";
 import { z, ZodSchema } from "zod";
 import { conflict, notFound } from "@hapi/boom";
 import { AwsLiteDynamoDB } from "@aws-lite/dynamodb-types";
+import { getDefined } from "@/utils";
 
 // removes undefined values from the item
 const cleanItem = <T extends object>(item: T): T => {
@@ -64,14 +65,16 @@ export const tableApi = <
       if (keys.length === 0) {
         return [];
       }
-      const items = (
-        await lowLevelClient.BatchGetItem({
-          RequestItems: {
-            [lowLevelTableName]: { Keys: keys.map((key) => ({ pk: key })) },
-          },
-        })
-      ).Responses[lowLevelTableName];
-      return items.map((item) => parseItem(item, "batchGet"));
+      const items = getDefined(
+        (
+          await lowLevelClient.BatchGetItem({
+            RequestItems: {
+              [lowLevelTableName]: { Keys: keys.map((key) => ({ pk: key })) },
+            },
+          })
+        ).Responses
+      )[lowLevelTableName];
+      return items.map((item) => parseItem(item, "batchGet")) as TTableRecord[];
     },
     update: async (
       item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>
@@ -111,7 +114,7 @@ export const tableApi = <
 
       return newItem;
     },
-    create: async (item: Omit<TTableRecord, "version">) => {
+    create: async (item: Omit<TTableRecord, "version" | "createdAt">) => {
       const parsedItem = parseItem(
         {
           version: 1,
@@ -134,7 +137,7 @@ export const tableApi = <
         throw err;
       }
 
-      return parsedItem;
+      return parsedItem as TTableRecord;
     },
     upsert: async (item: TTableRecord) => {
       const existingItem = await self.get(item.pk, item.sk);
@@ -148,14 +151,10 @@ export const tableApi = <
       }
       console.log("NON existingItem");
       const { updatedAt, updatedBy, version, ...rest } = item;
-      return self.create({
-        version: 1,
-        createdAt: new Date().toISOString(),
-        ...rest,
-      });
+      return self.create(rest as TTableRecord);
     },
     query: async (query) => {
-      return (await lowLevelTable.query(query)).Items;
+      return (await lowLevelTable.query(query)).Items as TTableRecord[];
     },
   };
   return self;

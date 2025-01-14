@@ -1,4 +1,4 @@
-import { resourceRef } from "@/tables";
+import { resourceRef } from "@/utils";
 
 export const parseLeaveRequestPk = (pk: string) => {
   const match = pk.match(/^companies\/(.+?)\/users\/(.+?)$/)!;

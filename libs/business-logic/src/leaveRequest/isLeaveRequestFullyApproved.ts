@@ -1,4 +1,4 @@
-import { LeaveRequestRecord, ResourceRef } from "@/tables";
+import { LeaveRequestRecord } from "@/tables";
 import { parseLeaveRequestPk } from "./parseLeaveRequestPk";
 import { getUserUnitsPks } from "../users/getUserUnitsPks";
 import { getUnitManagersPks } from "../unit/getUnitManagerPks";

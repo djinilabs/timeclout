@@ -1,12 +1,7 @@
-import {
-  database,
-  PermissionRecord,
-  resourceRef,
-  ResourceType,
-} from "@/tables";
+import { database, PermissionRecord } from "@/tables";
+import { getDefined, resourceRef, ResourceType } from "@/utils";
 import { ResolverContext } from "../resolverContext";
 import { requireSession } from "../session/requireSession";
-import { getDefined } from "@/utils";
 
 export const getAuthorized = async (
   ctx: ResolverContext,

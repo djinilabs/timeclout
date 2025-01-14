@@ -2,8 +2,8 @@ import Mailgun from "next-auth/providers/mailgun";
 import { DynamoDBAdapter } from "@auth/dynamodb-adapter";
 import { tables } from "@architect/functions";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
-import { getDefined, once } from "@/utils";
-import { database, resourceRef } from "@/tables";
+import { getDefined, once, resourceRef } from "@/utils";
+import { database, EntityRecord } from "@/tables";
 import { ExpressAuthConfig } from "@auth/express";
 
 export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
@@ -64,7 +64,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
             ...user,
           };
           console.log("creating new user", newUser);
-          await entity.create(newUser);
+          await entity.create(newUser as EntityRecord);
         }
       },
     },

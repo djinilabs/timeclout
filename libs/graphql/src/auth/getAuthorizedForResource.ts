@@ -1,5 +1,5 @@
-import { database, PermissionRecord, ResourceRef } from "@/tables";
-
+import { database, PermissionRecord } from "@/tables";
+import { ResourceRef } from "@/utils";
 export const getAuthorizedForResource = async (
   resourcePk: ResourceRef
 ): Promise<PermissionRecord[]> => {

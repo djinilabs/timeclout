@@ -1,9 +1,10 @@
 import { notFound } from "@hapi/boom";
-import { database, resourceRef, PERMISSION_LEVELS } from "@/tables";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 import type { Company, QueryResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const company: NonNullable<QueryResolvers['company']> = async (
+export const company: NonNullable<QueryResolvers["company"]> = async (
   _parent,
   arg,
   ctx
