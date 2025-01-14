@@ -2,11 +2,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { companyQuery } from "../graphql/queries/companyQuery";
-import { BreadcrumbNav } from "./BreadcrumbNav";
 import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
 import { useQuery } from "../hooks/useQuery";
 import { Button } from "./Button";
+import { Unit } from "../graphql/graphql";
 
 const NoUnits = () => {
   const { company: companyPk } = useParams();
@@ -82,7 +82,7 @@ export const AllCompanyUnits = () => {
       </div>
 
       <ul>
-        {company?.units.map((unit) => (
+        {company?.units.map((unit: Unit) => (
           <>
             <li
               key={unit.pk}

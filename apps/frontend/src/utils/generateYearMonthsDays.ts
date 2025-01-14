@@ -10,7 +10,7 @@ export type Month = {
 };
 
 export const generateYearMonthsDays = (year: number) => {
-  const months = [];
+  const months: Array<Month> = [];
   const monthNames = [
     "January",
     "February",

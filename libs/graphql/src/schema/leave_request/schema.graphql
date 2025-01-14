@@ -4,7 +4,7 @@ type LeaveRequest {
   startDate: String!
   endDate: String!
   type: String!
-  reason: String!
+  reason: String
   approved: Boolean
   approvedBy: [String!]
   approvedAt: [DateTime!]

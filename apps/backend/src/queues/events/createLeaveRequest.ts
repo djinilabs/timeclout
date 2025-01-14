@@ -4,7 +4,7 @@ import { notFound } from "@hapi/boom";
 import { leaveTypeParser, managersParser } from "@/settings";
 import { EmailParams, renderEmail } from "@/emails";
 import { sendEmail } from "@/send-email";
-import { unique } from "@/utils";
+import { getDefined, unique } from "@/utils";
 
 export const handleCreateLeaveRequest = async ({
   value: { leaveRequest },
@@ -90,6 +90,9 @@ export const handleCreateLeaveRequest = async ({
   console.log("unitManagers", unitManagers);
 
   for (const manager of unitManagers) {
+    if (!manager) {
+      continue;
+    }
     // get approving manager emails
     // send emails to approving managers
     const emailParams: EmailParams = {
@@ -107,7 +110,7 @@ export const handleCreateLeaveRequest = async ({
     const emailBody = await renderEmail(emailParams);
     console.log(emailBody);
     await sendEmail({
-      to: manager.email,
+      to: getDefined(manager.email, "Manager has no email"),
       subject: `[${company.name}] Leave Request`,
       text: "Leave Request",
       html: emailBody,

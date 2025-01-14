@@ -9,20 +9,18 @@
       "@/event-bus": ["./libs/event-bus/src"],
       "@/send-email": ["./libs/send-email/src"],
       "@/settings": ["./libs/settings/src"],
-      "@/emails": ["./libs/emails/src"]
+      "@/emails": ["./libs/emails/src"],
+      "@/business-logic": ["./libs/business-logic/src"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "lib": ["esnext"],
     "jsx": "react-jsx",
+    "strictNullChecks": true,
+    "noUnusedParameters": true
   },
-  "ts-node": {
-    "compilerOptions": {
-      "module": "commonjs"
-    }
-  },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.graphqls"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.graphqls", "**/*.graphql"],
   "compileOnSave": true,
   "exclude": ["node_modules", "dist", ".pnpm"]
 }

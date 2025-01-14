@@ -1,10 +1,8 @@
-import { database, Permission, resourceRef } from "@/tables";
-import { requireSession } from "../session/requireSession";
-import { ResolverContext } from "../resolverContext";
+import { database, PermissionRecord, ResourceRef } from "@/tables";
 
 export const getAuthorizedForResource = async (
-  resourcePk: string
-): Promise<Permission[]> => {
+  resourcePk: ResourceRef
+): Promise<PermissionRecord[]> => {
   const { permission } = await database();
   return permission.query({
     KeyConditionExpression: "pk = :pk",

@@ -8,7 +8,7 @@ export interface User {
 export interface EmailToManagerToApproveLeaveRequestParams {
   type: "leaveRequestToManager";
   leaveRequestType: LeaveRequest["type"];
-  leaveRequestReason: string;
+  leaveRequestReason?: string;
   leaveRequestStartDate: string;
   leaveRequestEndDate: string;
   employingEntity: string;

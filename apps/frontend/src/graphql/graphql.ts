@@ -90,7 +90,7 @@ export type LeaveRequest = {
   createdBy: Scalars['String']['output'];
   endDate: Scalars['String']['output'];
   pk: Scalars['String']['output'];
-  reason: Scalars['String']['output'];
+  reason?: Maybe<Scalars['String']['output']>;
   sk: Scalars['String']['output'];
   startDate: Scalars['String']['output'];
   type: Scalars['String']['output'];

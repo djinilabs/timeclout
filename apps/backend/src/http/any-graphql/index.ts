@@ -9,8 +9,6 @@ import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
 import { handlingErrors } from "../../utils/handlingErrors";
 import { useSentry } from "@envelop/sentry";
-import { GraphQLError } from "graphql";
-import { ZodError } from "zod";
 
 // console.log("schema:", schema);
 

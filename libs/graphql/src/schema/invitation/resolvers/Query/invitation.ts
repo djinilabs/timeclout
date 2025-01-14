@@ -10,7 +10,7 @@ import { requireSession } from "../../../../session/requireSession";
 import { isAuthorized } from "../../../../auth/isAuthorized";
 import { getDefined } from "@/utils";
 
-export const invitation: NonNullable<QueryResolvers['invitation']> = async (
+export const invitation: NonNullable<QueryResolvers["invitation"]> = async (
   _parent,
   _arg,
   ctx
@@ -29,10 +29,10 @@ export const invitation: NonNullable<QueryResolvers['invitation']> = async (
   const invitationToGet = getDefined(invitations[0]);
   const user = await requireSession(ctx);
   if (
-    user.user.email === invitationToGet.sk ||
+    user.user?.email === invitationToGet.sk ||
     (await isAuthorized(ctx, invitationToGet.sk, PERMISSION_LEVELS.READ))[0]
   ) {
-    return invitationToGet as ResolversTypes["Invitation"];
+    return invitationToGet as unknown as ResolversTypes["Invitation"];
   }
   throw forbidden(
     `User does not have permission to access this resouce (${invitationToGet.sk})`

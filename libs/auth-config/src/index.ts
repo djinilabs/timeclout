@@ -2,8 +2,8 @@ import Mailgun from "next-auth/providers/mailgun";
 import { DynamoDBAdapter } from "@auth/dynamodb-adapter";
 import { tables } from "@architect/functions";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
-import { once } from "@/utils";
-import { database } from "@/tables";
+import { getDefined, once } from "@/utils";
+import { database, resourceRef } from "@/tables";
 import { ExpressAuthConfig } from "@auth/express";
 
 export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
@@ -42,8 +42,10 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
         }
         return token;
       },
-      async session({ session, user, token }) {
-        session.user.id = token.sub;
+      async session({ session, token }) {
+        if (token.sub) {
+          session.user.id = token.sub;
+        }
         return session;
       },
     },
@@ -51,11 +53,11 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       signIn: async ({ user, isNewUser }) => {
         console.log("signIn", user, isNewUser);
         const { entity } = await database();
-        const userPk = `users/${user.id}`;
+        const userPk = resourceRef("users", getDefined(user.id));
         if (isNewUser) {
           await entity.create({
             pk: userPk,
-            name: user.name ?? user.email ?? "Unknown",
+            name: user.name || user.email || "Unknown",
             email: user.email,
             createdAt: new Date().toISOString(),
             createdBy: userPk,

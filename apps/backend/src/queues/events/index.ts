@@ -1,4 +1,4 @@
-import { Context, SQSBatchResponse, SQSEvent } from "aws-lambda";
+import { SQSBatchResponse, SQSEvent } from "aws-lambda";
 import { handleQueueEvent } from "../handleQueueEvent";
 import { EventBusEvent } from "@/event-bus";
 import { handleCreateLeaveRequest } from "./createLeaveRequest";

@@ -10,6 +10,7 @@ import { Avatar } from "./Avatar";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
 import { useMutation } from "../hooks/useMutation";
 import { removeUserFromTeamMutation } from "../graphql/mutations/removeUserFromTeam";
+import { User } from "../graphql/graphql";
 
 export const TeamMembers = () => {
   const { company, unit, team: teamPk } = useParams();
@@ -40,15 +41,13 @@ export const TeamMembers = () => {
         </Button>
       </div>
       <ul role="list" className="divide-y divide-gray-100">
-        {teamMembers.map((person) => (
+        {teamMembers.map((person: User) => (
           <li key={person.email} className="flex justify-between gap-x-6 py-5">
             <div className="flex min-w-0 gap-x-4">
               <Avatar email={person.email} emailMd5={person.emailMd5} />
               <div className="min-w-0 flex-auto">
                 <p className="text-sm/6 font-semibold text-gray-900">
-                  <a href={person.href} className="hover:underline">
-                    {person.name}
-                  </a>
+                  {person.name}
                 </p>
                 <p className="mt-1 flex text-xs/5 text-gray-500">
                   <a

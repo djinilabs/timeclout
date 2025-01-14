@@ -1,13 +1,19 @@
 import { nanoid } from "nanoid";
 import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
+import { getDefined } from "@/utils";
 import type { Company, MutationResolvers } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 import { giveAuthorization } from "../../../../auth/giveAuthorization";
 import { defaultLeaveTypes } from "./defaultLeaveTypes";
 
-export const createCompany: NonNullable<MutationResolvers['createCompany']> = async (_parent, arg, ctx) => {
+export const createCompany: NonNullable<
+  MutationResolvers["createCompany"]
+> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
-  const userPk = resourceRef("users", session.user.id);
+  const userPk = resourceRef(
+    "users",
+    getDefined(session.user?.id, "User ID is required")
+  );
   const companyPk = resourceRef("companies", nanoid());
   const company = {
     pk: companyPk,
@@ -28,7 +34,6 @@ export const createCompany: NonNullable<MutationResolvers['createCompany']> = as
       pk: companyPk,
       sk: key,
       createdBy: userPk,
-      createdAt: new Date().toISOString(),
       settings: value,
     });
   }

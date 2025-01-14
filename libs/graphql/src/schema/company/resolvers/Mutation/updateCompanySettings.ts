@@ -4,7 +4,9 @@ import { notFound } from "@hapi/boom";
 import type { Company, MutationResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const updateCompanySettings: NonNullable<MutationResolvers['updateCompanySettings']> = async (_parent, arg, _ctx) => {
+export const updateCompanySettings: NonNullable<
+  MutationResolvers["updateCompanySettings"]
+> = async (_parent, arg, _ctx) => {
   console.log("updateCompanySettings", arg);
   const companyRef = resourceRef("companies", arg.companyPk);
   const userPk = await ensureAuthorized(

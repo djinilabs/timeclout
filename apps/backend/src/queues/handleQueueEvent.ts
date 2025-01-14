@@ -26,12 +26,13 @@ export const handleQueueEvent = async <T extends object>(
   );
   return {
     batchItemFailures: results
-      .map((result, resultIndex) => ({
-        itemIdentifier:
-          result.status === "rejected"
-            ? event.Records[resultIndex].messageId
-            : undefined,
-      }))
-      .filter((result) => result.itemIdentifier !== undefined),
+      .flatMap((result, resultIndex) =>
+        result.status === "rejected"
+          ? [event.Records[resultIndex].messageId]
+          : []
+      )
+      .map((messageId) => ({
+        itemIdentifier: messageId,
+      })),
   };
 };

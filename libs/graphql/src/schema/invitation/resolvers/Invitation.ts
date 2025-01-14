@@ -1,4 +1,4 @@
-import { database } from "@/tables";
+import { database, ResourceRef } from "@/tables";
 import crypto from "crypto";
 import type {
   InvitationEntity,
@@ -7,6 +7,7 @@ import type {
   ResolversUnionTypes,
   User,
 } from "./../../../types.generated";
+import { notFound } from "@hapi/boom";
 
 const entityTypeToGraphQlEntityType = {
   companies: "Company",
@@ -24,18 +25,25 @@ export const Invitation: InvitationResolvers = {
   },
   createdBy: async (parent) => {
     const { entity } = await database();
-    return entity.get(parent.createdBy as unknown as string) as Promise<User>;
+    return entity.get(
+      parent.createdBy as unknown as ResourceRef
+    ) as unknown as Promise<User>;
   },
   updatedBy: async (parent) => {
     if (!parent.updatedBy) {
       return null;
     }
     const { entity } = await database();
-    return entity.get(parent.updatedBy as unknown as string) as Promise<User>;
+    return entity.get(
+      parent.updatedBy as unknown as ResourceRef
+    ) as unknown as Promise<User>;
   },
   toEntity: async (parent) => {
     const { entity } = await database();
     const entityData = await entity.get(parent.pk);
+    if (!entityData) {
+      throw notFound(`Entity not found: ${parent.pk}`);
+    }
     const entityType =
       entityTypeToGraphQlEntityType[entityData.pk.split("/")[0]];
     const finalEntity = {

@@ -1,4 +1,5 @@
 import { database, resourceRef } from "@/tables";
+import { getDefined } from "@/utils";
 import { ResolverContext } from "../resolverContext";
 import { requireSession } from "../session/requireSession";
 
@@ -10,7 +11,10 @@ export const isAuthorized = async (
   minimumPermission: number
 ): Promise<IsAuthorizedResult> => {
   const session = await requireSession(ctx);
-  const userPk = resourceRef("users", session.user.id);
+  const userPk = resourceRef(
+    "users",
+    getDefined(session.user?.id, "User ID is required")
+  );
 
   const { permission } = await database();
   const permissionRecord = await permission.get(resource, userPk);

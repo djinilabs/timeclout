@@ -1,4 +1,4 @@
-import { LeaveRequest } from "libs/graphql/src/types.generated";
+import { LeaveRequestRecord } from "@/tables";
 
 type EventBusEventBase<TK extends string, TV extends object> = {
   key: TK;
@@ -8,7 +8,7 @@ type EventBusEventBase<TK extends string, TV extends object> = {
 export type EventBusEventCreateLeaveRequest = EventBusEventBase<
   "createLeaveRequest",
   {
-    leaveRequest: LeaveRequest;
+    leaveRequest: LeaveRequestRecord;
   }
 >;
 

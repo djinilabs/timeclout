@@ -1,5 +1,5 @@
 import { notFound } from "@hapi/boom";
-import { database, PERMISSION_LEVELS } from "@/tables";
+import { database, PERMISSION_LEVELS, resourceRef } from "@/tables";
 import type {
   Invitation,
   MutationResolvers,
@@ -10,7 +10,9 @@ import { requireSession } from "../../../../session/requireSession";
 import { ensureAuthorization } from "../../../../auth/ensureAuthorization";
 import { getDefined } from "@/utils";
 
-export const acceptInvitation: NonNullable<MutationResolvers['acceptInvitation']> = async (_parent, arg, ctx) => {
+export const acceptInvitation: NonNullable<
+  MutationResolvers["acceptInvitation"]
+> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const { invitation, entity } = await database();
   const invitations = await invitation.query({
@@ -27,7 +29,10 @@ export const acceptInvitation: NonNullable<MutationResolvers['acceptInvitation']
 
   const userInvitation = getDefined(invitations[0]);
 
-  if (userInvitation.sk !== session.user.email) {
+  if (
+    userInvitation.sk !==
+    getDefined(session.user?.email, "User email is required")
+  ) {
     throw notFound("Invitation not found");
   }
 
@@ -37,17 +42,24 @@ export const acceptInvitation: NonNullable<MutationResolvers['acceptInvitation']
     throw notFound("Team not found");
   }
 
-  const userPk = `users/${session.user.id}`;
+  const userPk = resourceRef(
+    "users",
+    getDefined(session.user?.id, "User ID is required")
+  );
 
   // get unit the team belongs to
-  const unit = await entity.get(team.parentPk);
+  const unit = await entity.get(
+    getDefined(team.parentPk, "Team parent PK is required")
+  );
 
   if (!unit) {
     throw notFound("Unit not found");
   }
 
   // get the company the unit belongs to
-  const company = await entity.get(unit.parentPk);
+  const company = await entity.get(
+    getDefined(unit.parentPk, "Unit parent PK is required")
+  );
   if (!company) {
     throw notFound("Company not found");
   }

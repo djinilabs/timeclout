@@ -3,14 +3,19 @@ import {
   APIGatewayProxyHandlerV2,
   APIGatewayProxyEventV2,
   Context,
+  Callback,
 } from "aws-lambda";
 
 export const handlingErrors = (handler: APIGatewayProxyHandlerV2) => {
-  return async (event: APIGatewayProxyEventV2, context: Context, callback) => {
+  return async (
+    event: APIGatewayProxyEventV2,
+    context: Context,
+    callback: Callback
+  ) => {
     try {
       return await handler(event, context, callback);
     } catch (error) {
-      const boomed = boomify(error);
+      const boomed = boomify(error as Error);
       if (boomed.isServer) {
         console.error(boomed);
       } else {

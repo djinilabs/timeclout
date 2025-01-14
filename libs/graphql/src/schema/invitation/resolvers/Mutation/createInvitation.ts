@@ -20,7 +20,9 @@ export async function createHash(message: string) {
     .toString();
 }
 
-export const createInvitation: NonNullable<MutationResolvers['createInvitation']> = async (_parent, arg, ctx) => {
+export const createInvitation: NonNullable<
+  MutationResolvers["createInvitation"]
+> = async (_parent, arg, ctx) => {
   const actingUserPk = await ensureAuthorized(
     ctx,
     arg.toEntityPk,
@@ -38,14 +40,17 @@ export const createInvitation: NonNullable<MutationResolvers['createInvitation']
     secret,
     permissionType: arg.permissionType,
     createdBy: actingUserPk,
-    createdAt: new Date().toISOString(),
   });
 
   const auth = await authConfig();
 
   const token = await createHash(`${secret}${auth.secret}`);
 
-  await auth.adapter.createVerificationToken({
+  await getDefined(
+    getDefined(auth.adapter, "Auth adapter is required")
+      ?.createVerificationToken,
+    "Auth adapter createVerificationToken is required"
+  )({
     identifier: arg.invitedUserEmail,
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
     token,

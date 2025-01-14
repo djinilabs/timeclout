@@ -5,6 +5,7 @@ import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
 import { unitQuery } from "../graphql/queries/unitQuery";
 import { useQuery } from "../hooks/useQuery";
+import { Team } from "../graphql/graphql";
 
 const NoTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
@@ -97,7 +98,7 @@ export const AllUnitTeams = () => {
       </div>
 
       <ul>
-        {unit?.teams.map((team) => (
+        {unit?.teams.map((team: Team) => (
           <>
             <li
               key={team.pk}

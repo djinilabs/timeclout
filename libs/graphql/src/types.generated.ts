@@ -92,7 +92,7 @@ export type LeaveRequest = {
   createdBy: Scalars['String']['output'];
   endDate: Scalars['String']['output'];
   pk: Scalars['String']['output'];
-  reason: Scalars['String']['output'];
+  reason?: Maybe<Scalars['String']['output']>;
   sk: Scalars['String']['output'];
   startDate: Scalars['String']['output'];
   type: Scalars['String']['output'];
@@ -494,7 +494,7 @@ export type LeaveRequestResolvers<ContextType = any, ParentType extends Resolver
   createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  reason?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

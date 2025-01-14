@@ -1,7 +1,6 @@
 // @ts-ignore
-import { database, PERMISSION_LEVELS } from "@/tables";
+import { database } from "@/tables";
 import { CompanyResolvers, Unit, User } from "../../../types.generated";
-import { requireSession } from "../../../session/requireSession";
 import { getAuthorized } from "libs/graphql/src/auth/getAuthorized";
 
 export const Company: CompanyResolvers = {
@@ -15,7 +14,9 @@ export const Company: CompanyResolvers = {
       return null;
     }
     const { entity } = await database();
-    return entity.get(parent.updatedBy as unknown as string) as Promise<User>;
+    return entity.get(
+      parent.updatedBy as unknown as string
+    ) as unknown as Promise<User>;
   },
   units: async (_parent, _args, ctx) => {
     const { entity } = await database();
