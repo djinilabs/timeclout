@@ -31,8 +31,6 @@ export const createLeaveRequest = async ({
     throw notFound("Company leave type settings not found");
   }
 
-  console.log("leaveTypeSettingsUnparsed", leaveTypeSettingsUnparsed);
-
   const leaveTypeSettings = leaveTypeParser.parse(
     leaveTypeSettingsUnparsed.settings
   );
@@ -64,13 +62,15 @@ export const createLeaveRequest = async ({
     let startDate = new Date(startDateAsString);
     const endDate = new Date(endDateAsString);
     while (startDate <= endDate) {
-      await leave.create({
+      const newLeave = {
         pk: `${companyPk}/${userPk}`,
-        sk: startDateAsString,
+        sk: startDate.toISOString().split("T")[0],
         type: leaveTypeName,
         leaveRequestPk: leaveRequest.pk,
         createdBy: userPk,
-      });
+      };
+      console.log("creating newLeave", newLeave);
+      await leave.create(newLeave);
 
       // Move to next day
       const nextDate = new Date(startDate);
