@@ -24,6 +24,13 @@ export type ApproveLeaveRequestInput = {
   sk: Scalars['String']['input'];
 };
 
+export type Calendar = {
+  __typename?: 'Calendar';
+  leaveRequests: Array<LeaveRequest>;
+  leaves: Array<Leave>;
+  year: Scalars['Int']['output'];
+};
+
 export type Company = {
   __typename?: 'Company';
   createdAt: Scalars['DateTime']['output'];
@@ -243,6 +250,7 @@ export type Query = {
   invitationsTo: Array<Invitation>;
   leaveRequest: LeaveRequest;
   myInvitations: Array<Invitation>;
+  myLeaveCalendar: Calendar;
   team: Team;
   unit: Unit;
 };
@@ -266,6 +274,12 @@ export type QueryinvitationsToArgs = {
 export type QueryleaveRequestArgs = {
   pk: Scalars['String']['input'];
   sk: Scalars['String']['input'];
+};
+
+
+export type QuerymyLeaveCalendarArgs = {
+  companyPk: Scalars['String']['input'];
+  year: Scalars['Int']['input'];
 };
 
 
@@ -403,13 +417,14 @@ export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
 export type ResolversTypes = {
   ApproveLeaveRequestInput: ApproveLeaveRequestInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Calendar: ResolverTypeWrapper<Calendar>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Company: ResolverTypeWrapper<Company>;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteLeaveInput: DeleteLeaveInput;
   DeleteLeaveRequestInput: DeleteLeaveRequestInput;
   Invitation: ResolverTypeWrapper<Omit<Invitation, 'toEntity'> & { toEntity: ResolversTypes['InvitationEntity'] }>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   InvitationEntity: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['InvitationEntity']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   Leave: ResolverTypeWrapper<Leave>;
@@ -427,13 +442,14 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   ApproveLeaveRequestInput: ApproveLeaveRequestInput;
   String: Scalars['String']['output'];
+  Calendar: Calendar;
+  Int: Scalars['Int']['output'];
   Company: Company;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
   DateTime: Scalars['DateTime']['output'];
   DeleteLeaveInput: DeleteLeaveInput;
   DeleteLeaveRequestInput: DeleteLeaveRequestInput;
   Invitation: Omit<Invitation, 'toEntity'> & { toEntity: ResolversParentTypes['InvitationEntity'] };
-  Int: Scalars['Int']['output'];
   InvitationEntity: ResolversUnionTypes<ResolversParentTypes>['InvitationEntity'];
   JSON: Scalars['JSON']['output'];
   Leave: Leave;
@@ -445,6 +461,13 @@ export type ResolversParentTypes = {
   Unit: Unit;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
   User: User;
+};
+
+export type CalendarResolvers<ContextType = any, ParentType extends ResolversParentTypes['Calendar'] = ResolversParentTypes['Calendar']> = {
+  leaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType>;
+  leaves?: Resolver<Array<ResolversTypes['Leave']>, ParentType, ContextType>;
+  year?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = {
@@ -538,6 +561,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   invitationsTo?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType, RequireFields<QueryinvitationsToArgs, 'toEntityPk'>>;
   leaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<QueryleaveRequestArgs, 'pk' | 'sk'>>;
   myInvitations?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType>;
+  myLeaveCalendar?: Resolver<ResolversTypes['Calendar'], ParentType, ContextType, RequireFields<QuerymyLeaveCalendarArgs, 'companyPk' | 'year'>>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;
   unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<QueryunitArgs, 'unitPk'>>;
 };
@@ -577,6 +601,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
+  Calendar?: CalendarResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Invitation?: InvitationResolvers<ContextType>;

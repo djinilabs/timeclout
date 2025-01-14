@@ -8,7 +8,7 @@ import {
 import type { QueryResolvers } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 
-export const leaveRequest: NonNullable<QueryResolvers["leaveRequest"]> = async (
+export const leaveRequest: NonNullable<QueryResolvers['leaveRequest']> = async (
   _parent,
   arg,
   ctx

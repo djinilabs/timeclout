@@ -4,22 +4,31 @@ import {
   ChevronRightIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
-import { useMemo } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { classNames } from "../utils/classNames";
 import { generateYearMonthsDays } from "../utils/generateYearMonthsDays";
+
+export interface LeaveDay {
+  type: string;
+  icon?: ReactNode;
+  color?: string;
+}
 
 export interface YearCalendarProps {
   year: number;
   goToYear: (year: number) => void;
   bookTimeOff: () => void;
+  calendarDateMap: Record<string, LeaveDay>;
 }
 
 export const YearCalendar = ({
   year,
   goToYear,
   bookTimeOff,
+  calendarDateMap,
 }: YearCalendarProps) => {
   const months = useMemo(() => generateYearMonthsDays(year), [year]);
+  const [hoveringDay, setHoveringDay] = useState<string | null>(null);
   return (
     <div>
       <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
@@ -114,34 +123,49 @@ export const YearCalendar = ({
                 <div>S</div>
               </div>
               <div className="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm ring-1 shadow-sm ring-gray-200">
-                {month.days.map((day, dayIdx) => (
-                  <button
-                    key={day.date}
-                    type="button"
-                    className={classNames(
-                      day.isCurrentMonth
-                        ? "bg-white text-gray-900"
-                        : "bg-gray-50 text-gray-400",
-                      dayIdx === 0 ? "rounded-tl-lg" : "",
-                      dayIdx === 6 ? "rounded-tr-lg" : "",
-                      dayIdx === month.days.length - 7 ? "rounded-bl-lg" : "",
-                      dayIdx === month.days.length - 1 ? "rounded-br-lg" : "",
-                      "py-1.5 hover:bg-gray-100 focus:z-10"
-                    )}
-                  >
-                    <time
-                      dateTime={day.date}
+                {month.days.map((day, dayIdx) => {
+                  const isLeave = calendarDateMap[day.date];
+                  const isHovering = hoveringDay === day.date;
+                  return (
+                    <button
+                      key={day.date}
+                      type="button"
                       className={classNames(
-                        day.isToday
-                          ? "bg-teal-600 font-semibold text-white"
-                          : "",
-                        "mx-auto flex size-7 items-center justify-center rounded-full"
+                        day.isCurrentMonth
+                          ? "bg-white text-gray-900"
+                          : "bg-gray-50 text-gray-400",
+                        dayIdx === 0 ? "rounded-tl-lg" : "",
+                        dayIdx === 6 ? "rounded-tr-lg" : "",
+                        dayIdx === month.days.length - 7 ? "rounded-bl-lg" : "",
+                        dayIdx === month.days.length - 1 ? "rounded-br-lg" : "",
+                        "py-1.5 hover:bg-gray-100 focus:z-10"
                       )}
+                      onMouseEnter={() => isLeave && setHoveringDay(day.date)}
+                      onMouseLeave={() => isLeave && setHoveringDay(null)}
                     >
-                      {day.date.split("-").pop()?.replace(/^0/, "")}
-                    </time>
-                  </button>
-                ))}
+                      <time
+                        dateTime={day.date}
+                        className={classNames(
+                          day.isToday
+                            ? "bg-teal-600 font-semibold text-white"
+                            : "",
+                          "mx-auto flex size-7 items-center justify-center rounded-full"
+                        )}
+                        style={
+                          isLeave
+                            ? {
+                                backgroundColor: isLeave?.color,
+                              }
+                            : undefined
+                        }
+                      >
+                        {isLeave && !isHovering
+                          ? isLeave.icon
+                          : day.date.split("-").pop()?.replace(/^0/, "")}
+                      </time>
+                    </button>
+                  );
+                })}
               </div>
             </section>
           ))}

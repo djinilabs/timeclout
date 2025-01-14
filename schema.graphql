@@ -8,6 +8,12 @@ input ApproveLeaveRequestInput {
   sk: String!
 }
 
+type Calendar {
+  leaveRequests: [LeaveRequest!]!
+  leaves: [Leave!]!
+  year: Int!
+}
+
 type Company {
   createdAt: DateTime!
   createdBy: User!
@@ -107,6 +113,7 @@ type Query {
   invitationsTo(toEntityPk: String!): [Invitation!]!
   leaveRequest(pk: String!, sk: String!): LeaveRequest!
   myInvitations: [Invitation!]!
+  myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
   team(teamPk: String!): Team!
   unit(unitPk: String!): Unit!
 }

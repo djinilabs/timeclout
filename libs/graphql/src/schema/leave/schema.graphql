@@ -13,3 +13,13 @@ input DeleteLeaveInput {
 extend type Mutation {
   deleteLeave(input: DeleteLeaveInput!): Leave!
 }
+
+type Calendar {
+  year: Int!
+  leaves: [Leave!]!
+  leaveRequests: [LeaveRequest!]!
+}
+
+extend type Query {
+  myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
+}

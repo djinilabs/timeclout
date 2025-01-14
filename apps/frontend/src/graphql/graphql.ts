@@ -22,6 +22,13 @@ export type ApproveLeaveRequestInput = {
   sk: Scalars['String']['input'];
 };
 
+export type Calendar = {
+  __typename?: 'Calendar';
+  leaveRequests: Array<LeaveRequest>;
+  leaves: Array<Leave>;
+  year: Scalars['Int']['output'];
+};
+
 export type Company = {
   __typename?: 'Company';
   createdAt: Scalars['DateTime']['output'];
@@ -241,6 +248,7 @@ export type Query = {
   invitationsTo: Array<Invitation>;
   leaveRequest: LeaveRequest;
   myInvitations: Array<Invitation>;
+  myLeaveCalendar: Calendar;
   team: Team;
   unit: Unit;
 };
@@ -264,6 +272,12 @@ export type QueryInvitationsToArgs = {
 export type QueryLeaveRequestArgs = {
   pk: Scalars['String']['input'];
   sk: Scalars['String']['input'];
+};
+
+
+export type QueryMyLeaveCalendarArgs = {
+  companyPk: Scalars['String']['input'];
+  year: Scalars['Int']['input'];
 };
 
 

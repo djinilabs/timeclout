@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useState } from "react";
+import { Suspense, useCallback, useMemo, useState } from "react";
 import {
   useLocation,
   useNavigate,
@@ -8,22 +8,108 @@ import {
 import toast from "react-hot-toast";
 import { getDefined } from "@/utils";
 import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRequest.graphql";
-import { YearCalendar } from "./YearCalendar";
+import myLeaveCalendarQuery from "@/graphql-client/queries/myLeaveCalendar.graphql";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import { LeaveDay, YearCalendar } from "./YearCalendar";
 import { BookCompanyTimeOff, type TimeOffRequest } from "./BookCompanyTimeOff";
 import { useMutation } from "../hooks/useMutation";
-import { Mutation, MutationCreateLeaveRequestArgs } from "../graphql/graphql";
+import {
+  Calendar,
+  CompanySettingsArgs,
+  Leave,
+  LeaveRequest,
+  Mutation,
+  MutationCreateLeaveRequestArgs,
+  Query,
+  QueryCompanyArgs,
+} from "../graphql/graphql";
+import { useQuery } from "../hooks/useQuery";
+import { leaveTypeColors } from "../settings/leaveTypes";
+import { leaveTypeIcons } from "../settings/leaveTypes";
+import { leaveTypeParser } from "@/settings";
 
 export const CompanyTimeOff = () => {
+  const { company } = useParams();
   const [year, setYear] = useState(new Date().getFullYear());
   const location = useLocation();
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
+  const [companyWithSettingsQueryResponse] = useQuery<
+    { company: Query["company"] },
+    QueryCompanyArgs & CompanySettingsArgs
+  >({
+    query: companyWithSettingsQuery,
+    variables: {
+      companyPk: getDefined(company, "No company provided"),
+      name: "leaveTypes",
+    },
+  });
+
+  const companyLeaveSettings = useMemo(
+    () =>
+      companyWithSettingsQueryResponse?.data?.company?.settings
+        ? Object.fromEntries(
+            leaveTypeParser
+              .parse(companyWithSettingsQueryResponse.data.company.settings)
+              .map((leaveType) => [leaveType.name, leaveType])
+          )
+        : undefined,
+    [companyWithSettingsQueryResponse]
+  );
+  const leaveTypeForCalendar = useCallback(
+    (leave: Leave | LeaveRequest): LeaveDay => {
+      const leaveType = companyLeaveSettings?.[leave.type];
+      return {
+        type: leave.type,
+        icon: leaveType && leaveTypeIcons[leaveType?.icon],
+        color: leaveType && leaveTypeColors[leaveType?.color],
+      };
+    },
+    [companyLeaveSettings]
+  );
+
+  const [myLeaveCalendar, refreshMyLeaveCalendar] = useQuery<{
+    myLeaveCalendar: Calendar;
+  }>({
+    pollingIntervalMs: 10_000,
+    query: myLeaveCalendarQuery,
+    variables: {
+      companyPk: getDefined(company, "No company provided"),
+      year,
+    },
+  });
+
+  const calendarDateMap: Record<string, LeaveDay> = useMemo(
+    () => ({
+      ...myLeaveCalendar.data?.myLeaveCalendar.leaves.reduce(
+        (acc, leave) => {
+          acc[leave.sk] = leaveTypeForCalendar(leave);
+          return acc;
+        },
+        {} as Record<string, LeaveDay>
+      ),
+      ...myLeaveCalendar.data?.myLeaveCalendar.leaveRequests.reduce(
+        (acc, leaveRequest) => {
+          const startDate = new Date(leaveRequest.startDate);
+          const endDate = new Date(leaveRequest.endDate);
+          while (startDate <= endDate) {
+            acc[startDate.toISOString().split("T")[0]] =
+              leaveTypeForCalendar(leaveRequest);
+            startDate.setDate(startDate.getDate() + 1);
+          }
+          return acc;
+        },
+        {} as Record<string, LeaveDay>
+      ),
+    }),
+    [myLeaveCalendar.data]
+  );
+
   const [, createLeaveRequest] = useMutation<
     Mutation["createLeaveRequest"],
     MutationCreateLeaveRequestArgs
   >(createLeaveRequestMutation);
-  const { company } = useParams();
   const onSubmit = useCallback(
     async (values: TimeOffRequest) => {
       const [startDate, endDate] = values.dateRange;
@@ -41,6 +127,7 @@ export const CompanyTimeOff = () => {
       });
       if (!result.error) {
         toast.success("Leave request submitted");
+        refreshMyLeaveCalendar();
         navigate({
           pathname: location.pathname,
           search: new URLSearchParams({
@@ -50,7 +137,7 @@ export const CompanyTimeOff = () => {
         });
       }
     },
-    [createLeaveRequest]
+    [createLeaveRequest, refreshMyLeaveCalendar]
   );
 
   return (
@@ -72,6 +159,7 @@ export const CompanyTimeOff = () => {
         <YearCalendar
           year={year}
           goToYear={setYear}
+          calendarDateMap={calendarDateMap}
           bookTimeOff={() => {
             navigate({
               pathname: location.pathname,

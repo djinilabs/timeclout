@@ -1,0 +1,18 @@
+query MyLeaveCalendar($companyPk: String!, $year: Int!) {
+  myLeaveCalendar(companyPk: $companyPk, year: $year) {
+    year
+    leaves {
+      pk
+      sk
+      leaveRequestPk
+      type
+    }
+    leaveRequests {
+      pk
+      sk
+      startDate
+      endDate
+      type
+    }
+  }
+}
