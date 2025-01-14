@@ -131,6 +131,8 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                         : "Select the date range for your leave."}
                     </p>
                     <DayPicker
+                      ISOWeek
+                      timeZone="UTC"
                       mode="range"
                       required
                       selected={{

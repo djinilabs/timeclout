@@ -1,3 +1,5 @@
+import { LeaveRequest as LeaveRequestType } from "../graphql/graphql";
+
 export const LeaveRequest = ({
   createdBy,
   createdAt,
@@ -5,7 +7,7 @@ export const LeaveRequest = ({
   endDate,
   type,
   reason,
-}: LeaveRequest) => {
+}: LeaveRequestType) => {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Leave Request Details</h2>
