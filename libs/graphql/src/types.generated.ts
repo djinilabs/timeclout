@@ -85,6 +85,7 @@ export type InvitationEntity = Company | Team | Unit;
 export type Leave = {
   __typename?: 'Leave';
   leaveRequestPk: Scalars['String']['output'];
+  leaveRequestSk: Scalars['String']['output'];
   pk: Scalars['String']['output'];
   sk: Scalars['String']['output'];
   type: Scalars['String']['output'];
@@ -510,6 +511,7 @@ export interface JSONScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type LeaveResolvers<ContextType = any, ParentType extends ResolversParentTypes['Leave'] = ResolversParentTypes['Leave']> = {
   leaveRequestPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  leaveRequestSk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

@@ -4,14 +4,29 @@ import {
   ChevronRightIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 import { classNames } from "../utils/classNames";
 import { generateYearMonthsDays } from "../utils/generateYearMonthsDays";
+import { LeaveRequest } from "./LeaveRequest";
+import { Popover } from "./Popover";
+import { CalendarDay } from "./CalendarDay";
 
+export interface LeaveRequest {
+  startDate: string;
+  endDate: string;
+  type: string;
+  approved?: boolean | null;
+  reason?: string | null;
+  createdAt: string;
+  createdBy: string;
+  pk: string;
+  sk: string;
+}
 export interface LeaveDay {
   type: string;
   icon?: ReactNode;
   color?: string;
+  leaveRequest?: LeaveRequest;
 }
 
 export interface YearCalendarProps {
@@ -108,8 +123,12 @@ export const YearCalendar = ({
       </header>
       <div className="bg-white">
         <div className="mx-auto grid max-w-3xl grid-cols-1 gap-x-8 gap-y-16 px-4 py-16 sm:grid-cols-2 sm:px-6 xl:max-w-none xl:grid-cols-3 xl:px-8 2xl:grid-cols-4">
-          {months.map((month) => (
-            <section key={`${year}-${month.name}`} className="text-center">
+          {months.map((month, monthIdx) => (
+            <section
+              key={`${year}-${month.name}`}
+              className="text-center"
+              style={{ zIndex: 999 - monthIdx }}
+            >
               <h2 className="text-sm font-semibold text-gray-900">
                 {month.name}
               </h2>
@@ -127,43 +146,14 @@ export const YearCalendar = ({
                   const isLeave = calendarDateMap[day.date];
                   const isHovering = hoveringDay === day.date;
                   return (
-                    <button
-                      key={day.date}
-                      type="button"
-                      className={classNames(
-                        day.isCurrentMonth
-                          ? "bg-white text-gray-900"
-                          : "bg-gray-50 text-gray-400",
-                        dayIdx === 0 ? "rounded-tl-lg" : "",
-                        dayIdx === 6 ? "rounded-tr-lg" : "",
-                        dayIdx === month.days.length - 7 ? "rounded-bl-lg" : "",
-                        dayIdx === month.days.length - 1 ? "rounded-br-lg" : "",
-                        "py-1.5 hover:bg-gray-100 focus:z-10"
-                      )}
-                      onMouseEnter={() => isLeave && setHoveringDay(day.date)}
-                      onMouseLeave={() => isLeave && setHoveringDay(null)}
-                    >
-                      <time
-                        dateTime={day.date}
-                        className={classNames(
-                          day.isToday
-                            ? "bg-teal-600 font-semibold text-white"
-                            : "",
-                          "mx-auto flex size-7 items-center justify-center rounded-full"
-                        )}
-                        style={
-                          isLeave
-                            ? {
-                                backgroundColor: isLeave?.color,
-                              }
-                            : undefined
-                        }
-                      >
-                        {isLeave && !isHovering
-                          ? isLeave.icon
-                          : day.date.split("-").pop()?.replace(/^0/, "")}
-                      </time>
-                    </button>
+                    <CalendarDay
+                      day={day}
+                      dayIdx={dayIdx}
+                      month={month}
+                      isLeave={isLeave}
+                      isHovering={isHovering}
+                      setHoveringDay={setHoveringDay}
+                    />
                   );
                 })}
               </div>

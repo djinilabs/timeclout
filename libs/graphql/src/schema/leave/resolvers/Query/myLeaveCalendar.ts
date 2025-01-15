@@ -24,12 +24,11 @@ export const myLeaveCalendar: NonNullable<
           KeyConditionExpression:
             "pk = :pk AND begins_with(sk, :currentYearPrefix)",
           FilterExpression:
-            "approved = :approved AND (begins_with(endDate, :currentYearPrefix) OR begins_with(endDate, :nextYearPrefix))",
+            "begins_with(endDate, :currentYearPrefix) OR begins_with(endDate, :nextYearPrefix)",
           ExpressionAttributeValues: {
             ":pk": leavePk,
             ":currentYearPrefix": `${year}-`,
             ":nextYearPrefix": `${year + 1}-`,
-            ":approved": false,
           },
         })
       )

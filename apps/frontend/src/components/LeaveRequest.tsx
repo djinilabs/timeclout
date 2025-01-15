@@ -9,27 +9,52 @@ export const LeaveRequest = ({
   reason,
 }: LeaveRequestType) => {
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Leave Request Details</h2>
-      <div className="space-y-2">
-        <div>
-          <span className="font-semibold">Created By:</span> {createdBy}
+    <div className="overflow-hidden rounded-lg bg-white shadow-sm border border-gray-200">
+      <div className="px-4 py-5 sm:p-4">
+        <div className="px-4 sm:px-0">
+          <h2 className="text-base/7 font-semibold text-gray-900">
+            Leave Request Details
+          </h2>
         </div>
-        <div>
-          <span className="font-semibold">Created At:</span>{" "}
-          {new Date(createdAt).toLocaleString()}
-        </div>
-        <div>
-          <span className="font-semibold">Start Date:</span> {startDate}
-        </div>
-        <div>
-          <span className="font-semibold">End Date:</span> {endDate}
-        </div>
-        <div>
-          <span className="font-semibold">Type:</span> {type}
-        </div>
-        <div>
-          <span className="font-semibold">Reason:</span> {reason}
+        <div className="mt-6 border-t border-gray-100">
+          <dl className="divide-y divide-gray-100">
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium text-gray-500">Created By:</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {createdBy}
+              </dd>
+            </div>
+            <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium text-gray-500">Created At:</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {new Date(createdAt).toLocaleString()}
+              </dd>
+            </div>
+            <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium text-gray-500">Start Date:</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {startDate}
+              </dd>
+            </div>
+            <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium text-gray-500">End Date:</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {endDate}
+              </dd>
+            </div>
+            <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium text-gray-500">Type:</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {type}
+              </dd>
+            </div>
+            <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium text-gray-500">Reason:</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {reason}
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>

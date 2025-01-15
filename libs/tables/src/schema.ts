@@ -55,6 +55,7 @@ export const tableSchemas = {
     // pk is company/:companyPk/users/:userPk
     sk: z.string().date(), // leave date
     leaveRequestPk: z.string(),
+    leaveRequestSk: z.string(),
     type: z.string(),
   }),
 } as const;

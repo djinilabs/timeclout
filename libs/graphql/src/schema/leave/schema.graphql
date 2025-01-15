@@ -2,6 +2,7 @@ type Leave {
   pk: String!
   sk: String!
   leaveRequestPk: String!
+  leaveRequestSk: String!
   type: String!
 }
 

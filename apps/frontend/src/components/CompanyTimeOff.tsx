@@ -58,12 +58,21 @@ export const CompanyTimeOff = () => {
     [companyWithSettingsQueryResponse]
   );
   const leaveTypeForCalendar = useCallback(
-    (leave: Leave | LeaveRequest): LeaveDay => {
+    (
+      leave: Leave | LeaveRequest,
+      approvedLeaveRequests: Record<string, LeaveRequest>
+    ): LeaveDay => {
       const leaveType = companyLeaveSettings?.[leave.type];
       return {
         type: leave.type,
         icon: leaveType && leaveTypeIcons[leaveType?.icon],
         color: leaveType && leaveTypeColors[leaveType?.color],
+        leaveRequest:
+          "leaveRequestPk" in leave
+            ? approvedLeaveRequests[
+                `${leave.leaveRequestPk}/${leave.leaveRequestSk}`
+              ]
+            : undefined,
       };
     },
     [companyLeaveSettings]
@@ -80,31 +89,42 @@ export const CompanyTimeOff = () => {
     },
   });
 
-  const calendarDateMap: Record<string, LeaveDay> = useMemo(
-    () => ({
-      ...myLeaveCalendar.data?.myLeaveCalendar.leaves.reduce(
-        (acc, leave) => {
-          acc[leave.sk] = leaveTypeForCalendar(leave);
-          return acc;
-        },
-        {} as Record<string, LeaveDay>
-      ),
+  const calendarDateMap: Record<string, LeaveDay> = useMemo(() => {
+    const approvedLeaveRequests: Record<string, LeaveRequest> = {};
+    return {
       ...myLeaveCalendar.data?.myLeaveCalendar.leaveRequests.reduce(
         (acc, leaveRequest) => {
-          const startDate = new Date(leaveRequest.startDate);
-          const endDate = new Date(leaveRequest.endDate);
-          while (startDate <= endDate) {
-            acc[startDate.toISOString().split("T")[0]] =
-              leaveTypeForCalendar(leaveRequest);
-            startDate.setDate(startDate.getDate() + 1);
+          if (!leaveRequest.approved) {
+            const startDate = new Date(leaveRequest.startDate);
+            const endDate = new Date(leaveRequest.endDate);
+            while (startDate <= endDate) {
+              acc[startDate.toISOString().split("T")[0]] = leaveTypeForCalendar(
+                leaveRequest,
+                approvedLeaveRequests
+              );
+              startDate.setDate(startDate.getDate() + 1);
+            }
+          } else {
+            approvedLeaveRequests[`${leaveRequest.pk}/${leaveRequest.sk}`] =
+              leaveRequest;
           }
           return acc;
         },
         {} as Record<string, LeaveDay>
       ),
-    }),
-    [myLeaveCalendar.data]
-  );
+      ...myLeaveCalendar.data?.myLeaveCalendar.leaves.reduce(
+        (acc, leave) => {
+          acc[leave.sk] = leaveTypeForCalendar(leave, approvedLeaveRequests);
+          return acc;
+        },
+        {} as Record<string, LeaveDay>
+      ),
+    };
+  }, [
+    leaveTypeForCalendar,
+    myLeaveCalendar.data?.myLeaveCalendar.leaveRequests,
+    myLeaveCalendar.data?.myLeaveCalendar.leaves,
+  ]);
 
   const [, createLeaveRequest] = useMutation<
     Mutation["createLeaveRequest"],
@@ -137,7 +157,14 @@ export const CompanyTimeOff = () => {
         });
       }
     },
-    [createLeaveRequest, refreshMyLeaveCalendar]
+    [
+      company,
+      createLeaveRequest,
+      location.pathname,
+      navigate,
+      params,
+      refreshMyLeaveCalendar,
+    ]
   );
 
   return (

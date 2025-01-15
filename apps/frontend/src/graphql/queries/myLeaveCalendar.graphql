@@ -5,6 +5,7 @@ query MyLeaveCalendar($companyPk: String!, $year: Int!) {
       pk
       sk
       leaveRequestPk
+      leaveRequestSk
       type
     }
     leaveRequests {
@@ -13,6 +14,8 @@ query MyLeaveCalendar($companyPk: String!, $year: Int!) {
       startDate
       endDate
       type
+      approved
+      reason
     }
   }
 }

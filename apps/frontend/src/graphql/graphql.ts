@@ -83,6 +83,7 @@ export type InvitationEntity = Company | Team | Unit;
 export type Leave = {
   __typename?: 'Leave';
   leaveRequestPk: Scalars['String']['output'];
+  leaveRequestSk: Scalars['String']['output'];
   pk: Scalars['String']['output'];
   sk: Scalars['String']['output'];
   type: Scalars['String']['output'];

@@ -37,6 +37,7 @@ export const approveLeaveRequest = async (
       sk: startDate.toISOString().split("T")[0],
       type: leaveRequest.type,
       leaveRequestPk: leaveRequest.pk,
+      leaveRequestSk: leaveRequest.sk,
       createdBy: leaveRequest.createdBy,
     };
     console.log("creating new Leave", newLeave);

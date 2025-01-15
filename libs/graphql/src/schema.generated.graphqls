@@ -59,6 +59,7 @@ scalar JSON
 
 type Leave {
   leaveRequestPk: String!
+  leaveRequestSk: String!
   pk: String!
   sk: String!
   type: String!
