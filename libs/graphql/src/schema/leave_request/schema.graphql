@@ -6,9 +6,9 @@ type LeaveRequest {
   type: String!
   reason: String
   approved: Boolean
-  approvedBy: [String!]
+  approvedBy: [User!]
   approvedAt: [DateTime!]
-  createdBy: String!
+  createdBy: User!
   createdAt: DateTime!
 }
 

@@ -95,9 +95,9 @@ export type LeaveRequest = {
   __typename?: 'LeaveRequest';
   approved?: Maybe<Scalars['Boolean']['output']>;
   approvedAt?: Maybe<Array<Scalars['DateTime']['output']>>;
-  approvedBy?: Maybe<Array<Scalars['String']['output']>>;
+  approvedBy?: Maybe<Array<User>>;
   createdAt: Scalars['DateTime']['output'];
-  createdBy: Scalars['String']['output'];
+  createdBy: User;
   endDate: Scalars['String']['output'];
   pk: Scalars['String']['output'];
   reason?: Maybe<Scalars['String']['output']>;
@@ -521,9 +521,9 @@ export type LeaveResolvers<ContextType = any, ParentType extends ResolversParent
 export type LeaveRequestResolvers<ContextType = any, ParentType extends ResolversParentTypes['LeaveRequest'] = ResolversParentTypes['LeaveRequest']> = {
   approved?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   approvedAt?: Resolver<Maybe<Array<ResolversTypes['DateTime']>>, ParentType, ContextType>;
-  approvedBy?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  approvedBy?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

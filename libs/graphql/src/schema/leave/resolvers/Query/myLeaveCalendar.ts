@@ -4,9 +4,7 @@ import { PERMISSION_LEVELS } from "@/tables";
 import type { QueryResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const myLeaveCalendar: NonNullable<
-  QueryResolvers["myLeaveCalendar"]
-> = async (_parent, arg, ctx) => {
+export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = async (_parent, arg, ctx) => {
   const { companyPk, year } = arg;
   const companyRef = resourceRef("companies", companyPk);
   const userRef = await ensureAuthorized(
@@ -42,8 +40,6 @@ export const myLeaveCalendar: NonNullable<
       ":currentYearPrefix": `${year}-`,
     },
   });
-
-  console.log("leaves", leaves);
 
   return {
     year,

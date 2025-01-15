@@ -73,9 +73,9 @@ type Leave {
 type LeaveRequest {
   approved: Boolean
   approvedAt: [DateTime!]
-  approvedBy: [String!]
+  approvedBy: [User!]
   createdAt: DateTime!
-  createdBy: String!
+  createdBy: User!
   endDate: String!
   pk: String!
   reason: String

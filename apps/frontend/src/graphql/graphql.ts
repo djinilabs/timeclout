@@ -93,9 +93,9 @@ export type LeaveRequest = {
   __typename?: 'LeaveRequest';
   approved?: Maybe<Scalars['Boolean']['output']>;
   approvedAt?: Maybe<Array<Scalars['DateTime']['output']>>;
-  approvedBy?: Maybe<Array<Scalars['String']['output']>>;
+  approvedBy?: Maybe<Array<User>>;
   createdAt: Scalars['DateTime']['output'];
-  createdBy: Scalars['String']['output'];
+  createdBy: User;
   endDate: Scalars['String']['output'];
   pk: Scalars['String']['output'];
   reason?: Maybe<Scalars['String']['output']>;

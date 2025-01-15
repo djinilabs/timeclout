@@ -11,11 +11,25 @@ query MyLeaveCalendar($companyPk: String!, $year: Int!) {
     leaveRequests {
       pk
       sk
+      createdAt
       startDate
       endDate
       type
       approved
+      approvedBy {
+        pk
+        name
+        email
+        emailMd5
+      }
+      approvedAt
       reason
+      createdBy {
+        pk
+        name
+        email
+        emailMd5
+      }
     }
   }
 }

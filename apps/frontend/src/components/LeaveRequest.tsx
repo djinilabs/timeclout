@@ -1,4 +1,5 @@
 import { LeaveRequest as LeaveRequestType } from "../graphql/graphql";
+import { Avatar } from "./Avatar";
 
 export const LeaveRequest = ({
   createdBy,
@@ -7,7 +8,11 @@ export const LeaveRequest = ({
   endDate,
   type,
   reason,
+  approved,
+  approvedBy,
+  approvedAt,
 }: LeaveRequestType) => {
+  console.log("createdAt", createdAt);
   return (
     <div className="overflow-hidden rounded-lg bg-white shadow-sm border border-gray-200">
       <div className="px-4 py-5 sm:p-4">
@@ -21,7 +26,8 @@ export const LeaveRequest = ({
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium text-gray-500">Created By:</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {createdBy}
+                <Avatar {...createdBy} size={30} />
+                <p>{createdBy.name}</p>
               </dd>
             </div>
             <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -33,13 +39,13 @@ export const LeaveRequest = ({
             <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium text-gray-500">Start Date:</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {startDate}
+                {new Date(startDate).toLocaleDateString()}
               </dd>
             </div>
             <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium text-gray-500">End Date:</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {endDate}
+                {new Date(endDate).toLocaleDateString()}
               </dd>
             </div>
             <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -54,6 +60,32 @@ export const LeaveRequest = ({
                 {reason}
               </dd>
             </div>
+            <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium text-gray-500">Status:</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {approved ? "Approved" : "Pending"}
+              </dd>
+            </div>
+            {approved && approvedBy && approvedAt && (
+              <>
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Approved By:
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    {approvedBy.map((user, index) => (
+                      <div key={user.email} className="gap-2 mb-2">
+                        <Avatar {...user} size={30} />
+                        <p>{user.name}</p>
+                        <span className="text-gray-500">
+                          ({new Date(approvedAt[index]).toLocaleString()})
+                        </span>
+                      </div>
+                    ))}
+                  </dd>
+                </div>
+              </>
+            )}
           </dl>
         </div>
       </div>

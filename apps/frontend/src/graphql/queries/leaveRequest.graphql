@@ -2,7 +2,12 @@ query leaveRequest($pk: String!, $sk: String!) {
   leaveRequest(pk: $pk, sk: $sk) {
     pk
     sk
-    createdBy
+    createdBy {
+      pk
+      name
+      email
+      emailMd5
+    }
     createdAt
     startDate
     endDate
