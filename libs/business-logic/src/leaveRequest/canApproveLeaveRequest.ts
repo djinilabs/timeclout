@@ -4,6 +4,7 @@ import { EntityRecord } from "@/tables";
 import { parseLeaveRequestPk } from "./parseLeaveRequestPk";
 import { getUserUnitsPks } from "../users";
 import { getUnitManagersPks } from "../unit";
+import { getUserUnits } from "../users/getUserUnits";
 
 export const canApproveLeaveRequest = async (
   userPk: ResourceRef,
@@ -11,10 +12,13 @@ export const canApproveLeaveRequest = async (
 ) => {
   const { companyRef } = parseLeaveRequestPk(leaveRequestPk);
   // get all units for user
-  const unitPks = await getUserUnitsPks(userPk);
+  const units = await getUserUnits(userPk);
+  if (!units.some((unit) => unit.parentPk === companyRef)) {
+    return false;
+  }
 
   // get all unit managers
-  const unitManagerPks = await getUnitManagersPks(unitPks);
+  const unitManagerPks = await getUnitManagersPks(units.map((unit) => unit.pk));
 
   return unitManagerPks.includes(userPk);
 };

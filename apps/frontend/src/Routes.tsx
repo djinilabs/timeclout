@@ -50,7 +50,7 @@ export const AppRoutes: FC = () => {
           }
         />
         <Route
-          path="/companies/:company/users/:user/leave-requests/:startDate/:endDate/:leavetype"
+          path="/companies/:company/users/:user/leave-requests/:startDate/:endDate/:leaveType"
           element={
             <RequiresSession>
               <LeaveRequest />

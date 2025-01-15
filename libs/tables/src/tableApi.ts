@@ -59,6 +59,7 @@ export const tableApi = <
     },
     get: async (pk: string, sk?: string) => {
       const args = sk ? { pk, sk } : { pk };
+      console.log("get from table", tableName, args);
       return schema.optional().parse(await lowLevelTable.get(args));
     },
     batchGet: async (keys: string[]) => {
@@ -120,6 +121,7 @@ export const tableApi = <
         "version" | "createdAt" | "updatedAt" | "updatedBy"
       >
     ) => {
+      console.log("creating new record in ", tableName, item);
       const parsedItem = parseItem(
         {
           version: 1,

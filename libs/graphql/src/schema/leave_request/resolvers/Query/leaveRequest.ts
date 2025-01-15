@@ -5,10 +5,13 @@ import {
   canApproveLeaveRequest,
   updateLeaveRequest as updateLeaveRequestLogic,
 } from "@/business-logic";
-import type { QueryResolvers } from "./../../../../types.generated";
+import type {
+  LeaveRequest,
+  QueryResolvers,
+} from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 
-export const leaveRequest: NonNullable<QueryResolvers['leaveRequest']> = async (
+export const leaveRequest: NonNullable<QueryResolvers["leaveRequest"]> = async (
   _parent,
   arg,
   ctx
@@ -21,10 +24,10 @@ export const leaveRequest: NonNullable<QueryResolvers['leaveRequest']> = async (
   }
   const userPk = resourceRef("users", getDefined(session.user?.id));
   if (
-    leaveRequest.createdBy !== userPk ||
-    !canApproveLeaveRequest(userPk, leaveRequest.pk)
+    leaveRequest.createdBy !== userPk &&
+    !(await canApproveLeaveRequest(userPk, leaveRequest.pk))
   ) {
     throw forbidden("You are not allowed to update this leave request");
   }
-  return leaveRequest;
+  return leaveRequest as unknown as LeaveRequest;
 };

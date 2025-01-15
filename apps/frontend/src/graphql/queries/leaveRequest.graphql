@@ -13,5 +13,13 @@ query leaveRequest($pk: String!, $sk: String!) {
     endDate
     type
     reason
+    approved
+    approvedBy {
+      pk
+      name
+      email
+      emailMd5
+    }
+    approvedAt
   }
 }

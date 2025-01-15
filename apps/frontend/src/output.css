@@ -682,6 +682,10 @@ video {
   margin-top: -0.5rem;
 }
 
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -760,10 +764,6 @@ video {
 
 .mt-auto {
   margin-top: auto;
-}
-
-.mb-2 {
-  margin-bottom: 0.5rem;
 }
 
 .block {
@@ -1607,6 +1607,10 @@ video {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .leading-6 {
