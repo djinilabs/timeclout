@@ -161,20 +161,26 @@ export const tableApi = <
       return self.create(rest as TTableRecord);
     },
     query: async (query) => {
-      let items: TTableRecord[] = [];
-      let lastEvaluatedKey: Record<string, unknown> | undefined = undefined;
+      try {
+        let items: TTableRecord[] = [];
+        let lastEvaluatedKey: Record<string, unknown> | undefined = undefined;
 
-      do {
-        const response = await lowLevelTable.query({
-          ...query,
-          ExclusiveStartKey: lastEvaluatedKey,
-        });
+        do {
+          const response = await lowLevelTable.query({
+            ...query,
+            ExclusiveStartKey: lastEvaluatedKey,
+          });
 
-        items = items.concat(response.Items as TTableRecord[]);
-        lastEvaluatedKey = response.LastEvaluatedKey;
-      } while (lastEvaluatedKey);
+          items = items.concat(response.Items as TTableRecord[]);
+          lastEvaluatedKey = response.LastEvaluatedKey;
+        } while (lastEvaluatedKey);
 
-      return items;
+        return items;
+      } catch (err) {
+        console.error("Error querying table", tableName, query, err);
+        err.message = `Error querying table ${tableName}: ${err.message}`;
+        throw err;
+      }
     },
   };
   return self;

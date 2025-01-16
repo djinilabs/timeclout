@@ -7,6 +7,8 @@ import type {
   QueryResolvers,
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { getLeaveRequestsForDateRange } from "@/business-logic";
+import { getLeavesForDateRange } from "libs/business-logic/src/leave/getLeavesForDateRange";
 
 export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = async (_parent, arg, ctx) => {
   const { companyPk, year } = arg;
@@ -16,34 +18,32 @@ export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = a
     companyRef,
     PERMISSION_LEVELS.READ
   );
-  const leavePk = `${companyRef}/${userRef}`;
 
-  const { leave_request, leave } = await database();
-  const leaveRequests = (
-    await Promise.all(
-      [year - 1, year].map((year) =>
-        leave_request.query({
-          KeyConditionExpression:
-            "pk = :pk AND begins_with(sk, :currentYearPrefix)",
-          FilterExpression:
-            "begins_with(endDate, :currentYearPrefix) OR begins_with(endDate, :nextYearPrefix)",
-          ExpressionAttributeValues: {
-            ":pk": leavePk,
-            ":currentYearPrefix": `${year}-`,
-            ":nextYearPrefix": `${year + 1}-`,
-          },
-        })
-      )
-    )
-  ).flat();
+  // get first day of the year and first day of first week
+  const firstDayOfYear = new Date(year, 0, 1);
+  const firstDayOfFirstWeek = new Date(firstDayOfYear);
+  firstDayOfFirstWeek.setDate(
+    firstDayOfYear.getDate() - firstDayOfYear.getDay()
+  );
+  const lastDayOfYear = new Date(year, 11, 31);
+  const lastDayOfLastWeek = new Date(lastDayOfYear);
+  lastDayOfLastWeek.setDate(
+    lastDayOfYear.getDate() + (6 - lastDayOfYear.getDay())
+  );
 
-  const leaves = await leave.query({
-    KeyConditionExpression: "pk = :pk AND begins_with(sk, :currentYearPrefix)",
-    ExpressionAttributeValues: {
-      ":pk": leavePk,
-      ":currentYearPrefix": `${year}-`,
-    },
-  });
+  const leaveRequests = await getLeaveRequestsForDateRange(
+    companyRef,
+    userRef,
+    firstDayOfFirstWeek.toISOString().split("T")[0],
+    lastDayOfLastWeek.toISOString().split("T")[0]
+  );
+
+  const leaves = await getLeavesForDateRange(
+    companyRef,
+    userRef,
+    firstDayOfFirstWeek.toISOString().split("T")[0],
+    lastDayOfLastWeek.toISOString().split("T")[0]
+  );
 
   return {
     year,

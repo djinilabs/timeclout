@@ -1,11 +1,12 @@
 import { eventBus } from "@/event-bus";
 import { leaveTypeParser } from "@/settings";
 import { database } from "@/tables";
-import { notFound } from "@hapi/boom";
+import { badRequest, notFound } from "@hapi/boom";
 import { isLeaveRequestFullyApproved } from "./isLeaveRequestFullyApproved";
 import { ResourceRef } from "@/utils";
 import { approveLeaveRequest } from "./approveLeaveRequest";
 import { getLeaveType } from "./getLeaveType";
+import { leaveRequestOverlaps } from "./leaveRequestOverlaps";
 export interface CreateLeaveRequestOptions {
   companyPk: ResourceRef;
   userPk: ResourceRef;
@@ -24,23 +25,36 @@ export const createLeaveRequest = async ({
   reason,
 }: CreateLeaveRequestOptions) => {
   const { leave_request } = await database();
-
   const leaveType = await getLeaveType(companyPk, leaveTypeName);
 
-  const leaveRequest = await leave_request.create({
+  const leaveRequestCandidate = {
     pk: `${companyPk}/${userPk}`,
     sk: `${startDateAsString}/${endDateAsString}/${leaveTypeName}`,
+    version: 1,
     type: leaveTypeName,
     startDate: startDateAsString,
     endDate: endDateAsString,
     reason,
+    createdAt: new Date().toISOString(),
     createdBy: userPk,
     approved: !leaveType.needsManagerApproval,
     approvedBy: leaveType.needsManagerApproval ? [] : [userPk],
     approvedAt: leaveType.needsManagerApproval
       ? []
       : [new Date().toISOString()],
-  });
+  };
+  const [overlaps, leaves, leaveRequests] = await leaveRequestOverlaps(
+    leaveRequestCandidate
+  );
+
+  if (overlaps) {
+    const culprit = leaves.length > 0 ? leaves[0] : leaveRequests[0];
+    throw badRequest(
+      `Leave request overlaps with existing ${leaves.length > 0 ? "leave" : "leave request"} of type ${culprit.type}`
+    );
+  }
+
+  const leaveRequest = await leave_request.create(leaveRequestCandidate);
 
   if (
     !leaveType.needsManagerApproval ||
