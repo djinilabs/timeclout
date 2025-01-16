@@ -8,9 +8,7 @@ import { forbidden, notFound } from "@hapi/boom";
 import { getDefined, resourceRef } from "@/utils";
 import { canApproveLeaveRequest } from "@/business-logic";
 
-export const deleteLeaveRequest: NonNullable<
-  MutationResolvers["deleteLeaveRequest"]
-> = async (_parent, arg, ctx) => {
+export const deleteLeaveRequest: NonNullable<MutationResolvers['deleteLeaveRequest']> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const { leave_request } = await database();
   const leaveRequest = await leave_request.get(arg.input.pk, arg.input.sk);

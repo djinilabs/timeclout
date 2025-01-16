@@ -22,7 +22,7 @@ export const rejectLeaveRequest: NonNullable<
   }
   if (
     leaveRequest.createdBy !== user.pk &&
-    (await canApproveLeaveRequest(getResourceRef(user.pk), leaveRequest.pk))
+    !(await canApproveLeaveRequest(getResourceRef(user.pk), leaveRequest.pk))
   ) {
     throw forbidden("You are not allowed to reject this leave request");
   }

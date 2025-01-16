@@ -71,6 +71,15 @@ declare module '@/graphql-client/queries/inviteToTeam.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/rejectLeaveRequest.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const rejectLeaveRequest: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/removeUserFromTeam.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

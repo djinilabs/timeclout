@@ -25,11 +25,6 @@ export const handleRejectLeaveRequest = async ({
   const { pk } = leaveRequest;
   const { companyRef, userRef } = parseLeaveRequestPk(pk);
 
-  if (await isLeaveRequestFullyApproved(leaveRequest)) {
-    await approveLeaveRequestLogic(leaveRequest, userRef);
-    return;
-  }
-
   const { entity, entity_settings } = await database();
 
   // get company from leave request
@@ -43,32 +38,6 @@ export const handleRejectLeaveRequest = async ({
   const user = await entity.get(userRef);
   if (!user) {
     throw notFound(`User with id ${companyRef} not found`);
-  }
-
-  // get company leave type settings;
-  const companyLeaveTypeSettings = await entity_settings.get(
-    companyRef,
-    "leaveTypes"
-  );
-  if (!companyLeaveTypeSettings) {
-    throw notFound(`Leave type settings for company ${companyRef} not found`);
-  }
-
-  const leaveTypes = leaveTypeParser.parse(companyLeaveTypeSettings.settings);
-
-  // check if leave type requires approval
-  const leaveType = leaveTypes.find(
-    (leaveType) => leaveType.name === leaveRequest.type
-  );
-  if (!leaveType) {
-    throw notFound(`Leave type ${leaveRequest.type} not found`);
-  }
-
-  if (!leaveType.needsManagerApproval) {
-    console.log(
-      `Leave type ${leaveRequest.type} does not need manager approval`
-    );
-    return;
   }
 
   const userUnitsPks = await getUserUnitsPks(userRef);
@@ -100,9 +69,28 @@ export const handleRejectLeaveRequest = async ({
     const emailBody = await renderEmail(emailParams);
     await sendEmail({
       to: getDefined(manager.email, "Manager has no email"),
-      subject: `[${company.name}] Leave Request`,
+      subject: `[${company.name}] Leave Request Rejected`,
       text: "Leave Request",
       html: emailBody,
     });
   }
+
+  // send email to user
+  const emailParams: EmailParams = {
+    type: "leaveRequestRejectedToUser",
+    leaveRequestType: leaveRequest.type,
+    leaveRequestReason: leaveRequest.reason,
+    leaveRequestStartDate: leaveRequest.startDate,
+    leaveRequestEndDate: leaveRequest.endDate,
+    employingEntity: company.name,
+    rejecter: rejecter,
+    requester: user,
+  };
+  const emailBody = await renderEmail(emailParams);
+  await sendEmail({
+    to: getDefined(user.email, "User has no email"),
+    subject: `[${company.name}] Leave Request Rejected`,
+    text: "Leave Request",
+    html: emailBody,
+  });
 };

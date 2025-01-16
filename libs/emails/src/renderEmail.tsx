@@ -3,6 +3,7 @@ import { EmailParams } from "./types";
 import { LeaveRequestToManagerEmail } from "./LeaveRequestToManagerEmail";
 import { LeaveRequestRejectedToManagerEmail } from "./LeaveRequestRejectedToManagerEmail";
 import { LeaveRequestApprovedToManagerEmail } from "./LeaveRequestApprovedToManagerEmail";
+import { LeaveRequestRejectedToUserEmail } from "./LeaveRequestRejectedToUserEmail";
 
 const renderReactEmail = (params: EmailParams) => {
   switch (params.type) {
@@ -12,6 +13,8 @@ const renderReactEmail = (params: EmailParams) => {
       return <LeaveRequestRejectedToManagerEmail {...params} />;
     case "leaveRequestApprovedToManager":
       return <LeaveRequestApprovedToManagerEmail {...params} />;
+    case "leaveRequestRejectedToUser":
+      return <LeaveRequestRejectedToUserEmail {...params} />;
   }
 };
 

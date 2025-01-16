@@ -41,7 +41,19 @@ export interface EmailToManagerToNotifyAboutApprovedLeaveRequestParams {
   approver: User;
 }
 
+export interface EmailToUserToNotifyAboutRejectedLeaveRequestParams {
+  type: "leaveRequestRejectedToUser";
+  leaveRequestType: LeaveRequest["type"];
+  leaveRequestReason?: string;
+  leaveRequestStartDate: string;
+  leaveRequestEndDate: string;
+  employingEntity: string;
+  requester: User;
+  rejecter: User;
+}
+
 export type EmailParams =
   | EmailToManagerToApproveLeaveRequestParams
   | EmailToManagerToNotifyAboutRejectedLeaveRequestParams
-  | EmailToManagerToNotifyAboutApprovedLeaveRequestParams;
+  | EmailToManagerToNotifyAboutApprovedLeaveRequestParams
+  | EmailToUserToNotifyAboutRejectedLeaveRequestParams;
