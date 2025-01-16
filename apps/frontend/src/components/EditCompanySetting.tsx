@@ -16,7 +16,7 @@ import {
 
 const settingEditor: Record<
   string,
-  React.FC<{ settings: any; onSubmit: (values: any) => void }>
+  React.FC<{ settings: unknown; onSubmit: (values: unknown) => void }>
 > = {
   leaveTypes: LeaveTypeEditor,
 };
@@ -42,7 +42,7 @@ export const EditCompanySetting = () => {
     MutationUpdateCompanySettingsArgs
   >(updateCompanySettingsMutation);
   const navigate = useNavigate();
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: unknown) => {
     const response = await updateCompanySettings({
       companyPk: getDefined(companyPk),
       name: getDefined(settingName),
