@@ -15,6 +15,7 @@ import { Button } from "./Button";
 import { useMutation } from "../hooks/useMutation";
 import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
+import { yearlyQuotaParser } from "@/settings";
 
 export const CompanyYearlyQuota = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export const CompanyYearlyQuota = () => {
 
   const company = companyWithSettingsQueryResponse?.data?.company;
   const yearlyQuotaSettings = company?.settings
-    ? company.settings
+    ? yearlyQuotaParser.parse(company.settings)
     : {
         resetMonth: 1, // January
         defaultQuota: 20, // 20 days
@@ -56,7 +57,6 @@ export const CompanyYearlyQuota = () => {
       });
       if (!result.error) {
         toast.success("Settings updated successfully");
-        navigate(`/companies/${companyPk}`);
       }
     },
   });
@@ -96,7 +96,7 @@ export const CompanyYearlyQuota = () => {
                       name="resetMonth"
                       className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       onChange={(e) => {
-                        field.handleChange(e.target.value);
+                        field.handleChange(Number(e.target.value));
                       }}
                       value={field.state.value}
                     >
@@ -146,7 +146,7 @@ export const CompanyYearlyQuota = () => {
                       className="ol-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       value={field.state.value}
                       onChange={(e) => {
-                        field.handleChange(e.target.value);
+                        field.handleChange(Number(e.target.value));
                       }}
                     />
                   </div>
