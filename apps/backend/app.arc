@@ -69,7 +69,7 @@ invitation
 
 leave
   leaveRequestPk *String
-  leaveRequestSk *String
+  leaveRequestSk **String
   name byLeaveRequestPkAndSk
 
 @queues

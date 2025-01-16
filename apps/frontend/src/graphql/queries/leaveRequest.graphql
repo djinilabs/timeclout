@@ -8,6 +8,12 @@ query leaveRequest($pk: String!, $sk: String!) {
       email
       emailMd5
     }
+    beneficiary {
+      pk
+      name
+      email
+      emailMd5
+    }
     createdAt
     startDate
     endDate

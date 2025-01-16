@@ -1,6 +1,7 @@
 import { ResourceRef } from "@/utils";
 import type { LeaveRequestResolvers, User } from "./../../../types.generated";
 import { database } from "@/tables";
+import { parseLeaveRequestPk } from "@/business-logic";
 
 export const LeaveRequest: LeaveRequestResolvers = {
   /* Implement LeaveRequest resolver logic here */
@@ -25,5 +26,10 @@ export const LeaveRequest: LeaveRequestResolvers = {
     return entity.get(
       parent.createdBy as unknown as ResourceRef
     ) as unknown as Promise<User>;
+  },
+  beneficiary: async (parent) => {
+    const { entity } = await database();
+    const { userRef } = parseLeaveRequestPk(parent.pk);
+    return entity.get(userRef) as unknown as Promise<User>;
   },
 };

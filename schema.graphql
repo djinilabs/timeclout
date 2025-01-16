@@ -74,6 +74,7 @@ type LeaveRequest {
   approved: Boolean
   approvedAt: [DateTime!]
   approvedBy: [User!]
+  beneficiary: User!
   createdAt: DateTime!
   createdBy: User!
   endDate: String!

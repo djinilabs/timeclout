@@ -3,6 +3,7 @@ import { Avatar } from "./Avatar";
 
 export const LeaveRequest = ({
   createdBy,
+  beneficiary,
   createdAt,
   startDate,
   endDate,
@@ -27,6 +28,15 @@ export const LeaveRequest = ({
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <Avatar {...createdBy} size={30} />
                 <p>{createdBy.name}</p>
+              </dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium text-gray-500">
+                Beneficiary:
+              </dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <Avatar {...beneficiary} size={30} />
+                <p>{beneficiary.name}</p>
               </dd>
             </div>
             <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">

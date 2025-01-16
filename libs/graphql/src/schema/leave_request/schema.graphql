@@ -10,6 +10,7 @@ type LeaveRequest {
   approvedAt: [DateTime!]
   createdBy: User!
   createdAt: DateTime!
+  beneficiary: User!
 }
 
 input CreateLeaveRequestInput {

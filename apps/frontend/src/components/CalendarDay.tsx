@@ -65,7 +65,7 @@ export const CalendarDay: FC<CalendarDayProps> = ({
       </time>
     </button>
   );
-  if (isHovering && isLeave?.leaveRequest) {
+  if (isHovering && isLeave?.leaveRequest && day.isCurrentMonth) {
     return (
       <div
         key={day.date}

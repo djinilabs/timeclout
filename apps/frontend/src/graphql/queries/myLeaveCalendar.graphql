@@ -30,6 +30,12 @@ query MyLeaveCalendar($companyPk: String!, $year: Int!) {
         email
         emailMd5
       }
+      beneficiary {
+        pk
+        name
+        email
+        emailMd5
+      }
     }
   }
 }
