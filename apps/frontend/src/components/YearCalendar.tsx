@@ -18,6 +18,9 @@ export interface LeaveRequest {
   reason?: string | null;
   createdAt: string;
   createdBy: User;
+  approvedBy?: User[] | null;
+  approvedAt?: string[] | null;
+  beneficiary: User;
   pk: string;
   sk: string;
 }

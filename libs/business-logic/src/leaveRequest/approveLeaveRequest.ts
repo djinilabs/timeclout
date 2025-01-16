@@ -1,6 +1,8 @@
 import { database, LeaveRequestRecord } from "@/tables";
 import { ResourceRef, unique } from "@/utils";
 import { isLeaveRequestFullyApproved } from "./isLeaveRequestFullyApproved";
+import { leaveRequestOverlaps } from "./leaveRequestOverlaps";
+import { notAcceptable } from "@hapi/boom";
 
 export const approveLeaveRequest = async (
   leaveRequest: LeaveRequestRecord,
@@ -8,6 +10,16 @@ export const approveLeaveRequest = async (
 ) => {
   if (leaveRequest.approved) {
     return leaveRequest;
+  }
+
+  const [overlaps, leaves, leaveRequests] =
+    await leaveRequestOverlaps(leaveRequest);
+
+  if (overlaps) {
+    const culprit = leaves.length > 0 ? leaves[0] : leaveRequests[0];
+    throw notAcceptable(
+      `Leave request overlaps with existing ${leaves.length > 0 ? "leave" : "leave request"} of type ${culprit.type}`
+    );
   }
 
   const approvalsSoFar = leaveRequest.approvedBy ?? [];
