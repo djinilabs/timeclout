@@ -4,12 +4,11 @@ import {
   ChevronRightIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
-import { useMemo, useRef, useState, type ReactNode } from "react";
-import { classNames } from "../utils/classNames";
+import { useMemo, useState, type ReactNode } from "react";
 import { generateYearMonthsDays } from "../utils/generateYearMonthsDays";
 import { LeaveRequest } from "./LeaveRequest";
-import { Popover } from "./Popover";
 import { CalendarDay } from "./CalendarDay";
+import { User } from "../graphql/graphql";
 
 export interface LeaveRequest {
   startDate: string;
@@ -18,7 +17,7 @@ export interface LeaveRequest {
   approved?: boolean | null;
   reason?: string | null;
   createdAt: string;
-  createdBy: string;
+  createdBy: User;
   pk: string;
   sk: string;
 }

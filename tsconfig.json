@@ -30,5 +30,5 @@
   },
   "include": ["./**/*.ts", "./**/*.tsx", "./**/*.graphqls", "./**/*.graphql"],
   "compileOnSave": true,
-  "exclude": ["node_modules", "dist", ".pnpm"]
+  "exclude": ["node_modules", "dist", ".pnpm", "graphql.ts"]
 }

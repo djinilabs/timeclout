@@ -48,7 +48,8 @@ export const CalendarDay: FC<CalendarDayProps> = ({
         dateTime={day.date}
         className={classNames(
           day.isToday ? "bg-teal-600 font-semibold text-white" : "",
-          "mx-auto flex size-7 items-center justify-center rounded-full"
+          "mx-auto flex size-7 items-center justify-center rounded-full",
+          isLeave && !isLeave?.leaveRequest?.approved ? "opacity-50" : ""
         )}
         style={
           isLeave
@@ -64,7 +65,7 @@ export const CalendarDay: FC<CalendarDayProps> = ({
       </time>
     </button>
   );
-  if (isHovering && isLeave?.leaveRequest && day.isCurrentMonth) {
+  if (isHovering && isLeave?.leaveRequest) {
     return (
       <div
         key={day.date}

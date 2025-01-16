@@ -8,6 +8,15 @@ declare module '@/graphql-client/mutations/acceptInvitation.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/approveLeaveRequest.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const approveLeaveRequest: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/createCompany.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

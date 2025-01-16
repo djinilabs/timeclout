@@ -17,4 +17,31 @@ export interface EmailToManagerToApproveLeaveRequestParams {
   continueUrl: string;
 }
 
-export type EmailParams = EmailToManagerToApproveLeaveRequestParams;
+export interface EmailToManagerToNotifyAboutRejectedLeaveRequestParams {
+  type: "leaveRequestRejectedToManager";
+  leaveRequestType: LeaveRequest["type"];
+  leaveRequestReason?: string;
+  leaveRequestStartDate: string;
+  leaveRequestEndDate: string;
+  employingEntity: string;
+  requester: User;
+  manager: User;
+  rejecter: User;
+}
+
+export interface EmailToManagerToNotifyAboutApprovedLeaveRequestParams {
+  type: "leaveRequestApprovedToManager";
+  leaveRequestType: LeaveRequest["type"];
+  leaveRequestReason?: string;
+  leaveRequestStartDate: string;
+  leaveRequestEndDate: string;
+  employingEntity: string;
+  requester: User;
+  manager: User;
+  approver: User;
+}
+
+export type EmailParams =
+  | EmailToManagerToApproveLeaveRequestParams
+  | EmailToManagerToNotifyAboutRejectedLeaveRequestParams
+  | EmailToManagerToNotifyAboutApprovedLeaveRequestParams;

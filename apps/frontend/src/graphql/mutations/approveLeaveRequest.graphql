@@ -1,0 +1,6 @@
+mutation approveLeaveRequest($input: ApproveLeaveRequestInput!) {
+  approveLeaveRequest(input: $input) {
+    pk
+    sk
+  }
+}

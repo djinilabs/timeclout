@@ -1,5 +1,5 @@
 diff --git a/providers/mailgun.js b/providers/mailgun.js
-index 30fdaaf785c995ab5f8792b76092b73bc0334111..08d1bd96e7ec84b9286ae5f09b6f30bdeff45949 100644
+index 30fdaaf785c995ab5f8792b76092b73bc0334111..6038197a82a64e760a681156e79ded41811d50aa 100644
 --- a/providers/mailgun.js
 +++ b/providers/mailgun.js
 @@ -50,7 +50,7 @@ export default function MailGun(config) {
@@ -11,3 +11,15 @@ index 30fdaaf785c995ab5f8792b76092b73bc0334111..08d1bd96e7ec84b9286ae5f09b6f30bd
                  method: "POST",
                  headers: {
                      Authorization: `Basic ${btoa(`api:${provider.apiKey}`)}`,
+@@ -59,7 +59,8 @@ export default function MailGun(config) {
+             });
+             if (!res.ok)
+                 throw new Error("Mailgun error: " + (await res.text()));
+-        },
+-        options: config,
+-    };
++    },
++    normalizeIdentifier: (identifier) => identifier.toLowerCase(),
++    options: config,
++  };
+ }

@@ -72,7 +72,7 @@ export const CompanyTimeOff = () => {
             ? approvedLeaveRequests[
                 `${leave.leaveRequestPk}/${leave.leaveRequestSk}`
               ]
-            : undefined,
+            : leave,
       };
     },
     [companyLeaveSettings]

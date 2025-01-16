@@ -40,7 +40,6 @@ export const approveLeaveRequest = async (
       leaveRequestSk: leaveRequest.sk,
       createdBy: leaveRequest.createdBy,
     };
-    console.log("creating new Leave", newLeave);
     await leave.create(newLeave);
 
     // Move to next day

@@ -4,3 +4,4 @@ export * from "./isLeaveRequestFullyApproved";
 export * from "./approveLeaveRequest";
 export * from "./canApproveLeaveRequest";
 export * from "./updateLeaveRequest";
+export * from "./rejectLeaveRequest";

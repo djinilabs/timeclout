@@ -1,5 +1,3 @@
-import { requireSession } from "libs/graphql/src/session/requireSession";
-import type { MutationResolvers } from "./../../../../types.generated";
 import {
   canApproveLeaveRequest,
   approveLeaveRequest as approveLeaveRequestLogic,
@@ -7,24 +5,32 @@ import {
 import { forbidden, notFound } from "@hapi/boom";
 import { database } from "@/tables";
 import { getDefined, resourceRef } from "@/utils";
+import type {
+  LeaveRequest,
+  MutationResolvers,
+} from "./../../../../types.generated";
+import { requireSession } from "../../../../session/requireSession";
+
 export const approveLeaveRequest: NonNullable<MutationResolvers['approveLeaveRequest']> = async (_parent, arg, ctx) => {
   // get company resource ref
-  const user = await requireSession(ctx);
-  if (!user.user) {
+  const session = await requireSession(ctx);
+  if (!session.user) {
     throw forbidden();
   }
-  const userPk = resourceRef("users", getDefined(user.user.id));
+  const userPk = resourceRef("users", getDefined(session.user.id));
+
+  const { pk, sk } = arg.input;
 
   // make sure user has permission to approve leave request
-  if (!(await canApproveLeaveRequest(userPk, arg.input.pk))) {
+  if (!(await canApproveLeaveRequest(userPk, pk))) {
     throw forbidden();
   }
   const { leave_request } = await database();
-  const leaveRequest = await leave_request.get(arg.input.pk);
+  const leaveRequest = await leave_request.get(pk, sk);
   if (!leaveRequest) {
     throw notFound();
   }
   // approve leave request
   await approveLeaveRequestLogic(leaveRequest, userPk);
-  return leaveRequest;
+  return leaveRequest as unknown as LeaveRequest;
 };

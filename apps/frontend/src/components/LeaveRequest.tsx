@@ -12,13 +12,12 @@ export const LeaveRequest = ({
   approvedBy,
   approvedAt,
 }: LeaveRequestType) => {
-  console.log("createdAt", createdAt);
   return (
     <div className="overflow-hidden rounded-lg bg-white shadow-sm border border-gray-200">
       <div className="px-4 py-5 sm:p-4">
         <div className="px-4 sm:px-0">
           <h2 className="text-base/7 font-semibold text-gray-900">
-            Leave Request Details
+            {approved ? "Approved" : "Pending"} Leave Request
           </h2>
         </div>
         <div className="mt-6 border-t border-gray-100">

@@ -121,6 +121,7 @@ export type Mutation = {
   deleteLeaveRequest: LeaveRequest;
   deleteTeam: Team;
   deleteUnit: Unit;
+  rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
   updateCompany: Company;
   updateCompanySettings: Company;
@@ -198,6 +199,11 @@ export type MutationdeleteTeamArgs = {
 
 export type MutationdeleteUnitArgs = {
   pk: Scalars['String']['input'];
+};
+
+
+export type MutationrejectLeaveRequestArgs = {
+  input: RejectLeaveRequestInput;
 };
 
 
@@ -291,6 +297,11 @@ export type QueryteamArgs = {
 
 export type QueryunitArgs = {
   unitPk: Scalars['String']['input'];
+};
+
+export type RejectLeaveRequestInput = {
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
 };
 
 export type Team = {
@@ -433,6 +444,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  RejectLeaveRequestInput: RejectLeaveRequestInput;
   Team: ResolverTypeWrapper<Team>;
   Unit: ResolverTypeWrapper<Unit>;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
@@ -458,6 +470,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Mutation: {};
   Query: {};
+  RejectLeaveRequestInput: RejectLeaveRequestInput;
   Team: Team;
   Unit: Unit;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
@@ -547,6 +560,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationdeleteLeaveRequestArgs, 'input'>>;
   deleteTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationdeleteTeamArgs, 'pk'>>;
   deleteUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationdeleteUnitArgs, 'pk'>>;
+  rejectLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationrejectLeaveRequestArgs, 'input'>>;
   removeUserFromTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationremoveUserFromTeamArgs, 'teamPk' | 'userPk'>>;
   updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'name' | 'pk'>>;
   updateCompanySettings?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanySettingsArgs, 'companyPk' | 'name' | 'settings'>>;

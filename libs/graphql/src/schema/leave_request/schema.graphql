@@ -34,6 +34,11 @@ input DeleteLeaveRequestInput {
   sk: String!
 }
 
+input RejectLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
 input ApproveLeaveRequestInput {
   pk: String!
   sk: String!
@@ -43,6 +48,7 @@ extend type Mutation {
   createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
   updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
   deleteLeaveRequest(input: DeleteLeaveRequestInput!): LeaveRequest!
+  rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
   approveLeaveRequest(input: ApproveLeaveRequestInput!): LeaveRequest!
 }
 

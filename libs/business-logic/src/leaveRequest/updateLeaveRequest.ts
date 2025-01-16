@@ -28,10 +28,12 @@ export const updateLeaveRequest = async ({
   // if was approved, remove all respective leave records
   if (leaveRequest.approved) {
     const leaveRecords = await leave.query({
-      IndexName: "byLeaveRequestPk",
-      KeyConditionExpression: "leaveRequestPk = :leaveRequestPk",
+      IndexName: "byLeaveRequestPkAndSk",
+      KeyConditionExpression:
+        "leaveRequestPk = :leaveRequestPk AND leaveRequestSk = :leaveRequestSk",
       ExpressionAttributeValues: {
         ":leaveRequestPk": leaveRequest.pk,
+        ":leaveRequestSk": leaveRequest.sk,
       },
     });
 

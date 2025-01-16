@@ -1,10 +1,16 @@
 import { database } from "libs/tables/src/database";
 import { resourceRef } from "@/utils";
 import { PERMISSION_LEVELS } from "@/tables";
-import type { QueryResolvers } from "./../../../../types.generated";
+import type {
+  Leave,
+  LeaveRequest,
+  QueryResolvers,
+} from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = async (_parent, arg, ctx) => {
+export const myLeaveCalendar: NonNullable<
+  QueryResolvers["myLeaveCalendar"]
+> = async (_parent, arg, ctx) => {
   const { companyPk, year } = arg;
   const companyRef = resourceRef("companies", companyPk);
   const userRef = await ensureAuthorized(
@@ -43,7 +49,7 @@ export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = a
 
   return {
     year,
-    leaves,
-    leaveRequests,
+    leaves: leaves as Leave[],
+    leaveRequests: leaveRequests as unknown as LeaveRequest[],
   };
 };

@@ -98,6 +98,7 @@ type Mutation {
   deleteLeaveRequest(input: DeleteLeaveRequestInput!): LeaveRequest!
   deleteTeam(pk: String!): Team!
   deleteUnit(pk: String!): Unit!
+  rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
   updateCompany(name: String!, pk: String!): Company!
   updateCompanySettings(companyPk: String!, name: String!, settings: JSON!): Company!
@@ -117,6 +118,11 @@ type Query {
   myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
   team(teamPk: String!): Team!
   unit(unitPk: String!): Unit!
+}
+
+input RejectLeaveRequestInput {
+  pk: String!
+  sk: String!
 }
 
 type Team {

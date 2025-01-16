@@ -5,10 +5,15 @@ import {
   canApproveLeaveRequest,
   updateLeaveRequest as updateLeaveRequestLogic,
 } from "@/business-logic";
-import type { MutationResolvers } from "./../../../../types.generated";
+import type {
+  LeaveRequest,
+  MutationResolvers,
+} from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 
-export const updateLeaveRequest: NonNullable<MutationResolvers['updateLeaveRequest']> = async (_parent, arg, ctx) => {
+export const updateLeaveRequest: NonNullable<
+  MutationResolvers["updateLeaveRequest"]
+> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const { leave_request } = await database();
   const leaveRequest = await leave_request.get(arg.input.pk, arg.input.sk);
@@ -29,5 +34,5 @@ export const updateLeaveRequest: NonNullable<MutationResolvers['updateLeaveReque
     startDateAsString: arg.input.startDate,
     endDateAsString: arg.input.endDate,
     reason: arg.input.reason,
-  });
+  }) as unknown as Promise<LeaveRequest>;
 };

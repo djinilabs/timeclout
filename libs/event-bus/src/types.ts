@@ -1,4 +1,4 @@
-import { LeaveRequestRecord } from "@/tables";
+import { LeaveRequestRecord, EntityRecord } from "@/tables";
 
 type EventBusEventBase<TK extends string, TV extends object> = {
   key: TK;
@@ -12,4 +12,14 @@ export type EventBusEventCreatedOrUpdatedLeaveRequest = EventBusEventBase<
   }
 >;
 
-export type EventBusEvent = EventBusEventCreatedOrUpdatedLeaveRequest;
+export type EventBusEventRejectedLeaveRequest = EventBusEventBase<
+  "rejectLeaveRequest",
+  {
+    leaveRequest: LeaveRequestRecord;
+    rejecter: EntityRecord;
+  }
+>;
+
+export type EventBusEvent =
+  | EventBusEventCreatedOrUpdatedLeaveRequest
+  | EventBusEventRejectedLeaveRequest;
