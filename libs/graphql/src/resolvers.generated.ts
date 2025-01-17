@@ -7,6 +7,7 @@ import    { invitationsTo as Query_invitationsTo } from './schema/invitation/res
 import    { leaveRequest as Query_leaveRequest } from './schema/leave_request/resolvers/Query/leaveRequest';
 import    { myInvitations as Query_myInvitations } from './schema/invitation/resolvers/Query/myInvitations';
 import    { myLeaveCalendar as Query_myLeaveCalendar } from './schema/leave/resolvers/Query/myLeaveCalendar';
+import    { myQuotaFulfilment as Query_myQuotaFulfilment } from './schema/leave/resolvers/Query/myQuotaFulfilment';
 import    { team as Query_team } from './schema/team/resolvers/Query/team';
 import    { unit as Query_unit } from './schema/unit/resolvers/Query/unit';
 import    { acceptInvitation as Mutation_acceptInvitation } from './schema/invitation/resolvers/Mutation/acceptInvitation';
@@ -35,12 +36,13 @@ import    { Company } from './schema/company/resolvers/Company';
 import    { Invitation } from './schema/invitation/resolvers/Invitation';
 import    { Leave } from './schema/leave/resolvers/Leave';
 import    { LeaveRequest } from './schema/leave_request/resolvers/LeaveRequest';
+import    { QuotaFulfilment } from './schema/leave/resolvers/QuotaFulfilment';
 import    { Team } from './schema/team/resolvers/Team';
 import    { Unit } from './schema/unit/resolvers/Unit';
 import    { User } from './schema/base/resolvers/User';
 import    { DateTimeResolver,JSONResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
-      Query: { companies: Query_companies,company: Query_company,invitation: Query_invitation,invitationsTo: Query_invitationsTo,leaveRequest: Query_leaveRequest,myInvitations: Query_myInvitations,myLeaveCalendar: Query_myLeaveCalendar,team: Query_team,unit: Query_unit },
+      Query: { companies: Query_companies,company: Query_company,invitation: Query_invitation,invitationsTo: Query_invitationsTo,leaveRequest: Query_leaveRequest,myInvitations: Query_myInvitations,myLeaveCalendar: Query_myLeaveCalendar,myQuotaFulfilment: Query_myQuotaFulfilment,team: Query_team,unit: Query_unit },
       Mutation: { acceptInvitation: Mutation_acceptInvitation,approveLeaveRequest: Mutation_approveLeaveRequest,createCompany: Mutation_createCompany,createInvitation: Mutation_createInvitation,createLeaveRequest: Mutation_createLeaveRequest,createTeam: Mutation_createTeam,createUnit: Mutation_createUnit,deleteCompany: Mutation_deleteCompany,deleteInvitation: Mutation_deleteInvitation,deleteLeave: Mutation_deleteLeave,deleteLeaveRequest: Mutation_deleteLeaveRequest,deleteTeam: Mutation_deleteTeam,deleteUnit: Mutation_deleteUnit,rejectLeaveRequest: Mutation_rejectLeaveRequest,removeUserFromTeam: Mutation_removeUserFromTeam,updateCompany: Mutation_updateCompany,updateCompanySettings: Mutation_updateCompanySettings,updateLeaveRequest: Mutation_updateLeaveRequest,updateTeam: Mutation_updateTeam,updateUnit: Mutation_updateUnit,updateUnitSettings: Mutation_updateUnitSettings },
       
       Calendar: Calendar,
@@ -48,6 +50,7 @@ Company: Company,
 Invitation: Invitation,
 Leave: Leave,
 LeaveRequest: LeaveRequest,
+QuotaFulfilment: QuotaFulfilment,
 Team: Team,
 Unit: Unit,
 User: User,

@@ -32,3 +32,5 @@ export const leaveTypeParser = {
 };
 
 export type LeaveTypes = z.infer<typeof leaveTypesSchema>;
+
+export type LeaveType = LeaveTypes[number];

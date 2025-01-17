@@ -250,6 +250,7 @@ export type Query = {
   leaveRequest: LeaveRequest;
   myInvitations: Array<Invitation>;
   myLeaveCalendar: Calendar;
+  myQuotaFulfilment: Array<QuotaFulfilment>;
   team: Team;
   unit: Unit;
 };
@@ -276,12 +277,27 @@ export type QueryMyLeaveCalendarArgs = {
   year: Scalars["Int"]["input"];
 };
 
+export type QueryMyQuotaFulfilmentArgs = {
+  companyPk: Scalars["String"]["input"];
+  endDate: Scalars["String"]["input"];
+  startDate: Scalars["String"]["input"];
+};
+
 export type QueryTeamArgs = {
   teamPk: Scalars["String"]["input"];
 };
 
 export type QueryUnitArgs = {
   unitPk: Scalars["String"]["input"];
+};
+
+export type QuotaFulfilment = {
+  __typename?: "QuotaFulfilment";
+  approvedUsed: Scalars["Int"]["output"];
+  pendingApprovalUsed: Scalars["Int"]["output"];
+  quota: Scalars["Int"]["output"];
+  quotaEndDate: Scalars["String"]["output"];
+  quotaStartDate: Scalars["String"]["output"];
 };
 
 export type RejectLeaveRequestInput = {

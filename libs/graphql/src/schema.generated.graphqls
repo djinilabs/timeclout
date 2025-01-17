@@ -112,8 +112,17 @@ type Query {
   leaveRequest(pk: String!, sk: String!): LeaveRequest!
   myInvitations: [Invitation!]!
   myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
+  myQuotaFulfilment(companyPk: String!, endDate: String!, startDate: String!): [QuotaFulfilment!]!
   team(teamPk: String!): Team!
   unit(unitPk: String!): Unit!
+}
+
+type QuotaFulfilment {
+  approvedUsed: Int!
+  pendingApprovalUsed: Int!
+  quota: Int!
+  quotaEndDate: String!
+  quotaStartDate: String!
 }
 
 input RejectLeaveRequestInput {

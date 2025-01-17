@@ -21,6 +21,19 @@ type Calendar {
   leaveRequests: [LeaveRequest!]!
 }
 
+type QuotaFulfilment {
+  quota: Int!
+  quotaStartDate: String!
+  quotaEndDate: String!
+  approvedUsed: Int!
+  pendingApprovalUsed: Int!
+}
+
 extend type Query {
   myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
+  myQuotaFulfilment(
+    companyPk: String!
+    startDate: String!
+    endDate: String!
+  ): [QuotaFulfilment!]!
 }

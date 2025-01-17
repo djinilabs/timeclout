@@ -1,18 +1,16 @@
-import { managersParser } from "@/settings";
-import { database } from "@/tables";
-import { unique } from "@/utils";
+import { ResourceRef, unique } from "@/utils";
+import { getEntitySettings } from "../entity/getEntitySettings";
 
-export const getUnitManagersPks = async (unitPks: string[]) => {
-  const { entity_settings } = await database();
+export const getUnitManagersPks = async (
+  unitPks: ResourceRef[]
+): Promise<ResourceRef[]> => {
   return unique(
     (
       await Promise.all(
         unitPks.map(async (unitPk) =>
-          managersParser.parse(
-            (await entity_settings.get(unitPk, "managers"))?.settings
-          )
+          getEntitySettings<"managers">(unitPk, "managers")
         )
       )
     ).flat()
-  );
+  ) as ResourceRef[];
 };

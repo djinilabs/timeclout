@@ -9,7 +9,7 @@ import { getUserUnits } from "../users/getUserUnits";
 export const canApproveLeaveRequest = async (
   userPk: ResourceRef,
   leaveRequestPk: string
-) => {
+): Promise<boolean> => {
   const { companyRef } = parseLeaveRequestPk(leaveRequestPk);
   // get all units for user
   const units = await getUserUnits(userPk);
@@ -18,7 +18,9 @@ export const canApproveLeaveRequest = async (
   }
 
   // get all unit managers
-  const unitManagerPks = await getUnitManagersPks(units.map((unit) => unit.pk));
+  const unitManagerPks = await getUnitManagersPks(
+    units.map((unit) => unit.pk as ResourceRef)
+  );
 
   return unitManagerPks.includes(userPk);
 };

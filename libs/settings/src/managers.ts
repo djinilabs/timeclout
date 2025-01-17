@@ -13,3 +13,5 @@ export const managersParser = {
     }
   },
 };
+
+export type Managers = z.infer<typeof managersSchema>;

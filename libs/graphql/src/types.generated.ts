@@ -259,6 +259,7 @@ export type Query = {
   leaveRequest: LeaveRequest;
   myInvitations: Array<Invitation>;
   myLeaveCalendar: Calendar;
+  myQuotaFulfilment: Array<QuotaFulfilment>;
   team: Team;
   unit: Unit;
 };
@@ -291,6 +292,13 @@ export type QuerymyLeaveCalendarArgs = {
 };
 
 
+export type QuerymyQuotaFulfilmentArgs = {
+  companyPk: Scalars['String']['input'];
+  endDate: Scalars['String']['input'];
+  startDate: Scalars['String']['input'];
+};
+
+
 export type QueryteamArgs = {
   teamPk: Scalars['String']['input'];
 };
@@ -298,6 +306,15 @@ export type QueryteamArgs = {
 
 export type QueryunitArgs = {
   unitPk: Scalars['String']['input'];
+};
+
+export type QuotaFulfilment = {
+  __typename?: 'QuotaFulfilment';
+  approvedUsed: Scalars['Int']['output'];
+  pendingApprovalUsed: Scalars['Int']['output'];
+  quota: Scalars['Int']['output'];
+  quotaEndDate: Scalars['String']['output'];
+  quotaStartDate: Scalars['String']['output'];
 };
 
 export type RejectLeaveRequestInput = {
@@ -445,6 +462,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  QuotaFulfilment: ResolverTypeWrapper<QuotaFulfilment>;
   RejectLeaveRequestInput: RejectLeaveRequestInput;
   Team: ResolverTypeWrapper<Team>;
   Unit: ResolverTypeWrapper<Unit>;
@@ -471,6 +489,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Mutation: {};
   Query: {};
+  QuotaFulfilment: QuotaFulfilment;
   RejectLeaveRequestInput: RejectLeaveRequestInput;
   Team: Team;
   Unit: Unit;
@@ -580,8 +599,18 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   leaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<QueryleaveRequestArgs, 'pk' | 'sk'>>;
   myInvitations?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType>;
   myLeaveCalendar?: Resolver<ResolversTypes['Calendar'], ParentType, ContextType, RequireFields<QuerymyLeaveCalendarArgs, 'companyPk' | 'year'>>;
+  myQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymyQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate'>>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;
   unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<QueryunitArgs, 'unitPk'>>;
+};
+
+export type QuotaFulfilmentResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuotaFulfilment'] = ResolversParentTypes['QuotaFulfilment']> = {
+  approvedUsed?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  pendingApprovalUsed?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  quota?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  quotaEndDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  quotaStartDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
@@ -629,6 +658,7 @@ export type Resolvers<ContextType = any> = {
   LeaveRequest?: LeaveRequestResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  QuotaFulfilment?: QuotaFulfilmentResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;
   Unit?: UnitResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
