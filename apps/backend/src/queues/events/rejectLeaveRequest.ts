@@ -43,6 +43,9 @@ export const handleRejectLeaveRequest = async ({
 
   // get approving managers for each team using entity_settings
   const unitManagerPks = await getUnitManagersPks(userUnitsPks);
+  if (unitManagerPks.length === 0) {
+    throw notFound("No unit managers found for the units the user is in");
+  }
 
   const unitManagers = await Promise.all(
     unitManagerPks.map((pk) => entity.get(pk))

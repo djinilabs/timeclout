@@ -11,6 +11,8 @@ export const getUnitManagersPks = async (
           getEntitySettings<"managers">(unitPk, "managers")
         )
       )
-    ).flat()
+    )
+      .flat()
+      .filter(Boolean)
   ) as ResourceRef[];
 };

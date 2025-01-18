@@ -6,7 +6,7 @@ import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
 import { useQuery } from "../hooks/useQuery";
 import { Button } from "./Button";
-import { Unit } from "../graphql/graphql";
+import { Query, Unit } from "../graphql/graphql";
 
 const NoUnits = () => {
   const { company: companyPk } = useParams();
@@ -57,7 +57,7 @@ const statuses = {
 export const AllCompanyUnits = () => {
   const { company: companyPk } = useParams();
 
-  const [queryResponse] = useQuery({
+  const [queryResponse] = useQuery<{ company: Query["company"] }>({
     query: companyQuery,
     variables: {
       companyPk,
@@ -70,7 +70,7 @@ export const AllCompanyUnits = () => {
   return (
     <div>
       <div className="mt-4">
-        {!company?.units.length ? (
+        {!company?.units?.length ? (
           <NoUnits />
         ) : (
           <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
@@ -82,7 +82,7 @@ export const AllCompanyUnits = () => {
       </div>
 
       <ul>
-        {company?.units.map((unit: Unit) => (
+        {company?.units?.map((unit: Unit) => (
           <>
             <li
               key={unit.pk}

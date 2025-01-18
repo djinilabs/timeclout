@@ -5,7 +5,7 @@ import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
 import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
 import { useQuery } from "../hooks/useQuery";
-import { Team } from "../graphql/graphql";
+import { Query, Team } from "../graphql/graphql";
 
 const NoTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
@@ -56,7 +56,7 @@ const statuses = {
 export const AllUnitTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
 
-  const [queryResponse] = useQuery({
+  const [queryResponse] = useQuery<{ unit: Query["unit"] }>({
     query: unitQuery,
     variables: {
       unitPk,

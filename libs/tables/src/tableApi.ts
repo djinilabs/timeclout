@@ -37,66 +37,91 @@ export const tableApi = <
   const parseItem = parsingItem(schema, tableName);
   const self: TableAPI<TTableName> = {
     delete: async (pk: string, sk?: string) => {
-      const item = await self.get(pk, sk);
-      if (!item) {
-        console.warn("item not found", pk, sk);
-        throw notFound(
-          `Error deleting record in table ${tableName}: Item not found`
-        );
+      try {
+        const item = await self.get(pk, sk);
+        if (!item) {
+          console.warn("item not found", pk, sk);
+          throw notFound(
+            `Error deleting record in table ${tableName}: Item not found`
+          );
+        }
+        await lowLevelTable.delete(sk ? { pk, sk } : { pk });
+        return item;
+      } catch (err) {
+        console.error("Error deleting item", tableName, pk, sk, err);
+        throw err;
       }
-      await lowLevelTable.delete(sk ? { pk, sk } : { pk });
-      return item;
     },
     deleteAll: async (pk: string) => {
-      const items = (
-        await lowLevelTable.query({
-          KeyConditionExpression: "pk = :pk",
-          ExpressionAttributeValues: { ":pk": pk },
-        })
-      ).Items;
+      try {
+        const items = (
+          await lowLevelTable.query({
+            KeyConditionExpression: "pk = :pk",
+            ExpressionAttributeValues: { ":pk": pk },
+          })
+        ).Items;
 
-      await Promise.all(items.map((item) => lowLevelTable.delete(item)));
+        await Promise.all(items.map((item) => lowLevelTable.delete(item)));
+      } catch (err) {
+        console.error("Error deleting all items", tableName, pk, err);
+        throw err;
+      }
     },
     get: async (pk: string, sk?: string) => {
-      const args = sk ? { pk, sk } : { pk };
-      console.log("get from table", tableName, args);
-      return schema.optional().parse(await lowLevelTable.get(args));
+      try {
+        if (!pk) {
+          throw new Error("pk is required");
+        }
+        const args = sk ? { pk, sk } : { pk };
+        console.log("get from table", tableName, args);
+        return schema.optional().parse(await lowLevelTable.get(args));
+      } catch (err) {
+        console.error("Error getting item", tableName, pk, sk, err);
+        throw err;
+      }
     },
     batchGet: async (keys: string[]) => {
       if (keys.length === 0) {
         return [];
       }
-      const items = getDefined(
-        (
-          await lowLevelClient.BatchGetItem({
-            RequestItems: {
-              [lowLevelTableName]: { Keys: keys.map((key) => ({ pk: key })) },
-            },
-          })
-        ).Responses
-      )[lowLevelTableName];
-      return items.map((item) => parseItem(item, "batchGet")) as TTableRecord[];
+      try {
+        const items = getDefined(
+          (
+            await lowLevelClient.BatchGetItem({
+              RequestItems: {
+                [lowLevelTableName]: { Keys: keys.map((key) => ({ pk: key })) },
+              },
+            })
+          ).Responses
+        )[lowLevelTableName];
+        return items.map((item) =>
+          parseItem(item, "batchGet")
+        ) as TTableRecord[];
+      } catch (err) {
+        console.error("Error batch getting items", tableName, keys, err);
+        throw err;
+      }
     },
     update: async (
       item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>
     ) => {
-      const previousItem = (await self.get(item.pk, item.sk)) as
-        | TTableRecord
-        | undefined;
-      if (!previousItem) {
-        throw notFound(
-          `Error updating table ${tableName}: Item with pk ${item.pk} not found`
-        );
-      }
-
-      const newItem = {
-        ...previousItem,
-        version: previousItem.version + 1,
-        updatedAt: new Date().toISOString(),
-        ...item,
-      };
-
       try {
+        const previousItem = (await self.get(item.pk, item.sk)) as
+          | TTableRecord
+          | undefined;
+        if (!previousItem) {
+          throw notFound(
+            `Error updating table ${tableName}: Item with pk ${item.pk} not found`
+          );
+        }
+
+        const newItem = {
+          ...previousItem,
+          version: previousItem.version + 1,
+          updatedAt: new Date().toISOString(),
+          ...item,
+        };
+
         await lowLevelClient.PutItem({
           Item: parseItem(newItem, "update"),
           TableName: lowLevelTableName,
@@ -106,14 +131,13 @@ export const tableApi = <
           },
           ExpressionAttributeNames: { "#version": "version" },
         });
+        return newItem;
       } catch (err: any) {
         if (err.message.toLowerCase().includes("conditional request failed")) {
           throw conflict("Item was outdated");
         }
         throw err;
       }
-
-      return newItem;
     },
     create: async (
       item: Omit<
@@ -122,49 +146,53 @@ export const tableApi = <
       >
     ) => {
       console.log("creating new record in ", tableName, item);
-      const parsedItem = parseItem(
-        {
-          version: 1,
-          createdAt: new Date().toISOString(),
-          ...item,
-        },
-        "create"
-      );
-
       try {
+        const parsedItem = parseItem(
+          {
+            version: 1,
+            createdAt: new Date().toISOString(),
+            ...item,
+          },
+          "create"
+        );
+
         await lowLevelClient.PutItem({
           Item: parsedItem,
           TableName: lowLevelTableName,
           ConditionExpression: "attribute_not_exists(pk)",
         });
+        return parsedItem as TTableRecord;
       } catch (err: any) {
         if (err.message.toLowerCase().includes("conditional request failed")) {
           throw conflict("Item already exists");
         }
         throw err;
       }
-
-      return parsedItem as TTableRecord;
     },
     upsert: async (item: TTableRecord) => {
       console.log("upsert", item);
-      const existingItem = await self.get(item.pk, item.sk);
-      if (existingItem) {
-        console.log("existingItem", existingItem);
-        const { createdAt, createdBy, ...rest } = item;
-        return self.update(
-          parseItem(
-            {
-              ...existingItem,
-              ...rest,
-            },
-            "upsert"
-          )
-        );
+      try {
+        const existingItem = await self.get(item.pk, item.sk);
+        if (existingItem) {
+          console.log("existingItem", existingItem);
+          const { createdAt, createdBy, ...rest } = item;
+          return self.update(
+            parseItem(
+              {
+                ...existingItem,
+                ...rest,
+              },
+              "upsert"
+            )
+          );
+        }
+        console.log("NON existingItem");
+        const { updatedAt, updatedBy, version, ...rest } = item;
+        return self.create(rest as TTableRecord);
+      } catch (err) {
+        console.error("Error upserting item", tableName, item, err);
+        throw err;
       }
-      console.log("NON existingItem");
-      const { updatedAt, updatedBy, version, ...rest } = item;
-      return self.create(rest as TTableRecord);
     },
     query: async (query) => {
       try {

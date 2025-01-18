@@ -9,7 +9,7 @@ export const getEntitySettings = async <
   settingsKey: TKey
 ): Promise<TShape | undefined> => {
   const { entity_settings } = await database();
-  const settings = await entity_settings.get(entityPk, "settings");
+  const settings = await entity_settings.get(entityPk, settingsKey);
   if (settings == null) {
     return undefined;
   }

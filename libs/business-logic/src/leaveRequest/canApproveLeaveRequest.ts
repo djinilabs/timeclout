@@ -1,3 +1,4 @@
+import { notFound } from "@hapi/boom";
 import { ResourceRef } from "@/utils";
 import { parseLeaveRequestPk } from "./parseLeaveRequestPk";
 import { getUnitManagersPks } from "../unit";
@@ -18,6 +19,9 @@ export const canApproveLeaveRequest = async (
   const unitManagerPks = await getUnitManagersPks(
     units.map((unit) => unit.pk as ResourceRef)
   );
+  if (unitManagerPks.length === 0) {
+    throw notFound("No unit managers found for the units the user is in");
+  }
 
   return unitManagerPks.includes(userPk);
 };

@@ -21,11 +21,9 @@ export const BreadcrumbNav = () => {
 
   const company = queryResponse.data?.company;
 
-  const unit = company?.units?.find(
-    (unit: any) => unit.pk === `units/${unitPk}`
-  );
+  const unit = company?.units?.find((unit) => unit.pk === `units/${unitPk}`);
 
-  const [teamQueryResponse] = useQuery({
+  const [teamQueryResponse] = useQuery<{ team: Query["team"] }>({
     query: teamQuery,
     variables: {
       teamPk,
