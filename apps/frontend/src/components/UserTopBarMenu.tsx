@@ -2,23 +2,26 @@ import { Link } from "react-router-dom";
 import { useSession, signOut } from "next-auth/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import meQuery from "@/graphql-client/queries/me.graphql";
+import { useQuery } from "../hooks/useQuery";
+import { Query } from "../graphql/graphql";
+import { Avatar } from "./Avatar";
+import { Suspense } from "react";
 
 const userNavigation = [
   { href: "/me/edit", name: "Profile" },
   { name: "Sign out", onClick: () => signOut() },
 ];
 
-export const UserTopBarMenu = () => {
+export const LoadingUserTopBarMenu = () => {
+  const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });
+  const me = result?.data?.me;
   const { data: session } = useSession();
   return (
     <Menu as="div" className="relative">
       <MenuButton className="-m-1.5 flex items-center p-1.5">
         <span className="sr-only">Open user menu</span>
-        <img
-          alt=""
-          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-          className="size-8 rounded-full bg-gray-50"
-        />
+        {me && <Avatar {...me} size={40} />}
         <span className="hidden lg:flex lg:items-center">
           <span
             aria-hidden="true"
@@ -59,5 +62,13 @@ export const UserTopBarMenu = () => {
         ))}
       </MenuItems>
     </Menu>
+  );
+};
+
+export const UserTopBarMenu = () => {
+  return (
+    <Suspense>
+      <LoadingUserTopBarMenu />
+    </Suspense>
   );
 };
