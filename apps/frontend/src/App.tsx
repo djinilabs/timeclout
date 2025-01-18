@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppLayout } from "./AppLayout";
 import { AppRoutes } from "./Routes";
 import { createClient } from "./graphql/graphql-client";
+import { BrowserRouter } from "react-router-dom";
 
 export const App: FC = () => {
   const client = useMemo(() => createClient(), []);
@@ -21,15 +22,17 @@ export const App: FC = () => {
         </div>
       )}
     >
-      <QueryClientProvider client={queryClient}>
-        <SessionProvider refetchWhenOffline={false} basePath="/api/v1/auth">
-          <UrqlProvider value={client}>
-            <AppLayout>
-              <AppRoutes />
-            </AppLayout>
-          </UrqlProvider>
-        </SessionProvider>
-      </QueryClientProvider>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <SessionProvider refetchWhenOffline={false} basePath="/api/v1/auth">
+            <UrqlProvider value={client}>
+              <AppLayout>
+                <AppRoutes />
+              </AppLayout>
+            </UrqlProvider>
+          </SessionProvider>
+        </QueryClientProvider>
+      </BrowserRouter>
     </ErrorBoundary>
   );
 };

@@ -1,8 +1,12 @@
+import { Link } from "react-router-dom";
+import { useSession, signOut } from "next-auth/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useSession, signOut } from "next-auth/react";
 
-const userNavigation = [{ name: "Sign out", onClick: () => signOut() }];
+const userNavigation = [
+  { href: "/me/edit", name: "Profile" },
+  { name: "Sign out", onClick: () => signOut() },
+];
 
 export const UserTopBarMenu = () => {
   const { data: session } = useSession();
@@ -34,12 +38,23 @@ export const UserTopBarMenu = () => {
       >
         {userNavigation.map((item) => (
           <MenuItem key={item.name}>
-            <a
-              onClick={item.onClick}
-              className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
-            >
-              {item.name}
-            </a>
+            {item.href ? (
+              <Link
+                key={item.name}
+                to={item.href}
+                className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
+              >
+                {item.name}
+              </Link>
+            ) : (
+              <a
+                key={item.name}
+                onClick={item.onClick}
+                className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
+              >
+                {item.name}
+              </a>
+            )}
           </MenuItem>
         ))}
       </MenuItems>

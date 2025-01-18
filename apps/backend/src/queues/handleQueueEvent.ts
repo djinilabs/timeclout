@@ -14,16 +14,17 @@ export const handleQueueEvent = async <T extends object>(
           handler(payload)
             .then((result) => resolve(result))
             .catch((err) => {
-              console.error("Error processing event", err);
+              console.error("Error processing event", payload, err);
               reject(err);
             });
         } catch (error) {
-          console.error("Error processing event", error);
+          console.error("Error processing event", payload, error);
           reject(error);
         }
       });
     }) ?? []
   );
+
   return {
     batchItemFailures: results
       .flatMap((result, resultIndex) =>

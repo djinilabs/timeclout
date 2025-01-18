@@ -18,110 +18,108 @@ import { PageMeEdit } from "./pages/PageMeEdit";
 
 export const AppRoutes: FC = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Suspense fallback={<div>Loading...</div>}>
-              <RequiresSelfSettings>
-                <RequiresSession>
-                  <Root />
-                </RequiresSession>
-              </RequiresSelfSettings>
-            </Suspense>
-          }
-        />
-        <Route
-          path="/me/edit"
-          element={
-            <RequiresSession>
-              <PageMeEdit />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/invites/accept"
-          element={
-            <RequiresSession>
-              <InviteAccept />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/new"
-          element={
-            <RequiresSession>
-              <NewCompany />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/:company"
-          element={
-            <RequiresSession>
-              <Company />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/:company/users/:user/leave-requests/:startDate/:endDate/:leaveType"
-          element={
-            <RequiresSession>
-              <LeaveRequest />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/:company/settings/:settingName/:settingId"
-          element={
-            <RequiresSession>
-              <CompanySettings />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/:company/units/new"
-          element={
-            <RequiresSession>
-              <NewUnit />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/:company/units/:unit"
-          element={
-            <RequiresSession>
-              <Unit />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/:company/units/:unit/teams/new"
-          element={
-            <RequiresSession>
-              <NewTeam />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/:company/units/:unit/teams/:team"
-          element={
-            <RequiresSession>
-              <Team />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/:company/units/:unit/teams/:team/invites/new"
-          element={
-            <RequiresSession>
-              <NewTeamInvite />
-            </RequiresSession>
-          }
-        />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Suspense fallback={<div>Loading...</div>}>
+            <RequiresSelfSettings>
+              <RequiresSession>
+                <Root />
+              </RequiresSession>
+            </RequiresSelfSettings>
+          </Suspense>
+        }
+      />
+      <Route
+        path="/me/edit"
+        element={
+          <RequiresSession>
+            <PageMeEdit />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/invites/accept"
+        element={
+          <RequiresSession>
+            <InviteAccept />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/new"
+        element={
+          <RequiresSession>
+            <NewCompany />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/:company"
+        element={
+          <RequiresSession>
+            <Company />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/:company/users/:user/leave-requests/:startDate/:endDate/:leaveType"
+        element={
+          <RequiresSession>
+            <LeaveRequest />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/:company/settings/:settingName/:settingId"
+        element={
+          <RequiresSession>
+            <CompanySettings />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/:company/units/new"
+        element={
+          <RequiresSession>
+            <NewUnit />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/:company/units/:unit"
+        element={
+          <RequiresSession>
+            <Unit />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/:company/units/:unit/teams/new"
+        element={
+          <RequiresSession>
+            <NewTeam />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/:company/units/:unit/teams/:team"
+        element={
+          <RequiresSession>
+            <Team />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/:company/units/:unit/teams/:team/invites/new"
+        element={
+          <RequiresSession>
+            <NewTeamInvite />
+          </RequiresSession>
+        }
+      />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
   );
 };

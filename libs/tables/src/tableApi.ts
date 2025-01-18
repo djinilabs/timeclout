@@ -152,10 +152,15 @@ export const tableApi = <
       if (existingItem) {
         console.log("existingItem", existingItem);
         const { createdAt, createdBy, ...rest } = item;
-        return self.update({
-          ...existingItem,
-          ...rest,
-        });
+        return self.update(
+          parseItem(
+            {
+              ...existingItem,
+              ...rest,
+            },
+            "upsert"
+          )
+        );
       }
       console.log("NON existingItem");
       const { updatedAt, updatedBy, version, ...rest } = item;
@@ -176,7 +181,7 @@ export const tableApi = <
           lastEvaluatedKey = response.LastEvaluatedKey;
         } while (lastEvaluatedKey);
 
-        return items;
+        return items.map((item) => parseItem(item, "query")) as TTableRecord[];
       } catch (err) {
         console.error("Error querying table", tableName, query, err);
         err.message = `Error querying table ${tableName}: ${err.message}`;
