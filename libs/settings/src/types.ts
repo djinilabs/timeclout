@@ -2,6 +2,7 @@ import { leaveTypeParser, LeaveTypes } from "./leaveTypes";
 import { Managers, managersParser } from "./managers";
 import { YearlyQuota, yearlyQuotaParser } from "./yearlyQuota";
 import { YearlyUserQuotas, yearlyUserQuotasParser } from "./yearlyUserQuotas";
+import { Location, locationParser } from "./location";
 
 export type SettingsType<TShape> = {
   name: string;
@@ -25,6 +26,10 @@ export const settingsTypes = {
     name: "yearlyUserQuotas",
     parse: (value: unknown) => yearlyUserQuotasParser.parse(value),
   },
+  location: {
+    name: "location",
+    parse: (value: unknown) => locationParser.parse(value),
+  },
 } as const;
 
 export type SettingsTypeKey = keyof typeof settingsTypes;
@@ -38,4 +43,6 @@ export type SettingsShape<TKey extends SettingsTypeKey> =
         ? YearlyQuota
         : TKey extends "yearlyUserQuotas"
           ? YearlyUserQuotas
-          : never;
+          : TKey extends "location"
+            ? Location
+            : never;
