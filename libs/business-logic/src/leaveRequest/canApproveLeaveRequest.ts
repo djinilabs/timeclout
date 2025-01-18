@@ -1,8 +1,5 @@
 import { ResourceRef } from "@/utils";
-
-import { EntityRecord } from "@/tables";
 import { parseLeaveRequestPk } from "./parseLeaveRequestPk";
-import { getUserUnitsPks } from "../users";
 import { getUnitManagersPks } from "../unit";
 import { getUserUnits } from "../users/getUserUnits";
 
