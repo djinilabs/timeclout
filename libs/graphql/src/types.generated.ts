@@ -257,6 +257,7 @@ export type Query = {
   invitation: Invitation;
   invitationsTo: Array<Invitation>;
   leaveRequest: LeaveRequest;
+  me?: Maybe<User>;
   myInvitations: Array<Invitation>;
   myLeaveCalendar: Calendar;
   myQuotaFulfilment: Array<QuotaFulfilment>;
@@ -368,6 +369,12 @@ export type User = {
   pk: Scalars['String']['output'];
   resourcePermission?: Maybe<Scalars['Int']['output']>;
   resourcePermissionGivenAt?: Maybe<Scalars['DateTime']['output']>;
+  settings?: Maybe<Scalars['JSON']['output']>;
+};
+
+
+export type UsersettingsArgs = {
+  name: Scalars['String']['input'];
 };
 
 
@@ -597,6 +604,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   invitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<QueryinvitationArgs, 'secret'>>;
   invitationsTo?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType, RequireFields<QueryinvitationsToArgs, 'toEntityPk'>>;
   leaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<QueryleaveRequestArgs, 'pk' | 'sk'>>;
+  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   myInvitations?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType>;
   myLeaveCalendar?: Resolver<ResolversTypes['Calendar'], ParentType, ContextType, RequireFields<QuerymyLeaveCalendarArgs, 'companyPk' | 'year'>>;
   myQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymyQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate'>>;
@@ -644,6 +652,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   resourcePermission?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   resourcePermissionGivenAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  settings?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<UsersettingsArgs, 'name'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

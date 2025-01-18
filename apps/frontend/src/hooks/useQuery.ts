@@ -3,14 +3,14 @@ import toast from "react-hot-toast";
 import { AnyVariables, useQuery as urqlUseQuery, UseQueryArgs } from "urql";
 
 type ExtendedUseQueryProps<
-  TData = any,
+  TData = unknown,
   TVariables extends AnyVariables = AnyVariables,
 > = UseQueryArgs<TVariables, TData> & {
   pollingIntervalMs?: number;
 };
 
 export const useQuery = <
-  TData = any,
+  TData = unknown,
   TVariables extends AnyVariables = AnyVariables,
 >({
   pollingIntervalMs,

@@ -54,7 +54,7 @@ const statuses = {
 };
 
 export const AllUserCompanies = () => {
-  const [allCompanies] = useQuery({
+  const [allCompanies] = useQuery<{ companies: Company[] }>({
     query: allCompaniesQuery,
     pollingIntervalMs: 10000,
   });

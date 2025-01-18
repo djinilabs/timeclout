@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { RequiresSession } from "./components/RequiresSession";
 import { Root } from "./routes/Root";
@@ -12,6 +12,9 @@ import { NewTeamInvite } from "./routes/NewTeamInvite";
 import { InviteAccept } from "./routes/InviteAccept";
 import { CompanySettings } from "./routes/CompanySettings";
 import { LeaveRequest } from "./routes/LeaveRequest";
+import { RequiresSelfSettings } from "./components/RequiresSelfSettings";
+import { PageNotFound } from "./pages/PageNotFound";
+import { PageMeEdit } from "./pages/PageMeEdit";
 
 export const AppRoutes: FC = () => {
   return (
@@ -20,8 +23,20 @@ export const AppRoutes: FC = () => {
         <Route
           path="/"
           element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <RequiresSelfSettings>
+                <RequiresSession>
+                  <Root />
+                </RequiresSession>
+              </RequiresSelfSettings>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/me/edit"
+          element={
             <RequiresSession>
-              <Root />
+              <PageMeEdit />
             </RequiresSession>
           }
         />
@@ -105,6 +120,7 @@ export const AppRoutes: FC = () => {
             </RequiresSession>
           }
         />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );

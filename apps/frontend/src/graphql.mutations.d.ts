@@ -161,6 +161,15 @@ declare module '@/graphql-client/mutations/leaveRequest.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/me.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const me: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/myLeaveCalendar.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

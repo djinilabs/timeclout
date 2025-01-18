@@ -2,12 +2,14 @@ import { FC, useMemo } from "react";
 import { Provider as UrqlProvider } from "urql";
 import { SessionProvider } from "next-auth/react";
 import { ErrorBoundary } from "@sentry/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppLayout } from "./AppLayout";
 import { AppRoutes } from "./Routes";
 import { createClient } from "./graphql/graphql-client";
 
 export const App: FC = () => {
   const client = useMemo(() => createClient(), []);
+  const queryClient = useMemo(() => new QueryClient(), []);
   return (
     <ErrorBoundary
       fallback={({ error }) => (
@@ -19,13 +21,15 @@ export const App: FC = () => {
         </div>
       )}
     >
-      <SessionProvider refetchWhenOffline={false} basePath="/api/v1/auth">
-        <UrqlProvider value={client}>
-          <AppLayout>
-            <AppRoutes />
-          </AppLayout>
-        </UrqlProvider>
-      </SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <SessionProvider refetchWhenOffline={false} basePath="/api/v1/auth">
+          <UrqlProvider value={client}>
+            <AppLayout>
+              <AppRoutes />
+            </AppLayout>
+          </UrqlProvider>
+        </SessionProvider>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 };

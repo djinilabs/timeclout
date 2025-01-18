@@ -11,9 +11,7 @@ import {
   getLeavesForDateRange,
 } from "@/business-logic";
 
-export const myLeaveCalendar: NonNullable<
-  QueryResolvers["myLeaveCalendar"]
-> = async (_parent, arg, ctx) => {
+export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = async (_parent, arg, ctx) => {
   const { companyPk, year } = arg;
   const companyRef = resourceRef("companies", companyPk);
   const userRef = await ensureAuthorized(

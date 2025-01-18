@@ -110,6 +110,7 @@ type Query {
   invitation(secret: String!): Invitation!
   invitationsTo(toEntityPk: String!): [Invitation!]!
   leaveRequest(pk: String!, sk: String!): LeaveRequest!
+  me: User
   myInvitations: [Invitation!]!
   myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
   myQuotaFulfilment(companyPk: String!, endDate: String!, startDate: String!): [QuotaFulfilment!]!
@@ -168,4 +169,5 @@ type User {
   pk: String!
   resourcePermission: Int
   resourcePermissionGivenAt: DateTime
+  settings(name: String!): JSON
 }
