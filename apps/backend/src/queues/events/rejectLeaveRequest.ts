@@ -1,7 +1,6 @@
 import { EventBusEventRejectedLeaveRequest } from "@/event-bus";
 import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
-import { leaveTypeParser } from "@/settings";
 import { EmailParams, renderEmail } from "@/emails";
 import { sendEmail } from "@/send-email";
 import { getDefined } from "@/utils";

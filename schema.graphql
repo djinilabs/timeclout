@@ -104,6 +104,8 @@ type Mutation {
   updateCompany(name: String!, pk: String!): Company!
   updateCompanySettings(companyPk: String!, name: String!, settings: JSON!): Company!
   updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
+  updateMe(input: UpdateMeInput!): User
+  updateMySettings(name: String!, settings: JSON!): User
   updateTeam(name: String!, pk: String!): Team!
   updateUnit(name: String!, pk: String!): Unit!
   updateUnitSettings(name: String!, settings: JSON!, unitPk: String!): Unit!
@@ -165,6 +167,10 @@ input UpdateLeaveRequestInput {
   sk: String!
   startDate: String!
   type: String!
+}
+
+input UpdateMeInput {
+  name: String
 }
 
 type User {

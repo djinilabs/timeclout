@@ -20,7 +20,7 @@ export const UserTopBarMenu = () => {
             aria-hidden="true"
             className="ml-4 text-sm/6 font-semibold text-gray-900"
           >
-            {session?.user?.email}
+            {session?.user?.name ?? session?.user?.email}
           </span>
           <ChevronDownIcon
             aria-hidden="true"

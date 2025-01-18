@@ -147,6 +147,7 @@ export const tableApi = <
       return parsedItem as TTableRecord;
     },
     upsert: async (item: TTableRecord) => {
+      console.log("upsert", item);
       const existingItem = await self.get(item.pk, item.sk);
       if (existingItem) {
         console.log("existingItem", existingItem);

@@ -4,5 +4,6 @@ query me {
     email
     name
     emailMd5
+    settings(name: "location")
   }
 }

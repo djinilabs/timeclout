@@ -127,6 +127,8 @@ export type Mutation = {
   updateCompany: Company;
   updateCompanySettings: Company;
   updateLeaveRequest: LeaveRequest;
+  updateMe?: Maybe<User>;
+  updateMySettings?: Maybe<User>;
   updateTeam: Team;
   updateUnit: Unit;
   updateUnitSettings: Unit;
@@ -229,6 +231,17 @@ export type MutationupdateCompanySettingsArgs = {
 
 export type MutationupdateLeaveRequestArgs = {
   input: UpdateLeaveRequestInput;
+};
+
+
+export type MutationupdateMeArgs = {
+  input: UpdateMeInput;
+};
+
+
+export type MutationupdateMySettingsArgs = {
+  name: Scalars['String']['input'];
+  settings: Scalars['JSON']['input'];
 };
 
 
@@ -361,6 +374,10 @@ export type UpdateLeaveRequestInput = {
   type: Scalars['String']['input'];
 };
 
+export type UpdateMeInput = {
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
@@ -474,6 +491,7 @@ export type ResolversTypes = {
   Team: ResolverTypeWrapper<Team>;
   Unit: ResolverTypeWrapper<Unit>;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
+  UpdateMeInput: UpdateMeInput;
   User: ResolverTypeWrapper<User>;
 };
 
@@ -501,6 +519,7 @@ export type ResolversParentTypes = {
   Team: Team;
   Unit: Unit;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
+  UpdateMeInput: UpdateMeInput;
   User: User;
 };
 
@@ -593,6 +612,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'name' | 'pk'>>;
   updateCompanySettings?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanySettingsArgs, 'companyPk' | 'name' | 'settings'>>;
   updateLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationupdateLeaveRequestArgs, 'input'>>;
+  updateMe?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationupdateMeArgs, 'input'>>;
+  updateMySettings?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationupdateMySettingsArgs, 'name' | 'settings'>>;
   updateTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamArgs, 'name' | 'pk'>>;
   updateUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitArgs, 'name' | 'pk'>>;
   updateUnitSettings?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitSettingsArgs, 'name' | 'settings' | 'unitPk'>>;

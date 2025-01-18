@@ -11,3 +11,12 @@ type User {
 extend type Query {
   me: User
 }
+
+input UpdateMeInput {
+  name: String
+}
+
+extend type Mutation {
+  updateMe(input: UpdateMeInput!): User
+  updateMySettings(name: String!, settings: JSON!): User
+}

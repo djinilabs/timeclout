@@ -17,6 +17,12 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
   const clientDoc: DynamoDBDocument =
     client._doc as unknown as DynamoDBDocument;
 
+  const databaseAdapter = DynamoDBAdapter(clientDoc, {
+    tableName,
+    indexPartitionKey: "pk",
+    indexSortKey: "sk",
+  });
+
   return {
     basePath: "/api/v1/auth",
     session: {
@@ -29,16 +35,18 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       buttonText: "Sign in",
     },
     providers: [Mailgun({ name: "TT3", from: "info@tt3.app" })],
-    adapter: DynamoDBAdapter(clientDoc, {
-      tableName,
-      indexPartitionKey: "pk",
-      indexSortKey: "sk",
-    }),
+    adapter: databaseAdapter,
     callbacks: {
       async jwt({ token, account }) {
         if (account?.type === "email" && account.providerAccountId) {
           token.email = account.providerAccountId;
           token.id = token.sub;
+          const userRef = resourceRef("users", token.id as string);
+          const { entity } = await database();
+          const user = await entity.get(userRef);
+          if (user) {
+            token.name = user.name;
+          }
         }
         return token;
       },
@@ -50,21 +58,43 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       },
     },
     events: {
+      session: async ({ session, token }) => {
+        const userRef = resourceRef("users", token.id as string);
+        const { entity } = await database();
+        const user = await entity.get(userRef);
+        if (user) {
+          session.user = {
+            ...session.user,
+            name: user.name,
+          };
+        }
+      },
       signIn: async ({ user, isNewUser }) => {
         console.log("signIn", user, isNewUser);
         const { entity } = await database();
-        const userPk = resourceRef("users", getDefined(user.id));
+        const userRef = resourceRef("users", getDefined(user.id));
         if (isNewUser) {
           const newUser = {
-            pk: userPk,
+            pk: userRef,
             name: user.name || user.email || "Unknown",
             email: user.email,
             createdAt: new Date().toISOString(),
-            createdBy: userPk,
+            createdBy: userRef,
             ...user,
           };
           console.log("creating new user", newUser);
           await entity.create(newUser as EntityRecord);
+        } else {
+          console.log("updating user", user);
+          const officialUser = await entity.get(userRef);
+          console.log("officialUser", officialUser);
+          if (officialUser && officialUser.name !== user.name && user.id) {
+            console.log("updating user name", officialUser);
+            await databaseAdapter.updateUser?.({
+              id: user.id,
+              name: officialUser.name,
+            });
+          }
         }
       },
     },

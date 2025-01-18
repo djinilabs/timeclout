@@ -98,6 +98,15 @@ declare module '@/graphql-client/queries/updateCompanySettings.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/updateMe.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateMe: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/updateUnitSettings.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

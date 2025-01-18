@@ -125,6 +125,8 @@ export type Mutation = {
   updateCompany: Company;
   updateCompanySettings: Company;
   updateLeaveRequest: LeaveRequest;
+  updateMe?: Maybe<User>;
+  updateMySettings?: Maybe<User>;
   updateTeam: Team;
   updateUnit: Unit;
   updateUnitSettings: Unit;
@@ -227,6 +229,17 @@ export type MutationUpdateCompanySettingsArgs = {
 
 export type MutationUpdateLeaveRequestArgs = {
   input: UpdateLeaveRequestInput;
+};
+
+
+export type MutationUpdateMeArgs = {
+  input: UpdateMeInput;
+};
+
+
+export type MutationUpdateMySettingsArgs = {
+  name: Scalars['String']['input'];
+  settings: Scalars['JSON']['input'];
 };
 
 
@@ -357,6 +370,10 @@ export type UpdateLeaveRequestInput = {
   sk: Scalars['String']['input'];
   startDate: Scalars['String']['input'];
   type: Scalars['String']['input'];
+};
+
+export type UpdateMeInput = {
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
