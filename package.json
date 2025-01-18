@@ -18,7 +18,8 @@
     "lint:frontend": "cd apps/frontend && eslint .",
     "preview:frontend": "cd apps/frontend && vite preview",
     "codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
