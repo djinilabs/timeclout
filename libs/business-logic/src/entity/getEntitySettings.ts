@@ -8,10 +8,20 @@ export const getEntitySettings = async <
   entityPk: string,
   settingsKey: TKey
 ): Promise<TShape | undefined> => {
-  const { entity_settings } = await database();
-  const settings = await entity_settings.get(entityPk, settingsKey);
-  if (settings == null) {
-    return undefined;
+  let settings: TShape | undefined;
+  try {
+    const { entity_settings } = await database();
+    settings = (await entity_settings.get(entityPk, settingsKey))?.settings;
+    if (settings == null) {
+      return undefined;
+    }
+    return settingsTypes[settingsKey].parse(settings) as TShape;
+  } catch (err) {
+    console.error(err);
+    throw new Error(
+      `Error getting entity settings for entity: ${entityPk} and settings key: ${settingsKey}: ${JSON.stringify(
+        settings
+      )}: ${err.message}`
+    );
   }
-  return settingsTypes[settingsKey].parse(settings) as TShape;
 };

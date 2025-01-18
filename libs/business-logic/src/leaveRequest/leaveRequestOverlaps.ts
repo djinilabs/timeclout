@@ -17,12 +17,14 @@ export const leaveRequestOverlaps = async (
     return [true, leaves, []];
   }
 
-  const leaveRequests = await getLeaveRequestsForDateRange(
-    companyRef,
-    userRef,
-    leaveRequest.startDate,
-    leaveRequest.endDate
-  );
+  const leaveRequests = (
+    await getLeaveRequestsForDateRange(
+      companyRef,
+      userRef,
+      leaveRequest.startDate,
+      leaveRequest.endDate
+    )
+  ).filter((request) => request.pk !== leaveRequest.pk);
   if (leaveRequests.length > 0) {
     return [true, leaves, leaveRequests];
   }

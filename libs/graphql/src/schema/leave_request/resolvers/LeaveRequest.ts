@@ -10,16 +10,13 @@ export const LeaveRequest: LeaveRequestResolvers = {
       return null;
     }
     const { entity } = await database();
-    console.log("leaveRequest.approvedBy", leaveRequest.approvedBy);
-    const users = await Promise.all(
+    return Promise.all(
       leaveRequest.approvedBy.map(async (userRef) => {
         return entity.get(
           userRef as unknown as ResourceRef
         ) as unknown as Promise<User>;
       })
     );
-    console.log("users", users);
-    return users;
   },
   createdBy: async (parent) => {
     const { entity } = await database();
