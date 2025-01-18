@@ -15,6 +15,7 @@ import { useCountrySubdivisions } from "../hooks/useCountrySubdivisions";
 import { useMutation } from "../hooks/useMutation";
 import updateMeMutation from "@/graphql-client/mutations/updateMe.graphql";
 import { Button } from "./Button";
+import { useSession } from "next-auth/react";
 export const MeEdit = () => {
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });
   const me = result?.data?.me;
@@ -50,6 +51,8 @@ export const MeEdit = () => {
     MutationUpdateMeArgs & MutationUpdateMySettingsArgs
   >(updateMeMutation);
 
+  const { update: updateSession } = useSession();
+
   const form = useForm({
     defaultValues: {
       name: me?.email === me?.name ? "" : me?.name,
@@ -70,6 +73,7 @@ export const MeEdit = () => {
       });
       if (!result.error) {
         toast.success("Your profile has been updated");
+        updateSession();
       }
     },
   });
