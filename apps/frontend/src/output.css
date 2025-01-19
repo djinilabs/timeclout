@@ -1671,6 +1671,21 @@ video {
   line-height: 1.5rem;
 }
 
+.text-sm\/4 {
+  font-size: 0.875rem;
+  line-height: 1rem;
+}
+
+.text-sm\/8 {
+  font-size: 0.875rem;
+  line-height: 2rem;
+}
+
+.text-sm\/10 {
+  font-size: 0.875rem;
+  line-height: 2.5rem;
+}
+
 .font-bold {
   font-weight: 700;
 }

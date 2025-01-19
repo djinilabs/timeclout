@@ -32,7 +32,7 @@ export const MyQuotaFulfilment = ({
         return (
           <li
             key={quota.quotaStartDate}
-            className="flex flex-col text-gray-500"
+            className="flex flex-col text-gray-500 text-sm/6"
           >
             <span>
               For the quota starting at {quota.quotaStartDate} and ending at{" "}
