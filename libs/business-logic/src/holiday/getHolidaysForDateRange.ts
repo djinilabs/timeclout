@@ -18,11 +18,13 @@ const remoteHolidayResponseSchema = z.array(
       })
     ),
     nationwide: z.boolean(),
-    subdivisions: z.array(
-      z.object({
-        code: z.string(),
-      })
-    ),
+    subdivisions: z
+      .array(
+        z.object({
+          code: z.string(),
+        })
+      )
+      .optional(),
   })
 );
 
@@ -56,7 +58,7 @@ export const getHolidaysForDateRange = async (
       if (holiday.nationwide) {
         return true;
       }
-      return holiday.subdivisions.some(
+      return holiday.subdivisions?.some(
         (subdivision) => subdivision.code === region
       );
     })

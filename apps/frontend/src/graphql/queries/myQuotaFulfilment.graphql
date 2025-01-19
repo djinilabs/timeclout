@@ -1,0 +1,17 @@
+query MyQuotaFulfilment(
+  $companyPk: String!
+  $startDate: String!
+  $endDate: String!
+) {
+  myQuotaFulfilment(
+    companyPk: $companyPk
+    startDate: $startDate
+    endDate: $endDate
+  ) {
+    quota
+    quotaStartDate
+    quotaEndDate
+    approvedUsed
+    pendingApprovalUsed
+  }
+}

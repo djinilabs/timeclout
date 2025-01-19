@@ -28,14 +28,16 @@ export const getQuotaFulfilment = async ({
   endDate,
 }: QuotaFulfilmentParams): Promise<QuotaFulfilment[]> => {
   const defaultYearlyQuota = getDefined(
-    await getEntitySettings<"yearlyQuota">(companyRef, "yearlyQuota")
+    await getEntitySettings<"yearlyQuota">(companyRef, "yearlyQuota"),
+    "No yearly quota found in company settings"
   );
-  const userYearlyQuota = getDefined(
-    await getEntitySettings<"yearlyUserQuotas">(userRef, "yearlyUserQuotas")
+  const userYearlyQuota = await getEntitySettings<"yearlyUserQuotas">(
+    userRef,
+    "yearlyUserQuotas"
   );
 
   const getPeriodQuota = (period: LeaveQuotaPeriod) => {
-    return userYearlyQuota[period.start] || defaultYearlyQuota.defaultQuota;
+    return userYearlyQuota?.[period.start] || defaultYearlyQuota.defaultQuota;
   };
 
   // calculate period start and end according to the default yearly quota reset month

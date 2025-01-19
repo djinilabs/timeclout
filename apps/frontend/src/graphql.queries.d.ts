@@ -188,6 +188,15 @@ declare module '@/graphql-client/queries/myLeaveCalendar.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/myQuotaFulfilment.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const MyQuotaFulfilment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/teamQuery.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
