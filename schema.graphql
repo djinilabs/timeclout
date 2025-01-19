@@ -120,7 +120,7 @@ type Query {
   me: User
   myInvitations: [Invitation!]!
   myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
-  myQuotaFulfilment(companyPk: String!, endDate: String!, startDate: String!): [QuotaFulfilment!]!
+  myQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!): [QuotaFulfilment!]!
   team(teamPk: String!): Team!
   unit(unitPk: String!): Unit!
 }
@@ -131,6 +131,7 @@ type QuotaFulfilment {
   quota: Int!
   quotaEndDate: String!
   quotaStartDate: String!
+  simulatedUsed: Int
 }
 
 input RejectLeaveRequestInput {

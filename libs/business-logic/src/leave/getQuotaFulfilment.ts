@@ -1,31 +1,62 @@
 import { getDefined, ResourceRef } from "@/utils";
-import { getCompanyLeaveTypes, getLeaveRequestsForDateRange } from "..";
 import { getEntitySettings } from "../entity/getEntitySettings";
-import { LeaveType, LeaveTypes } from "@/settings";
-import { LeaveRequestRecord } from "@/tables";
-import { getLeaveQuotaPeriods, LeaveQuotaPeriod } from "./getLeaveQuotaPeriods";
+import { getLeaveQuotaPeriods } from "./getLeaveQuotaPeriods";
 import { getLeaveFulfilmentForPeriod } from "./getLeaveFulfilmentForPeriod";
+import { DayDate } from "../dayDate/dayDate";
+import { DayDateInterval } from "../dayDate/dayDateInterval";
+
+export interface SimulatedLeave {
+  type: string;
+  startDate: DayDate;
+  endDate: DayDate;
+}
 
 export interface QuotaFulfilmentParams {
   companyRef: ResourceRef;
   userRef: ResourceRef;
-  startDate: string;
-  endDate: string;
+  startDate: DayDate;
+  endDate: DayDate;
+  simulatesLeave?: boolean;
+  simulatesLeaveType?: string;
 }
 
 export interface QuotaFulfilment {
   quota: number;
-  quotaStartDate: string;
-  quotaEndDate: string;
+  quotaStartDate: DayDate;
+  quotaEndDate: DayDate;
   approvedUsed: number;
   pendingApprovalUsed: number;
+  simulatedUsed?: number;
+  simulatedType?: string;
+  simulatedStartDate?: DayDate;
+  simulatedEndDate?: DayDate;
 }
+
+const simulatedLeaveForPeriod = (
+  simulatesLeave: boolean | undefined,
+  simulatesLeaveType: string | undefined,
+  period: DayDateInterval,
+  startDate: DayDate,
+  endDate: DayDate
+): SimulatedLeave | undefined => {
+  if (!simulatesLeave) {
+    return undefined;
+  }
+  const intercept = period.intersect(new DayDateInterval(startDate, endDate));
+  return {
+    type: getDefined(simulatesLeaveType),
+    startDate: intercept.start,
+    endDate: intercept.end,
+  };
+};
 
 export const getQuotaFulfilment = async ({
   companyRef,
   userRef,
   startDate,
   endDate,
+  simulatesLeave,
+  simulatesLeaveType,
 }: QuotaFulfilmentParams): Promise<QuotaFulfilment[]> => {
   const defaultYearlyQuota = getDefined(
     await getEntitySettings<"yearlyQuota">(companyRef, "yearlyQuota"),
@@ -36,8 +67,12 @@ export const getQuotaFulfilment = async ({
     "yearlyUserQuotas"
   );
 
-  const getPeriodQuota = (period: LeaveQuotaPeriod) => {
-    return userYearlyQuota?.[period.start] || defaultYearlyQuota.defaultQuota;
+  const getPeriodQuota = (period: DayDateInterval) => {
+    return (
+      userYearlyQuota?.find(
+        (quota) => quota.startDate === period.start.toString()
+      )?.quota || defaultYearlyQuota.defaultQuota
+    );
   };
 
   // calculate period start and end according to the default yearly quota reset month
@@ -52,6 +87,13 @@ export const getQuotaFulfilment = async ({
         userRef,
         startDate: period.start,
         endDate: period.end,
+        simulation: simulatedLeaveForPeriod(
+          simulatesLeave,
+          simulatesLeaveType,
+          period,
+          startDate,
+          endDate
+        ),
       });
       return {
         quota: getPeriodQuota(period),

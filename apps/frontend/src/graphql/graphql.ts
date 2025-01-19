@@ -307,6 +307,8 @@ export type QueryMyLeaveCalendarArgs = {
 export type QueryMyQuotaFulfilmentArgs = {
   companyPk: Scalars['String']['input'];
   endDate: Scalars['String']['input'];
+  simulatesLeave?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatesLeaveType?: InputMaybe<Scalars['String']['input']>;
   startDate: Scalars['String']['input'];
 };
 
@@ -327,6 +329,7 @@ export type QuotaFulfilment = {
   quota: Scalars['Int']['output'];
   quotaEndDate: Scalars['String']['output'];
   quotaStartDate: Scalars['String']['output'];
+  simulatedUsed?: Maybe<Scalars['Int']['output']>;
 };
 
 export type RejectLeaveRequestInput = {

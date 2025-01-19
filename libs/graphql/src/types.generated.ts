@@ -309,6 +309,8 @@ export type QuerymyLeaveCalendarArgs = {
 export type QuerymyQuotaFulfilmentArgs = {
   companyPk: Scalars['String']['input'];
   endDate: Scalars['String']['input'];
+  simulatesLeave?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatesLeaveType?: InputMaybe<Scalars['String']['input']>;
   startDate: Scalars['String']['input'];
 };
 
@@ -329,6 +331,7 @@ export type QuotaFulfilment = {
   quota: Scalars['Int']['output'];
   quotaEndDate: Scalars['String']['output'];
   quotaStartDate: Scalars['String']['output'];
+  simulatedUsed?: Maybe<Scalars['Int']['output']>;
 };
 
 export type RejectLeaveRequestInput = {
@@ -639,6 +642,7 @@ export type QuotaFulfilmentResolvers<ContextType = any, ParentType extends Resol
   quota?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   quotaEndDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   quotaStartDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  simulatedUsed?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

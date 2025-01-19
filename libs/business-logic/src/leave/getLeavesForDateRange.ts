@@ -1,19 +1,20 @@
 import { database, LeaveRecord } from "@/tables";
 import { ResourceRef } from "@/utils";
+import { DayDate } from "../dayDate/dayDate";
 
 export const getLeavesForDateRange = async (
   companyRef: ResourceRef,
   userRef: ResourceRef,
-  startDate: string,
-  endDate: string
+  startDate: DayDate,
+  endDate: DayDate
 ): Promise<LeaveRecord[]> => {
   const { leave } = await database();
   return leave.query({
     KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDate AND :endDate",
     ExpressionAttributeValues: {
       ":pk": `${companyRef}/${userRef}`,
-      ":startDate": startDate,
-      ":endDate": endDate,
+      ":startDate": startDate.toString(),
+      ":endDate": endDate.toString(),
     },
   });
 };

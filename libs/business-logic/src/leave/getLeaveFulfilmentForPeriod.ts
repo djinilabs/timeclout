@@ -3,30 +3,43 @@ import { getLeaveRequestsForDateRange } from "../leaveRequest/getLeaveRequestsFo
 import { getCompanyLeaveTypes } from "../leaveType/getCompanyLeaveTypes";
 import { getLeavesForDateRange } from "./getLeavesForDateRange";
 import { getHolidaysForDateRange } from "../holiday/getHolidaysForDateRange";
+import { DayDate } from "../dayDate/dayDate";
+import { DayDateInterval } from "../dayDate";
+
+export interface SimulatedLeave {
+  type: string;
+  startDate: DayDate;
+  endDate: DayDate;
+}
 
 export interface LeaveFulfilmentForPeriodParams {
   companyRef: ResourceRef;
   userRef: ResourceRef;
-  startDate: string;
-  endDate: string;
+  startDate: DayDate;
+  endDate: DayDate;
+  simulation?: SimulatedLeave;
 }
 
-export interface LeaveFulfilmentForPeriod {
-  startDate: string;
-  endDate: string;
+export interface SimulationResult {
+  simulatedUsed?: number;
+  simulatedType?: string;
+  simulatedStartDate?: DayDate;
+  simulatedEndDate?: DayDate;
+}
+
+export interface LeaveFulfilmentForPeriod extends SimulationResult {
+  startDate: DayDate;
+  endDate: DayDate;
   approvedUsed: number;
   pendingApprovalUsed: number;
 }
-
-const createDayDate = (date: string) => {
-  return new Date(date + "T00:00:00Z");
-};
 
 export const getLeaveFulfilmentForPeriod = async ({
   companyRef,
   userRef,
   startDate,
   endDate,
+  simulation,
 }: LeaveFulfilmentForPeriodParams): Promise<LeaveFulfilmentForPeriod> => {
   const leaveTypes = await getCompanyLeaveTypes(companyRef);
 
@@ -52,14 +65,14 @@ export const getLeaveFulfilmentForPeriod = async ({
 
   const pendingApprovalUsed = pendingApprovalLeaveRequests.reduce(
     (acc, leaveRequest) => {
-      const startDate = createDayDate(leaveRequest.startDate);
-      const endDate = createDayDate(leaveRequest.endDate);
+      const startDate = new DayDate(leaveRequest.startDate);
+      const endDate = new DayDate(leaveRequest.endDate);
       for (
         let date = startDate;
-        date <= endDate;
-        date.setDate(date.getDate() + 1)
+        date.compareTo(endDate) <= 0;
+        date = date.nextDay()
       ) {
-        const holiday = holidays[date.toISOString().split("T")[0]];
+        const holiday = holidays[date.toString()];
         if (holiday) {
           return acc;
         }
@@ -70,10 +83,31 @@ export const getLeaveFulfilmentForPeriod = async ({
     0
   );
 
+  const simulationResult: SimulationResult | undefined = simulation
+    ? {
+        simulatedUsed: new DayDateInterval(
+          simulation.startDate,
+          simulation.endDate
+        )
+          .getDays()
+          .reduce((acc, day) => {
+            const holiday = holidays[day.toString()];
+            if (holiday) {
+              return acc;
+            }
+            return acc + 1;
+          }, 0),
+        simulatedType: simulation.type,
+        simulatedStartDate: simulation.startDate,
+        simulatedEndDate: simulation.endDate,
+      }
+    : undefined;
+
   return {
     startDate,
     endDate,
     approvedUsed,
     pendingApprovalUsed,
+    ...simulationResult,
   };
 };

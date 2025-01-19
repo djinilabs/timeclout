@@ -27,6 +27,10 @@ type QuotaFulfilment {
   quotaEndDate: String!
   approvedUsed: Int!
   pendingApprovalUsed: Int!
+  simulatedUsed: Int
+  simulatedType: String
+  simulatedStartDate: String
+  simulatedEndDate: String
 }
 
 extend type Query {
@@ -35,5 +39,7 @@ extend type Query {
     companyPk: String!
     startDate: String!
     endDate: String!
+    simulatesLeave: Boolean
+    simulatesLeaveType: String
   ): [QuotaFulfilment!]!
 }

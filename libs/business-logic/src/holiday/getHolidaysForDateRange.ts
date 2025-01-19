@@ -2,10 +2,7 @@ import { notFound } from "@hapi/boom";
 import { z } from "zod";
 import { ResourceRef } from "@/utils";
 import { getEntitySettings } from "../entity/getEntitySettings";
-
-const createDayDate = (date: string) => {
-  return new Date(date + "T00:00:00Z");
-};
+import { DayDate } from "../dayDate/dayDate";
 
 const remoteHolidayResponseSchema = z.array(
   z.object({
@@ -30,8 +27,8 @@ const remoteHolidayResponseSchema = z.array(
 
 export const getHolidaysForDateRange = async (
   userRef: ResourceRef,
-  startDate: string,
-  endDate: string
+  startDate: DayDate,
+  endDate: DayDate
 ): Promise<Record<string, string>> => {
   // get user country and region
   const locationSettings = await getEntitySettings<"location">(
@@ -70,14 +67,14 @@ export const getHolidaysForDateRange = async (
       };
     })
     .reduce((all, holiday) => {
-      const startDate = createDayDate(holiday.startDate);
-      const endDate = createDayDate(holiday.endDate);
+      const startDate = new DayDate(holiday.startDate);
+      const endDate = new DayDate(holiday.endDate);
       for (
         let date = startDate;
-        date <= endDate;
-        date.setDate(date.getDate() + 1)
+        date.compareTo(endDate) <= 0;
+        date = date.nextDay()
       ) {
-        all[date.toISOString().split("T")[0]] = holiday.name;
+        all[date.toString()] = holiday.name;
       }
       return all;
     }, {});
