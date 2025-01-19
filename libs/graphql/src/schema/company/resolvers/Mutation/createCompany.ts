@@ -6,7 +6,9 @@ import { requireSession } from "../../../../session/requireSession";
 import { giveAuthorization } from "../../../../auth/giveAuthorization";
 import { defaultLeaveTypes } from "./defaultLeaveTypes";
 
-export const createCompany: NonNullable<MutationResolvers['createCompany']> = async (_parent, arg, ctx) => {
+export const createCompany: NonNullable<
+  MutationResolvers["createCompany"]
+> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const userPk = resourceRef(
     "users",
@@ -26,6 +28,10 @@ export const createCompany: NonNullable<MutationResolvers['createCompany']> = as
 
   const settings = {
     leaveTypes: defaultLeaveTypes,
+    yearlyQuota: {
+      resetMonth: 1,
+      defaultQuota: 20,
+    },
   };
   for (const [key, value] of Object.entries(settings)) {
     await entity_settings.create({
