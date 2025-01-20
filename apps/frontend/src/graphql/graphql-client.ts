@@ -15,7 +15,7 @@ const defaultClientOpts = (): ClientOptions => ({
     headers: {},
   },
   requestPolicy: "cache-and-network",
-  suspense: true,
+  suspense: false,
   exchanges: [
     cacheExchange({
       keys: {
