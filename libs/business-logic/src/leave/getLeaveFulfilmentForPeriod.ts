@@ -1,10 +1,11 @@
-import { ResourceRef } from "@/utils";
+import { getDefined, ResourceRef } from "@/utils";
 import { getLeaveRequestsForDateRange } from "../leaveRequest/getLeaveRequestsForDateRange";
 import { getCompanyLeaveTypes } from "../leaveType/getCompanyLeaveTypes";
 import { getLeavesForDateRange } from "./getLeavesForDateRange";
 import { getHolidaysForDateRange } from "../holiday/getHolidaysForDateRange";
 import { DayDate } from "../dayDate/dayDate";
 import { DayDateInterval } from "../dayDate";
+import { getEntitySettings } from "../entity/getEntitySettings";
 
 export interface SimulatedLeave {
   type: string;
@@ -42,8 +43,16 @@ export const getLeaveFulfilmentForPeriod = async ({
   simulation,
 }: LeaveFulfilmentForPeriodParams): Promise<LeaveFulfilmentForPeriod> => {
   const leaveTypes = await getCompanyLeaveTypes(companyRef);
+  const workSchedule = getDefined(
+    await getEntitySettings<"workSchedule">(companyRef, "workSchedule")
+  );
 
   const holidays = await getHolidaysForDateRange(userRef, startDate, endDate);
+
+  const isWorkDay = (date: DayDate) => {
+    const day = date.getWeekDay();
+    return !!workSchedule[day]?.isWorkDay || holidays[date.toString()] != null;
+  };
 
   const approvedUsedLeaves = (
     await getLeavesForDateRange(companyRef, userRef, startDate, endDate)
@@ -72,8 +81,7 @@ export const getLeaveFulfilmentForPeriod = async ({
         date.compareTo(endDate) <= 0;
         date = date.nextDay()
       ) {
-        const holiday = holidays[date.toString()];
-        if (holiday) {
+        if (!isWorkDay(date)) {
           return acc;
         }
         acc++;
@@ -91,8 +99,10 @@ export const getLeaveFulfilmentForPeriod = async ({
         )
           .getDays()
           .reduce((acc, day) => {
-            const holiday = holidays[day.toString()];
-            if (holiday) {
+            if (!leaveTypes[simulation.type].deductsFromAnnualAllowance) {
+              return acc;
+            }
+            if (!isWorkDay(day)) {
               return acc;
             }
             return acc + 1;

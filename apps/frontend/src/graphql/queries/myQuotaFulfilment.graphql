@@ -17,5 +17,9 @@ query MyQuotaFulfilment(
     quotaEndDate
     approvedUsed
     pendingApprovalUsed
+    simulatedUsed
+    simulatedType
+    simulatedStartDate
+    simulatedEndDate
   }
 }

@@ -4,9 +4,7 @@ import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 import { PERMISSION_LEVELS } from "@/tables";
 import { getQuotaFulfilment, DayDate } from "@/business-logic";
 
-export const myQuotaFulfilment: NonNullable<
-  QueryResolvers["myQuotaFulfilment"]
-> = async (_parent, arg, ctx) => {
+export const myQuotaFulfilment: NonNullable<QueryResolvers['myQuotaFulfilment']> = async (_parent, arg, ctx) => {
   const { companyPk, startDate, endDate, simulatesLeave, simulatesLeaveType } =
     arg;
   const companyRef = resourceRef("companies", companyPk);

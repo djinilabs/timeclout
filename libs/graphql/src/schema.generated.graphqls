@@ -126,6 +126,9 @@ type QuotaFulfilment {
   quota: Int!
   quotaEndDate: String!
   quotaStartDate: String!
+  simulatedEndDate: String
+  simulatedStartDate: String
+  simulatedType: String
   simulatedUsed: Int
 }
 

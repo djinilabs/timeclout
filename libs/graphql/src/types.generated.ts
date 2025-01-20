@@ -331,6 +331,9 @@ export type QuotaFulfilment = {
   quota: Scalars['Int']['output'];
   quotaEndDate: Scalars['String']['output'];
   quotaStartDate: Scalars['String']['output'];
+  simulatedEndDate?: Maybe<Scalars['String']['output']>;
+  simulatedStartDate?: Maybe<Scalars['String']['output']>;
+  simulatedType?: Maybe<Scalars['String']['output']>;
   simulatedUsed?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -642,6 +645,9 @@ export type QuotaFulfilmentResolvers<ContextType = any, ParentType extends Resol
   quota?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   quotaEndDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   quotaStartDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  simulatedEndDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  simulatedStartDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  simulatedType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   simulatedUsed?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -1,3 +1,13 @@
+const weekDays = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+] as const;
+
 export class DayDate {
   private date: Date;
 
@@ -11,6 +21,10 @@ export class DayDate {
 
   clone() {
     return new DayDate(new Date(this.date));
+  }
+
+  getWeekDay() {
+    return weekDays[this.date.getUTCDay()];
   }
 
   getMonth() {

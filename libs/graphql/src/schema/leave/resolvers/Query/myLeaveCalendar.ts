@@ -7,6 +7,7 @@ import type {
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import {
+  DayDate,
   getLeaveRequestsForDateRange,
   getLeavesForDateRange,
 } from "@/business-logic";
@@ -35,15 +36,15 @@ export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = a
   const leaveRequests = await getLeaveRequestsForDateRange(
     companyRef,
     userRef,
-    firstDayOfFirstWeek.toISOString().split("T")[0],
-    lastDayOfLastWeek.toISOString().split("T")[0]
+    new DayDate(firstDayOfFirstWeek),
+    new DayDate(lastDayOfLastWeek)
   );
 
   const leaves = await getLeavesForDateRange(
     companyRef,
     userRef,
-    firstDayOfFirstWeek.toISOString().split("T")[0],
-    lastDayOfLastWeek.toISOString().split("T")[0]
+    new DayDate(firstDayOfFirstWeek),
+    new DayDate(lastDayOfLastWeek)
   );
 
   return {

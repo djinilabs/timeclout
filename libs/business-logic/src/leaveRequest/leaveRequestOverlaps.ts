@@ -2,6 +2,7 @@ import { LeaveRecord, LeaveRequestRecord } from "@/tables";
 import { parseLeaveRequestPk } from "./parseLeaveRequestPk";
 import { getLeavesForDateRange } from "../leave/getLeavesForDateRange";
 import { getLeaveRequestsForDateRange } from "./getLeaveRequestsForDateRange";
+import { DayDate } from "../dayDate/dayDate";
 
 export const leaveRequestOverlaps = async (
   leaveRequest: LeaveRequestRecord
@@ -10,8 +11,8 @@ export const leaveRequestOverlaps = async (
   const leaves = await getLeavesForDateRange(
     companyRef,
     userRef,
-    leaveRequest.startDate,
-    leaveRequest.endDate
+    new DayDate(leaveRequest.startDate),
+    new DayDate(leaveRequest.endDate)
   );
   if (leaves.length > 0) {
     return [true, leaves, []];
@@ -21,8 +22,8 @@ export const leaveRequestOverlaps = async (
     await getLeaveRequestsForDateRange(
       companyRef,
       userRef,
-      leaveRequest.startDate,
-      leaveRequest.endDate
+      new DayDate(leaveRequest.startDate),
+      new DayDate(leaveRequest.endDate)
     )
   ).filter((request) => request.pk !== leaveRequest.pk);
   if (leaveRequests.length > 0) {

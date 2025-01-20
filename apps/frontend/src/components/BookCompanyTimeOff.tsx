@@ -125,6 +125,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                       Reason
                     </label>
                     <textarea
+                      autoFocus
                       value={field.state.value}
                       placeholder="Please provide a reason for your leave request."
                       onChange={(e) => field.handleChange(e.target.value)}
@@ -154,6 +155,8 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                     companyPk={getDefined(company, "No company provided")}
                     startDate={startDate.toISOString().split("T")[0]}
                     endDate={endDate.toISOString().split("T")[0]}
+                    simulatesLeave={true}
+                    simulatesLeaveType={state.values.type}
                   />
                 </Suspense>
               ) : null;
