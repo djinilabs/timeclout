@@ -25,3 +25,4 @@ dist-ssr
 *.sw?
 
 apps/backend/public
+apps/backend/db

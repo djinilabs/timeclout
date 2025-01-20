@@ -6,9 +6,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "run-p dev:backend dev:frontend",
-    "dev:backend": "run-p dev:watch-source-refresh-lambda dev:backend:sandbox",
+    "dev:backend": "ARC_DB_PATH=./db run-p dev:watch-source-refresh-lambda dev:backend:sandbox",
     "dev:watch-source-refresh-lambda": "node scripts/watchSourceRefreshLambda.cjs",
-    "dev:backend:sandbox": "pnpm dev:update-env && cd apps/backend && pnpm arc sandbox",
+    "dev:backend:sandbox": "cd apps/backend && pnpm arc sandbox",
     "dev:update-env": "cd apps/backend && node ../../scripts/updateEnv.js",
     "dev:frontend": "run-p dev:frontend:app dev:frontend:styles",
     "dev:frontend:app": "cd apps/frontend && vite",
@@ -106,7 +106,8 @@
     "patchedDependencies": {
       "@architect/functions": "patches/@architect__functions.patch",
       "@auth/core": "patches/@auth__core.patch",
-      "@auth/express": "patches/@auth__express.patch"
+      "@auth/express": "patches/@auth__express.patch",
+      "@architect/sandbox": "patches/@architect__sandbox.patch"
     }
   }
 }

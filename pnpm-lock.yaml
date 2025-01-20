@@ -8,6 +8,9 @@ patchedDependencies:
   '@architect/functions':
     hash: wjjtw46v6xaiwiud4q4gxcd3gu
     path: patches/@architect__functions.patch
+  '@architect/sandbox':
+    hash: rgjzpeexmm4rjtqjdv6baqoi6y
+    path: patches/@architect__sandbox.patch
   '@auth/core':
     hash: aeyot3iwk2unqcchidhys6cc5q
     path: patches/@auth__core.patch
@@ -6174,7 +6177,7 @@ snapshots:
       '@architect/hydrate': 4.0.7
       '@architect/inventory': 4.0.5
       '@architect/logs': 5.0.5
-      '@architect/sandbox': 6.0.5
+      '@architect/sandbox': 6.0.5(patch_hash=rgjzpeexmm4rjtqjdv6baqoi6y)
       '@architect/utils': 4.0.6
       '@aws-lite/client': 0.22.4
       chalk: 4.1.2
@@ -6317,7 +6320,7 @@ snapshots:
       esbuild: 0.20.2
       source-map-support: 0.5.21
 
-  '@architect/sandbox@6.0.5':
+  '@architect/sandbox@6.0.5(patch_hash=rgjzpeexmm4rjtqjdv6baqoi6y)':
     dependencies:
       '@architect/asap': 7.0.10
       '@architect/create': 5.0.3

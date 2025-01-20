@@ -1,0 +1,5 @@
+query mySettings($settingsName: String!) {
+  me {
+    settings(name: $settingsName)
+  }
+}

@@ -1,4 +1,4 @@
-import { FC, Suspense } from "react";
+import { FC, Suspense, useEffect, useMemo, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { useParams } from "react-router-dom";
 import { DayPicker } from "react-day-picker";
@@ -8,14 +8,17 @@ import { leaveTypeParser } from "@/settings";
 import { Button } from "./Button";
 import { useQuery } from "../hooks/useQuery";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-
+import mySettingsQuery from "@/graphql-client/queries/mySettings.graphql";
+import { DayDate } from "@/day-date";
 import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
+import { useHolidays } from "../hooks/useHolidays";
 import {
   CompanySettingsArgs,
   Query,
   QueryCompanyArgs,
 } from "../graphql/graphql";
 import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
+import toast from "react-hot-toast";
 
 export type TimeOffRequest = {
   type: string;
@@ -57,6 +60,43 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
       onSubmit(value);
     },
   });
+
+  const [userLocationSettingsResult] = useQuery<{ me: Query["me"] }>({
+    query: mySettingsQuery,
+    variables: {
+      settingsName: "location",
+    },
+  });
+
+  // Holidays
+  const [startDate, setStartDate] = useState(() => new DayDate(new Date()));
+  const [endDate, setEndDate] = useState(() =>
+    new DayDate(new Date()).nextMonth(1).endOfMonth()
+  );
+  const userLocationSettings = userLocationSettingsResult?.data?.me?.settings;
+
+  const { data: holidays, error: holidaysError } = useHolidays(
+    useMemo(
+      () => ({
+        country: userLocationSettings?.country,
+        region: userLocationSettings?.region,
+        startDate,
+        endDate,
+      }),
+      [
+        endDate,
+        startDate,
+        userLocationSettings?.country,
+        userLocationSettings?.region,
+      ]
+    )
+  );
+
+  useEffect(() => {
+    if (holidaysError) {
+      toast.error("Error fetching holidays: " + holidaysError.message);
+    }
+  }, [holidaysError]);
 
   return (
     <form
@@ -170,6 +210,9 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
               const [startDate, endDate] = field.state.value.map((date) =>
                 date ? new Date(date) : undefined
               );
+              const holidaysDates = Object.keys(holidays ?? {}).map(
+                (date) => new Date(date + "T00:00:00Z")
+              );
               return (
                 <div>
                   <label
@@ -207,6 +250,18 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                         range?.to?.toISOString().split("T")[0],
                       ])
                     }
+                    onMonthChange={(month) => {
+                      setStartDate(new DayDate(month));
+                      setEndDate(new DayDate(month).nextMonth(1).endOfMonth());
+                    }}
+                    modifiers={{
+                      holiday: holidaysDates,
+                      dayOfWeek: { dayOfWeek: [0, 6] },
+                    }}
+                    modifiersClassNames={{
+                      holiday: "bg-red-500 text-white mx-auto rounded-full",
+                      dayOfWeek: "bg-gray-100 text-gray-500 mx-auto",
+                    }}
                   />
                 </div>
               );

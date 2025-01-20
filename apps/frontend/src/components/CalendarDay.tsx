@@ -12,6 +12,7 @@ interface CalendarDayProps {
   isLeave: LeaveDay;
   isHovering: boolean;
   setHoveringDay: (day: string | null) => void;
+  holiday: string | undefined;
 }
 
 export const CalendarDay: FC<CalendarDayProps> = ({
@@ -21,6 +22,7 @@ export const CalendarDay: FC<CalendarDayProps> = ({
   isLeave,
   isHovering,
   setHoveringDay,
+  holiday,
 }) => {
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null
@@ -33,23 +35,29 @@ export const CalendarDay: FC<CalendarDayProps> = ({
     dayIdx === month.days.length - 1 ? "rounded-br-lg" : "",
     "hover:bg-gray-100"
   );
+
+  const caresAboutHovering = (isLeave || holiday) && day.isCurrentMonth;
   const element = (
     <button
       ref={setReferenceElement}
       key={day.date}
       type="button"
       className={classNames(buttonClassName, "py-1.5")}
-      onMouseEnter={() =>
-        isLeave && day.isCurrentMonth && setHoveringDay(day.date)
+      onMouseEnter={
+        caresAboutHovering ? () => setHoveringDay(day.date) : undefined
       }
-      onMouseLeave={() => isLeave && day.isCurrentMonth && setHoveringDay(null)}
+      onMouseLeave={caresAboutHovering ? () => setHoveringDay(null) : undefined}
     >
       <time
         dateTime={day.date}
         className={classNames(
           day.isToday ? "bg-teal-600 font-semibold text-white" : "",
           "mx-auto flex size-7 items-center justify-center rounded-full",
-          isLeave && !isLeave?.leaveRequest?.approved ? "opacity-50" : ""
+          isLeave && !isLeave?.leaveRequest?.approved
+            ? "opacity-50"
+            : holiday
+              ? "bg-red-500 text-white"
+              : ""
         )}
         style={
           isLeave
@@ -65,18 +73,34 @@ export const CalendarDay: FC<CalendarDayProps> = ({
       </time>
     </button>
   );
-  if (isHovering && isLeave?.leaveRequest && day.isCurrentMonth) {
-    return (
-      <div
-        key={day.date}
-        className={classNames(buttonClassName, "bg-gray-100")}
-      >
-        {element}
-        <Popover referenceElement={referenceElement} placement="bottom-start">
-          <LeaveRequest {...isLeave.leaveRequest} />
-        </Popover>
-      </div>
-    );
+  if (isHovering && day.isCurrentMonth) {
+    if (isLeave?.leaveRequest) {
+      return (
+        <div
+          key={day.date}
+          className={classNames(buttonClassName, "bg-gray-100")}
+        >
+          {element}
+          <Popover referenceElement={referenceElement} placement="bottom-start">
+            <LeaveRequest {...isLeave.leaveRequest} />
+          </Popover>
+        </div>
+      );
+    } else if (holiday) {
+      return (
+        <div
+          key={day.date}
+          className={classNames(buttonClassName, "bg-gray-100")}
+        >
+          {element}
+          <Popover referenceElement={referenceElement} placement="bottom-start">
+            <div className="text-xs p-2 bg-white rounded-lg shadow-md">
+              {holiday}
+            </div>
+          </Popover>
+        </div>
+      );
+    }
   }
   return element;
 };

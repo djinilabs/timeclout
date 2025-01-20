@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import {
   useLocation,
   useNavigate,
@@ -10,6 +10,7 @@ import { getDefined } from "@/utils";
 import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRequest.graphql";
 import myLeaveCalendarQuery from "@/graphql-client/queries/myLeaveCalendar.graphql";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import mySettingsQuery from "@/graphql-client/queries/mySettings.graphql";
 import { LeaveDay, YearCalendar } from "./YearCalendar";
 import { BookCompanyTimeOff, type TimeOffRequest } from "./BookCompanyTimeOff";
 import { useMutation } from "../hooks/useMutation";
@@ -27,6 +28,8 @@ import { useQuery } from "../hooks/useQuery";
 import { leaveTypeColors } from "../settings/leaveTypes";
 import { leaveTypeIcons } from "../settings/leaveTypes";
 import { leaveTypeParser } from "@/settings";
+import { DayDate } from "@/day-date";
+import { useHolidays } from "../hooks/useHolidays";
 
 export const CompanyTimeOff = () => {
   const { company } = useParams();
@@ -167,6 +170,33 @@ export const CompanyTimeOff = () => {
     ]
   );
 
+  const [userLocationSettingsResult] = useQuery<{ me: Query["me"] }>({
+    query: mySettingsQuery,
+    variables: {
+      settingsName: "location",
+    },
+  });
+
+  const userLocationSettings = userLocationSettingsResult?.data?.me?.settings;
+
+  const { data: holidays, error: holidaysError } = useHolidays(
+    useMemo(
+      () => ({
+        country: userLocationSettings?.country,
+        region: userLocationSettings?.region,
+        startDate: new DayDate(new Date(year, 0, 1)),
+        endDate: new DayDate(new Date(year, 11, 31)),
+      }),
+      [userLocationSettings, year]
+    )
+  );
+
+  useEffect(() => {
+    if (holidaysError) {
+      toast.error(`Error fetching holidays: ${holidaysError.message}`);
+    }
+  }, [holidaysError]);
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       {params.get("bookTimeOff") === "true" ? (
@@ -187,6 +217,7 @@ export const CompanyTimeOff = () => {
           year={year}
           goToYear={setYear}
           calendarDateMap={calendarDateMap}
+          holidays={holidays}
           bookTimeOff={() => {
             navigate({
               pathname: location.pathname,

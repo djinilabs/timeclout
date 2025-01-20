@@ -197,6 +197,15 @@ declare module '@/graphql-client/queries/myQuotaFulfilment.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/mySettings.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const mySettings: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/teamQuery.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

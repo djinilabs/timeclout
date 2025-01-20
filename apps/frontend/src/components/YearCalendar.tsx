@@ -36,6 +36,7 @@ export interface YearCalendarProps {
   goToYear: (year: number) => void;
   bookTimeOff: () => void;
   calendarDateMap: Record<string, LeaveDay>;
+  holidays?: Record<string, string>;
 }
 
 export const YearCalendar = ({
@@ -43,6 +44,7 @@ export const YearCalendar = ({
   goToYear,
   bookTimeOff,
   calendarDateMap,
+  holidays,
 }: YearCalendarProps) => {
   const months = useMemo(() => generateYearMonthsDays(year), [year]);
   const [hoveringDay, setHoveringDay] = useState<string | null>(null);
@@ -149,12 +151,14 @@ export const YearCalendar = ({
                   const isHovering = hoveringDay === day.date;
                   return (
                     <CalendarDay
+                      key={day.date}
                       day={day}
                       dayIdx={dayIdx}
                       month={month}
                       isLeave={isLeave}
                       isHovering={isHovering}
                       setHoveringDay={setHoveringDay}
+                      holiday={holidays?.[day.date]}
                     />
                   );
                 })}

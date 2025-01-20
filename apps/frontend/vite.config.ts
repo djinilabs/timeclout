@@ -27,6 +27,7 @@ export default defineConfig({
       "@/settings": path.resolve(__dirname, "../../libs/settings/src"),
       "@/graphql-client": path.resolve(__dirname, "./src/graphql"),
       "@/day-date": path.resolve(__dirname, "../../libs/day-date/src"),
+      "@/holidays": path.resolve(__dirname, "../../libs/holidays/src"),
     },
   },
   build: {

@@ -59,6 +59,18 @@ export class DayDate {
     return new DayDate(nextYear);
   }
 
+  nextMonth(months = 1) {
+    const nextMonth = new Date(this.date);
+    nextMonth.setUTCMonth(this.date.getUTCMonth() + months);
+    return new DayDate(nextMonth);
+  }
+
+  endOfMonth() {
+    const lastDay = new Date(this.date);
+    lastDay.setUTCMonth(this.date.getUTCMonth() + 1, 0);
+    return new DayDate(lastDay);
+  }
+
   previousYear() {
     const previousYear = new Date(this.date);
     previousYear.setUTCFullYear(this.date.getUTCFullYear() - 1);

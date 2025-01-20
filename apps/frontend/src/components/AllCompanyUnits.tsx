@@ -88,8 +88,11 @@ export const AllCompanyUnits = () => {
               key={unit.pk}
               className="flex items-center justify-between gap-x-6 py-5"
             >
-              <div className="min-w-0">
-                <div className="flex items-start gap-x-3">
+              <div key="unit-name" className="min-w-0">
+                <div
+                  key="unit-name-header"
+                  className="flex items-start gap-x-3"
+                >
                   <p className="text-sm/6 font-semibold text-gray-900">
                     {unit.name}
                   </p>
@@ -102,17 +105,32 @@ export const AllCompanyUnits = () => {
                     In progress
                   </p>
                 </div>
-                <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
-                  <p className="whitespace-nowrap">
+                <div
+                  key="unit-name-footer"
+                  className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500"
+                >
+                  <p
+                    key="unit-name-footer-created"
+                    className="whitespace-nowrap"
+                  >
                     Created <ReactTimeAgo date={unit.createdAt} />
                   </p>
-                  <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
+                  <svg
+                    key="unit-name-footer-separator"
+                    viewBox="0 0 2 2"
+                    className="size-0.5 fill-current"
+                  >
                     <circle r={1} cx={1} cy={1} />
                   </svg>
-                  <p className="truncate">Created by {unit.createdBy.name}</p>
+                  <p key="unit-name-footer-created-by" className="truncate">
+                    Created by {unit.createdBy.name}
+                  </p>
                 </div>
               </div>
-              <div className="flex flex-none items-center gap-x-4">
+              <div
+                key="unit-actions"
+                className="flex flex-none items-center gap-x-4"
+              >
                 <Link
                   to={`/${company.pk}/${unit.pk}`}
                   className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
