@@ -32,6 +32,41 @@ export const createCompany: NonNullable<
       resetMonth: 1,
       defaultQuota: 20,
     },
+    workSchedule: {
+      workDays: {
+        monday: {
+          isWorkDay: true,
+          start: "09:00",
+          end: "17:00",
+        },
+        tuesday: {
+          isWorkDay: true,
+          start: "09:00",
+          end: "17:00",
+        },
+        wednesday: {
+          isWorkDay: true,
+          start: "09:00",
+          end: "17:00",
+        },
+        thursday: {
+          isWorkDay: true,
+          start: "09:00",
+          end: "17:00",
+        },
+        friday: {
+          isWorkDay: true,
+          start: "09:00",
+          end: "17:00",
+        },
+        saturday: {
+          isWorkDay: false,
+        },
+        sunday: {
+          isWorkDay: false,
+        },
+      },
+    },
   };
   for (const [key, value] of Object.entries(settings)) {
     await entity_settings.create({

@@ -3,3 +3,4 @@ export * from "./managers";
 export * from "./yearlyQuota";
 export * from "./types";
 export * from "./location";
+export * from "./workSchedule";
