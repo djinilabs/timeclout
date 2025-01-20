@@ -99,7 +99,7 @@ export const CompanyWorkSchedule = () => {
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-6 md:grid-cols-3">
       <p className="mt-1 text-sm/6 text-gray-600 py-5">
-        Configure the work schedule for employees in this company:
+        Configure the standard work schedule for employees in this company:
       </p>
 
       <div className="flex py-5">
