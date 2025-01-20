@@ -48,9 +48,17 @@ export const getLeaveFulfilmentForPeriod = async ({
 
   const holidays = await getHolidaysForDateRange(userRef, startDate, endDate);
 
-  const isWorkDay = (date: DayDate) => {
+  const isWeekWorkDay = (date: DayDate) => {
     const day = date.getWeekDay();
-    return !!workSchedule[day]?.isWorkDay || holidays[date.toString()] != null;
+    return workSchedule[day]?.isWorkDay;
+  };
+
+  const isHoliday = (date: DayDate) => {
+    return Object.hasOwn(holidays, date.toString());
+  };
+
+  const isWorkDay = (date: DayDate) => {
+    return isWeekWorkDay(date) && !isHoliday(date);
   };
 
   const approvedUsedLeaves = (
@@ -101,7 +109,9 @@ export const getLeaveFulfilmentForPeriod = async ({
             if (!leaveTypes[simulation.type].deductsFromAnnualAllowance) {
               return acc;
             }
-            if (!isWorkDay(day)) {
+            const deducts = isWorkDay(day);
+            console.log("deducts", deducts, day.toString());
+            if (!deducts) {
               return acc;
             }
             return acc + 1;
