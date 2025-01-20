@@ -1,8 +1,8 @@
 import { LeaveRecord, LeaveRequestRecord } from "@/tables";
+import { DayDate } from "@/day-date";
 import { parseLeaveRequestPk } from "./parseLeaveRequestPk";
 import { getLeavesForDateRange } from "../leave/getLeavesForDateRange";
 import { getLeaveRequestsForDateRange } from "./getLeaveRequestsForDateRange";
-import { DayDate } from "../dayDate/dayDate";
 
 export const leaveRequestOverlaps = async (
   leaveRequest: LeaveRequestRecord

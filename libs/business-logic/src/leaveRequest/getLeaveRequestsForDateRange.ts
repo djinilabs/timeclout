@@ -1,8 +1,7 @@
 import { LeaveRequestRecord } from "@/tables";
-
 import { database } from "@/tables";
 import { ResourceRef } from "@/utils";
-import { DayDate } from "../dayDate/dayDate";
+import { DayDate } from "@/day-date";
 
 export const getLeaveRequestsForDateRange = async (
   companyRef: ResourceRef,

@@ -1,18 +1,20 @@
 import { resourceRef } from "@/utils";
 import { PERMISSION_LEVELS } from "@/tables";
+import {
+  getLeaveRequestsForDateRange,
+  getLeavesForDateRange,
+} from "@/business-logic";
+import { DayDate } from "@/day-date";
 import type {
   Leave,
   LeaveRequest,
   QueryResolvers,
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import {
-  DayDate,
-  getLeaveRequestsForDateRange,
-  getLeavesForDateRange,
-} from "@/business-logic";
 
-export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = async (_parent, arg, ctx) => {
+export const myLeaveCalendar: NonNullable<
+  QueryResolvers["myLeaveCalendar"]
+> = async (_parent, arg, ctx) => {
   const { companyPk, year } = arg;
   const companyRef = resourceRef("companies", companyPk);
   const userRef = await ensureAuthorized(

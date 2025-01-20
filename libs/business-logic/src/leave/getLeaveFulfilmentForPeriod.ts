@@ -1,10 +1,9 @@
 import { getDefined, ResourceRef } from "@/utils";
+import { DayDate, DayDateInterval } from "@/day-date";
 import { getLeaveRequestsForDateRange } from "../leaveRequest/getLeaveRequestsForDateRange";
 import { getCompanyLeaveTypes } from "../leaveType/getCompanyLeaveTypes";
 import { getLeavesForDateRange } from "./getLeavesForDateRange";
 import { getHolidaysForDateRange } from "../holiday/getHolidaysForDateRange";
-import { DayDate } from "../dayDate/dayDate";
-import { DayDateInterval } from "../dayDate";
 import { getEntitySettings } from "../entity/getEntitySettings";
 
 export interface SimulatedLeave {

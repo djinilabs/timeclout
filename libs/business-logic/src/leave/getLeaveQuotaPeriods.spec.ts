@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { DayDate } from "@/day-date";
 import { getLeaveQuotaPeriods } from "./getLeaveQuotaPeriods";
-import { DayDate } from "../dayDate/dayDate";
 
 describe("getLeaveQuotaPeriods", () => {
   it("should return correct periods when reset month is January", () => {

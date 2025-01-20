@@ -1,6 +1,6 @@
 import { database, LeaveRecord } from "@/tables";
 import { ResourceRef } from "@/utils";
-import { DayDate } from "../dayDate/dayDate";
+import { DayDate } from "@/day-date";
 
 export const getLeavesForDateRange = async (
   companyRef: ResourceRef,

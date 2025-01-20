@@ -13,6 +13,7 @@
       "@/settings": ["./libs/settings/src"],
       "@/emails": ["./libs/emails/src"],
       "@/business-logic": ["./libs/business-logic/src"],
+      "@/day-date": ["./libs/day-date/src"],
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

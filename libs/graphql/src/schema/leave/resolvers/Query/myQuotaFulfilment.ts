@@ -2,9 +2,12 @@ import { resourceRef } from "@/utils";
 import type { QueryResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 import { PERMISSION_LEVELS } from "@/tables";
-import { getQuotaFulfilment, DayDate } from "@/business-logic";
+import { getQuotaFulfilment } from "@/business-logic";
+import { DayDate } from "@/day-date";
 
-export const myQuotaFulfilment: NonNullable<QueryResolvers['myQuotaFulfilment']> = async (_parent, arg, ctx) => {
+export const myQuotaFulfilment: NonNullable<
+  QueryResolvers["myQuotaFulfilment"]
+> = async (_parent, arg, ctx) => {
   const { companyPk, startDate, endDate, simulatesLeave, simulatesLeaveType } =
     arg;
   const companyRef = resourceRef("companies", companyPk);

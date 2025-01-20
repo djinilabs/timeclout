@@ -1,5 +1,4 @@
-import { DayDate } from "../dayDate/dayDate";
-import { DayDateInterval } from "../dayDate/dayDateInterval";
+import { DayDate, DayDateInterval } from "@/day-date";
 
 const getQuotaPeriodInterval = (
   date: DayDate,

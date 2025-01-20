@@ -2,7 +2,7 @@ import { notFound } from "@hapi/boom";
 import { z } from "zod";
 import { ResourceRef } from "@/utils";
 import { getEntitySettings } from "../entity/getEntitySettings";
-import { DayDate } from "../dayDate/dayDate";
+import { DayDate } from "@/day-date";
 
 const remoteHolidayResponseSchema = z.array(
   z.object({
