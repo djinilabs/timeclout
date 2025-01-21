@@ -1,5 +1,5 @@
 import { FC, Suspense } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { RequiresSession } from "./components/RequiresSession";
 import { Root } from "./routes/Root";
 import { NewCompany } from "./routes/NewCompany";

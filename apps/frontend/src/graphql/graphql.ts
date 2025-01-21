@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
   DateTime: { input: any; output: any; }
   JSON: { input: any; output: any; }
 };
@@ -340,6 +341,15 @@ export type RejectLeaveRequestInput = {
   sk: Scalars['String']['input'];
 };
 
+export type Schedule = {
+  __typename?: 'Schedule';
+  endDate: Scalars['Date']['output'];
+  pk: Scalars['String']['output'];
+  startDate: Scalars['Date']['output'];
+  team: Team;
+  userSchedules: Array<UserSchedule>;
+};
+
 export type Team = {
   __typename?: 'Team';
   createdAt: Scalars['DateTime']['output'];
@@ -347,8 +357,15 @@ export type Team = {
   members: Array<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  schedule: Schedule;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
+};
+
+
+export type TeamScheduleArgs = {
+  endDate: Scalars['Date']['input'];
+  startDate: Scalars['Date']['input'];
 };
 
 export type Unit = {
@@ -396,6 +413,16 @@ export type User = {
 
 export type UserSettingsArgs = {
   name: Scalars['String']['input'];
+};
+
+export type UserSchedule = {
+  __typename?: 'UserSchedule';
+  endDate: Scalars['Date']['output'];
+  leaveRequests: Array<LeaveRequest>;
+  leaves: Array<Leave>;
+  pk: Scalars['String']['output'];
+  startDate: Scalars['Date']['output'];
+  user: User;
 };
 
 export class TypedDocumentString<TResult, TVariables>

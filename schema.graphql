@@ -33,6 +33,8 @@ input CreateLeaveRequestInput {
   type: String!
 }
 
+scalar Date
+
 scalar DateTime
 
 input DeleteLeaveInput {
@@ -142,12 +144,21 @@ input RejectLeaveRequestInput {
   sk: String!
 }
 
+type Schedule {
+  endDate: Date!
+  pk: String!
+  startDate: Date!
+  team: Team!
+  userSchedules: [UserSchedule!]!
+}
+
 type Team {
   createdAt: DateTime!
   createdBy: User!
   members: [User!]!
   name: String!
   pk: String!
+  schedule(endDate: Date!, startDate: Date!): Schedule!
   updatedAt: DateTime
   updatedBy: User
 }
@@ -185,4 +196,13 @@ type User {
   resourcePermission: Int
   resourcePermissionGivenAt: DateTime
   settings(name: String!): JSON
+}
+
+type UserSchedule {
+  endDate: Date!
+  leaveRequests: [LeaveRequest!]!
+  leaves: [Leave!]!
+  pk: String!
+  startDate: Date!
+  user: User!
 }

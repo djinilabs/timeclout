@@ -4,11 +4,46 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { ReactNode, useCallback } from "react";
+
+export interface User {
+  pk: string;
+  name: string;
+  email: string;
+  emailMd5: string;
+}
+
+export interface LeaveRequest {
+  startDate: string;
+  endDate: string;
+  type: string;
+  approved?: boolean | null;
+  reason?: string | null;
+  createdAt: string;
+  createdBy: User;
+  approvedBy?: User[] | null;
+  approvedAt?: string[] | null;
+  beneficiary: User;
+  pk: string;
+  sk: string;
+}
+export interface LeaveDay {
+  type: string;
+  icon?: ReactNode;
+  color?: string;
+  leaveRequest?: LeaveRequest;
+}
+
+export interface MemberSchedule {
+  user: User;
+  leaves: Record<string, LeaveDay>;
+}
 
 export interface MonthlyScheduleProps {
   year: number;
   month: number;
   goTo: (year: number, month: number) => void;
+  schedule?: MemberSchedule[];
 }
 
 const months = [
@@ -30,18 +65,19 @@ export const MonthlySchedule = ({
   year,
   month,
   goTo,
+  schedule,
 }: MonthlyScheduleProps) => {
-  const handlePrevMonth = () => {
+  const handlePrevMonth = useCallback(() => {
     goTo(year, month - 1);
-  };
+  }, [goTo, year, month]);
 
-  const handleNextMonth = () => {
+  const handleNextMonth = useCallback(() => {
     goTo(year, month + 1);
-  };
+  }, [goTo, year, month]);
 
-  const handleToday = () => {
+  const handleToday = useCallback(() => {
     goTo(new Date().getFullYear(), new Date().getMonth());
-  };
+  }, [goTo]);
 
   const yearMonth = `${year}-${month + 1}`;
   const humanYearMonth = `${months[month]} ${year}`;
@@ -103,6 +139,72 @@ export const MonthlySchedule = ({
           </Menu>
         </div>
       </header>
+
+      <div className="mt-6 overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-300">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+              >
+                Name
+              </th>
+              {Array.from(
+                { length: new Date(year, month + 1, 0).getDate() },
+                (_, i) => i + 1
+              ).map((day) => (
+                <th
+                  key={day}
+                  scope="col"
+                  className="px-1 py-3.5 text-center text-sm font-semibold text-gray-900"
+                >
+                  {day}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {schedule?.map((userSchedule) => (
+              <tr key={userSchedule.user.pk}>
+                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                  {userSchedule.user.name}
+                </td>
+                {Array.from(
+                  { length: new Date(year, month + 1, 0).getDate() },
+                  (_, i) => i + 1
+                ).map((day) => {
+                  const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                  const leave = userSchedule.leaves[date];
+
+                  return (
+                    <td
+                      key={day}
+                      className={`whitespace-nowrap text-sm text-center`}
+                    >
+                      {leave && (
+                        <span
+                          title={leave.leaveRequest?.type}
+                          className={`inline-flex items-center rounded-full px-2 py-2 ${
+                            leave?.leaveRequest &&
+                            !leave.leaveRequest.approved &&
+                            "opacity-50"
+                          }`}
+                          style={{
+                            backgroundColor: leave?.color,
+                          }}
+                        >
+                          {leave.icon}
+                        </span>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

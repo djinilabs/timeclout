@@ -1,5 +1,13 @@
-import { database } from "@/tables";
-import type { TeamResolvers, User } from "./../../../types.generated";
+import { database, EntityRecord } from "@/tables";
+import type {
+  Team,
+  TeamResolvers,
+  User,
+  UserSchedule,
+} from "./../../../types.generated";
+import { teamSchedule } from "libs/business-logic/src/team/teamSchedule";
+import { getDefined, ResourceRef } from "@/utils";
+import { DayDate } from "@/day-date";
 
 export const Team: TeamResolvers = {
   createdBy: async (parent) => {
@@ -37,5 +45,30 @@ export const Team: TeamResolvers = {
       };
       return userWithPermission;
     }) as unknown as User[];
+  },
+  schedule: async (parent, { startDate, endDate }) => {
+    const { entity } = await database();
+    const unit = getDefined(
+      await entity.get(getDefined((parent as unknown as EntityRecord).parentPk))
+    );
+    const schedule = await teamSchedule(
+      getDefined(unit.parentPk) as ResourceRef,
+      parent.pk as ResourceRef,
+      new DayDate(startDate),
+      new DayDate(endDate)
+    );
+    return {
+      ...schedule,
+      pk: `${schedule.team.pk}:${schedule.startDate.toString()}:${schedule.endDate.toString()}`,
+      team: schedule.team as unknown as Team,
+      startDate: schedule.startDate.toString(),
+      endDate: schedule.endDate.toString(),
+      userSchedules: schedule.userSchedules.map((userSchedule) => ({
+        ...userSchedule,
+        pk: `${userSchedule.user?.pk}:${userSchedule.startDate.toString()}:${userSchedule.endDate.toString()}`,
+        startDate: userSchedule.startDate.toString(),
+        endDate: userSchedule.endDate.toString(),
+      })) as unknown as UserSchedule[],
+    };
   },
 };

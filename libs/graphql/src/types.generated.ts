@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: Date | string; output: Date | string; }
   DateTime: { input: Date | string; output: Date | string; }
   JSON: { input: any; output: any; }
 };
@@ -342,6 +343,15 @@ export type RejectLeaveRequestInput = {
   sk: Scalars['String']['input'];
 };
 
+export type Schedule = {
+  __typename?: 'Schedule';
+  endDate: Scalars['Date']['output'];
+  pk: Scalars['String']['output'];
+  startDate: Scalars['Date']['output'];
+  team: Team;
+  userSchedules: Array<UserSchedule>;
+};
+
 export type Team = {
   __typename?: 'Team';
   createdAt: Scalars['DateTime']['output'];
@@ -349,8 +359,15 @@ export type Team = {
   members: Array<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  schedule: Schedule;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
+};
+
+
+export type TeamscheduleArgs = {
+  endDate: Scalars['Date']['input'];
+  startDate: Scalars['Date']['input'];
 };
 
 export type Unit = {
@@ -398,6 +415,16 @@ export type User = {
 
 export type UsersettingsArgs = {
   name: Scalars['String']['input'];
+};
+
+export type UserSchedule = {
+  __typename?: 'UserSchedule';
+  endDate: Scalars['Date']['output'];
+  leaveRequests: Array<LeaveRequest>;
+  leaves: Array<Leave>;
+  pk: Scalars['String']['output'];
+  startDate: Scalars['Date']['output'];
+  user: User;
 };
 
 
@@ -481,6 +508,7 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Company: ResolverTypeWrapper<Company>;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
+  Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteLeaveInput: DeleteLeaveInput;
   DeleteLeaveRequestInput: DeleteLeaveRequestInput;
@@ -494,11 +522,13 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   QuotaFulfilment: ResolverTypeWrapper<QuotaFulfilment>;
   RejectLeaveRequestInput: RejectLeaveRequestInput;
+  Schedule: ResolverTypeWrapper<Schedule>;
   Team: ResolverTypeWrapper<Team>;
   Unit: ResolverTypeWrapper<Unit>;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
   UpdateMeInput: UpdateMeInput;
   User: ResolverTypeWrapper<User>;
+  UserSchedule: ResolverTypeWrapper<UserSchedule>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -509,6 +539,7 @@ export type ResolversParentTypes = {
   Int: Scalars['Int']['output'];
   Company: Company;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
+  Date: Scalars['Date']['output'];
   DateTime: Scalars['DateTime']['output'];
   DeleteLeaveInput: DeleteLeaveInput;
   DeleteLeaveRequestInput: DeleteLeaveRequestInput;
@@ -522,11 +553,13 @@ export type ResolversParentTypes = {
   Query: {};
   QuotaFulfilment: QuotaFulfilment;
   RejectLeaveRequestInput: RejectLeaveRequestInput;
+  Schedule: Schedule;
   Team: Team;
   Unit: Unit;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
   UpdateMeInput: UpdateMeInput;
   User: User;
+  UserSchedule: UserSchedule;
 };
 
 export type CalendarResolvers<ContextType = any, ParentType extends ResolversParentTypes['Calendar'] = ResolversParentTypes['Calendar']> = {
@@ -547,6 +580,10 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
+
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
@@ -652,12 +689,22 @@ export type QuotaFulfilmentResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ScheduleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Schedule'] = ResolversParentTypes['Schedule']> = {
+  endDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  startDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  team?: Resolver<ResolversTypes['Team'], ParentType, ContextType>;
+  userSchedules?: Resolver<Array<ResolversTypes['UserSchedule']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  schedule?: Resolver<ResolversTypes['Schedule'], ParentType, ContextType, RequireFields<TeamscheduleArgs, 'endDate' | 'startDate'>>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -687,9 +734,20 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserScheduleResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserSchedule'] = ResolversParentTypes['UserSchedule']> = {
+  endDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  leaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType>;
+  leaves?: Resolver<Array<ResolversTypes['Leave']>, ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  startDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Calendar?: CalendarResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   Invitation?: InvitationResolvers<ContextType>;
   InvitationEntity?: InvitationEntityResolvers<ContextType>;
@@ -699,8 +757,10 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   QuotaFulfilment?: QuotaFulfilmentResolvers<ContextType>;
+  Schedule?: ScheduleResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;
   Unit?: UnitResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  UserSchedule?: UserScheduleResolvers<ContextType>;
 };
 

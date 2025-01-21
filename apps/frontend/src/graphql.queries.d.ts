@@ -215,6 +215,15 @@ declare module '@/graphql-client/queries/teamQuery.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/teamSchedule.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const TeamSchedule: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/teamWithMembers.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

@@ -6,6 +6,7 @@ type Team {
   createdBy: User!
   updatedBy: User
   members: [User!]!
+  schedule(startDate: Date!, endDate: Date!): Schedule!
 }
 
 extend type Mutation {

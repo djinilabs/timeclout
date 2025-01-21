@@ -71,6 +71,12 @@ export class DayDate {
     return new DayDate(lastDay);
   }
 
+  firstOfMonth() {
+    const firstDay = new Date(this.date);
+    firstDay.setUTCDate(1);
+    return new DayDate(firstDay);
+  }
+
   previousYear() {
     const previousYear = new Date(this.date);
     previousYear.setUTCFullYear(this.date.getUTCFullYear() - 1);

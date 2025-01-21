@@ -27,6 +27,8 @@ const defaultClientOpts = (): ClientOptions => ({
         Leave: (l: unknown) => `${l.pk}:${l.sk}`,
         LeaveRequest: (l: unknown) => `${l.pk}:${l.sk}`,
         Calendar: (c: unknown) => c.year,
+        Schedule: (s: unknown) => s.pk,
+        UserSchedule: (s: unknown) => s.pk,
       },
     }),
     fetchExchange,
