@@ -3,10 +3,12 @@ import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { type Tab, Tabs } from "../components/Tabs";
 import { TeamMembers } from "../components/TeamMembers";
 import { TeamInvites } from "../components/TeamInvites";
+import { TeamSchedule } from "../components/TeamSchedule";
 
 const tabs: Tab[] = [
   { name: "Members", href: "members" },
   { name: "Invitations", href: "invitations" },
+  { name: "Schedule", href: "schedule" },
 ];
 
 export const PageTeam = () => {
@@ -22,6 +24,8 @@ export const PageTeam = () => {
         <TeamMembers />
       ) : currentTab.href === "invitations" ? (
         <TeamInvites />
+      ) : currentTab.href === "schedule" ? (
+        <TeamSchedule />
       ) : null}
     </Suspense>
   );

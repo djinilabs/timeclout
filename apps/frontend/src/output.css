@@ -2330,6 +2330,10 @@ video {
     font-size: 1.25rem;
     line-height: 2rem;
   }
+
+  .sm\:leading-6 {
+    line-height: 1.5rem;
+  }
 }
 
 @media (min-width: 768px) {
