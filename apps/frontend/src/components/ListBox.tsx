@@ -15,12 +15,10 @@ export interface ListBoxProps<TKey extends string | number = string | number> {
 }
 
 export const ListBox: FC<ListBoxProps> = ({ options, selected, onChange }) => {
-  console.log("selected", selected);
   const selectedOption = options.find((option) => option.key == selected);
 
   const onValueChange = useCallback(
     (option: { key: number | string; value: string }) => {
-      console.log("changed to option", option);
       onChange(option.key);
     },
     [onChange]
