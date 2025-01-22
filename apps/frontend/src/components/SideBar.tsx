@@ -10,22 +10,28 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import { classNames } from "../utils/classNames";
+import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  { name: "Home", href: "/", icon: HomeIcon },
+  { name: "Team", href: "#", icon: UsersIcon },
+  { name: "Projects", href: "#", icon: FolderIcon },
+  { name: "Calendar", href: "#", icon: CalendarIcon },
+  {
+    name: "Leave Requests",
+    href: "/leave-requests/pending",
+    icon: DocumentDuplicateIcon,
+  },
+  { name: "Reports", href: "#", icon: ChartPieIcon },
 ];
 const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
+  { id: 1, name: "Heroicons", href: "#", initial: "H" },
+  { id: 2, name: "Tailwind Labs", href: "#", initial: "T" },
+  { id: 3, name: "Workcation", href: "#", initial: "W" },
 ];
 
 export const SideBar = () => {
+  const location = useLocation();
   return (
     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-teal-600 px-6 pb-4">
       <div className="flex h-16 shrink-0 items-center">
@@ -41,10 +47,10 @@ export const SideBar = () => {
             <ul role="list" className="-mx-2 space-y-1">
               {navigation.map((item) => (
                 <li key={item.name}>
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     className={classNames(
-                      item.current
+                      location.pathname === item.href
                         ? "bg-teal-700 text-white"
                         : "text-teal-200 hover:bg-teal-700 hover:text-white",
                       "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
@@ -53,14 +59,14 @@ export const SideBar = () => {
                     <item.icon
                       aria-hidden="true"
                       className={classNames(
-                        item.current
+                        location.pathname === item.href
                           ? "text-white"
                           : "text-teal-200 group-hover:text-white",
                         "size-6 shrink-0"
                       )}
                     />
                     {item.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -75,7 +81,7 @@ export const SideBar = () => {
                   <a
                     href={team.href}
                     className={classNames(
-                      team.current
+                      location.pathname === team.href
                         ? "bg-teal-700 text-white"
                         : "text-teal-200 hover:bg-teal-700 hover:text-white",
                       "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
@@ -91,8 +97,8 @@ export const SideBar = () => {
             </ul>
           </li>
           <li className="mt-auto">
-            <a
-              href="#"
+            <Link
+              to="/me/edit"
               className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-teal-200 hover:bg-teal-700 hover:text-white"
             >
               <Cog6ToothIcon
@@ -100,7 +106,7 @@ export const SideBar = () => {
                 className="size-6 shrink-0 text-teal-200 group-hover:text-white"
               />
               Settings
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
