@@ -1,13 +1,13 @@
-import { Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { InviteToTeam } from "../components/InviteToTeam";
+import { Suspense } from "../components/Suspense";
 
 export const PageNewTeamInvite = () => {
   const navigate = useNavigate();
   const { company, unit, team } = useParams();
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense>
       <div>
         <BreadcrumbNav />
         <InviteToTeam

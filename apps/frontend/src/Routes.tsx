@@ -1,4 +1,4 @@
-import { FC, Suspense } from "react";
+import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import { RequiresSession } from "./components/RequiresSession";
 import { Root } from "./routes/Root";
@@ -15,6 +15,7 @@ import { LeaveRequest } from "./routes/LeaveRequest";
 import { RequiresSelfSettings } from "./components/RequiresSelfSettings";
 import { PageNotFound } from "./pages/PageNotFound";
 import { PageMeEdit } from "./pages/PageMeEdit";
+import { Suspense } from "./components/Suspense";
 
 export const AppRoutes: FC = () => {
   return (
@@ -22,7 +23,7 @@ export const AppRoutes: FC = () => {
       <Route
         path="/"
         element={
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense>
             <RequiresSelfSettings>
               <RequiresSession>
                 <Root />

@@ -1,4 +1,5 @@
-import { Suspense, useState } from "react";
+import { useState } from "react";
+import { Suspense } from "../components/Suspense";
 import { AllUnitTeams } from "../components/AllUnitTeams";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { Tabs } from "../components/Tabs";
@@ -12,11 +13,12 @@ const tabs = [
 export const PageUnit = () => {
   const [tab, setTab] = useState(tabs[0]);
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense>
       <BreadcrumbNav />
-      <Tabs tabs={tabs} onChange={setTab} />
-      {tab.href === "teams" && <AllUnitTeams />}
-      {tab.href === "settings" && <UnitSettings />}
+      <Tabs tabs={tabs} onChange={setTab}>
+        {tab.href === "teams" && <AllUnitTeams />}
+        {tab.href === "settings" && <UnitSettings />}
+      </Tabs>
     </Suspense>
   );
 };

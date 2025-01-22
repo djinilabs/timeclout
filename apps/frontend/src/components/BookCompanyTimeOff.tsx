@@ -1,4 +1,4 @@
-import { FC, Suspense, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { useParams } from "react-router-dom";
 import { DayPicker } from "react-day-picker";
@@ -19,6 +19,7 @@ import {
 } from "../graphql/graphql";
 import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
 import toast from "react-hot-toast";
+import { Suspense } from "./Suspense";
 
 export type TimeOffRequest = {
   type: string;
@@ -190,7 +191,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                 date ? new Date(date) : undefined
               );
               return startDate && endDate ? (
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense>
                   <MyQuotaFulfilment
                     companyPk={getDefined(company, "No company provided")}
                     startDate={startDate.toISOString().split("T")[0]}

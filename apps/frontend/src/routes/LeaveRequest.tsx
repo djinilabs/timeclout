@@ -1,8 +1,8 @@
-import { Suspense } from "react";
+import { Suspense } from "../components/Suspense";
 import { PageLeaveRequest } from "../pages/PageLeaveRequest";
 
 export const LeaveRequest = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense>
     <PageLeaveRequest />
   </Suspense>
 );

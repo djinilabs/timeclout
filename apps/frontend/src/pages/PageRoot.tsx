@@ -1,10 +1,10 @@
-import { Suspense } from "react";
 import { AllUserCompanies } from "../components/AllUserCompanies";
+import { Suspense } from "../components/Suspense";
 
 export const PageRoot = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <AllUserCompanies />
       </Suspense>
     </div>

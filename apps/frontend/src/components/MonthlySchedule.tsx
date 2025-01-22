@@ -5,6 +5,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ReactNode, useCallback } from "react";
+import { Avatar } from "./Avatar";
 
 export interface User {
   pk: string;
@@ -167,8 +168,11 @@ export const MonthlySchedule = ({
           <tbody className="divide-y divide-gray-200">
             {schedule?.map((userSchedule) => (
               <tr key={userSchedule.user.pk}>
-                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                  {userSchedule.user.name}
+                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 flex items-center gap-2">
+                  <Avatar {...userSchedule.user} size={30} />
+                  <span className="text-sm font-medium text-gray-600">
+                    {userSchedule.user.name}
+                  </span>
                 </td>
                 {Array.from(
                   { length: new Date(year, month + 1, 0).getDate() },

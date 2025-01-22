@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   useLocation,
   useNavigate,
@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import toast from "react-hot-toast";
 import { getDefined } from "@/utils";
+import { DayDate } from "@/day-date";
 import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRequest.graphql";
 import myLeaveCalendarQuery from "@/graphql-client/queries/myLeaveCalendar.graphql";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
@@ -28,8 +29,8 @@ import { useQuery } from "../hooks/useQuery";
 import { leaveTypeColors } from "../settings/leaveTypes";
 import { leaveTypeIcons } from "../settings/leaveTypes";
 import { leaveTypeParser } from "@/settings";
-import { DayDate } from "@/day-date";
 import { useHolidays } from "../hooks/useHolidays";
+import { Suspense } from "./Suspense";
 
 export const CompanyTimeOff = () => {
   const { company } = useParams();
@@ -198,7 +199,7 @@ export const CompanyTimeOff = () => {
   }, [holidaysError]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense>
       {params.get("bookTimeOff") === "true" ? (
         <BookCompanyTimeOff
           onSubmit={onSubmit}

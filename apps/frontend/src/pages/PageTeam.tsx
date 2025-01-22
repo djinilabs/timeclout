@@ -1,10 +1,10 @@
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { type Tab, Tabs } from "../components/Tabs";
 import { TeamMembers } from "../components/TeamMembers";
 import { TeamInvites } from "../components/TeamInvites";
 import { TeamSchedule } from "../components/TeamSchedule";
-
+import { Suspense } from "../components/Suspense";
 const tabs: Tab[] = [
   { name: "Members", href: "members" },
   { name: "Invitations", href: "invitations" },
@@ -15,18 +15,15 @@ export const PageTeam = () => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense>
       <div>
         <BreadcrumbNav />
-        <Tabs tabs={tabs} onChange={setCurrentTab} />
+        <Tabs tabs={tabs} onChange={setCurrentTab}>
+          {currentTab.href === "members" && <TeamMembers />}
+          {currentTab.href === "invitations" && <TeamInvites />}
+          {currentTab.href === "schedule" && <TeamSchedule />}
+        </Tabs>
       </div>
-      {currentTab.href === "members" ? (
-        <TeamMembers />
-      ) : currentTab.href === "invitations" ? (
-        <TeamInvites />
-      ) : currentTab.href === "schedule" ? (
-        <TeamSchedule />
-      ) : null}
     </Suspense>
   );
 };

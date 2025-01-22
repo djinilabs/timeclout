@@ -1,9 +1,9 @@
-import { Suspense } from "react";
 import { EditCompanySetting } from "../components/EditCompanySetting";
+import { Suspense } from "../components/Suspense";
 
 export const PageCompanySettings = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense>
       <EditCompanySetting />
     </Suspense>
   );

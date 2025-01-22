@@ -1,12 +1,8 @@
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { FC, PropsWithChildren, useCallback, useEffect, useMemo } from "react";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { classNames } from "../utils/classNames";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Suspense } from "./Suspense";
 
 export interface Tab {
   name: string;
@@ -20,12 +16,12 @@ export interface TabsProps {
   onChange: (tab: Tab) => void;
 }
 
-export const Tabs: FC<TabsProps> = ({
+export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
   tabs,
   onChange,
   tabPropName = "tab",
+  children,
 }) => {
-  const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
 
   const onTabChange = useCallback(
@@ -34,7 +30,7 @@ export const Tabs: FC<TabsProps> = ({
         setParams({ ...params, [tabPropName]: tab.href });
       }
     },
-    [navigate]
+    [params, setParams, tabPropName]
   );
 
   const currentTabName = params.get(tabPropName);
@@ -45,7 +41,7 @@ export const Tabs: FC<TabsProps> = ({
 
   useEffect(() => {
     onChange(currentTab);
-  }, [currentTab]);
+  }, [currentTab, onChange]);
 
   const location = useLocation();
 
@@ -110,6 +106,7 @@ export const Tabs: FC<TabsProps> = ({
           </nav>
         </div>
       </div>
+      <Suspense>{children}</Suspense>
     </>
   );
 };

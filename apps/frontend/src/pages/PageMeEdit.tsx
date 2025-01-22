@@ -1,9 +1,9 @@
-import { Suspense } from "react";
 import { MeEdit } from "../components/MeEdit";
+import { Suspense } from "../components/Suspense";
 
 export const PageMeEdit = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense>
       <MeEdit />
     </Suspense>
   );

@@ -7,8 +7,9 @@ export const UnitSettings = () => {
   const [tab, setTab] = useState(tabs[0]);
   return (
     <div>
-      <Tabs tabs={tabs} onChange={setTab} tabPropName="settingsTab" />
-      {tab.href === "managers" && <UnitManagers />}
+      <Tabs tabs={tabs} onChange={setTab} tabPropName="settingsTab">
+        {tab.href === "managers" && <UnitManagers />}
+      </Tabs>
     </div>
   );
 };
