@@ -123,6 +123,7 @@ type Query {
   myInvitations: [Invitation!]!
   myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
   myQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!): [QuotaFulfilment!]!
+  pendingLeaveRequests: [LeaveRequest!]!
   team(teamPk: String!): Team!
   unit(unitPk: String!): Unit!
 }

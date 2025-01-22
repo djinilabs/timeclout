@@ -1,11 +1,12 @@
 import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
 import { database } from "@/tables";
+import { ResourceRef } from "@/utils";
 
 export const getEntitySettings = async <
   TKey extends SettingsTypeKey,
   TShape = SettingsShape<TKey>,
 >(
-  entityPk: string,
+  entityPk: ResourceRef,
   settingsKey: TKey
 ): Promise<TShape | undefined> => {
   let settings: TShape | undefined;

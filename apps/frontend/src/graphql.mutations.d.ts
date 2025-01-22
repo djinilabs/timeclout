@@ -188,6 +188,15 @@ declare module '@/graphql-client/mutations/myLeaveCalendar.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/myPendingLeaveRequests.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const MyPendingLeaveRequests: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/myQuotaFulfilment.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

@@ -16,6 +16,7 @@ import { RequiresSelfSettings } from "./components/RequiresSelfSettings";
 import { PageNotFound } from "./pages/PageNotFound";
 import { PageMeEdit } from "./pages/PageMeEdit";
 import { Suspense } from "./components/Suspense";
+import { PagePendingLeaveRequests } from "./pages/PagePendingLeaveRequests";
 
 export const AppRoutes: FC = () => {
   return (
@@ -37,6 +38,14 @@ export const AppRoutes: FC = () => {
         element={
           <RequiresSession>
             <PageMeEdit />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/leave-requests/pending"
+        element={
+          <RequiresSession>
+            <PagePendingLeaveRequests />
           </RequiresSession>
         }
       />

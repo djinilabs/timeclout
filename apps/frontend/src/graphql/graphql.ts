@@ -273,6 +273,7 @@ export type Query = {
   myInvitations: Array<Invitation>;
   myLeaveCalendar: Calendar;
   myQuotaFulfilment: Array<QuotaFulfilment>;
+  pendingLeaveRequests: Array<LeaveRequest>;
   team: Team;
   unit: Unit;
 };

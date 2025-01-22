@@ -275,6 +275,7 @@ export type Query = {
   myInvitations: Array<Invitation>;
   myLeaveCalendar: Calendar;
   myQuotaFulfilment: Array<QuotaFulfilment>;
+  pendingLeaveRequests: Array<LeaveRequest>;
   team: Team;
   unit: Unit;
 };
@@ -672,6 +673,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   myInvitations?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType>;
   myLeaveCalendar?: Resolver<ResolversTypes['Calendar'], ParentType, ContextType, RequireFields<QuerymyLeaveCalendarArgs, 'companyPk' | 'year'>>;
   myQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymyQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate'>>;
+  pendingLeaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;
   unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<QueryunitArgs, 'unitPk'>>;
 };

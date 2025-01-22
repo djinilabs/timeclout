@@ -1,14 +1,7 @@
 import { database } from "@/tables";
 import { ResourceRef } from "@/utils";
+import { getEntityPksUserHasPermissionFor } from "../permission/getEntityPksUserHasPermissionFor";
 
 export const getUserUnits = async (userRef: ResourceRef) => {
-  const { permission } = await database();
-  return await permission.query({
-    IndexName: "byResourceTypeAndEntityId",
-    KeyConditionExpression: "resourceType = :resourceType AND sk = :sk",
-    ExpressionAttributeValues: {
-      ":resourceType": "units",
-      ":sk": userRef,
-    },
-  });
+  return getEntityPksUserHasPermissionFor(userRef, "units");
 };

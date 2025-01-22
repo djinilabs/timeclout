@@ -6,3 +6,4 @@ export * from "./canApproveLeaveRequest";
 export * from "./updateLeaveRequest";
 export * from "./rejectLeaveRequest";
 export * from "./getLeaveRequestsForDateRange";
+export * from "./getUserPendingLeaveRequests";

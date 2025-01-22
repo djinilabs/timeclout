@@ -55,4 +55,5 @@ extend type Mutation {
 
 extend type Query {
   leaveRequest(pk: String!, sk: String!): LeaveRequest!
+  pendingLeaveRequests: [LeaveRequest!]!
 }
