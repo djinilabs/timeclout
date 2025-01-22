@@ -98,6 +98,7 @@ export type LeaveRequest = {
   approvedAt?: Maybe<Array<Scalars['DateTime']['output']>>;
   approvedBy?: Maybe<Array<User>>;
   beneficiary: User;
+  companyPk: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   endDate: Scalars['String']['output'];
@@ -626,6 +627,7 @@ export type LeaveRequestResolvers<ContextType = any, ParentType extends Resolver
   approvedAt?: Resolver<Maybe<Array<ResolversTypes['DateTime']>>, ParentType, ContextType>;
   approvedBy?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
   beneficiary?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  companyPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

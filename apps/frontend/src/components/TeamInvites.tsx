@@ -65,7 +65,7 @@ export const TeamInvites = () => {
                     "Unknown"}
                 </p>
                 <p className="mt-1 text-xs/5 text-gray-500">
-                  Invited <ReactTimeAgo date={invitation.createdAt} />
+                  Invited <ReactTimeAgo date={new Date(invitation.createdAt)} />
                 </p>
               </div>
               <Menu as="div" className="relative flex-none">

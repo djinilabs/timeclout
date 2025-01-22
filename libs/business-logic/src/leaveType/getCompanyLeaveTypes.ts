@@ -1,9 +1,9 @@
-import { getDefined } from "@/utils";
+import { getDefined, ResourceRef } from "@/utils";
 import { LeaveType, LeaveTypes } from "@/settings";
 import { getEntitySettings } from "../entity/getEntitySettings";
 
 export const getCompanyLeaveTypes = async (
-  companyRef: string
+  companyRef: ResourceRef
 ): Promise<Record<string, LeaveType>> => {
   const leaveTypes = getDefined(
     await getEntitySettings<"leaveTypes">(companyRef, "leaveTypes")

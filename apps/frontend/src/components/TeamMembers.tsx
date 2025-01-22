@@ -79,7 +79,9 @@ export const TeamMembers = () => {
                 {person.resourcePermissionGivenAt && (
                   <p className="mt-1 text-xs/5 text-gray-500">
                     Joined{" "}
-                    <ReactTimeAgo date={person.resourcePermissionGivenAt} />
+                    <ReactTimeAgo
+                      date={new Date(person.resourcePermissionGivenAt)}
+                    />
                   </p>
                 )}
               </div>

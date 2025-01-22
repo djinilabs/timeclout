@@ -96,6 +96,7 @@ export type LeaveRequest = {
   approvedAt?: Maybe<Array<Scalars['DateTime']['output']>>;
   approvedBy?: Maybe<Array<User>>;
   beneficiary: User;
+  companyPk: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   endDate: Scalars['String']['output'];

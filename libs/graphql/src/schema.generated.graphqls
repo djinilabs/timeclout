@@ -72,6 +72,7 @@ type LeaveRequest {
   approvedAt: [DateTime!]
   approvedBy: [User!]
   beneficiary: User!
+  companyPk: String!
   createdAt: DateTime!
   createdBy: User!
   endDate: String!

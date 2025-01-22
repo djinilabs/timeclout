@@ -11,6 +11,7 @@ type LeaveRequest {
   createdBy: User!
   createdAt: DateTime!
   beneficiary: User!
+  companyPk: String!
 }
 
 input CreateLeaveRequestInput {

@@ -1,6 +1,6 @@
 import { eventBus } from "@/event-bus";
 import { leaveTypeParser } from "@/settings";
-import { database } from "@/tables";
+import { database, LeaveRequestRecord } from "@/tables";
 import { badRequest, notFound } from "@hapi/boom";
 import { isLeaveRequestFullyApproved } from "./isLeaveRequestFullyApproved";
 import { ResourceRef } from "@/utils";
@@ -27,13 +27,15 @@ export const createLeaveRequest = async ({
   const { leave_request } = await database();
   const leaveType = await getLeaveType(companyPk, leaveTypeName);
 
-  const leaveRequestCandidate = {
+  const leaveRequestCandidate: LeaveRequestRecord = {
     pk: `${companyPk}/${userPk}`,
     sk: `${startDateAsString}/${endDateAsString}/${leaveTypeName}`,
     version: 1,
     type: leaveTypeName,
     startDate: startDateAsString,
     endDate: endDateAsString,
+    companyPk,
+    userPk,
     reason,
     createdAt: new Date().toISOString(),
     createdBy: userPk,

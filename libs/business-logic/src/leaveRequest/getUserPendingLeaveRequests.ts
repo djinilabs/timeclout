@@ -5,15 +5,20 @@ import { getCompanyPksTheUserManages } from "../company/getCompanyPksTheUserMana
 export const getUserPendingLeaveRequests = async (
   userPk: ResourceRef
 ): Promise<LeaveRequestRecord[]> => {
+  console.log("getUserPendingLeaveRequests", userPk);
   const companyPksUserManages = await getCompanyPksTheUserManages(userPk);
+  console.log("companyPksUserManages", companyPksUserManages);
   const { leave_request } = await database();
   return (
     await Promise.all(
       companyPksUserManages.map((companyPk) =>
         leave_request.query({
-          KeyConditionExpression: "starts_with(pk, :companyPk)",
+          IndexName: "byCompanyPk",
+          KeyConditionExpression: "companyPk = :companyPk",
+          FilterExpression: "approved = :approved",
           ExpressionAttributeValues: {
             ":companyPk": getResourceRef(companyPk),
+            ":approved": false,
           },
         })
       )

@@ -4,6 +4,7 @@ query MyPendingLeaveRequests {
     sk
     startDate
     endDate
+    companyPk
     type
     reason
     approved

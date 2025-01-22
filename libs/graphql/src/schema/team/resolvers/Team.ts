@@ -1,6 +1,6 @@
 import { database, EntityRecord } from "@/tables";
 import type {
-  Team,
+  Team as TeamType,
   TeamResolvers,
   User,
   UserSchedule,
@@ -60,7 +60,7 @@ export const Team: TeamResolvers = {
     return {
       ...schedule,
       pk: `${schedule.team.pk}:${schedule.startDate.toString()}:${schedule.endDate.toString()}`,
-      team: schedule.team as unknown as Team,
+      team: schedule.team as unknown as TeamType,
       startDate: schedule.startDate.toString(),
       endDate: schedule.endDate.toString(),
       userSchedules: schedule.userSchedules.map((userSchedule) => ({

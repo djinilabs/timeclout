@@ -72,6 +72,10 @@ leave_request
   startDate **String
   name byPkAndStartDate
 
+leave_request
+  companyPk *String
+  name byCompanyPk
+
 leave
   leaveRequestPk *String
   leaveRequestSk **String

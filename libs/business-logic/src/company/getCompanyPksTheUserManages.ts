@@ -1,25 +1,18 @@
-import { ResourceRef } from "@/utils";
-import { getResourceRef } from "@/utils";
-import { getUserCompanyPks } from "./getUserCompanyPks";
-import { getEntitySettings } from "../entity/getEntitySettings";
+import { getDefined, getResourceRef, ResourceRef } from "@/utils";
+import { getEntityPksUserHasPermissionFor } from "../permission/getEntityPksUserHasPermissionFor";
+import { getUnitPksTheUserManages } from "../unit/getUnitPksTheUserManages";
+import { database } from "@/tables";
 
 export const getCompanyPksTheUserManages = async (
   userPk: ResourceRef
 ): Promise<ResourceRef[]> => {
-  const companyPks = await getUserCompanyPks(userPk);
+  const unitPks = await getUnitPksTheUserManages(userPk);
+  console.log("unitPks", unitPks);
+
+  const { entity } = await database();
   return (
     await Promise.all(
-      companyPks.map(async (companyPk) => {
-        const managers = await getEntitySettings(
-          getResourceRef(companyPk),
-          "managers"
-        );
-        if (managers?.includes(userPk)) {
-          return companyPk;
-        }
-      })
+      unitPks.map(async (unitPk) => (await entity.get(unitPk))?.parentPk)
     )
-  )
-    .filter(Boolean)
-    .map(getResourceRef);
+  ).map((r) => getResourceRef(getDefined(r)));
 };

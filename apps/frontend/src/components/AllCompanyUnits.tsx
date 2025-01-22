@@ -113,7 +113,7 @@ export const AllCompanyUnits = () => {
                     key="unit-name-footer-created"
                     className="whitespace-nowrap"
                   >
-                    Created <ReactTimeAgo date={unit.createdAt} />
+                    Created <ReactTimeAgo date={new Date(unit.createdAt)} />
                   </p>
                   <svg
                     key="unit-name-footer-separator"

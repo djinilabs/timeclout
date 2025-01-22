@@ -96,7 +96,7 @@ export const AllUserCompanies = () => {
                 </div>
                 <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
                   <p className="whitespace-nowrap">
-                    Created <ReactTimeAgo date={company.createdAt} />
+                    Created <ReactTimeAgo date={new Date(company.createdAt)} />
                   </p>
                   <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
                     <circle r={1} cx={1} cy={1} />

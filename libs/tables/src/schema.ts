@@ -41,10 +41,12 @@ export const tableSchemas = {
     secret: z.string(),
   }),
   leave_request: TableBaseSchema.extend({
-    // pk is company/:companyPk/users/:userPk
-    sk: z.string(), // leave request startdate
+    // pk is companies/:companyId/users/:userId
+    sk: z.string(), // leave request startdate/enddate/type
     startDate: z.string().date(),
     endDate: z.string().date(),
+    companyPk: z.string().refine(getResourceRef).optional(),
+    userPk: z.string().refine(getResourceRef).optional(),
     type: z.string(),
     reason: z.string().optional(),
     approved: z.boolean().optional(),
@@ -52,7 +54,7 @@ export const tableSchemas = {
     approvedAt: z.array(z.string().datetime()).optional(),
   }),
   leave: TableBaseSchema.extend({
-    // pk is company/:companyPk/users/:userPk
+    // pk is companies/:companyId/users/:userId
     sk: z.string().date(), // leave date
     leaveRequestPk: z.string(),
     leaveRequestSk: z.string(),
