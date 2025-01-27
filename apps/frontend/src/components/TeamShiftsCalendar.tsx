@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { DayDate } from "@/day-date";
 import { Dialog } from "./Dialog";
 import { MonthCalendar } from "./MonthCalendar";
-import { DayDate } from "@/day-date";
+import { generateMonthDays } from "../utils/generateMonthDays";
 
 export const TeamShiftsCalendar = () => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -26,8 +27,14 @@ export const TeamShiftsCalendar = () => {
         onAddPosition={() => setCreateDialogOpen(true)}
         addButtonText="Add position"
         goTo={(year, month) => {
-          setSelectedDate(new DayDate(`${year}-01-01`).setMonth(month));
+          console.log("goTo", year, month);
+          setSelectedDate(new DayDate(`${year}-01-01`).setMonth(month + 1));
         }}
+        days={generateMonthDays(
+          selectedDate.getYear(),
+          selectedDate.getMonth() - 1,
+          new Date().toISOString().split("T")[0]
+        )}
       />
     </>
   );
