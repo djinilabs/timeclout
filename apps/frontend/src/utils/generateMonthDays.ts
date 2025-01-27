@@ -21,7 +21,6 @@ export const generateMonthDays = (
 
   // Get first day of week for current month (0-6)
   const firstDayOfWeek = (firstOfMonth.getUTCDay() - 1) % 7;
-  console.log("firstDayOfWeek", firstDayOfWeek);
 
   // Add days from previous month
   for (let i = firstDayOfWeek - 1; i >= 0; i--) {

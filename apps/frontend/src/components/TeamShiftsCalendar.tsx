@@ -3,6 +3,7 @@ import { DayDate } from "@/day-date";
 import { Dialog } from "./Dialog";
 import { MonthCalendar } from "./MonthCalendar";
 import { generateMonthDays } from "../utils/generateMonthDays";
+import { CreateScheduleShiftPosition } from "./CreateScheduleShiftPosition";
 
 export const TeamShiftsCalendar = () => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -17,9 +18,7 @@ export const TeamShiftsCalendar = () => {
         onClose={() => setCreateDialogOpen(false)}
         title="Add position"
       >
-        <div>
-          <p>Add a position to the team at date {selectedDate?.toString()}</p>
-        </div>
+        <CreateScheduleShiftPosition />
       </Dialog>
       <MonthCalendar
         year={selectedDate.getYear()}
