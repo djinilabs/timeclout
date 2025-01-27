@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import teamScheduleQuery from "@/graphql-client/queries/teamSchedule.graphql";
-import { company } from "@/graphql-client/queries/companyQuery.graphql";
 import { getDefined } from "@/utils";
 import { DayDate } from "@/day-date";
 import { useQuery } from "../hooks/useQuery";
@@ -16,12 +15,12 @@ import {
   Team,
   TeamScheduleArgs,
 } from "../graphql/graphql";
-import { MonthlySchedule } from "./MonthlySchedule";
+import { MonthlyLinearSchedule } from "./MonthlyLinearSchedule";
 import { leaveTypeParser } from "@/settings";
 import { leaveTypeColors } from "../settings/leaveTypes";
 import { leaveTypeIcons } from "../settings/leaveTypes";
 
-export const TeamSchedule = () => {
+export const TeamLeaveSchedule = () => {
   const { team: teamId, company: companyId } = useParams();
 
   const [companyWithSettingsQueryResponse] = useQuery<
@@ -94,7 +93,7 @@ export const TeamSchedule = () => {
   );
 
   return (
-    <MonthlySchedule
+    <MonthlyLinearSchedule
       year={date.getYear()}
       month={date.getMonth() - 1}
       goTo={useCallback((year, month) => {

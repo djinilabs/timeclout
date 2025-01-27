@@ -15,13 +15,17 @@ export const LeaveRequest = ({
 }: LeaveRequestType) => {
   return (
     <div className="overflow-hidden rounded-lg bg-white shadow-sm border border-gray-200">
-      <div className="px-4 py-5 sm:p-4">
-        <div className="px-4 sm:px-0">
-          <h2 className="text-base/7 font-semibold text-gray-900">
-            {approved ? "Approved" : "Pending"} Leave Request
-          </h2>
+      <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+        <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
+          <div className="ml-4 mt-2">
+            <h3 className="text-base font-semibold text-gray-900">
+              {approved ? "Approved" : "Pending"} Leave Request
+            </h3>
+          </div>
         </div>
-        <div className="mt-6 border-t border-gray-100">
+      </div>
+      <div className="px-4 sm:p-4">
+        <div className="mt-6">
           <dl className="divide-y divide-gray-100">
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium text-gray-500">Created By:</dt>

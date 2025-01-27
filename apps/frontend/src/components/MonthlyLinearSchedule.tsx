@@ -6,6 +6,7 @@ import {
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ReactNode, useCallback } from "react";
 import { Avatar } from "./Avatar";
+import { months } from "../utils/months";
 
 export interface User {
   pk: string;
@@ -47,22 +48,7 @@ export interface MonthlyScheduleProps {
   schedule?: MemberSchedule[];
 }
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-export const MonthlySchedule = ({
+export const MonthlyLinearSchedule = ({
   year,
   month,
   goTo,
