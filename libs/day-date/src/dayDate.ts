@@ -23,8 +23,16 @@ export class DayDate {
     return new DayDate(new Date(this.date));
   }
 
+  getWeekDayNumber() {
+    return this.date.getUTCDay();
+  }
+
   getWeekDay() {
     return weekDays[this.date.getUTCDay()];
+  }
+
+  getMonthDayNumber() {
+    return this.date.getUTCDate();
   }
 
   getMonth() {
@@ -47,9 +55,9 @@ export class DayDate {
     return new DayDate(nextDay);
   }
 
-  previousDay() {
+  previousDay(days = 1) {
     const previousDay = new Date(this.date);
-    previousDay.setUTCDate(this.date.getUTCDate() - 1);
+    previousDay.setUTCDate(this.date.getUTCDate() - days);
     return new DayDate(previousDay);
   }
 
@@ -63,6 +71,12 @@ export class DayDate {
     const nextMonth = new Date(this.date);
     nextMonth.setUTCMonth(this.date.getUTCMonth() + months);
     return new DayDate(nextMonth);
+  }
+
+  previousMonth(months = 1) {
+    const previousMonth = new Date(this.date);
+    previousMonth.setUTCMonth(this.date.getUTCMonth() - months);
+    return new DayDate(previousMonth);
   }
 
   endOfMonth() {
@@ -89,5 +103,9 @@ export class DayDate {
 
   toString() {
     return this.date.toISOString().split("T")[0];
+  }
+
+  toDate() {
+    return this.date;
   }
 }

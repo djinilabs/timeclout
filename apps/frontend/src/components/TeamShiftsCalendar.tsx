@@ -18,7 +18,7 @@ export const TeamShiftsCalendar = () => {
         onClose={() => setCreateDialogOpen(false)}
         title="Add position"
       >
-        <CreateScheduleShiftPosition />
+        <CreateScheduleShiftPosition day={selectedDate} />
       </Dialog>
       <MonthCalendar
         year={selectedDate.getYear()}

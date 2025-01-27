@@ -1,3 +1,5 @@
+import { DayDate } from "@/day-date";
+
 export type Day = {
   date: string;
   isCurrentMonth: boolean;
@@ -12,29 +14,25 @@ export const generateMonthDays = (
   const days: Day[] = [];
 
   // Get first day of current month
-  const firstOfMonth = new Date(
+  const firstOfMonth = new DayDate(
     `${year}-${(month + 1).toString().padStart(2, "0")}-01`
   );
 
-  // Get last day of previous month
-  const lastOfPrevMonth = new Date(year, month, 0);
-
   // Get first day of week for current month (0-6)
-  const firstDayOfWeek = (firstOfMonth.getUTCDay() - 1) % 7;
+  const firstDayOfWeek = (firstOfMonth.getWeekDayNumber() - 1) % 7;
 
   // Add days from previous month
-  for (let i = firstDayOfWeek - 1; i >= 0; i--) {
-    const prevMonthDate = lastOfPrevMonth.getDate() - i;
-    const date = new Date(year, month - 1, prevMonthDate);
+  for (let i = firstDayOfWeek; i >= 0; i--) {
+    const date = firstOfMonth.previousDay(i + 1);
     days.push({
-      date: date.toISOString().split("T")[0],
+      date: date.toString(),
       isCurrentMonth: false,
       isToday: false,
     });
   }
 
   // Add days from current month
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const daysInMonth = firstOfMonth.endOfMonth().getMonthDayNumber();
   for (let day = 1; day <= daysInMonth; day++) {
     const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     days.push({
