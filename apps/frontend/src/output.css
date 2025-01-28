@@ -1133,6 +1133,10 @@ video {
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
+.grid-cols-\[auto_1fr_auto_auto\] {
+  grid-template-columns: auto 1fr auto auto;
+}
+
 .grid-rows-6 {
   grid-template-rows: repeat(6, minmax(0, 1fr));
 }

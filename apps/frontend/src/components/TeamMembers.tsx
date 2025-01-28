@@ -45,9 +45,10 @@ export const TeamMembers = () => {
       <ul role="list" className="divide-y divide-gray-100">
         {teamMembers.map((person: User) => (
           <li key={person.email} className="flex justify-between gap-x-6 py-5">
-            <div className="flex min-w-0 gap-x-4">
+            <div className="grid grid-cols-[auto_1fr_auto_auto] items-center w-full gap-x-6">
               <Avatar email={person.email} emailMd5={person.emailMd5} />
-              <div className="min-w-0 flex-auto">
+
+              <div className="min-w-0">
                 <p className="text-sm/6 font-semibold text-gray-900">
                   {person.name}
                 </p>
@@ -60,57 +61,62 @@ export const TeamMembers = () => {
                   </a>
                 </p>
               </div>
-            </div>
-            <TeamMemberQualifications
-              qualifications={
-                queryResponse.data?.team?.teamMembersQualifications.find(
-                  (qualification) => qualification.userPk === person.pk
-                )?.qualifications ?? []
-              }
-              memberPk={person.pk}
-            />
-            <div className="flex shrink-0 items-center gap-x-6">
-              <div className="hidden sm:flex sm:flex-col sm:items-end">
-                <p className="text-sm/6 text-gray-900">
-                  {permissionTypeToString(person.resourcePermission)}
-                </p>
-                {person.resourcePermissionGivenAt && (
-                  <p className="mt-1 text-xs/5 text-gray-500">
-                    Joined{" "}
-                    <ReactTimeAgo
-                      date={new Date(person.resourcePermissionGivenAt)}
-                    />
+
+              <TeamMemberQualifications
+                qualifications={
+                  queryResponse.data?.team?.teamMembersQualifications.find(
+                    (qualification) => qualification.userPk === person.pk
+                  )?.qualifications ?? []
+                }
+                memberPk={person.pk}
+              />
+
+              <div className="flex items-center gap-x-6">
+                <div className="hidden sm:flex sm:flex-col sm:items-end">
+                  <p className="text-sm/6 text-gray-900">
+                    {permissionTypeToString(person.resourcePermission)}
                   </p>
-                )}
+                  {person.resourcePermissionGivenAt && (
+                    <p className="mt-1 text-xs/5 text-gray-500">
+                      Joined{" "}
+                      <ReactTimeAgo
+                        date={new Date(person.resourcePermissionGivenAt)}
+                      />
+                    </p>
+                  )}
+                </div>
+                <Menu as="div" className="relative flex-none">
+                  <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                    <span className="sr-only">Open options</span>
+                    <EllipsisVerticalIcon
+                      aria-hidden="true"
+                      className="size-5"
+                    />
+                  </MenuButton>
+                  <MenuItems
+                    transition
+                    className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                  >
+                    <MenuItem>
+                      <a
+                        onClick={async () => {
+                          const response = await removeUserFromTeam({
+                            teamPk,
+                            userPk: person.pk,
+                          });
+                          if (!response.error) {
+                            toast.success("User removed from team");
+                          }
+                        }}
+                        className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
+                      >
+                        Remove from team
+                        <span className="sr-only">, {person.name}</span>
+                      </a>
+                    </MenuItem>
+                  </MenuItems>
+                </Menu>
               </div>
-              <Menu as="div" className="relative flex-none">
-                <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                  <span className="sr-only">Open options</span>
-                  <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
-                </MenuButton>
-                <MenuItems
-                  transition
-                  className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                >
-                  <MenuItem>
-                    <a
-                      onClick={async () => {
-                        const response = await removeUserFromTeam({
-                          teamPk,
-                          userPk: person.pk,
-                        });
-                        if (!response.error) {
-                          toast.success("User removed from team");
-                        }
-                      }}
-                      className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
-                    >
-                      Remove from team
-                      <span className="sr-only">, {person.name}</span>
-                    </a>
-                  </MenuItem>
-                </MenuItems>
-              </Menu>
             </div>
           </li>
         ))}
