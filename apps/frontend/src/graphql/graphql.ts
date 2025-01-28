@@ -365,6 +365,11 @@ export type Team = {
 };
 
 
+export type TeamMembersArgs = {
+  skills?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+
 export type TeamScheduleArgs = {
   endDate: Scalars['Date']['input'];
   startDate: Scalars['Date']['input'];

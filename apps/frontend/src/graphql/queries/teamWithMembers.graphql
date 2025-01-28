@@ -1,8 +1,8 @@
-query teamWithMembers($teamPk: String!) {
+query teamWithMembers($teamPk: String!, $skills: [String!]) {
   team(teamPk: $teamPk) {
     pk
     name
-    members {
+    members(skills: $skills) {
       pk
       name
       email

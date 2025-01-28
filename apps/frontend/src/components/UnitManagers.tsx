@@ -74,7 +74,12 @@ export const UnitManagers = () => {
       });
       reexecuteUnitWithMembersAndSettingsQuery();
     },
-    [unitPk, updateUnitSettings, reexecuteUnitWithMembersAndSettingsQuery]
+    [
+      updateUnitSettings,
+      unitPk,
+      unit?.settings,
+      reexecuteUnitWithMembersAndSettingsQuery,
+    ]
   );
 
   return (

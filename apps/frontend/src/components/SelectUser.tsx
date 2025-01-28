@@ -19,11 +19,11 @@ export interface User {
 export interface SelectUserProps {
   onChange: (user: User) => void;
   users: User[];
+  user?: User;
 }
 
-export const SelectUser: FC<SelectUserProps> = ({ onChange, users }) => {
+export const SelectUser: FC<SelectUserProps> = ({ onChange, users, user }) => {
   const [query, setQuery] = useState("");
-  const [selectedPerson, setSelectedPerson] = useState<User | undefined>();
 
   const filteredUsers =
     query === ""
@@ -35,10 +35,9 @@ export const SelectUser: FC<SelectUserProps> = ({ onChange, users }) => {
   return (
     <Combobox
       as="div"
-      value={selectedPerson}
+      value={user}
       onChange={(user: User) => {
         setQuery("");
-        setSelectedPerson(user);
         onChange(user);
       }}
     >

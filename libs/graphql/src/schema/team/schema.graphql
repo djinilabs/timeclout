@@ -5,7 +5,7 @@ type Team {
   updatedAt: DateTime
   createdBy: User!
   updatedBy: User
-  members: [User!]!
+  members(skills: [String!]): [User!]!
   schedule(startDate: Date!, endDate: Date!): Schedule!
 }
 

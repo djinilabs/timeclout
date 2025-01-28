@@ -1,10 +1,16 @@
-import { FC } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { DayDate } from "@/day-date";
 import { Badge, Badges } from "./Badges";
 import { TimeSchedulesEditor } from "./TimeSchedulesEditor";
+import { SelectUser } from "./SelectUser";
+import { useParams } from "react-router-dom";
+import { useQuery } from "../hooks/useQuery";
+import teamWithMembersQuery from "@/graphql-client/queries/teamWithMembers.graphql";
+import { QueryTeamArgs, Team, TeamMembersArgs } from "../graphql/graphql";
+import { getDefined } from "@/utils";
 
 export interface CreateScheduleShiftPositionProps {
   day: DayDate;
@@ -17,41 +23,73 @@ export interface ShiftPositionSchedule {
   inconveniencePerHour: number;
 }
 
+export interface User {
+  pk: string;
+  name: string;
+  email: string;
+  emailMd5: string;
+}
+
 export interface CreateScheduleShiftPositionForm {
   day: DayDate;
-  badges: Badge[];
+  requiredSkills: Badge[];
   schedules: ShiftPositionSchedule[];
+  assignedTo?: User;
 }
 
 export const CreateScheduleShiftPosition: FC<
   CreateScheduleShiftPositionProps
 > = ({ day, onCancel }) => {
   const form = useForm<CreateScheduleShiftPositionForm>({
-    defaultValues: {
-      day,
-      badges: [
-        { name: "Badge 1", color: "gray" },
-        { name: "Badge 2", color: "red" },
-        { name: "Badge 3", color: "yellow" },
-        { name: "Badge 4", color: "green" },
-        { name: "Badge 5", color: "blue" },
-        { name: "Badge 6", color: "indigo" },
-        { name: "Badge 7", color: "purple" },
-        { name: "Badge 8", color: "pink" },
-      ],
-      schedules: [
-        {
-          startHourMinutes: [9, 0],
-          endHourMinutes: [17, 0],
-          inconveniencePerHour: 1,
-        },
-      ],
-    },
+    defaultValues: useMemo(
+      () => ({
+        day,
+        requiredSkills: [
+          { name: "Badge 1", color: "gray" },
+          { name: "Badge 2", color: "red" },
+          { name: "Badge 3", color: "yellow" },
+          { name: "Badge 4", color: "green" },
+          { name: "Badge 5", color: "blue" },
+          { name: "Badge 6", color: "indigo" },
+          { name: "Badge 7", color: "purple" },
+          { name: "Badge 8", color: "pink" },
+        ],
+        schedules: [
+          {
+            startHourMinutes: [9, 0],
+            endHourMinutes: [17, 0],
+            inconveniencePerHour: 1,
+          },
+        ],
+      }),
+      [day]
+    ),
     onSubmit: async (values) => {
       // Handle form submission
       console.log(values);
     },
   });
+
+  const { team: teamPk } = useParams();
+  const [skills, setSkills] = useState<Badge[]>([]);
+
+  const [{ data: possibleUsers }] = useQuery<
+    { team: Team },
+    QueryTeamArgs & TeamMembersArgs
+  >({
+    query: teamWithMembersQuery,
+    variables: {
+      teamPk: getDefined(teamPk, "No team provided"),
+      skills: skills.map((skill) => skill.name),
+    },
+  });
+
+  useEffect(() => {
+    return form.store.subscribe((state) => {
+      console.log("state", state);
+      setSkills(state.currentVal.values.requiredSkills);
+    });
+  }, [form]);
 
   return (
     <form>
@@ -91,7 +129,7 @@ export const CreateScheduleShiftPosition: FC<
             />
 
             <form.Field
-              name="badges"
+              name="requiredSkills"
               children={(field) => (
                 <>
                   <div className="col-span-full">
@@ -134,6 +172,30 @@ export const CreateScheduleShiftPosition: FC<
                     <TimeSchedulesEditor
                       schedules={field.state.value}
                       onChange={(schedules) => field.handleChange(schedules)}
+                    />
+                  </div>
+                </>
+              )}
+            />
+
+            <form.Field
+              name="assignedTo"
+              children={(field) => (
+                <>
+                  <div className="col-span-full">
+                    <label
+                      htmlFor={field.name}
+                      className="block text-sm/6 font-medium text-gray-900"
+                    >
+                      Assigned to
+                    </label>
+                    <p className="mt-3 text-sm/6 text-gray-600 mb-2">
+                      Set the user assigned to this position.
+                    </p>
+                    <SelectUser
+                      users={possibleUsers?.team?.members ?? []}
+                      user={field.state.value}
+                      onChange={(user) => field.handleChange(user)}
                     />
                   </div>
                 </>

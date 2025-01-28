@@ -367,6 +367,11 @@ export type Team = {
 };
 
 
+export type TeammembersArgs = {
+  skills?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+
 export type TeamscheduleArgs = {
   endDate: Scalars['Date']['input'];
   startDate: Scalars['Date']['input'];
@@ -705,7 +710,7 @@ export type ScheduleResolvers<ContextType = any, ParentType extends ResolversPar
 export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
-  members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+  members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<TeammembersArgs>>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   schedule?: Resolver<ResolversTypes['Schedule'], ParentType, ContextType, RequireFields<TeamscheduleArgs, 'endDate' | 'startDate'>>;

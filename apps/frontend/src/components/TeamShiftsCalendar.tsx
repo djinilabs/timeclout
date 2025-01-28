@@ -4,6 +4,7 @@ import { Dialog } from "./Dialog";
 import { MonthCalendar } from "./MonthCalendar";
 import { generateMonthDays } from "../utils/generateMonthDays";
 import { CreateScheduleShiftPosition } from "./CreateScheduleShiftPosition";
+import { Suspense } from "./Suspense";
 
 export const TeamShiftsCalendar = () => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -18,10 +19,12 @@ export const TeamShiftsCalendar = () => {
         onClose={() => setCreateDialogOpen(false)}
         title="Insert position"
       >
-        <CreateScheduleShiftPosition
-          day={selectedDate}
-          onCancel={() => setCreateDialogOpen(false)}
-        />
+        <Suspense>
+          <CreateScheduleShiftPosition
+            day={selectedDate}
+            onCancel={() => setCreateDialogOpen(false)}
+          />
+        </Suspense>
       </Dialog>
       <MonthCalendar
         year={selectedDate.getYear()}

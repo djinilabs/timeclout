@@ -5,8 +5,8 @@ import type {
   User,
   UserSchedule,
 } from "./../../../types.generated";
-import { teamSchedule } from "libs/business-logic/src/team/teamSchedule";
-import { getDefined, ResourceRef } from "@/utils";
+import { teamSchedule, filterUsersBySkillsInTeam } from "@/business-logic";
+import { getDefined, getResourceRef, ResourceRef } from "@/utils";
 import { DayDate } from "@/day-date";
 
 export const Team: TeamResolvers = {
@@ -21,7 +21,7 @@ export const Team: TeamResolvers = {
     const { entity } = await database();
     return entity.get(parent.updatedBy as unknown as string) as unknown as User;
   },
-  members: async (parent) => {
+  members: async (parent, args) => {
     const { permission, entity } = await database();
     const permissions = await permission.query({
       KeyConditionExpression: "pk = :pk",
@@ -34,7 +34,15 @@ export const Team: TeamResolvers = {
       permissions.filter((p) => p.sk.startsWith("users/")).map((p) => [p.sk, p])
     );
 
-    const users = await entity.batchGet(Object.keys(members));
+    let users = await entity.batchGet(Object.keys(members));
+
+    if (args.skills) {
+      users = await filterUsersBySkillsInTeam(
+        users,
+        args.skills,
+        getResourceRef(parent.pk)
+      );
+    }
 
     return users.map((user) => {
       const permission = members[user.pk];

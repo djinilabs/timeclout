@@ -152,7 +152,7 @@ type Schedule {
 type Team {
   createdAt: DateTime!
   createdBy: User!
-  members: [User!]!
+  members(skills: [String!]): [User!]!
   name: String!
   pk: String!
   schedule(endDate: Date!, startDate: Date!): Schedule!
