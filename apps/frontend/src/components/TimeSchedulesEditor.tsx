@@ -88,12 +88,25 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = ({
                 }
               />
             </div>
+            <button
+              type="button"
+              className="rounded-full h-8 w-8 flex items-center justify-center bg-teal-600 text-white hover:bg-teal-500"
+              onClick={() => {
+                const newSchedules = [...schedules];
+                newSchedules.splice(index, 1);
+                onChange(ensureTimeContinuity(newSchedules));
+              }}
+            >
+              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M6.75 9.25a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" />
+              </svg>
+            </button>
           </div>
         );
       })}
       <button
         type="button"
-        className="mt-4 rounded-full h-8 w-8 flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-500"
+        className="mt-4 rounded-full h-8 w-8 flex items-center justify-center bg-teal-600 text-white hover:bg-teal-500"
         onClick={() => {
           const newSchedule: TimeSchedule = {
             startHourMinutes:
