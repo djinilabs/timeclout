@@ -16,7 +16,7 @@ export const TeamShiftsCalendar = () => {
       <Dialog
         open={createDialogOpen}
         onClose={() => setCreateDialogOpen(false)}
-        title="Add position"
+        title="Insert position"
       >
         <CreateScheduleShiftPosition day={selectedDate} />
       </Dialog>
