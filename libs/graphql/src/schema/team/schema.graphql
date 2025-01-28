@@ -7,6 +7,7 @@ type Team {
   updatedBy: User
   members(skills: [String!]): [User!]!
   schedule(startDate: Date!, endDate: Date!): Schedule!
+  settings(name: String!): JSON
 }
 
 extend type Mutation {
@@ -14,6 +15,7 @@ extend type Mutation {
   updateTeam(pk: String!, name: String!): Team!
   deleteTeam(pk: String!): Team!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
+  updateTeamSettings(teamPk: String!, name: String!, settings: JSON!): Team!
 }
 
 extend type Query {

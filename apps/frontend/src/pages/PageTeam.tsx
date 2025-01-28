@@ -6,12 +6,14 @@ import { TeamInvites } from "../components/TeamInvites";
 import { TeamLeaveSchedule } from "../components/TeamLeaveSchedule";
 import { Suspense } from "../components/Suspense";
 import { TeamShiftsCalendar } from "../components/TeamShiftsCalendar";
+import { TeamSettings } from "../components/TeamSettings";
 
 const tabs: Tab[] = [
   { name: "Members", href: "members" },
   { name: "Invitations", href: "invitations" },
   { name: "Leave Schedule", href: "leave-schedule" },
   { name: "Shifts Calendar", href: "shifts-calendar" },
+  { name: "Settings", href: "settings" },
 ];
 
 export const PageTeam = () => {
@@ -26,6 +28,7 @@ export const PageTeam = () => {
           {currentTab.href === "invitations" && <TeamInvites />}
           {currentTab.href === "leave-schedule" && <TeamLeaveSchedule />}
           {currentTab.href === "shifts-calendar" && <TeamShiftsCalendar />}
+          {currentTab.href === "settings" && <TeamSettings />}
         </Tabs>
       </div>
     </Suspense>

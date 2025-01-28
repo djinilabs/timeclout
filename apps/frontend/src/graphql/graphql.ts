@@ -130,6 +130,7 @@ export type Mutation = {
   updateMe?: Maybe<User>;
   updateMySettings?: Maybe<User>;
   updateTeam: Team;
+  updateTeamSettings: Team;
   updateUnit: Unit;
   updateUnitSettings: Unit;
 };
@@ -251,6 +252,13 @@ export type MutationUpdateTeamArgs = {
 };
 
 
+export type MutationUpdateTeamSettingsArgs = {
+  name: Scalars['String']['input'];
+  settings: Scalars['JSON']['input'];
+  teamPk: Scalars['String']['input'];
+};
+
+
 export type MutationUpdateUnitArgs = {
   name: Scalars['String']['input'];
   pk: Scalars['String']['input'];
@@ -360,6 +368,7 @@ export type Team = {
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
   schedule: Schedule;
+  settings?: Maybe<Scalars['JSON']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
@@ -373,6 +382,11 @@ export type TeamMembersArgs = {
 export type TeamScheduleArgs = {
   endDate: Scalars['Date']['input'];
   startDate: Scalars['Date']['input'];
+};
+
+
+export type TeamSettingsArgs = {
+  name: Scalars['String']['input'];
 };
 
 export type Unit = {

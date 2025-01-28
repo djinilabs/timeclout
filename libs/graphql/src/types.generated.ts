@@ -132,6 +132,7 @@ export type Mutation = {
   updateMe?: Maybe<User>;
   updateMySettings?: Maybe<User>;
   updateTeam: Team;
+  updateTeamSettings: Team;
   updateUnit: Unit;
   updateUnitSettings: Unit;
 };
@@ -253,6 +254,13 @@ export type MutationupdateTeamArgs = {
 };
 
 
+export type MutationupdateTeamSettingsArgs = {
+  name: Scalars['String']['input'];
+  settings: Scalars['JSON']['input'];
+  teamPk: Scalars['String']['input'];
+};
+
+
 export type MutationupdateUnitArgs = {
   name: Scalars['String']['input'];
   pk: Scalars['String']['input'];
@@ -362,6 +370,7 @@ export type Team = {
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
   schedule: Schedule;
+  settings?: Maybe<Scalars['JSON']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
@@ -375,6 +384,11 @@ export type TeammembersArgs = {
 export type TeamscheduleArgs = {
   endDate: Scalars['Date']['input'];
   startDate: Scalars['Date']['input'];
+};
+
+
+export type TeamsettingsArgs = {
+  name: Scalars['String']['input'];
 };
 
 export type Unit = {
@@ -666,6 +680,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateMe?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationupdateMeArgs, 'input'>>;
   updateMySettings?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationupdateMySettingsArgs, 'name' | 'settings'>>;
   updateTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamArgs, 'name' | 'pk'>>;
+  updateTeamSettings?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamSettingsArgs, 'name' | 'settings' | 'teamPk'>>;
   updateUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitArgs, 'name' | 'pk'>>;
   updateUnitSettings?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitSettingsArgs, 'name' | 'settings' | 'unitPk'>>;
 };
@@ -714,6 +729,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   schedule?: Resolver<ResolversTypes['Schedule'], ParentType, ContextType, RequireFields<TeamscheduleArgs, 'endDate' | 'startDate'>>;
+  settings?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<TeamsettingsArgs, 'name'>>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

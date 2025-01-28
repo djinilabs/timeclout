@@ -4,3 +4,4 @@ export * from "./yearlyQuota";
 export * from "./types";
 export * from "./location";
 export * from "./workSchedule";
+export * from "./qualifications";

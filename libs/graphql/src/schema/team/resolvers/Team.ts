@@ -5,9 +5,14 @@ import type {
   User,
   UserSchedule,
 } from "./../../../types.generated";
-import { teamSchedule, filterUsersBySkillsInTeam } from "@/business-logic";
-import { getDefined, getResourceRef, ResourceRef } from "@/utils";
+import {
+  teamSchedule,
+  filterUsersBySkillsInTeam,
+  getEntitySettings,
+} from "@/business-logic";
+import { getDefined, getResourceRef, resourceRef, ResourceRef } from "@/utils";
 import { DayDate } from "@/day-date";
+import { SettingsTypeKey } from "@/settings";
 
 export const Team: TeamResolvers = {
   createdBy: async (parent) => {
@@ -78,5 +83,11 @@ export const Team: TeamResolvers = {
         endDate: userSchedule.endDate.toString(),
       })) as unknown as UserSchedule[],
     };
+  },
+  settings: async (parent, args) => {
+    return getEntitySettings(
+      getResourceRef(parent.pk),
+      args.name as SettingsTypeKey
+    );
   },
 };

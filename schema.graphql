@@ -110,6 +110,7 @@ type Mutation {
   updateMe(input: UpdateMeInput!): User
   updateMySettings(name: String!, settings: JSON!): User
   updateTeam(name: String!, pk: String!): Team!
+  updateTeamSettings(name: String!, settings: JSON!, teamPk: String!): Team!
   updateUnit(name: String!, pk: String!): Unit!
   updateUnitSettings(name: String!, settings: JSON!, unitPk: String!): Unit!
 }
@@ -161,6 +162,7 @@ type Team {
   name: String!
   pk: String!
   schedule(endDate: Date!, startDate: Date!): Schedule!
+  settings(name: String!): JSON
   updatedAt: DateTime
   updatedBy: User
 }

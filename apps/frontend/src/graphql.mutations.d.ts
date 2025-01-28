@@ -107,6 +107,15 @@ declare module '@/graphql-client/mutations/updateMe.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/updateTeamSettings.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const updateTeamSettings: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/updateUnitSettings.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -237,6 +246,15 @@ declare module '@/graphql-client/mutations/teamWithMembers.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const teamWithMembers: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '@/graphql-client/mutations/teamWithSettings.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const teamWithSettings: DocumentNode;
 
   export default defaultDocument;
 }
