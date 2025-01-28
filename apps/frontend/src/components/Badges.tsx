@@ -27,7 +27,7 @@ export interface BadgeRemoveButtonProps {
 
 export const Badges: FC<BadgesProps> = ({ badges, onRemove }) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       {badges.map((badge) => {
         switch (badge.color) {
           case "gray":

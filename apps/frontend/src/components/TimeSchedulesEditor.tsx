@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { TimePicker } from "./TimePicker";
+import { TimeScheduleVisualizer } from "./TimeScheduleVisualizer";
 
 export interface TimeSchedule {
   startHourMinutes: [number, number];
@@ -46,11 +47,12 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = ({
 
   return (
     <div>
+      <TimeScheduleVisualizer schedules={schedules} />
       {schedules.map((schedule, index) => {
         return (
-          <div className="flex flex-row gap-2 w-fit" key={index}>
-            <div className="flex gap-2 items-center w-fit">
-              <label>Start</label>
+          <div className="grid grid-cols-7 gap-4 w-full" key={index}>
+            <div className="flex items-center gap-2 col-span-2">
+              <label className="text-sm text-gray-600">Start</label>
               <TimePicker
                 value={schedule.startHourMinutes}
                 onChange={(value) =>
@@ -59,8 +61,8 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = ({
               />
             </div>
 
-            <div className="flex gap-2 items-center">
-              <label>End</label>
+            <div className="flex items-center gap-2 col-span-2">
+              <label className="text-sm text-gray-600">End</label>
               <TimePicker
                 value={schedule.endHourMinutes}
                 min={schedule.startHourMinutes}
@@ -70,11 +72,11 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = ({
               />
             </div>
 
-            <div className="flex gap-2 items-center">
-              <label>Inconvenience</label>
+            <div className="flex items-center gap-2 col-span-2">
+              <label className="text-sm text-gray-600">Inconvenience</label>
               <input
                 type="number"
-                className="w-16"
+                className="w-12"
                 value={schedule.inconveniencePerHour}
                 min={0}
                 required
@@ -88,19 +90,25 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = ({
                 }
               />
             </div>
-            <button
-              type="button"
-              className="rounded-full h-8 w-8 flex items-center justify-center bg-teal-600 text-white hover:bg-teal-500"
-              onClick={() => {
-                const newSchedules = [...schedules];
-                newSchedules.splice(index, 1);
-                onChange(ensureTimeContinuity(newSchedules));
-              }}
-            >
-              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M6.75 9.25a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" />
-              </svg>
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                type="button"
+                className="rounded-full h-8 w-8 flex items-center justify-center bg-teal-600 text-white hover:bg-teal-500"
+                onClick={() => {
+                  const newSchedules = [...schedules];
+                  newSchedules.splice(index, 1);
+                  onChange(ensureTimeContinuity(newSchedules));
+                }}
+              >
+                <svg
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M6.75 9.25a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" />
+                </svg>
+              </button>
+            </div>
           </div>
         );
       })}
