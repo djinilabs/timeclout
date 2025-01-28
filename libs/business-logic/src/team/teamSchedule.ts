@@ -6,8 +6,8 @@ import { getLeavesForDateRange } from "../leave/getLeavesForDateRange";
 import { getLeaveRequestsForDateRange } from "../leaveRequest/getLeaveRequestsForDateRange";
 
 export const teamSchedule = async (
-  companyRef: ResourceRef,
-  teamRef: ResourceRef,
+  companyRef: ResourceRef<"companies">,
+  teamRef: ResourceRef<"teams">,
   startDate: DayDate,
   endDate: DayDate
 ) => {

@@ -5,6 +5,8 @@ import { YearlyUserQuotas, yearlyUserQuotasParser } from "./yearlyUserQuotas";
 import { Location, locationParser } from "./location";
 import { WorkSchedule, worksScheduleParser } from "./workSchedule";
 import { Qualifications, qualificationsParser } from "./qualifications";
+import { userQualificationsParser } from "./userQualifications";
+import { UserQualifications } from "./userQualifications";
 
 export type SettingsType<TShape> = {
   name: string;
@@ -40,6 +42,10 @@ export const settingsTypes = {
     name: "qualifications",
     parse: (value: unknown) => qualificationsParser.parse(value),
   },
+  userQualifications: {
+    name: "userQualifications",
+    parse: (value: unknown) => userQualificationsParser.parse(value),
+  },
 } as const;
 
 export type SettingsTypeKey = keyof typeof settingsTypes;
@@ -59,4 +65,6 @@ export type SettingsShape<TKey extends SettingsTypeKey> =
               ? WorkSchedule
               : TKey extends "qualifications"
                 ? Qualifications
-                : never;
+                : TKey extends "userQualifications"
+                  ? UserQualifications
+                  : never;

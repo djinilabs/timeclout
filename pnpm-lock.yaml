@@ -118,6 +118,9 @@ importers:
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
+      dequal:
+        specifier: ^2.0.3
+        version: 2.0.3
       express:
         specifier: ^4.21.2
         version: 4.21.2
@@ -3494,6 +3497,10 @@ packages:
 
   depstatus@1.1.1:
     resolution: {integrity: sha512-QT4i2Ql8RS1ttcj7zo4RzYvKz+/eOOIh6N7CXHqfDqC5ZX1hfx5KX6T88gy/j2UWP2x2ytjSoFBl+XW0gVZMug==}
+
+  dequal@2.0.3:
+    resolution: {integrity: sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==}
+    engines: {node: '>=6'}
 
   destroy@1.2.0:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
@@ -10550,6 +10557,8 @@ snapshots:
   depstatus@1.1.1:
     dependencies:
       semver: 7.6.3
+
+  dequal@2.0.3: {}
 
   destroy@1.2.0: {}
 

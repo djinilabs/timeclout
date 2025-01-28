@@ -107,6 +107,12 @@ export type LeaveRequest = {
   type: Scalars['String']['output'];
 };
 
+export type MemberQualifications = {
+  __typename?: 'MemberQualifications';
+  qualifications: Array<Scalars['String']['output']>;
+  userPk: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation: Invitation;
@@ -124,6 +130,7 @@ export type Mutation = {
   deleteUnit: Unit;
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
+  saveTeamMemberQualifications: Team;
   updateCompany: Company;
   updateCompanySettings: Company;
   updateLeaveRequest: LeaveRequest;
@@ -212,6 +219,13 @@ export type MutationRejectLeaveRequestArgs = {
 
 
 export type MutationRemoveUserFromTeamArgs = {
+  teamPk: Scalars['String']['input'];
+  userPk: Scalars['String']['input'];
+};
+
+
+export type MutationSaveTeamMemberQualificationsArgs = {
+  qualifications: Array<Scalars['String']['input']>;
   teamPk: Scalars['String']['input'];
   userPk: Scalars['String']['input'];
 };
@@ -369,13 +383,14 @@ export type Team = {
   pk: Scalars['String']['output'];
   schedule: Schedule;
   settings?: Maybe<Scalars['JSON']['output']>;
+  teamMembersQualifications: Array<MemberQualifications>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
 
 
 export type TeamMembersArgs = {
-  skills?: InputMaybe<Array<Scalars['String']['input']>>;
+  qualifications?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 

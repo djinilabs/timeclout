@@ -1,3 +1,8 @@
+type MemberQualifications {
+  userPk: String!
+  qualifications: [String!]!
+}
+
 type Team {
   pk: String!
   name: String!
@@ -5,9 +10,10 @@ type Team {
   updatedAt: DateTime
   createdBy: User!
   updatedBy: User
-  members(skills: [String!]): [User!]!
+  members(qualifications: [String!]): [User!]!
   schedule(startDate: Date!, endDate: Date!): Schedule!
   settings(name: String!): JSON
+  teamMembersQualifications: [MemberQualifications!]!
 }
 
 extend type Mutation {
@@ -16,6 +22,11 @@ extend type Mutation {
   deleteTeam(pk: String!): Team!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
   updateTeamSettings(teamPk: String!, name: String!, settings: JSON!): Team!
+  saveTeamMemberQualifications(
+    teamPk: String!
+    userPk: String!
+    qualifications: [String!]!
+  ): Team!
 }
 
 extend type Query {

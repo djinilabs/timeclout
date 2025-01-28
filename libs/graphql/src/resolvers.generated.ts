@@ -27,6 +27,7 @@ import    { deleteTeam as Mutation_deleteTeam } from './schema/team/resolvers/Mu
 import    { deleteUnit as Mutation_deleteUnit } from './schema/unit/resolvers/Mutation/deleteUnit';
 import    { rejectLeaveRequest as Mutation_rejectLeaveRequest } from './schema/leave_request/resolvers/Mutation/rejectLeaveRequest';
 import    { removeUserFromTeam as Mutation_removeUserFromTeam } from './schema/team/resolvers/Mutation/removeUserFromTeam';
+import    { saveTeamMemberQualifications as Mutation_saveTeamMemberQualifications } from './schema/team/resolvers/Mutation/saveTeamMemberQualifications';
 import    { updateCompany as Mutation_updateCompany } from './schema/company/resolvers/Mutation/updateCompany';
 import    { updateCompanySettings as Mutation_updateCompanySettings } from './schema/company/resolvers/Mutation/updateCompanySettings';
 import    { updateLeaveRequest as Mutation_updateLeaveRequest } from './schema/leave_request/resolvers/Mutation/updateLeaveRequest';
@@ -41,6 +42,7 @@ import    { Company } from './schema/company/resolvers/Company';
 import    { Invitation } from './schema/invitation/resolvers/Invitation';
 import    { Leave } from './schema/leave/resolvers/Leave';
 import    { LeaveRequest } from './schema/leave_request/resolvers/LeaveRequest';
+import    { MemberQualifications } from './schema/team/resolvers/MemberQualifications';
 import    { QuotaFulfilment } from './schema/leave/resolvers/QuotaFulfilment';
 import    { Schedule } from './schema/schedule/resolvers/Schedule';
 import    { Team } from './schema/team/resolvers/Team';
@@ -50,13 +52,14 @@ import    { UserSchedule } from './schema/schedule/resolvers/UserSchedule';
 import    { DateResolver,DateTimeResolver,JSONResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
       Query: { companies: Query_companies,company: Query_company,invitation: Query_invitation,invitationsTo: Query_invitationsTo,leaveRequest: Query_leaveRequest,me: Query_me,myInvitations: Query_myInvitations,myLeaveCalendar: Query_myLeaveCalendar,myQuotaFulfilment: Query_myQuotaFulfilment,pendingLeaveRequests: Query_pendingLeaveRequests,team: Query_team,unit: Query_unit },
-      Mutation: { acceptInvitation: Mutation_acceptInvitation,approveLeaveRequest: Mutation_approveLeaveRequest,createCompany: Mutation_createCompany,createInvitation: Mutation_createInvitation,createLeaveRequest: Mutation_createLeaveRequest,createTeam: Mutation_createTeam,createUnit: Mutation_createUnit,deleteCompany: Mutation_deleteCompany,deleteInvitation: Mutation_deleteInvitation,deleteLeave: Mutation_deleteLeave,deleteLeaveRequest: Mutation_deleteLeaveRequest,deleteTeam: Mutation_deleteTeam,deleteUnit: Mutation_deleteUnit,rejectLeaveRequest: Mutation_rejectLeaveRequest,removeUserFromTeam: Mutation_removeUserFromTeam,updateCompany: Mutation_updateCompany,updateCompanySettings: Mutation_updateCompanySettings,updateLeaveRequest: Mutation_updateLeaveRequest,updateMe: Mutation_updateMe,updateMySettings: Mutation_updateMySettings,updateTeam: Mutation_updateTeam,updateTeamSettings: Mutation_updateTeamSettings,updateUnit: Mutation_updateUnit,updateUnitSettings: Mutation_updateUnitSettings },
+      Mutation: { acceptInvitation: Mutation_acceptInvitation,approveLeaveRequest: Mutation_approveLeaveRequest,createCompany: Mutation_createCompany,createInvitation: Mutation_createInvitation,createLeaveRequest: Mutation_createLeaveRequest,createTeam: Mutation_createTeam,createUnit: Mutation_createUnit,deleteCompany: Mutation_deleteCompany,deleteInvitation: Mutation_deleteInvitation,deleteLeave: Mutation_deleteLeave,deleteLeaveRequest: Mutation_deleteLeaveRequest,deleteTeam: Mutation_deleteTeam,deleteUnit: Mutation_deleteUnit,rejectLeaveRequest: Mutation_rejectLeaveRequest,removeUserFromTeam: Mutation_removeUserFromTeam,saveTeamMemberQualifications: Mutation_saveTeamMemberQualifications,updateCompany: Mutation_updateCompany,updateCompanySettings: Mutation_updateCompanySettings,updateLeaveRequest: Mutation_updateLeaveRequest,updateMe: Mutation_updateMe,updateMySettings: Mutation_updateMySettings,updateTeam: Mutation_updateTeam,updateTeamSettings: Mutation_updateTeamSettings,updateUnit: Mutation_updateUnit,updateUnitSettings: Mutation_updateUnitSettings },
       
       Calendar: Calendar,
 Company: Company,
 Invitation: Invitation,
 Leave: Leave,
 LeaveRequest: LeaveRequest,
+MemberQualifications: MemberQualifications,
 QuotaFulfilment: QuotaFulfilment,
 Schedule: Schedule,
 Team: Team,

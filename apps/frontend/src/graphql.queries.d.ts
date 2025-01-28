@@ -107,6 +107,15 @@ declare module '@/graphql-client/queries/updateMe.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/updateTeamMemberQualifications.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const updateTeamMemberQualifications: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/updateTeamSettings.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

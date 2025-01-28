@@ -88,6 +88,11 @@ type LeaveRequest {
   type: String!
 }
 
+type MemberQualifications {
+  qualifications: [String!]!
+  userPk: String!
+}
+
 type Mutation {
   acceptInvitation(secret: String!): Invitation!
   approveLeaveRequest(input: ApproveLeaveRequestInput!): LeaveRequest!
@@ -104,6 +109,7 @@ type Mutation {
   deleteUnit(pk: String!): Unit!
   rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
+  saveTeamMemberQualifications(qualifications: [String!]!, teamPk: String!, userPk: String!): Team!
   updateCompany(name: String!, pk: String!): Company!
   updateCompanySettings(companyPk: String!, name: String!, settings: JSON!): Company!
   updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
@@ -158,11 +164,12 @@ type Schedule {
 type Team {
   createdAt: DateTime!
   createdBy: User!
-  members(skills: [String!]): [User!]!
+  members(qualifications: [String!]): [User!]!
   name: String!
   pk: String!
   schedule(endDate: Date!, startDate: Date!): Schedule!
   settings(name: String!): JSON
+  teamMembersQualifications: [MemberQualifications!]!
   updatedAt: DateTime
   updatedBy: User
 }

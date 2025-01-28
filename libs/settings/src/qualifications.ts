@@ -4,14 +4,14 @@ const qualificationsSchema = z.array(
   z.object({
     name: z.string(),
     color: z.enum([
-      "green",
-      "red",
-      "blue",
-      "yellow",
-      "purple",
-      "orange",
-      "pink",
       "gray",
+      "red",
+      "yellow",
+      "green",
+      "blue",
+      "indigo",
+      "purple",
+      "pink",
     ]),
   })
 );

@@ -2,7 +2,15 @@ import { FC } from "react";
 
 export interface BadgeProps {
   name: string;
-  color: string;
+  color:
+    | "gray"
+    | "red"
+    | "yellow"
+    | "green"
+    | "blue"
+    | "indigo"
+    | "purple"
+    | "pink";
   onRemove?: () => void;
 }
 

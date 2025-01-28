@@ -7,10 +7,18 @@ import type {
 } from "./../../../types.generated";
 import {
   teamSchedule,
-  filterUsersBySkillsInTeam,
+  filterUsersByQualificationsInTeam,
   getEntitySettings,
+  teamMembersUsers,
+  teamMembersQualifications,
 } from "@/business-logic";
-import { getDefined, getResourceRef, resourceRef, ResourceRef } from "@/utils";
+import {
+  compoundedResourceRef,
+  getDefined,
+  getResourceRef,
+  resourceRef,
+  ResourceRef,
+} from "@/utils";
 import { DayDate } from "@/day-date";
 import { SettingsTypeKey } from "@/settings";
 
@@ -27,37 +35,10 @@ export const Team: TeamResolvers = {
     return entity.get(parent.updatedBy as unknown as string) as unknown as User;
   },
   members: async (parent, args) => {
-    const { permission, entity } = await database();
-    const permissions = await permission.query({
-      KeyConditionExpression: "pk = :pk",
-      ExpressionAttributeValues: {
-        ":pk": parent.pk,
-      },
-    });
-
-    const members = Object.fromEntries(
-      permissions.filter((p) => p.sk.startsWith("users/")).map((p) => [p.sk, p])
-    );
-
-    let users = await entity.batchGet(Object.keys(members));
-
-    if (args.skills) {
-      users = await filterUsersBySkillsInTeam(
-        users,
-        args.skills,
-        getResourceRef(parent.pk)
-      );
-    }
-
-    return users.map((user) => {
-      const permission = members[user.pk];
-      const userWithPermission = {
-        ...user,
-        resourcePermission: permission.type,
-        resourcePermissionGivenAt: new Date(permission.createdAt),
-      };
-      return userWithPermission;
-    }) as unknown as User[];
+    return teamMembersUsers(
+      parent.pk as ResourceRef,
+      args.qualifications ?? undefined
+    ) as unknown as Promise<User[]>;
   },
   schedule: async (parent, { startDate, endDate }) => {
     const { entity } = await database();
@@ -65,8 +46,8 @@ export const Team: TeamResolvers = {
       await entity.get(getDefined((parent as unknown as EntityRecord).parentPk))
     );
     const schedule = await teamSchedule(
-      getDefined(unit.parentPk) as ResourceRef,
-      parent.pk as ResourceRef,
+      getResourceRef(unit.parentPk, "companies"),
+      getResourceRef(parent.pk, "teams"),
       new DayDate(startDate),
       new DayDate(endDate)
     );
@@ -89,5 +70,8 @@ export const Team: TeamResolvers = {
       getResourceRef(parent.pk),
       args.name as SettingsTypeKey
     );
+  },
+  teamMembersQualifications: async (parent) => {
+    return teamMembersQualifications(getResourceRef(parent.pk));
   },
 };

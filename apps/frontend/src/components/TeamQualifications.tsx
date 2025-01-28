@@ -109,14 +109,14 @@ export const TeamQualifications = () => {
 
               <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm">
                 {[
-                  "green",
-                  "red",
-                  "blue",
-                  "yellow",
-                  "purple",
-                  "orange",
-                  "pink",
                   "gray",
+                  "red",
+                  "yellow",
+                  "green",
+                  "blue",
+                  "indigo",
+                  "purple",
+                  "pink",
                 ].map((color) => (
                   <ComboboxOption
                     key={color}

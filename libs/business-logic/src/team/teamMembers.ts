@@ -1,8 +1,8 @@
-import { ResourceRef } from "@/utils";
+import { getResourceRef, ResourceRef } from "@/utils";
 import { database } from "@/tables";
 export const teamMembers = async (
-  teamId: ResourceRef
-): Promise<ResourceRef[]> => {
+  teamId: ResourceRef<"teams">
+): Promise<ResourceRef<"users">[]> => {
   const { permission } = await database();
   const permissions = await permission.query({
     KeyConditionExpression: "pk = :pk",
@@ -11,5 +11,5 @@ export const teamMembers = async (
     },
   });
 
-  return permissions.map((p) => p.sk as ResourceRef);
+  return permissions.map((p) => getResourceRef(p.sk, "users"));
 };

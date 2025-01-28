@@ -1,8 +1,9 @@
-import { cacheExchange } from "@urql/exchange-graphcache";
+import { cacheExchange, Data } from "@urql/exchange-graphcache";
 import type { Client, ClientOptions } from "urql";
 import { fetchExchange, createClient as urqlCreateClient } from "urql";
 import { type Session } from "next-auth";
 import merge from "deepmerge";
+import { Company } from "./graphql";
 
 type WithSession = {
   session: Session;
@@ -19,16 +20,16 @@ const defaultClientOpts = (): ClientOptions => ({
   exchanges: [
     cacheExchange({
       keys: {
-        Company: (c: unknown) => c.pk,
-        User: (u: unknown) => u.pk,
-        Unit: (u: unknown) => u.pk,
-        Team: (i: unknown) => i.pk,
-        Invitation: (i: unknown) => `${i.pk}:${i.email}`,
-        Leave: (l: unknown) => `${l.pk}:${l.sk}`,
-        LeaveRequest: (l: unknown) => `${l.pk}:${l.sk}`,
-        Calendar: (c: unknown) => c.year,
-        Schedule: (s: unknown) => s.pk,
-        UserSchedule: (s: unknown) => s.pk,
+        Company: (c: Data) => c.pk as string,
+        User: (u: Data) => u.pk as string,
+        Unit: (u: Data) => u.pk as string,
+        Team: (i: Data) => i.pk as string,
+        Invitation: (i: Data) => `${i.pk}:${i.email}`,
+        Leave: (l: Data) => `${l.pk}:${l.sk}`,
+        LeaveRequest: (l: Data) => `${l.pk}:${l.sk}`,
+        Calendar: (c: Data) => c.year?.toString() ?? "",
+        Schedule: (s: Data) => s.pk?.toString() ?? "",
+        UserSchedule: (s: Data) => s.pk?.toString() ?? "",
       },
     }),
     fetchExchange,

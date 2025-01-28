@@ -109,6 +109,12 @@ export type LeaveRequest = {
   type: Scalars['String']['output'];
 };
 
+export type MemberQualifications = {
+  __typename?: 'MemberQualifications';
+  qualifications: Array<Scalars['String']['output']>;
+  userPk: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation: Invitation;
@@ -126,6 +132,7 @@ export type Mutation = {
   deleteUnit: Unit;
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
+  saveTeamMemberQualifications: Team;
   updateCompany: Company;
   updateCompanySettings: Company;
   updateLeaveRequest: LeaveRequest;
@@ -214,6 +221,13 @@ export type MutationrejectLeaveRequestArgs = {
 
 
 export type MutationremoveUserFromTeamArgs = {
+  teamPk: Scalars['String']['input'];
+  userPk: Scalars['String']['input'];
+};
+
+
+export type MutationsaveTeamMemberQualificationsArgs = {
+  qualifications: Array<Scalars['String']['input']>;
   teamPk: Scalars['String']['input'];
   userPk: Scalars['String']['input'];
 };
@@ -371,13 +385,14 @@ export type Team = {
   pk: Scalars['String']['output'];
   schedule: Schedule;
   settings?: Maybe<Scalars['JSON']['output']>;
+  teamMembersQualifications: Array<MemberQualifications>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
 
 
 export type TeammembersArgs = {
-  skills?: InputMaybe<Array<Scalars['String']['input']>>;
+  qualifications?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 
@@ -539,6 +554,7 @@ export type ResolversTypes = {
   Leave: ResolverTypeWrapper<Leave>;
   LeaveRequest: ResolverTypeWrapper<LeaveRequest>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  MemberQualifications: ResolverTypeWrapper<MemberQualifications>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   QuotaFulfilment: ResolverTypeWrapper<QuotaFulfilment>;
@@ -570,6 +586,7 @@ export type ResolversParentTypes = {
   Leave: Leave;
   LeaveRequest: LeaveRequest;
   Boolean: Scalars['Boolean']['output'];
+  MemberQualifications: MemberQualifications;
   Mutation: {};
   Query: {};
   QuotaFulfilment: QuotaFulfilment;
@@ -658,6 +675,12 @@ export type LeaveRequestResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MemberQualificationsResolvers<ContextType = any, ParentType extends ResolversParentTypes['MemberQualifications'] = ResolversParentTypes['MemberQualifications']> = {
+  qualifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  userPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   acceptInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationacceptInvitationArgs, 'secret'>>;
   approveLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationapproveLeaveRequestArgs, 'input'>>;
@@ -674,6 +697,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationdeleteUnitArgs, 'pk'>>;
   rejectLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationrejectLeaveRequestArgs, 'input'>>;
   removeUserFromTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationremoveUserFromTeamArgs, 'teamPk' | 'userPk'>>;
+  saveTeamMemberQualifications?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationsaveTeamMemberQualificationsArgs, 'qualifications' | 'teamPk' | 'userPk'>>;
   updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'name' | 'pk'>>;
   updateCompanySettings?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanySettingsArgs, 'companyPk' | 'name' | 'settings'>>;
   updateLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationupdateLeaveRequestArgs, 'input'>>;
@@ -730,6 +754,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   schedule?: Resolver<ResolversTypes['Schedule'], ParentType, ContextType, RequireFields<TeamscheduleArgs, 'endDate' | 'startDate'>>;
   settings?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<TeamsettingsArgs, 'name'>>;
+  teamMembersQualifications?: Resolver<Array<ResolversTypes['MemberQualifications']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -779,6 +804,7 @@ export type Resolvers<ContextType = any> = {
   JSON?: GraphQLScalarType;
   Leave?: LeaveResolvers<ContextType>;
   LeaveRequest?: LeaveRequestResolvers<ContextType>;
+  MemberQualifications?: MemberQualificationsResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   QuotaFulfilment?: QuotaFulfilmentResolvers<ContextType>;

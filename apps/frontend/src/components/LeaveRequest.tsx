@@ -1,7 +1,21 @@
 import { LeaveRequest as LeaveRequestType } from "../graphql/graphql";
 import { Avatar } from "./Avatar";
 
-export const LeaveRequest = ({
+export type LeaveRequestProps = Pick<
+  LeaveRequestType,
+  | "createdBy"
+  | "beneficiary"
+  | "createdAt"
+  | "startDate"
+  | "endDate"
+  | "type"
+  | "reason"
+  | "approved"
+  | "approvedBy"
+  | "approvedAt"
+>;
+
+export const LeaveRequest: React.FC<LeaveRequestProps> = ({
   createdBy,
   beneficiary,
   createdAt,

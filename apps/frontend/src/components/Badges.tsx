@@ -18,7 +18,7 @@ export interface Badge {
 
 export interface BadgesProps {
   badges: Array<Badge>;
-  onRemove: (badge: Badge) => void;
+  onRemove?: (badge: Badge) => void;
 }
 
 export interface BadgeRemoveButtonProps {
@@ -31,7 +31,11 @@ export const Badges: FC<BadgesProps> = ({ badges, onRemove }) => {
     <div className="flex flex-wrap gap-2">
       {badges.map((badge) => {
         return (
-          <Badge key={badge.name} {...badge} onRemove={() => onRemove(badge)} />
+          <Badge
+            key={badge.name}
+            {...badge}
+            onRemove={onRemove && (() => onRemove(badge))}
+          />
         );
       })}
     </div>

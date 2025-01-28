@@ -80,13 +80,12 @@ export const CreateScheduleShiftPosition: FC<
     query: teamWithMembersQuery,
     variables: {
       teamPk: getDefined(teamPk, "No team provided"),
-      skills: skills.map((skill) => skill.name),
+      qualifications: skills.map((skill) => skill.name),
     },
   });
 
   useEffect(() => {
     return form.store.subscribe((state) => {
-      console.log("state", state);
       setSkills(state.currentVal.values.requiredSkills);
     });
   }, [form]);

@@ -12,6 +12,7 @@ import { useMutation } from "../hooks/useMutation";
 import removeUserFromTeamMutation from "@/graphql-client/mutations/removeUserFromTeam.graphql";
 import { QueryTeamArgs, Team, User } from "../graphql/graphql";
 import { getDefined } from "@/utils";
+import { TeamMemberQualifications } from "./TeamMemberQualifications";
 
 export const TeamMembers = () => {
   const { company, unit, team: teamPk } = useParams();
@@ -60,6 +61,14 @@ export const TeamMembers = () => {
                 </p>
               </div>
             </div>
+            <TeamMemberQualifications
+              qualifications={
+                queryResponse.data?.team?.teamMembersQualifications.find(
+                  (qualification) => qualification.userPk === person.pk
+                )?.qualifications ?? []
+              }
+              memberPk={person.pk}
+            />
             <div className="flex shrink-0 items-center gap-x-6">
               <div className="hidden sm:flex sm:flex-col sm:items-end">
                 <p className="text-sm/6 text-gray-900">

@@ -1,6 +1,7 @@
 export type ResourceType = "companies" | "units" | "users" | "teams";
 
-export type ResourceRef = `${ResourceType}/${string}`;
+export type ResourceRef<T extends ResourceType = ResourceType> =
+  `${T}/${string}`;
 
 const validResourceTypes: Set<ResourceType> = new Set([
   "companies",
@@ -9,8 +10,11 @@ const validResourceTypes: Set<ResourceType> = new Set([
   "teams",
 ] as const);
 
-export const getResourceRef = (r: string): ResourceRef => {
-  const match = r.match(/^(\w+)\/(.+)$/);
+export const getResourceRef = <T extends ResourceType = ResourceType>(
+  r: string | undefined | null,
+  t?: T
+): ResourceRef<T> => {
+  const match = r?.match(/^(\w+)\/(.+)$/);
   if (!match) {
     throw new Error(`Invalid resource reference: ${r}`);
   }
@@ -18,10 +22,17 @@ export const getResourceRef = (r: string): ResourceRef => {
   if (!validResourceTypes.has(resourceType as ResourceType)) {
     throw new Error(`Invalid resource type: ${resourceType}`);
   }
-  return r as ResourceRef;
+  if (t && resourceType !== t) {
+    throw new Error(`Resource type mismatch: ${resourceType} !== ${t}`);
+  }
+  return r as ResourceRef<T>;
 };
 
 export const resourceRef = (
   resourceType: ResourceType,
   id: string
 ): ResourceRef => `${resourceType}/${id}`;
+
+export const compoundedResourceRef = (
+  ...args: Array<ResourceRef>
+): ResourceRef => args.join("/") as ResourceRef;
