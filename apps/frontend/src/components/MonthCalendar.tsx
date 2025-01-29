@@ -43,7 +43,6 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
   days,
   goTo,
 }) => {
-  console.log("MonthCalendar", year, month);
   const handlePrevMonth = useCallback(() => {
     goTo(year, month - 1);
   }, [goTo, year, month]);

@@ -13,11 +13,9 @@ export const filterUsersByQualificationsInTeam = async (
         teamPk,
         getResourceRef(user.pk)
       );
-      return qualifications?.filter((qualification) =>
-        skills.includes(qualification)
-      );
+      return skills.every((skill) => qualifications?.includes(skill));
     })
   );
 
-  return users.filter((_user, index) => (keepUser[index]?.length ?? 0) > 0);
+  return users.filter((_user, index) => keepUser[index]);
 };
