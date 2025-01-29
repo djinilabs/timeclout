@@ -11,12 +11,8 @@ const isSelfSettingsComplete = (me: User) => {
 export const RequiresSelfSettings: FC<PropsWithChildren> = ({ children }) => {
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });
   const me = result?.data?.me;
-  if (
-    !result.fetching &&
-    !result.stale &&
-    (!me || !isSelfSettingsComplete(me))
-  ) {
+  if (!result.fetching && !result.stale && me && !isSelfSettingsComplete(me)) {
     return <Navigate to="/me/edit" />;
   }
-  return <>{children}</>;
+  return children;
 };

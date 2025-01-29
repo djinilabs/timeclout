@@ -14,7 +14,7 @@ const defaultClientOpts = (): ClientOptions => ({
     credentials: "same-origin",
     headers: {},
   },
-  requestPolicy: "cache-and-network",
+  requestPolicy: "cache-first",
   suspense: true,
   exchanges: [
     cacheExchange({
