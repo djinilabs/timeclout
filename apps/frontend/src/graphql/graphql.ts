@@ -1,120 +1,134 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /* eslint-disable */
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+    };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  Date: { input: any; output: any; }
-  DateTime: { input: any; output: any; }
-  JSON: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  Date: { input: any; output: any };
+  DateTime: { input: any; output: any };
+  JSON: { input: any; output: any };
 };
 
 export type ApproveLeaveRequestInput = {
-  pk: Scalars['String']['input'];
-  sk: Scalars['String']['input'];
+  pk: Scalars["String"]["input"];
+  sk: Scalars["String"]["input"];
 };
 
 export type Calendar = {
-  __typename?: 'Calendar';
+  __typename?: "Calendar";
   leaveRequests: Array<LeaveRequest>;
   leaves: Array<Leave>;
-  year: Scalars['Int']['output'];
+  year: Scalars["Int"]["output"];
 };
 
 export type Company = {
-  __typename?: 'Company';
-  createdAt: Scalars['DateTime']['output'];
+  __typename?: "Company";
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
-  name: Scalars['String']['output'];
-  pk: Scalars['String']['output'];
-  settings?: Maybe<Scalars['JSON']['output']>;
+  name: Scalars["String"]["output"];
+  pk: Scalars["String"]["output"];
+  settings?: Maybe<Scalars["JSON"]["output"]>;
   units?: Maybe<Array<Unit>>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
   updatedBy?: Maybe<User>;
 };
 
-
 export type CompanySettingsArgs = {
-  name: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
 };
 
 export type CreateLeaveRequestInput = {
-  companyPk: Scalars['String']['input'];
-  endDate: Scalars['String']['input'];
-  reason: Scalars['String']['input'];
-  startDate: Scalars['String']['input'];
-  type: Scalars['String']['input'];
+  companyPk: Scalars["String"]["input"];
+  endDate: Scalars["String"]["input"];
+  reason: Scalars["String"]["input"];
+  startDate: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
 };
 
 export type DeleteLeaveInput = {
-  pk: Scalars['String']['input'];
-  sk: Scalars['String']['input'];
+  pk: Scalars["String"]["input"];
+  sk: Scalars["String"]["input"];
 };
 
 export type DeleteLeaveRequestInput = {
-  pk: Scalars['String']['input'];
-  sk: Scalars['String']['input'];
+  pk: Scalars["String"]["input"];
+  sk: Scalars["String"]["input"];
 };
 
 export type Invitation = {
-  __typename?: 'Invitation';
-  createdAt: Scalars['DateTime']['output'];
+  __typename?: "Invitation";
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
-  email: Scalars['String']['output'];
-  emailMd5: Scalars['String']['output'];
-  permissionType: Scalars['Int']['output'];
-  pk: Scalars['String']['output'];
-  sk: Scalars['String']['output'];
+  email: Scalars["String"]["output"];
+  emailMd5: Scalars["String"]["output"];
+  permissionType: Scalars["Int"]["output"];
+  pk: Scalars["String"]["output"];
+  sk: Scalars["String"]["output"];
   toEntity: InvitationEntity;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
   updatedBy?: Maybe<User>;
 };
 
 export type InvitationEntity = Company | Team | Unit;
 
 export type Leave = {
-  __typename?: 'Leave';
-  leaveRequestPk: Scalars['String']['output'];
-  leaveRequestSk: Scalars['String']['output'];
-  pk: Scalars['String']['output'];
-  sk: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  __typename?: "Leave";
+  leaveRequestPk: Scalars["String"]["output"];
+  leaveRequestSk: Scalars["String"]["output"];
+  pk: Scalars["String"]["output"];
+  sk: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
 };
 
 export type LeaveRequest = {
-  __typename?: 'LeaveRequest';
-  approved?: Maybe<Scalars['Boolean']['output']>;
-  approvedAt?: Maybe<Array<Scalars['DateTime']['output']>>;
+  __typename?: "LeaveRequest";
+  approved?: Maybe<Scalars["Boolean"]["output"]>;
+  approvedAt?: Maybe<Array<Scalars["DateTime"]["output"]>>;
   approvedBy?: Maybe<Array<User>>;
   beneficiary: User;
-  companyPk: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
+  companyPk: Scalars["String"]["output"];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
-  endDate: Scalars['String']['output'];
-  pk: Scalars['String']['output'];
-  reason?: Maybe<Scalars['String']['output']>;
-  sk: Scalars['String']['output'];
-  startDate: Scalars['String']['output'];
-  type: Scalars['String']['output'];
+  endDate: Scalars["String"]["output"];
+  pk: Scalars["String"]["output"];
+  reason?: Maybe<Scalars["String"]["output"]>;
+  sk: Scalars["String"]["output"];
+  startDate: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
 };
 
 export type MemberQualifications = {
-  __typename?: 'MemberQualifications';
-  qualifications: Array<Scalars['String']['output']>;
-  userPk: Scalars['String']['output'];
+  __typename?: "MemberQualifications";
+  qualifications: Array<Scalars["String"]["output"]>;
+  userPk: Scalars["String"]["output"];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename?: "Mutation";
   acceptInvitation: Invitation;
   approveLeaveRequest: LeaveRequest;
   createCompany: Company;
@@ -142,151 +156,126 @@ export type Mutation = {
   updateUnitSettings: Unit;
 };
 
-
 export type MutationAcceptInvitationArgs = {
-  secret: Scalars['String']['input'];
+  secret: Scalars["String"]["input"];
 };
-
 
 export type MutationApproveLeaveRequestArgs = {
   input: ApproveLeaveRequestInput;
 };
 
-
 export type MutationCreateCompanyArgs = {
-  name: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
 };
-
 
 export type MutationCreateInvitationArgs = {
-  invitedUserEmail: Scalars['String']['input'];
-  permissionType: Scalars['Int']['input'];
-  toEntityPk: Scalars['String']['input'];
+  invitedUserEmail: Scalars["String"]["input"];
+  permissionType: Scalars["Int"]["input"];
+  toEntityPk: Scalars["String"]["input"];
 };
-
 
 export type MutationCreateLeaveRequestArgs = {
   input: CreateLeaveRequestInput;
 };
 
-
 export type MutationCreateTeamArgs = {
-  name: Scalars['String']['input'];
-  unitPk: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
+  unitPk: Scalars["String"]["input"];
 };
-
 
 export type MutationCreateUnitArgs = {
-  companyPk: Scalars['String']['input'];
-  name: Scalars['String']['input'];
+  companyPk: Scalars["String"]["input"];
+  name: Scalars["String"]["input"];
 };
-
 
 export type MutationDeleteCompanyArgs = {
-  pk: Scalars['String']['input'];
+  pk: Scalars["String"]["input"];
 };
-
 
 export type MutationDeleteInvitationArgs = {
-  pk: Scalars['String']['input'];
-  sk: Scalars['String']['input'];
+  pk: Scalars["String"]["input"];
+  sk: Scalars["String"]["input"];
 };
-
 
 export type MutationDeleteLeaveArgs = {
   input: DeleteLeaveInput;
 };
 
-
 export type MutationDeleteLeaveRequestArgs = {
   input: DeleteLeaveRequestInput;
 };
 
-
 export type MutationDeleteTeamArgs = {
-  pk: Scalars['String']['input'];
+  pk: Scalars["String"]["input"];
 };
-
 
 export type MutationDeleteUnitArgs = {
-  pk: Scalars['String']['input'];
+  pk: Scalars["String"]["input"];
 };
-
 
 export type MutationRejectLeaveRequestArgs = {
   input: RejectLeaveRequestInput;
 };
 
-
 export type MutationRemoveUserFromTeamArgs = {
-  teamPk: Scalars['String']['input'];
-  userPk: Scalars['String']['input'];
+  teamPk: Scalars["String"]["input"];
+  userPk: Scalars["String"]["input"];
 };
-
 
 export type MutationSaveTeamMemberQualificationsArgs = {
-  qualifications: Array<Scalars['String']['input']>;
-  teamPk: Scalars['String']['input'];
-  userPk: Scalars['String']['input'];
+  qualifications: Array<Scalars["String"]["input"]>;
+  teamPk: Scalars["String"]["input"];
+  userPk: Scalars["String"]["input"];
 };
-
 
 export type MutationUpdateCompanyArgs = {
-  name: Scalars['String']['input'];
-  pk: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
+  pk: Scalars["String"]["input"];
 };
-
 
 export type MutationUpdateCompanySettingsArgs = {
-  companyPk: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  settings: Scalars['JSON']['input'];
+  companyPk: Scalars["String"]["input"];
+  name: Scalars["String"]["input"];
+  settings: Scalars["JSON"]["input"];
 };
-
 
 export type MutationUpdateLeaveRequestArgs = {
   input: UpdateLeaveRequestInput;
 };
 
-
 export type MutationUpdateMeArgs = {
   input: UpdateMeInput;
 };
 
-
 export type MutationUpdateMySettingsArgs = {
-  name: Scalars['String']['input'];
-  settings: Scalars['JSON']['input'];
+  name: Scalars["String"]["input"];
+  settings: Scalars["JSON"]["input"];
 };
-
 
 export type MutationUpdateTeamArgs = {
-  name: Scalars['String']['input'];
-  pk: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
+  pk: Scalars["String"]["input"];
 };
-
 
 export type MutationUpdateTeamSettingsArgs = {
-  name: Scalars['String']['input'];
-  settings: Scalars['JSON']['input'];
-  teamPk: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
+  settings: Scalars["JSON"]["input"];
+  teamPk: Scalars["String"]["input"];
 };
-
 
 export type MutationUpdateUnitArgs = {
-  name: Scalars['String']['input'];
-  pk: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
+  pk: Scalars["String"]["input"];
 };
 
-
 export type MutationUpdateUnitSettingsArgs = {
-  name: Scalars['String']['input'];
-  settings: Scalars['JSON']['input'];
-  unitPk: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
+  settings: Scalars["JSON"]["input"];
+  unitPk: Scalars["String"]["input"];
 };
 
 export type Query = {
-  __typename?: 'Query';
+  __typename?: "Query";
   companies: Array<Company>;
   company: Company;
   invitation: Invitation;
@@ -301,163 +290,150 @@ export type Query = {
   unit: Unit;
 };
 
-
 export type QueryCompanyArgs = {
-  companyPk: Scalars['String']['input'];
+  companyPk: Scalars["String"]["input"];
 };
-
 
 export type QueryInvitationArgs = {
-  secret: Scalars['String']['input'];
+  secret: Scalars["String"]["input"];
 };
-
 
 export type QueryInvitationsToArgs = {
-  toEntityPk: Scalars['String']['input'];
+  toEntityPk: Scalars["String"]["input"];
 };
-
 
 export type QueryLeaveRequestArgs = {
-  pk: Scalars['String']['input'];
-  sk: Scalars['String']['input'];
+  pk: Scalars["String"]["input"];
+  sk: Scalars["String"]["input"];
 };
-
 
 export type QueryMyLeaveCalendarArgs = {
-  companyPk: Scalars['String']['input'];
-  year: Scalars['Int']['input'];
+  companyPk: Scalars["String"]["input"];
+  year: Scalars["Int"]["input"];
 };
-
 
 export type QueryMyQuotaFulfilmentArgs = {
-  companyPk: Scalars['String']['input'];
-  endDate: Scalars['String']['input'];
-  simulatesLeave?: InputMaybe<Scalars['Boolean']['input']>;
-  simulatesLeaveType?: InputMaybe<Scalars['String']['input']>;
-  startDate: Scalars['String']['input'];
+  companyPk: Scalars["String"]["input"];
+  endDate: Scalars["String"]["input"];
+  simulatesLeave?: InputMaybe<Scalars["Boolean"]["input"]>;
+  simulatesLeaveType?: InputMaybe<Scalars["String"]["input"]>;
+  startDate: Scalars["String"]["input"];
 };
-
 
 export type QueryTeamArgs = {
-  teamPk: Scalars['String']['input'];
+  teamPk: Scalars["String"]["input"];
 };
 
-
 export type QueryUnitArgs = {
-  unitPk: Scalars['String']['input'];
+  unitPk: Scalars["String"]["input"];
 };
 
 export type QuotaFulfilment = {
-  __typename?: 'QuotaFulfilment';
-  approvedUsed: Scalars['Int']['output'];
-  pendingApprovalUsed: Scalars['Int']['output'];
-  quota: Scalars['Int']['output'];
-  quotaEndDate: Scalars['String']['output'];
-  quotaStartDate: Scalars['String']['output'];
-  simulatedEndDate?: Maybe<Scalars['String']['output']>;
-  simulatedStartDate?: Maybe<Scalars['String']['output']>;
-  simulatedType?: Maybe<Scalars['String']['output']>;
-  simulatedUsed?: Maybe<Scalars['Int']['output']>;
+  __typename?: "QuotaFulfilment";
+  approvedUsed: Scalars["Int"]["output"];
+  pendingApprovalUsed: Scalars["Int"]["output"];
+  quota: Scalars["Int"]["output"];
+  quotaEndDate: Scalars["String"]["output"];
+  quotaStartDate: Scalars["String"]["output"];
+  simulatedEndDate?: Maybe<Scalars["String"]["output"]>;
+  simulatedStartDate?: Maybe<Scalars["String"]["output"]>;
+  simulatedType?: Maybe<Scalars["String"]["output"]>;
+  simulatedUsed?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type RejectLeaveRequestInput = {
-  pk: Scalars['String']['input'];
-  sk: Scalars['String']['input'];
+  pk: Scalars["String"]["input"];
+  sk: Scalars["String"]["input"];
 };
 
 export type Schedule = {
-  __typename?: 'Schedule';
-  endDate: Scalars['Date']['output'];
-  pk: Scalars['String']['output'];
-  startDate: Scalars['Date']['output'];
+  __typename?: "Schedule";
+  endDate: Scalars["Date"]["output"];
+  pk: Scalars["String"]["output"];
+  startDate: Scalars["Date"]["output"];
   team: Team;
   userSchedules: Array<UserSchedule>;
 };
 
 export type Team = {
-  __typename?: 'Team';
-  createdAt: Scalars['DateTime']['output'];
+  __typename?: "Team";
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
   members: Array<User>;
-  name: Scalars['String']['output'];
-  pk: Scalars['String']['output'];
+  name: Scalars["String"]["output"];
+  pk: Scalars["String"]["output"];
   schedule: Schedule;
-  settings?: Maybe<Scalars['JSON']['output']>;
+  settings?: Maybe<Scalars["JSON"]["output"]>;
   teamMembersQualifications: Array<MemberQualifications>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
   updatedBy?: Maybe<User>;
 };
 
-
 export type TeamMembersArgs = {
-  qualifications?: InputMaybe<Array<Scalars['String']['input']>>;
+  qualifications?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
-
 
 export type TeamScheduleArgs = {
-  endDate: Scalars['Date']['input'];
-  startDate: Scalars['Date']['input'];
+  endDate: Scalars["Date"]["input"];
+  startDate: Scalars["Date"]["input"];
 };
 
-
 export type TeamSettingsArgs = {
-  name: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
 };
 
 export type Unit = {
-  __typename?: 'Unit';
-  createdAt: Scalars['DateTime']['output'];
+  __typename?: "Unit";
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
   members: Array<User>;
-  name: Scalars['String']['output'];
-  pk: Scalars['String']['output'];
-  settings?: Maybe<Scalars['JSON']['output']>;
+  name: Scalars["String"]["output"];
+  pk: Scalars["String"]["output"];
+  settings?: Maybe<Scalars["JSON"]["output"]>;
   teams: Array<Team>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
   updatedBy?: Maybe<User>;
 };
 
-
 export type UnitSettingsArgs = {
-  name: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
 };
 
 export type UpdateLeaveRequestInput = {
-  endDate: Scalars['String']['input'];
-  pk: Scalars['String']['input'];
-  reason: Scalars['String']['input'];
-  sk: Scalars['String']['input'];
-  startDate: Scalars['String']['input'];
-  type: Scalars['String']['input'];
+  endDate: Scalars["String"]["input"];
+  pk: Scalars["String"]["input"];
+  reason: Scalars["String"]["input"];
+  sk: Scalars["String"]["input"];
+  startDate: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
 };
 
 export type UpdateMeInput = {
-  name?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type User = {
-  __typename?: 'User';
-  email: Scalars['String']['output'];
-  emailMd5: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  pk: Scalars['String']['output'];
-  resourcePermission?: Maybe<Scalars['Int']['output']>;
-  resourcePermissionGivenAt?: Maybe<Scalars['DateTime']['output']>;
-  settings?: Maybe<Scalars['JSON']['output']>;
+  __typename?: "User";
+  email: Scalars["String"]["output"];
+  emailMd5: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+  pk: Scalars["String"]["output"];
+  resourcePermission?: Maybe<Scalars["Int"]["output"]>;
+  resourcePermissionGivenAt?: Maybe<Scalars["DateTime"]["output"]>;
+  settings?: Maybe<Scalars["JSON"]["output"]>;
 };
 
-
 export type UserSettingsArgs = {
-  name: Scalars['String']['input'];
+  name: Scalars["String"]["input"];
 };
 
 export type UserSchedule = {
-  __typename?: 'UserSchedule';
-  endDate: Scalars['Date']['output'];
+  __typename?: "UserSchedule";
+  endDate: Scalars["Date"]["output"];
   leaveRequests: Array<LeaveRequest>;
   leaves: Array<Leave>;
-  pk: Scalars['String']['output'];
-  startDate: Scalars['Date']['output'];
+  pk: Scalars["String"]["output"];
+  startDate: Scalars["Date"]["output"];
   user: User;
 };
 
@@ -465,9 +441,12 @@ export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
 {
-  __apiType?: DocumentTypeDecoration<TResult, TVariables>['__apiType'];
+  __apiType?: DocumentTypeDecoration<TResult, TVariables>["__apiType"];
 
-  constructor(private value: string, public __meta__?: Record<string, any> | undefined) {
+  constructor(
+    private value: string,
+    public __meta__?: Record<string, any> | undefined
+  ) {
     super(value);
   }
 

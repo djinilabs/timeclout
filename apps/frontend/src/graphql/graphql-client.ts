@@ -3,7 +3,6 @@ import type { Client, ClientOptions } from "urql";
 import { fetchExchange, createClient as urqlCreateClient } from "urql";
 import { type Session } from "next-auth";
 import merge from "deepmerge";
-import { Company } from "./graphql";
 
 type WithSession = {
   session: Session;
