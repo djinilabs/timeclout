@@ -260,6 +260,15 @@ declare module '@/graphql-client/queries/teamWithMembers.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/teamWithMembersAndSettings.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const teamWithMembersAndSettings: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/teamWithSettings.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

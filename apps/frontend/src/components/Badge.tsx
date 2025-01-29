@@ -1,20 +1,17 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
+import { type BadgeColor } from "./Badges";
 
 export interface BadgeProps {
   name: string;
-  color:
-    | "gray"
-    | "red"
-    | "yellow"
-    | "green"
-    | "blue"
-    | "indigo"
-    | "purple"
-    | "pink";
+  color: BadgeColor;
   onRemove?: () => void;
 }
 
-export const Badge: FC<BadgeProps> = ({ name, color, onRemove }) => {
+export const Badge: FC<BadgeProps> = ({
+  name,
+  color,
+  onRemove,
+}): NonNullable<ReactNode> => {
   switch (color) {
     case "gray":
       return (

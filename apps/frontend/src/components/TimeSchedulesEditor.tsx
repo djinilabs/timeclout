@@ -65,7 +65,6 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = ({
               <label className="text-sm text-gray-600">End</label>
               <TimePicker
                 value={schedule.endHourMinutes}
-                min={schedule.startHourMinutes}
                 onChange={(value) =>
                   handleTimeChange(index, "endHourMinutes", value)
                 }

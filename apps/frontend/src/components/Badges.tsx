@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Badge } from "./Badge";
 
-export type Color =
+export type BadgeColor =
   | "blue"
   | "green"
   | "red"
@@ -13,7 +13,7 @@ export type Color =
 
 export interface Badge {
   name: string;
-  color: Color;
+  color: BadgeColor;
 }
 
 export interface BadgesProps {

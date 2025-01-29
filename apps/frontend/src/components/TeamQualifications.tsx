@@ -9,7 +9,11 @@ import {
 } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { getDefined } from "@/utils";
-import { Qualifications, qualificationsParser } from "@/settings";
+import {
+  qualificationColors,
+  Qualifications,
+  qualificationsParser,
+} from "@/settings";
 import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
 import updateTeamSettingsMutation from "@/graphql-client/mutations/updateTeamSettings.graphql";
 import { QueryTeamArgs, Team, TeamSettingsArgs } from "../graphql/graphql";
@@ -108,16 +112,7 @@ export const TeamQualifications = () => {
               </ComboboxButton>
 
               <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm">
-                {[
-                  "gray",
-                  "red",
-                  "yellow",
-                  "green",
-                  "blue",
-                  "indigo",
-                  "purple",
-                  "pink",
-                ].map((color) => (
+                {qualificationColors.map((color) => (
                   <ComboboxOption
                     key={color}
                     value={color}

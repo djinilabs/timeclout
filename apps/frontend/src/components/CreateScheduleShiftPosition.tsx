@@ -3,14 +3,19 @@ import { useForm } from "@tanstack/react-form";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { DayDate } from "@/day-date";
-import { Badge, Badges } from "./Badges";
 import { TimeSchedulesEditor } from "./TimeSchedulesEditor";
 import { SelectUser } from "./SelectUser";
 import { useParams } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
-import teamWithMembersQuery from "@/graphql-client/queries/teamWithMembers.graphql";
-import { QueryTeamArgs, Team, TeamMembersArgs } from "../graphql/graphql";
+import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
+import {
+  QueryTeamArgs,
+  Team,
+  TeamMembersArgs,
+  TeamSettingsArgs,
+} from "../graphql/graphql";
 import { getDefined } from "@/utils";
+import { EditQualifications } from "./EditQualifications";
 
 export interface CreateScheduleShiftPositionProps {
   day: DayDate;
@@ -32,7 +37,7 @@ export interface User {
 
 export interface CreateScheduleShiftPositionForm {
   day: DayDate;
-  requiredSkills: Badge[];
+  requiredSkills: string[];
   schedules: ShiftPositionSchedule[];
   assignedTo?: User;
 }
@@ -44,16 +49,7 @@ export const CreateScheduleShiftPosition: FC<
     defaultValues: useMemo(
       () => ({
         day,
-        requiredSkills: [
-          { name: "Badge 1", color: "gray" },
-          { name: "Badge 2", color: "red" },
-          { name: "Badge 3", color: "yellow" },
-          { name: "Badge 4", color: "green" },
-          { name: "Badge 5", color: "blue" },
-          { name: "Badge 6", color: "indigo" },
-          { name: "Badge 7", color: "purple" },
-          { name: "Badge 8", color: "pink" },
-        ],
+        requiredSkills: [],
         schedules: [
           {
             startHourMinutes: [9, 0],
@@ -71,16 +67,17 @@ export const CreateScheduleShiftPosition: FC<
   });
 
   const { team: teamPk } = useParams();
-  const [skills, setSkills] = useState<Badge[]>([]);
+  const [skills, setSkills] = useState<string[]>([]);
 
-  const [{ data: possibleUsers }] = useQuery<
+  const [{ data: teamWithMembersAndSettings }] = useQuery<
     { team: Team },
-    QueryTeamArgs & TeamMembersArgs
+    QueryTeamArgs & TeamMembersArgs & TeamSettingsArgs
   >({
-    query: teamWithMembersQuery,
+    query: teamWithMembersAndSettingsQuery,
     variables: {
       teamPk: getDefined(teamPk, "No team provided"),
-      qualifications: skills.map((skill) => skill.name),
+      qualifications: skills,
+      name: "qualifications",
     },
   });
 
@@ -141,12 +138,13 @@ export const CreateScheduleShiftPosition: FC<
                     <p className="mt-3 text-sm/6 text-gray-600 mb-2">
                       Set the skills required for this position.
                     </p>
-                    <Badges
-                      badges={field.state.value}
-                      onRemove={(badge) =>
-                        field.handleChange(
-                          field.state.value.filter((b) => b.name !== badge.name)
-                        )
+                    <EditQualifications
+                      qualifications={field.state.value}
+                      onChange={(qualifications) =>
+                        field.handleChange(qualifications)
+                      }
+                      qualificationSettings={
+                        teamWithMembersAndSettings?.team.settings
                       }
                     />
                   </div>
@@ -192,7 +190,7 @@ export const CreateScheduleShiftPosition: FC<
                       Set the user assigned to this position.
                     </p>
                     <SelectUser
-                      users={possibleUsers?.team?.members ?? []}
+                      users={teamWithMembersAndSettings?.team?.members ?? []}
                       user={field.state.value}
                       onChange={(user) => field.handleChange(user)}
                     />

@@ -5,9 +5,7 @@ import type { MutationResolvers, Team } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { notFound } from "@hapi/boom";
 
-export const saveTeamMemberQualifications: NonNullable<
-  MutationResolvers["saveTeamMemberQualifications"]
-> = async (_parent, arg, ctx) => {
+export const saveTeamMemberQualifications: NonNullable<MutationResolvers['saveTeamMemberQualifications']> = async (_parent, arg, ctx) => {
   const teamRef = resourceRef("teams", arg.teamPk);
   const { entity } = await database();
   const team = await entity.get(teamRef);

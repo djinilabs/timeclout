@@ -1,0 +1,23 @@
+query teamWithMembersAndSettings(
+  $teamPk: String!
+  $qualifications: [String!]
+  $name: String!
+) {
+  team(teamPk: $teamPk) {
+    pk
+    name
+    members(qualifications: $qualifications) {
+      pk
+      name
+      email
+      emailMd5
+      resourcePermission
+      resourcePermissionGivenAt
+    }
+    teamMembersQualifications {
+      userPk
+      qualifications
+    }
+    settings(name: $name)
+  }
+}
