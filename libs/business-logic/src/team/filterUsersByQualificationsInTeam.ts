@@ -4,16 +4,18 @@ import { userTeamQualifications } from "./userTeamQualifications";
 
 export const filterUsersByQualificationsInTeam = async (
   users: EntityRecord[],
-  skills: string[],
+  requiredQualifications: string[],
   teamPk: ResourceRef<"teams">
 ) => {
   const keepUser = await Promise.all(
     users.map(async (user) => {
-      const qualifications = await userTeamQualifications(
+      const userQualifications = await userTeamQualifications(
         teamPk,
         getResourceRef(user.pk)
       );
-      return skills.every((skill) => qualifications?.includes(skill));
+      return requiredQualifications.every((requiredQualification) =>
+        userQualifications?.includes(requiredQualification)
+      );
     })
   );
 
