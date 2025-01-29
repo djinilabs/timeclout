@@ -30,6 +30,10 @@ const defaultClientOpts = (): ClientOptions => ({
         Calendar: (c: Data) => c.year?.toString() ?? "",
         Schedule: (s: Data) => s.pk?.toString() ?? "",
         UserSchedule: (s: Data) => s.pk?.toString() ?? "",
+        MemberQualifications: (m: Data) =>
+          m.userPk?.toString() ??
+          "" +
+            (Array.isArray(m.qualifications) ? m.qualifications.join(",") : ""),
       },
     }),
     fetchExchange,
