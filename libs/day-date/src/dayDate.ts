@@ -93,9 +93,9 @@ export class DayDate {
     return this.date.getUTCFullYear();
   }
 
-  nextDay() {
+  nextDay(days = 1) {
     const nextDay = new Date(this.date);
-    nextDay.setUTCDate(this.date.getUTCDate() + 1);
+    nextDay.setUTCDate(this.date.getUTCDate() + days);
     return new DayDate(nextDay);
   }
 
@@ -159,5 +159,15 @@ export class DayDate {
 
   toDate() {
     return this.date;
+  }
+
+  fullMonthBackFill(): DayDate {
+    const firstDay = this.firstOfMonth();
+    return firstDay.previousDay(firstDay.getWeekDayNumber());
+  }
+
+  fullMonthForwardFill(): DayDate {
+    const lastDay = this.endOfMonth();
+    return lastDay.nextDay(6 - lastDay.getWeekDayNumber());
   }
 }

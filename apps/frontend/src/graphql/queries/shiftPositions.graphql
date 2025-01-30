@@ -1,0 +1,21 @@
+query ShiftPositions($team: String!, $startDay: String!, $endDay: String!) {
+  shiftPositions(input: { team: $team, startDay: $startDay, endDay: $endDay }) {
+    pk
+    sk
+    day
+    requiredSkills
+    schedules {
+      startHourMinutes
+      endHourMinutes
+      inconveniencePerHour
+    }
+    assignedTo {
+      pk
+      name
+      email
+      emailMd5
+    }
+    published
+    replaces
+  }
+}

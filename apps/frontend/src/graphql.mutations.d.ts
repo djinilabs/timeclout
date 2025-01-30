@@ -242,6 +242,15 @@ declare module '@/graphql-client/mutations/mySettings.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/shiftPositions.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ShiftPositions: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/teamQuery.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
