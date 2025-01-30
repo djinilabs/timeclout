@@ -8,13 +8,23 @@ const weekDays = [
   "saturday",
 ] as const;
 
+// fixes the date to be valid, since users can enter overflowing months or days (like [2025, -1, 32])
 const fixNumberDate = ([year, month, day]: [number, number, number]): [
   number,
   number,
   number,
 ] => {
-  const d = new Date(`${year}-01-01T00:00:00Z`);
-  d.setUTCMonth(month - 1);
+  // Handle negative months by converting to positive months in previous years
+  let adjustedYear = year;
+  let adjustedMonth = month;
+  if (month < 1) {
+    const yearsToSubtract = Math.floor((Math.abs(month) + 11) / 12);
+    adjustedYear -= yearsToSubtract;
+    adjustedMonth += yearsToSubtract * 12;
+  }
+
+  const d = new Date(`${adjustedYear}-01-01T00:00:00Z`);
+  d.setUTCMonth(adjustedMonth - 1);
   d.setUTCDate(day);
   if (Number.isNaN(d.getTime())) {
     throw new Error("Invalid date: " + JSON.stringify([year, month, day]));
