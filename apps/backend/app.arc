@@ -51,6 +51,11 @@ leave
   leaveRequestPk String
   encrypt true
 
+shift_positions
+  pk *String
+  sk **String
+  encrypt true
+
 @tables-indexes
 
 next-auth

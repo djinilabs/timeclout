@@ -28,6 +28,15 @@ input CreateLeaveRequestInput {
   type: String!
 }
 
+input CreateShiftPositionInput {
+  assignedTo: String
+  day: String!
+  replaces: String
+  requiredSkills: [String!]!
+  schedules: [ShiftPositionScheduleInput!]!
+  team: String!
+}
+
 scalar Date
 
 scalar DateTime
@@ -38,6 +47,11 @@ input DeleteLeaveInput {
 }
 
 input DeleteLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+input DeleteShiftPositionInput {
   pk: String!
   sk: String!
 }
@@ -94,26 +108,37 @@ type Mutation {
   createCompany(name: String!): Company!
   createInvitation(invitedUserEmail: String!, permissionType: Int!, toEntityPk: String!): Invitation!
   createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
+  createShiftPosition(input: CreateShiftPositionInput!): ShiftPosition!
   createTeam(name: String!, unitPk: String!): Team!
   createUnit(companyPk: String!, name: String!): Unit!
   deleteCompany(pk: String!): Company!
   deleteInvitation(pk: String!, sk: String!): Invitation!
   deleteLeave(input: DeleteLeaveInput!): Leave!
   deleteLeaveRequest(input: DeleteLeaveRequestInput!): LeaveRequest!
+  deleteShiftPosition(input: DeleteShiftPositionInput!): ShiftPosition!
   deleteTeam(pk: String!): Team!
   deleteUnit(pk: String!): Unit!
+  publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
   rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
   saveTeamMemberQualifications(qualifications: [String!]!, teamPk: String!, userPk: String!): Team!
+  unpublishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
   updateCompany(name: String!, pk: String!): Company!
   updateCompanySettings(companyPk: String!, name: String!, settings: JSON!): Company!
   updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
   updateMe(input: UpdateMeInput!): User
   updateMySettings(name: String!, settings: JSON!): User
+  updateShiftPosition(input: UpdateShiftPositionInput!): ShiftPosition!
   updateTeam(name: String!, pk: String!): Team!
   updateTeamSettings(name: String!, settings: JSON!, teamPk: String!): Team!
   updateUnit(name: String!, pk: String!): Unit!
   updateUnitSettings(name: String!, settings: JSON!, unitPk: String!): Unit!
+}
+
+input PublishShiftPositionsInput {
+  endDay: String!
+  startDay: String!
+  team: String!
 }
 
 type Query {
@@ -127,8 +152,15 @@ type Query {
   myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
   myQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!): [QuotaFulfilment!]!
   pendingLeaveRequests: [LeaveRequest!]!
+  shiftPositions(input: QueryShiftPositionsInput!): [ShiftPosition!]!
   team(teamPk: String!): Team!
   unit(unitPk: String!): Unit!
+}
+
+input QueryShiftPositionsInput {
+  endDay: String!
+  startDay: String!
+  team: String!
 }
 
 type QuotaFulfilment {
@@ -154,6 +186,29 @@ type Schedule {
   startDate: Date!
   team: Team!
   userSchedules: [UserSchedule!]!
+}
+
+type ShiftPosition {
+  assignedTo: User
+  day: String!
+  pk: String!
+  published: Boolean!
+  replaces: String
+  requiredSkills: [String!]!
+  schedules: [ShiftPositionSchedule!]!
+  sk: String!
+}
+
+type ShiftPositionSchedule {
+  endHourMinutes: [Int!]!
+  inconveniencePerHour: Float!
+  startHourMinutes: [Int!]!
+}
+
+input ShiftPositionScheduleInput {
+  endHourMinutes: [Int!]!
+  inconveniencePerHour: Float!
+  startHourMinutes: [Int!]!
 }
 
 type Team {
@@ -192,6 +247,15 @@ input UpdateLeaveRequestInput {
 
 input UpdateMeInput {
   name: String
+}
+
+input UpdateShiftPositionInput {
+  assignedTo: String
+  day: String!
+  replaces: String
+  requiredSkills: [String!]!
+  schedules: [ShiftPositionScheduleInput!]!
+  team: String!
 }
 
 type User {

@@ -28,10 +28,29 @@ export const getResourceRef = <T extends ResourceType = ResourceType>(
   return r as ResourceRef<T>;
 };
 
-export const resourceRef = (
-  resourceType: ResourceType,
+export const getCompoundedResourceRef =
+  (...resourceTypes: Array<ResourceType>) =>
+  (r: string | undefined | null): ResourceRef => {
+    const constituents = r?.split("/");
+    if (!constituents) {
+      throw new Error(`Invalid compounded resource reference: ${r}`);
+    }
+    const types = constituents.filter((_, i) => i % 2 === 0);
+    if (!types.every((t) => validResourceTypes.has(t as ResourceType))) {
+      throw new Error(`Invalid compounded resource reference: ${r}`);
+    }
+    if (resourceTypes) {
+      if (!types.every((t, i) => resourceTypes[i] === t)) {
+        throw new Error(`Invalid compounded resource reference: ${r}`);
+      }
+    }
+    return r as ResourceRef;
+  };
+
+export const resourceRef = <T extends ResourceType = ResourceType>(
+  resourceType: T,
   id: string
-): ResourceRef => `${resourceType}/${id}`;
+): ResourceRef<T> => `${resourceType}/${id}`;
 
 export const compoundedResourceRef = (
   ...args: Array<ResourceRef>

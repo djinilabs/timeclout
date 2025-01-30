@@ -1,3 +1,4 @@
+import { DayDate } from "@/day-date";
 import { generateMonthDays } from "./generateMonthDays";
 import { months } from "./months";
 
@@ -12,11 +13,8 @@ export type Month = {
   days: Day[];
 };
 
-export const generateYearMonthsDays = (year: number) => {
-  const today = new Date().toISOString().split("T")[0];
-
-  return months.map((month, monthIndex) => ({
+export const generateYearMonthsDays = (year: number) =>
+  months.map((month, monthIndex) => ({
     name: month,
-    days: generateMonthDays(year, monthIndex, today),
+    days: generateMonthDays(year, monthIndex, DayDate.today()),
   }));
-};

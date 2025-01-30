@@ -7,7 +7,7 @@ export const ensureAuthorized = async (
   ctx: ResolverContext,
   resource: string,
   minimumPermission: number
-): Promise<ResourceRef> => {
+): Promise<ResourceRef<"users">> => {
   const [authorized, userPk] = await isAuthorized(
     ctx,
     resource,

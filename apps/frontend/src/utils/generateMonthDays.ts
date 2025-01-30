@@ -9,20 +9,18 @@ export type Day = {
 export const generateMonthDays = (
   year: number,
   month: number,
-  today: string
+  today: DayDate
 ): Day[] => {
   const days: Day[] = [];
 
   // Get first day of current month
-  const firstOfMonth = new DayDate(
-    `${year}-${(month + 1).toString().padStart(2, "0")}-01`
-  );
+  const firstOfMonth = new DayDate(year, month + 1, 1);
 
   // Get first day of week for current month (0-6)
-  const firstDayOfWeek = (firstOfMonth.getWeekDayNumber() - 1) % 7;
+  const firstDayOfWeek = (firstOfMonth.getWeekDayNumber() + 6) % 7;
 
   // Add days from previous month
-  for (let i = firstDayOfWeek; i >= 0; i--) {
+  for (let i = firstDayOfWeek; i > 0; i--) {
     const date = firstOfMonth.previousDay(i + 1);
     days.push({
       date: date.toString(),
@@ -34,11 +32,11 @@ export const generateMonthDays = (
   // Add days from current month
   const daysInMonth = firstOfMonth.endOfMonth().getMonthDayNumber();
   for (let day = 1; day <= daysInMonth; day++) {
-    const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    const date = new DayDate(year, month + 1, day);
     days.push({
-      date,
+      date: date.toString(),
       isCurrentMonth: true,
-      isToday: date === today,
+      isToday: date.isSameDay(today),
     });
   }
 
@@ -50,9 +48,9 @@ export const generateMonthDays = (
   const remainingDays = targetDays - days.length;
 
   for (let i = 1; i <= remainingDays; i++) {
-    const date = `${year}-${month + 1}-${i}`;
+    const date = new DayDate(year, month + 2, i);
     days.push({
-      date,
+      date: date.toString(),
       isCurrentMonth: false,
       isToday: false,
     });

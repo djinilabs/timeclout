@@ -8,14 +8,58 @@ const weekDays = [
   "saturday",
 ] as const;
 
+const fixNumberDate = ([year, month, day]: [number, number, number]): [
+  number,
+  number,
+  number,
+] => {
+  const d = new Date(`${year}-01-01T00:00:00Z`);
+  d.setUTCMonth(month - 1);
+  d.setUTCDate(day);
+  if (Number.isNaN(d.getTime())) {
+    throw new Error("Invalid date: " + JSON.stringify([year, month, day]));
+  }
+  return [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()];
+};
+
 export class DayDate {
   private date: Date;
 
-  constructor(date: string | Date) {
-    if (typeof date === "string") {
-      this.date = new Date(date + "T00:00:00Z");
+  static today() {
+    return new DayDate(new Date());
+  }
+
+  constructor(...args: [number, number, number] | [Date] | [string]) {
+    let numberDate: [number, number, number] | undefined;
+    if (args.length === 3) {
+      numberDate = args;
     } else {
-      this.date = date;
+      const [arg] = args;
+      if (typeof arg === "string") {
+        const [year, month, day] = arg.split("-").map(Number);
+        numberDate = [year, month, day];
+      } else {
+        numberDate = [
+          arg.getUTCFullYear(),
+          arg.getUTCMonth() + 1,
+          arg.getUTCDate(),
+        ];
+      }
+    }
+
+    // fix if day < 1
+    numberDate = fixNumberDate(numberDate);
+
+    this.date = new Date(
+      `${numberDate[0]}-${numberDate[1].toString().padStart(2, "0")}-${numberDate[2].toString().padStart(2, "0")}T00:00:00Z`
+    );
+    if (Number.isNaN(this.date.getTime())) {
+      throw new Error(
+        "Invalid date" +
+          JSON.stringify(args) +
+          ", number date = " +
+          JSON.stringify(numberDate)
+      );
     }
   }
 
@@ -99,6 +143,14 @@ export class DayDate {
 
   compareTo(dayDate: DayDate) {
     return this.date.getTime() - dayDate.date.getTime();
+  }
+
+  isSameDay(dayDate: DayDate) {
+    return (
+      this.date.getFullYear() === dayDate.date.getFullYear() &&
+      this.date.getMonth() === dayDate.date.getMonth() &&
+      this.date.getDate() === dayDate.date.getDate()
+    );
   }
 
   toString() {

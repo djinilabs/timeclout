@@ -1,4 +1,4 @@
-import { getResourceRef } from "@/utils";
+import { getCompoundedResourceRef, getResourceRef } from "@/utils";
 import { z, ZodSchema } from "zod";
 
 const TableBaseSchema = z.object({
@@ -42,6 +42,7 @@ export const tableSchemas = {
   }),
   leave_request: TableBaseSchema.extend({
     // pk is companies/:companyId/users/:userId
+    pk: z.string().refine(getCompoundedResourceRef("companies", "users")),
     sk: z.string(), // leave request startdate/enddate/type
     startDate: z.string().date(),
     endDate: z.string().date(),
@@ -59,6 +60,24 @@ export const tableSchemas = {
     leaveRequestPk: z.string(),
     leaveRequestSk: z.string(),
     type: z.string(),
+  }),
+  shift_positions: TableBaseSchema.extend({
+    // pk is teams/:teamId
+    pk: z.string().refine(getResourceRef),
+    sk: z.string(), // daydate/nanoid
+    teamPk: z.string().refine(getResourceRef),
+    day: z.string().date(),
+    published: z.boolean(),
+    replaces: z.string().optional(),
+    requiredSkills: z.array(z.string()),
+    schedules: z.array(
+      z.object({
+        startHourMinutes: z.array(z.number().int().min(0)),
+        endHourMinutes: z.array(z.number().int().min(0)),
+        inconveniencePerHour: z.number().min(0),
+      })
+    ),
+    assignedTo: z.string().refine(getResourceRef).optional(),
   }),
 } as const;
 
@@ -92,7 +111,8 @@ export type TableName =
   | "invitation"
   | "entity_settings"
   | "leave_request"
-  | "leave";
+  | "leave"
+  | "shift_positions";
 
 export type Query = {
   IndexName?: string;
@@ -130,4 +150,5 @@ export type DatabaseSchema = {
   entity_settings: TableAPI<"entity_settings">;
   leave_request: TableAPI<"leave_request">;
   leave: TableAPI<"leave">;
+  shift_positions: TableAPI<"shift_positions">;
 };

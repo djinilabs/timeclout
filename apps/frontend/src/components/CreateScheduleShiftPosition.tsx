@@ -8,6 +8,7 @@ import { SelectUser } from "./SelectUser";
 import { useParams } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
 import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
+import createShiftPositionMutation from "@/graphql-client/mutations/createShiftPosition.graphql";
 import {
   QueryTeamArgs,
   Team,
@@ -16,10 +17,13 @@ import {
 } from "../graphql/graphql";
 import { getDefined } from "@/utils";
 import { EditQualifications } from "./EditQualifications";
+import { useMutation } from "../hooks/useMutation";
+import toast from "react-hot-toast";
 
 export interface CreateScheduleShiftPositionProps {
   day: DayDate;
   onCancel: () => void;
+  onSuccess: () => void;
 }
 
 export interface ShiftPositionSchedule {
@@ -86,6 +90,8 @@ export const CreateScheduleShiftPosition: FC<
       setSkills(state.currentVal.values.requiredSkills);
     });
   }, [form]);
+
+  const [, createShiftPosition] = useMutation(createShiftPositionMutation);
 
   return (
     <form>
@@ -212,6 +218,20 @@ export const CreateScheduleShiftPosition: FC<
         </button>
         <button
           type="submit"
+          onClick={async () => {
+            const { error } = await createShiftPosition({
+              input: {
+                team: teamPk,
+                day: form.state.values.day.toString(),
+                requiredSkills: form.state.values.requiredSkills,
+                schedules: form.state.values.schedules,
+                assignedTo: form.state.values.assignedTo?.pk,
+              },
+            });
+            if (!error) {
+              toast.success("Shift position created");
+            }
+          }}
           className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
         >
           Save

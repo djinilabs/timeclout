@@ -35,6 +35,15 @@ declare module '@/graphql-client/mutations/createLeaveRequest.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/createShiftPosition.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const CreateShiftPosition: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/createTeam.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

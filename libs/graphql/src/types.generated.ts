@@ -57,12 +57,26 @@ export type CreateLeaveRequestInput = {
   type: Scalars['String']['input'];
 };
 
+export type CreateShiftPositionInput = {
+  assignedTo?: InputMaybe<Scalars['String']['input']>;
+  day: Scalars['String']['input'];
+  replaces?: InputMaybe<Scalars['String']['input']>;
+  requiredSkills: Array<Scalars['String']['input']>;
+  schedules: Array<ShiftPositionScheduleInput>;
+  team: Scalars['String']['input'];
+};
+
 export type DeleteLeaveInput = {
   pk: Scalars['String']['input'];
   sk: Scalars['String']['input'];
 };
 
 export type DeleteLeaveRequestInput = {
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
+};
+
+export type DeleteShiftPositionInput = {
   pk: Scalars['String']['input'];
   sk: Scalars['String']['input'];
 };
@@ -122,22 +136,27 @@ export type Mutation = {
   createCompany: Company;
   createInvitation: Invitation;
   createLeaveRequest: LeaveRequest;
+  createShiftPosition: ShiftPosition;
   createTeam: Team;
   createUnit: Unit;
   deleteCompany: Company;
   deleteInvitation: Invitation;
   deleteLeave: Leave;
   deleteLeaveRequest: LeaveRequest;
+  deleteShiftPosition: ShiftPosition;
   deleteTeam: Team;
   deleteUnit: Unit;
+  publishShiftPositions: Array<ShiftPosition>;
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
   saveTeamMemberQualifications: Team;
+  unpublishShiftPositions: Array<ShiftPosition>;
   updateCompany: Company;
   updateCompanySettings: Company;
   updateLeaveRequest: LeaveRequest;
   updateMe?: Maybe<User>;
   updateMySettings?: Maybe<User>;
+  updateShiftPosition: ShiftPosition;
   updateTeam: Team;
   updateTeamSettings: Team;
   updateUnit: Unit;
@@ -169,6 +188,11 @@ export type MutationcreateInvitationArgs = {
 
 export type MutationcreateLeaveRequestArgs = {
   input: CreateLeaveRequestInput;
+};
+
+
+export type MutationcreateShiftPositionArgs = {
+  input: CreateShiftPositionInput;
 };
 
 
@@ -205,6 +229,11 @@ export type MutationdeleteLeaveRequestArgs = {
 };
 
 
+export type MutationdeleteShiftPositionArgs = {
+  input: DeleteShiftPositionInput;
+};
+
+
 export type MutationdeleteTeamArgs = {
   pk: Scalars['String']['input'];
 };
@@ -212,6 +241,11 @@ export type MutationdeleteTeamArgs = {
 
 export type MutationdeleteUnitArgs = {
   pk: Scalars['String']['input'];
+};
+
+
+export type MutationpublishShiftPositionsArgs = {
+  input: PublishShiftPositionsInput;
 };
 
 
@@ -230,6 +264,11 @@ export type MutationsaveTeamMemberQualificationsArgs = {
   qualifications: Array<Scalars['String']['input']>;
   teamPk: Scalars['String']['input'];
   userPk: Scalars['String']['input'];
+};
+
+
+export type MutationunpublishShiftPositionsArgs = {
+  input: PublishShiftPositionsInput;
 };
 
 
@@ -262,6 +301,11 @@ export type MutationupdateMySettingsArgs = {
 };
 
 
+export type MutationupdateShiftPositionArgs = {
+  input: UpdateShiftPositionInput;
+};
+
+
 export type MutationupdateTeamArgs = {
   name: Scalars['String']['input'];
   pk: Scalars['String']['input'];
@@ -287,6 +331,12 @@ export type MutationupdateUnitSettingsArgs = {
   unitPk: Scalars['String']['input'];
 };
 
+export type PublishShiftPositionsInput = {
+  endDay: Scalars['String']['input'];
+  startDay: Scalars['String']['input'];
+  team: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   companies: Array<Company>;
@@ -299,6 +349,7 @@ export type Query = {
   myLeaveCalendar: Calendar;
   myQuotaFulfilment: Array<QuotaFulfilment>;
   pendingLeaveRequests: Array<LeaveRequest>;
+  shiftPositions: Array<ShiftPosition>;
   team: Team;
   unit: Unit;
 };
@@ -340,6 +391,11 @@ export type QuerymyQuotaFulfilmentArgs = {
 };
 
 
+export type QueryshiftPositionsArgs = {
+  input: QueryShiftPositionsInput;
+};
+
+
 export type QueryteamArgs = {
   teamPk: Scalars['String']['input'];
 };
@@ -347,6 +403,12 @@ export type QueryteamArgs = {
 
 export type QueryunitArgs = {
   unitPk: Scalars['String']['input'];
+};
+
+export type QueryShiftPositionsInput = {
+  endDay: Scalars['String']['input'];
+  startDay: Scalars['String']['input'];
+  team: Scalars['String']['input'];
 };
 
 export type QuotaFulfilment = {
@@ -374,6 +436,31 @@ export type Schedule = {
   startDate: Scalars['Date']['output'];
   team: Team;
   userSchedules: Array<UserSchedule>;
+};
+
+export type ShiftPosition = {
+  __typename?: 'ShiftPosition';
+  assignedTo?: Maybe<User>;
+  day: Scalars['String']['output'];
+  pk: Scalars['String']['output'];
+  published: Scalars['Boolean']['output'];
+  replaces?: Maybe<Scalars['String']['output']>;
+  requiredSkills: Array<Scalars['String']['output']>;
+  schedules: Array<ShiftPositionSchedule>;
+  sk: Scalars['String']['output'];
+};
+
+export type ShiftPositionSchedule = {
+  __typename?: 'ShiftPositionSchedule';
+  endHourMinutes: Array<Scalars['Int']['output']>;
+  inconveniencePerHour: Scalars['Float']['output'];
+  startHourMinutes: Array<Scalars['Int']['output']>;
+};
+
+export type ShiftPositionScheduleInput = {
+  endHourMinutes: Array<Scalars['Int']['input']>;
+  inconveniencePerHour: Scalars['Float']['input'];
+  startHourMinutes: Array<Scalars['Int']['input']>;
 };
 
 export type Team = {
@@ -435,6 +522,15 @@ export type UpdateLeaveRequestInput = {
 
 export type UpdateMeInput = {
   name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateShiftPositionInput = {
+  assignedTo?: InputMaybe<Scalars['String']['input']>;
+  day: Scalars['String']['input'];
+  replaces?: InputMaybe<Scalars['String']['input']>;
+  requiredSkills: Array<Scalars['String']['input']>;
+  schedules: Array<ShiftPositionScheduleInput>;
+  team: Scalars['String']['input'];
 };
 
 export type User = {
@@ -544,10 +640,12 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Company: ResolverTypeWrapper<Company>;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
+  CreateShiftPositionInput: CreateShiftPositionInput;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteLeaveInput: DeleteLeaveInput;
   DeleteLeaveRequestInput: DeleteLeaveRequestInput;
+  DeleteShiftPositionInput: DeleteShiftPositionInput;
   Invitation: ResolverTypeWrapper<Omit<Invitation, 'toEntity'> & { toEntity: ResolversTypes['InvitationEntity'] }>;
   InvitationEntity: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['InvitationEntity']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
@@ -556,14 +654,21 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   MemberQualifications: ResolverTypeWrapper<MemberQualifications>;
   Mutation: ResolverTypeWrapper<{}>;
+  PublishShiftPositionsInput: PublishShiftPositionsInput;
   Query: ResolverTypeWrapper<{}>;
+  QueryShiftPositionsInput: QueryShiftPositionsInput;
   QuotaFulfilment: ResolverTypeWrapper<QuotaFulfilment>;
   RejectLeaveRequestInput: RejectLeaveRequestInput;
   Schedule: ResolverTypeWrapper<Schedule>;
+  ShiftPosition: ResolverTypeWrapper<ShiftPosition>;
+  ShiftPositionSchedule: ResolverTypeWrapper<ShiftPositionSchedule>;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  ShiftPositionScheduleInput: ShiftPositionScheduleInput;
   Team: ResolverTypeWrapper<Team>;
   Unit: ResolverTypeWrapper<Unit>;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
   UpdateMeInput: UpdateMeInput;
+  UpdateShiftPositionInput: UpdateShiftPositionInput;
   User: ResolverTypeWrapper<User>;
   UserSchedule: ResolverTypeWrapper<UserSchedule>;
 };
@@ -576,10 +681,12 @@ export type ResolversParentTypes = {
   Int: Scalars['Int']['output'];
   Company: Company;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
+  CreateShiftPositionInput: CreateShiftPositionInput;
   Date: Scalars['Date']['output'];
   DateTime: Scalars['DateTime']['output'];
   DeleteLeaveInput: DeleteLeaveInput;
   DeleteLeaveRequestInput: DeleteLeaveRequestInput;
+  DeleteShiftPositionInput: DeleteShiftPositionInput;
   Invitation: Omit<Invitation, 'toEntity'> & { toEntity: ResolversParentTypes['InvitationEntity'] };
   InvitationEntity: ResolversUnionTypes<ResolversParentTypes>['InvitationEntity'];
   JSON: Scalars['JSON']['output'];
@@ -588,14 +695,21 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   MemberQualifications: MemberQualifications;
   Mutation: {};
+  PublishShiftPositionsInput: PublishShiftPositionsInput;
   Query: {};
+  QueryShiftPositionsInput: QueryShiftPositionsInput;
   QuotaFulfilment: QuotaFulfilment;
   RejectLeaveRequestInput: RejectLeaveRequestInput;
   Schedule: Schedule;
+  ShiftPosition: ShiftPosition;
+  ShiftPositionSchedule: ShiftPositionSchedule;
+  Float: Scalars['Float']['output'];
+  ShiftPositionScheduleInput: ShiftPositionScheduleInput;
   Team: Team;
   Unit: Unit;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
   UpdateMeInput: UpdateMeInput;
+  UpdateShiftPositionInput: UpdateShiftPositionInput;
   User: User;
   UserSchedule: UserSchedule;
 };
@@ -687,22 +801,27 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationcreateCompanyArgs, 'name'>>;
   createInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationcreateInvitationArgs, 'invitedUserEmail' | 'permissionType' | 'toEntityPk'>>;
   createLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationcreateLeaveRequestArgs, 'input'>>;
+  createShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationcreateShiftPositionArgs, 'input'>>;
   createTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationcreateTeamArgs, 'name' | 'unitPk'>>;
   createUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationcreateUnitArgs, 'companyPk' | 'name'>>;
   deleteCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationdeleteCompanyArgs, 'pk'>>;
   deleteInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationdeleteInvitationArgs, 'pk' | 'sk'>>;
   deleteLeave?: Resolver<ResolversTypes['Leave'], ParentType, ContextType, RequireFields<MutationdeleteLeaveArgs, 'input'>>;
   deleteLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationdeleteLeaveRequestArgs, 'input'>>;
+  deleteShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationdeleteShiftPositionArgs, 'input'>>;
   deleteTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationdeleteTeamArgs, 'pk'>>;
   deleteUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationdeleteUnitArgs, 'pk'>>;
+  publishShiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<MutationpublishShiftPositionsArgs, 'input'>>;
   rejectLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationrejectLeaveRequestArgs, 'input'>>;
   removeUserFromTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationremoveUserFromTeamArgs, 'teamPk' | 'userPk'>>;
   saveTeamMemberQualifications?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationsaveTeamMemberQualificationsArgs, 'qualifications' | 'teamPk' | 'userPk'>>;
+  unpublishShiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<MutationunpublishShiftPositionsArgs, 'input'>>;
   updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'name' | 'pk'>>;
   updateCompanySettings?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanySettingsArgs, 'companyPk' | 'name' | 'settings'>>;
   updateLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationupdateLeaveRequestArgs, 'input'>>;
   updateMe?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationupdateMeArgs, 'input'>>;
   updateMySettings?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationupdateMySettingsArgs, 'name' | 'settings'>>;
+  updateShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationupdateShiftPositionArgs, 'input'>>;
   updateTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamArgs, 'name' | 'pk'>>;
   updateTeamSettings?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamSettingsArgs, 'name' | 'settings' | 'teamPk'>>;
   updateUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitArgs, 'name' | 'pk'>>;
@@ -720,6 +839,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   myLeaveCalendar?: Resolver<ResolversTypes['Calendar'], ParentType, ContextType, RequireFields<QuerymyLeaveCalendarArgs, 'companyPk' | 'year'>>;
   myQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymyQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate'>>;
   pendingLeaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType>;
+  shiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<QueryshiftPositionsArgs, 'input'>>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;
   unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<QueryunitArgs, 'unitPk'>>;
 };
@@ -743,6 +863,25 @@ export type ScheduleResolvers<ContextType = any, ParentType extends ResolversPar
   startDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType>;
   userSchedules?: Resolver<Array<ResolversTypes['UserSchedule']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ShiftPositionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShiftPosition'] = ResolversParentTypes['ShiftPosition']> = {
+  assignedTo?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  day?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  published?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  replaces?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  requiredSkills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  schedules?: Resolver<Array<ResolversTypes['ShiftPositionSchedule']>, ParentType, ContextType>;
+  sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ShiftPositionScheduleResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShiftPositionSchedule'] = ResolversParentTypes['ShiftPositionSchedule']> = {
+  endHourMinutes?: Resolver<Array<ResolversTypes['Int']>, ParentType, ContextType>;
+  inconveniencePerHour?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  startHourMinutes?: Resolver<Array<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -809,6 +948,8 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   QuotaFulfilment?: QuotaFulfilmentResolvers<ContextType>;
   Schedule?: ScheduleResolvers<ContextType>;
+  ShiftPosition?: ShiftPositionResolvers<ContextType>;
+  ShiftPositionSchedule?: ShiftPositionScheduleResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;
   Unit?: UnitResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

@@ -3,7 +3,7 @@ import { getDefined, ResourceRef, resourceRef } from "@/utils";
 import { ResolverContext } from "../resolverContext";
 import { requireSession } from "../session/requireSession";
 
-export type IsAuthorizedResult = [false] | [true, ResourceRef];
+export type IsAuthorizedResult = [false] | [true, ResourceRef<"users">];
 
 export const isAuthorized = async (
   ctx: ResolverContext,
