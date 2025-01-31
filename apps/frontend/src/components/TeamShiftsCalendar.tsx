@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
 import shiftPositionsQuery from "@/graphql-client/queries/shiftPositions.graphql";
+import moveShiftPositionMutation from "@/graphql-client/mutations/moveShiftPosition.graphql";
 import { Dialog } from "./Dialog";
 import { MonthCalendar } from "./MonthCalendar";
 import { generateMonthDays } from "../utils/generateMonthDays";
@@ -15,6 +16,9 @@ import {
 } from "./MiniTimeScheduleVisualizer";
 import { splitShiftPositionForEachDay } from "../utils/splitShiftPositionsForEachDay";
 import { Avatar } from "./Avatar";
+import { nanoid } from "nanoid";
+import { useMutation } from "../hooks/useMutation";
+import toast from "react-hot-toast";
 
 export const TeamShiftsCalendar = () => {
   const { team } = useParams();
@@ -33,15 +37,25 @@ export const TeamShiftsCalendar = () => {
     },
   });
 
+  const [draggingShiftPosition, setDraggingShiftPosition] =
+    useState<ShiftPosition | null>(null);
+  const lastDraggedToDay = useRef<string | null>(null);
+
+  console.log("draggingShiftPosition", draggingShiftPosition);
+
   const shiftPositionsMap = useMemo(() => {
-    const entries = shiftPositionsResult?.data?.shiftPositions.flatMap(
-      (shiftPosition) => {
-        return splitShiftPositionForEachDay(shiftPosition).map(
-          (shiftPosition) =>
-            [shiftPosition.day, shiftPosition] as [string, ShiftPosition]
-        );
-      }
-    );
+    const shiftPositions = [
+      ...(shiftPositionsResult?.data?.shiftPositions ?? []),
+    ];
+    if (draggingShiftPosition) {
+      shiftPositions.push(draggingShiftPosition);
+    }
+    const entries = shiftPositions.flatMap((shiftPosition) => {
+      return splitShiftPositionForEachDay(shiftPosition).map(
+        (shiftPosition) =>
+          [shiftPosition.day, shiftPosition] as [string, ShiftPosition]
+      );
+    });
 
     return entries?.reduce(
       (acc, [day, shiftPosition]) => {
@@ -52,7 +66,9 @@ export const TeamShiftsCalendar = () => {
       },
       {} as Record<string, ShiftPosition[]>
     );
-  }, [shiftPositionsResult?.data?.shiftPositions]);
+  }, [draggingShiftPosition, shiftPositionsResult?.data?.shiftPositions]);
+
+  const [, moveShiftPosition] = useMutation(moveShiftPositionMutation);
 
   return (
     <>
@@ -75,7 +91,6 @@ export const TeamShiftsCalendar = () => {
         onAddPosition={() => setCreateDialogOpen(true)}
         addButtonText="Add position"
         goTo={(year, month) => {
-          console.log("goTo", year, month);
           setSelectedDate(new DayDate(year, month + 1, 1));
         }}
         days={generateMonthDays(
@@ -94,6 +109,14 @@ export const TeamShiftsCalendar = () => {
               <div
                 key={`${shiftPosition.sk}`}
                 draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData(shiftPosition.sk, "");
+                  e.dataTransfer.dropEffect = "move";
+                }}
+                onDragEnd={(e) => {
+                  console.log("onDragEnd", e);
+                  e.dataTransfer.clearData();
+                }}
                 className="items-center justify-center gap-1 hover:shadow-md hover:border hover:border-gray-200 rounded cursor-grab active:cursor-grabbing"
               >
                 {shiftPosition.assignedTo && (
@@ -107,6 +130,52 @@ export const TeamShiftsCalendar = () => {
               </div>
             );
           });
+        }}
+        onCellDrop={async (day, e) => {
+          const data = e.dataTransfer.types[0];
+          setDraggingShiftPosition(null);
+          if (lastDraggedToDay.current == day) {
+            return;
+          }
+          lastDraggedToDay.current = day;
+          const foundPosition = shiftPositionsResult?.data?.shiftPositions.find(
+            (shiftPosition) => shiftPosition.sk.toLowerCase() === data
+          );
+          if (!foundPosition || foundPosition.day == day) {
+            return;
+          }
+          const result = await moveShiftPosition({
+            input: {
+              pk: foundPosition.pk,
+              sk: foundPosition.sk,
+              day,
+            },
+          });
+          if (!result.error) {
+            toast.success("Shift position moved");
+          }
+        }}
+        onCellDragEnter={(day, e) => {
+          if (lastDraggedToDay.current == day) {
+            return;
+          }
+          lastDraggedToDay.current = day;
+          const data = e.dataTransfer.types[0];
+          const foundPosition = shiftPositionsResult?.data?.shiftPositions.find(
+            (shiftPosition) => shiftPosition.sk.toLowerCase() === data
+          );
+          if (!foundPosition || foundPosition.day == day) {
+            return;
+          }
+          const position = {
+            ...foundPosition,
+            day,
+            sk: `day/${nanoid()}`, // fake sk
+          };
+          setDraggingShiftPosition(position);
+        }}
+        onCellDragOver={() => {
+          lastDraggedToDay.current = null;
         }}
       />
     </>

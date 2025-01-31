@@ -2,7 +2,6 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
-  ClockIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import { Button } from "./Button";
@@ -25,6 +24,10 @@ export interface MonthCalendarProps {
   goTo: (year: number, month: number) => void;
   days: Array<Day>;
   renderDay: (day: Day) => React.ReactNode;
+  onCellDrop?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
+  onCellDragEnter?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
+  onCellDragLeave?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
+  onCellDragOver?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
 }
 
 export const MonthCalendar: FC<MonthCalendarProps> = ({
@@ -35,6 +38,10 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
   days,
   goTo,
   renderDay,
+  onCellDrop,
+  onCellDragEnter,
+  onCellDragLeave,
+  onCellDragOver,
 }) => {
   const handlePrevMonth = useCallback(() => {
     goTo(year, month - 1);
@@ -50,7 +57,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
 
   return (
     <div className="flex h-full flex-col">
-      <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4 flex-none">
+      <header className="flex items-center justify-between px-6 py-4 flex-none">
         <h1 className="text-base font-semibold text-gray-900">
           <time dateTime={`${year}-${month + 1}`}>
             {months[month]} {year}
@@ -123,7 +130,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
           </Menu>
         </div>
       </header>
-      <div className="ring-1 shadow-sm ring-black/5 flex flex-auto flex-col">
+      <div className="ring-1 shadow-sm ring-black/5 flex flex-auto flex-col rounded-lg overflow-hidden">
         <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs/6 font-semibold text-gray-700 flex-none">
           <div className="bg-white py-2">
             M<span className="sr-only sm:not-sr-only">on</span>
@@ -151,6 +158,19 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
           <div className="divide-y divide-x divide-gray-200 grid w-full grid-cols-7 gap-0">
             {days.map((day) => (
               <div
+                onDrop={(e) => onCellDrop?.(day.date, e)}
+                onDragEnter={(e) => {
+                  e.preventDefault();
+                  onCellDragEnter?.(day.date, e);
+                }}
+                onDragLeave={(e) => {
+                  e.preventDefault();
+                  onCellDragLeave?.(day.date, e);
+                }}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  onCellDragOver?.(day.date, e);
+                }}
                 key={day.date}
                 className={classNames(
                   day.isCurrentMonth ? "bg-white" : "bg-gray-50",

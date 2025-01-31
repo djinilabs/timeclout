@@ -139,12 +139,7 @@ export const tableApi = <
         throw err;
       }
     },
-    create: async (
-      item: Omit<
-        TTableRecord,
-        "version" | "createdAt" | "updatedAt" | "updatedBy"
-      >
-    ) => {
+    create: async (item: Omit<TTableRecord, "version" | "createdAt">) => {
       console.log("creating new record in ", tableName, item);
       try {
         const parsedItem = parseItem(

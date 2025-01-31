@@ -135,10 +135,7 @@ export type TableAPI<
   update: (item: Partial<TTableRecord>) => Promise<TTableRecord>;
   upsert: (item: Omit<TTableRecord, "version">) => Promise<TTableRecord>;
   create: (
-    item: Omit<
-      TTableRecord,
-      "version" | "createdAt" | "updatedAt" | "updatedBy"
-    >
+    item: Omit<TTableRecord, "version" | "createdAt">
   ) => Promise<TTableRecord>;
   query: (query: Query) => Promise<TTableRecord[]>;
 };

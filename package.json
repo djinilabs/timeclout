@@ -63,6 +63,7 @@
     "graphql-scalars": "^1.24.0",
     "graphql-yoga": "^5.10.8",
     "javascript-time-ago": "^2.5.11",
+    "lodash.debounce": "^4.0.8",
     "nanoid": "^5.0.9",
     "next-auth": "5.0.0-beta.25",
     "react": "^18.3.1",

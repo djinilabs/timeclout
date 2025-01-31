@@ -127,6 +127,12 @@ export type MemberQualifications = {
   userPk: Scalars['String']['output'];
 };
 
+export type MoveShiftPositionInput = {
+  day: Scalars['String']['input'];
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation: Invitation;
@@ -144,6 +150,7 @@ export type Mutation = {
   deleteShiftPosition: ShiftPosition;
   deleteTeam: Team;
   deleteUnit: Unit;
+  moveShiftPosition: ShiftPosition;
   publishShiftPositions: Array<ShiftPosition>;
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
@@ -239,6 +246,11 @@ export type MutationDeleteTeamArgs = {
 
 export type MutationDeleteUnitArgs = {
   pk: Scalars['String']['input'];
+};
+
+
+export type MutationMoveShiftPositionArgs = {
+  input: MoveShiftPositionInput;
 };
 
 

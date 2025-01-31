@@ -107,6 +107,12 @@ type MemberQualifications {
   userPk: String!
 }
 
+input MoveShiftPositionInput {
+  day: String!
+  pk: String!
+  sk: String!
+}
+
 type Mutation {
   acceptInvitation(secret: String!): Invitation!
   approveLeaveRequest(input: ApproveLeaveRequestInput!): LeaveRequest!
@@ -123,6 +129,7 @@ type Mutation {
   deleteShiftPosition(input: DeleteShiftPositionInput!): ShiftPosition!
   deleteTeam(pk: String!): Team!
   deleteUnit(pk: String!): Unit!
+  moveShiftPosition(input: MoveShiftPositionInput!): ShiftPosition!
   publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
   rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
