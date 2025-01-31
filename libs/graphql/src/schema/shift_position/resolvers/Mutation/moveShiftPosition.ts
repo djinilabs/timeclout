@@ -28,6 +28,5 @@ export const moveShiftPosition: NonNullable<
     updatedBy: userPk,
     updatedAt: new Date().toISOString(),
   };
-  console.log("newShiftPosition", newShiftPosition);
   return shift_positions.create(newShiftPosition) as unknown as ShiftPosition;
 };

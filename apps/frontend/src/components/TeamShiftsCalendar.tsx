@@ -20,6 +20,8 @@ import { nanoid } from "nanoid";
 import { useMutation } from "../hooks/useMutation";
 import toast from "react-hot-toast";
 
+type ShiftPositionWithFake = ShiftPosition & { fake: boolean };
+
 export const TeamShiftsCalendar = () => {
   const { team } = useParams();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -38,10 +40,8 @@ export const TeamShiftsCalendar = () => {
   });
 
   const [draggingShiftPosition, setDraggingShiftPosition] =
-    useState<ShiftPosition | null>(null);
+    useState<ShiftPositionWithFake | null>(null);
   const lastDraggedToDay = useRef<string | null>(null);
-
-  console.log("draggingShiftPosition", draggingShiftPosition);
 
   const shiftPositionsMap = useMemo(() => {
     const shiftPositions = [
@@ -53,7 +53,7 @@ export const TeamShiftsCalendar = () => {
     const entries = shiftPositions.flatMap((shiftPosition) => {
       return splitShiftPositionForEachDay(shiftPosition).map(
         (shiftPosition) =>
-          [shiftPosition.day, shiftPosition] as [string, ShiftPosition]
+          [shiftPosition.day, shiftPosition] as [string, ShiftPositionWithFake]
       );
     });
 
@@ -64,7 +64,7 @@ export const TeamShiftsCalendar = () => {
         dayPositions.push(shiftPosition);
         return acc;
       },
-      {} as Record<string, ShiftPosition[]>
+      {} as Record<string, ShiftPositionWithFake[]>
     );
   }, [draggingShiftPosition, shiftPositionsResult?.data?.shiftPositions]);
 
@@ -117,7 +117,9 @@ export const TeamShiftsCalendar = () => {
                   console.log("onDragEnd", e);
                   e.dataTransfer.clearData();
                 }}
-                className="items-center justify-center gap-1 hover:shadow-md hover:border hover:border-gray-200 rounded cursor-grab active:cursor-grabbing"
+                className={`items-center justify-center gap-1 hover:shadow-md hover:border hover:border-gray-200 rounded cursor-grab active:cursor-grabbing ${
+                  shiftPosition.fake ? "opacity-50" : ""
+                }`}
               >
                 {shiftPosition.assignedTo && (
                   <div className="flex-auto flex items-center justify-left min-w-[25px]">
@@ -171,6 +173,7 @@ export const TeamShiftsCalendar = () => {
             ...foundPosition,
             day,
             sk: `day/${nanoid()}`, // fake sk
+            fake: true,
           };
           setDraggingShiftPosition(position);
         }}
