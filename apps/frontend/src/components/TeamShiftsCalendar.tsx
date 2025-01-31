@@ -8,9 +8,11 @@ import { generateMonthDays } from "../utils/generateMonthDays";
 import { CreateScheduleShiftPosition } from "./CreateScheduleShiftPosition";
 import { Suspense } from "./Suspense";
 import { useQuery } from "../hooks/useQuery";
-import { ShiftPosition } from "libs/graphql/src/types.generated";
-import { TimeSchedule, TimeScheduleVisualizer } from "./TimeScheduleVisualizer";
-import { MiniTimeScheduleVisualizer } from "./MiniTimeScheduleVisualizer";
+import { type ShiftPosition } from "libs/graphql/src/types.generated";
+import {
+  type TimeSchedule,
+  MiniTimeScheduleVisualizer,
+} from "./MiniTimeScheduleVisualizer";
 
 export const TeamShiftsCalendar = () => {
   const { team } = useParams();

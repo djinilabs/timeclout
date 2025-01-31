@@ -660,6 +660,14 @@ video {
   z-index: 200;
 }
 
+.z-\[1000\] {
+  z-index: 1000;
+}
+
+.z-\[2000\] {
+  z-index: 2000;
+}
+
 .col-span-1 {
   grid-column: span 1 / span 1;
 }
@@ -678,6 +686,10 @@ video {
 
 .col-span-full {
   grid-column: 1 / -1;
+}
+
+.col-span-5 {
+  grid-column: span 5 / span 5;
 }
 
 .col-start-1 {
@@ -1349,6 +1361,10 @@ video {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-visible {
+  overflow: visible;
 }
 
 .overflow-x-auto {
@@ -2321,6 +2337,10 @@ video {
 
 .focus\:z-10:focus {
   z-index: 10;
+}
+
+.focus\:z-\[1000\]:focus {
+  z-index: 1000;
 }
 
 .focus\:outline-none:focus {
