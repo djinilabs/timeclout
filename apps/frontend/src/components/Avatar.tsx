@@ -27,12 +27,13 @@ export const getInitials = (name: string) => {
 };
 
 export interface AvatarProps {
+  name?: string;
   email: string;
   emailMd5: string;
   size?: number;
 }
 
-export const Avatar = ({ emailMd5, email, size = 50 }: AvatarProps) => {
+export const Avatar = ({ name, emailMd5, email, size = 50 }: AvatarProps) => {
   const url = `https://www.gravatar.com/avatar/${emailMd5}?s=${String(
     Math.max(size, 250)
   )}&d=blank`;
@@ -41,6 +42,7 @@ export const Avatar = ({ emailMd5, email, size = 50 }: AvatarProps) => {
 
   return (
     <div
+      title={name ?? email}
       className="relative inline-flex"
       style={{
         ...getColorAndBackground(emailMd5),

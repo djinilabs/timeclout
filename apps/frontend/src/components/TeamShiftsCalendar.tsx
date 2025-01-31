@@ -13,6 +13,8 @@ import {
   type TimeSchedule,
   MiniTimeScheduleVisualizer,
 } from "./MiniTimeScheduleVisualizer";
+import { splitShiftPositionForEachDay } from "../utils/splitShiftPositionsForEachDay";
+import { Avatar } from "./Avatar";
 
 export const TeamShiftsCalendar = () => {
   const { team } = useParams();
@@ -32,15 +34,25 @@ export const TeamShiftsCalendar = () => {
   });
 
   const shiftPositionsMap = useMemo(() => {
-    return Object.fromEntries(
-      shiftPositionsResult?.data?.shiftPositions.map((shiftPosition) => [
-        shiftPosition.day,
-        shiftPosition,
-      ]) ?? []
+    const entries = shiftPositionsResult?.data?.shiftPositions.flatMap(
+      (shiftPosition) => {
+        return splitShiftPositionForEachDay(shiftPosition).map(
+          (shiftPosition) =>
+            [shiftPosition.day, shiftPosition] as [string, ShiftPosition]
+        );
+      }
+    );
+
+    return entries?.reduce(
+      (acc, [day, shiftPosition]) => {
+        const dayPositions = acc[day] ?? [];
+        acc[day] = dayPositions;
+        dayPositions.push(shiftPosition);
+        return acc;
+      },
+      {} as Record<string, ShiftPosition[]>
     );
   }, [shiftPositionsResult?.data?.shiftPositions]);
-
-  console.log(shiftPositionsMap);
 
   return (
     <>
@@ -72,16 +84,28 @@ export const TeamShiftsCalendar = () => {
           DayDate.today()
         )}
         renderDay={(day) => {
-          const shiftPosition = shiftPositionsMap[day.date];
-          if (!shiftPosition) {
+          const shiftPositions = shiftPositionsMap?.[day.date];
+          if (!shiftPositions) {
             return null;
           }
-          const { schedules } = shiftPosition;
-          return (
-            <MiniTimeScheduleVisualizer
-              schedules={schedules as Array<TimeSchedule>}
-            />
-          );
+          return shiftPositions.map((shiftPosition) => {
+            const { schedules } = shiftPosition;
+            return (
+              <div
+                key={`${shiftPosition.sk}`}
+                className="items-center justify-center gap-1"
+              >
+                {shiftPosition.assignedTo && (
+                  <div className="flex-auto flex items-center justify-left min-w-[25px]">
+                    <Avatar size={25} {...shiftPosition.assignedTo} />
+                  </div>
+                )}
+                <MiniTimeScheduleVisualizer
+                  schedules={schedules as Array<TimeSchedule>}
+                />
+              </div>
+            );
+          });
         }}
       />
     </>
