@@ -13,7 +13,6 @@ export interface TimeScheduleVisualizerProps {
 export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
   schedules,
 }) => {
-  console.log("TimeScheduleVisualizer", schedules);
   return (
     <div className="flex items-center gap-2 w-full grid grid-cols-6">
       <div className="text-s text-gray-600 col-span-1">

@@ -3,6 +3,7 @@ import type { Client, ClientOptions } from "urql";
 import { fetchExchange, createClient as urqlCreateClient } from "urql";
 import { type Session } from "next-auth";
 import merge from "deepmerge";
+import { nanoid } from "nanoid";
 
 type WithSession = {
   session: Session;
@@ -31,8 +32,9 @@ const defaultClientOpts = (): ClientOptions => ({
         UserSchedule: (s: Data) => s.pk?.toString() ?? "",
         MemberQualifications: (m: Data) =>
           m.userPk?.toString() ??
-          "" +
-            (Array.isArray(m.qualifications) ? m.qualifications.join(",") : ""),
+          (Array.isArray(m.qualifications) ? m.qualifications.join(",") : ""),
+        ShiftPositionSchedule: () => nanoid(),
+        ShiftPosition: (s: Data) => `${s.pk}:${s.sk}`,
       },
     }),
     fetchExchange,
