@@ -10,20 +10,11 @@ import { FC, useCallback } from "react";
 import { classNames } from "../utils/classNames";
 import { months } from "../utils/months";
 
-export interface Event {
-  id: number;
-  name: string;
-  time: string;
-  datetime: string;
-  href: string;
-}
-
 export interface Day {
   date: string;
   isCurrentMonth?: boolean;
   isToday?: boolean;
   isSelected?: boolean;
-  events?: Array<Event>;
 }
 
 export interface MonthCalendarProps {
@@ -33,6 +24,7 @@ export interface MonthCalendarProps {
   month: number;
   goTo: (year: number, month: number) => void;
   days: Array<Day>;
+  renderDay: (day: Day) => React.ReactNode;
 }
 
 export const MonthCalendar: FC<MonthCalendarProps> = ({
@@ -42,6 +34,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
   month,
   days,
   goTo,
+  renderDay,
 }) => {
   const handlePrevMonth = useCallback(() => {
     goTo(year, month - 1);
@@ -55,18 +48,16 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
     goTo(new Date().getFullYear(), new Date().getMonth());
   }, [goTo]);
 
-  const selectedDay = days.find((day) => day.isSelected);
-
   return (
-    <div className="lg:flex lg:h-full lg:flex-col">
-      <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4 lg:flex-none">
+    <div className="flex h-full flex-col">
+      <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4 flex-none">
         <h1 className="text-base font-semibold text-gray-900">
           <time dateTime={`${year}-${month + 1}`}>
             {months[month]} {year}
           </time>
         </h1>
         <div className="flex items-center">
-          <div className="relative flex items-center rounded-md bg-white shadow-xs md:items-stretch">
+          <div className="relative flex items-center rounded-md bg-white shadow-xs items-stretch">
             <button
               type="button"
               onClick={handlePrevMonth}
@@ -132,8 +123,8 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
           </Menu>
         </div>
       </header>
-      <div className="ring-1 shadow-sm ring-black/5 lg:flex lg:flex-auto lg:flex-col">
-        <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs/6 font-semibold text-gray-700 lg:flex-none">
+      <div className="ring-1 shadow-sm ring-black/5 flex flex-auto flex-col">
+        <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs/6 font-semibold text-gray-700 flex-none">
           <div className="bg-white py-2">
             M<span className="sr-only sm:not-sr-only">on</span>
           </div>
@@ -156,54 +147,8 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
             S<span className="sr-only sm:not-sr-only">un</span>
           </div>
         </div>
-        <div className="flex bg-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
-          <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
-            {days.map((day) => (
-              <div
-                key={day.date}
-                className={classNames(
-                  day.isCurrentMonth ? "bg-white" : "bg-gray-50 text-gray-500",
-                  "relative px-3 py-2"
-                )}
-              >
-                <time
-                  dateTime={day.date}
-                  className={
-                    day.isToday
-                      ? "flex size-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white"
-                      : undefined
-                  }
-                >
-                  {day.date.split("-").pop()?.replace(/^0/, "")}
-                </time>
-                {day.events && day.events.length > 0 && (
-                  <ol className="mt-2">
-                    {day.events.slice(0, 2).map((event) => (
-                      <li key={event.id}>
-                        <a href={event.href} className="group flex">
-                          <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
-                            {event.name}
-                          </p>
-                          <time
-                            dateTime={event.datetime}
-                            className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
-                          >
-                            {event.time}
-                          </time>
-                        </a>
-                      </li>
-                    ))}
-                    {day.events.length > 2 && (
-                      <li className="text-gray-500">
-                        + {day.events.length - 2} more
-                      </li>
-                    )}
-                  </ol>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="isolate grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
+        <div className="flex bg-gray-200 text-xs/6 text-gray-700">
+          <div className="divide-y divide-x divide-gray-200 grid w-full grid-cols-7 gap-0">
             {days.map((day) => (
               <button
                 key={day.date}
@@ -221,7 +166,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                     !day.isCurrentMonth &&
                     !day.isToday &&
                     "text-gray-500",
-                  "flex h-14 flex-col px-3 py-2 hover:bg-gray-100 focus:z-10"
+                  "flex flex-col px-3 py-2 hover:bg-gray-100 focus:z-10 min-h-[8rem]"
                 )}
               >
                 <time
@@ -236,56 +181,14 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                 >
                   {day.date.split("-").pop()?.replace(/^0/, "")}
                 </time>
-                <span className="sr-only">
-                  {day.events?.length ?? 0} events
-                </span>
-                {day.events && day.events.length > 0 && (
-                  <span className="-mx-0.5 mt-auto flex flex-wrap-reverse">
-                    {day.events.map((event) => (
-                      <span
-                        key={event.id}
-                        className="mx-0.5 mb-1 size-1.5 rounded-full bg-gray-400"
-                      />
-                    ))}
-                  </span>
-                )}
+                <div className="col-span-7 row-span-5 h-full w-full">
+                  {renderDay(day)}
+                </div>
               </button>
             ))}
           </div>
         </div>
       </div>
-      {(selectedDay?.events?.length ?? 0) > 0 && (
-        <div className="px-4 py-10 sm:px-6 lg:hidden">
-          <ol className="divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-sm ring-1 shadow-sm ring-black/5">
-            {selectedDay?.events?.map((event) => (
-              <li
-                key={event.id}
-                className="group flex p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50"
-              >
-                <div className="flex-auto">
-                  <p className="font-semibold text-gray-900">{event.name}</p>
-                  <time
-                    dateTime={event.datetime}
-                    className="mt-2 flex items-center text-gray-700"
-                  >
-                    <ClockIcon
-                      className="mr-2 size-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    {event.time}
-                  </time>
-                </div>
-                <a
-                  href={event.href}
-                  className="ml-6 flex-none self-center rounded-md bg-white px-3 py-2 font-semibold text-gray-900 opacity-0 ring-1 shadow-xs ring-gray-300 ring-inset group-hover:opacity-100 hover:ring-gray-400 focus:opacity-100"
-                >
-                  Edit<span>, {event.name}</span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
     </div>
   );
 };

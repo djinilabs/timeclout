@@ -15,7 +15,10 @@ module.exports = {
       ],
       serif: ["Merriweather", "serif"],
     },
+    fontSize: {
+      tiny: "0.5rem",
+    },
   },
   plugins: [],
-}
+};
 

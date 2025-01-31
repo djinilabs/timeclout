@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
 import shiftPositionsQuery from "@/graphql-client/queries/shiftPositions.graphql";
@@ -9,6 +9,8 @@ import { CreateScheduleShiftPosition } from "./CreateScheduleShiftPosition";
 import { Suspense } from "./Suspense";
 import { useQuery } from "../hooks/useQuery";
 import { ShiftPosition } from "libs/graphql/src/types.generated";
+import { TimeSchedule, TimeScheduleVisualizer } from "./TimeScheduleVisualizer";
+import { MiniTimeScheduleVisualizer } from "./MiniTimeScheduleVisualizer";
 
 export const TeamShiftsCalendar = () => {
   const { team } = useParams();
@@ -26,9 +28,17 @@ export const TeamShiftsCalendar = () => {
       endDay: selectedDate.fullMonthForwardFill().toString(),
     },
   });
-  const shiftPositions = shiftPositionsResult?.data?.shiftPositions;
 
-  console.log(shiftPositions);
+  const shiftPositionsMap = useMemo(() => {
+    return Object.fromEntries(
+      shiftPositionsResult?.data?.shiftPositions.map((shiftPosition) => [
+        shiftPosition.day,
+        shiftPosition,
+      ]) ?? []
+    );
+  }, [shiftPositionsResult?.data?.shiftPositions]);
+
+  console.log(shiftPositionsMap);
 
   return (
     <>
@@ -59,6 +69,18 @@ export const TeamShiftsCalendar = () => {
           selectedDate.getMonth() - 1,
           DayDate.today()
         )}
+        renderDay={(day) => {
+          const shiftPosition = shiftPositionsMap[day.date];
+          if (!shiftPosition) {
+            return null;
+          }
+          const { schedules } = shiftPosition;
+          return (
+            <MiniTimeScheduleVisualizer
+              schedules={schedules as Array<TimeSchedule>}
+            />
+          );
+        }}
       />
     </>
   );

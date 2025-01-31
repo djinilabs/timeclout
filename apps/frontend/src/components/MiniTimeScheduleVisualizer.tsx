@@ -10,20 +10,20 @@ export interface TimeScheduleVisualizerProps {
   schedules: TimeSchedule[];
 }
 
-export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
+export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
   schedules,
 }) => {
   console.log("TimeScheduleVisualizer", schedules);
   return (
-    <div className="flex items-center gap-2 w-full grid grid-cols-6">
-      <div className="text-s text-gray-600 col-span-1">
+    <div className="items-center grid grid-cols-5">
+      <div className="text-[8px] text-gray-600 col-span-1">
         {schedules.length > 0
           ? `${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
               schedules[0].startHourMinutes[1]
             ).padStart(2, "0")}`
           : "00:00"}
       </div>
-      <div className="relative h-2 bg-gray-200 rounded col-span-4">
+      <div className="relative h-1 bg-gray-200 rounded col-span-2">
         {schedules.map((schedule, index) => {
           const startHour = schedule.startHourMinutes[0];
           const startMinutes = schedule.startHourMinutes[1];
@@ -62,7 +62,7 @@ export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
           );
         })}
       </div>
-      <div className="text-s text-gray-600 text-right whitespace-nowrap col-span-1">
+      <div className="text-tiny whitespace-nowrap text-gray-600 col-span-2">
         {schedules.length > 0
           ? `${String(
               schedules[schedules.length - 1].endHourMinutes[0] % 24
