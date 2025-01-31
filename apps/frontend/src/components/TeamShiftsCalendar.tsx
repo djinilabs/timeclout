@@ -20,7 +20,10 @@ import { nanoid } from "nanoid";
 import { useMutation } from "../hooks/useMutation";
 import toast from "react-hot-toast";
 
-type ShiftPositionWithFake = ShiftPosition & { fake: boolean };
+type ShiftPositionWithFake = ShiftPosition & {
+  fake?: boolean;
+  fakeFrom?: string;
+};
 
 export const TeamShiftsCalendar = () => {
   const { team } = useParams();
@@ -61,7 +64,15 @@ export const TeamShiftsCalendar = () => {
       (acc, [day, shiftPosition]) => {
         const dayPositions = acc[day] ?? [];
         acc[day] = dayPositions;
-        dayPositions.push(shiftPosition);
+        const pos =
+          draggingShiftPosition &&
+          shiftPosition.sk === draggingShiftPosition.fakeFrom
+            ? {
+                ...shiftPosition,
+                fake: true,
+              }
+            : shiftPosition;
+        dayPositions.push(pos);
         return acc;
       },
       {} as Record<string, ShiftPositionWithFake[]>
@@ -134,11 +145,10 @@ export const TeamShiftsCalendar = () => {
           });
         }}
         onCellDrop={async (day, e) => {
+          console.log("onCellDrop", day);
           const data = e.dataTransfer.types[0];
           setDraggingShiftPosition(null);
-          if (lastDraggedToDay.current == day) {
-            return;
-          }
+          console.log("lastDraggedToDay", lastDraggedToDay.current);
           lastDraggedToDay.current = day;
           const foundPosition = shiftPositionsResult?.data?.shiftPositions.find(
             (shiftPosition) => shiftPosition.sk.toLowerCase() === data
@@ -157,7 +167,7 @@ export const TeamShiftsCalendar = () => {
             toast.success("Shift position moved");
           }
         }}
-        onCellDragEnter={(day, e) => {
+        onCellDragOver={(day, e) => {
           if (lastDraggedToDay.current == day) {
             return;
           }
@@ -174,11 +184,13 @@ export const TeamShiftsCalendar = () => {
             day,
             sk: `day/${nanoid()}`, // fake sk
             fake: true,
+            fakeFrom: foundPosition.sk,
           };
           setDraggingShiftPosition(position);
         }}
-        onCellDragOver={() => {
+        onCellDragLeave={() => {
           lastDraggedToDay.current = null;
+          setDraggingShiftPosition(null);
         }}
       />
     </>
