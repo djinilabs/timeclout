@@ -48,7 +48,7 @@ export interface CreateScheduleShiftPositionForm {
 
 export const CreateScheduleShiftPosition: FC<
   CreateScheduleShiftPositionProps
-> = ({ day, onCancel }) => {
+> = ({ day, onCancel, onSuccess }) => {
   const form = useForm<CreateScheduleShiftPositionForm>({
     defaultValues: useMemo(
       () => ({
@@ -64,9 +64,20 @@ export const CreateScheduleShiftPosition: FC<
       }),
       [day]
     ),
-    onSubmit: async (values) => {
-      // Handle form submission
-      console.log(values);
+    onSubmit: async ({ value }) => {
+      const { error } = await createShiftPosition({
+        input: {
+          team: teamPk,
+          day: value.day.toString(),
+          requiredSkills: value.requiredSkills,
+          schedules: value.schedules,
+          assignedTo: value.assignedTo?.pk,
+        },
+      });
+      if (!error) {
+        toast.success("Shift position created");
+        onSuccess();
+      }
     },
   });
 
@@ -218,19 +229,9 @@ export const CreateScheduleShiftPosition: FC<
         </button>
         <button
           type="submit"
-          onClick={async () => {
-            const { error } = await createShiftPosition({
-              input: {
-                team: teamPk,
-                day: form.state.values.day.toString(),
-                requiredSkills: form.state.values.requiredSkills,
-                schedules: form.state.values.schedules,
-                assignedTo: form.state.values.assignedTo?.pk,
-              },
-            });
-            if (!error) {
-              toast.success("Shift position created");
-            }
+          onClick={(ev) => {
+            ev.preventDefault();
+            form.handleSubmit();
           }}
           className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
         >

@@ -178,6 +178,8 @@ export class DayDate {
 
   fullMonthForwardFill(): DayDate {
     const lastDay = this.endOfMonth();
-    return lastDay.nextDay(6 - lastDay.getWeekDayNumber());
+    // If Monday is first day of week (0), Sunday is 6
+    // So we need to get days until next Sunday
+    return lastDay.nextDay(7 - ((lastDay.getWeekDayNumber() + 6) % 7));
   }
 }
