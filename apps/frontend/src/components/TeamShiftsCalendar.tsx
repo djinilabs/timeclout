@@ -93,7 +93,8 @@ export const TeamShiftsCalendar = () => {
             return (
               <div
                 key={`${shiftPosition.sk}`}
-                className="items-center justify-center gap-1"
+                draggable
+                className="items-center justify-center gap-1 hover:shadow-md hover:border hover:border-gray-200 rounded cursor-grab active:cursor-grabbing"
               >
                 {shiftPosition.assignedTo && (
                   <div className="flex-auto flex items-center justify-left min-w-[25px]">

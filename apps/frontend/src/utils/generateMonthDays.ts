@@ -21,7 +21,7 @@ export const generateMonthDays = (
 
   // Add days from previous month
   for (let i = firstDayOfWeek; i > 0; i--) {
-    const date = firstOfMonth.previousDay(i + 1);
+    const date = firstOfMonth.previousDay(i);
     days.push({
       date: date.toString(),
       isCurrentMonth: false,

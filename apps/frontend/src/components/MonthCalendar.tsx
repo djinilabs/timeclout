@@ -147,12 +147,11 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
             S<span className="sr-only sm:not-sr-only">un</span>
           </div>
         </div>
-        <div className="flex bg-gray-200 text-xs/6 text-gray-700">
+        <div className="flex text-xs/6 text-gray-700">
           <div className="divide-y divide-x divide-gray-200 grid w-full grid-cols-7 gap-0">
             {days.map((day) => (
-              <button
+              <div
                 key={day.date}
-                type="button"
                 className={classNames(
                   day.isCurrentMonth ? "bg-white" : "bg-gray-50",
                   (day.isSelected || day.isToday) && "font-semibold",
@@ -166,7 +165,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                     !day.isCurrentMonth &&
                     !day.isToday &&
                     "text-gray-500",
-                  "flex flex-col px-3 py-2 hover:bg-gray-100 focus:z-10 min-h-[8rem]"
+                  "flex flex-col px-3 py-2 focus:z-10 min-h-[8rem]"
                 )}
               >
                 <time
@@ -184,7 +183,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                 <div className="col-span-7 row-span-5 h-full w-full">
                   {renderDay(day)}
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         </div>
