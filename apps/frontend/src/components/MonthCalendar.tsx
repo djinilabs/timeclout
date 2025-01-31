@@ -157,7 +157,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                   day.isCurrentMonth ? "bg-white" : "bg-gray-50",
                   (day.isSelected || day.isToday) && "font-semibold",
                   day.isSelected && "text-white",
-                  !day.isSelected && day.isToday && "text-indigo-600",
+                  !day.isSelected && day.isToday && "text-teal-600",
                   !day.isSelected &&
                     day.isCurrentMonth &&
                     !day.isToday &&
@@ -174,7 +174,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                   className={classNames(
                     day.isSelected &&
                       "flex size-6 items-center justify-center rounded-full",
-                    day.isSelected && day.isToday && "bg-indigo-600",
+                    day.isSelected && day.isToday && "bg-teal-600",
                     day.isSelected && !day.isToday && "bg-gray-900",
                     "ml-auto"
                   )}
