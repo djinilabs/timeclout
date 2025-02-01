@@ -99,6 +99,10 @@ export class DayDate {
     return new DayDate(newDate);
   }
 
+  getDayOfMonth() {
+    return this.date.getUTCDate();
+  }
+
   getYear() {
     return this.date.getUTCFullYear();
   }

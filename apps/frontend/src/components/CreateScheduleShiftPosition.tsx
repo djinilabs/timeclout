@@ -143,7 +143,7 @@ export const CreateScheduleShiftPosition: FC<
                         const day = new DayDate(
                           d.getFullYear(),
                           d.getMonth() + 1,
-                          1
+                          Math.min(field.state.value.getDayOfMonth(), 27)
                         );
                         if (!day.isBefore(forbiddenBefore)) {
                           field.handleChange(day);
@@ -152,7 +152,16 @@ export const CreateScheduleShiftPosition: FC<
                     }}
                     month={field.state.value.firstOfMonth().toDate()}
                     selected={field.state.value.toDate()}
-                    onSelect={(d) => d && field.handleChange(new DayDate(d))}
+                    onSelect={(d) =>
+                      d &&
+                      field.handleChange(
+                        new DayDate(
+                          d.getFullYear(),
+                          d.getMonth() + 1,
+                          d.getDate()
+                        )
+                      )
+                    }
                   />
                 </div>
               )}
