@@ -134,6 +134,7 @@ export const CreateScheduleShiftPosition: FC<
                     disabled={{
                       before: new Date(),
                     }}
+                    month={field.state.value.toDate()}
                     selected={field.state.value.toDate()}
                     onSelect={(d) => d && field.handleChange(new DayDate(d))}
                   />

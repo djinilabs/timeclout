@@ -154,7 +154,7 @@ export const TeamShiftsCalendar = () => {
       >
         <Suspense>
           <CreateScheduleShiftPosition
-            day={selectedDate}
+            day={selectedDay ? new DayDate(selectedDay) : selectedDate}
             onCancel={() => setCreateDialogOpen(false)}
             onSuccess={() => setCreateDialogOpen(false)}
           />
@@ -167,7 +167,9 @@ export const TeamShiftsCalendar = () => {
         onAddPosition={() => setCreateDialogOpen(true)}
         addButtonText="Add position"
         goTo={(year, month) => {
-          setSelectedDate(new DayDate(year, month + 1, 1));
+          const day = new DayDate(year, month + 1, 1);
+          setSelectedDay(day.toString());
+          setSelectedDate(day);
         }}
         days={generateMonthDays(
           selectedDate.getYear(),
