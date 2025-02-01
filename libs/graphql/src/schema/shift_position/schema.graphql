@@ -50,6 +50,12 @@ input MoveShiftPositionInput {
   day: String!
 }
 
+input CopyShiftPositionInput {
+  pk: String!
+  sk: String!
+  day: String!
+}
+
 input PublishShiftPositionsInput {
   team: String!
   startDay: String!
@@ -59,6 +65,7 @@ input PublishShiftPositionsInput {
 extend type Mutation {
   createShiftPosition(input: CreateShiftPositionInput!): ShiftPosition!
   moveShiftPosition(input: MoveShiftPositionInput!): ShiftPosition!
+  copyShiftPosition(input: CopyShiftPositionInput!): ShiftPosition!
   updateShiftPosition(input: UpdateShiftPositionInput!): ShiftPosition!
   deleteShiftPosition(input: DeleteShiftPositionInput!): ShiftPosition!
   publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!

@@ -1,0 +1,21 @@
+mutation copyShiftPositionShiftPosition($input: CopyShiftPositionInput!) {
+  copyShiftPosition(input: $input) {
+    pk
+    sk
+    day
+    requiredSkills
+    schedules {
+      startHourMinutes
+      endHourMinutes
+      inconveniencePerHour
+    }
+    assignedTo {
+      pk
+      name
+      email
+      emailMd5
+    }
+    published
+    replaces
+  }
+}

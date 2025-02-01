@@ -1,8 +1,9 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
 import shiftPositionsQuery from "@/graphql-client/queries/shiftPositions.graphql";
 import moveShiftPositionMutation from "@/graphql-client/mutations/moveShiftPosition.graphql";
+import copyShiftPositionMutation from "@/graphql-client/mutations/copyShiftPosition.graphql";
 import { Dialog } from "./Dialog";
 import { MonthCalendar } from "./MonthCalendar";
 import { generateMonthDays } from "../utils/generateMonthDays";
@@ -27,6 +28,17 @@ type ShiftPositionWithFake = ShiftPosition & {
 
 const toMinutes = ([hours, minutes]: [number, number]) => {
   return hours * 60 + minutes;
+};
+
+const sortShiftPositions = (
+  a: ShiftPositionWithFake,
+  b: ShiftPositionWithFake
+) => {
+  return (
+    (a.assignedTo?.name ?? "ZZZZZZZZZZ").localeCompare(
+      b.assignedTo?.name ?? "ZZZZZZZZZZ"
+    ) ?? a.sk.localeCompare(b.sk)
+  );
 };
 
 export const TeamShiftsCalendar = () => {
@@ -86,6 +98,53 @@ export const TeamShiftsCalendar = () => {
 
   const [, moveShiftPosition] = useMutation(moveShiftPositionMutation);
 
+  // --- copy shift position
+  const [focusedShiftPosition, setFocusedShiftPosition] =
+    useState<ShiftPositionWithFake | null>(null);
+  const [copyingShiftPosition, setCopyingShiftPosition] =
+    useState<ShiftPositionWithFake | null>(null);
+
+  // catch command-c
+  useEffect(() => {
+    const handleCopy = (e: KeyboardEvent) => {
+      if (e.metaKey && e.key === "c") {
+        console.log("copy");
+        if (focusedShiftPosition) {
+          setCopyingShiftPosition(focusedShiftPosition);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleCopy);
+    return () => window.removeEventListener("keydown", handleCopy);
+  }, [focusedShiftPosition]);
+
+  const [, copyShiftPosition] = useMutation(copyShiftPositionMutation);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+
+  // catch command-v
+  useEffect(() => {
+    const handlePaste = async (e: KeyboardEvent) => {
+      if (e.metaKey && e.key === "v") {
+        console.log("paste");
+        if (!copyingShiftPosition || !selectedDay) {
+          return;
+        }
+        const result = await copyShiftPosition({
+          input: {
+            pk: copyingShiftPosition.pk,
+            sk: copyingShiftPosition.sk,
+            day: selectedDay,
+          },
+        });
+        if (!result.error) {
+          toast.success("Shift position copied");
+        }
+      }
+    };
+    window.addEventListener("keydown", handlePaste);
+    return () => window.removeEventListener("keydown", handlePaste);
+  }, [copyShiftPosition, copyingShiftPosition, moveShiftPosition, selectedDay]);
+
   return (
     <>
       <Dialog
@@ -102,6 +161,7 @@ export const TeamShiftsCalendar = () => {
         </Suspense>
       </Dialog>
       <MonthCalendar
+        onDayFocus={setSelectedDay}
         year={selectedDate.getYear()}
         month={selectedDate.getMonth() - 1}
         onAddPosition={() => setCreateDialogOpen(true)}
@@ -114,52 +174,60 @@ export const TeamShiftsCalendar = () => {
           selectedDate.getMonth() - 1,
           DayDate.today()
         )}
-        renderDay={(day) => {
+        renderDay={(day, dayIndex) => {
           const shiftPositions = shiftPositionsMap?.[day.date];
           if (!shiftPositions) {
             return null;
           }
-          return shiftPositions.map((shiftPosition) => {
-            const { schedules } = shiftPosition;
-            const startTime = toMinutes(
-              schedules[0].startHourMinutes as [number, number]
-            );
-            const latestTime = toMinutes(
-              schedules[schedules.length - 1].endHourMinutes as [number, number]
-            );
-            const totalMinutes = latestTime;
-            const startPercent = Math.round((startTime / totalMinutes) * 100);
-            return (
-              <div
-                key={`${shiftPosition.sk}`}
-                draggable
-                onDragStart={(e) => {
-                  e.dataTransfer.setData(shiftPosition.sk, "");
-                  e.dataTransfer.dropEffect = "move";
-                }}
-                onDragEnd={(e) => {
-                  e.dataTransfer.clearData();
-                }}
-                className={`items-center justify-center hover:shadow-md hover:border hover:border-gray-200 rounded cursor-grab active:cursor-grabbing ${
-                  shiftPosition.fake ? "opacity-50" : ""
-                }`}
-              >
-                {shiftPosition.assignedTo && (
-                  <div
-                    className="flex-auto flex items-center justify-left ml-2"
-                    style={{
-                      marginLeft: `${startPercent}%`,
-                    }}
-                  >
-                    <Avatar size={25} {...shiftPosition.assignedTo} />
-                  </div>
-                )}
-                <MiniTimeScheduleVisualizer
-                  schedules={schedules as Array<TimeSchedule>}
-                />
-              </div>
-            );
-          });
+          return shiftPositions
+            .sort(sortShiftPositions)
+            .map((shiftPosition, shiftPositionIndex) => {
+              const { schedules } = shiftPosition;
+              const startTime = toMinutes(
+                schedules[0].startHourMinutes as [number, number]
+              );
+              const latestTime = toMinutes(
+                schedules[schedules.length - 1].endHourMinutes as [
+                  number,
+                  number,
+                ]
+              );
+              const totalMinutes = latestTime;
+              const startPercent = Math.round((startTime / totalMinutes) * 100);
+              return (
+                <div
+                  onFocus={() => setFocusedShiftPosition(shiftPosition)}
+                  autoFocus={dayIndex === 0 && shiftPositionIndex === 0}
+                  tabIndex={dayIndex * 100 + shiftPositionIndex}
+                  key={`${shiftPosition.sk}`}
+                  draggable
+                  onDragStart={(e) => {
+                    e.dataTransfer.setData(shiftPosition.sk, "");
+                    e.dataTransfer.dropEffect = "move";
+                  }}
+                  onDragEnd={(e) => {
+                    e.dataTransfer.clearData();
+                  }}
+                  className={`items-center justify-center hover:shadow-md hover:border hover:border-gray-200 focus:shadow-md focus:border focus:border-gray-200 focus:outline-none rounded cursor-grab active:cursor-grabbing ${
+                    shiftPosition.fake ? "opacity-50" : ""
+                  }`}
+                >
+                  {shiftPosition.assignedTo && (
+                    <div
+                      className="flex-auto flex items-center justify-left ml-2"
+                      style={{
+                        marginLeft: `${startPercent}%`,
+                      }}
+                    >
+                      <Avatar size={25} {...shiftPosition.assignedTo} />
+                    </div>
+                  )}
+                  <MiniTimeScheduleVisualizer
+                    schedules={schedules as Array<TimeSchedule>}
+                  />
+                </div>
+              );
+            });
         }}
         onCellDrop={async (day, e) => {
           const data = e.dataTransfer.types[0];

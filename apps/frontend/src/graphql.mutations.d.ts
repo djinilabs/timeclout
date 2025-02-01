@@ -17,6 +17,15 @@ declare module '@/graphql-client/mutations/approveLeaveRequest.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/copyShiftPosition.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const copyShiftPositionShiftPosition: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/createCompany.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

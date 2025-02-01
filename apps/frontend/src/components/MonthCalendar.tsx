@@ -23,11 +23,12 @@ export interface MonthCalendarProps {
   month: number;
   goTo: (year: number, month: number) => void;
   days: Array<Day>;
-  renderDay: (day: Day) => React.ReactNode;
+  renderDay: (day: Day, calIndex: number) => React.ReactNode;
   onCellDrop?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
   onCellDragEnter?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
   onCellDragLeave?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
   onCellDragOver?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
+  onDayFocus?: (day: string) => void;
 }
 
 export const MonthCalendar: FC<MonthCalendarProps> = ({
@@ -42,6 +43,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
   onCellDragEnter,
   onCellDragLeave,
   onCellDragOver,
+  onDayFocus,
 }) => {
   const handlePrevMonth = useCallback(() => {
     goTo(year, month - 1);
@@ -156,8 +158,11 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
         </div>
         <div className="flex text-xs/6 text-gray-700">
           <div className="divide-y divide-x divide-gray-200 grid w-full grid-cols-7 gap-0">
-            {days.map((day) => (
+            {days.map((day, index) => (
               <div
+                tabIndex={index * 100}
+                autoFocus={index === 0}
+                onFocus={() => onDayFocus?.(day.date)}
                 onDrop={(e) => onCellDrop?.(day.date, e)}
                 onDragEnter={(e) => {
                   e.preventDefault();
@@ -185,7 +190,8 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                     !day.isCurrentMonth &&
                     !day.isToday &&
                     "text-gray-500",
-                  "flex flex-col py-2 min-h-[8rem]"
+                  "flex flex-col py-2 min-h-[8rem]",
+                  "focus:ring-2 focus:ring-teal-600 focus:outline-none"
                 )}
               >
                 <time
@@ -200,7 +206,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                 >
                   {day.date.split("-").pop()?.replace(/^0/, "")}
                 </time>
-                <div className="h-full w-full">{renderDay(day)}</div>
+                <div className="h-full w-full">{renderDay(day, index)}</div>
               </div>
             ))}
           </div>

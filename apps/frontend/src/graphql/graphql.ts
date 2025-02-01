@@ -47,6 +47,12 @@ export type CompanySettingsArgs = {
   name: Scalars['String']['input'];
 };
 
+export type CopyShiftPositionInput = {
+  day: Scalars['String']['input'];
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
+};
+
 export type CreateLeaveRequestInput = {
   companyPk: Scalars['String']['input'];
   endDate: Scalars['String']['input'];
@@ -137,6 +143,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation: Invitation;
   approveLeaveRequest: LeaveRequest;
+  copyShiftPosition: ShiftPosition;
   createCompany: Company;
   createInvitation: Invitation;
   createLeaveRequest: LeaveRequest;
@@ -176,6 +183,11 @@ export type MutationAcceptInvitationArgs = {
 
 export type MutationApproveLeaveRequestArgs = {
   input: ApproveLeaveRequestInput;
+};
+
+
+export type MutationCopyShiftPositionArgs = {
+  input: CopyShiftPositionInput;
 };
 
 

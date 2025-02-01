@@ -49,6 +49,12 @@ export type CompanysettingsArgs = {
   name: Scalars['String']['input'];
 };
 
+export type CopyShiftPositionInput = {
+  day: Scalars['String']['input'];
+  pk: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
+};
+
 export type CreateLeaveRequestInput = {
   companyPk: Scalars['String']['input'];
   endDate: Scalars['String']['input'];
@@ -139,6 +145,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation: Invitation;
   approveLeaveRequest: LeaveRequest;
+  copyShiftPosition: ShiftPosition;
   createCompany: Company;
   createInvitation: Invitation;
   createLeaveRequest: LeaveRequest;
@@ -178,6 +185,11 @@ export type MutationacceptInvitationArgs = {
 
 export type MutationapproveLeaveRequestArgs = {
   input: ApproveLeaveRequestInput;
+};
+
+
+export type MutationcopyShiftPositionArgs = {
+  input: CopyShiftPositionInput;
 };
 
 
@@ -651,6 +663,7 @@ export type ResolversTypes = {
   Calendar: ResolverTypeWrapper<Calendar>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Company: ResolverTypeWrapper<Company>;
+  CopyShiftPositionInput: CopyShiftPositionInput;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
   CreateShiftPositionInput: CreateShiftPositionInput;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
@@ -693,6 +706,7 @@ export type ResolversParentTypes = {
   Calendar: Calendar;
   Int: Scalars['Int']['output'];
   Company: Company;
+  CopyShiftPositionInput: CopyShiftPositionInput;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
   CreateShiftPositionInput: CreateShiftPositionInput;
   Date: Scalars['Date']['output'];
@@ -812,6 +826,7 @@ export type MemberQualificationsResolvers<ContextType = any, ParentType extends 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   acceptInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationacceptInvitationArgs, 'secret'>>;
   approveLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationapproveLeaveRequestArgs, 'input'>>;
+  copyShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationcopyShiftPositionArgs, 'input'>>;
   createCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationcreateCompanyArgs, 'name'>>;
   createInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationcreateInvitationArgs, 'invitedUserEmail' | 'permissionType' | 'toEntityPk'>>;
   createLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationcreateLeaveRequestArgs, 'input'>>;

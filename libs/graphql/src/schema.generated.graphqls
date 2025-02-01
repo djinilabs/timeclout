@@ -20,6 +20,12 @@ type Company {
   updatedBy: User
 }
 
+input CopyShiftPositionInput {
+  day: String!
+  pk: String!
+  sk: String!
+}
+
 input CreateLeaveRequestInput {
   companyPk: String!
   endDate: String!
@@ -111,6 +117,7 @@ input MoveShiftPositionInput {
 type Mutation {
   acceptInvitation(secret: String!): Invitation!
   approveLeaveRequest(input: ApproveLeaveRequestInput!): LeaveRequest!
+  copyShiftPosition(input: CopyShiftPositionInput!): ShiftPosition!
   createCompany(name: String!): Company!
   createInvitation(invitedUserEmail: String!, permissionType: Int!, toEntityPk: String!): Invitation!
   createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
