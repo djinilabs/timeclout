@@ -20,6 +20,7 @@ import { Avatar } from "./Avatar";
 import { nanoid } from "nanoid";
 import { useMutation } from "../hooks/useMutation";
 import toast from "react-hot-toast";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 
 type ShiftPositionWithFake = ShiftPosition & {
   fake?: boolean;
@@ -210,10 +211,13 @@ export const TeamShiftsCalendar = () => {
                   onDragEnd={(e) => {
                     e.dataTransfer.clearData();
                   }}
-                  className={`items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-gray-200 focus:ring-offset-1 focus:outline-none cursor-grab active:cursor-grabbing ${
+                  className={`group relative items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-gray-200 focus:ring-offset-1 focus:outline-none cursor-grab active:cursor-grabbing ${
                     shiftPosition.fake ? "opacity-50" : ""
                   }`}
                 >
+                  <div className="right-0 top-0 absolute opacity-0 group-hover:opacity-100 cursor-pointer hover:bg-gray-100 rounded">
+                    <EllipsisHorizontalIcon className="w-4 h-4" />
+                  </div>
                   {shiftPosition.assignedTo && (
                     <div
                       className="flex-auto flex items-center justify-left ml-2"

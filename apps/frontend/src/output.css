@@ -2006,6 +2006,10 @@ video {
   opacity: 0.5;
 }
 
+.opacity-0 {
+  opacity: 0;
+}
+
 .shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
@@ -2255,6 +2259,10 @@ video {
 
 .focus-within\:outline-teal-600:focus-within {
   outline-color: #0d9488;
+}
+
+.hover\:block:hover {
+  display: block;
 }
 
 .hover\:border:hover {
@@ -2548,8 +2556,17 @@ video {
   background-color: rgb(156 163 175 / var(--tw-bg-opacity, 1));
 }
 
+.group:hover .group-hover\:absolute {
+  position: absolute;
+}
+
 .group:hover .group-hover\:block {
   display: block;
+}
+
+.group:hover .group-hover\:bg-gray-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
 }
 
 .group:hover .group-hover\:stroke-blue-700\/75 {
@@ -2587,6 +2604,10 @@ video {
 .group:hover .group-hover\:text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
 }
 
 .group:not([data-selected]) .group-\[\&\:not\(\[data-selected\]\)\]\:hidden {

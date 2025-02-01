@@ -79,17 +79,14 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
           return (
             <div
               key={index}
-              className="absolute h-full rounded group"
+              className="absolute h-full rounded"
               style={{
                 left: `${startPercent}%`,
                 width: `${width}%`,
                 backgroundColor: `rgb(${Math.min(255, schedule.inconveniencePerHour * 100)}, ${Math.max(0, 255 - schedule.inconveniencePerHour * 100)}, 0)`,
               }}
-            >
-              <div className="absolute bottom-full mb-1 hidden group-hover:block whitespace-nowrap bg-gray-900 text-white text-xs rounded px-2 py-1">
-                {`${String(startHour).padStart(2, "0")}:${String(startMinutes).padStart(2, "0")} - ${String(printableEndHour).padStart(2, "0")}:${String(endMinutes).padStart(2, "0")}`}
-              </div>
-            </div>
+              title={`${String(startHour).padStart(2, "0")}:${String(startMinutes).padStart(2, "0")} - ${String(printableEndHour).padStart(2, "0")}:${String(endMinutes).padStart(2, "0")}`}
+            ></div>
           );
         })}
       </div>
