@@ -39,35 +39,38 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
   }
   const howManyDaysPercentage = getPercentageOfDays(schedules);
 
+  const startTime = toMinutes(schedules[0].startHourMinutes);
+  const latestTime = toMinutes(schedules[schedules.length - 1].endHourMinutes);
+  const totalMinutes = latestTime;
+  const startPercent = Math.round((startTime / totalMinutes) * 100);
+
   return (
     <div
-      className="items-center grid grid-cols-5 z-[1000]"
+      className="items-center grid grid-cols-5 z-[100]"
       style={{ width: `${howManyDaysPercentage}%` }}
     >
-      <div className="text-[8px] text-gray-600 col-span-5 text-left">
+      <div
+        className="text-[8px] text-gray-600 col-span-5 text-left"
+        style={{
+          marginLeft: `${startPercent}%`,
+        }}
+      >
         {`${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
           schedules[0].startHourMinutes[1]
         ).padStart(2, "0")}`}
       </div>
-      <div className="relative h-1 bg-gray-200 rounded col-span-5">
+      <div className="relative h-1 rounded col-span-5">
         {schedules.map((schedule, index) => {
           const startHour = schedule.startHourMinutes[0];
           const startMinutes = schedule.startHourMinutes[1];
           const endHour = schedule.endHourMinutes[0];
           const endMinutes = schedule.endHourMinutes[1];
 
-          const earliestTime = toMinutes(schedules[0].startHourMinutes);
-          const latestTime = toMinutes(
-            schedules[schedules.length - 1].endHourMinutes
-          );
-          const totalMinutes = latestTime - earliestTime;
-
           const startPercent = Math.round(
-            ((startHour * 60 + startMinutes - earliestTime) / totalMinutes) *
-              100
+            ((startHour * 60 + startMinutes) / totalMinutes) * 100
           );
           const endPercent = Math.round(
-            ((endHour * 60 + endMinutes - earliestTime) / totalMinutes) * 100
+            ((endHour * 60 + endMinutes) / totalMinutes) * 100
           );
           const width = endPercent - startPercent;
 
@@ -90,7 +93,7 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
           );
         })}
       </div>
-      <div className="text-tiny text-gray-600 whitespace-nowrap col-span-5 text-right z-[1000]">
+      <div className="text-tiny text-gray-600 whitespace-nowrap col-span-5 text-right z-[100]">
         {`${String(
           getPrintableEndHour(schedules[schedules.length - 1].endHourMinutes[0])
         ).padStart(2, "0")}:${String(

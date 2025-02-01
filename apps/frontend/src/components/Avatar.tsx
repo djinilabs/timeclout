@@ -38,7 +38,7 @@ export const Avatar = ({ name, emailMd5, email, size = 50 }: AvatarProps) => {
     Math.max(size, 250)
   )}&d=blank`;
 
-  const initials = getInitials(email.split("@")[0]);
+  const initials = getInitials(name ?? email.split("@")[0]);
 
   return (
     <div

@@ -25,6 +25,10 @@ type ShiftPositionWithFake = ShiftPosition & {
   fakeFrom?: string;
 };
 
+const toMinutes = ([hours, minutes]: [number, number]) => {
+  return hours * 60 + minutes;
+};
+
 export const TeamShiftsCalendar = () => {
   const { team } = useParams();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -35,6 +39,7 @@ export const TeamShiftsCalendar = () => {
     shiftPositions: ShiftPosition[];
   }>({
     query: shiftPositionsQuery,
+    pollingIntervalMs: 30000,
     variables: {
       team,
       startDay: selectedDate.fullMonthBackFill().toString(),
@@ -116,6 +121,14 @@ export const TeamShiftsCalendar = () => {
           }
           return shiftPositions.map((shiftPosition) => {
             const { schedules } = shiftPosition;
+            const startTime = toMinutes(
+              schedules[0].startHourMinutes as [number, number]
+            );
+            const latestTime = toMinutes(
+              schedules[schedules.length - 1].endHourMinutes as [number, number]
+            );
+            const totalMinutes = latestTime;
+            const startPercent = Math.round((startTime / totalMinutes) * 100);
             return (
               <div
                 key={`${shiftPosition.sk}`}
@@ -125,15 +138,19 @@ export const TeamShiftsCalendar = () => {
                   e.dataTransfer.dropEffect = "move";
                 }}
                 onDragEnd={(e) => {
-                  console.log("onDragEnd", e);
                   e.dataTransfer.clearData();
                 }}
-                className={`items-center justify-center gap-1 hover:shadow-md hover:border hover:border-gray-200 rounded cursor-grab active:cursor-grabbing ${
+                className={`items-center justify-center hover:shadow-md hover:border hover:border-gray-200 rounded cursor-grab active:cursor-grabbing ${
                   shiftPosition.fake ? "opacity-50" : ""
                 }`}
               >
                 {shiftPosition.assignedTo && (
-                  <div className="flex-auto flex items-center justify-left min-w-[25px]">
+                  <div
+                    className="flex-auto flex items-center justify-left ml-2"
+                    style={{
+                      marginLeft: `${startPercent}%`,
+                    }}
+                  >
                     <Avatar size={25} {...shiftPosition.assignedTo} />
                   </div>
                 )}
@@ -145,10 +162,7 @@ export const TeamShiftsCalendar = () => {
           });
         }}
         onCellDrop={async (day, e) => {
-          console.log("onCellDrop", day);
           const data = e.dataTransfer.types[0];
-          setDraggingShiftPosition(null);
-          console.log("lastDraggedToDay", lastDraggedToDay.current);
           lastDraggedToDay.current = day;
           const foundPosition = shiftPositionsResult?.data?.shiftPositions.find(
             (shiftPosition) => shiftPosition.sk.toLowerCase() === data
@@ -166,6 +180,7 @@ export const TeamShiftsCalendar = () => {
           if (!result.error) {
             toast.success("Shift position moved");
           }
+          setDraggingShiftPosition(null);
         }}
         onCellDragOver={(day, e) => {
           if (lastDraggedToDay.current == day) {

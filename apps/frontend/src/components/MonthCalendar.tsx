@@ -185,7 +185,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                     !day.isCurrentMonth &&
                     !day.isToday &&
                     "text-gray-500",
-                  "flex flex-col px-3 py-2 focus:z-10 min-h-[8rem]"
+                  "flex flex-col py-2 min-h-[8rem]"
                 )}
               >
                 <time
@@ -195,14 +195,12 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                       "flex size-6 items-center justify-center rounded-full",
                     day.isSelected && day.isToday && "bg-teal-600",
                     day.isSelected && !day.isToday && "bg-gray-900",
-                    "ml-auto"
+                    "ml-auto pr-2"
                   )}
                 >
                   {day.date.split("-").pop()?.replace(/^0/, "")}
                 </time>
-                <div className="col-span-7 row-span-5 h-full w-full">
-                  {renderDay(day)}
-                </div>
+                <div className="h-full w-full">{renderDay(day)}</div>
               </div>
             ))}
           </div>
