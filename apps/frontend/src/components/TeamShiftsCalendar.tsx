@@ -210,7 +210,7 @@ export const TeamShiftsCalendar = () => {
                   onDragEnd={(e) => {
                     e.dataTransfer.clearData();
                   }}
-                  className={`items-center justify-center hover:shadow-md hover:border hover:border-gray-200 focus:shadow-md focus:border focus:border-gray-200 focus:outline-none rounded cursor-grab active:cursor-grabbing ${
+                  className={`items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-gray-200 focus:ring-offset-1 focus:outline-none cursor-grab active:cursor-grabbing ${
                     shiftPosition.fake ? "opacity-50" : ""
                   }`}
                 >

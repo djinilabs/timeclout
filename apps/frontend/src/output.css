@@ -2057,6 +2057,14 @@ video {
   outline-offset: -1px;
 }
 
+.-outline-offset-2 {
+  outline-offset: -2px;
+}
+
+.-outline-offset-0 {
+  outline-offset: -0px;
+}
+
 .outline-gray-300 {
   outline-color: #d1d5db;
 }
@@ -2067,6 +2075,10 @@ video {
 
 .outline-teal-600 {
   outline-color: #0d9488;
+}
+
+.outline-gray-200 {
+  outline-color: #e5e7eb;
 }
 
 .ring-1 {
@@ -2336,12 +2348,55 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.hover\:outline:hover {
+  outline-style: solid;
+}
+
+.hover\:outline-1:hover {
+  outline-width: 1px;
+}
+
+.hover\:outline-2:hover {
+  outline-width: 2px;
+}
+
+.hover\:outline-\[1\]:hover {
+  outline-width: 1;
+}
+
+.hover\:outline-\[10\]:hover {
+  outline-width: 10;
+}
+
+.hover\:outline-gray-200:hover {
+  outline-color: #e5e7eb;
+}
+
+.hover\:ring-2:hover {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.hover\:ring-gray-200:hover {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(229 231 235 / var(--tw-ring-opacity, 1));
+}
+
 .focus\:relative:focus {
   position: relative;
 }
 
 .focus\:z-10:focus {
   z-index: 10;
+}
+
+.focus\:-m-1:focus {
+  margin: -0.25rem;
+}
+
+.focus\:-m-10:focus {
+  margin: -2.5rem;
 }
 
 .focus\:border:focus {
@@ -2380,6 +2435,14 @@ video {
   outline-offset: -2px;
 }
 
+.focus\:outline-offset-1:focus {
+  outline-offset: 1px;
+}
+
+.focus\:outline-offset-0:focus {
+  outline-offset: 0px;
+}
+
 .focus\:outline-indigo-600:focus {
   outline-color: #4f46e5;
 }
@@ -2390,6 +2453,30 @@ video {
 
 .focus\:outline-teal-600:focus {
   outline-color: #0d9488;
+}
+
+.focus\:outline-gray-200:focus {
+  outline-color: #e5e7eb;
+}
+
+.focus\:outline-gray-400:focus {
+  outline-color: #9ca3af;
+}
+
+.focus\:outline-teal-400:focus {
+  outline-color: #2dd4bf;
+}
+
+.focus\:outline-teal-200:focus {
+  outline-color: #99f6e4;
+}
+
+.focus\:outline-teal-900:focus {
+  outline-color: #134e4a;
+}
+
+.focus\:outline-gray-300:focus {
+  outline-color: #d1d5db;
 }
 
 .focus\:ring-2:focus {
@@ -2412,8 +2499,17 @@ video {
   --tw-ring-color: rgb(13 148 136 / var(--tw-ring-opacity, 1));
 }
 
+.focus\:ring-gray-200:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(229 231 235 / var(--tw-ring-opacity, 1));
+}
+
 .focus\:ring-offset-2:focus {
   --tw-ring-offset-width: 2px;
+}
+
+.focus\:ring-offset-1:focus {
+  --tw-ring-offset-width: 1px;
 }
 
 .focus-visible\:outline:focus-visible {
