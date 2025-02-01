@@ -104,6 +104,10 @@ export const CreateScheduleShiftPosition: FC<
 
   const [, createShiftPosition] = useMutation(createShiftPositionMutation);
 
+  const forbiddenBefore = useMemo(() => {
+    return new DayDate(new Date());
+  }, []);
+
   return (
     <form>
       <div className="space-y-12">
@@ -134,7 +138,19 @@ export const CreateScheduleShiftPosition: FC<
                     disabled={{
                       before: new Date(),
                     }}
-                    month={field.state.value.toDate()}
+                    onMonthChange={(d) => {
+                      if (d) {
+                        const day = new DayDate(
+                          d.getFullYear(),
+                          d.getMonth() + 1,
+                          1
+                        );
+                        if (!day.isBefore(forbiddenBefore)) {
+                          field.handleChange(day);
+                        }
+                      }
+                    }}
+                    month={field.state.value.firstOfMonth().toDate()}
                     selected={field.state.value.toDate()}
                     onSelect={(d) => d && field.handleChange(new DayDate(d))}
                   />
