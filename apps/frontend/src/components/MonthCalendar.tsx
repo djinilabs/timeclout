@@ -157,7 +157,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
           </div>
         </div>
         <div className="flex text-xs/6 text-gray-700">
-          <div className="divide-y divide-x divide-gray-200 grid w-full grid-cols-7 gap-0">
+          <div className="divide-y divide-x divide-gray-200 w-full grid grid-cols-7 gap-0">
             {days.map((day, index) => (
               <div
                 tabIndex={index * 100}
@@ -198,7 +198,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                   dateTime={day.date}
                   className={classNames(
                     day.isSelected &&
-                      "flex size-6 items-center justify-center rounded-full",
+                      "flex size-6 items-center justify-right rounded-full",
                     day.isSelected && day.isToday && "bg-teal-600",
                     day.isSelected && !day.isToday && "bg-gray-900",
                     "ml-auto pr-2"
