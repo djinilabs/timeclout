@@ -8,9 +8,7 @@ import type {
   ShiftPosition,
 } from "./../../../../types.generated";
 
-export const deleteShiftPosition: NonNullable<
-  MutationResolvers["deleteShiftPosition"]
-> = async (_parent, arg, ctx) => {
+export const deleteShiftPosition: NonNullable<MutationResolvers['deleteShiftPosition']> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const { pk: team, sk } = input;

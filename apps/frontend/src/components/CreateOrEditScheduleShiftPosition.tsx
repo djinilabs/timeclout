@@ -8,22 +8,22 @@ import { SelectUser } from "./SelectUser";
 import { useParams } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
 import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
-import createShiftPositionMutation from "@/graphql-client/mutations/createShiftPosition.graphql";
 import {
   QueryTeamArgs,
+  ShiftPosition,
   Team,
   TeamMembersArgs,
   TeamSettingsArgs,
 } from "../graphql/graphql";
 import { getDefined } from "@/utils";
 import { EditQualifications } from "./EditQualifications";
-import { useMutation } from "../hooks/useMutation";
-import toast from "react-hot-toast";
+import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
 
-export interface CreateScheduleShiftPositionProps {
+export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
   onCancel: () => void;
   onSuccess: () => void;
+  editingShiftPosition?: ShiftPosition;
 }
 
 export interface ShiftPositionSchedule {
@@ -39,44 +39,60 @@ export interface User {
   emailMd5: string;
 }
 
-export interface CreateScheduleShiftPositionForm {
+export interface CreateOrEditScheduleShiftPositionForm {
   day: DayDate;
   requiredSkills: string[];
   schedules: ShiftPositionSchedule[];
   assignedTo?: User;
 }
 
-export const CreateScheduleShiftPosition: FC<
-  CreateScheduleShiftPositionProps
-> = ({ day, onCancel, onSuccess }) => {
-  const form = useForm<CreateScheduleShiftPositionForm>({
+export const CreateOrEditScheduleShiftPosition: FC<
+  CreateOrEditScheduleShiftPositionProps
+> = ({ day, onCancel, onSuccess, editingShiftPosition }) => {
+  const { createShiftPosition, updateShiftPosition } = useTeamShiftActions();
+
+  const form = useForm<CreateOrEditScheduleShiftPositionForm>({
     defaultValues: useMemo(
       () => ({
-        day,
-        requiredSkills: [],
-        schedules: [
-          {
-            startHourMinutes: [9, 0],
-            endHourMinutes: [17, 0],
-            inconveniencePerHour: 1,
-          },
-        ],
+        day: editingShiftPosition?.day
+          ? new DayDate(editingShiftPosition.day)
+          : day,
+        requiredSkills: editingShiftPosition?.requiredSkills ?? [],
+        schedules:
+          (editingShiftPosition?.schedules as ShiftPositionSchedule[]) ?? [
+            {
+              startHourMinutes: [9, 0],
+              endHourMinutes: [17, 0],
+              inconveniencePerHour: 1,
+            },
+          ],
+        assignedTo: editingShiftPosition?.assignedTo ?? undefined,
       }),
-      [day]
+      [day, editingShiftPosition]
     ),
     onSubmit: async ({ value }) => {
-      const { error } = await createShiftPosition({
-        input: {
-          team: teamPk,
+      if (!editingShiftPosition) {
+        const success = await createShiftPosition({
+          team: getDefined(teamPk, "No team provided"),
           day: value.day.toString(),
           requiredSkills: value.requiredSkills,
           schedules: value.schedules,
           assignedTo: value.assignedTo?.pk,
-        },
-      });
-      if (!error) {
-        toast.success("Shift position created");
-        onSuccess();
+        });
+        if (success) {
+          onSuccess();
+        }
+      } else {
+        const success = await updateShiftPosition({
+          team: getDefined(teamPk, "No team provided"),
+          day: value.day.toString(),
+          requiredSkills: value.requiredSkills,
+          schedules: value.schedules,
+          assignedTo: value.assignedTo?.pk,
+        });
+        if (success) {
+          onSuccess();
+        }
       }
     },
   });
@@ -102,8 +118,6 @@ export const CreateScheduleShiftPosition: FC<
     });
   }, [form]);
 
-  const [, createShiftPosition] = useMutation(createShiftPositionMutation);
-
   const forbiddenBefore = useMemo(() => {
     return new DayDate(new Date());
   }, []);
@@ -113,7 +127,9 @@ export const CreateScheduleShiftPosition: FC<
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <p className="mt-1 text-sm/6 text-gray-600">
-            Insert a position into the team schedule.
+            {editingShiftPosition
+              ? "Edit a position in the team schedule."
+              : "Insert a position into the team schedule."}
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">

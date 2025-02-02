@@ -31,7 +31,8 @@ input CreateShiftPositionInput {
 }
 
 input UpdateShiftPositionInput {
-  team: String!
+  pk: String!
+  sk: String!
   day: String!
   requiredSkills: [String!]!
   schedules: [ShiftPositionScheduleInput!]!

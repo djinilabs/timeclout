@@ -266,10 +266,11 @@ input UpdateMeInput {
 input UpdateShiftPositionInput {
   assignedTo: String
   day: String!
+  pk: String!
   replaces: String
   requiredSkills: [String!]!
   schedules: [ShiftPositionScheduleInput!]!
-  team: String!
+  sk: String!
 }
 
 type User {

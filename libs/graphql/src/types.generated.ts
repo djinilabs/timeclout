@@ -551,10 +551,11 @@ export type UpdateMeInput = {
 export type UpdateShiftPositionInput = {
   assignedTo?: InputMaybe<Scalars['String']['input']>;
   day: Scalars['String']['input'];
+  pk: Scalars['String']['input'];
   replaces?: InputMaybe<Scalars['String']['input']>;
   requiredSkills: Array<Scalars['String']['input']>;
   schedules: Array<ShiftPositionScheduleInput>;
-  team: Scalars['String']['input'];
+  sk: Scalars['String']['input'];
 };
 
 export type User = {

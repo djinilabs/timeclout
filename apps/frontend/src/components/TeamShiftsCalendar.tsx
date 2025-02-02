@@ -4,7 +4,7 @@ import { DayDate } from "@/day-date";
 import { Dialog } from "./Dialog";
 import { MonthCalendar } from "./MonthCalendar";
 import { generateMonthDays } from "../utils/generateMonthDays";
-import { CreateScheduleShiftPosition } from "./CreateScheduleShiftPosition";
+import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
 import { Suspense } from "./Suspense";
 import { type ShiftPosition } from "libs/graphql/src/types.generated";
 import { splitShiftPositionForEachDay } from "../utils/splitShiftPositionsForEachDay";
@@ -105,15 +105,30 @@ export const TeamShiftsCalendar = () => {
 
   const { deleteShiftPosition } = useTeamShiftActions();
 
+  // editing shift position
+  const [editingShiftPosition, setEditingShiftPosition] = useState<
+    ShiftPositionWithFake | undefined
+  >(undefined);
+
+  const handleEditShiftPosition = (shiftPosition: ShiftPositionWithFake) => {
+    setEditingShiftPosition(shiftPosition);
+    setCreateDialogOpen(true);
+  };
+
   return (
     <>
       <Dialog
         open={createDialogOpen}
         onClose={() => setCreateDialogOpen(false)}
-        title="Insert position"
+        title={
+          editingShiftPosition
+            ? "Edit position"
+            : "Insert position into the team schedule."
+        }
       >
         <Suspense>
-          <CreateScheduleShiftPosition
+          <CreateOrEditScheduleShiftPosition
+            editingShiftPosition={editingShiftPosition}
             day={selectedDay ? new DayDate(selectedDay) : selectedDate}
             onCancel={() => setCreateDialogOpen(false)}
             onSuccess={() => setCreateDialogOpen(false)}
@@ -124,7 +139,10 @@ export const TeamShiftsCalendar = () => {
         onDayFocus={setSelectedDay}
         year={selectedDate.getYear()}
         month={selectedDate.getMonth() - 1}
-        onAddPosition={() => setCreateDialogOpen(true)}
+        onAddPosition={() => {
+          setEditingShiftPosition(undefined);
+          setCreateDialogOpen(true);
+        }}
         addButtonText="Add position"
         goTo={(year, month) => {
           const day = new DayDate(year, month + 1, 1);
@@ -185,6 +203,9 @@ export const TeamShiftsCalendar = () => {
                       <MenuItem>
                         {({ active }) => (
                           <button
+                            onClick={() =>
+                              handleEditShiftPosition(shiftPosition)
+                            }
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block w-full text-left px-4 py-2 text-sm text-gray-700"

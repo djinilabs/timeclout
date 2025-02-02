@@ -143,6 +143,15 @@ declare module '@/graphql-client/mutations/updateMe.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/updateShiftPosition.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateShiftPosition: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/updateTeamMemberQualifications.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
