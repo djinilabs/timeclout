@@ -1,3 +1,24 @@
+import { database } from "@/tables";
+import { getResourceRef } from "@/utils";
+import { notFound } from "@hapi/boom";
+import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
+import { PERMISSION_LEVELS } from "@/tables";
+import type {
+  MutationResolvers,
+  ShiftPosition,
+} from "./../../../../types.generated";
 
-        import type   { MutationResolvers } from './../../../../types.generated';
-        export const deleteShiftPosition: NonNullable<MutationResolvers['deleteShiftPosition']> = async (_parent, _arg, _ctx) => { /* Implement Mutation.deleteShiftPosition resolver logic here */ };
+export const deleteShiftPosition: NonNullable<
+  MutationResolvers["deleteShiftPosition"]
+> = async (_parent, arg, ctx) => {
+  const { shift_positions } = await database();
+  const { input } = arg;
+  const { pk: team, sk } = input;
+  const pk = getResourceRef(team, "teams");
+  await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
+  const shiftPosition = await shift_positions.get(pk, sk);
+  if (!shiftPosition) {
+    throw notFound("Shift position not found");
+  }
+  return shift_positions.delete(pk, sk) as unknown as Promise<ShiftPosition>;
+};

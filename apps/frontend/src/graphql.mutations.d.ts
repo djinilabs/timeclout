@@ -80,6 +80,15 @@ declare module '@/graphql-client/mutations/deleteInvitation.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/deleteShiftPosition.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const DeleteShiftPosition: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/inviteToTeam.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

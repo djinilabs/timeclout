@@ -109,7 +109,8 @@ export const TeamShiftsCalendar = () => {
 
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
-  const { moveShiftPosition, copyShiftPosition } = useTeamShiftActions();
+  const { moveShiftPosition, copyShiftPosition, deleteShiftPosition } =
+    useTeamShiftActions();
 
   // catch command-v
   useEffect(() => {
@@ -234,6 +235,12 @@ export const TeamShiftsCalendar = () => {
                       <MenuItem>
                         {({ active }) => (
                           <button
+                            onClick={() =>
+                              deleteShiftPosition(
+                                shiftPosition.pk,
+                                shiftPosition.sk
+                              )
+                            }
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block w-full text-left px-4 py-2 text-sm text-gray-700"
@@ -265,7 +272,7 @@ export const TeamShiftsCalendar = () => {
         onCellDrop={async (day, e) => {
           const data = e.dataTransfer.types[0];
           lastDraggedToDay.current = day;
-          const foundPosition = shiftPositionsResult?.data?.shiftPositions.find(
+          const foundPosition = shiftPositions?.find(
             (shiftPosition) => shiftPosition.sk.toLowerCase() === data
           );
           if (!foundPosition || foundPosition.day == day) {
@@ -280,7 +287,7 @@ export const TeamShiftsCalendar = () => {
           }
           lastDraggedToDay.current = day;
           const data = e.dataTransfer.types[0];
-          const foundPosition = shiftPositionsResult?.data?.shiftPositions.find(
+          const foundPosition = shiftPositions?.find(
             (shiftPosition) => shiftPosition.sk.toLowerCase() === data
           );
           if (!foundPosition || foundPosition.day == day) {

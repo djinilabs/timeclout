@@ -36,6 +36,14 @@ const defaultClientOpts = (): ClientOptions => ({
         ShiftPositionSchedule: () => nanoid(),
         ShiftPosition: (s: Data) => `${s.pk}:${s.sk}`,
       },
+      updates: {
+        Mutation: {
+          deleteShiftPosition: (result, args, cache, info) => {
+            console.log("result", result);
+            cache.invalidate(result.deleteShiftPosition);
+          },
+        },
+      },
     }),
     fetchExchange,
   ],

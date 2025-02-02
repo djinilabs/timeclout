@@ -80,6 +80,15 @@ declare module '@/graphql-client/queries/deleteInvitation.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/deleteShiftPosition.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const DeleteShiftPosition: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/inviteToTeam.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
