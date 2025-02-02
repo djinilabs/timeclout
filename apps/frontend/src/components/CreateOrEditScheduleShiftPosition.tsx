@@ -84,7 +84,8 @@ export const CreateOrEditScheduleShiftPosition: FC<
         }
       } else {
         const success = await updateShiftPosition({
-          team: getDefined(teamPk, "No team provided"),
+          pk: editingShiftPosition.pk,
+          sk: editingShiftPosition.sk,
           day: value.day.toString(),
           requiredSkills: value.requiredSkills,
           schedules: value.schedules,

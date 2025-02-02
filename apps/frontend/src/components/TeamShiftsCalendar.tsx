@@ -25,6 +25,7 @@ import {
 type ShiftPositionWithFake = ShiftPosition & {
   fake?: boolean;
   fakeFrom?: string;
+  original?: ShiftPosition;
 };
 
 const toMinutes = ([hours, minutes]: [number, number]) => {
@@ -69,8 +70,14 @@ export const TeamShiftsCalendar = () => {
   const shiftPositionsMap = useMemo(() => {
     const entries = shiftPositions.flatMap((shiftPosition) => {
       return splitShiftPositionForEachDay(shiftPosition).map(
-        (shiftPosition) =>
-          [shiftPosition.day, shiftPosition] as [string, ShiftPositionWithFake]
+        (splittedShiftPosition) =>
+          [
+            splittedShiftPosition.day,
+            {
+              ...splittedShiftPosition,
+              original: shiftPosition,
+            },
+          ] as [string, ShiftPositionWithFake]
       );
     });
 
@@ -111,7 +118,7 @@ export const TeamShiftsCalendar = () => {
   >(undefined);
 
   const handleEditShiftPosition = (shiftPosition: ShiftPositionWithFake) => {
-    setEditingShiftPosition(shiftPosition);
+    setEditingShiftPosition(shiftPosition.original ?? shiftPosition);
     setCreateDialogOpen(true);
   };
 
