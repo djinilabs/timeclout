@@ -1,4 +1,4 @@
-import { cacheExchange, Data } from "@urql/exchange-graphcache";
+import { cacheExchange, Data, Entity } from "@urql/exchange-graphcache";
 import type { Client, ClientOptions } from "urql";
 import { fetchExchange, createClient as urqlCreateClient } from "urql";
 import { type Session } from "next-auth";
@@ -38,9 +38,8 @@ const defaultClientOpts = (): ClientOptions => ({
       },
       updates: {
         Mutation: {
-          deleteShiftPosition: (result, args, cache, info) => {
-            console.log("result", result);
-            cache.invalidate(result.deleteShiftPosition);
+          deleteShiftPosition: (result, _args, cache) => {
+            cache.invalidate(result.deleteShiftPosition as Entity);
           },
         },
       },

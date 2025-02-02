@@ -48,7 +48,7 @@ export const TeamShiftsCalendar = () => {
     DayDate.today()
   );
 
-  const { data: shiftPositions } = useTeamShiftsQuery(
+  const { data: shiftPositionsResult } = useTeamShiftsQuery(
     getDefined(team),
     selectedDate
   );
@@ -57,10 +57,16 @@ export const TeamShiftsCalendar = () => {
     useState<ShiftPositionWithFake | null>(null);
   const lastDraggedToDay = useRef<string | null>(null);
 
-  const shiftPositionsMap = useMemo(() => {
+  const shiftPositions = useMemo(() => {
     if (draggingShiftPosition) {
+      const shiftPositions = [...(shiftPositionsResult ?? [])];
       shiftPositions.push(draggingShiftPosition);
+      return shiftPositions;
     }
+    return shiftPositionsResult;
+  }, [draggingShiftPosition, shiftPositionsResult]);
+
+  const shiftPositionsMap = useMemo(() => {
     const entries = shiftPositions.flatMap((shiftPosition) => {
       return splitShiftPositionForEachDay(shiftPosition).map(
         (shiftPosition) =>
