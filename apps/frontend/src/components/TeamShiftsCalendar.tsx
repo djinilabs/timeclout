@@ -1,15 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
-import shiftPositionsQuery from "@/graphql-client/queries/shiftPositions.graphql";
-import moveShiftPositionMutation from "@/graphql-client/mutations/moveShiftPosition.graphql";
-import copyShiftPositionMutation from "@/graphql-client/mutations/copyShiftPosition.graphql";
 import { Dialog } from "./Dialog";
 import { MonthCalendar } from "./MonthCalendar";
 import { generateMonthDays } from "../utils/generateMonthDays";
 import { CreateScheduleShiftPosition } from "./CreateScheduleShiftPosition";
 import { Suspense } from "./Suspense";
-import { useQuery } from "../hooks/useQuery";
 import { type ShiftPosition } from "libs/graphql/src/types.generated";
 import {
   type TimeSchedule,
@@ -18,9 +14,12 @@ import {
 import { splitShiftPositionForEachDay } from "../utils/splitShiftPositionsForEachDay";
 import { Avatar } from "./Avatar";
 import { nanoid } from "nanoid";
-import { useMutation } from "../hooks/useMutation";
-import toast from "react-hot-toast";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { classNames } from "../utils/classNames";
+import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
+import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
+import { getDefined } from "@/utils";
 
 type ShiftPositionWithFake = ShiftPosition & {
   fake?: boolean;
@@ -48,26 +47,17 @@ export const TeamShiftsCalendar = () => {
   const [selectedDate, setSelectedDate] = useState<DayDate>(() =>
     DayDate.today()
   );
-  const [shiftPositionsResult] = useQuery<{
-    shiftPositions: ShiftPosition[];
-  }>({
-    query: shiftPositionsQuery,
-    pollingIntervalMs: 30000,
-    variables: {
-      team,
-      startDay: selectedDate.fullMonthBackFill().toString(),
-      endDay: selectedDate.fullMonthForwardFill().toString(),
-    },
-  });
+
+  const { data: shiftPositions } = useTeamShiftsQuery(
+    getDefined(team),
+    selectedDate
+  );
 
   const [draggingShiftPosition, setDraggingShiftPosition] =
     useState<ShiftPositionWithFake | null>(null);
   const lastDraggedToDay = useRef<string | null>(null);
 
   const shiftPositionsMap = useMemo(() => {
-    const shiftPositions = [
-      ...(shiftPositionsResult?.data?.shiftPositions ?? []),
-    ];
     if (draggingShiftPosition) {
       shiftPositions.push(draggingShiftPosition);
     }
@@ -95,9 +85,7 @@ export const TeamShiftsCalendar = () => {
       },
       {} as Record<string, ShiftPositionWithFake[]>
     );
-  }, [draggingShiftPosition, shiftPositionsResult?.data?.shiftPositions]);
-
-  const [, moveShiftPosition] = useMutation(moveShiftPositionMutation);
+  }, [draggingShiftPosition, shiftPositions]);
 
   // --- copy shift position
   const [focusedShiftPosition, setFocusedShiftPosition] =
@@ -119,8 +107,9 @@ export const TeamShiftsCalendar = () => {
     return () => window.removeEventListener("keydown", handleCopy);
   }, [focusedShiftPosition]);
 
-  const [, copyShiftPosition] = useMutation(copyShiftPositionMutation);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
+
+  const { moveShiftPosition, copyShiftPosition } = useTeamShiftActions();
 
   // catch command-v
   useEffect(() => {
@@ -130,16 +119,11 @@ export const TeamShiftsCalendar = () => {
         if (!copyingShiftPosition || !selectedDay) {
           return;
         }
-        const result = await copyShiftPosition({
-          input: {
-            pk: copyingShiftPosition.pk,
-            sk: copyingShiftPosition.sk,
-            day: selectedDay,
-          },
-        });
-        if (!result.error) {
-          toast.success("Shift position copied");
-        }
+        copyShiftPosition(
+          copyingShiftPosition.pk,
+          copyingShiftPosition.sk,
+          selectedDay
+        );
       }
     };
     window.addEventListener("keydown", handlePaste);
@@ -215,9 +199,52 @@ export const TeamShiftsCalendar = () => {
                     shiftPosition.fake ? "opacity-50" : ""
                   }`}
                 >
-                  <div className="right-0 top-0 absolute opacity-0 group-hover:opacity-100 cursor-pointer hover:bg-gray-100 rounded">
-                    <EllipsisHorizontalIcon className="w-4 h-4" />
-                  </div>
+                  <Menu
+                    as="div"
+                    className="right-0 top-0 absolute opacity-0 group-hover:opacity-100 z-[200]"
+                  >
+                    <MenuButton className="cursor-pointer hover:bg-gray-100 rounded">
+                      <EllipsisHorizontalIcon className="w-4 h-4" />
+                    </MenuButton>
+                    <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <MenuItem>
+                        {({ active }) => (
+                          <button
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                            )}
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </MenuItem>
+                      <MenuItem>
+                        {({ active }) => (
+                          <button
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                            )}
+                          >
+                            Copy
+                          </button>
+                        )}
+                      </MenuItem>
+                      <MenuItem>
+                        {({ active }) => (
+                          <button
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                            )}
+                          >
+                            Delete
+                          </button>
+                        )}
+                      </MenuItem>
+                    </MenuItems>
+                  </Menu>
                   {shiftPosition.assignedTo && (
                     <div
                       className="flex-auto flex items-center justify-left ml-2"
@@ -244,16 +271,7 @@ export const TeamShiftsCalendar = () => {
           if (!foundPosition || foundPosition.day == day) {
             return;
           }
-          const result = await moveShiftPosition({
-            input: {
-              pk: foundPosition.pk,
-              sk: foundPosition.sk,
-              day,
-            },
-          });
-          if (!result.error) {
-            toast.success("Shift position moved");
-          }
+          moveShiftPosition(foundPosition.pk, foundPosition.sk, day);
           setDraggingShiftPosition(null);
         }}
         onCellDragOver={(day, e) => {
