@@ -97,10 +97,11 @@ export const TeamShiftsCalendar = () => {
     useState<ShiftPositionWithFake | null>(null);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
-  const { copyShiftPositionToClipboard } = useTeamShiftsClipboard(
-    focusedShiftPosition,
-    selectedDay
-  );
+  const {
+    copyShiftPositionToClipboard,
+    pasteShiftPositionFromClipboard,
+    hasCopiedShiftPosition,
+  } = useTeamShiftsClipboard(focusedShiftPosition, selectedDay);
 
   const { deleteShiftPosition } = useTeamShiftActions();
 
@@ -208,6 +209,25 @@ export const TeamShiftsCalendar = () => {
                           </button>
                         )}
                       </MenuItem>
+                      {hasCopiedShiftPosition && (
+                        <MenuItem>
+                          {({ active }) => (
+                            <button
+                              onClick={() =>
+                                pasteShiftPositionFromClipboard(
+                                  shiftPosition.day
+                                )
+                              }
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Paste here
+                            </button>
+                          )}
+                        </MenuItem>
+                      )}
                       <MenuItem>
                         {({ active }) => (
                           <button

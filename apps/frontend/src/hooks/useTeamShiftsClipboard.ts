@@ -12,6 +12,17 @@ export const useTeamShiftsClipboard = (
 ) => {
   const [copyingShiftPosition, setCopyingShiftPosition] =
     useState<ShiftPositionWithFake | null>(null);
+  const { copyShiftPosition } = useTeamShiftActions();
+
+  const pasteShiftPositionFromClipboard = useCallback(
+    (day: string) => {
+      if (!copyingShiftPosition) {
+        return;
+      }
+      copyShiftPosition(copyingShiftPosition.pk, copyingShiftPosition.sk, day);
+    },
+    [copyingShiftPosition, copyShiftPosition]
+  );
 
   // catch command-c
   useEffect(() => {
@@ -27,26 +38,16 @@ export const useTeamShiftsClipboard = (
     return () => window.removeEventListener("keydown", handleCopy);
   }, [focusedShiftPosition]);
 
-  const { moveShiftPosition, copyShiftPosition } = useTeamShiftActions();
-
   // catch command-v
   useEffect(() => {
     const handlePaste = async (e: KeyboardEvent) => {
-      if (e.metaKey && e.key === "v") {
-        console.log("paste");
-        if (!copyingShiftPosition || !selectedDay) {
-          return;
-        }
-        copyShiftPosition(
-          copyingShiftPosition.pk,
-          copyingShiftPosition.sk,
-          selectedDay
-        );
+      if (e.metaKey && e.key === "v" && selectedDay) {
+        pasteShiftPositionFromClipboard(selectedDay);
       }
     };
     window.addEventListener("keydown", handlePaste);
     return () => window.removeEventListener("keydown", handlePaste);
-  }, [copyShiftPosition, copyingShiftPosition, moveShiftPosition, selectedDay]);
+  }, [selectedDay, pasteShiftPositionFromClipboard]);
 
   const copyShiftPositionToClipboard = useCallback(
     (shiftPosition: ShiftPositionWithFake) => {
@@ -57,5 +58,7 @@ export const useTeamShiftsClipboard = (
 
   return {
     copyShiftPositionToClipboard,
+    pasteShiftPositionFromClipboard,
+    hasCopiedShiftPosition: !!copyingShiftPosition,
   };
 };
