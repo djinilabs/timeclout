@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Dialog } from "./Dialog";
@@ -7,19 +7,20 @@ import { generateMonthDays } from "../utils/generateMonthDays";
 import { CreateScheduleShiftPosition } from "./CreateScheduleShiftPosition";
 import { Suspense } from "./Suspense";
 import { type ShiftPosition } from "libs/graphql/src/types.generated";
-import {
-  type TimeSchedule,
-  MiniTimeScheduleVisualizer,
-} from "./MiniTimeScheduleVisualizer";
 import { splitShiftPositionForEachDay } from "../utils/splitShiftPositionsForEachDay";
 import { Avatar } from "./Avatar";
-import { nanoid } from "nanoid";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { classNames } from "../utils/classNames";
 import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
 import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
 import { getDefined } from "@/utils";
+import { useTeamShiftsDragAndDrop } from "../hooks/useTeamShiftsDragAndDrop";
+import { useTeamShiftsClipboard } from "../hooks/useTeamShiftsClipboard";
+import {
+  type TimeSchedule,
+  MiniTimeScheduleVisualizer,
+} from "./MiniTimeScheduleVisualizer";
 
 type ShiftPositionWithFake = ShiftPosition & {
   fake?: boolean;
@@ -53,9 +54,8 @@ export const TeamShiftsCalendar = () => {
     selectedDate
   );
 
-  const [draggingShiftPosition, setDraggingShiftPosition] =
-    useState<ShiftPositionWithFake | null>(null);
-  const lastDraggedToDay = useRef<string | null>(null);
+  const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
+    useTeamShiftsDragAndDrop(shiftPositionsResult);
 
   const shiftPositions = useMemo(() => {
     if (draggingShiftPosition) {
@@ -93,49 +93,16 @@ export const TeamShiftsCalendar = () => {
     );
   }, [draggingShiftPosition, shiftPositions]);
 
-  // --- copy shift position
   const [focusedShiftPosition, setFocusedShiftPosition] =
     useState<ShiftPositionWithFake | null>(null);
-  const [copyingShiftPosition, setCopyingShiftPosition] =
-    useState<ShiftPositionWithFake | null>(null);
-
-  // catch command-c
-  useEffect(() => {
-    const handleCopy = (e: KeyboardEvent) => {
-      if (e.metaKey && e.key === "c") {
-        console.log("copy");
-        if (focusedShiftPosition) {
-          setCopyingShiftPosition(focusedShiftPosition);
-        }
-      }
-    };
-    window.addEventListener("keydown", handleCopy);
-    return () => window.removeEventListener("keydown", handleCopy);
-  }, [focusedShiftPosition]);
-
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
-  const { moveShiftPosition, copyShiftPosition, deleteShiftPosition } =
-    useTeamShiftActions();
+  const { copyShiftPositionToClipboard } = useTeamShiftsClipboard(
+    focusedShiftPosition,
+    selectedDay
+  );
 
-  // catch command-v
-  useEffect(() => {
-    const handlePaste = async (e: KeyboardEvent) => {
-      if (e.metaKey && e.key === "v") {
-        console.log("paste");
-        if (!copyingShiftPosition || !selectedDay) {
-          return;
-        }
-        copyShiftPosition(
-          copyingShiftPosition.pk,
-          copyingShiftPosition.sk,
-          selectedDay
-        );
-      }
-    };
-    window.addEventListener("keydown", handlePaste);
-    return () => window.removeEventListener("keydown", handlePaste);
-  }, [copyShiftPosition, copyingShiftPosition, moveShiftPosition, selectedDay]);
+  const { deleteShiftPosition } = useTeamShiftActions();
 
   return (
     <>
@@ -229,6 +196,9 @@ export const TeamShiftsCalendar = () => {
                       <MenuItem>
                         {({ active }) => (
                           <button
+                            onClick={() =>
+                              copyShiftPositionToClipboard(shiftPosition)
+                            }
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block w-full text-left px-4 py-2 text-sm text-gray-700"
@@ -275,43 +245,9 @@ export const TeamShiftsCalendar = () => {
               );
             });
         }}
-        onCellDrop={async (day, e) => {
-          const data = e.dataTransfer.types[0];
-          lastDraggedToDay.current = day;
-          const foundPosition = shiftPositions?.find(
-            (shiftPosition) => shiftPosition.sk.toLowerCase() === data
-          );
-          if (!foundPosition || foundPosition.day == day) {
-            return;
-          }
-          moveShiftPosition(foundPosition.pk, foundPosition.sk, day);
-          setDraggingShiftPosition(null);
-        }}
-        onCellDragOver={(day, e) => {
-          if (lastDraggedToDay.current == day) {
-            return;
-          }
-          lastDraggedToDay.current = day;
-          const data = e.dataTransfer.types[0];
-          const foundPosition = shiftPositions?.find(
-            (shiftPosition) => shiftPosition.sk.toLowerCase() === data
-          );
-          if (!foundPosition || foundPosition.day == day) {
-            return;
-          }
-          const position = {
-            ...foundPosition,
-            day,
-            sk: `day/${nanoid()}`, // fake sk
-            fake: true,
-            fakeFrom: foundPosition.sk,
-          };
-          setDraggingShiftPosition(position);
-        }}
-        onCellDragLeave={() => {
-          lastDraggedToDay.current = null;
-          setDraggingShiftPosition(null);
-        }}
+        onCellDrop={onCellDrop}
+        onCellDragOver={onCellDragOver}
+        onCellDragLeave={onCellDragLeave}
       />
     </>
   );
