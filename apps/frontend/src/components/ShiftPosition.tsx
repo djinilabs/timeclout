@@ -17,7 +17,7 @@ type ShiftPositionWithFake = ShiftPositionType & {
 
 export interface ShiftPositionProps {
   shiftPosition: ShiftPositionWithFake;
-  setFocusedShiftPosition: (shiftPosition: ShiftPositionType) => void;
+  setFocusedShiftPosition?: (shiftPosition: ShiftPositionType) => void;
   focus: boolean;
   autoFocus?: boolean;
   tabIndex: number;
@@ -60,6 +60,7 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
     const persistFocus = (tries = 0) => {
       if (ref.current) {
         if (!ref.current.contains(document.activeElement)) {
+          console.log("focusing on ", shiftPosition.day);
           ref.current.focus();
         }
       } else if (tries < 5) {
@@ -69,14 +70,15 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
       }
     };
     if (focus) {
+      console.log("focusing on ", shiftPosition.day);
       persistFocus();
     }
-  }, [focus]);
+  }, [focus, shiftPosition.day]);
 
   return (
     <div
       ref={ref}
-      onFocus={() => setFocusedShiftPosition(shiftPosition)}
+      onFocus={() => setFocusedShiftPosition?.(shiftPosition)}
       autoFocus={autoFocus}
       tabIndex={tabIndex}
       draggable
@@ -87,7 +89,7 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
       onDragEnd={(e) => {
         e.dataTransfer.clearData();
       }}
-      className={`group relative items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-gray-200 focus:ring-offset-1 cursor-grab active:cursor-grabbing ${
+      className={`group relative items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1 cursor-grab active:cursor-grabbing ${
         shiftPosition.fake ? "opacity-50" : ""
       }`}
     >

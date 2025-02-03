@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Dialog } from "./Dialog";
@@ -38,6 +38,20 @@ export const TeamShiftsCalendar = () => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<DayDate>(() =>
     DayDate.today()
+  );
+  const [previouslySelectedMonth, setPreviouslySelectedMonth] = useState<
+    DayDate | undefined
+  >();
+
+  const goToMonth = useCallback(
+    (_month: DayDate) => {
+      const month = _month.firstOfMonth();
+      setPreviouslySelectedMonth(selectedMonth);
+      setSelectedMonth(month);
+      setFocusedDay(month.toString());
+      setFocusedShiftPosition(null);
+    },
+    [selectedMonth]
   );
 
   const { data: shiftPositionsResult } = useTeamShiftsQuery(
@@ -94,6 +108,7 @@ export const TeamShiftsCalendar = () => {
 
   const [focusedShiftPosition, setFocusedShiftPosition] =
     useState<ShiftPositionWithFake | null>(null);
+
   const [focusedDay, setFocusedDay] = useState<string | null>(null);
 
   const advanceFocusedShiftPositionByDays = (
@@ -111,34 +126,22 @@ export const TeamShiftsCalendar = () => {
         tryDay = tryDay.nextDay(days);
         // if previous day is not the same month, we need to navigate to the previous month
         if (tryDay.getMonth() !== selectedMonth.getMonth()) {
-          setSelectedMonth(tryDay.firstOfMonth());
-          setFocusedDay(tryDay.toString());
+          goToMonth(tryDay);
           break;
         }
-        const previousShiftPositions = shiftPositionsMap?.[tryDay.toString()];
-        if (previousShiftPositions) {
-          if (nextSelectionPreference === "same") {
-            const previousShiftPosition =
-              previousShiftPositions[
-                Math.min(initialIndex, previousShiftPositions.length - 1)
-              ];
-            if (previousShiftPosition) {
-              setFocusedShiftPosition(previousShiftPosition);
-              break;
-            }
-          } else if (nextSelectionPreference === "first") {
-            const previousShiftPosition = previousShiftPositions[0];
-            if (previousShiftPosition) {
-              setFocusedShiftPosition(previousShiftPosition);
-              break;
-            }
-          } else if (nextSelectionPreference === "last") {
-            const previousShiftPosition =
-              previousShiftPositions[previousShiftPositions.length - 1];
-            if (previousShiftPosition) {
-              setFocusedShiftPosition(previousShiftPosition);
-              break;
-            }
+        const nextShiftPositions = shiftPositionsMap?.[tryDay.toString()];
+        if (nextShiftPositions) {
+          const nextIndex =
+            nextSelectionPreference === "same"
+              ? Math.min(initialIndex, nextShiftPositions.length - 1)
+              : nextSelectionPreference === "first"
+                ? 0
+                : nextShiftPositions.length - 1;
+
+          const nextShiftPosition = nextShiftPositions[nextIndex];
+          if (nextShiftPosition) {
+            setFocusedShiftPosition(nextShiftPosition);
+            break;
           }
         }
       }
@@ -179,6 +182,57 @@ export const TeamShiftsCalendar = () => {
       advanceFocusedShiftPositionByDays(1, "same");
     },
   });
+
+  useEffect(() => {
+    if (!focusedShiftPosition) {
+      return;
+    }
+    if (!new DayDate(focusedShiftPosition.day).isSameMonth(selectedMonth)) {
+      setFocusedShiftPosition(null);
+    }
+  }, [focusedShiftPosition, selectedMonth]);
+
+  useEffect(() => {
+    if (
+      !focusedShiftPosition &&
+      shiftPositionsMap &&
+      (!previouslySelectedMonth ||
+        !previouslySelectedMonth?.isSameMonth(selectedMonth))
+    ) {
+      // determine the new focused shift position based on the previously selected month
+      // first, we need to determine which direction to scan the month: up or down
+      const direction =
+        previouslySelectedMonth == null ||
+        previouslySelectedMonth.isBefore(selectedMonth)
+          ? 1
+          : -1;
+
+      let scanningDay =
+        direction == 1
+          ? selectedMonth.firstOfMonth()
+          : selectedMonth.endOfMonth();
+      while (scanningDay.isSameMonth(selectedMonth)) {
+        const shiftPositions = shiftPositionsMap[scanningDay.toString()];
+        if (shiftPositions) {
+          const candidate =
+            shiftPositions[direction == 1 ? 0 : shiftPositions.length - 1];
+          if (
+            candidate &&
+            new DayDate(candidate.day).isSameMonth(selectedMonth)
+          ) {
+            setFocusedShiftPosition(candidate);
+            break;
+          }
+        }
+        scanningDay = scanningDay.nextDay(direction);
+      }
+    }
+  }, [
+    focusedShiftPosition,
+    previouslySelectedMonth,
+    selectedMonth,
+    shiftPositionsMap,
+  ]);
 
   // ------- clipboard -------
 
@@ -231,8 +285,7 @@ export const TeamShiftsCalendar = () => {
         addButtonText="Add position"
         goTo={(year, month) => {
           const day = new DayDate(year, month + 1, 1);
-          setSelectedMonth(day);
-          setFocusedDay(day.toString());
+          goToMonth(day);
         }}
         days={generateMonthDays(
           selectedMonth.getYear(),
@@ -254,8 +307,8 @@ export const TeamShiftsCalendar = () => {
                     focusedShiftPosition == shiftPosition) ||
                   false
                 }
-                shiftPosition={shiftPosition}
                 setFocusedShiftPosition={setFocusedShiftPosition}
+                shiftPosition={shiftPosition}
                 tabIndex={dayIndex * 100 + shiftPositionIndex}
                 handleEditShiftPosition={handleEditShiftPosition}
                 copyShiftPositionToClipboard={copyShiftPositionToClipboard}

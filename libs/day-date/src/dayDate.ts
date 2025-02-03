@@ -161,9 +161,15 @@ export class DayDate {
 
   isSameDay(dayDate: DayDate) {
     return (
+      this.isSameMonth(dayDate) &&
+      this.getDayOfMonth() === dayDate.getDayOfMonth()
+    );
+  }
+
+  isSameMonth(dayDate: DayDate) {
+    return (
       this.date.getFullYear() === dayDate.date.getFullYear() &&
-      this.date.getMonth() === dayDate.date.getMonth() &&
-      this.date.getDate() === dayDate.date.getDate()
+      this.date.getMonth() === dayDate.date.getMonth()
     );
   }
 
