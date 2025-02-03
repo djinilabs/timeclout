@@ -36,8 +36,9 @@ input CreateLeaveRequestInput {
 
 input CreateShiftPositionInput {
   assignedTo: String
+  color: String
   day: String!
-  name: String!
+  name: String
   replaces: String
   requiredSkills: [String!]!
   schedules: [ShiftPositionScheduleInput!]!
@@ -205,6 +206,7 @@ type Schedule {
 
 type ShiftPosition {
   assignedTo: User
+  color: String
   day: String!
   name: String
   pk: String!
@@ -267,8 +269,9 @@ input UpdateMeInput {
 
 input UpdateShiftPositionInput {
   assignedTo: String
+  color: String
   day: String!
-  name: String!
+  name: String
   pk: String!
   replaces: String
   requiredSkills: [String!]!

@@ -48,18 +48,16 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
 
   return (
     <div
-      className="items-center grid grid-cols-5 z-[100]"
+      className="items-center grid grid-cols-5 z-[100] truncate"
       style={{ width: `${howManyDaysPercentage}%` }}
     >
       <div
-        className="text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap flex"
+        className="text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap truncate"
         style={{ marginLeft: `${startPercent}%` }}
       >
-        <span>
-          {`${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
-            schedules[0].startHourMinutes[1]
-          ).padStart(2, "0")}`}
-        </span>
+        {`${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
+          schedules[0].startHourMinutes[1]
+        ).padStart(2, "0")}`}
       </div>
       <div className="relative h-1 rounded col-span-5">
         {schedules.map((schedule, index) => {
@@ -92,7 +90,7 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
           );
         })}
       </div>
-      <div className="text-tiny text-gray-600 whitespace-nowrap col-span-5 text-right z-[100]">
+      <div className="text-tiny text-gray-600 whitespace-nowrap col-span-5 text-right truncate z-[100]">
         {`${String(
           getPrintableEndHour(schedules[schedules.length - 1].endHourMinutes[0])
         ).padStart(2, "0")}:${String(

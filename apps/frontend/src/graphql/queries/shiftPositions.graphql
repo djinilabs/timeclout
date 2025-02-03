@@ -4,6 +4,7 @@ query ShiftPositions($team: String!, $startDay: String!, $endDay: String!) {
     sk
     day
     name
+    color
     requiredSkills
     schedules {
       startHourMinutes

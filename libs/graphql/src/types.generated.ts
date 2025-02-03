@@ -65,8 +65,9 @@ export type CreateLeaveRequestInput = {
 
 export type CreateShiftPositionInput = {
   assignedTo?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
   day: Scalars['String']['input'];
-  name: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
   replaces?: InputMaybe<Scalars['String']['input']>;
   requiredSkills: Array<Scalars['String']['input']>;
   schedules: Array<ShiftPositionScheduleInput>;
@@ -466,6 +467,7 @@ export type Schedule = {
 export type ShiftPosition = {
   __typename?: 'ShiftPosition';
   assignedTo?: Maybe<User>;
+  color?: Maybe<Scalars['String']['output']>;
   day: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   pk: Scalars['String']['output'];
@@ -552,8 +554,9 @@ export type UpdateMeInput = {
 
 export type UpdateShiftPositionInput = {
   assignedTo?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
   day: Scalars['String']['input'];
-  name: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
   pk: Scalars['String']['input'];
   replaces?: InputMaybe<Scalars['String']['input']>;
   requiredSkills: Array<Scalars['String']['input']>;
@@ -902,6 +905,7 @@ export type ScheduleResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type ShiftPositionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShiftPosition'] = ResolversParentTypes['ShiftPosition']> = {
   assignedTo?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  color?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   day?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

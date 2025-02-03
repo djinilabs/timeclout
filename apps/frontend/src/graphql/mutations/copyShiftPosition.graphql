@@ -4,6 +4,7 @@ mutation copyShiftPositionShiftPosition($input: CopyShiftPositionInput!) {
     sk
     day
     name
+    color
     requiredSkills
     schedules {
       startHourMinutes

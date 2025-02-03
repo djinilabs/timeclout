@@ -18,6 +18,7 @@ import {
 import { getDefined } from "@/utils";
 import { EditQualifications } from "./EditQualifications";
 import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
+import { Color, ColorPicker } from "./ColorPicker";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
@@ -42,6 +43,7 @@ export interface User {
 export interface CreateOrEditScheduleShiftPositionForm {
   day: DayDate;
   name: string;
+  color: Color | undefined;
   requiredSkills: string[];
   schedules: ShiftPositionSchedule[];
   assignedTo?: User;
@@ -56,6 +58,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
     defaultValues: useMemo(
       () => ({
         name: editingShiftPosition?.name ?? "",
+        color: editingShiftPosition?.color as Color | undefined,
         day: editingShiftPosition?.day
           ? new DayDate(editingShiftPosition.day)
           : day,
@@ -91,6 +94,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
           sk: editingShiftPosition.sk,
           day: value.day.toString(),
           name: value.name,
+          color: value.color,
           requiredSkills: value.requiredSkills,
           schedules: value.schedules,
           assignedTo: value.assignedTo?.pk,
@@ -286,6 +290,29 @@ export const CreateOrEditScheduleShiftPosition: FC<
                       }`}
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
+            />
+
+            <form.Field
+              name="color"
+              children={(field) => (
+                <>
+                  <div className="col-span-full">
+                    <label
+                      htmlFor={field.name}
+                      className="block text-sm/6 font-medium text-gray-900"
+                    >
+                      Color
+                    </label>
+                    <p className="mt-3 text-sm/6 text-gray-600 mb-2">
+                      Set a color to this position
+                    </p>
+                    <ColorPicker
+                      value={field.state.value}
+                      onChange={(color) => field.handleChange(color)}
                     />
                   </div>
                 </>

@@ -12,7 +12,8 @@ export const createShiftPosition: NonNullable<
 > = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
-  const { team, day, name, requiredSkills, schedules, assignedTo } = input;
+  const { team, day, name, color, requiredSkills, schedules, assignedTo } =
+    input;
   const pk = resourceRef("teams", team);
   const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
   const sk = `${day}/${nanoid()}`;
@@ -23,7 +24,8 @@ export const createShiftPosition: NonNullable<
     createdAt: new Date().toISOString(),
     teamPk: pk,
     day,
-    name,
+    name: name ?? undefined,
+    color: color ?? undefined,
     requiredSkills,
     schedules,
     assignedTo: assignedTo ?? undefined,

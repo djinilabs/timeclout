@@ -68,6 +68,7 @@ export const tableSchemas = {
     teamPk: z.string().refine(getResourceRef),
     day: z.string().date(),
     name: z.string().optional(),
+    color: z.string().optional(),
     published: z.boolean(),
     replaces: z.string().optional(),
     requiredSkills: z.array(z.string()),

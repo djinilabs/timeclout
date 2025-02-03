@@ -9,6 +9,8 @@ import {
   MiniTimeScheduleVisualizer,
 } from "./MiniTimeScheduleVisualizer";
 import { type ShiftPositionWithFake } from "../hooks/useTeamShiftPositionsMap";
+import { leaveTypeColors } from "../settings/leaveTypes";
+import { colors } from "../settings/colors";
 
 export interface ShiftPositionProps {
   shiftPosition: ShiftPositionWithFake;
@@ -94,9 +96,14 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
           e.dataTransfer.clearData();
         }}
         className={classNames(
-          "group relative items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1 cursor-grab active:cursor-grabbing h-full w-full",
-          shiftPosition.fake ? "opacity-50" : ""
+          "group relative items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1 cursor-grab active:cursor-grabbing h-full w-full py-1",
+          shiftPosition.fake && "opacity-50"
         )}
+        style={{
+          backgroundColor: shiftPosition.color
+            ? `${colors[shiftPosition.color]}22`
+            : undefined,
+        }}
       >
         <Menu
           as="div"
@@ -178,7 +185,7 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
           )}
           <span
             title={shiftPosition.name ?? ""}
-            className="text-tiny text-gray-400 truncate ml-1"
+            className="text-tiny text-gray-400 truncate ml-1 text-left"
           >
             {shiftPosition.name}
           </span>
