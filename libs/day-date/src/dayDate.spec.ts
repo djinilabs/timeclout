@@ -143,8 +143,8 @@ describe("DayDate", () => {
     });
 
     it("gets month forward fill", () => {
-      const date = new DayDate(2023, 12, 31); // Sunday
-      expect(date.fullMonthForwardFill().toString()).toBe("2024-01-06");
+      const date = new DayDate(2024, 12, 30); // Monday
+      expect(date.fullMonthForwardFill().toString()).toBe("2025-01-05");
     });
   });
 
@@ -187,6 +187,28 @@ describe("DayDate", () => {
       expect(today.getYear()).toBe(jsToday.getUTCFullYear());
       expect(today.getMonth()).toBe(jsToday.getUTCMonth() + 1);
       expect(today.getMonthDayNumber()).toBe(jsToday.getUTCDate());
+    });
+  });
+
+  describe("getWeekNumber", () => {
+    it("gets week number for dates in different parts of year", () => {
+      expect(new DayDate(2023, 1, 1).getWeekNumber()).toBe(52); // Sunday in last week of 2022
+      expect(new DayDate(2023, 1, 2).getWeekNumber()).toBe(1); // First Monday of 2023
+      expect(new DayDate(2023, 6, 15).getWeekNumber()).toBe(24); // Mid-year
+      expect(new DayDate(2023, 12, 31).getWeekNumber()).toBe(52); // Last day of year
+    });
+
+    it("handles week numbers around year boundaries", () => {
+      expect(new DayDate(2022, 12, 31).getWeekNumber()).toBe(52);
+      expect(new DayDate(2023, 1, 1).getWeekNumber()).toBe(52);
+      expect(new DayDate(2023, 1, 2).getWeekNumber()).toBe(1);
+      expect(new DayDate(2024, 1, 1).getWeekNumber()).toBe(1);
+    });
+
+    it("gets correct week numbers for specific edge cases", () => {
+      expect(new DayDate(2023, 3, 1).getWeekNumber()).toBe(9); // March 1st
+      expect(new DayDate(2023, 12, 28).getWeekNumber()).toBe(52); // End of year
+      expect(new DayDate(2023, 4, 15).getWeekNumber()).toBe(15); // Mid-April
     });
   });
 });
