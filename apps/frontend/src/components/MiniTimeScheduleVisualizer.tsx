@@ -8,6 +8,7 @@ export interface TimeSchedule {
 
 export interface TimeScheduleVisualizerProps {
   schedules: TimeSchedule[];
+  name: string;
 }
 
 const toMinutes = ([hours, minutes]: [number, number]) => {
@@ -33,6 +34,7 @@ const getPrintableEndHour = (endHour: number) => {
 
 export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
   schedules,
+  name,
 }) => {
   if (schedules.length === 0) {
     return null;
@@ -50,14 +52,14 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
       style={{ width: `${howManyDaysPercentage}%` }}
     >
       <div
-        className="text-[8px] text-gray-600 col-span-5 text-left"
-        style={{
-          marginLeft: `${startPercent}%`,
-        }}
+        className="text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap flex"
+        style={{ marginLeft: `${startPercent}%` }}
       >
-        {`${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
-          schedules[0].startHourMinutes[1]
-        ).padStart(2, "0")}`}
+        <span>
+          {`${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
+            schedules[0].startHourMinutes[1]
+          ).padStart(2, "0")}`}
+        </span>
       </div>
       <div className="relative h-1 rounded col-span-5">
         {schedules.map((schedule, index) => {

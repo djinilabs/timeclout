@@ -3,6 +3,7 @@ query ShiftPositions($team: String!, $startDay: String!, $endDay: String!) {
     pk
     sk
     day
+    name
     requiredSkills
     schedules {
       startHourMinutes

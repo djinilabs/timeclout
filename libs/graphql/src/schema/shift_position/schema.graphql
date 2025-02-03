@@ -8,6 +8,7 @@ type ShiftPosition {
   pk: String!
   sk: String!
   day: String!
+  name: String
   requiredSkills: [String!]!
   schedules: [ShiftPositionSchedule!]!
   assignedTo: User
@@ -24,6 +25,7 @@ input ShiftPositionScheduleInput {
 input CreateShiftPositionInput {
   team: String!
   day: String!
+  name: String!
   requiredSkills: [String!]!
   schedules: [ShiftPositionScheduleInput!]!
   assignedTo: String
@@ -34,6 +36,7 @@ input UpdateShiftPositionInput {
   pk: String!
   sk: String!
   day: String!
+  name: String!
   requiredSkills: [String!]!
   schedules: [ShiftPositionScheduleInput!]!
   assignedTo: String

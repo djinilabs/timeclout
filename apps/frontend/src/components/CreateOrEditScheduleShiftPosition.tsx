@@ -41,6 +41,7 @@ export interface User {
 
 export interface CreateOrEditScheduleShiftPositionForm {
   day: DayDate;
+  name: string;
   requiredSkills: string[];
   schedules: ShiftPositionSchedule[];
   assignedTo?: User;
@@ -54,6 +55,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
   const form = useForm<CreateOrEditScheduleShiftPositionForm>({
     defaultValues: useMemo(
       () => ({
+        name: editingShiftPosition?.name ?? "",
         day: editingShiftPosition?.day
           ? new DayDate(editingShiftPosition.day)
           : day,
@@ -75,6 +77,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
         const success = await createShiftPosition({
           team: getDefined(teamPk, "No team provided"),
           day: value.day.toString(),
+          name: value.name,
           requiredSkills: value.requiredSkills,
           schedules: value.schedules,
           assignedTo: value.assignedTo?.pk,
@@ -87,6 +90,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
           pk: editingShiftPosition.pk,
           sk: editingShiftPosition.sk,
           day: value.day.toString(),
+          name: value.name,
           requiredSkills: value.requiredSkills,
           schedules: value.schedules,
           assignedTo: value.assignedTo?.pk,
@@ -253,6 +257,35 @@ export const CreateOrEditScheduleShiftPosition: FC<
                       users={teamWithMembersAndSettings?.team?.members ?? []}
                       user={field.state.value}
                       onChange={(user) => field.handleChange(user)}
+                    />
+                  </div>
+                </>
+              )}
+            />
+
+            <form.Field
+              name="name"
+              children={(field) => (
+                <>
+                  <div className="col-span-full">
+                    <label
+                      htmlFor={field.name}
+                      className="block text-sm/6 font-medium text-gray-900"
+                    >
+                      Name
+                    </label>
+                    <p className="mt-3 text-sm/6 text-gray-600 mb-2">
+                      Set a name to this position
+                    </p>
+                    <input
+                      type="text"
+                      className={`col-start-1 row-start-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600 sm:text-sm/6 ${
+                        field.state.meta.errors.length > 0
+                          ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
+                          : ""
+                      }`}
+                      value={field.state.value}
+                      onChange={(e) => field.handleChange(e.target.value)}
                     />
                   </div>
                 </>

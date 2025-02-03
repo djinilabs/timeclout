@@ -7,13 +7,16 @@ import type {
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const updateShiftPosition: NonNullable<MutationResolvers['updateShiftPosition']> = async (_parent, arg, ctx) => {
+export const updateShiftPosition: NonNullable<
+  MutationResolvers["updateShiftPosition"]
+> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const {
     pk: _pk,
     sk,
     day,
+    name,
     requiredSkills,
     schedules,
     assignedTo,
@@ -31,6 +34,7 @@ export const updateShiftPosition: NonNullable<MutationResolvers['updateShiftPosi
     ...shiftPosition,
     sk: newSk,
     day,
+    name,
     requiredSkills,
     schedules,
     assignedTo: assignedTo ?? undefined,

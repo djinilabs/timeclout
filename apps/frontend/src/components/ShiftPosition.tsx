@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
@@ -42,7 +42,7 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
   pasteShiftPositionFromClipboard,
   deleteShiftPosition,
 }) => {
-  const { schedules } = shiftPosition;
+  const { schedules, name } = shiftPosition;
   const startTime = toMinutes(
     schedules[0].startHourMinutes as [number, number]
   );
@@ -166,17 +166,25 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
             </MenuItem>
           </MenuItems>
         </Menu>
-        {shiftPosition.assignedTo && (
-          <div
-            className="flex-auto flex items-center justify-left ml-2"
-            style={{
-              marginLeft: `${startPercent}%`,
-            }}
-          >
+
+        <div
+          className="flex-auto flex items-center justify-left ml-2 overflow-hidden"
+          style={{
+            marginLeft: `${startPercent}%`,
+          }}
+        >
+          {shiftPosition.assignedTo && (
             <Avatar size={25} {...shiftPosition.assignedTo} />
-          </div>
-        )}
+          )}
+          <span
+            title={shiftPosition.name ?? ""}
+            className="text-tiny text-gray-400 truncate ml-1"
+          >
+            {shiftPosition.name}
+          </span>
+        </div>
         <MiniTimeScheduleVisualizer
+          name={name ?? ""}
           schedules={schedules as Array<TimeSchedule>}
         />
       </div>

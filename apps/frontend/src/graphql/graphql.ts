@@ -64,6 +64,7 @@ export type CreateLeaveRequestInput = {
 export type CreateShiftPositionInput = {
   assignedTo?: InputMaybe<Scalars['String']['input']>;
   day: Scalars['String']['input'];
+  name: Scalars['String']['input'];
   replaces?: InputMaybe<Scalars['String']['input']>;
   requiredSkills: Array<Scalars['String']['input']>;
   schedules: Array<ShiftPositionScheduleInput>;
@@ -464,6 +465,7 @@ export type ShiftPosition = {
   __typename?: 'ShiftPosition';
   assignedTo?: Maybe<User>;
   day: Scalars['String']['output'];
+  name?: Maybe<Scalars['String']['output']>;
   pk: Scalars['String']['output'];
   published: Scalars['Boolean']['output'];
   replaces?: Maybe<Scalars['String']['output']>;
@@ -549,6 +551,7 @@ export type UpdateMeInput = {
 export type UpdateShiftPositionInput = {
   assignedTo?: InputMaybe<Scalars['String']['input']>;
   day: Scalars['String']['input'];
+  name: Scalars['String']['input'];
   pk: Scalars['String']['input'];
   replaces?: InputMaybe<Scalars['String']['input']>;
   requiredSkills: Array<Scalars['String']['input']>;

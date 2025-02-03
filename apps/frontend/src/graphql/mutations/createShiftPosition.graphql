@@ -3,6 +3,7 @@ mutation CreateShiftPosition($input: CreateShiftPositionInput!) {
     pk
     sk
     day
+    name
     requiredSkills
     schedules {
       startHourMinutes

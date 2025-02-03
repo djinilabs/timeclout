@@ -39,7 +39,7 @@ export class DayDate {
     return new DayDate(new Date());
   }
 
-  constructor(...args: [number, number, number] | [Date] | [string]) {
+  constructor(...args: [number, number, number] | [Date | string]) {
     let numberDate: [number, number, number] | undefined;
     if (args.length === 3) {
       numberDate = args;
