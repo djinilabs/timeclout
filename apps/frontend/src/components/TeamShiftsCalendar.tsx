@@ -152,9 +152,7 @@ export const TeamShiftsCalendar = () => {
         const index = dayShiftPositions?.findIndex(
           (shiftPosition) => shiftPosition === focusedShiftPosition
         );
-        console.log(index);
         if (index !== undefined && index > 0) {
-          console.log("up", dayShiftPositions[index - 1]);
           setFocusedShiftPosition(dayShiftPositions[index - 1]);
         } else {
           advanceFocusedShiftPositionByDays(-7, "last");
