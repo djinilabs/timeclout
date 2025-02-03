@@ -6,7 +6,6 @@ import { MonthCalendar } from "./MonthCalendar";
 import { generateMonthDays } from "../utils/generateMonthDays";
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
 import { Suspense } from "./Suspense";
-import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
 import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
 import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
 import { getDefined } from "@/utils";
@@ -14,24 +13,11 @@ import { useTeamShiftsDragAndDrop } from "../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../hooks/useTeamShiftsClipboard";
 import { ShiftPosition } from "./ShiftPosition";
 import { useTeamShiftsFocusNavigation } from "../hooks/useTeamShiftsFocusNavigation";
-import { useTeamShiftPositionsMap } from "../hooks/useTeamShiftPositionsMap";
-
-type ShiftPositionWithFake = ShiftPositionType & {
-  fake?: boolean;
-  fakeFrom?: string;
-  original?: ShiftPositionType;
-};
-
-const sortShiftPositions = (
-  a: ShiftPositionWithFake,
-  b: ShiftPositionWithFake
-) => {
-  return (
-    (a.assignedTo?.name ?? "ZZZZZZZZZZ").localeCompare(
-      b.assignedTo?.name ?? "ZZZZZZZZZZ"
-    ) ?? a.sk.localeCompare(b.sk)
-  );
-};
+import {
+  type ShiftPositionWithFake,
+  useTeamShiftPositionsMap,
+} from "../hooks/useTeamShiftPositionsMap";
+import { classNames } from "../utils/classNames";
 
 export const TeamShiftsCalendar = () => {
   const { team } = useParams();
@@ -139,28 +125,41 @@ export const TeamShiftsCalendar = () => {
           if (!shiftPositions) {
             return null;
           }
-          return shiftPositions
-            .sort(sortShiftPositions)
-            .map((shiftPosition, shiftPositionIndex) => (
-              <ShiftPosition
-                key={shiftPosition.sk}
-                focus={
-                  (focusedShiftPosition &&
-                    focusedShiftPosition == shiftPosition) ||
-                  false
-                }
-                setFocusedShiftPosition={setFocusedShiftPosition}
-                shiftPosition={shiftPosition}
-                tabIndex={dayIndex * 100 + shiftPositionIndex}
-                handleEditShiftPosition={handleEditShiftPosition}
-                copyShiftPositionToClipboard={copyShiftPositionToClipboard}
-                hasCopiedShiftPosition={hasCopiedShiftPosition}
-                pasteShiftPositionFromClipboard={
-                  pasteShiftPositionFromClipboard
-                }
-                deleteShiftPosition={deleteShiftPosition}
-              />
-            ));
+          const rowCount = shiftPositions.reduce(
+            (acc, shiftPosition) => acc + shiftPosition.rowSpan,
+            0
+          );
+          return (
+            <div
+              className={classNames("h-full w-full grid")}
+              style={{
+                gridTemplateRows: `repeat(${
+                  !Number.isNaN(rowCount) ? rowCount : shiftPositions.length
+                }, 1fr)`,
+              }}
+            >
+              {shiftPositions.map((shiftPosition, shiftPositionIndex) => (
+                <ShiftPosition
+                  key={shiftPosition.sk}
+                  focus={
+                    (focusedShiftPosition &&
+                      focusedShiftPosition == shiftPosition) ||
+                    false
+                  }
+                  setFocusedShiftPosition={setFocusedShiftPosition}
+                  shiftPosition={shiftPosition}
+                  tabIndex={dayIndex * 100 + shiftPositionIndex}
+                  handleEditShiftPosition={handleEditShiftPosition}
+                  copyShiftPositionToClipboard={copyShiftPositionToClipboard}
+                  hasCopiedShiftPosition={hasCopiedShiftPosition}
+                  pasteShiftPositionFromClipboard={
+                    pasteShiftPositionFromClipboard
+                  }
+                  deleteShiftPosition={deleteShiftPosition}
+                />
+              ))}
+            </div>
+          );
         }}
         onCellDrop={onCellDrop}
         onCellDragOver={onCellDragOver}
