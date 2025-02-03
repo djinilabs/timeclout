@@ -1,18 +1,11 @@
 import { useRef, useState, useCallback } from "react";
-import { ShiftPosition } from "libs/graphql/src/types.generated";
 import { nanoid } from "nanoid";
 import { useTeamShiftActions } from "./useTeamShiftActions";
+import { ShiftPosition } from "../graphql/graphql";
 
-type ShiftPositionWithFake = ShiftPosition & {
-  fake?: boolean;
-  fakeFrom?: string;
-};
-
-export const useTeamShiftsDragAndDrop = (
-  shiftPositions: ShiftPositionWithFake[]
-) => {
+export const useTeamShiftsDragAndDrop = (shiftPositions: ShiftPosition[]) => {
   const [draggingShiftPosition, setDraggingShiftPosition] =
-    useState<ShiftPositionWithFake | null>(null);
+    useState<ShiftPosition | null>(null);
   const lastDraggedToDay = useRef<string | null>(null);
 
   const onCellDragOver = useCallback(

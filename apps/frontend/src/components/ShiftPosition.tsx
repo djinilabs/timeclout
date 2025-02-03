@@ -75,6 +75,7 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
     isValidNumber(shiftPosition.rowStart) && isValidNumber(shiftPosition.rowEnd)
       ? shiftPosition.rowEnd - shiftPosition.rowStart + 1
       : 1;
+  console.log("rowSpan", rowSpan);
   return (
     <>
       {Array.from({ length: rowSpan - 1 }).map((_, index) => (

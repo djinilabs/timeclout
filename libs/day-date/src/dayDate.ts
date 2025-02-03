@@ -81,6 +81,22 @@ export class DayDate {
     return this.date.getUTCDay();
   }
 
+  getWeekNumber() {
+    const date = new Date(this.date);
+    date.setUTCHours(0, 0, 0, 0);
+    date.setUTCDate(date.getUTCDate() + 3 - ((date.getUTCDay() + 6) % 7));
+    const week1 = new Date(date.getUTCFullYear(), 0, 4);
+    return (
+      1 +
+      Math.round(
+        ((date.getTime() - week1.getTime()) / 86400000 -
+          3 +
+          ((week1.getDay() + 6) % 7)) /
+          7
+      )
+    );
+  }
+
   getWeekDay() {
     return weekDays[this.date.getUTCDay()];
   }

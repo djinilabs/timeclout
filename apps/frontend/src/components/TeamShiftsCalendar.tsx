@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Dialog } from "./Dialog";
@@ -18,6 +18,7 @@ import {
   useTeamShiftPositionsMap,
 } from "../hooks/useTeamShiftPositionsMap";
 import { classNames } from "../utils/classNames";
+import { ShiftPosition as ShiftPositionType } from "../graphql/graphql";
 
 export const TeamShiftsCalendar = () => {
   const { team } = useParams();
@@ -74,13 +75,30 @@ export const TeamShiftsCalendar = () => {
 
   // editing shift position
   const [editingShiftPosition, setEditingShiftPosition] = useState<
-    ShiftPositionWithFake | undefined
+    ShiftPositionType | undefined
   >(undefined);
 
   const handleEditShiftPosition = (shiftPosition: ShiftPositionWithFake) => {
     setEditingShiftPosition(shiftPosition.original ?? shiftPosition);
     setCreateDialogOpen(true);
   };
+
+  // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
+
+  const maxRowsPerWeekNumber = useMemo(() => {
+    const weekNumbers: Array<number> = [];
+    for (const [day, shiftPositions] of Object.entries(
+      shiftPositionsMap
+    ).sort()) {
+      const week = new DayDate(day).getWeekNumber();
+      const dayRows = shiftPositions.reduce(
+        (acc, shiftPosition) => acc + shiftPosition.rowSpan,
+        0
+      );
+      weekNumbers[week] = Math.max(weekNumbers[week] ?? 0, dayRows);
+    }
+    return weekNumbers;
+  }, [shiftPositionsMap]);
 
   return (
     <>
@@ -125,17 +143,13 @@ export const TeamShiftsCalendar = () => {
           if (!shiftPositions) {
             return null;
           }
-          const rowCount = shiftPositions.reduce(
-            (acc, shiftPosition) => acc + shiftPosition.rowSpan,
-            0
-          );
+          const rowCount: number | undefined =
+            maxRowsPerWeekNumber[new DayDate(day.date).getWeekNumber()];
           return (
             <div
               className={classNames("h-full w-full grid")}
               style={{
-                gridTemplateRows: `repeat(${
-                  !Number.isNaN(rowCount) ? rowCount : shiftPositions.length
-                }, 1fr)`,
+                gridTemplateRows: `repeat(${rowCount ?? shiftPositions.length}, 1fr)`,
               }}
             >
               {shiftPositions.map((shiftPosition, shiftPositionIndex) => (

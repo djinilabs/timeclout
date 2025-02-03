@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { splitShiftPositionForEachDay } from "../utils/splitShiftPositionsForEachDay";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
+import { isValidNumber } from "../utils/isValidNumber";
 
 export type ShiftPositionWithFake = ShiftPositionType & {
   fake?: boolean;
@@ -13,7 +14,7 @@ export type ShiftPositionWithFake = ShiftPositionType & {
 };
 
 export interface UseTeamShiftPositionsMapParams {
-  draggingShiftPosition?: ShiftPositionWithFake | null;
+  draggingShiftPosition: ShiftPositionType | null;
   shiftPositionsResult: ShiftPositionType[];
 }
 
@@ -51,7 +52,8 @@ export const useTeamShiftPositionsMap = ({
         acc[day] = dayPositions;
         const pos =
           draggingShiftPosition &&
-          shiftPosition.sk === draggingShiftPosition.fakeFrom
+          shiftPosition.sk ===
+            (draggingShiftPosition as ShiftPositionWithFake).fakeFrom
             ? {
                 ...shiftPosition,
                 fake: true,
@@ -85,9 +87,16 @@ export const useTeamShiftPositionsMap = ({
       // now we fill in the rowSpan
       let previousRowSpan = 0;
       for (const dayPosition of sortedDayPositions) {
-        const rowSpan = dayPosition.rowPosInPreviousDay + 1 - previousRowSpan;
+        let rowSpan = dayPosition.rowPosInPreviousDay
+          ? dayPosition.rowPosInPreviousDay + 1 - previousRowSpan
+          : 1;
+        if (!isValidNumber(rowSpan)) {
+          rowSpan = 1;
+        }
         dayPosition.rowSpan = rowSpan;
-        dayPosition.rowStart = previousRowSpan + 1;
+        dayPosition.rowStart = isValidNumber(previousRowSpan)
+          ? previousRowSpan + 1
+          : 1;
         dayPosition.rowEnd = dayPosition.rowStart + rowSpan - 1;
         previousRowSpan += rowSpan;
       }
