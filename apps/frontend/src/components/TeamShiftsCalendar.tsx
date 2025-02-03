@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Dialog } from "./Dialog";
@@ -14,7 +14,7 @@ import { getDefined } from "@/utils";
 import { useTeamShiftsDragAndDrop } from "../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../hooks/useTeamShiftsClipboard";
 import { ShiftPosition } from "./ShiftPosition";
-import { useKeysNavigation } from "../hooks/useKeysNavigation";
+import { useTeamShiftsFocusNavigation } from "../hooks/useTeamShiftsFocusNavigation";
 
 type ShiftPositionWithFake = ShiftPositionType & {
   fake?: boolean;
@@ -49,7 +49,6 @@ export const TeamShiftsCalendar = () => {
       setPreviouslySelectedMonth(selectedMonth);
       setSelectedMonth(month);
       setFocusedDay(month.toString());
-      setFocusedShiftPosition(null);
     },
     [selectedMonth]
   );
@@ -106,134 +105,14 @@ export const TeamShiftsCalendar = () => {
 
   // ------- focus navigation -------
 
-  const [focusedShiftPosition, setFocusedShiftPosition] =
-    useState<ShiftPositionWithFake | null>(null);
-
   const [focusedDay, setFocusedDay] = useState<string | null>(null);
-
-  const advanceFocusedShiftPositionByDays = (
-    days: number,
-    nextSelectionPreference: "same" | "first" | "last"
-  ) => {
-    if (focusedShiftPosition) {
-      let triedFocus = 0;
-      let tryDay = new DayDate(focusedShiftPosition.day);
-      const initialIndex = shiftPositionsMap?.[tryDay.toString()]?.findIndex(
-        (shiftPosition) => shiftPosition === focusedShiftPosition
-      );
-      while (triedFocus < 10) {
-        triedFocus++;
-        tryDay = tryDay.nextDay(days);
-        // if previous day is not the same month, we need to navigate to the previous month
-        if (tryDay.getMonth() !== selectedMonth.getMonth()) {
-          goToMonth(tryDay);
-          break;
-        }
-        const nextShiftPositions = shiftPositionsMap?.[tryDay.toString()];
-        if (nextShiftPositions) {
-          const nextIndex =
-            nextSelectionPreference === "same"
-              ? Math.min(initialIndex, nextShiftPositions.length - 1)
-              : nextSelectionPreference === "first"
-                ? 0
-                : nextShiftPositions.length - 1;
-
-          const nextShiftPosition = nextShiftPositions[nextIndex];
-          if (nextShiftPosition) {
-            setFocusedShiftPosition(nextShiftPosition);
-            break;
-          }
-        }
-      }
-    }
-  };
-
-  useKeysNavigation({
-    onUp: () => {
-      if (focusedShiftPosition) {
-        const dayShiftPositions = shiftPositionsMap?.[focusedShiftPosition.day];
-        const index = dayShiftPositions?.findIndex(
-          (shiftPosition) => shiftPosition === focusedShiftPosition
-        );
-        if (index !== undefined && index > 0) {
-          setFocusedShiftPosition(dayShiftPositions[index - 1]);
-        } else {
-          advanceFocusedShiftPositionByDays(-7, "last");
-        }
-      }
-    },
-    onDown: () => {
-      if (focusedShiftPosition) {
-        const dayShiftPositions = shiftPositionsMap?.[focusedShiftPosition.day];
-        const index = dayShiftPositions?.findIndex(
-          (shiftPosition) => shiftPosition === focusedShiftPosition
-        );
-        if (index !== undefined && index < dayShiftPositions.length - 1) {
-          setFocusedShiftPosition(dayShiftPositions[index + 1]);
-        } else {
-          advanceFocusedShiftPositionByDays(7, "first");
-        }
-      }
-    },
-    onLeft: () => {
-      advanceFocusedShiftPositionByDays(-1, "same");
-    },
-    onRight: () => {
-      advanceFocusedShiftPositionByDays(1, "same");
-    },
-  });
-
-  useEffect(() => {
-    if (!focusedShiftPosition) {
-      return;
-    }
-    if (!new DayDate(focusedShiftPosition.day).isSameMonth(selectedMonth)) {
-      setFocusedShiftPosition(null);
-    }
-  }, [focusedShiftPosition, selectedMonth]);
-
-  useEffect(() => {
-    if (
-      !focusedShiftPosition &&
-      shiftPositionsMap &&
-      (!previouslySelectedMonth ||
-        !previouslySelectedMonth?.isSameMonth(selectedMonth))
-    ) {
-      // determine the new focused shift position based on the previously selected month
-      // first, we need to determine which direction to scan the month: up or down
-      const direction =
-        previouslySelectedMonth == null ||
-        previouslySelectedMonth.isBefore(selectedMonth)
-          ? 1
-          : -1;
-
-      let scanningDay =
-        direction == 1
-          ? selectedMonth.firstOfMonth()
-          : selectedMonth.endOfMonth();
-      while (scanningDay.isSameMonth(selectedMonth)) {
-        const shiftPositions = shiftPositionsMap[scanningDay.toString()];
-        if (shiftPositions) {
-          const candidate =
-            shiftPositions[direction == 1 ? 0 : shiftPositions.length - 1];
-          if (
-            candidate &&
-            new DayDate(candidate.day).isSameMonth(selectedMonth)
-          ) {
-            setFocusedShiftPosition(candidate);
-            break;
-          }
-        }
-        scanningDay = scanningDay.nextDay(direction);
-      }
-    }
-  }, [
-    focusedShiftPosition,
-    previouslySelectedMonth,
-    selectedMonth,
-    shiftPositionsMap,
-  ]);
-
+  const { focusedShiftPosition, setFocusedShiftPosition } =
+    useTeamShiftsFocusNavigation({
+      shiftPositionsMap,
+      selectedMonth,
+      previouslySelectedMonth: previouslySelectedMonth ?? null,
+      goToMonth,
+    });
   // ------- clipboard -------
 
   const {
