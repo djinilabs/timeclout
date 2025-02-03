@@ -191,7 +191,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                     !day.isToday &&
                     "text-gray-500",
                   "flex flex-col py-2 min-h-[8rem]",
-                  "focus:ring-2 focus:ring-gray-200 focus:outline-none"
+                  "focus:ring-2 focus:ring-gray-200"
                 )}
               >
                 <time

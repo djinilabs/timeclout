@@ -7,7 +7,7 @@ import {
   type TimeSchedule,
   MiniTimeScheduleVisualizer,
 } from "./MiniTimeScheduleVisualizer";
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 
 type ShiftPositionWithFake = ShiftPositionType & {
   fake?: boolean;
@@ -18,7 +18,8 @@ type ShiftPositionWithFake = ShiftPositionType & {
 export interface ShiftPositionProps {
   shiftPosition: ShiftPositionWithFake;
   setFocusedShiftPosition: (shiftPosition: ShiftPositionType) => void;
-  autoFocus: boolean;
+  focus: boolean;
+  autoFocus?: boolean;
   tabIndex: number;
   handleEditShiftPosition: (shiftPosition: ShiftPositionWithFake) => void;
   copyShiftPositionToClipboard: (shiftPosition: ShiftPositionWithFake) => void;
@@ -34,6 +35,7 @@ const toMinutes = ([hours, minutes]: [number, number]) => {
 export const ShiftPosition: FC<ShiftPositionProps> = ({
   shiftPosition,
   setFocusedShiftPosition,
+  focus,
   autoFocus,
   tabIndex,
   handleEditShiftPosition,
@@ -51,8 +53,29 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
   );
   const totalMinutes = latestTime;
   const startPercent = Math.round((startTime / totalMinutes) * 100);
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const persistFocus = (tries = 0) => {
+      if (ref.current) {
+        if (!ref.current.contains(document.activeElement)) {
+          ref.current.focus();
+        }
+      } else if (tries < 5) {
+        setTimeout(() => {
+          persistFocus(tries + 1);
+        }, 100);
+      }
+    };
+    if (focus) {
+      persistFocus();
+    }
+  }, [focus]);
+
   return (
     <div
+      ref={ref}
       onFocus={() => setFocusedShiftPosition(shiftPosition)}
       autoFocus={autoFocus}
       tabIndex={tabIndex}
@@ -64,7 +87,7 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
       onDragEnd={(e) => {
         e.dataTransfer.clearData();
       }}
-      className={`group relative items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-gray-200 focus:ring-offset-1 focus:outline-none cursor-grab active:cursor-grabbing ${
+      className={`group relative items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-gray-200 focus:ring-offset-1 cursor-grab active:cursor-grabbing ${
         shiftPosition.fake ? "opacity-50" : ""
       }`}
     >
@@ -75,7 +98,7 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
         <MenuButton className="cursor-pointer hover:bg-gray-100 rounded">
           <EllipsisHorizontalIcon className="w-4 h-4" />
         </MenuButton>
-        <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
           <MenuItem>
             {({ active }) => (
               <button
