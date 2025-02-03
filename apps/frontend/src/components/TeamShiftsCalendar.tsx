@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Dialog } from "./Dialog";
@@ -7,7 +7,6 @@ import { generateMonthDays } from "../utils/generateMonthDays";
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
 import { Suspense } from "./Suspense";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
-import { splitShiftPositionForEachDay } from "../utils/splitShiftPositionsForEachDay";
 import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
 import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
 import { getDefined } from "@/utils";
@@ -15,6 +14,7 @@ import { useTeamShiftsDragAndDrop } from "../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../hooks/useTeamShiftsClipboard";
 import { ShiftPosition } from "./ShiftPosition";
 import { useTeamShiftsFocusNavigation } from "../hooks/useTeamShiftsFocusNavigation";
+import { useTeamShiftPositionsMap } from "../hooks/useTeamShiftPositionsMap";
 
 type ShiftPositionWithFake = ShiftPositionType & {
   fake?: boolean;
@@ -61,47 +61,10 @@ export const TeamShiftsCalendar = () => {
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
     useTeamShiftsDragAndDrop(shiftPositionsResult);
 
-  const shiftPositions = useMemo(() => {
-    if (draggingShiftPosition) {
-      const shiftPositions = [...(shiftPositionsResult ?? [])];
-      shiftPositions.push(draggingShiftPosition);
-      return shiftPositions;
-    }
-    return shiftPositionsResult;
-  }, [draggingShiftPosition, shiftPositionsResult]);
-
-  const shiftPositionsMap = useMemo(() => {
-    const entries = shiftPositions.flatMap((shiftPosition) => {
-      return splitShiftPositionForEachDay(shiftPosition).map(
-        (splittedShiftPosition) =>
-          [
-            splittedShiftPosition.day,
-            {
-              ...splittedShiftPosition,
-              original: shiftPosition,
-            },
-          ] as [string, ShiftPositionWithFake]
-      );
-    });
-
-    return entries?.reduce(
-      (acc, [day, shiftPosition]) => {
-        const dayPositions = acc[day] ?? [];
-        acc[day] = dayPositions;
-        const pos =
-          draggingShiftPosition &&
-          shiftPosition.sk === draggingShiftPosition.fakeFrom
-            ? {
-                ...shiftPosition,
-                fake: true,
-              }
-            : shiftPosition;
-        dayPositions.push(pos);
-        return acc;
-      },
-      {} as Record<string, ShiftPositionWithFake[]>
-    );
-  }, [draggingShiftPosition, shiftPositions]);
+  const { shiftPositionsMap } = useTeamShiftPositionsMap({
+    draggingShiftPosition,
+    shiftPositionsResult,
+  });
 
   // ------- focus navigation -------
 
