@@ -19,6 +19,7 @@ import { getDefined } from "@/utils";
 import { EditQualifications } from "./EditQualifications";
 import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
 import { Color, ColorPicker } from "./ColorPicker";
+import { Button } from "./Button";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
@@ -141,7 +142,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
               : "Insert a position into the team schedule."}
           </p>
 
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="mt-10 grid gap-y-8">
             <form.Field
               name="day"
               children={(field) => (
@@ -192,56 +193,125 @@ export const CreateOrEditScheduleShiftPosition: FC<
               )}
             />
 
-            <form.Field
-              name="requiredSkills"
-              children={(field) => (
-                <>
-                  <div className="col-span-full">
-                    <label
-                      htmlFor={field.name}
-                      className="block text-sm/6 font-medium text-gray-900"
-                    >
-                      Required skills
-                    </label>
-                    <p className="mt-3 text-sm/6 text-gray-600 mb-2">
-                      Set the skills required for this position.
-                    </p>
-                    <EditQualifications
-                      qualifications={field.state.value}
-                      onChange={(qualifications) =>
-                        field.handleChange(qualifications)
-                      }
-                      qualificationSettings={
-                        teamWithMembersAndSettings?.team.settings
-                      }
-                    />
-                  </div>
-                </>
-              )}
-            />
+            <div className="border-b border-gray-900/10 col-span-full grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <form.Field
+                name="requiredSkills"
+                children={(field) => (
+                  <>
+                    <div className="col-span-full">
+                      <label
+                        htmlFor={field.name}
+                        className="block text-sm/6 font-medium text-gray-900"
+                      >
+                        Required skills
+                      </label>
+                      <p className="mt-3 text-sm/6 text-gray-600 mb-2">
+                        Set the skills required for this position.
+                      </p>
+                      <EditQualifications
+                        qualifications={field.state.value}
+                        onChange={(qualifications) =>
+                          field.handleChange(qualifications)
+                        }
+                        qualificationSettings={
+                          teamWithMembersAndSettings?.team.settings
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+              />
 
-            <form.Field
-              name="schedules"
-              children={(field) => (
-                <>
-                  <div className="col-span-full">
-                    <label
-                      htmlFor={field.name}
-                      className="block text-sm/6 font-medium text-gray-900"
+              <form.Field
+                name="schedules"
+                children={(field) => (
+                  <>
+                    <div className="col-span-full">
+                      <label
+                        htmlFor={field.name}
+                        className="block text-sm/6 font-medium text-gray-900"
+                      >
+                        Schedule
+                      </label>
+                      <p className="mt-3 text-sm/6 text-gray-600 mb-2">
+                        Set the schedule for this position.
+                      </p>
+                      <TimeSchedulesEditor
+                        schedules={field.state.value}
+                        onChange={(schedules) => field.handleChange(schedules)}
+                      />
+                    </div>
+                  </>
+                )}
+              />
+
+              <form.Field
+                name="name"
+                children={(field) => (
+                  <>
+                    <div className="col-span-full">
+                      <label
+                        htmlFor={field.name}
+                        className="block text-sm/6 font-medium text-gray-900"
+                      >
+                        Name
+                      </label>
+                      <p className="mt-3 text-sm/6 text-gray-600 mb-2">
+                        Set a name to this position
+                      </p>
+                      <input
+                        type="text"
+                        className={`col-start-1 row-start-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600 sm:text-sm/6 ${
+                          field.state.meta.errors.length > 0
+                            ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
+                            : ""
+                        }`}
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    </div>
+                  </>
+                )}
+              />
+
+              <form.Field
+                name="color"
+                children={(field) => (
+                  <>
+                    <div className="col-span-full">
+                      <label
+                        htmlFor={field.name}
+                        className="block text-sm/6 font-medium text-gray-900"
+                      >
+                        Color
+                      </label>
+                      <p className="mt-3 text-sm/6 text-gray-600 mb-2">
+                        Set a color to this position
+                      </p>
+                      <ColorPicker
+                        value={field.state.value}
+                        onChange={(color) => field.handleChange(color)}
+                      />
+                    </div>
+                  </>
+                )}
+              />
+
+              <form.Subscribe
+                children={(state) => (
+                  <div className="my-6 justify-end col-span-full">
+                    <Button
+                      onClick={() => {
+                        console.log("Clicked!");
+                      }}
+                      disabled={!state.values.name}
                     >
-                      Schedule
-                    </label>
-                    <p className="mt-3 text-sm/6 text-gray-600 mb-2">
-                      Set the schedule for this position.
-                    </p>
-                    <TimeSchedulesEditor
-                      schedules={field.state.value}
-                      onChange={(schedules) => field.handleChange(schedules)}
-                    />
+                      Save as template
+                    </Button>
                   </div>
-                </>
-              )}
-            />
+                )}
+              />
+            </div>
 
             <form.Field
               name="assignedTo"
@@ -261,58 +331,6 @@ export const CreateOrEditScheduleShiftPosition: FC<
                       users={teamWithMembersAndSettings?.team?.members ?? []}
                       user={field.state.value}
                       onChange={(user) => field.handleChange(user)}
-                    />
-                  </div>
-                </>
-              )}
-            />
-
-            <form.Field
-              name="name"
-              children={(field) => (
-                <>
-                  <div className="col-span-full">
-                    <label
-                      htmlFor={field.name}
-                      className="block text-sm/6 font-medium text-gray-900"
-                    >
-                      Name
-                    </label>
-                    <p className="mt-3 text-sm/6 text-gray-600 mb-2">
-                      Set a name to this position
-                    </p>
-                    <input
-                      type="text"
-                      className={`col-start-1 row-start-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600 sm:text-sm/6 ${
-                        field.state.meta.errors.length > 0
-                          ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
-                          : ""
-                      }`}
-                      value={field.state.value}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                  </div>
-                </>
-              )}
-            />
-
-            <form.Field
-              name="color"
-              children={(field) => (
-                <>
-                  <div className="col-span-full">
-                    <label
-                      htmlFor={field.name}
-                      className="block text-sm/6 font-medium text-gray-900"
-                    >
-                      Color
-                    </label>
-                    <p className="mt-3 text-sm/6 text-gray-600 mb-2">
-                      Set a color to this position
-                    </p>
-                    <ColorPicker
-                      value={field.state.value}
-                      onChange={(color) => field.handleChange(color)}
                     />
                   </div>
                 </>

@@ -96,7 +96,7 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
           e.dataTransfer.clearData();
         }}
         className={classNames(
-          "group relative items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1 cursor-grab active:cursor-grabbing h-full w-full py-1",
+          "group relative items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1 cursor-grab active:cursor-grabbing h-full w-full py-1 rounded",
           shiftPosition.fake && "opacity-50"
         )}
         style={{
