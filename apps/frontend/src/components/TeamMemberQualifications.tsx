@@ -2,14 +2,11 @@ import { FC, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { getDefined } from "@/utils";
-import { Qualifications, qualificationsParser } from "@/settings";
-import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
 import updateTeamMemberQualificationsMutation from "@/graphql-client/mutations/updateTeamMemberQualifications.graphql";
-import { QueryTeamArgs, Team, TeamSettingsArgs } from "../graphql/graphql";
-import { useQuery } from "../hooks/useQuery";
 import { Suspense } from "./Suspense";
 import { useMutation } from "../hooks/useMutation";
 import { EditQualifications } from "./EditQualifications";
+import { useTeamWithSettings } from "../hooks/useTeamWithSettings";
 
 export interface TeamMemberQualificationsProps {
   qualifications: string[];
@@ -21,19 +18,10 @@ const InternalTeamMemberQualifications: FC<TeamMemberQualificationsProps> = ({
   memberPk,
 }) => {
   const { team: teamPk } = useParams();
-  const [teamWithMembersAndSettingsQueryResponse] = useQuery<
-    { team: Team },
-    QueryTeamArgs & TeamSettingsArgs
-  >({
-    query: teamWithSettingsQuery,
-    variables: {
-      teamPk: getDefined(teamPk, "No team provided"),
-      name: "qualifications",
-    },
+  const { settings: teamQualifications } = useTeamWithSettings({
+    teamPk: getDefined(teamPk, "No team provided"),
+    settingsName: "qualifications",
   });
-  const team = teamWithMembersAndSettingsQueryResponse?.data?.team;
-  const teamQualifications: Qualifications =
-    team?.settings && qualificationsParser.parse(team.settings);
 
   const [, updateTeamMemberQualifications] = useMutation(
     updateTeamMemberQualificationsMutation
@@ -58,7 +46,7 @@ const InternalTeamMemberQualifications: FC<TeamMemberQualificationsProps> = ({
     <EditQualifications
       qualifications={qualifications}
       onChange={onChange}
-      qualificationSettings={teamQualifications}
+      qualificationSettings={teamQualifications ?? []}
     />
   );
 };
