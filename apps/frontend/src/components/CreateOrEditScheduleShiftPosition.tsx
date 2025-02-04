@@ -206,7 +206,8 @@ export const CreateOrEditScheduleShiftPosition: FC<
           </p>
 
           <div className="mt-10 grid gap-y-8">
-            {schedulePositionTemplates &&
+            {!editingShiftPosition &&
+              schedulePositionTemplates &&
               schedulePositionTemplates.length > 0 && (
                 <fieldset>
                   <legend className="text-sm/6 font-semibold text-gray-900">
@@ -361,7 +362,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
                 )}
               />
 
-              {!usingTemplate && (
+              {!usingTemplate && !editingShiftPosition && (
                 <form.Subscribe
                   children={(state) => (
                     <div className="my-6 col-span-full">
