@@ -10,6 +10,7 @@ import {
 } from "./MiniTimeScheduleVisualizer";
 import { type ShiftPositionWithFake } from "../hooks/useTeamShiftPositionsMap";
 import { colors } from "@/settings";
+import { Popover } from "./Popover";
 
 export interface ShiftPositionProps {
   shiftPosition: ShiftPositionWithFake;
@@ -78,6 +79,9 @@ export const ShiftPosition = memo(
       isValidNumber(shiftPosition.rowEnd)
         ? shiftPosition.rowEnd - shiftPosition.rowStart + 1
         : 1;
+
+    const menuButtonRef = useRef<HTMLButtonElement>(null);
+
     return (
       <>
         {Array.from({ length: rowSpan - 1 }).map((_, index) => (
@@ -110,69 +114,76 @@ export const ShiftPosition = memo(
             as="div"
             className="right-0 top-0 absolute opacity-0 group-hover:opacity-100 z-[200]"
           >
-            <MenuButton className="cursor-pointer hover:bg-black hover:bg-opacity-10 rounded">
+            <MenuButton
+              ref={menuButtonRef}
+              className="cursor-pointer hover:bg-black hover:bg-opacity-10 rounded"
+            >
               <EllipsisHorizontalIcon className="w-4 h-4" />
             </MenuButton>
-            <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-              <MenuItem>
-                {({ active }) => (
-                  <button
-                    onClick={() => handleEditShiftPosition(shiftPosition)}
-                    className={classNames(
-                      active ? "bg-gray-100" : "",
-                      "block w-full text-left px-4 py-2 text-sm text-gray-700"
-                    )}
-                  >
-                    Edit
-                  </button>
-                )}
-              </MenuItem>
-              <MenuItem>
-                {({ active }) => (
-                  <button
-                    onClick={() => copyShiftPositionToClipboard(shiftPosition)}
-                    className={classNames(
-                      active ? "bg-gray-100" : "",
-                      "block w-full text-left px-4 py-2 text-sm text-gray-700"
-                    )}
-                  >
-                    Copy
-                  </button>
-                )}
-              </MenuItem>
-              {hasCopiedShiftPosition && (
+            <Popover placement="top" referenceElement={menuButtonRef.current}>
+              <MenuItems className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                <MenuItem>
+                  {({ active }) => (
+                    <button
+                      onClick={() => handleEditShiftPosition(shiftPosition)}
+                      className={classNames(
+                        active ? "bg-gray-100" : "",
+                        "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                      )}
+                    >
+                      Edit
+                    </button>
+                  )}
+                </MenuItem>
                 <MenuItem>
                   {({ active }) => (
                     <button
                       onClick={() =>
-                        pasteShiftPositionFromClipboard(shiftPosition.day)
+                        copyShiftPositionToClipboard(shiftPosition)
                       }
                       className={classNames(
                         active ? "bg-gray-100" : "",
                         "block w-full text-left px-4 py-2 text-sm text-gray-700"
                       )}
                     >
-                      Paste here
+                      Copy
                     </button>
                   )}
                 </MenuItem>
-              )}
-              <MenuItem>
-                {({ active }) => (
-                  <button
-                    onClick={() =>
-                      deleteShiftPosition(shiftPosition.pk, shiftPosition.sk)
-                    }
-                    className={classNames(
-                      active ? "bg-gray-100" : "",
-                      "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                {hasCopiedShiftPosition && (
+                  <MenuItem>
+                    {({ active }) => (
+                      <button
+                        onClick={() =>
+                          pasteShiftPositionFromClipboard(shiftPosition.day)
+                        }
+                        className={classNames(
+                          active ? "bg-gray-100" : "",
+                          "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                        )}
+                      >
+                        Paste here
+                      </button>
                     )}
-                  >
-                    Delete
-                  </button>
+                  </MenuItem>
                 )}
-              </MenuItem>
-            </MenuItems>
+                <MenuItem>
+                  {({ active }) => (
+                    <button
+                      onClick={() =>
+                        deleteShiftPosition(shiftPosition.pk, shiftPosition.sk)
+                      }
+                      className={classNames(
+                        active ? "bg-gray-100" : "",
+                        "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                      )}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </MenuItem>
+              </MenuItems>
+            </Popover>
           </Menu>
 
           <div

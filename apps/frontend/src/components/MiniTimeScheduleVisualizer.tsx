@@ -47,7 +47,7 @@ export const MiniTimeScheduleVisualizer = memo(
 
     return (
       <div
-        className="items-center grid grid-cols-5 z-[100] truncate"
+        className="items-center grid grid-cols-5 truncate"
         style={{ width: `${howManyDaysPercentage}%` }}
       >
         <div
@@ -89,7 +89,7 @@ export const MiniTimeScheduleVisualizer = memo(
             );
           })}
         </div>
-        <div className="text-tiny text-gray-600 whitespace-nowrap col-span-5 text-right truncate z-[100]">
+        <div className="text-tiny text-gray-600 whitespace-nowrap col-span-5 text-right truncate">
           {`${String(
             getPrintableEndHour(
               schedules[schedules.length - 1].endHourMinutes[0]
