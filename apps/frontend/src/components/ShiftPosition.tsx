@@ -101,8 +101,10 @@ export const ShiftPosition = memo(
             e.dataTransfer.clearData();
           }}
           className={classNames(
-            "group relative items-center justify-center hover:ring-2 hover:ring-gray-200 -ring-offset-1 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1 cursor-grab active:cursor-grabbing h-full w-full py-1 rounded",
-            shiftPosition.fake && "opacity-50"
+            "group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full py-1",
+            shiftPosition.fake && "opacity-50",
+            "hover:ring-2 hover:ring-gray-200",
+            "outline-none focus:border-2 focus:border-blue-300"
           )}
           style={{
             backgroundColor: shiftPosition.color
