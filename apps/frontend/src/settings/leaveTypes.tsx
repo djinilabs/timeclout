@@ -9,8 +9,7 @@ import {
 } from "react-icons/fa";
 import { MdSelfImprovement } from "react-icons/md";
 import { type ReactNode } from "react";
-import { type LeaveTypes } from "@/settings";
-import { colors } from "./colors";
+import { type LeaveTypes, colors } from "@/settings";
 
 export const leaveTypeIcons: Record<LeaveTypes[number]["icon"], ReactNode> = {
   umbrella: <FaUmbrellaBeach />,
@@ -23,4 +22,4 @@ export const leaveTypeIcons: Record<LeaveTypes[number]["icon"], ReactNode> = {
   book: <FaBook />,
 };
 
-export const leaveTypeColors: Record<string, string> = colors;
+export const leaveTypeColors = colors;

@@ -8,7 +8,6 @@ export interface TimeSchedule {
 
 export interface TimeScheduleVisualizerProps {
   schedules: TimeSchedule[];
-  name: string;
 }
 
 const toMinutes = ([hours, minutes]: [number, number]) => {
@@ -34,7 +33,6 @@ const getPrintableEndHour = (endHour: number) => {
 
 export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
   schedules,
-  name,
 }) => {
   if (schedules.length === 0) {
     return null;

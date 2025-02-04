@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { colorNames } from "./colors";
 
 const leaveTypesSchema = z.array(
   z.object({
@@ -17,7 +18,7 @@ const leaveTypesSchema = z.array(
       "wellbeing",
       "book",
     ]),
-    color: z.enum(["green", "red", "blue", "yellow", "purple"]),
+    color: z.enum(colorNames),
   })
 );
 

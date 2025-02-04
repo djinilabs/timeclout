@@ -1,20 +1,10 @@
 import { z } from "zod";
-
-export const qualificationColors = [
-  "gray",
-  "red",
-  "yellow",
-  "green",
-  "blue",
-  "indigo",
-  "purple",
-  "pink",
-] as const;
+import { colorNames } from "./colors";
 
 const qualificationsSchema = z.array(
   z.object({
     name: z.string(),
-    color: z.enum(qualificationColors),
+    color: z.enum(colorNames),
   })
 );
 

@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
@@ -20,6 +20,11 @@ import { EditQualifications } from "./EditQualifications";
 import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
 import { Color, ColorPicker } from "./ColorPicker";
 import { Button } from "./Button";
+import { useTeamWithSettings } from "../hooks/useTeamWithSettings";
+import { useSaveTeamSettings } from "../hooks/useSaveTeamSettings";
+import { SchedulePositionTemplate } from "@/settings";
+import { ListBox } from "./ListBox";
+import { dequal } from "dequal";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
@@ -44,7 +49,7 @@ export interface User {
 export interface CreateOrEditScheduleShiftPositionForm {
   day: DayDate;
   name: string;
-  color: Color | undefined;
+  color?: Color | undefined;
   requiredSkills: string[];
   schedules: ShiftPositionSchedule[];
   assignedTo?: User;
@@ -124,13 +129,71 @@ export const CreateOrEditScheduleShiftPosition: FC<
 
   useEffect(() => {
     return form.store.subscribe((state) => {
-      setSkills(state.currentVal.values.requiredSkills);
+      const newSkills = state.currentVal.values.requiredSkills;
+      if (!dequal(skills, newSkills)) {
+        setSkills(newSkills);
+      }
     });
-  }, [form]);
+  }, [form, skills]);
 
   const forbiddenBefore = useMemo(() => {
     return new DayDate(new Date());
   }, []);
+
+  // schedule position templates
+
+  const [usingTemplate, setUsingTemplate] = useState(false);
+  const [usingWhichTemplate, setUsingWhichTemplate] = useState<
+    string | undefined
+  >(undefined);
+
+  const { saveTeamSettings: saveTeamTemplates } =
+    useSaveTeamSettings<"schedulePositionTemplates">({
+      teamPk: getDefined(teamPk, "No team provided"),
+      name: "schedulePositionTemplates",
+    });
+
+  const { settings: schedulePositionTemplates } =
+    useTeamWithSettings<"schedulePositionTemplates">({
+      teamPk: getDefined(teamPk, "No team provided"),
+      settingsName: "schedulePositionTemplates",
+    });
+
+  const [creatingTeamTemplate, setCreatingTeamTemplate] = useState(false);
+
+  const createTeamTemplate = useCallback(
+    async (template: SchedulePositionTemplate) => {
+      if (schedulePositionTemplates === undefined) {
+        return;
+      }
+      setCreatingTeamTemplate(true);
+      await saveTeamTemplates([...(schedulePositionTemplates ?? []), template]);
+      setCreatingTeamTemplate(false);
+    },
+    [schedulePositionTemplates, saveTeamTemplates]
+  );
+
+  // when using template, we need to set the form state to the values in the template
+  // using a useEffect
+  useEffect(() => {
+    if (usingWhichTemplate) {
+      const template = schedulePositionTemplates?.find(
+        (template) => template.name === usingWhichTemplate
+      );
+      if (template) {
+        form.reset(
+          {
+            // ...form.store.state.values,
+            day: form.store.state.values.day,
+            ...template,
+          } as CreateOrEditScheduleShiftPositionForm,
+          {
+            keepDefaultValues: true,
+          }
+        );
+      }
+    }
+  }, [form, schedulePositionTemplates, usingWhichTemplate]);
 
   return (
     <form>
@@ -143,55 +206,56 @@ export const CreateOrEditScheduleShiftPosition: FC<
           </p>
 
           <div className="mt-10 grid gap-y-8">
-            <form.Field
-              name="day"
-              children={(field) => (
-                <div className="sm:col-span-4">
-                  <label
-                    htmlFor={field.name}
-                    className="block text-sm/6 font-medium text-gray-900"
-                  >
-                    Day
-                  </label>
-                  <p className="mt-3 text-sm/6 text-gray-600 mb-2">
-                    Set the day for this position.
+            {schedulePositionTemplates &&
+              schedulePositionTemplates.length > 0 && (
+                <fieldset>
+                  <legend className="text-sm/6 font-semibold text-gray-900">
+                    Use template?
+                  </legend>
+                  <p className="mt-1 text-sm/6 text-gray-600">
+                    Use a template to create this position.
                   </p>
-                  <DayPicker
-                    mode="single"
-                    ISOWeek
-                    timeZone="UTC"
-                    required
-                    disabled={{
-                      before: new Date(),
-                    }}
-                    onMonthChange={(d) => {
-                      if (d) {
-                        const day = new DayDate(
-                          d.getFullYear(),
-                          d.getMonth() + 1,
-                          Math.min(field.state.value.getDayOfMonth(), 27)
-                        );
-                        if (!day.isBefore(forbiddenBefore)) {
-                          field.handleChange(day);
-                        }
-                      }
-                    }}
-                    month={field.state.value.firstOfMonth().toDate()}
-                    selected={field.state.value.toDate()}
-                    onSelect={(d) =>
-                      d &&
-                      field.handleChange(
-                        new DayDate(
-                          d.getFullYear(),
-                          d.getMonth() + 1,
-                          d.getDate()
-                        )
-                      )
-                    }
-                  />
-                </div>
+                  <div className="mt-6 space-y-6">
+                    <div key="select" className="flex items-center">
+                      <input
+                        id="select"
+                        name="notification-method"
+                        type="radio"
+                        className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+                        checked={usingTemplate}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setUsingTemplate(true);
+                          }
+                        }}
+                      />
+                      <label
+                        htmlFor="select"
+                        className="ml-3 block text-sm/6 font-medium text-gray-900"
+                      >
+                        Use template
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
               )}
-            />
+
+            {usingTemplate && (
+              <div className="col-span-full">
+                <ListBox
+                  options={
+                    schedulePositionTemplates?.map((template) => ({
+                      key: template.name,
+                      value: template.name,
+                    })) ?? []
+                  }
+                  selected={usingWhichTemplate}
+                  onChange={(option) => {
+                    setUsingWhichTemplate(option as string);
+                  }}
+                />
+              </div>
+            )}
 
             <div className="border-b border-gray-900/10 col-span-full grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <form.Field
@@ -246,6 +310,29 @@ export const CreateOrEditScheduleShiftPosition: FC<
               />
 
               <form.Field
+                name="color"
+                children={(field) => (
+                  <>
+                    <div className="col-span-full">
+                      <label
+                        htmlFor={field.name}
+                        className="block text-sm/6 font-medium text-gray-900"
+                      >
+                        Color
+                      </label>
+                      <p className="mt-3 text-sm/6 text-gray-600 mb-2">
+                        Set a color to this position
+                      </p>
+                      <ColorPicker
+                        value={field.state.value}
+                        onChange={(color) => field.handleChange(color)}
+                      />
+                    </div>
+                  </>
+                )}
+              />
+
+              <form.Field
                 name="name"
                 children={(field) => (
                   <>
@@ -274,44 +361,84 @@ export const CreateOrEditScheduleShiftPosition: FC<
                 )}
               />
 
-              <form.Field
-                name="color"
-                children={(field) => (
-                  <>
-                    <div className="col-span-full">
-                      <label
-                        htmlFor={field.name}
-                        className="block text-sm/6 font-medium text-gray-900"
+              {!usingTemplate && (
+                <form.Subscribe
+                  children={(state) => (
+                    <div className="my-6 col-span-full">
+                      <Button
+                        onClick={() => {
+                          createTeamTemplate({
+                            name: state.values.name,
+                            color: state.values.color,
+                            requiredSkills: state.values.requiredSkills,
+                            schedules: state.values.schedules,
+                          });
+                        }}
+                        disabled={!state.values.name || creatingTeamTemplate}
                       >
-                        Color
-                      </label>
-                      <p className="mt-3 text-sm/6 text-gray-600 mb-2">
-                        Set a color to this position
+                        {creatingTeamTemplate
+                          ? "Saving..."
+                          : "Save as template"}
+                      </Button>
+                      <p className="text-sm/6 text-gray-600">
+                        By saving this as a template, you can reuse it to create
+                        new positions in the future.
                       </p>
-                      <ColorPicker
-                        value={field.state.value}
-                        onChange={(color) => field.handleChange(color)}
-                      />
                     </div>
-                  </>
-                )}
-              />
-
-              <form.Subscribe
-                children={(state) => (
-                  <div className="my-6 justify-end col-span-full">
-                    <Button
-                      onClick={() => {
-                        console.log("Clicked!");
-                      }}
-                      disabled={!state.values.name}
-                    >
-                      Save as template
-                    </Button>
-                  </div>
-                )}
-              />
+                  )}
+                />
+              )}
             </div>
+
+            <form.Field
+              name="day"
+              children={(field) => (
+                <div className="sm:col-span-4">
+                  <label
+                    htmlFor={field.name}
+                    className="block text-sm/6 font-medium text-gray-900"
+                  >
+                    Day
+                  </label>
+                  <p className="mt-3 text-sm/6 text-gray-600 mb-2">
+                    Set the day for this position.
+                  </p>
+                  <DayPicker
+                    mode="single"
+                    ISOWeek
+                    timeZone="UTC"
+                    required
+                    disabled={{
+                      before: new Date(),
+                    }}
+                    onMonthChange={(d) => {
+                      if (d) {
+                        const day = new DayDate(
+                          d.getFullYear(),
+                          d.getMonth() + 1,
+                          Math.min(field.state.value.getDayOfMonth(), 27)
+                        );
+                        if (!day.isBefore(forbiddenBefore)) {
+                          field.handleChange(day);
+                        }
+                      }
+                    }}
+                    month={field.state.value.firstOfMonth().toDate()}
+                    selected={field.state.value.toDate()}
+                    onSelect={(d) =>
+                      d &&
+                      field.handleChange(
+                        new DayDate(
+                          d.getFullYear(),
+                          d.getMonth() + 1,
+                          d.getDate()
+                        )
+                      )
+                    }
+                  />
+                </div>
+              )}
+            />
 
             <form.Field
               name="assignedTo"

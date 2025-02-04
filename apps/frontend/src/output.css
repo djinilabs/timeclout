@@ -1666,6 +1666,21 @@ video {
   background-color: rgb(254 226 226 / var(--tw-bg-opacity, 1));
 }
 
+.bg-lime-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(247 254 231 / var(--tw-bg-opacity, 1));
+}
+
+.bg-orange-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 247 237 / var(--tw-bg-opacity, 1));
+}
+
+.bg-teal-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 253 250 / var(--tw-bg-opacity, 1));
+}
+
 .fill-current {
   fill: currentColor;
 }
@@ -1704,6 +1719,18 @@ video {
 
 .stroke-yellow-700\/50 {
   stroke: rgb(161 98 7 / 0.5);
+}
+
+.stroke-lime-700\/50 {
+  stroke: rgb(77 124 15 / 0.5);
+}
+
+.stroke-orange-700\/50 {
+  stroke: rgb(194 65 12 / 0.5);
+}
+
+.stroke-teal-700\/50 {
+  stroke: rgb(15 118 110 / 0.5);
 }
 
 .object-cover {
@@ -2066,6 +2093,21 @@ video {
   color: rgb(209 213 219 / var(--tw-text-opacity, 1));
 }
 
+.text-lime-700 {
+  --tw-text-opacity: 1;
+  color: rgb(77 124 15 / var(--tw-text-opacity, 1));
+}
+
+.text-orange-700 {
+  --tw-text-opacity: 1;
+  color: rgb(194 65 12 / var(--tw-text-opacity, 1));
+}
+
+.text-teal-700 {
+  --tw-text-opacity: 1;
+  color: rgb(15 118 110 / var(--tw-text-opacity, 1));
+}
+
 .opacity-50 {
   opacity: 0.5;
 }
@@ -2222,6 +2264,18 @@ video {
   --tw-ring-color: rgb(202 138 4 / 0.2);
 }
 
+.ring-lime-700\/10 {
+  --tw-ring-color: rgb(77 124 15 / 0.1);
+}
+
+.ring-orange-700\/10 {
+  --tw-ring-color: rgb(194 65 12 / 0.1);
+}
+
+.ring-teal-700\/10 {
+  --tw-ring-color: rgb(15 118 110 / 0.1);
+}
+
 .ring-opacity-5 {
   --tw-ring-opacity: 0.05;
 }
@@ -2308,9 +2362,19 @@ video {
   border-color: rgb(13 148 136 / var(--tw-border-opacity, 1));
 }
 
+.checked\:border-indigo-600:checked {
+  --tw-border-opacity: 1;
+  border-color: rgb(79 70 229 / var(--tw-border-opacity, 1));
+}
+
 .checked\:bg-teal-600:checked {
   --tw-bg-opacity: 1;
   background-color: rgb(13 148 136 / var(--tw-bg-opacity, 1));
+}
+
+.checked\:bg-indigo-600:checked {
+  --tw-bg-opacity: 1;
+  background-color: rgb(79 70 229 / var(--tw-bg-opacity, 1));
 }
 
 .focus-within\:outline:focus-within {
@@ -2392,6 +2456,18 @@ video {
 
 .hover\:bg-yellow-600\/20:hover {
   background-color: rgb(202 138 4 / 0.2);
+}
+
+.hover\:bg-lime-600\/20:hover {
+  background-color: rgb(101 163 13 / 0.2);
+}
+
+.hover\:bg-orange-600\/20:hover {
+  background-color: rgb(234 88 12 / 0.2);
+}
+
+.hover\:bg-teal-600\/20:hover {
+  background-color: rgb(13 148 136 / 0.2);
 }
 
 .hover\:text-gray-500:hover {
@@ -2609,6 +2685,10 @@ video {
   outline-color: #0d9488;
 }
 
+.focus-visible\:outline-indigo-600:focus-visible {
+  outline-color: #4f46e5;
+}
+
 .active\:cursor-grabbing:active {
   cursor: grabbing;
 }
@@ -2685,6 +2765,18 @@ video {
 
 .group:hover .group-hover\:stroke-yellow-700\/75 {
   stroke: rgb(161 98 7 / 0.75);
+}
+
+.group:hover .group-hover\:stroke-lime-700\/75 {
+  stroke: rgb(77 124 15 / 0.75);
+}
+
+.group:hover .group-hover\:stroke-orange-700\/75 {
+  stroke: rgb(194 65 12 / 0.75);
+}
+
+.group:hover .group-hover\:stroke-teal-700\/75 {
+  stroke: rgb(15 118 110 / 0.75);
 }
 
 .group:hover .group-hover\:text-white {
@@ -3147,4 +3239,9 @@ video {
     content: var(--tw-content);
     display: none;
   }
+}
+
+.\[\&\:not\(\:checked\)\]\:before\:hidden:not(:checked)::before {
+  content: var(--tw-content);
+  display: none;
 }

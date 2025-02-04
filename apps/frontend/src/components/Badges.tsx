@@ -1,19 +1,10 @@
 import { FC } from "react";
 import { Badge } from "./Badge";
-
-export type BadgeColor =
-  | "blue"
-  | "green"
-  | "red"
-  | "yellow"
-  | "purple"
-  | "indigo"
-  | "gray"
-  | "pink";
+import { type ColorName } from "@/settings";
 
 export interface Badge {
   name: string;
-  color: BadgeColor;
+  color: ColorName;
 }
 
 export interface BadgesProps {

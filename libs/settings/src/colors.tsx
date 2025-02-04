@@ -9,4 +9,9 @@ export const colors: Record<string, string> = {
   teal: "#5eead4", // A calming sea teal
   indigo: "#818cf8", // A dreamy indigo
   lime: "#bef264", // A fresh spring lime
+  gray: "#9ca3af", // A neutral gray
 };
+
+export const colorNames = Object.keys(colors) as [string, ...string[]];
+
+export type ColorName = (typeof colorNames)[number];

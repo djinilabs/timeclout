@@ -2,6 +2,7 @@ import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
 import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
 import { QueryTeamArgs, Team, TeamSettingsArgs } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
+import { useMemo } from "react";
 
 export interface UseTeamWithSettingsParams<T extends SettingsTypeKey> {
   teamPk: string;
@@ -28,8 +29,10 @@ export const useTeamWithSettings = <T extends SettingsTypeKey>({
     },
   });
   const team = teamWithSettingsQueryResponse?.data?.team;
-  const teamSettings: SettingsShape<T> =
-    team?.settings && settingsTypes[settingsName].parse(team.settings);
+  const teamSettings: SettingsShape<T> = useMemo(
+    () => team?.settings && settingsTypes[settingsName].parse(team.settings),
+    [team?.settings, settingsName]
+  );
 
   return {
     team,

@@ -9,8 +9,7 @@ import {
   MiniTimeScheduleVisualizer,
 } from "./MiniTimeScheduleVisualizer";
 import { type ShiftPositionWithFake } from "../hooks/useTeamShiftPositionsMap";
-import { leaveTypeColors } from "../settings/leaveTypes";
-import { colors } from "../settings/colors";
+import { colors } from "@/settings";
 
 export interface ShiftPositionProps {
   shiftPosition: ShiftPositionWithFake;
@@ -191,7 +190,6 @@ export const ShiftPosition: FC<ShiftPositionProps> = ({
           </span>
         </div>
         <MiniTimeScheduleVisualizer
-          name={name ?? ""}
           schedules={schedules as Array<TimeSchedule>}
         />
       </div>

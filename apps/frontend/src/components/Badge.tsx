@@ -1,17 +1,13 @@
 import { FC, ReactNode } from "react";
-import { type BadgeColor } from "./Badges";
+import { type ColorName } from "@/settings";
 
 export interface BadgeProps {
   name: string;
-  color: BadgeColor;
+  color: ColorName;
   onRemove?: () => void;
 }
 
-export const Badge: FC<BadgeProps> = ({
-  name,
-  color,
-  onRemove,
-}): NonNullable<ReactNode> => {
+export const Badge: FC<BadgeProps> = ({ name, color, onRemove }): ReactNode => {
   switch (color) {
     case "gray":
       return (
@@ -213,5 +209,82 @@ export const Badge: FC<BadgeProps> = ({
           )}
         </span>
       );
+    case "orange":
+      return (
+        <span
+          key={name}
+          className="inline-flex items-center gap-x-0.5 rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-700/10"
+        >
+          {name}
+          {onRemove && (
+            <button
+              type="button"
+              onClick={() => onRemove()}
+              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-orange-600/20"
+            >
+              <span className="sr-only">Remove</span>
+              <svg
+                viewBox="0 0 14 14"
+                className="size-3.5 stroke-orange-700/50 group-hover:stroke-orange-700/75"
+              >
+                <path d="M4 4l6 6m0-6l-6 6" />
+              </svg>
+              <span className="absolute -inset-1" />
+            </button>
+          )}
+        </span>
+      );
+    case "teal":
+      return (
+        <span
+          key={name}
+          className="inline-flex items-center gap-x-0.5 rounded-md bg-teal-50 px-2 py-1 text-xs font-medium text-teal-700 ring-1 ring-inset ring-teal-700/10"
+        >
+          {name}
+          {onRemove && (
+            <button
+              type="button"
+              onClick={() => onRemove()}
+              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-teal-600/20"
+            >
+              <span className="sr-only">Remove</span>
+              <svg
+                viewBox="0 0 14 14"
+                className="size-3.5 stroke-teal-700/50 group-hover:stroke-teal-700/75"
+              >
+                <path d="M4 4l6 6m0-6l-6 6" />
+              </svg>
+              <span className="absolute -inset-1" />
+            </button>
+          )}
+        </span>
+      );
+    case "lime":
+      return (
+        <span
+          key={name}
+          className="inline-flex items-center gap-x-0.5 rounded-md bg-lime-50 px-2 py-1 text-xs font-medium text-lime-700 ring-1 ring-inset ring-lime-700/10"
+        >
+          {name}
+          {onRemove && (
+            <button
+              type="button"
+              onClick={() => onRemove()}
+              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-lime-600/20"
+            >
+              <span className="sr-only">Remove</span>
+              <svg
+                viewBox="0 0 14 14"
+                className="size-3.5 stroke-lime-700/50 group-hover:stroke-lime-700/75"
+              >
+                <path d="M4 4l6 6m0-6l-6 6" />
+              </svg>
+              <span className="absolute -inset-1" />
+            </button>
+          )}
+        </span>
+      );
+    default:
+      return null;
   }
 };

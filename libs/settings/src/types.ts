@@ -7,6 +7,10 @@ import { WorkSchedule, worksScheduleParser } from "./workSchedule";
 import { Qualifications, qualificationsParser } from "./qualifications";
 import { userQualificationsParser } from "./userQualifications";
 import { UserQualifications } from "./userQualifications";
+import {
+  SchedulePositionTemplates,
+  schedulePositionTemplatesParser,
+} from "./schedulePositionTemplates";
 
 export type SettingsType<TShape> = {
   name: string;
@@ -46,6 +50,10 @@ export const settingsTypes = {
     name: "userQualifications",
     parse: (value: unknown) => userQualificationsParser.parse(value),
   },
+  schedulePositionTemplates: {
+    name: "schedulePositionTemplates",
+    parse: (value: unknown) => schedulePositionTemplatesParser.parse(value),
+  },
 } as const;
 
 export type SettingsTypeKey = keyof typeof settingsTypes;
@@ -67,4 +75,6 @@ export type SettingsShape<TKey extends SettingsTypeKey> =
                 ? Qualifications
                 : TKey extends "userQualifications"
                   ? UserQualifications
-                  : never;
+                  : TKey extends "schedulePositionTemplates"
+                    ? SchedulePositionTemplates
+                    : never;
