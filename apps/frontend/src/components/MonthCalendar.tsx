@@ -205,7 +205,9 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                 >
                   {day.date.split("-").pop()?.replace(/^0/, "")}
                 </time>
-                <div className="h-full w-full">{renderDay(day, index)}</div>
+                <div className="h-full w-full overflow-hidden">
+                  {renderDay(day, index)}
+                </div>
               </div>
             ))}
           </div>

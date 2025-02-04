@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { memo } from "react";
 
 export interface TimeSchedule {
   startHourMinutes: [number, number];
@@ -31,70 +31,74 @@ const getPrintableEndHour = (endHour: number) => {
   return endHour === 0 ? 24 : endHour;
 };
 
-export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = ({
-  schedules,
-}) => {
-  if (schedules.length === 0) {
-    return null;
-  }
-  const howManyDaysPercentage = getPercentageOfDays(schedules);
+export const MiniTimeScheduleVisualizer = memo(
+  ({ schedules }: TimeScheduleVisualizerProps) => {
+    if (schedules.length === 0) {
+      return null;
+    }
+    const howManyDaysPercentage = getPercentageOfDays(schedules);
 
-  const startTime = toMinutes(schedules[0].startHourMinutes);
-  const latestTime = toMinutes(schedules[schedules.length - 1].endHourMinutes);
-  const totalMinutes = latestTime;
-  const startPercent = Math.round((startTime / totalMinutes) * 100);
+    const startTime = toMinutes(schedules[0].startHourMinutes);
+    const latestTime = toMinutes(
+      schedules[schedules.length - 1].endHourMinutes
+    );
+    const totalMinutes = latestTime;
+    const startPercent = Math.round((startTime / totalMinutes) * 100);
 
-  return (
-    <div
-      className="items-center grid grid-cols-5 z-[100] truncate"
-      style={{ width: `${howManyDaysPercentage}%` }}
-    >
+    return (
       <div
-        className="text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap truncate"
-        style={{ marginLeft: `${startPercent}%` }}
+        className="items-center grid grid-cols-5 z-[100] truncate"
+        style={{ width: `${howManyDaysPercentage}%` }}
       >
-        {`${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
-          schedules[0].startHourMinutes[1]
-        ).padStart(2, "0")}`}
-      </div>
-      <div className="relative h-1 rounded col-span-5">
-        {schedules.map((schedule, index) => {
-          const startHour = schedule.startHourMinutes[0];
-          const startMinutes = schedule.startHourMinutes[1];
-          const endHour = schedule.endHourMinutes[0];
-          const endMinutes = schedule.endHourMinutes[1];
+        <div
+          className="text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap truncate"
+          style={{ marginLeft: `${startPercent}%` }}
+        >
+          {`${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
+            schedules[0].startHourMinutes[1]
+          ).padStart(2, "0")}`}
+        </div>
+        <div className="relative h-1 rounded col-span-5">
+          {schedules.map((schedule, index) => {
+            const startHour = schedule.startHourMinutes[0];
+            const startMinutes = schedule.startHourMinutes[1];
+            const endHour = schedule.endHourMinutes[0];
+            const endMinutes = schedule.endHourMinutes[1];
 
-          const startPercent = Math.round(
-            ((startHour * 60 + startMinutes) / totalMinutes) * 100
-          );
-          const endPercent = Math.round(
-            ((endHour * 60 + endMinutes) / totalMinutes) * 100
-          );
-          const width = endPercent - startPercent;
+            const startPercent = Math.round(
+              ((startHour * 60 + startMinutes) / totalMinutes) * 100
+            );
+            const endPercent = Math.round(
+              ((endHour * 60 + endMinutes) / totalMinutes) * 100
+            );
+            const width = endPercent - startPercent;
 
-          const printableEndHour = getPrintableEndHour(endHour);
+            const printableEndHour = getPrintableEndHour(endHour);
 
-          return (
-            <div
-              key={index}
-              className="absolute h-full rounded"
-              style={{
-                left: `${startPercent}%`,
-                width: `${width}%`,
-                backgroundColor: `rgb(${Math.min(255, schedule.inconveniencePerHour * 100)}, ${Math.max(0, 255 - schedule.inconveniencePerHour * 100)}, 0)`,
-              }}
-              title={`${String(startHour).padStart(2, "0")}:${String(startMinutes).padStart(2, "0")} - ${String(printableEndHour).padStart(2, "0")}:${String(endMinutes).padStart(2, "0")}`}
-            ></div>
-          );
-        })}
+            return (
+              <div
+                key={index}
+                className="absolute h-full rounded"
+                style={{
+                  left: `${startPercent}%`,
+                  width: `${width}%`,
+                  backgroundColor: `rgb(${Math.min(255, schedule.inconveniencePerHour * 100)}, ${Math.max(0, 255 - schedule.inconveniencePerHour * 100)}, 0)`,
+                }}
+                title={`${String(startHour).padStart(2, "0")}:${String(startMinutes).padStart(2, "0")} - ${String(printableEndHour).padStart(2, "0")}:${String(endMinutes).padStart(2, "0")}`}
+              ></div>
+            );
+          })}
+        </div>
+        <div className="text-tiny text-gray-600 whitespace-nowrap col-span-5 text-right truncate z-[100]">
+          {`${String(
+            getPrintableEndHour(
+              schedules[schedules.length - 1].endHourMinutes[0]
+            )
+          ).padStart(2, "0")}:${String(
+            schedules[schedules.length - 1].endHourMinutes[1]
+          ).padStart(2, "0")}`}
+        </div>
       </div>
-      <div className="text-tiny text-gray-600 whitespace-nowrap col-span-5 text-right truncate z-[100]">
-        {`${String(
-          getPrintableEndHour(schedules[schedules.length - 1].endHourMinutes[0])
-        ).padStart(2, "0")}:${String(
-          schedules[schedules.length - 1].endHourMinutes[1]
-        ).padStart(2, "0")}`}
-      </div>
-    </div>
-  );
-};
+    );
+  }
+);

@@ -1,4 +1,6 @@
-export const getColorAndBackground = (md5: string) => {
+import { memo } from "react";
+
+const getColorAndBackground = (md5: string) => {
   const matches = md5.match(/.{2}/g)!;
 
   const [red, green, blue] = matches.map((hex) => parseInt(hex, 16));
@@ -13,7 +15,7 @@ export const getColorAndBackground = (md5: string) => {
   };
 };
 
-export const getInitials = (name: string) => {
+const getInitials = (name: string) => {
   name = name.trim();
 
   if (name.length <= 3) return name;
@@ -33,50 +35,59 @@ export interface AvatarProps {
   size?: number;
 }
 
-export const Avatar = ({ name, emailMd5, email, size = 50 }: AvatarProps) => {
-  const url = `https://www.gravatar.com/avatar/${emailMd5}?s=${String(
-    Math.max(size, 250)
-  )}&d=blank`;
+export const Avatar = memo(
+  ({ name, emailMd5, email, size = 50 }: AvatarProps) => {
+    const url = `https://www.gravatar.com/avatar/${emailMd5}?s=${String(
+      Math.max(size, 250)
+    )}&d=blank`;
 
-  const initials = getInitials(name ?? email.split("@")[0]);
+    const initials = getInitials(name ?? email.split("@")[0]);
 
-  return (
-    <div
-      title={name ?? email}
-      className="relative inline-flex"
-      style={{
-        ...getColorAndBackground(emailMd5),
-        width: `${size}px`,
-        height: `${size}px`,
-        borderRadius: "50%",
-        alignItems: "center",
-        justifyContent: "center",
-        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.15)",
-      }}
-    >
+    const dimensions = {
+      width: `${size}px`,
+      minWidth: `${size}px`,
+      maxWidth: `${size}px`,
+      height: `${size}px`,
+      minHeight: `${size}px`,
+      maxHeight: `${size}px`,
+    };
+
+    return (
       <div
-        aria-hidden="true"
+        title={name ?? email}
+        className="relative inline-flex"
         style={{
-          fontSize: size / (1.4 * Math.max(initials.length, 2)),
-          position: "absolute",
-          fontFamily: "sans-serif",
-          userSelect: "none",
+          ...getColorAndBackground(emailMd5),
+          ...dimensions,
+          borderRadius: "50%",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.15)",
         }}
       >
-        {initials}
+        <div
+          aria-hidden="true"
+          style={{
+            fontSize: size / (1.4 * Math.max(initials.length, 2)),
+            position: "absolute",
+            fontFamily: "sans-serif",
+            userSelect: "none",
+          }}
+        >
+          {initials}
+        </div>
+        <img
+          style={{
+            position: "absolute",
+            ...dimensions,
+            top: 0,
+            left: 0,
+            borderRadius: "50%",
+          }}
+          src={url}
+          alt={`${email}’s avatar`}
+        />
       </div>
-      <img
-        style={{
-          position: "absolute",
-          width: size,
-          height: size,
-          top: 0,
-          left: 0,
-          borderRadius: "50%",
-        }}
-        src={url}
-        alt={`${email}’s avatar`}
-      />
-    </div>
-  );
-};
+    );
+  }
+);
