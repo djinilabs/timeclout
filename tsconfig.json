@@ -15,12 +15,13 @@
       "@/business-logic": ["./libs/business-logic/src"],
       "@/day-date": ["./libs/day-date/src"],
       "@/holidays": ["./libs/holidays/src"],
-      "@/scheduler": ["./libs/scheduler/src"]
+      "@/scheduler": ["./libs/scheduler/src"],
+      "@/scheduler-worker": ["./libs/scheduler-worker/src"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "lib": ["esnext", "DOM", "DOM.Iterable"],
+    "lib": ["esnext", "DOM", "DOM.Iterable", "WebWorker"],
     "jsx": "react-jsx",
     "strictNullChecks": true,
     "noUnusedParameters": true,

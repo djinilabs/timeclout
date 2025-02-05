@@ -4,11 +4,14 @@ import { Scheduler } from "@/scheduler";
 
 let scheduler: Scheduler | undefined;
 
-onmessage = (event) => {
+console.log("SchedulerWorker: starting");
+
+self.onmessage = (event) => {
+  console.log("SchedulerWorker: onmessage", event.data);
   scheduler = new Scheduler(event.data);
   scheduler.subscribe(
     (state) => {
-      postMessage(state);
+      self.postMessage(state);
     },
     {
       interval: 1000,
@@ -17,6 +20,6 @@ onmessage = (event) => {
   scheduler.start();
 };
 
-onerror = (event) => {
+self.onerror = (event) => {
   console.error(event);
 };

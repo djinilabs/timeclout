@@ -2,10 +2,11 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import graphqlLoader from "vite-plugin-graphql-loader";
 import path from "path";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), graphqlLoader()],
+  plugins: [react(), graphqlLoader(), tsconfigPaths()],
 
   server: {
     open: true,
@@ -22,12 +23,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@/auth-config": path.resolve(__dirname, "../../libs/auth-config/src"),
-      "@/utils": path.resolve(__dirname, "../../libs/utils/src"),
-      "@/settings": path.resolve(__dirname, "../../libs/settings/src"),
       "@/graphql-client": path.resolve(__dirname, "./src/graphql"),
-      "@/day-date": path.resolve(__dirname, "../../libs/day-date/src"),
-      "@/holidays": path.resolve(__dirname, "../../libs/holidays/src"),
     },
   },
   build: {
@@ -37,5 +33,9 @@ export default defineConfig({
   define: {
     "process.env": {},
     global: "globalThis",
+  },
+  worker: {
+    plugins: () => [tsconfigPaths()],
+    format: "es",
   },
 });

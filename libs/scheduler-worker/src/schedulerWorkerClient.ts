@@ -1,4 +1,5 @@
 import { type SchedulerOptions } from "@/scheduler";
+import SchedulerWorker from "./schedulerWorker?worker";
 
 export class SchedulerWorkerClient {
   private worker: Worker | undefined;
@@ -8,10 +9,17 @@ export class SchedulerWorkerClient {
     if (this.worker) {
       throw new Error("Worker already started");
     }
-    this.worker = new Worker(new URL("./schedulerWorker.js", import.meta.url));
-    this.worker.onmessage = (event) => {
-      console.log(event);
+    this.worker = new SchedulerWorker({
+      name: "SchedulerWorker",
+    });
+    console.log("SchedulerWorkerClient: worker", this.worker);
+    this.worker.onerror = (event) => {
+      console.error("SchedulerWorker error: ", event.error);
     };
+    this.worker.onmessage = (event) => {
+      console.log("SchedulerWorkerClient: ", event.data);
+    };
+    console.log("SchedulerWorkerClient: sending options", options);
     this.worker.postMessage(options);
   }
 

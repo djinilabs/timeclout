@@ -73,6 +73,7 @@ export class Scheduler {
   }
 
   private async cycle() {
+    console.log("Scheduler: cycle");
     try {
       this.cycleCount += 1;
       const schedule = randomSchedule({
