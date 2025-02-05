@@ -87,6 +87,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
           team: getDefined(teamPk, "No team provided"),
           day: value.day.toString(),
           name: value.name,
+          color: value.color,
           requiredSkills: value.requiredSkills,
           schedules: value.schedules,
           assignedTo: value.assignedTo?.pk,
