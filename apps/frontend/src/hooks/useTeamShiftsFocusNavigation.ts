@@ -98,15 +98,6 @@ export const useTeamShiftsFocusNavigation = ({
   });
 
   useEffect(() => {
-    if (!focusedShiftPosition) {
-      return;
-    }
-    if (!new DayDate(focusedShiftPosition.day).isSameMonth(selectedMonth)) {
-      setFocusedShiftPosition(null);
-    }
-  }, [focusedShiftPosition, selectedMonth]);
-
-  useEffect(() => {
     if (
       !focusedShiftPosition &&
       shiftPositionsMap &&
