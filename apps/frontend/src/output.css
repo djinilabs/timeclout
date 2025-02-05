@@ -700,10 +700,6 @@ video {
   margin: -0.625rem;
 }
 
-.m-1 {
-  margin: 0.25rem;
-}
-
 .-mx-2 {
   margin-left: -0.5rem;
   margin-right: -0.5rem;
@@ -727,11 +723,6 @@ video {
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
-}
-
-.my-1 {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
 }
 
 .-mb-px {
@@ -766,10 +757,6 @@ video {
   margin-bottom: 2rem;
 }
 
-.ml-1 {
-  margin-left: 0.25rem;
-}
-
 .ml-2 {
   margin-left: 0.5rem;
 }
@@ -788,6 +775,10 @@ video {
 
 .ml-auto {
   margin-left: auto;
+}
+
+.mr-1 {
+  margin-right: 0.25rem;
 }
 
 .mr-1\.5 {
@@ -844,10 +835,6 @@ video {
 
 .mt-auto {
   margin-top: auto;
-}
-
-.mr-1 {
-  margin-right: 0.25rem;
 }
 
 .block {
@@ -987,6 +974,10 @@ video {
   width: 4rem;
 }
 
+.w-28 {
+  width: 7rem;
+}
+
 .w-32 {
   width: 8rem;
 }
@@ -1001,10 +992,6 @@ video {
 
 .w-5 {
   width: 1.25rem;
-}
-
-.w-56 {
-  width: 14rem;
 }
 
 .w-6 {
@@ -1034,10 +1021,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-28 {
-  width: 7rem;
 }
 
 .min-w-0 {
@@ -2210,10 +2193,6 @@ video {
   --tw-ring-opacity: 0.05;
 }
 
-.ring-offset-1 {
-  --tw-ring-offset-width: 1px;
-}
-
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
@@ -2332,6 +2311,11 @@ video {
   border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
 }
 
+.hover\:bg-black:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-blue-600\/20:hover {
   background-color: rgb(37 99 235 / 0.2);
 }
@@ -2396,15 +2380,6 @@ video {
   background-color: rgb(202 138 4 / 0.2);
 }
 
-.hover\:bg-black:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:bg-opacity-50:hover {
-  --tw-bg-opacity: 0.5;
-}
-
 .hover\:bg-opacity-10:hover {
   --tw-bg-opacity: 0.1;
 }
@@ -2444,35 +2419,12 @@ video {
   --tw-ring-color: rgb(229 231 235 / var(--tw-ring-opacity, 1));
 }
 
-.hover\:ring-offset-1:hover {
-  --tw-ring-offset-width: 1px;
-}
-
 .focus\:relative:focus {
   position: relative;
 }
 
-.focus\:m-1:focus {
-  margin: 0.25rem;
-}
-
 .focus\:border-2:focus {
   border-width: 2px;
-}
-
-.focus\:border-blue-200:focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(191 219 254 / var(--tw-border-opacity, 1));
-}
-
-.focus\:border-blue-900:focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(30 58 138 / var(--tw-border-opacity, 1));
-}
-
-.focus\:border-blue-400:focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(96 165 250 / var(--tw-border-opacity, 1));
 }
 
 .focus\:border-blue-300:focus {
@@ -2497,16 +2449,8 @@ video {
   outline-width: 2px;
 }
 
-.focus\:outline-1:focus {
-  outline-width: 1px;
-}
-
 .focus\:-outline-offset-2:focus {
   outline-offset: -2px;
-}
-
-.focus\:outline-offset-1:focus {
-  outline-offset: 1px;
 }
 
 .focus\:outline-indigo-600:focus {
@@ -2521,18 +2465,6 @@ video {
   outline-color: #0d9488;
 }
 
-.focus\:outline-blue-200:focus {
-  outline-color: #bfdbfe;
-}
-
-.focus\:outline-black:focus {
-  outline-color: #000;
-}
-
-.focus\:outline-blue-900:focus {
-  outline-color: #1e3a8a;
-}
-
 .focus\:ring-2:focus {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
@@ -2543,11 +2475,6 @@ video {
   --tw-ring-inset: inset;
 }
 
-.focus\:ring-blue-200:focus {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(191 219 254 / var(--tw-ring-opacity, 1));
-}
-
 .focus\:ring-teal-500:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(20 184 166 / var(--tw-ring-opacity, 1));
@@ -2556,15 +2483,6 @@ video {
 .focus\:ring-teal-600:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(13 148 136 / var(--tw-ring-opacity, 1));
-}
-
-.focus\:ring-blue-900:focus {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(30 58 138 / var(--tw-ring-opacity, 1));
-}
-
-.focus\:ring-offset-1:focus {
-  --tw-ring-offset-width: 1px;
 }
 
 .focus\:ring-offset-2:focus {
