@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import { notFound } from "@hapi/boom";
-import { getResourceRef, resourceRef } from "@/utils";
+import { getResourceRef } from "@/utils";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import type {
   MutationResolvers,
@@ -8,7 +8,9 @@ import type {
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const copyShiftPosition: NonNullable<MutationResolvers['copyShiftPosition']> = async (_parent, arg, ctx) => {
+export const copyShiftPosition: NonNullable<
+  MutationResolvers["copyShiftPosition"]
+> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const { pk: team, sk, day } = input;

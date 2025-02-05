@@ -1,6 +1,5 @@
 import {
   ScoredShiftSchedule,
-  ShiftSchedule,
   ShiftScheduleHeuristicWithMultiplier,
   Slot,
   SlotWorker,
@@ -9,7 +8,7 @@ import { randomSchedule } from "./schedule";
 import { isScheduleValid } from "./rules";
 import { RuleName } from "./rules/types";
 import { heuristics as realHeuristics } from "./heuristics";
-import { getDefined } from "./utils/getDefined";
+import { getDefined } from "@/utils";
 import { sortByScore } from "./utils/sortByScore";
 import { evaluateSchedule } from "./evaluateSchedule";
 

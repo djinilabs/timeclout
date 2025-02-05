@@ -56,16 +56,19 @@ export const getHolidays = async (
         name: holiday.name[0]?.text ?? "Unknown",
       };
     })
-    .reduce((all, holiday) => {
-      const startDate = new DayDate(holiday.startDate);
-      const endDate = new DayDate(holiday.endDate);
-      for (
-        let date = startDate;
-        date.compareTo(endDate) <= 0;
-        date = date.nextDay()
-      ) {
-        all[date.toString()] = holiday.name;
-      }
-      return all;
-    }, {});
+    .reduce(
+      (all, holiday) => {
+        const startDate = new DayDate(holiday.startDate);
+        const endDate = new DayDate(holiday.endDate);
+        for (
+          let date = startDate;
+          date.compareTo(endDate) <= 0;
+          date = date.nextDay()
+        ) {
+          all[date.toString()] = holiday.name;
+        }
+        return all;
+      },
+      {} as Record<string, string>
+    );
 };

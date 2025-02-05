@@ -1,6 +1,6 @@
 import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
-import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
+import { settingsTypes } from "@/settings";
 
 export const updateEntitySettings = async (
   entityRef: string,
@@ -13,7 +13,8 @@ export const updateEntitySettings = async (
   if (!entityRecord) {
     throw notFound(`Entity with pk ${entityRef} not found`);
   }
-  const settings = settingsTypes[name].parse(unparsedSettings);
+  const settings =
+    settingsTypes[name as keyof typeof settingsTypes].parse(unparsedSettings);
   await entity_settings.upsert({
     pk: entityRef,
     sk: name,

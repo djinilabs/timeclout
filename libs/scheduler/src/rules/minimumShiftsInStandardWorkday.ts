@@ -1,5 +1,5 @@
+import { getDefined } from "@/utils";
 import { SlotWorker, ValidationRule } from "../types";
-import { getDefined } from "../utils/getDefined";
 
 export const minimumShiftsInStandardWorkday: ValidationRule = (
   schedule,

@@ -18,7 +18,7 @@ export const getResourceRef = <T extends ResourceType = ResourceType>(
   if (!match) {
     throw new Error(`Invalid resource reference: ${r}`);
   }
-  const [_, resourceType, id] = match;
+  const [, resourceType] = match;
   if (!validResourceTypes.has(resourceType as ResourceType)) {
     throw new Error(`Invalid resource type: ${resourceType}`);
   }

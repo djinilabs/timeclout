@@ -195,12 +195,15 @@ export const tableApi = <
         let lastEvaluatedKey: Record<string, unknown> | undefined = undefined;
 
         do {
-          const response = await lowLevelTable.query({
+          const response = (await lowLevelTable.query({
             ...query,
             ExclusiveStartKey: lastEvaluatedKey,
-          });
+          })) as unknown as {
+            Items: TTableRecord[];
+            LastEvaluatedKey: Record<string, unknown>;
+          };
 
-          items = items.concat(response.Items as TTableRecord[]);
+          items = items.concat(response.Items);
           lastEvaluatedKey = response.LastEvaluatedKey;
         } while (lastEvaluatedKey);
 

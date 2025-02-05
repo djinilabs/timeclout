@@ -2,9 +2,9 @@
 // @ts-ignore
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Table from "ascii-table";
+import { getDefined } from "@/utils";
 import { type ShiftSchedule } from "../types";
 import { calculateSlotInconvenience } from "./calculateSlotInconvenience";
-import { getDefined } from "./getDefined";
 
 export const printSchedule = (
   schedule: ShiftSchedule,

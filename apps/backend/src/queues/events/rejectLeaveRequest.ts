@@ -5,10 +5,8 @@ import { EmailParams, renderEmail } from "@/emails";
 import { sendEmail } from "@/send-email";
 import { getDefined } from "@/utils";
 import {
-  approveLeaveRequest as approveLeaveRequestLogic,
   getUnitManagersPks,
   getUserUnitsPks,
-  isLeaveRequestFullyApproved,
   parseLeaveRequestPk,
 } from "@/business-logic";
 
@@ -24,7 +22,7 @@ export const handleRejectLeaveRequest = async ({
   const { pk } = leaveRequest;
   const { companyRef, userRef } = parseLeaveRequestPk(pk);
 
-  const { entity, entity_settings } = await database();
+  const { entity } = await database();
 
   // get company from leave request
   // pk has companies/:companyId/users/:userId

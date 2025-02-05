@@ -45,7 +45,11 @@ export const Invitation: InvitationResolvers = {
       throw notFound(`Entity not found: ${parent.pk}`);
     }
     const entityType =
-      entityTypeToGraphQlEntityType[entityData.pk.split("/")[0]];
+      entityTypeToGraphQlEntityType[
+        entityData.pk.split(
+          "/"
+        )[0] as keyof typeof entityTypeToGraphQlEntityType
+      ];
     const finalEntity = {
       ...entityData,
       __typename: entityType,

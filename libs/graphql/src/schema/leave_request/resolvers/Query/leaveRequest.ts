@@ -1,17 +1,14 @@
 import { forbidden, notFound } from "@hapi/boom";
 import { getDefined, resourceRef } from "@/utils";
 import { database } from "@/tables";
-import {
-  canApproveLeaveRequest,
-  updateLeaveRequest as updateLeaveRequestLogic,
-} from "@/business-logic";
+import { canApproveLeaveRequest } from "@/business-logic";
 import type {
   LeaveRequest,
   QueryResolvers,
 } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 
-export const leaveRequest: NonNullable<QueryResolvers['leaveRequest']> = async (
+export const leaveRequest: NonNullable<QueryResolvers["leaveRequest"]> = async (
   _parent,
   arg,
   ctx

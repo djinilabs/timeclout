@@ -1,9 +1,9 @@
+import { getDefined } from "@/utils";
 import { RuleName } from "./rules/types";
 import { ShiftSchedule, SlotShift, WorkSlots, SlotWorker } from "./types";
 import { calculateMinimumRestSlotsAfterShift } from "./utils/calculateMinimumRestSlotsAfterShift";
 import { calculateSlotInconvenience } from "./utils/calculateSlotInconvenience";
 import { decreasingRandomLinearWeights } from "./utils/decreasingRandomLinearWeights";
-import { getDefined } from "./utils/getDefined";
 import { selectUniqueRandomWeighted } from "./utils/selectUniqueRandomWeighted";
 
 export interface ScheduleOptions {

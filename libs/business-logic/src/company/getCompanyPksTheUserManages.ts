@@ -1,5 +1,4 @@
 import { getDefined, getResourceRef, ResourceRef } from "@/utils";
-import { getEntityPksUserHasPermissionFor } from "../permission/getEntityPksUserHasPermissionFor";
 import { getUnitPksTheUserManages } from "../unit/getUnitPksTheUserManages";
 import { database } from "@/tables";
 

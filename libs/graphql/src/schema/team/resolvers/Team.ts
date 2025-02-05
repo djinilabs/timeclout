@@ -7,18 +7,11 @@ import type {
 } from "./../../../types.generated";
 import {
   teamSchedule,
-  filterUsersByQualificationsInTeam,
   getEntitySettings,
   teamMembersUsers,
   teamMembersQualifications,
 } from "@/business-logic";
-import {
-  compoundedResourceRef,
-  getDefined,
-  getResourceRef,
-  resourceRef,
-  ResourceRef,
-} from "@/utils";
+import { getDefined, getResourceRef, ResourceRef } from "@/utils";
 import { DayDate } from "@/day-date";
 import { SettingsTypeKey } from "@/settings";
 

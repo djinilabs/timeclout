@@ -1,16 +1,14 @@
 import { forbidden, notFound } from "@hapi/boom";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import type {
-  Invitation,
   QueryResolvers,
-  Resolvers,
   ResolversTypes,
 } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 import { isAuthorized } from "../../../../auth/isAuthorized";
 import { getDefined } from "@/utils";
 
-export const invitation: NonNullable<QueryResolvers['invitation']> = async (
+export const invitation: NonNullable<QueryResolvers["invitation"]> = async (
   _parent,
   _arg,
   ctx

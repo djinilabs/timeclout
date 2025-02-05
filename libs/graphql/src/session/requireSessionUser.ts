@@ -1,6 +1,5 @@
 import { database } from "@/tables";
-import { notFound } from "@hapi/boom";
-import { getDefined, getResourceRef, resourceRef } from "@/utils";
+import { resourceRef } from "@/utils";
 import { requireSession } from "./requireSession";
 import { unauthorized } from "@hapi/boom";
 import { ResolverContext } from "../resolverContext";

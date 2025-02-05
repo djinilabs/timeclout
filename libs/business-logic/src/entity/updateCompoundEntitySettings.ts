@@ -8,7 +8,8 @@ export const updateCompoundEntitySettings = async (
   actingUserPk: string
 ) => {
   const { entity_settings } = await database();
-  const settings = settingsTypes[name].parse(unparsedSettings);
+  const settings =
+    settingsTypes[name as keyof typeof settingsTypes].parse(unparsedSettings);
   await entity_settings.upsert({
     pk: entityRef,
     sk: name,

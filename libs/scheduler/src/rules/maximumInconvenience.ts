@@ -1,6 +1,6 @@
+import { getDefined } from "@/utils";
 import { SlotWorker, ValidationRule } from "../types";
 import { calculateSlotInconvenience } from "../utils/calculateSlotInconvenience";
-import { getDefined } from "../utils/getDefined";
 
 export const maximumInconvenience: ValidationRule = (
   schedule,

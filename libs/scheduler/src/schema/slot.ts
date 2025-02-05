@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { getDefined } from "@/utils";
 import { Slot } from "../types";
 import { ScheduleTypes } from "./scheduleTypes";
-import { getDefined } from "../utils/getDefined";
 
 export const WorkHourSchema = z.object({
   start: z.number().int(),

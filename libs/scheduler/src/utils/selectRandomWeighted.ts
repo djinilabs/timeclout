@@ -6,7 +6,7 @@ export const selectRandomWeighted = <T>(
     throw new TypeError("from and weights must have the same length");
   }
 
-  const cumulativeWeights = [];
+  const cumulativeWeights: number[] = [];
   let totalWeights = 0;
 
   for (const weight of weights) {

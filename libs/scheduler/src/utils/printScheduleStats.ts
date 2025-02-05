@@ -2,10 +2,10 @@
 // @ts-ignore
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Table from "ascii-table";
+import { getDefined } from "@/utils";
 import { ScoredShiftSchedule, SlotWorker } from "../types";
 import { parseSlotWorker } from "../schema/slotWorker";
 import { calculateSlotInconvenience } from "./calculateSlotInconvenience";
-import { getDefined } from "./getDefined";
 import { calculateExpectedTotalInconveniencePerWorker } from "./calculateExpectedTotalInconveniencePerWorker";
 
 interface WorkerScheduleStats {

@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { getResourceRef, resourceRef } from "@/utils";
+import { getResourceRef } from "@/utils";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import type {
   MutationResolvers,

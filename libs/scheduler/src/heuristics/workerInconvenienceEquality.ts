@@ -1,7 +1,7 @@
+import { getDefined } from "@/utils";
 import { ShiftScheduleHeuristic, SlotWorker } from "../types";
 import { calculateExpectedTotalInconveniencePerWorker } from "../utils/calculateExpectedTotalInconveniencePerWorker";
 import { calculateSlotInconvenience } from "../utils/calculateSlotInconvenience";
-import { getDefined } from "../utils/getDefined";
 import { stdDev } from "../utils/standardDeviation";
 
 export const workerInconvenienceEqualityHeuristic: ShiftScheduleHeuristic = {

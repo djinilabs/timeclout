@@ -1,7 +1,6 @@
 import { eventBus } from "@/event-bus";
-import { leaveTypeParser } from "@/settings";
 import { database, LeaveRequestRecord } from "@/tables";
-import { badRequest, notFound } from "@hapi/boom";
+import { badRequest } from "@hapi/boom";
 import { isLeaveRequestFullyApproved } from "./isLeaveRequestFullyApproved";
 import { ResourceRef } from "@/utils";
 import { approveLeaveRequest } from "./approveLeaveRequest";
