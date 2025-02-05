@@ -19,10 +19,12 @@ import {
 } from "../hooks/useTeamShiftPositionsMap";
 import { classNames } from "../utils/classNames";
 import { ShiftPosition as ShiftPositionType } from "../graphql/graphql";
+import { ShiftsAutoFill } from "./ShiftsAutoFill";
 
 export const TeamShiftsCalendar = () => {
   const { team } = useParams();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [autoFillDialogOpen, setAutoFillDialogOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<DayDate>(() =>
     DayDate.today()
   );
@@ -120,6 +122,15 @@ export const TeamShiftsCalendar = () => {
           />
         </Suspense>
       </Dialog>
+      <Dialog
+        open={autoFillDialogOpen}
+        onClose={() => setAutoFillDialogOpen(false)}
+        title={"Auto fill"}
+      >
+        <Suspense>
+          <ShiftsAutoFill />
+        </Suspense>
+      </Dialog>
       <MonthCalendar
         onDayFocus={setFocusedDay}
         year={selectedMonth.getYear()}
@@ -129,6 +140,10 @@ export const TeamShiftsCalendar = () => {
           setCreateDialogOpen(true);
         }}
         addButtonText="Add position"
+        autoFillButtonText="Auto fill"
+        onAutoFill={() => {
+          setAutoFillDialogOpen(true);
+        }}
         goTo={(year, month) => {
           const day = new DayDate(year, month + 1, 1);
           goToMonth(day);

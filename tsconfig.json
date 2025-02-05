@@ -15,6 +15,7 @@
       "@/business-logic": ["./libs/business-logic/src"],
       "@/day-date": ["./libs/day-date/src"],
       "@/holidays": ["./libs/holidays/src"],
+      "@/scheduler": ["./libs/scheduler/src"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

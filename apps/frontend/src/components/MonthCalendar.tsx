@@ -18,7 +18,9 @@ export interface Day {
 
 export interface MonthCalendarProps {
   addButtonText: string;
+  autoFillButtonText: string;
   onAddPosition: () => void;
+  onAutoFill: () => void;
   year: number;
   month: number;
   goTo: (year: number, month: number) => void;
@@ -33,7 +35,9 @@ export interface MonthCalendarProps {
 
 export const MonthCalendar: FC<MonthCalendarProps> = ({
   addButtonText,
+  autoFillButtonText,
   onAddPosition,
+  onAutoFill,
   year,
   month,
   days,
@@ -95,6 +99,8 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
           <div className="hidden md:ml-4 md:flex md:items-center">
             <div className="ml-6 h-6 w-px bg-gray-300" />
             <Button onClick={() => onAddPosition()}>{addButtonText}</Button>
+            <div className="ml-6 h-6 w-px bg-gray-300" />
+            <Button onClick={() => onAutoFill()}>{autoFillButtonText}</Button>
           </div>
           <Menu as="div" className="relative ml-6 md:hidden">
             <MenuButton className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">
@@ -113,6 +119,14 @@ export const MonthCalendar: FC<MonthCalendarProps> = ({
                     className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                   >
                     {addButtonText}
+                  </a>
+                </MenuItem>
+                <MenuItem>
+                  <a
+                    onClick={onAutoFill}
+                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                  >
+                    {autoFillButtonText}
                   </a>
                 </MenuItem>
               </div>
