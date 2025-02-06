@@ -58,7 +58,11 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
       slots: shiftsAutoFillParams.slots,
       minimumRestSlotsAfterShift: [],
       keepTopSolutionsCount: 10,
-      heuristics: {},
+      heuristics: {
+        "Worker Inconvenience Equality": 1,
+        "Worker Slot Equality": 1,
+        "Worker Slot Proximity": 1,
+      },
       rules: {},
     });
 
