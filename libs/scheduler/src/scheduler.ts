@@ -70,6 +70,8 @@ export class Scheduler {
     );
     this.rules = options.rules;
     this.workers = options.workers;
+    this.slots = options.slots;
+    this.minimumRestSlotsAfterShift = options.minimumRestSlotsAfterShift;
   }
 
   private async cycle() {
