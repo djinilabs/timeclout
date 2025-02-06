@@ -67,8 +67,13 @@ export const shiftsAutoFillParams = async (
 
   // get the company pk
   const teamEntity = getDefined(await entity.get(team), "Team not found");
+  const unitPk = getResourceRef(
+    getDefined(teamEntity?.parentPk, "Unit not found"),
+    "units"
+  );
+  const unit = getDefined(await entity.get(unitPk), "Unit not found");
   const companyPk = getResourceRef(
-    getDefined(teamEntity?.parentPk, "Company not found"),
+    getDefined(unit?.parentPk, "Company not found"),
     "companies"
   );
 

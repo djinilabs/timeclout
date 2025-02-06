@@ -19,7 +19,7 @@ const yoga = createYoga({
     resolvers,
   }),
   maskedErrors: false,
-  logging: "info",
+  logging: "debug",
   landingPage: false,
   graphiql: false,
   plugins: [

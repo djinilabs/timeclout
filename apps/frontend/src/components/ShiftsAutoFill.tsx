@@ -24,9 +24,11 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
   }>({
     query: shiftsAutoFillParamsQuery,
     variables: {
-      team,
-      startDay: selectedRange?.from?.toISOString(),
-      endDay: selectedRange?.to?.toISOString(),
+      input: {
+        team,
+        startDay: selectedRange?.from?.toISOString().split("T")[0],
+        endDay: selectedRange?.to?.toISOString().split("T")[0],
+      },
     },
     pause: !isAutoFillRunning,
   });
