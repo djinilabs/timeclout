@@ -129,6 +129,7 @@ export const TeamShiftsCalendar = () => {
       >
         <Suspense>
           <ShiftsAutoFill
+            team={getDefined(team)}
             startRange={useMemo(
               () => ({
                 from: selectedMonth.toDate(),

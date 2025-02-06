@@ -4,9 +4,7 @@ import { resourceRef } from "@/utils";
 import { PERMISSION_LEVELS } from "@/tables";
 import { shiftsAutoFillParams as shiftsAutoFillParamsLogic } from "@/business-logic";
 
-export const shiftsAutoFillParams: NonNullable<
-  QueryResolvers["shiftsAutoFillParams"]
-> = async (_parent, arg, ctx) => {
+export const shiftsAutoFillParams: NonNullable<QueryResolvers['shiftsAutoFillParams']> = async (_parent, arg, ctx) => {
   const {
     input: { team, startDay, endDay },
   } = arg;

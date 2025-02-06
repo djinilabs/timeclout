@@ -7,6 +7,7 @@ type AutoFillWorkerLeave {
 
 type AutoFillSlotWorker {
   pk: ID!
+  name: String!
   qualifications: [String!]!
   approvedLeaves: [AutoFillWorkerLeave!]!
 }

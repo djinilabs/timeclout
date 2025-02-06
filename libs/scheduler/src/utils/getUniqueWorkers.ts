@@ -2,8 +2,6 @@ import { ShiftSchedule, SlotWorker } from "../types";
 
 export const getUniqueWorkers = (schedule: ShiftSchedule): Set<SlotWorker> =>
   schedule.shifts.reduce((workers, shift) => {
-    for (const worker of shift.assigned) {
-      workers.add(worker);
-    }
+    workers.add(shift.assigned);
     return workers;
   }, new Set<SlotWorker>());

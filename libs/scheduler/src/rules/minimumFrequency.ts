@@ -1,20 +1,20 @@
 import { SlotWorker, ValidationRule } from "../types";
 
-const workerUnavailablityCountForSlots = (
+const workerUnavailablityInSecondsBetween = (
   worker: SlotWorker,
-  startSlot: number,
-  endSlot: number
+  startTime: number,
+  endTime: number
 ) => {
-  if (startSlot > endSlot) {
-    throw new TypeError("startSlot must be less than endSlot");
+  if (startTime > endTime) {
+    throw new TypeError("startTime must be less than endTime");
   }
-  let unavailableCount = 0;
-  for (let i = startSlot; i < endSlot; i++) {
-    if (!worker.isAvailableToWork(i)) {
-      unavailableCount += 1;
+  // counts the amount of seconds the worker is unavailable between the start and end time
+  return worker.approvedLeaves.reduce((acc, leave) => {
+    if (leave.start <= endTime && leave.end >= startTime) {
+      return acc + (leave.end - leave.start);
     }
-  }
-  return unavailableCount;
+    return acc;
+  }, 0);
 };
 
 export const minimumFrequency: ValidationRule = (
@@ -23,17 +23,21 @@ export const minimumFrequency: ValidationRule = (
   minimumFrequency
 ) => {
   if (typeof minimumFrequency !== "number") {
-    return true;
+    throw new TypeError("minimumFrequency must be a number");
   }
-  const previousShifts = new Map(workers.map((worker) => [worker, -1]));
+  const previousShifts = new Map(workers.map((worker) => [worker, 0]));
 
-  const isShiftValid = (worker: SlotWorker, slot: number) => {
-    const previousShift = previousShifts.get(worker);
+  const isShiftValid = (worker: SlotWorker, startTime: number) => {
+    const previousShiftStartTime = previousShifts.get(worker);
     if (
-      previousShift != null &&
-      slot -
-        previousShift -
-        workerUnavailablityCountForSlots(worker, previousShift, slot) >
+      previousShiftStartTime != null &&
+      startTime -
+        previousShiftStartTime -
+        workerUnavailablityInSecondsBetween(
+          worker,
+          previousShiftStartTime,
+          startTime
+        ) >
         minimumFrequency
     ) {
       return false;
@@ -41,14 +45,12 @@ export const minimumFrequency: ValidationRule = (
     return true;
   };
 
-  schedule.shifts.forEach((shift, slot) => {
-    shift.assigned.forEach((worker) => {
-      if (!isShiftValid(worker, slot)) {
-        return false;
-      }
-      previousShifts.set(worker, slot);
-    });
-  });
+  for (const shift of schedule.shifts) {
+    if (!isShiftValid(shift.assigned, shift.slot.workHours[0].start)) {
+      return false;
+    }
+    previousShifts.set(shift.assigned, shift.slot.workHours[0].start);
+  }
 
   // simulate a last shift to check if all workers have scheduled work until the end
   return workers.every((worker) =>

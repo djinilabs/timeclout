@@ -1,39 +1,33 @@
 import { ShiftScheduleHeuristic, SlotWorker } from "../types";
-import { countTotalSlots } from "../utils/countTotalSlots";
-import { countTotalUniqueWorkers } from "../utils/countTotalUniqueWorkers";
+import { calculateWorkerUnavailabilityRatio } from "../utils/calculateWorkerUnavailabilityRatio";
+import { countTotalMinutesInSlot } from "../utils/countTotalMinutesInSlot";
 import { stdDev } from "../utils/standardDeviation";
 
 export const workerSlotEqualityHeuristic: ShiftScheduleHeuristic = {
   name: "Worker Slot Equality",
   eval: (schedule) => {
-    const totalSlotCount = countTotalSlots(schedule);
-    const totalUniqueWorkerCount = countTotalUniqueWorkers(schedule);
-    const expectedSlotsPerWorker = totalSlotCount / totalUniqueWorkerCount;
-
-    const workerSlots: Map<SlotWorker, number> = new Map();
+    const workerMinutes: Map<SlotWorker, number> = new Map();
 
     for (const shift of schedule.shifts) {
       let index = 0;
-      for (const worker of shift.assigned) {
-        const currentSlotCount = workerSlots.get(worker) ?? 0;
-        workerSlots.set(worker, currentSlotCount + 1);
-        index++;
-      }
-    }
-
-    for (const [worker, workerSlotCount] of workerSlots.entries()) {
-      const workerUnavailabilityRatio =
-        (schedule.shifts.length -
-          worker.unavailableForWorkReasonsShiftCount()) /
-        schedule.shifts.length;
-      workerSlots.set(
-        worker,
-        workerSlotCount / workerUnavailabilityRatio / expectedSlotsPerWorker
+      const currentSlotCount = workerMinutes.get(shift.assigned) ?? 0;
+      workerMinutes.set(
+        shift.assigned,
+        currentSlotCount + countTotalMinutesInSlot(shift.slot)
       );
+      index++;
     }
 
-    const slotCount = Array.from(workerSlots.values());
+    const [expectedMinutesPerWorker, workerUnavailabilityRatio] =
+      calculateWorkerUnavailabilityRatio(schedule);
 
-    return stdDev(1, slotCount);
+    for (const [worker, minutes] of workerMinutes.entries()) {
+      const ratio = workerUnavailabilityRatio(worker);
+      workerMinutes.set(worker, minutes / ratio / expectedMinutesPerWorker);
+    }
+
+    const minutes = Array.from(workerMinutes.values());
+
+    return stdDev(1, minutes);
   },
 };

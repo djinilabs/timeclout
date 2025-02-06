@@ -12,8 +12,8 @@ export interface SimulatedLeave {
 }
 
 export interface QuotaFulfilmentParams {
-  companyRef: ResourceRef;
-  userRef: ResourceRef;
+  companyRef: ResourceRef<"companies">;
+  userRef: ResourceRef<"users">;
   startDate: DayDate;
   endDate: DayDate;
   simulatesLeave?: boolean;

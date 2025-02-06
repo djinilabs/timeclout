@@ -1,30 +1,29 @@
-import { getDefined } from "@/utils";
 import { SlotWorker, ValidationRule } from "../types";
 
 export const minimumShiftsInStandardWorkday: ValidationRule = (
   schedule,
   _workers,
-  config
+  minimumStandardWorkDayShiftCount
 ) => {
-  if (config == null || typeof config !== "number") {
-    return true;
+  if (
+    minimumStandardWorkDayShiftCount == null ||
+    typeof minimumStandardWorkDayShiftCount !== "number"
+  ) {
+    throw new TypeError("minimumShiftsInStandardWorkday must be a number");
   }
-  const minimumStandardWorkDayShiftCount = config;
-  const workerShiftCount = new Map<SlotWorker, number>();
+  const workerShiftCounts = new Map<SlotWorker, number>();
   for (const shift of schedule.shifts) {
-    let index = 0;
-    for (const worker of shift.assigned) {
-      if (
-        getDefined(shift.slot.members[index], `Slot member ${index} not found`)
-          .startsOnStandardWorkDay
-      ) {
-        const currentShiftCount = (workerShiftCount.get(worker) ?? 0) + 1;
-        if (currentShiftCount < minimumStandardWorkDayShiftCount) {
-          return false;
-        }
-        workerShiftCount.set(worker, currentShiftCount);
-      }
-      index++;
+    const worker = shift.assigned;
+    let workerShiftCount = workerShiftCounts.get(worker) ?? 0;
+    if (shift.slot.startsOnStandardWorkDay) {
+      workerShiftCount += 1;
+    }
+    workerShiftCounts.set(worker, workerShiftCount);
+  }
+
+  for (const workerShiftCount of workerShiftCounts.values()) {
+    if (workerShiftCount < minimumStandardWorkDayShiftCount) {
+      return false;
     }
   }
   return true;

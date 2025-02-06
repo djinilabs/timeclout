@@ -1,9 +1,8 @@
-import { getDefined } from "@/utils";
 import { ShiftScheduleHeuristic, SlotWorker } from "../types";
 import { calculateExpectedTotalInconveniencePerWorker } from "../utils/calculateExpectedTotalInconveniencePerWorker";
 import { calculateSlotInconvenience } from "../utils/calculateSlotInconvenience";
 import { stdDev } from "../utils/standardDeviation";
-
+import { calculateWorkerUnavailabilityRatio } from "../utils/calculateWorkerUnavailabilityRatio";
 export const workerInconvenienceEqualityHeuristic: ShiftScheduleHeuristic = {
   name: "Worker Inconvenience Equality",
   eval: (schedule) => {
@@ -13,33 +12,27 @@ export const workerInconvenienceEqualityHeuristic: ShiftScheduleHeuristic = {
     const workerInconveniences: Map<SlotWorker, number> = new Map();
 
     for (const shift of schedule.shifts) {
-      let index = 0;
-      for (const worker of shift.assigned) {
-        const currentInconvenience = workerInconveniences.get(worker) ?? 0;
-        workerInconveniences.set(
-          worker,
-          currentInconvenience +
-            calculateSlotInconvenience(
-              getDefined(
-                shift.slot.members[index],
-                `Slot member ${index} not found`
-              )
-            )
-        );
-        index++;
-      }
+      const currentInconvenience =
+        workerInconveniences.get(shift.assigned) ?? 0;
+      workerInconveniences.set(
+        shift.assigned,
+        currentInconvenience + calculateSlotInconvenience(shift.slot)
+      );
     }
 
-    for (const [worker, workerSlotCount] of workerInconveniences.entries()) {
-      const workerUnavailabilityRatio =
-        (schedule.shifts.length -
-          worker.unavailableForWorkReasonsShiftCount()) /
-        schedule.shifts.length;
+    const [, workerUnavailabilityRatio] =
+      calculateWorkerUnavailabilityRatio(schedule);
+
+    // equalize inconvenience per worker by calculating and applying the ratio of the worker's unavailability
+    // for unavailability ratio we only take into consideration the shifts that the worker is unavailable for work reasons
+    for (const [
+      worker,
+      workerInconvenience,
+    ] of workerInconveniences.entries()) {
+      const ratio = workerUnavailabilityRatio(worker);
       workerInconveniences.set(
         worker,
-        workerSlotCount /
-          workerUnavailabilityRatio /
-          expectedTotalInconveniencePerWorker
+        workerInconvenience / ratio / expectedTotalInconveniencePerWorker
       );
     }
 

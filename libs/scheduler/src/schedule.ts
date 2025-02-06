@@ -1,10 +1,11 @@
-import { getDefined } from "@/utils";
 import { RuleName } from "./rules/types";
 import { ShiftSchedule, SlotShift, WorkSlots, SlotWorker } from "./types";
 import { calculateMinimumRestSlotsAfterShift } from "./utils/calculateMinimumRestSlotsAfterShift";
 import { calculateSlotInconvenience } from "./utils/calculateSlotInconvenience";
 import { decreasingRandomLinearWeights } from "./utils/decreasingRandomLinearWeights";
 import { selectUniqueRandomWeighted } from "./utils/selectUniqueRandomWeighted";
+import { isWorkerAvailableToWork } from "./utils/isWorkerAvailableToWork";
+import { getDefined } from "@/utils";
 
 export interface ScheduleOptions {
   slots: WorkSlots;
@@ -20,7 +21,6 @@ export const randomSchedule = ({
   slots,
   workers,
   minimumRestSlotsAfterShift,
-  rules,
 }: ScheduleOptions): ShiftSchedule => {
   const resting = new Map<SlotWorker, number>();
 
@@ -40,77 +40,44 @@ export const randomSchedule = ({
     (pastWorkLoad.get(a) ?? 0) - (pastWorkLoad.get(b) ?? 0);
 
   return {
-    shifts: slots.map((slot, slotIndex): SlotShift => {
+    shifts: slots.map((slot): SlotShift => {
       nextShift();
 
       const availableSortedWorkers = workers
-        .filter((w) => w.isAvailableToWork(slotIndex) && !resting.has(w))
+        .filter(
+          (w) => isWorkerAvailableToWork(w, slot.workHours) && !resting.has(w)
+        )
         .sort(sortByPastWorkLoad);
 
-      if (availableSortedWorkers.length < slot.members.length - 1) {
+      if (availableSortedWorkers.length < 1) {
         throw new Error("Not enough workers available");
       }
 
-      const assigned: SlotWorker[] = selectUniqueRandomWeighted(
-        availableSortedWorkers,
-        decreasingRandomLinearWeights(availableSortedWorkers.length),
-        slot.members.length - 1
+      const worker: SlotWorker = getDefined(
+        selectUniqueRandomWeighted(
+          availableSortedWorkers,
+          decreasingRandomLinearWeights(availableSortedWorkers.length),
+          1
+        )[0]
       );
 
-      const missingExperiencedWorker =
-        rules.minimumExperiencedWorker != null
-          ? !assigned.some(
-              (w) => w.experience >= Number(rules.minimumExperiencedWorker)
-            )
-          : false;
-
-      let lastShiftAvailableSortedWorkers = availableSortedWorkers
-        .filter((w) => !assigned.includes(w))
-        .filter((w) =>
-          missingExperiencedWorker
-            ? w.experience >= Number(rules.minimumExperiencedWorker)
-            : true
+      const slotInconvenience = calculateSlotInconvenience(slot);
+      const thisSlotMinimumRestSlotsAfterShift =
+        calculateMinimumRestSlotsAfterShift(
+          slotInconvenience,
+          minimumRestSlotsAfterShift
         );
-
-      if (lastShiftAvailableSortedWorkers.length === 0) {
-        throw new Error("No workers available");
+      if (thisSlotMinimumRestSlotsAfterShift > 0) {
+        resting.set(worker, thisSlotMinimumRestSlotsAfterShift);
       }
-
-      const [lastShiftWorker] = selectUniqueRandomWeighted(
-        lastShiftAvailableSortedWorkers,
-        decreasingRandomLinearWeights(lastShiftAvailableSortedWorkers.length),
-        1
+      pastWorkLoad.set(
+        worker,
+        (pastWorkLoad.get(worker) ?? 0) + slotInconvenience
       );
-
-      assigned.push(getDefined(lastShiftWorker));
-
-      let memberIndex = 0;
-      for (const worker of assigned) {
-        const slotInconvenience = calculateSlotInconvenience(
-          getDefined(
-            slot.members[memberIndex],
-            `Slot member ${memberIndex} not found`
-          )
-        );
-        const thisSlotMinimumRestSlotsAfterShift =
-          calculateMinimumRestSlotsAfterShift(
-            slotInconvenience,
-            minimumRestSlotsAfterShift
-          );
-        if (thisSlotMinimumRestSlotsAfterShift > 0) {
-          resting.set(worker, thisSlotMinimumRestSlotsAfterShift);
-        }
-        pastWorkLoad.set(
-          worker,
-          (pastWorkLoad.get(worker) ?? 0) + slotInconvenience
-        );
-        memberIndex++;
-      }
 
       return {
         slot,
-        slotIndex,
-        assigned,
+        assigned: worker,
       };
     }),
   };

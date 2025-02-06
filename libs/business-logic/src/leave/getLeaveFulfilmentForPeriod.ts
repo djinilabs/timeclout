@@ -13,8 +13,8 @@ export interface SimulatedLeave {
 }
 
 export interface LeaveFulfilmentForPeriodParams {
-  companyRef: ResourceRef;
-  userRef: ResourceRef;
+  companyRef: ResourceRef<"companies">;
+  userRef: ResourceRef<"users">;
   startDate: DayDate;
   endDate: DayDate;
   simulation?: SimulatedLeave;

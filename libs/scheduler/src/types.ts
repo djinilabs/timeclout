@@ -1,34 +1,33 @@
-export interface SlotWorker {
-  id: string;
-  name: string;
-  qualifications: string[];
-  approvedLeaves: LeaveRequest[];
-  isAvailableToWork(shift: number): boolean;
-  unavailableForWorkReasonsShiftCount(): number;
-  unavailableForPersonalReasonsShiftCount(): number;
+export interface SlotWorkerLeave {
+  start: number;
+  end: number;
+  type: string;
+  isPersonal: boolean;
 }
 
-export interface WorkHour {
+export interface SlotWorkHour {
   start: number;
   end: number;
   inconvenienceMultiplier: number;
 }
 
-export interface SlotMember {
-  workHours: WorkHour[];
-  startsOnStandardWorkDay: boolean;
+export interface SlotWorker {
+  pk: string;
+  name: string;
+  qualifications: string[];
+  approvedLeaves: SlotWorkerLeave[];
 }
 
 export interface Slot {
-  members: SlotMember[];
+  workHours: SlotWorkHour[];
+  startsOnStandardWorkDay: boolean;
 }
 
 export type WorkSlots = Slot[];
 
 export interface SlotShift {
-  slotIndex: number;
   slot: Slot;
-  assigned: SlotWorker[];
+  assigned: SlotWorker;
 }
 
 export interface ShiftSchedule {

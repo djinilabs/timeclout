@@ -1,10 +1,11 @@
-import { database, ShiftPositionsRecord } from "@/tables";
+import { database } from "@/tables";
 import { getDefined, getResourceRef, ResourceRef } from "@/utils";
 import { teamMembersQualifications } from "../team/teamMembersQualifications";
 import { getLeaveRequestsForDateRange } from "../leaveRequest/getLeaveRequestsForDateRange";
 import { DayDate } from "@/day-date";
 import { getEntitySettings } from "../entity/getEntitySettings";
 import { LeaveType } from "@/settings";
+import { teamMembersUsers } from "../team/teamMembersUsers";
 
 export interface AutoFillWorkerLeave {
   start: number;
@@ -15,6 +16,7 @@ export interface AutoFillWorkerLeave {
 
 export interface AutoFillSlotWorker {
   pk: ResourceRef<"users">;
+  name: string;
   qualifications: string[];
   approvedLeaves: AutoFillWorkerLeave[];
 }
@@ -52,14 +54,16 @@ export const shiftsAutoFillParams = async (
   const endDay = new DayDate(_endDay);
   const { shift_positions, entity } = await database();
 
+  const members = await teamMembersUsers(team);
   const membersAndQualifications = await teamMembersQualifications(team);
-  const workers: AutoFillSlotWorker[] = membersAndQualifications.map(
-    (member) => ({
-      pk: getResourceRef(member.userPk, "users"),
-      qualifications: member.qualifications,
-      approvedLeaves: [],
-    })
-  );
+  const workers: AutoFillSlotWorker[] = members.map((member) => ({
+    pk: getResourceRef(member.pk, "users"),
+    name: member.name,
+    qualifications:
+      membersAndQualifications.find((m) => m.userPk === member.pk)
+        ?.qualifications ?? [],
+    approvedLeaves: [],
+  }));
 
   // get the company pk
   const teamEntity = getDefined(await entity.get(team), "Team not found");
@@ -130,7 +134,7 @@ export const shiftsAutoFillParams = async (
         end:
           diff +
           hourMinutesToMinutes(schedule.endHourMinutes as [number, number]),
-        inconvenienceMultiplier: schedule.inconveniencePerHour,
+        inconvenienceMultiplier: schedule.inconveniencePerHour / 60,
       })),
       startsOnStandardWorkDay: day.getWeekDayNumber() >= 5,
     };
