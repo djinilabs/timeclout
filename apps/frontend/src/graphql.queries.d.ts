@@ -287,6 +287,15 @@ declare module '@/graphql-client/queries/shiftPositions.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/shiftsAutoFillParams.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const shiftsAutoFillParams: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/teamQuery.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

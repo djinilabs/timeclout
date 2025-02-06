@@ -175,6 +175,10 @@ export class DayDate {
     return this.date.getTime() - dayDate.date.getTime();
   }
 
+  diffInMinutes(dayDate: DayDate) {
+    return (this.date.getTime() - dayDate.date.getTime()) / 60000;
+  }
+
   isSameDay(dayDate: DayDate) {
     return (
       this.isSameMonth(dayDate) &&

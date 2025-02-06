@@ -4,8 +4,8 @@ import { ResourceRef } from "@/utils";
 import { DayDate } from "@/day-date";
 
 export const getLeaveRequestsForDateRange = async (
-  companyRef: ResourceRef,
-  userRef: ResourceRef,
+  companyRef: ResourceRef<"companies">,
+  userRef: ResourceRef<"users">,
   startDate: DayDate,
   endDate: DayDate
 ): Promise<LeaveRequestRecord[]> => {

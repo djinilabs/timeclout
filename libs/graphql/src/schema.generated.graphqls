@@ -3,6 +3,37 @@ input ApproveLeaveRequestInput {
   sk: String!
 }
 
+input AutoFillParamsInput {
+  endDay: String!
+  startDay: String!
+  team: String!
+}
+
+type AutoFillSlot {
+  assignedWorkerPk: ID
+  startsOnStandardWorkDay: Boolean!
+  workHours: [AutoFillWorkHour!]!
+}
+
+type AutoFillSlotWorker {
+  approvedLeaves: [AutoFillWorkerLeave!]!
+  pk: ID!
+  qualifications: [String!]!
+}
+
+type AutoFillWorkHour {
+  end: Int!
+  inconvenienceMultiplier: Float!
+  start: Int!
+}
+
+type AutoFillWorkerLeave {
+  end: Int!
+  isPersonal: Boolean!
+  start: Int!
+  type: String!
+}
+
 type Calendar {
   leaveRequests: [LeaveRequest!]!
   leaves: [Leave!]!
@@ -169,6 +200,7 @@ type Query {
   myQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!): [QuotaFulfilment!]!
   pendingLeaveRequests: [LeaveRequest!]!
   shiftPositions(input: QueryShiftPositionsInput!): [ShiftPosition!]!
+  shiftsAutoFillParams(input: AutoFillParamsInput!): ShiftsAutoFillParams!
   team(teamPk: String!): Team!
   unit(unitPk: String!): Unit!
 }
@@ -227,6 +259,11 @@ input ShiftPositionScheduleInput {
   endHourMinutes: [Int!]!
   inconveniencePerHour: Float!
   startHourMinutes: [Int!]!
+}
+
+type ShiftsAutoFillParams {
+  slots: [AutoFillSlot!]!
+  workers: [AutoFillSlotWorker!]!
 }
 
 type Team {

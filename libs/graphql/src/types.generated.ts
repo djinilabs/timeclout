@@ -10,7 +10,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
+  ID: { input: string; output: string | number; }
   String: { input: string; output: string; }
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
@@ -23,6 +23,41 @@ export type Scalars = {
 export type ApproveLeaveRequestInput = {
   pk: Scalars['String']['input'];
   sk: Scalars['String']['input'];
+};
+
+export type AutoFillParamsInput = {
+  endDay: Scalars['String']['input'];
+  startDay: Scalars['String']['input'];
+  team: Scalars['String']['input'];
+};
+
+export type AutoFillSlot = {
+  __typename?: 'AutoFillSlot';
+  assignedWorkerPk?: Maybe<Scalars['ID']['output']>;
+  startsOnStandardWorkDay: Scalars['Boolean']['output'];
+  workHours: Array<AutoFillWorkHour>;
+};
+
+export type AutoFillSlotWorker = {
+  __typename?: 'AutoFillSlotWorker';
+  approvedLeaves: Array<AutoFillWorkerLeave>;
+  pk: Scalars['ID']['output'];
+  qualifications: Array<Scalars['String']['output']>;
+};
+
+export type AutoFillWorkHour = {
+  __typename?: 'AutoFillWorkHour';
+  end: Scalars['Int']['output'];
+  inconvenienceMultiplier: Scalars['Float']['output'];
+  start: Scalars['Int']['output'];
+};
+
+export type AutoFillWorkerLeave = {
+  __typename?: 'AutoFillWorkerLeave';
+  end: Scalars['Int']['output'];
+  isPersonal: Scalars['Boolean']['output'];
+  start: Scalars['Int']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type Calendar = {
@@ -376,6 +411,7 @@ export type Query = {
   myQuotaFulfilment: Array<QuotaFulfilment>;
   pendingLeaveRequests: Array<LeaveRequest>;
   shiftPositions: Array<ShiftPosition>;
+  shiftsAutoFillParams: ShiftsAutoFillParams;
   team: Team;
   unit: Unit;
 };
@@ -419,6 +455,11 @@ export type QuerymyQuotaFulfilmentArgs = {
 
 export type QueryshiftPositionsArgs = {
   input: QueryShiftPositionsInput;
+};
+
+
+export type QueryshiftsAutoFillParamsArgs = {
+  input: AutoFillParamsInput;
 };
 
 
@@ -489,6 +530,12 @@ export type ShiftPositionScheduleInput = {
   endHourMinutes: Array<Scalars['Int']['input']>;
   inconveniencePerHour: Scalars['Float']['input'];
   startHourMinutes: Array<Scalars['Int']['input']>;
+};
+
+export type ShiftsAutoFillParams = {
+  __typename?: 'ShiftsAutoFillParams';
+  slots: Array<AutoFillSlot>;
+  workers: Array<AutoFillSlotWorker>;
 };
 
 export type Team = {
@@ -667,8 +714,16 @@ export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
 export type ResolversTypes = {
   ApproveLeaveRequestInput: ApproveLeaveRequestInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Calendar: ResolverTypeWrapper<Calendar>;
+  AutoFillParamsInput: AutoFillParamsInput;
+  AutoFillSlot: ResolverTypeWrapper<AutoFillSlot>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  AutoFillSlotWorker: ResolverTypeWrapper<AutoFillSlotWorker>;
+  AutoFillWorkHour: ResolverTypeWrapper<AutoFillWorkHour>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  AutoFillWorkerLeave: ResolverTypeWrapper<AutoFillWorkerLeave>;
+  Calendar: ResolverTypeWrapper<Calendar>;
   Company: ResolverTypeWrapper<Company>;
   CopyShiftPositionInput: CopyShiftPositionInput;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
@@ -683,7 +738,6 @@ export type ResolversTypes = {
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   Leave: ResolverTypeWrapper<Leave>;
   LeaveRequest: ResolverTypeWrapper<LeaveRequest>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   MemberQualifications: ResolverTypeWrapper<MemberQualifications>;
   MoveShiftPositionInput: MoveShiftPositionInput;
   Mutation: ResolverTypeWrapper<{}>;
@@ -695,8 +749,8 @@ export type ResolversTypes = {
   Schedule: ResolverTypeWrapper<Schedule>;
   ShiftPosition: ResolverTypeWrapper<ShiftPosition>;
   ShiftPositionSchedule: ResolverTypeWrapper<ShiftPositionSchedule>;
-  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ShiftPositionScheduleInput: ShiftPositionScheduleInput;
+  ShiftsAutoFillParams: ResolverTypeWrapper<ShiftsAutoFillParams>;
   Team: ResolverTypeWrapper<Team>;
   Unit: ResolverTypeWrapper<Unit>;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
@@ -710,8 +764,16 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   ApproveLeaveRequestInput: ApproveLeaveRequestInput;
   String: Scalars['String']['output'];
-  Calendar: Calendar;
+  AutoFillParamsInput: AutoFillParamsInput;
+  AutoFillSlot: AutoFillSlot;
+  ID: Scalars['ID']['output'];
+  Boolean: Scalars['Boolean']['output'];
+  AutoFillSlotWorker: AutoFillSlotWorker;
+  AutoFillWorkHour: AutoFillWorkHour;
   Int: Scalars['Int']['output'];
+  Float: Scalars['Float']['output'];
+  AutoFillWorkerLeave: AutoFillWorkerLeave;
+  Calendar: Calendar;
   Company: Company;
   CopyShiftPositionInput: CopyShiftPositionInput;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
@@ -726,7 +788,6 @@ export type ResolversParentTypes = {
   JSON: Scalars['JSON']['output'];
   Leave: Leave;
   LeaveRequest: LeaveRequest;
-  Boolean: Scalars['Boolean']['output'];
   MemberQualifications: MemberQualifications;
   MoveShiftPositionInput: MoveShiftPositionInput;
   Mutation: {};
@@ -738,8 +799,8 @@ export type ResolversParentTypes = {
   Schedule: Schedule;
   ShiftPosition: ShiftPosition;
   ShiftPositionSchedule: ShiftPositionSchedule;
-  Float: Scalars['Float']['output'];
   ShiftPositionScheduleInput: ShiftPositionScheduleInput;
+  ShiftsAutoFillParams: ShiftsAutoFillParams;
   Team: Team;
   Unit: Unit;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
@@ -747,6 +808,35 @@ export type ResolversParentTypes = {
   UpdateShiftPositionInput: UpdateShiftPositionInput;
   User: User;
   UserSchedule: UserSchedule;
+};
+
+export type AutoFillSlotResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillSlot'] = ResolversParentTypes['AutoFillSlot']> = {
+  assignedWorkerPk?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  startsOnStandardWorkDay?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  workHours?: Resolver<Array<ResolversTypes['AutoFillWorkHour']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AutoFillSlotWorkerResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillSlotWorker'] = ResolversParentTypes['AutoFillSlotWorker']> = {
+  approvedLeaves?: Resolver<Array<ResolversTypes['AutoFillWorkerLeave']>, ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  qualifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AutoFillWorkHourResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillWorkHour'] = ResolversParentTypes['AutoFillWorkHour']> = {
+  end?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  inconvenienceMultiplier?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  start?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AutoFillWorkerLeaveResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillWorkerLeave'] = ResolversParentTypes['AutoFillWorkerLeave']> = {
+  end?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  isPersonal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  start?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CalendarResolvers<ContextType = any, ParentType extends ResolversParentTypes['Calendar'] = ResolversParentTypes['Calendar']> = {
@@ -877,6 +967,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   myQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymyQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate'>>;
   pendingLeaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType>;
   shiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<QueryshiftPositionsArgs, 'input'>>;
+  shiftsAutoFillParams?: Resolver<ResolversTypes['ShiftsAutoFillParams'], ParentType, ContextType, RequireFields<QueryshiftsAutoFillParamsArgs, 'input'>>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;
   unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<QueryunitArgs, 'unitPk'>>;
 };
@@ -921,6 +1012,12 @@ export type ShiftPositionScheduleResolvers<ContextType = any, ParentType extends
   endHourMinutes?: Resolver<Array<ResolversTypes['Int']>, ParentType, ContextType>;
   inconveniencePerHour?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   startHourMinutes?: Resolver<Array<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ShiftsAutoFillParamsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShiftsAutoFillParams'] = ResolversParentTypes['ShiftsAutoFillParams']> = {
+  slots?: Resolver<Array<ResolversTypes['AutoFillSlot']>, ParentType, ContextType>;
+  workers?: Resolver<Array<ResolversTypes['AutoFillSlotWorker']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -973,6 +1070,10 @@ export type UserScheduleResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type Resolvers<ContextType = any> = {
+  AutoFillSlot?: AutoFillSlotResolvers<ContextType>;
+  AutoFillSlotWorker?: AutoFillSlotWorkerResolvers<ContextType>;
+  AutoFillWorkHour?: AutoFillWorkHourResolvers<ContextType>;
+  AutoFillWorkerLeave?: AutoFillWorkerLeaveResolvers<ContextType>;
   Calendar?: CalendarResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;
   Date?: GraphQLScalarType;
@@ -989,6 +1090,7 @@ export type Resolvers<ContextType = any> = {
   Schedule?: ScheduleResolvers<ContextType>;
   ShiftPosition?: ShiftPositionResolvers<ContextType>;
   ShiftPositionSchedule?: ShiftPositionScheduleResolvers<ContextType>;
+  ShiftsAutoFillParams?: ShiftsAutoFillParamsResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;
   Unit?: UnitResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

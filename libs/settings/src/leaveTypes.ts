@@ -8,6 +8,7 @@ const leaveTypesSchema = z.array(
     visibleTo: z.enum(["managers", "employees"]),
     deductsFromAnnualAllowance: z.boolean(),
     needsManagerApproval: z.boolean(),
+    isPersonal: z.boolean().optional(),
     icon: z.enum([
       "umbrella",
       "spa",

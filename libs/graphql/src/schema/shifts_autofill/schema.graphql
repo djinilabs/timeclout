@@ -1,0 +1,39 @@
+type AutoFillWorkerLeave {
+  start: Int!
+  end: Int!
+  type: String!
+  isPersonal: Boolean!
+}
+
+type AutoFillSlotWorker {
+  pk: ID!
+  qualifications: [String!]!
+  approvedLeaves: [AutoFillWorkerLeave!]!
+}
+
+type AutoFillWorkHour {
+  start: Int!
+  end: Int!
+  inconvenienceMultiplier: Float!
+}
+
+type AutoFillSlot {
+  workHours: [AutoFillWorkHour!]!
+  startsOnStandardWorkDay: Boolean!
+  assignedWorkerPk: ID
+}
+
+type ShiftsAutoFillParams {
+  workers: [AutoFillSlotWorker!]!
+  slots: [AutoFillSlot!]!
+}
+
+input AutoFillParamsInput {
+  team: String!
+  startDay: String!
+  endDay: String!
+}
+
+extend type Query {
+  shiftsAutoFillParams(input: AutoFillParamsInput!): ShiftsAutoFillParams!
+}

@@ -1,0 +1,22 @@
+query shiftsAutoFillParams($input: AutoFillParamsInput!) {
+  shiftsAutoFillParams(input: $input) {
+    workers {
+      pk
+      qualifications
+      approvedLeaves {
+        start
+        end
+        type
+        isPersonal
+      }
+    }
+    slots {
+      workHours {
+        start
+        end
+        inconvenienceMultiplier
+      }
+      startsOnStandardWorkDay
+    }
+  }
+}

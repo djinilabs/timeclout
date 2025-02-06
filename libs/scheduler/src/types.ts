@@ -1,8 +1,8 @@
 export interface SlotWorker {
   id: string;
   name: string;
-  experience: number;
-  unavailable?: boolean;
+  qualifications: string[];
+  approvedLeaves: LeaveRequest[];
   isAvailableToWork(shift: number): boolean;
   unavailableForWorkReasonsShiftCount(): number;
   unavailableForPersonalReasonsShiftCount(): number;

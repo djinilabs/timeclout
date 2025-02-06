@@ -128,7 +128,15 @@ export const TeamShiftsCalendar = () => {
         title={"Auto fill"}
       >
         <Suspense>
-          <ShiftsAutoFill />
+          <ShiftsAutoFill
+            startRange={useMemo(
+              () => ({
+                from: selectedMonth.toDate(),
+                to: selectedMonth.nextMonth(1).previousDay().toDate(),
+              }),
+              [selectedMonth]
+            )}
+          />
         </Suspense>
       </Dialog>
       <MonthCalendar

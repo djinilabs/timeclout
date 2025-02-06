@@ -88,6 +88,7 @@ export type PermissionRecord = z.infer<typeof tableSchemas.permission>;
 export type LeaveRequestRecord = z.infer<typeof tableSchemas.leave_request>;
 export type LeaveRecord = z.infer<typeof tableSchemas.leave>;
 export type InvitationRecord = z.infer<typeof tableSchemas.invitation>;
+export type ShiftPositionsRecord = z.infer<typeof tableSchemas.shift_positions>;
 
 export const PERMISSION_LEVELS = {
   READ: 1,

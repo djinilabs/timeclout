@@ -4,7 +4,7 @@ import type { QueryResolvers, User } from "./../../../../types.generated";
 import { notFound } from "@hapi/boom";
 import { resourceRef } from "@/utils";
 
-export const me: NonNullable<QueryResolvers["me"]> = async (
+export const me: NonNullable<QueryResolvers['me']> = async (
   _parent,
   _arg,
   _ctx

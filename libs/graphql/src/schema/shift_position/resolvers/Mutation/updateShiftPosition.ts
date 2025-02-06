@@ -7,9 +7,7 @@ import type {
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const updateShiftPosition: NonNullable<
-  MutationResolvers["updateShiftPosition"]
-> = async (_parent, arg, ctx) => {
+export const updateShiftPosition: NonNullable<MutationResolvers['updateShiftPosition']> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const {
