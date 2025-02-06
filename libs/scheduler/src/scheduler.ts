@@ -73,7 +73,6 @@ export class Scheduler {
   }
 
   private async cycle() {
-    console.log("Scheduler: cycle");
     try {
       this.cycleCount += 1;
       const schedule = randomSchedule({
@@ -106,6 +105,7 @@ export class Scheduler {
         .sort(sortByScore)
         .slice(0, this.options.keepTopSolutionsCount);
     } catch (err) {
+      console.error(err);
       const reason = `Error: ${(err as Error).message}`;
       this.discardedReasons.set(
         reason,
@@ -135,6 +135,9 @@ export class Scheduler {
     this._stop = false;
     while (!this._stop) {
       await this.cycle();
+      if (this.cycleCount % 1000 === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
     }
   }
 

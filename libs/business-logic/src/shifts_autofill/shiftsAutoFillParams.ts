@@ -123,8 +123,8 @@ export const shiftsAutoFillParams = async (
     KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
     ExpressionAttributeValues: {
       ":pk": team,
-      ":startDay": startDay,
-      ":endDay": endDay,
+      ":startDay": startDay.toString(),
+      ":endDay": endDay.toString(),
     },
   });
 
