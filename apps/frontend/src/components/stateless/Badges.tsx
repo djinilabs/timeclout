@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { Badge } from "./Badge";
 import { type ColorName } from "@/settings";
 
@@ -17,7 +17,7 @@ export interface BadgeRemoveButtonProps {
   color?: string;
 }
 
-export const Badges: FC<BadgesProps> = ({ badges, onRemove }) => {
+export const Badges: FC<BadgesProps> = memo(({ badges, onRemove }) => {
   return (
     <div className="flex flex-wrap gap-2">
       {badges.map((badge) => {
@@ -31,4 +31,4 @@ export const Badges: FC<BadgesProps> = ({ badges, onRemove }) => {
       })}
     </div>
   );
-};
+});

@@ -1,11 +1,11 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { leaveTypeIcons } from "../../settings/leaveTypes";
 
 export interface IconPickerProps {
   value?: string;
   onChange: (value: keyof typeof leaveTypeIcons) => void;
 }
-export const IconPicker: FC<IconPickerProps> = ({ value, onChange }) => {
+export const IconPicker: FC<IconPickerProps> = memo(({ value, onChange }) => {
   return (
     <div className="w-full">
       <div className="grid grid-cols-4 gap-2">
@@ -28,4 +28,4 @@ export const IconPicker: FC<IconPickerProps> = ({ value, onChange }) => {
       </div>
     </div>
   );
-};
+});

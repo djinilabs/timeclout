@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { classNames } from "../../utils/classNames";
 import { leaveTypeColors } from "../../settings/leaveTypes";
@@ -8,7 +8,7 @@ export type Color = keyof typeof leaveTypeColors;
 export const ColorPicker: FC<{
   value: Color | undefined;
   onChange: (value: Color) => void;
-}> = ({ value, onChange }) => {
+}> = memo(({ value, onChange }) => {
   return (
     <RadioGroup
       value={value}
@@ -35,4 +35,4 @@ export const ColorPicker: FC<{
       ))}
     </RadioGroup>
   );
-};
+});

@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC, memo } from "react";
 import { type ColorName } from "@/settings";
 
 export interface BadgeProps {
@@ -7,7 +7,7 @@ export interface BadgeProps {
   onRemove?: () => void;
 }
 
-export const Badge: FC<BadgeProps> = ({ name, color, onRemove }): ReactNode => {
+export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
   switch (color) {
     case "gray":
       return (
@@ -287,4 +287,4 @@ export const Badge: FC<BadgeProps> = ({ name, color, onRemove }): ReactNode => {
     default:
       return null;
   }
-};
+});
