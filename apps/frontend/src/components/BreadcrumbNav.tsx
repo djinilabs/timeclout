@@ -1,10 +1,10 @@
 import { HomeIcon } from "@heroicons/react/20/solid";
 import { Link, useParams } from "react-router-dom";
-import { useQuery } from "../hooks/useQuery";
+import { getDefined } from "@/utils";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
+import { useQuery } from "../hooks/useQuery";
 import { Query, QueryCompanyArgs } from "../graphql/graphql";
-import { getDefined } from "@/utils";
 
 export const BreadcrumbNav = () => {
   const { company: companyPk, unit: unitPk, team: teamPk } = useParams();

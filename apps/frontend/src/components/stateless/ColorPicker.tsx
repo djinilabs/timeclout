@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Radio, RadioGroup } from "@headlessui/react";
-import { classNames } from "../utils/classNames";
-import { leaveTypeColors } from "../settings/leaveTypes";
+import { classNames } from "../../utils/classNames";
+import { leaveTypeColors } from "../../settings/leaveTypes";
 
 export type Color = keyof typeof leaveTypeColors;
 

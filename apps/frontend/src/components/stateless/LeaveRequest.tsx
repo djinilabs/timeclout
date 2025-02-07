@@ -1,4 +1,4 @@
-import { LeaveRequest as LeaveRequestType } from "../graphql/graphql";
+import { LeaveRequest as LeaveRequestType } from "../../graphql/graphql";
 import { Avatar } from "./Avatar";
 
 export type LeaveRequestProps = Pick<

@@ -5,10 +5,9 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import { useMemo, useState, type ReactNode } from "react";
-import { generateYearMonthsDays } from "../utils/generateYearMonthsDays";
-import { LeaveRequest } from "./LeaveRequest";
+import { generateYearMonthsDays } from "../../utils/generateYearMonthsDays";
+import { User } from "../../graphql/graphql";
 import { CalendarDay } from "./CalendarDay";
-import { User } from "../graphql/graphql";
 
 export interface LeaveRequest {
   startDate: string;

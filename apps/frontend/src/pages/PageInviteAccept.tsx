@@ -1,5 +1,5 @@
 import { AcceptInvite } from "../components/AcceptInvite";
-import { Suspense } from "../components/Suspense";
+import { Suspense } from "../components/stateless/Suspense";
 
 export const PageInviteAccept = () => {
   return (

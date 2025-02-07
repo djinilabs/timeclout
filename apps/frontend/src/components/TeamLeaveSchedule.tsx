@@ -15,7 +15,7 @@ import {
   Team,
   TeamScheduleArgs,
 } from "../graphql/graphql";
-import { MonthlyLinearSchedule } from "./MonthlyLinearSchedule";
+import { MonthlyLinearSchedule } from "./stateless/MonthlyLinearSchedule";
 import { leaveTypeParser } from "@/settings";
 import { leaveTypeColors } from "../settings/leaveTypes";
 import { leaveTypeIcons } from "../settings/leaveTypes";

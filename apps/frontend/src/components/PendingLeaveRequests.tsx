@@ -4,7 +4,7 @@ import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import pendingLeaveRequestsQuery from "@/graphql-client/queries/myPendingLeaveRequests.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { Query } from "../graphql/graphql";
-import { Avatar } from "./Avatar";
+import { Avatar } from "./stateless/Avatar";
 
 export const PendingLeaveRequests = () => {
   const [pendingLeaveRequestResult] = useQuery<{

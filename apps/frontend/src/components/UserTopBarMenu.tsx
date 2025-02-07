@@ -5,8 +5,8 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import meQuery from "@/graphql-client/queries/me.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { Query } from "../graphql/graphql";
-import { Avatar } from "./Avatar";
-import { Suspense } from "react";
+import { Avatar } from "./stateless/Avatar";
+import { Suspense } from "./stateless/Suspense";
 
 const userNavigation = [
   { href: "/me/edit", name: "Profile" },

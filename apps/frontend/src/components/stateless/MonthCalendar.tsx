@@ -6,8 +6,8 @@ import {
 } from "@heroicons/react/20/solid";
 import { Button } from "./Button";
 import { FC, useCallback } from "react";
-import { classNames } from "../utils/classNames";
-import { months } from "../utils/months";
+import { classNames } from "../../utils/classNames";
+import { months } from "../../utils/months";
 
 export interface Day {
   date: string;

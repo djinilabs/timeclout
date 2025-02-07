@@ -1,7 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
+import { getDefined } from "@/utils";
 import { useQuery } from "../hooks/useQuery";
 import {
   QueryCompanyArgs,
@@ -10,11 +12,9 @@ import {
   Mutation,
   MutationUpdateCompanySettingsArgs,
 } from "../graphql/graphql";
-import { getDefined } from "@/utils";
-import { Button } from "./Button";
+import { Button } from "./stateless/Button";
 import { useMutation } from "../hooks/useMutation";
 import { useForm } from "@tanstack/react-form";
-import toast from "react-hot-toast";
 import { yearlyQuotaParser } from "@/settings";
 
 export const CompanyYearlyQuota = () => {

@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
-import { classNames } from "../utils/classNames";
-import { Day, Month } from "../utils/generateYearMonthsDays";
+import { classNames } from "../../utils/classNames";
+import { Day, Month } from "../../utils/generateYearMonthsDays";
 import { type LeaveDay } from "./YearCalendar";
 import { Popover } from "./Popover";
 import { LeaveRequest } from "./LeaveRequest";

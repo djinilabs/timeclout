@@ -1,12 +1,12 @@
-import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import ReactTimeAgo from "react-time-ago";
-import { type Company } from "../graphql/graphql";
+import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
+import { type Company } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
 import { classNames } from "../utils/classNames";
-import { Button } from "./Button";
+import { Button } from "./stateless/Button";
 
 const NoCompanies = () => {
   const navigate = useNavigate();

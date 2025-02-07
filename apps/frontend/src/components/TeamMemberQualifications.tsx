@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { getDefined } from "@/utils";
 import updateTeamMemberQualificationsMutation from "@/graphql-client/mutations/updateTeamMemberQualifications.graphql";
-import { Suspense } from "./Suspense";
+import { Suspense } from "./stateless/Suspense";
 import { useMutation } from "../hooks/useMutation";
 import { EditQualifications } from "./EditQualifications";
 import { useTeamWithSettings } from "../hooks/useTeamWithSettings";

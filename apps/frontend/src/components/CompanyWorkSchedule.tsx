@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
-import { useQuery } from "../hooks/useQuery";
-import { useMutation } from "../hooks/useMutation";
 import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
-import { Button } from "./Button";
+import { getDefined } from "@/utils";
+import { type WorkSchedule, worksScheduleParser } from "@/settings";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
-import { getDefined } from "@/utils";
+import { useQuery } from "../hooks/useQuery";
+import { useMutation } from "../hooks/useMutation";
+import { Button } from "./stateless/Button";
 import {
   QueryCompanyArgs,
   CompanySettingsArgs,
@@ -14,7 +15,6 @@ import {
   Mutation,
   MutationUpdateCompanySettingsArgs,
 } from "../graphql/graphql";
-import { WorkSchedule, worksScheduleParser } from "@/settings";
 
 const workDays = [
   "monday",

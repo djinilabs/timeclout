@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Suspense } from "../components/Suspense";
 import { AllUnitTeams } from "../components/AllUnitTeams";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { Tabs } from "../components/Tabs";
 import { UnitSettings } from "../components/UnitSettings";
+import { Suspense } from "../components/stateless/Suspense";
 
 const tabs = [
   { name: "Teams", href: "teams" },

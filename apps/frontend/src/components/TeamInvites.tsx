@@ -2,13 +2,13 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
-import { Button } from "./Button";
-import { useQuery } from "../hooks/useQuery";
 import invitationsToTeamQuery from "@/graphql-client/queries/invitationsToTeam.graphql";
-import { Invitation, QueryInvitationsToArgs } from "../graphql/graphql";
-import { Avatar } from "./Avatar";
-import { permissionTypeToString } from "../utils/permissionTypeToString";
 import deleteInvitationMutation from "@/graphql-client/mutations/deleteInvitation.graphql";
+import { Button } from "./stateless/Button";
+import { useQuery } from "../hooks/useQuery";
+import { Invitation, QueryInvitationsToArgs } from "../graphql/graphql";
+import { Avatar } from "./stateless/Avatar";
+import { permissionTypeToString } from "../utils/permissionTypeToString";
 import { useMutation } from "../hooks/useMutation";
 
 export const TeamInvites = () => {

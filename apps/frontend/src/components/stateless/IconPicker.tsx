@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { leaveTypeIcons } from "../settings/leaveTypes";
+import { leaveTypeIcons } from "../../settings/leaveTypes";
 
 export interface IconPickerProps {
   value?: string;

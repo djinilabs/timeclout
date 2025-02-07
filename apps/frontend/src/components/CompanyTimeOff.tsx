@@ -8,11 +8,12 @@ import {
 import toast from "react-hot-toast";
 import { getDefined } from "@/utils";
 import { DayDate } from "@/day-date";
+import { leaveTypeParser } from "@/settings";
 import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRequest.graphql";
 import myLeaveCalendarQuery from "@/graphql-client/queries/myLeaveCalendar.graphql";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import mySettingsQuery from "@/graphql-client/queries/mySettings.graphql";
-import { LeaveDay, YearCalendar } from "./YearCalendar";
+import { LeaveDay, YearCalendar } from "./stateless/YearCalendar";
 import { BookCompanyTimeOff, type TimeOffRequest } from "./BookCompanyTimeOff";
 import { useMutation } from "../hooks/useMutation";
 import {
@@ -28,9 +29,8 @@ import {
 import { useQuery } from "../hooks/useQuery";
 import { leaveTypeColors } from "../settings/leaveTypes";
 import { leaveTypeIcons } from "../settings/leaveTypes";
-import { leaveTypeParser } from "@/settings";
 import { useHolidays } from "../hooks/useHolidays";
-import { Suspense } from "./Suspense";
+import { Suspense } from "./stateless/Suspense";
 
 export const CompanyTimeOff = () => {
   const { company } = useParams();

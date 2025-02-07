@@ -3,16 +3,16 @@ import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import toast from "react-hot-toast";
-import { Button } from "./Button";
+import { getDefined } from "@/utils";
 import teamWithMembersQuery from "@/graphql-client/queries/teamWithMembers.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { Avatar } from "./Avatar";
-import { permissionTypeToString } from "../utils/permissionTypeToString";
-import { useMutation } from "../hooks/useMutation";
 import removeUserFromTeamMutation from "@/graphql-client/mutations/removeUserFromTeam.graphql";
 import { QueryTeamArgs, Team, User } from "../graphql/graphql";
-import { getDefined } from "@/utils";
+import { useQuery } from "../hooks/useQuery";
+import { useMutation } from "../hooks/useMutation";
+import { permissionTypeToString } from "../utils/permissionTypeToString";
 import { TeamMemberQualifications } from "./TeamMemberQualifications";
+import { Button } from "./stateless/Button";
+import { Avatar } from "./stateless/Avatar";
 
 export const TeamMembers = () => {
   const { company, unit, team: teamPk } = useParams();

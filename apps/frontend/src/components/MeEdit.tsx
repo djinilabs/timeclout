@@ -1,22 +1,23 @@
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { useForm } from "@tanstack/react-form";
-import { useQuery } from "../hooks/useQuery";
 import meQuery from "@/graphql-client/queries/me.graphql";
+import updateMeMutation from "@/graphql-client/mutations/updateMe.graphql";
 import {
   Mutation,
   MutationUpdateMeArgs,
   MutationUpdateMySettingsArgs,
   Query,
 } from "../graphql/graphql";
+import { useQuery } from "../hooks/useQuery";
 import { useCountries } from "../hooks/useCountries";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { useCountrySubdivisions } from "../hooks/useCountrySubdivisions";
 import { useMutation } from "../hooks/useMutation";
-import updateMeMutation from "@/graphql-client/mutations/updateMe.graphql";
-import { Button } from "./Button";
-import { useSession } from "next-auth/react";
-import { useNavigate } from "react-router-dom";
+import { Button } from "./stateless/Button";
+
 export const MeEdit = () => {
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });
   const me = result?.data?.me;

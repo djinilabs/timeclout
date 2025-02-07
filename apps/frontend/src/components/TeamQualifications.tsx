@@ -7,6 +7,7 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
+import toast from "react-hot-toast";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { getDefined } from "@/utils";
 import { Qualifications, qualificationsParser, colorNames } from "@/settings";
@@ -14,10 +15,9 @@ import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.gra
 import updateTeamSettingsMutation from "@/graphql-client/mutations/updateTeamSettings.graphql";
 import { QueryTeamArgs, Team, TeamSettingsArgs } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { Badge } from "./Badge";
-import { Button } from "./Button";
-import toast from "react-hot-toast";
 import { useMutation } from "../hooks/useMutation";
+import { Badge } from "./stateless/Badge";
+import { Button } from "./stateless/Button";
 
 export const TeamQualifications = () => {
   const { team: teamPk } = useParams();

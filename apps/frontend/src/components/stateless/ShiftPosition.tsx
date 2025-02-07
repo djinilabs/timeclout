@@ -1,15 +1,15 @@
 import { memo, useEffect, useRef } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { colors } from "@/settings";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
 import { Avatar } from "./Avatar";
-import { classNames } from "../utils/classNames";
+import { classNames } from "../../utils/classNames";
 import {
   type TimeSchedule,
   MiniTimeScheduleVisualizer,
 } from "./MiniTimeScheduleVisualizer";
-import { type ShiftPositionWithFake } from "../hooks/useTeamShiftPositionsMap";
-import { colors } from "@/settings";
+import { type ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 import { Popover } from "./Popover";
 
 export interface ShiftPositionProps {

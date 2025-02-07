@@ -4,7 +4,7 @@ import { Tabs } from "../components/Tabs";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { CompanySettings } from "../components/CompanySettings";
 import { CompanyTimeOff } from "../components/CompanyTimeOff";
-import { Suspense } from "../components/Suspense";
+import { Suspense } from "../components/stateless/Suspense";
 export const PageCompany: FC = () => {
   const tabs = useMemo(
     () => [

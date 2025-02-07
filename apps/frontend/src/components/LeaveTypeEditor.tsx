@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { leaveTypeParser } from "@/settings";
-import { IconPicker } from "./IconPicker";
-import { ColorPicker } from "./ColorPicker";
+import { IconPicker } from "./stateless/IconPicker";
+import { ColorPicker } from "./stateless/ColorPicker";
 
 export type LeaveTypeEditorProps = {
-  settings: any;
-  onSubmit: (values: any) => void;
+  settings: unknown;
+  onSubmit: (values: unknown) => void;
 };
 
 export const LeaveTypeEditor = ({

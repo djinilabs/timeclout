@@ -4,12 +4,12 @@ import { TrashIcon } from "@heroicons/react/20/solid";
 import { managersParser } from "@/settings";
 import { getDefined, unique } from "@/utils";
 import { useQuery } from "../hooks/useQuery";
-import { Avatar } from "./Avatar";
 import unitWithMembersAndSettingsQuery from "@/graphql-client/queries/unitWithMembersAndSettingsQuery.graphql";
-import { SelectUser } from "./SelectUser";
 import updateUnitSettingsMutation from "@/graphql-client/mutations/updateUnitSettings.graphql";
 import { useMutation } from "../hooks/useMutation";
-import { Button } from "./Button";
+import { Avatar } from "./stateless/Avatar";
+import { SelectUser } from "./stateless/SelectUser";
+import { Button } from "./stateless/Button";
 import {
   QueryUnitArgs,
   Unit,

@@ -5,7 +5,7 @@ import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
 import { useQuery } from "../hooks/useQuery";
-import { Button } from "./Button";
+import { Button } from "./stateless/Button";
 import { Query, Unit } from "../graphql/graphql";
 
 const NoUnits = () => {

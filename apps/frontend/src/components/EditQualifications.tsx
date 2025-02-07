@@ -1,11 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-
-import { Qualifications } from "@/settings";
-import { FC } from "react";
-import { unique } from "@/utils";
+import { type FC, useCallback, useEffect, useMemo, useState } from "react";
 import { dequal } from "dequal";
-import { Badges } from "./Badges";
-import { Badge } from "./Badge";
+import { Qualifications } from "@/settings";
+import { unique } from "@/utils";
+import { Badges } from "./stateless/Badges";
+import { Badge } from "./stateless/Badge";
 
 export interface EditQualificationsProps {
   qualificationSettings: Qualifications;

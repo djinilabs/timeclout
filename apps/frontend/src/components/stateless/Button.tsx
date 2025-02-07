@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { classNames } from "../utils/classNames";
+import { classNames } from "../../utils/classNames";
 
 export interface ButtonProps {
   onClick?: () => void;

@@ -1,11 +1,13 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import { dequal } from "dequal";
 import { DayDate } from "@/day-date";
-import { TimeSchedulesEditor } from "./TimeSchedulesEditor";
-import { SelectUser } from "./SelectUser";
-import { useParams } from "react-router-dom";
+import { getDefined } from "@/utils";
+import { SchedulePositionTemplate } from "@/settings";
+import { SelectUser } from "./stateless/SelectUser";
 import { useQuery } from "../hooks/useQuery";
 import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
 import {
@@ -15,16 +17,14 @@ import {
   TeamMembersArgs,
   TeamSettingsArgs,
 } from "../graphql/graphql";
-import { getDefined } from "@/utils";
+import { TimeSchedulesEditor } from "./stateless/TimeSchedulesEditor";
 import { EditQualifications } from "./EditQualifications";
 import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
-import { Color, ColorPicker } from "./ColorPicker";
-import { Button } from "./Button";
+import { Color, ColorPicker } from "./stateless/ColorPicker";
+import { Button } from "./stateless/Button";
 import { useTeamWithSettings } from "../hooks/useTeamWithSettings";
 import { useSaveTeamSettings } from "../hooks/useSaveTeamSettings";
-import { SchedulePositionTemplate } from "@/settings";
-import { ListBox } from "./ListBox";
-import { dequal } from "dequal";
+import { ListBox } from "./stateless/ListBox";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;

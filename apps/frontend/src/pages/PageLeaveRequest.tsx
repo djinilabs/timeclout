@@ -5,8 +5,8 @@ import approveLeaveRequestMutation from "@/graphql-client/mutations/approveLeave
 import rejectLeaveRequestMutation from "@/graphql-client/mutations/rejectLeaveRequest.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { LeaveRequest, QueryLeaveRequestArgs } from "../graphql/graphql";
-import { LeaveRequest as LeaveRequestComponent } from "../components/LeaveRequest";
-import { Button } from "../components/Button";
+import { LeaveRequest as LeaveRequestComponent } from "../components/stateless/LeaveRequest";
+import { Button } from "../components/stateless/Button";
 import { useMutation } from "../hooks/useMutation";
 
 export const PageLeaveRequest = () => {

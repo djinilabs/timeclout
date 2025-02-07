@@ -2,11 +2,11 @@ import { FC } from "react";
 import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
-import { Button } from "./Button";
 import inviteToTeamMutation from "@/graphql-client/mutations/inviteToTeam.graphql";
-import { ListBox } from "./ListBox";
 import { useMutation } from "../hooks/useMutation";
 import { Mutation, MutationCreateInvitationArgs } from "../graphql/graphql";
+import { Button } from "./stateless/Button";
+import { ListBox } from "./stateless/ListBox";
 
 export interface InviteToTeamProps {
   teamPk: string;

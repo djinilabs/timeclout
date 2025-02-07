@@ -6,7 +6,7 @@ import {
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ReactNode, useCallback } from "react";
 import { Avatar } from "./Avatar";
-import { months } from "../utils/months";
+import { months } from "../../utils/months";
 
 export interface User {
   pk: string;

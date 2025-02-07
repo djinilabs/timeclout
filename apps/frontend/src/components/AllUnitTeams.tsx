@@ -1,8 +1,8 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
+import ReactTimeAgo from "react-time-ago";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { classNames } from "../utils/classNames";
-import ReactTimeAgo from "react-time-ago";
 import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { Query, Team } from "../graphql/graphql";

@@ -5,7 +5,7 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { getDefined } from "@/utils";
 import { leaveTypeParser } from "@/settings";
-import { Button } from "./Button";
+import { Button } from "./stateless/Button";
 import { useQuery } from "../hooks/useQuery";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import mySettingsQuery from "@/graphql-client/queries/mySettings.graphql";
@@ -19,7 +19,7 @@ import {
 } from "../graphql/graphql";
 import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
 import toast from "react-hot-toast";
-import { Suspense } from "./Suspense";
+import { Suspense } from "./stateless/Suspense";
 
 export type TimeOffRequest = {
   type: string;

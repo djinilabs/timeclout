@@ -1,5 +1,5 @@
 import { PendingLeaveRequests } from "../components/PendingLeaveRequests";
-import { Suspense } from "../components/Suspense";
+import { Suspense } from "../components/stateless/Suspense";
 
 export const PagePendingLeaveRequests = () => {
   return (

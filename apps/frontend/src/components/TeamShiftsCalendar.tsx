@@ -1,17 +1,17 @@
 import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
-import { Dialog } from "./Dialog";
-import { MonthCalendar } from "./MonthCalendar";
+import { Dialog } from "./stateless/Dialog";
+import { MonthCalendar } from "./stateless/MonthCalendar";
 import { generateMonthDays } from "../utils/generateMonthDays";
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
-import { Suspense } from "./Suspense";
+import { Suspense } from "./stateless/Suspense";
 import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
 import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
 import { getDefined } from "@/utils";
 import { useTeamShiftsDragAndDrop } from "../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../hooks/useTeamShiftsClipboard";
-import { ShiftPosition } from "./ShiftPosition";
+import { ShiftPosition } from "./stateless/ShiftPosition";
 import { useTeamShiftsFocusNavigation } from "../hooks/useTeamShiftsFocusNavigation";
 import {
   type ShiftPositionWithFake,

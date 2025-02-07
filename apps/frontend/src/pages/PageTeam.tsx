@@ -4,7 +4,7 @@ import { type Tab, Tabs } from "../components/Tabs";
 import { TeamMembers } from "../components/TeamMembers";
 import { TeamInvites } from "../components/TeamInvites";
 import { TeamLeaveSchedule } from "../components/TeamLeaveSchedule";
-import { Suspense } from "../components/Suspense";
+import { Suspense } from "../components/stateless/Suspense";
 import { TeamShiftsCalendar } from "../components/TeamShiftsCalendar";
 import { TeamSettings } from "../components/TeamSettings";
 

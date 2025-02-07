@@ -1,10 +1,10 @@
-import { Button } from "./Button";
 import { useState, useEffect, FC } from "react";
 import { SchedulerWorkerClient } from "@/scheduler-worker";
 import { DateRange, DayPicker } from "react-day-picker";
 import { useQuery } from "../hooks/useQuery";
 import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
 import { ShiftsAutoFillParams } from "../graphql/graphql";
+import { Button } from "./stateless/Button";
 export interface ShiftsAutoFillProps {
   team: string;
   startRange: DateRange;
