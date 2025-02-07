@@ -28,6 +28,7 @@ export interface AutoFillWorkHour {
 }
 
 export interface AutoFillSlot {
+  id: string;
   workHours: AutoFillWorkHour[];
   startsOnStandardWorkDay: boolean;
 }
@@ -132,6 +133,7 @@ export const shiftsAutoFillParams = async (
     const day = new DayDate(position.day);
     const diff = diffInMinutes(startDay, day);
     return {
+      id: position.sk,
       workHours: position.schedules.map((schedule) => ({
         start:
           diff +

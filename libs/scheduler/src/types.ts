@@ -19,6 +19,7 @@ export interface SlotWorker {
 }
 
 export interface Slot {
+  id: string;
   workHours: SlotWorkHour[];
   startsOnStandardWorkDay: boolean;
 }
