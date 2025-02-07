@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { SchedulerState } from "@/scheduler";
 import { ShiftPosition } from "../../graphql/graphql";
 import { DayDate } from "@/day-date";
+import { MonthCalendar } from "./MonthCalendar";
 
 export interface ShiftsAutoFillProgressProps {
   startDate: DayDate;
@@ -155,6 +156,11 @@ export const ShiftsAutoFillProgress = ({
           <h3 className="text-base font-semibold text-gray-900">
             {yearMonth.year}-{yearMonth.month + 1}
           </h3>
+          <MonthCalendar
+            year={yearMonth.year}
+            month={yearMonth.month}
+            renderDay={() => null}
+          />
         </div>
       ))}
 

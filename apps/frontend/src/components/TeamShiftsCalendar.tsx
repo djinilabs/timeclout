@@ -128,7 +128,7 @@ export const TeamShiftsCalendar = () => {
         open={autoFillDialogOpen}
         onClose={() => setAutoFillDialogOpen(false)}
         title={"Auto fill"}
-        className="w-screen h-screen"
+        className="w-screen min-h-screen"
       >
         <Suspense>
           <ShiftsAutoFill
@@ -147,24 +147,25 @@ export const TeamShiftsCalendar = () => {
         onDayFocus={setFocusedDay}
         year={selectedMonth.getYear()}
         month={selectedMonth.getMonth() - 1}
-        onAddPosition={() => {
-          setEditingShiftPosition(undefined);
-          setCreateDialogOpen(true);
-        }}
-        addButtonText="Add position"
-        autoFillButtonText="Auto fill"
-        onAutoFill={() => {
-          setAutoFillDialogOpen(true);
-        }}
+        additionalActions={[
+          {
+            text: "Add position",
+            onClick: () => {
+              setEditingShiftPosition(undefined);
+              setCreateDialogOpen(true);
+            },
+          },
+          {
+            text: "Auto fill",
+            onClick: () => {
+              setAutoFillDialogOpen(true);
+            },
+          },
+        ]}
         goTo={(year, month) => {
           const day = new DayDate(year, month + 1, 1);
           goToMonth(day);
         }}
-        days={generateMonthDays(
-          selectedMonth.getYear(),
-          selectedMonth.getMonth() - 1,
-          DayDate.today()
-        )}
         renderDay={(day, dayIndex) => {
           const shiftPositions = shiftPositionsMap?.[day.date];
           if (!shiftPositions) {

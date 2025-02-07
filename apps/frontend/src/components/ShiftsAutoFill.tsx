@@ -131,7 +131,7 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
   );
 
   return (
-    <div>
+    <div className="overflow-auto">
       {!isAutoFillRunning && (
         <DayPicker
           mode="range"
