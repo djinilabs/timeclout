@@ -128,6 +128,7 @@ export const TeamShiftsCalendar = () => {
         open={autoFillDialogOpen}
         onClose={() => setAutoFillDialogOpen(false)}
         title={"Auto fill"}
+        className="w-screen h-screen"
       >
         <Suspense>
           <ShiftsAutoFill

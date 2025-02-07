@@ -1,4 +1,4 @@
-import { useState, useEffect, FC, Suspense } from "react";
+import { useState, useEffect, FC, Suspense, useRef } from "react";
 import { SchedulerWorkerClient } from "@/scheduler-worker";
 import { DateRange, DayPicker } from "react-day-picker";
 import { useQuery } from "../hooks/useQuery";
@@ -10,6 +10,7 @@ import { ShiftsAutoFillProgress } from "./stateless/ShiftsAutoFillProgress";
 import { SchedulerState } from "@/scheduler";
 import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
 import { DayDate } from "@/day-date";
+import { dequal } from "dequal";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;
@@ -40,9 +41,14 @@ export const ShiftsAutoFillWithoutParams: FC<
 
   const [progress, setProgress] = useState<SchedulerState | undefined>();
 
+  const queriedDates = useRef<DayDate[]>([startDate, endDate]);
+
   useEffect(() => {
-    setProgress(undefined);
-  }, [shiftsAutoFillParams]);
+    if (!dequal(queriedDates.current, [startDate, endDate])) {
+      setProgress(undefined);
+      queriedDates.current = [startDate, endDate];
+    }
+  }, [startDate, endDate]);
 
   useEffect(() => {
     let stopping = false;
