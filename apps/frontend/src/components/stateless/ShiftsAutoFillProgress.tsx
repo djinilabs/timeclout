@@ -77,18 +77,17 @@ export const ShiftsAutoFillProgress = ({
     return months;
   }, [startDate, endDate]);
 
-  // const calendarShifts = useMemo(() => {
-  //   return topSolution?.schedule.shifts.map((shift) => {
-  //     const shiftPosition = shiftPositions.find(
-  //       (shiftPosition) => shiftPosition.sk === shift.slot.id
-  //     );
-  //     return {
-  //       slotId: shift.slot.id,
-  //       workerId: shift.assigned.pk,
-  //       shiftPosition,
-  //     };
-  //   });
-  // }, [topSolution, shiftPositions]);
+  const calendarShifts = useMemo(() => {
+    return topSolution?.schedule.shifts.map((shift) => {
+      const shiftPosition = shiftPositions.find(
+        (shiftPosition) => shiftPosition.sk === shift.slot.id
+      );
+      return {
+        position: shiftPosition,
+        shift,
+      };
+    });
+  }, [topSolution, shiftPositions]);
 
   return (
     <>
