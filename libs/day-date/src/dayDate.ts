@@ -197,6 +197,10 @@ export class DayDate {
     return this.compareTo(dayDate) < 0;
   }
 
+  isBeforeOrEqual(dayDate: DayDate) {
+    return this.compareTo(dayDate) <= 0;
+  }
+
   toString() {
     return this.date.toISOString().split("T")[0];
   }

@@ -1,11 +1,21 @@
-import { SchedulerState } from "@/scheduler";
 import { useMemo } from "react";
+import { SchedulerState } from "@/scheduler";
+import { ShiftPosition } from "../../graphql/graphql";
+import { DayDate } from "@/day-date";
+
+export interface ShiftsAutoFillProgressProps {
+  startDate: DayDate;
+  endDate: DayDate;
+  progress: SchedulerState;
+  shiftPositions: ShiftPosition[];
+}
 
 export const ShiftsAutoFillProgress = ({
+  startDate,
+  endDate,
   progress,
-}: {
-  progress: SchedulerState;
-}) => {
+  shiftPositions,
+}: ShiftsAutoFillProgressProps) => {
   const topSolution = progress.topSolutions[0];
 
   const stats = useMemo(() => {
@@ -55,6 +65,29 @@ export const ShiftsAutoFillProgress = ({
       ),
     }));
   }, [topSolution]);
+
+  const yearMonths: Array<{ year: number; month: number }> = useMemo(() => {
+    const months = [];
+    let start = startDate;
+    while (start.isBeforeOrEqual(endDate)) {
+      months.push({ year: start.getYear(), month: start.getMonth() });
+      start = start.nextMonth();
+    }
+    return months;
+  }, [startDate, endDate]);
+
+  // const calendarShifts = useMemo(() => {
+  //   return topSolution?.schedule.shifts.map((shift) => {
+  //     const shiftPosition = shiftPositions.find(
+  //       (shiftPosition) => shiftPosition.sk === shift.slot.id
+  //     );
+  //     return {
+  //       slotId: shift.slot.id,
+  //       workerId: shift.assigned.pk,
+  //       shiftPosition,
+  //     };
+  //   });
+  // }, [topSolution, shiftPositions]);
 
   return (
     <>
@@ -116,6 +149,15 @@ export const ShiftsAutoFillProgress = ({
           ))}
         </dl>
       </div>
+
+      {yearMonths.map((yearMonth) => (
+        <div key={`${yearMonth.year}-${yearMonth.month}`}>
+          <h3 className="text-base font-semibold text-gray-900">
+            {yearMonth.year}-{yearMonth.month + 1}
+          </h3>
+        </div>
+      ))}
+
       <pre>{JSON.stringify(topSolution?.schedule, null, 2)}</pre>
     </>
   );

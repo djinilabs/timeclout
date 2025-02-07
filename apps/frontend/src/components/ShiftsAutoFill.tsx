@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, Suspense } from "react";
 import { SchedulerWorkerClient } from "@/scheduler-worker";
 import { DateRange, DayPicker } from "react-day-picker";
 import { useQuery } from "../hooks/useQuery";
@@ -8,20 +8,19 @@ import { Button } from "./stateless/Button";
 import { Loading } from "./stateless/Loading";
 import { ShiftsAutoFillProgress } from "./stateless/ShiftsAutoFillProgress";
 import { SchedulerState } from "@/scheduler";
-export interface ShiftsAutoFillProps {
+import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
+import { DayDate } from "@/day-date";
+
+export interface ShiftsAutoFillWithoutParamsProps {
+  isAutoFillRunning: boolean;
   team: string;
-  startRange: DateRange;
+  startDate: DayDate;
+  endDate: DayDate;
 }
 
-export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
-  team,
-  startRange,
-}) => {
-  const [isAutoFillRunning, setIsAutoFillRunning] = useState(false);
-  const [selectedRange, setSelectedRange] = useState<DateRange | undefined>(
-    startRange
-  );
-
+export const ShiftsAutoFillWithoutParams: FC<
+  ShiftsAutoFillWithoutParamsProps
+> = ({ isAutoFillRunning, team, startDate, endDate }) => {
   const [shiftsAutoFillParamsResponse] = useQuery<{
     shiftsAutoFillParams: ShiftsAutoFillParams;
   }>({
@@ -29,8 +28,8 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
     variables: {
       input: {
         team,
-        startDay: selectedRange?.from?.toISOString().split("T")[0],
-        endDay: selectedRange?.to?.toISOString().split("T")[0],
+        startDay: startDate.toString(),
+        endDay: endDate.toString(),
       },
     },
     pause: !isAutoFillRunning,
@@ -40,6 +39,10 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
     shiftsAutoFillParamsResponse?.data?.shiftsAutoFillParams;
 
   const [progress, setProgress] = useState<SchedulerState | undefined>();
+
+  useEffect(() => {
+    setProgress(undefined);
+  }, [shiftsAutoFillParams]);
 
   useEffect(() => {
     let stopping = false;
@@ -57,6 +60,7 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
       return;
     }
     console.log("Auto fill is going to start");
+    setProgress(undefined);
     const client = new SchedulerWorkerClient();
     client.start(
       {
@@ -84,6 +88,42 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
     };
   }, [isAutoFillRunning, shiftsAutoFillParams]);
 
+  const { data: shiftPositions } = useTeamShiftsQuery({
+    team,
+    startDay: startDate,
+    endDay: endDate,
+    pause: !isAutoFillRunning,
+  });
+
+  return (
+    <div>
+      {isAutoFillRunning && <Loading />}
+      {progress && shiftPositions && (
+        <ShiftsAutoFillProgress
+          startDate={startDate}
+          endDate={endDate}
+          progress={progress}
+          shiftPositions={shiftPositions}
+        />
+      )}
+    </div>
+  );
+};
+
+export interface ShiftsAutoFillProps {
+  team: string;
+  startRange: DateRange;
+}
+
+export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
+  team,
+  startRange,
+}) => {
+  const [isAutoFillRunning, setIsAutoFillRunning] = useState(false);
+  const [selectedRange, setSelectedRange] = useState<DateRange | undefined>(
+    startRange
+  );
+
   return (
     <div>
       {!isAutoFillRunning && (
@@ -108,8 +148,20 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           ? "Stop Auto Fill"
           : "Start Auto Fill for selected dates"}
       </Button>
-      {isAutoFillRunning && <Loading />}
-      {progress && <ShiftsAutoFillProgress progress={progress} />}
+      <Suspense>
+        <ShiftsAutoFillWithoutParams
+          isAutoFillRunning={isAutoFillRunning}
+          team={team}
+          startDate={
+            selectedRange?.from
+              ? new DayDate(selectedRange.from)
+              : DayDate.today()
+          }
+          endDate={
+            selectedRange?.to ? new DayDate(selectedRange.to) : DayDate.today()
+          }
+        />
+      </Suspense>
     </div>
   );
 };

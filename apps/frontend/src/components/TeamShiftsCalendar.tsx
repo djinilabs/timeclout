@@ -42,10 +42,12 @@ export const TeamShiftsCalendar = () => {
     [selectedMonth]
   );
 
-  const { data: shiftPositionsResult } = useTeamShiftsQuery(
-    getDefined(team),
-    selectedMonth
-  );
+  const { data: shiftPositionsResult } = useTeamShiftsQuery({
+    team: getDefined(team),
+    startDay: selectedMonth.firstOfMonth().fullMonthBackFill(),
+    endDay: selectedMonth.nextMonth(1).previousDay().fullMonthForwardFill(),
+    pollingIntervalMs: 30000,
+  });
 
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
     useTeamShiftsDragAndDrop(shiftPositionsResult);

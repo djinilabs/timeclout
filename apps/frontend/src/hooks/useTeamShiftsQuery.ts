@@ -10,20 +10,32 @@ export interface UseTeamShiftsQueryResult {
   fetching: boolean;
 }
 
-export const useTeamShiftsQuery = (
-  team: string,
-  selectedDate: DayDate
-): UseTeamShiftsQueryResult => {
+export interface UseTeamShiftsQueryOptions {
+  team: string;
+  startDay: DayDate;
+  endDay: DayDate;
+  pollingIntervalMs?: number;
+  pause?: boolean;
+}
+
+export const useTeamShiftsQuery = ({
+  team,
+  startDay,
+  endDay,
+  pollingIntervalMs,
+  pause,
+}: UseTeamShiftsQueryOptions): UseTeamShiftsQueryResult => {
   const [shiftPositionsResult] = useQuery<{
     shiftPositions: ShiftPosition[];
   }>({
     query: shiftPositionsQuery,
-    pollingIntervalMs: 30000,
+    pollingIntervalMs,
     variables: {
       team,
-      startDay: selectedDate.fullMonthBackFill().toString(),
-      endDay: selectedDate.fullMonthForwardFill().toString(),
+      startDay: startDay.toString(),
+      endDay: endDay.toString(),
     },
+    pause,
   });
 
   return {
