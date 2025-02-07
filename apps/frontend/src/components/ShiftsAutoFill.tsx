@@ -5,6 +5,9 @@ import { useQuery } from "../hooks/useQuery";
 import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
 import { ShiftsAutoFillParams } from "../graphql/graphql";
 import { Button } from "./stateless/Button";
+import { Loading } from "./stateless/Loading";
+import { ShiftsAutoFillProgress } from "./stateless/ShiftsAutoFillProgress";
+import { SchedulerState } from "@/scheduler";
 export interface ShiftsAutoFillProps {
   team: string;
   startRange: DateRange;
@@ -36,6 +39,8 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
   const shiftsAutoFillParams =
     shiftsAutoFillParamsResponse?.data?.shiftsAutoFillParams;
 
+  const [progress, setProgress] = useState<SchedulerState | undefined>();
+
   useEffect(() => {
     let stopping = false;
     if (!isAutoFillRunning) {
@@ -53,18 +58,24 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
     }
     console.log("Auto fill is going to start");
     const client = new SchedulerWorkerClient();
-    client.start({
-      workers: shiftsAutoFillParams.workers,
-      slots: shiftsAutoFillParams.slots,
-      minimumRestSlotsAfterShift: [],
-      keepTopSolutionsCount: 10,
-      heuristics: {
-        "Worker Inconvenience Equality": 1,
-        "Worker Slot Equality": 1,
-        "Worker Slot Proximity": 1,
+    client.start(
+      {
+        workers: shiftsAutoFillParams.workers,
+        slots: shiftsAutoFillParams.slots,
+        minimumRestSlotsAfterShift: [],
+        keepTopSolutionsCount: 10,
+        heuristics: {
+          "Worker Inconvenience Equality": 1,
+          "Worker Slot Equality": 1,
+          "Worker Slot Proximity": 1,
+        },
+        rules: {},
       },
-      rules: {},
-    });
+      (progress) => {
+        console.log("Progress", progress);
+        setProgress(progress);
+      }
+    );
 
     return () => {
       console.log("Auto fill is stopping");
@@ -75,24 +86,30 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
 
   return (
     <div>
-      <DayPicker
-        mode="range"
-        ISOWeek
-        timeZone="UTC"
-        numberOfMonths={2}
-        selected={selectedRange}
-        onSelect={(range) => {
-          setSelectedRange(range);
-        }}
-      />
+      {!isAutoFillRunning && (
+        <DayPicker
+          mode="range"
+          ISOWeek
+          timeZone="UTC"
+          numberOfMonths={2}
+          selected={selectedRange}
+          onSelect={(range) => {
+            setSelectedRange(range);
+          }}
+        />
+      )}
       <Button
         disabled={!selectedRange}
         onClick={() => {
           setIsAutoFillRunning(!isAutoFillRunning);
         }}
       >
-        {isAutoFillRunning ? "Stop Auto Fill" : "Start Auto Fill"}
+        {isAutoFillRunning
+          ? "Stop Auto Fill"
+          : "Start Auto Fill for selected dates"}
       </Button>
+      {isAutoFillRunning && <Loading />}
+      {progress && <ShiftsAutoFillProgress progress={progress} />}
     </div>
   );
 };

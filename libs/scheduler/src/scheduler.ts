@@ -138,7 +138,7 @@ export class Scheduler {
     while (!this._stop) {
       await this.cycle();
       if (this.cycleCount % 1000 === 0) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
     }
   }

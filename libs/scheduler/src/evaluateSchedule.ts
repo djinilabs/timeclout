@@ -12,12 +12,20 @@ export const evaluateSchedule = (
     priorityMultiplier: heuristic.priorityMultiplier,
   }));
 
-  return {
-    finalScore: heuristicScores.reduce(
+  const priorityMultiplierSum = heuristicScores.reduce(
+    (acc, { priorityMultiplier }) => acc + (priorityMultiplier ?? 1),
+    0
+  );
+
+  const finalScore =
+    heuristicScores.reduce(
       (acc, { score, priorityMultiplier }) =>
         acc + score * (priorityMultiplier ?? 1),
       0
-    ),
+    ) / priorityMultiplierSum;
+
+  return {
+    finalScore,
     euristicScore: heuristicScores,
   };
 };
