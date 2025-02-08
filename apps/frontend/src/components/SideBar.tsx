@@ -51,7 +51,7 @@ export const SideBar = () => {
                       location.pathname === item.href
                         ? "bg-teal-700 text-white"
                         : "text-teal-200 hover:bg-teal-700 hover:text-white",
-                      "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
+                      "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold animate duration-200"
                     )}
                   >
                     <item.icon
@@ -82,7 +82,7 @@ export const SideBar = () => {
                       location.pathname === team.href
                         ? "bg-teal-700 text-white"
                         : "text-teal-200 hover:bg-teal-700 hover:text-white",
-                      "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
+                      "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold animate duration-200"
                     )}
                   >
                     <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-teal-400 bg-teal-500 text-[0.625rem] font-medium text-white">
@@ -97,7 +97,7 @@ export const SideBar = () => {
           <li className="mt-auto">
             <Link
               to="/me/edit"
-              className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-teal-200 hover:bg-teal-700 hover:text-white"
+              className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-teal-200 hover:bg-teal-700 hover:text-white animate duration-200"
             >
               <Cog6ToothIcon
                 aria-hidden="true"

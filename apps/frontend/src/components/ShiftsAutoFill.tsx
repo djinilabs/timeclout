@@ -11,6 +11,7 @@ import { SchedulerState } from "@/scheduler";
 import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
 import { DayDate } from "@/day-date";
 import { dequal } from "dequal";
+import { classNames } from "../utils/classNames";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;
@@ -131,8 +132,8 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
   );
 
   return (
-    <div className="overflow-auto">
-      {!isAutoFillRunning && (
+    <>
+      <div className={classNames(isAutoFillRunning && "collapse")}>
         <DayPicker
           mode="range"
           ISOWeek
@@ -143,7 +144,7 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
             setSelectedRange(range);
           }}
         />
-      )}
+      </div>
       <Button
         disabled={!selectedRange}
         onClick={() => {
@@ -168,6 +169,6 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           }
         />
       </Suspense>
-    </div>
+    </>
   );
 };
