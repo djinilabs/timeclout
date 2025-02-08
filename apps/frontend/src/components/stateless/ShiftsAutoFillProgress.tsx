@@ -1,14 +1,19 @@
 import { useMemo } from "react";
 import { SchedulerState } from "@/scheduler";
-import { ShiftPosition } from "../../graphql/graphql";
 import { DayDate } from "@/day-date";
 import { MonthCalendar } from "./MonthCalendar";
-
+import {
+  useTeamShiftPositionsMap,
+  ShiftPositionWithFake,
+} from "../../hooks/useTeamShiftPositionsMap";
+import { classNames } from "../../utils/classNames";
+import { ShiftPosition } from "./ShiftPosition";
+import { ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
 export interface ShiftsAutoFillProgressProps {
   startDate: DayDate;
   endDate: DayDate;
   progress: SchedulerState;
-  shiftPositions: ShiftPosition[];
+  shiftPositions: ShiftPositionType[];
 }
 
 export const ShiftsAutoFillProgress = ({
@@ -77,17 +82,47 @@ export const ShiftsAutoFillProgress = ({
     return months;
   }, [startDate, endDate]);
 
-  const calendarShifts = useMemo(() => {
-    return topSolution?.schedule.shifts.map((shift) => {
-      const shiftPosition = shiftPositions.find(
-        (shiftPosition) => shiftPosition.sk === shift.slot.id
+  const { shiftPositionsMap } = useTeamShiftPositionsMap({
+    shiftPositionsResult: shiftPositions,
+  });
+
+  // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
+
+  const maxRowsPerWeekNumber = useMemo(() => {
+    const weekNumbers: Array<number> = [];
+    for (const [day, shiftPositions] of Object.entries(
+      shiftPositionsMap
+    ).sort()) {
+      const week = new DayDate(day).getWeekNumber();
+      const dayRows = shiftPositions.reduce(
+        (acc, shiftPosition) => acc + shiftPosition.rowSpan,
+        0
       );
-      return {
-        position: shiftPosition,
-        shift,
-      };
-    });
-  }, [topSolution, shiftPositions]);
+      weekNumbers[week] = Math.max(weekNumbers[week] ?? 0, dayRows);
+    }
+    return weekNumbers;
+  }, [shiftPositionsMap]);
+
+  const assignedShiftPositions: Record<string, ShiftPositionWithFake[]> =
+    useMemo(() => {
+      return Object.fromEntries(
+        Object.entries(shiftPositionsMap).map(([day, shiftPositions]) => {
+          const newShiftPositions = shiftPositions.map((shiftPosition) => {
+            const shift = topSolution?.schedule.shifts.find(
+              (shift) => shift.slot.id === shiftPosition.sk
+            );
+            if (!shift) {
+              return shiftPosition;
+            }
+            return {
+              ...shiftPosition,
+              assignedTo: shift.assigned,
+            };
+          });
+          return [day, newShiftPositions];
+        })
+      );
+    }, [shiftPositionsMap, topSolution]);
 
   return (
     <>
@@ -152,13 +187,32 @@ export const ShiftsAutoFillProgress = ({
 
       {yearMonths.map((yearMonth) => (
         <div key={`${yearMonth.year}-${yearMonth.month}`}>
-          <h3 className="text-base font-semibold text-gray-900">
-            {yearMonth.year}-{yearMonth.month + 1}
-          </h3>
           <MonthCalendar
             year={yearMonth.year}
             month={yearMonth.month}
-            renderDay={() => null}
+            renderDay={(day) => {
+              const shiftPositions = assignedShiftPositions?.[day.date];
+              if (!shiftPositions) {
+                return null;
+              }
+              const rowCount: number | undefined =
+                maxRowsPerWeekNumber[new DayDate(day.date).getWeekNumber()];
+              return (
+                <div
+                  className={classNames("h-full w-full grid")}
+                  style={{
+                    gridTemplateRows: `repeat(${rowCount ?? shiftPositions.length}, 1fr)`,
+                  }}
+                >
+                  {shiftPositions.map((shiftPosition) => (
+                    <ShiftPosition
+                      key={shiftPosition.sk}
+                      shiftPosition={shiftPosition}
+                    />
+                  ))}
+                </div>
+              );
+            }}
           />
         </div>
       ))}

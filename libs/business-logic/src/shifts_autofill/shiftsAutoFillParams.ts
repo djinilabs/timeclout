@@ -17,6 +17,7 @@ export interface AutoFillWorkerLeave {
 export interface AutoFillSlotWorker {
   pk: ResourceRef<"users">;
   name: string;
+  email: string;
   qualifications: string[];
   approvedLeaves: AutoFillWorkerLeave[];
 }
@@ -60,6 +61,7 @@ export const shiftsAutoFillParams = async (
   const workers: AutoFillSlotWorker[] = members.map((member) => ({
     pk: getResourceRef(member.pk, "users"),
     name: member.name,
+    email: getDefined(member.email, "Member email not found"),
     qualifications:
       membersAndQualifications.find((m) => m.userPk === member.pk)
         ?.qualifications ?? [],

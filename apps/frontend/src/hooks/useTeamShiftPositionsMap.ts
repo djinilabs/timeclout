@@ -14,7 +14,7 @@ export type ShiftPositionWithFake = ShiftPositionType & {
 };
 
 export interface UseTeamShiftPositionsMapParams {
-  draggingShiftPosition: ShiftPositionType | null;
+  draggingShiftPosition?: ShiftPositionType | null;
   shiftPositionsResult: ShiftPositionType[];
 }
 

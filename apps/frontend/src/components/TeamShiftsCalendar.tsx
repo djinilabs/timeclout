@@ -3,7 +3,6 @@ import { useParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Dialog } from "./stateless/Dialog";
 import { MonthCalendar } from "./stateless/MonthCalendar";
-import { generateMonthDays } from "../utils/generateMonthDays";
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
 import { Suspense } from "./stateless/Suspense";
 import { useTeamShiftActions } from "../hooks/useTeamShiftActions";

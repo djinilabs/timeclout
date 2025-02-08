@@ -15,14 +15,14 @@ import { Popover } from "./Popover";
 export interface ShiftPositionProps {
   shiftPosition: ShiftPositionWithFake;
   setFocusedShiftPosition?: (shiftPosition: ShiftPositionType) => void;
-  focus: boolean;
+  focus?: boolean;
   autoFocus?: boolean;
-  tabIndex: number;
-  handleEditShiftPosition: (shiftPosition: ShiftPositionWithFake) => void;
-  copyShiftPositionToClipboard: (shiftPosition: ShiftPositionWithFake) => void;
-  hasCopiedShiftPosition: boolean;
-  pasteShiftPositionFromClipboard: (day: string) => void;
-  deleteShiftPosition: (pk: string, sk: string) => void;
+  tabIndex?: number;
+  handleEditShiftPosition?: (shiftPosition: ShiftPositionWithFake) => void;
+  copyShiftPositionToClipboard?: (shiftPosition: ShiftPositionWithFake) => void;
+  hasCopiedShiftPosition?: boolean;
+  pasteShiftPositionFromClipboard?: (day: string) => void;
+  deleteShiftPosition?: (pk: string, sk: string) => void;
 }
 
 const toMinutes = ([hours, minutes]: [number, number]) => {
@@ -127,7 +127,7 @@ export const ShiftPosition = memo(
                 <MenuItem>
                   {({ active }) => (
                     <button
-                      onClick={() => handleEditShiftPosition(shiftPosition)}
+                      onClick={() => handleEditShiftPosition?.(shiftPosition)}
                       className={classNames(
                         active ? "bg-gray-100" : "",
                         "block w-full text-left px-4 py-2 text-sm text-gray-700"
@@ -141,7 +141,7 @@ export const ShiftPosition = memo(
                   {({ active }) => (
                     <button
                       onClick={() =>
-                        copyShiftPositionToClipboard(shiftPosition)
+                        copyShiftPositionToClipboard?.(shiftPosition)
                       }
                       className={classNames(
                         active ? "bg-gray-100" : "",
@@ -157,7 +157,7 @@ export const ShiftPosition = memo(
                     {({ active }) => (
                       <button
                         onClick={() =>
-                          pasteShiftPositionFromClipboard(shiftPosition.day)
+                          pasteShiftPositionFromClipboard?.(shiftPosition.day)
                         }
                         className={classNames(
                           active ? "bg-gray-100" : "",
@@ -173,7 +173,10 @@ export const ShiftPosition = memo(
                   {({ active }) => (
                     <button
                       onClick={() =>
-                        deleteShiftPosition(shiftPosition.pk, shiftPosition.sk)
+                        deleteShiftPosition?.(
+                          shiftPosition.pk,
+                          shiftPosition.sk
+                        )
                       }
                       className={classNames(
                         active ? "bg-gray-100" : "",

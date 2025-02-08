@@ -8,6 +8,8 @@ type AutoFillWorkerLeave {
 type AutoFillSlotWorker {
   pk: ID!
   name: String!
+  email: String!
+  emailMd5: String!
   qualifications: [String!]!
   approvedLeaves: [AutoFillWorkerLeave!]!
 }

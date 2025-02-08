@@ -14,6 +14,8 @@ export interface SlotWorkHour {
 export interface SlotWorker {
   pk: string;
   name: string;
+  email: string;
+  emailMd5: string;
   qualifications: string[];
   approvedLeaves: SlotWorkerLeave[];
 }

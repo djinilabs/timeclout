@@ -42,6 +42,8 @@ export type AutoFillSlot = {
 export type AutoFillSlotWorker = {
   __typename?: 'AutoFillSlotWorker';
   approvedLeaves: Array<AutoFillWorkerLeave>;
+  email: Scalars['String']['output'];
+  emailMd5: Scalars['String']['output'];
   name: Scalars['String']['output'];
   pk: Scalars['ID']['output'];
   qualifications: Array<Scalars['String']['output']>;
@@ -822,6 +824,8 @@ export type AutoFillSlotResolvers<ContextType = any, ParentType extends Resolver
 
 export type AutoFillSlotWorkerResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillSlotWorker'] = ResolversParentTypes['AutoFillSlotWorker']> = {
   approvedLeaves?: Resolver<Array<ResolversTypes['AutoFillWorkerLeave']>, ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  emailMd5?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   qualifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;

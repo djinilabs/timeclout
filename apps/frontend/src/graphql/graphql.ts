@@ -40,6 +40,8 @@ export type AutoFillSlot = {
 export type AutoFillSlotWorker = {
   __typename?: 'AutoFillSlotWorker';
   approvedLeaves: Array<AutoFillWorkerLeave>;
+  email: Scalars['String']['output'];
+  emailMd5: Scalars['String']['output'];
   name: Scalars['String']['output'];
   pk: Scalars['ID']['output'];
   qualifications: Array<Scalars['String']['output']>;
