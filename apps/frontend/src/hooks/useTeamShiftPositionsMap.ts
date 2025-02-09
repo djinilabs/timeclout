@@ -1,16 +1,11 @@
 import { useMemo } from "react";
 import { splitShiftPositionForEachDay } from "../utils/splitShiftPositionsForEachDay";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
-import { isValidNumber } from "../utils/isValidNumber";
 
 export type ShiftPositionWithFake = ShiftPositionType & {
   fake?: boolean;
   fakeFrom?: string;
   original: ShiftPositionType;
-  rowPosInPreviousDay: number;
-  rowSpan: number;
-  rowStart: number;
-  rowEnd: number;
 };
 
 export interface UseTeamShiftPositionsMapParams {
@@ -18,10 +13,20 @@ export interface UseTeamShiftPositionsMapParams {
   shiftPositionsResult: ShiftPositionType[];
 }
 
+export interface ShiftPositionWithRowSpan extends ShiftPositionWithFake {
+  rowSpan: number;
+  rowStart: number;
+  rowEnd: number;
+}
+
+export interface UseTeamShiftPositionsMapResult {
+  shiftPositionsMap: Record<string, Array<ShiftPositionWithRowSpan>>;
+}
+
 export const useTeamShiftPositionsMap = ({
   shiftPositionsResult,
   draggingShiftPosition,
-}: UseTeamShiftPositionsMapParams) => {
+}: UseTeamShiftPositionsMapParams): UseTeamShiftPositionsMapResult => {
   const shiftPositions = useMemo(() => {
     if (draggingShiftPosition) {
       const shiftPositions = [...(shiftPositionsResult ?? [])];
@@ -40,7 +45,6 @@ export const useTeamShiftPositionsMap = ({
             {
               ...splittedShiftPosition,
               original: shiftPosition,
-              rowSpan: 1,
             },
           ] as [string, ShiftPositionWithFake]
       );
@@ -65,47 +69,58 @@ export const useTeamShiftPositionsMap = ({
       {} as Record<string, ShiftPositionWithFake[]>
     );
 
-    let previousDayPositions: ShiftPositionWithFake[] = [];
+    const newMap = {} as Record<string, Array<ShiftPositionWithRowSpan>>;
+
+    let previousDayPositions: Array<ShiftPositionWithFake | undefined> = [];
     for (const day of Object.keys(map).sort()) {
       const dayPositions = map[day];
+      const newDayPositions: Array<ShiftPositionWithFake | undefined> = [];
       // here we must keep track of split day
       // and then ensure that the rowSpan is set correctly
       // for each shift position
       for (const dayPosition of dayPositions) {
         const { original: originalPos } = dayPosition;
         const previousDayIndex = previousDayPositions.findIndex(
-          (previousDayPos) => previousDayPos.sk === originalPos.sk
+          (previousDayPos) => previousDayPos?.sk === originalPos.sk
         );
-        dayPosition.rowPosInPreviousDay =
-          previousDayIndex >= 0 ? previousDayIndex : Infinity;
+        let newDayIndex =
+          previousDayIndex >= 0
+            ? previousDayIndex
+            : newDayPositions.findIndex((p) => p == null);
+        if (newDayIndex < 0) {
+          newDayIndex = newDayPositions.length;
+        }
+        newDayPositions[newDayIndex] = dayPosition;
       }
 
-      const sortedDayPositions = dayPositions.sort(
-        (a, b) => a.rowPosInPreviousDay - b.rowPosInPreviousDay
-      );
+      console.log("dayPositions", dayPositions);
 
       // now we fill in the rowSpan
       let previousRowSpan = 0;
-      for (const dayPosition of sortedDayPositions) {
-        let rowSpan = dayPosition.rowPosInPreviousDay
-          ? dayPosition.rowPosInPreviousDay + 1 - previousRowSpan
-          : 1;
-        if (!isValidNumber(rowSpan)) {
-          rowSpan = 1;
-        }
-        dayPosition.rowSpan = rowSpan;
-        dayPosition.rowStart = isValidNumber(previousRowSpan)
-          ? previousRowSpan + 1
-          : 1;
-        dayPosition.rowEnd = dayPosition.rowStart + rowSpan - 1;
-        previousRowSpan += rowSpan;
-      }
-      map[day] = sortedDayPositions;
 
-      previousDayPositions = dayPositions;
+      const finalDayPositions = newDayPositions.reduce((acc, dayPos, index) => {
+        if (!dayPos) {
+          return acc;
+        }
+        if (dayPos != null) {
+          const rowSpan = index - previousRowSpan;
+          previousRowSpan += rowSpan;
+          acc.push({
+            ...dayPos,
+            rowSpan,
+            rowStart: previousRowSpan,
+            rowEnd: previousRowSpan + rowSpan - 1,
+          });
+        }
+        return acc;
+      }, [] as Array<ShiftPositionWithRowSpan>);
+
+      newMap[day] = finalDayPositions;
+
+      previousDayPositions = newDayPositions;
     }
 
-    return map;
+    return newMap;
   }, [draggingShiftPosition, shiftPositions]);
 
   return {
