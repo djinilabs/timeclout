@@ -4,7 +4,7 @@ import { z, ZodSchema } from "zod";
 import { conflict, notFound } from "@hapi/boom";
 import { AwsLiteDynamoDB } from "@aws-lite/dynamodb-types";
 import { getDefined } from "@/utils";
-
+import { logger } from "./logger";
 // removes undefined values from the item
 const cleanItem = <T extends object>(item: T): T => {
   return Object.fromEntries(
@@ -34,6 +34,7 @@ export const tableApi = <
   lowLevelTableName: string,
   schema: TTableSchema
 ): TableAPI<TTableName> => {
+  const console = logger(tableName);
   const parseItem = parsingItem(schema, tableName);
   const self: TableAPI<TTableName> = {
     delete: async (pk: string, sk?: string) => {
@@ -73,7 +74,7 @@ export const tableApi = <
           throw new Error("pk is required");
         }
         const args = sk ? { pk, sk } : { pk };
-        console.log("get from table", tableName, args);
+        console.info("get from table", tableName, args);
         return schema.optional().parse(await lowLevelTable.get(args));
       } catch (err) {
         console.error("Error getting item", tableName, pk, sk, err);
@@ -140,7 +141,7 @@ export const tableApi = <
       }
     },
     create: async (item: Omit<TTableRecord, "version" | "createdAt">) => {
-      console.log("creating new record in ", tableName, item);
+      console.info("creating new record in ", tableName, item);
       try {
         const parsedItem = parseItem(
           {
@@ -165,11 +166,11 @@ export const tableApi = <
       }
     },
     upsert: async (item: TTableRecord) => {
-      console.log("upsert", item);
+      console.info("upsert", item);
       try {
         const existingItem = await self.get(item.pk, item.sk);
         if (existingItem) {
-          console.log("existingItem", existingItem);
+          console.info("existingItem", existingItem);
           const { createdAt, createdBy, ...rest } = item;
           return self.update(
             parseItem(
@@ -181,7 +182,7 @@ export const tableApi = <
             )
           );
         }
-        console.log("NON existingItem");
+        console.info("NON existingItem");
         const { updatedAt, updatedBy, version, ...rest } = item;
         return self.create(rest as TTableRecord);
       } catch (err) {

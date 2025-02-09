@@ -3,14 +3,12 @@ import {
   APIGatewayProxyResult,
   Context,
 } from "aws-lambda";
-import { createSchema, createYoga } from "graphql-yoga";
+import { createSchema, createYoga, useLogger } from "graphql-yoga";
 import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 // @ts-ignore
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
 import { handlingErrors } from "../../utils/handlingErrors";
 import { useSentry } from "@envelop/sentry";
-
-// console.log("schema:", schema);
 
 const yoga = createYoga({
   graphqlEndpoint: "/graphql",
@@ -19,13 +17,31 @@ const yoga = createYoga({
     resolvers,
   }),
   maskedErrors: false,
-  logging: "debug",
   landingPage: false,
   graphiql: false,
   plugins: [
     useSentry({
       includeRawResult: false,
       includeExecuteVariables: false,
+    }),
+    useLogger({
+      logFn: (event, { args, result }) => {
+        if (event == "execute-start") {
+          console.log(
+            `[graphql] [${event}] [${args.operationName}] %s`,
+            JSON.stringify(args.variableValues, null, 2)
+          );
+        } else if (event == "execute-end") {
+          console.log(
+            `[graphql] [${event}] [${args.operationName}] %s`,
+            JSON.stringify(
+              { args: args.variableValues, result: result.data },
+              null,
+              2
+            )
+          );
+        }
+      },
     }),
   ],
 });

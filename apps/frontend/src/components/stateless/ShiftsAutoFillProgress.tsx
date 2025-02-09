@@ -189,7 +189,7 @@ export const ShiftsAutoFillProgress = ({
         <div key={`${yearMonth.year}-${yearMonth.month}`}>
           <MonthCalendar
             year={yearMonth.year}
-            month={yearMonth.month}
+            month={yearMonth.month - 1}
             renderDay={(day) => {
               const shiftPositions = assignedShiftPositions?.[day.date];
               if (!shiftPositions) {
@@ -216,8 +216,6 @@ export const ShiftsAutoFillProgress = ({
           />
         </div>
       ))}
-
-      <pre>{JSON.stringify(topSolution?.schedule, null, 2)}</pre>
     </>
   );
 };
