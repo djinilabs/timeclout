@@ -93,8 +93,6 @@ export const useTeamShiftPositionsMap = ({
         newDayPositions[newDayIndex] = dayPosition;
       }
 
-      console.log("dayPositions", dayPositions);
-
       // now we fill in the rowSpan
       let previousRowSpan = 0;
 
@@ -103,7 +101,7 @@ export const useTeamShiftPositionsMap = ({
           return acc;
         }
         if (dayPos != null) {
-          const rowSpan = index - previousRowSpan;
+          const rowSpan = index - previousRowSpan + 1;
           previousRowSpan += rowSpan;
           acc.push({
             ...dayPos,

@@ -91,7 +91,7 @@ export class DayDate {
       Math.round(
         ((date.getTime() - week1.getTime()) / 86400000 -
           3 +
-          ((week1.getDay() + 6) % 7)) /
+          ((week1.getUTCDay() + 6) % 7)) /
           7
       )
     );
