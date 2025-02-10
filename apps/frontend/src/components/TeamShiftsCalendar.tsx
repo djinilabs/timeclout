@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Dialog } from "./stateless/Dialog";
 import { MonthCalendar } from "./stateless/MonthCalendar";
@@ -24,9 +24,16 @@ export const TeamShiftsCalendar = () => {
   const { team } = useParams();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [autoFillDialogOpen, setAutoFillDialogOpen] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState<DayDate>(() =>
-    DayDate.today()
-  );
+
+  const [params, setParams] = useSearchParams();
+  const selectedMonth = useMemo(() => {
+    const month = params.get("month");
+    if (!month) {
+      return DayDate.today();
+    }
+    return new DayDate(month);
+  }, [params]);
+
   const [previouslySelectedMonth, setPreviouslySelectedMonth] = useState<
     DayDate | undefined
   >();
@@ -35,10 +42,11 @@ export const TeamShiftsCalendar = () => {
     (_month: DayDate) => {
       const month = _month.firstOfMonth();
       setPreviouslySelectedMonth(selectedMonth);
-      setSelectedMonth(month);
+      params.set("month", month.toString());
+      setParams(params);
       setFocusedDay(month.toString());
     },
-    [selectedMonth]
+    [params, selectedMonth, setParams]
   );
 
   const { data: shiftPositionsResult } = useTeamShiftsQuery({
