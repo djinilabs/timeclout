@@ -102,10 +102,12 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
             )}
             <div className="hidden md:ml-4 md:flex md:items-center">
               {additionalActions?.map((action) => (
-                <div key={action.text}>
-                  <div className="ml-6 h-6 bg-gray-300" />
-                  <Button onClick={action.onClick}>{action.text}</Button>
-                </div>
+                <>
+                  <div className="ml-6 bg-gray-300" />
+                  <Button key={action.text} onClick={action.onClick}>
+                    {action.text}
+                  </Button>
+                </>
               ))}
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">
@@ -120,7 +122,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
               >
                 <div className="py-1">
                   {additionalActions?.map((action) => (
-                    <MenuItem key={action.text}>
+                    <MenuItem>
                       <a
                         onClick={action.onClick}
                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
@@ -153,25 +155,25 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
         </header>
         <div className="ring-1 shadow-sm ring-black/5 flex flex-auto flex-col rounded-lg overflow-hidden">
           <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs/6 font-semibold text-gray-700 flex-none">
-            <div key="mon" className="bg-white py-2">
+            <div className="bg-white py-2">
               M<span className="sr-only sm:not-sr-only">on</span>
             </div>
-            <div key="tue" className="bg-white py-2">
+            <div className="bg-white py-2">
               T<span className="sr-only sm:not-sr-only">ue</span>
             </div>
-            <div key="wed" className="bg-white py-2">
+            <div className="bg-white py-2">
               W<span className="sr-only sm:not-sr-only">ed</span>
             </div>
-            <div key="thu" className="bg-white py-2">
+            <div className="bg-white py-2">
               T<span className="sr-only sm:not-sr-only">hu</span>
             </div>
-            <div key="fri" className="bg-white py-2">
+            <div className="bg-white py-2">
               F<span className="sr-only sm:not-sr-only">ri</span>
             </div>
-            <div key="sat" className="bg-white py-2">
+            <div className="bg-white py-2">
               S<span className="sr-only sm:not-sr-only">at</span>
             </div>
-            <div key="sun" className="bg-white py-2">
+            <div className="bg-white py-2">
               S<span className="sr-only sm:not-sr-only">un</span>
             </div>
           </div>
@@ -179,7 +181,6 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
             <div className="divide-y divide-x divide-gray-200 w-full grid grid-cols-7 gap-0">
               {days.map((day, index) => (
                 <div
-                  key={day.date}
                   tabIndex={index * 100}
                   autoFocus={index === 0}
                   onFocus={() => onDayFocus?.(day.date)}
@@ -196,6 +197,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                     e.preventDefault();
                     onCellDragOver?.(day.date, e);
                   }}
+                  key={day.date}
                   className={classNames(
                     day.isCurrentMonth ? "bg-white" : "bg-gray-50",
                     day.isToday && "font-semibold",

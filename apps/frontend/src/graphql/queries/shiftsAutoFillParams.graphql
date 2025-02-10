@@ -3,6 +3,7 @@ query shiftsAutoFillParams($input: AutoFillParamsInput!) {
     workers {
       pk
       qualifications
+      name
       email
       emailMd5
       approvedLeaves {
@@ -20,6 +21,8 @@ query shiftsAutoFillParams($input: AutoFillParamsInput!) {
         inconvenienceMultiplier
       }
       startsOnStandardWorkDay
+      requiredQualifications
+      assignedWorkerPk
     }
   }
 }

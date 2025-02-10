@@ -9,11 +9,14 @@ import {
   type TimeSchedule,
   MiniTimeScheduleVisualizer,
 } from "./MiniTimeScheduleVisualizer";
-import { type ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
+import {
+  ShiftPositionWithRowSpan,
+  type ShiftPositionWithFake,
+} from "../../hooks/useTeamShiftPositionsMap";
 import { Popover } from "./Popover";
 
 export interface ShiftPositionProps {
-  shiftPosition: ShiftPositionWithFake;
+  shiftPosition: ShiftPositionWithRowSpan;
   setFocusedShiftPosition?: (shiftPosition: ShiftPositionType) => void;
   focus?: boolean;
   autoFocus?: boolean;

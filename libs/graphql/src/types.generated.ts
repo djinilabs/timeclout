@@ -35,6 +35,7 @@ export type AutoFillSlot = {
   __typename?: 'AutoFillSlot';
   assignedWorkerPk?: Maybe<Scalars['ID']['output']>;
   id: Scalars['ID']['output'];
+  requiredQualifications: Array<Scalars['String']['output']>;
   startsOnStandardWorkDay: Scalars['Boolean']['output'];
   workHours: Array<AutoFillWorkHour>;
 };
@@ -817,6 +818,7 @@ export type ResolversParentTypes = {
 export type AutoFillSlotResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillSlot'] = ResolversParentTypes['AutoFillSlot']> = {
   assignedWorkerPk?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  requiredQualifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   startsOnStandardWorkDay?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   workHours?: Resolver<Array<ResolversTypes['AutoFillWorkHour']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

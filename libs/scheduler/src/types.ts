@@ -24,6 +24,8 @@ export interface Slot {
   id: string;
   workHours: SlotWorkHour[];
   startsOnStandardWorkDay: boolean;
+  assignedWorkerPk?: string | null;
+  requiredQualifications: string[];
 }
 
 export type WorkSlots = Slot[];

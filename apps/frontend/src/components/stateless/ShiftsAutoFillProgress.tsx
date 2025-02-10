@@ -4,7 +4,7 @@ import { DayDate } from "@/day-date";
 import { MonthCalendar } from "./MonthCalendar";
 import {
   useTeamShiftPositionsMap,
-  ShiftPositionWithFake,
+  ShiftPositionWithRowSpan,
 } from "../../hooks/useTeamShiftPositionsMap";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "./ShiftPosition";
@@ -103,7 +103,7 @@ export const ShiftsAutoFillProgress = ({
     return weekNumbers;
   }, [shiftPositionsMap]);
 
-  const assignedShiftPositions: Record<string, ShiftPositionWithFake[]> =
+  const assignedShiftPositions: Record<string, ShiftPositionWithRowSpan[]> =
     useMemo(() => {
       return Object.fromEntries(
         Object.entries(shiftPositionsMap).map(([day, shiftPositions]) => {
@@ -169,7 +169,7 @@ export const ShiftsAutoFillProgress = ({
       <div className="mt-5">
         <h3 className="text-base font-semibold text-gray-900">Top Solution</h3>
         <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-          {topSolutionStats.map((item) => (
+          {topSolutionStats?.map((item) => (
             <div
               key={item.name}
               className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"

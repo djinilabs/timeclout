@@ -32,6 +32,8 @@ export interface AutoFillSlot {
   id: string;
   workHours: AutoFillWorkHour[];
   startsOnStandardWorkDay: boolean;
+  assignedWorkerPk: ResourceRef<"users"> | null;
+  requiredQualifications: string[];
 }
 
 export interface ShiftsAutoFillParams {
@@ -146,6 +148,10 @@ export const shiftsAutoFillParams = async (
         inconvenienceMultiplier: schedule.inconveniencePerHour / 60,
       })),
       startsOnStandardWorkDay: day.getWeekDayNumber() >= 5,
+      assignedWorkerPk: position.assignedTo
+        ? getResourceRef(position.assignedTo, "users")
+        : null,
+      requiredQualifications: position.requiredSkills,
     };
   });
 

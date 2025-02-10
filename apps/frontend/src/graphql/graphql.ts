@@ -33,6 +33,7 @@ export type AutoFillSlot = {
   __typename?: 'AutoFillSlot';
   assignedWorkerPk?: Maybe<Scalars['ID']['output']>;
   id: Scalars['ID']['output'];
+  requiredQualifications: Array<Scalars['String']['output']>;
   startsOnStandardWorkDay: Scalars['Boolean']['output'];
   workHours: Array<AutoFillWorkHour>;
 };

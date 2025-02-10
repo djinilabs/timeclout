@@ -44,22 +44,30 @@ export const randomSchedule = ({
       nextShift();
 
       const availableSortedWorkers = workers
+        .filter((w) =>
+          slot.requiredQualifications.every((q) => w.qualifications.includes(q))
+        )
         .filter(
           (w) => isWorkerAvailableToWork(w, slot.workHours) && !resting.has(w)
         )
         .sort(sortByPastWorkLoad);
 
-      if (availableSortedWorkers.length < 1) {
+      if (!slot.assignedWorkerPk && availableSortedWorkers.length < 1) {
         throw new Error("Not enough workers available");
       }
 
-      const worker: SlotWorker = getDefined(
-        selectUniqueRandomWeighted(
-          availableSortedWorkers,
-          decreasingRandomLinearWeights(availableSortedWorkers.length),
-          1
-        )[0]
-      );
+      const worker: SlotWorker = slot.assignedWorkerPk
+        ? getDefined(
+            workers.find((w) => w.pk === slot.assignedWorkerPk),
+            `Worker ${slot.assignedWorkerPk} not found`
+          )
+        : getDefined(
+            selectUniqueRandomWeighted(
+              availableSortedWorkers,
+              decreasingRandomLinearWeights(availableSortedWorkers.length),
+              1
+            )[0]
+          );
 
       const slotInconvenience = calculateSlotInconvenience(slot);
       const thisSlotMinimumRestSlotsAfterShift =

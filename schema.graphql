@@ -17,6 +17,7 @@ input AutoFillParamsInput {
 type AutoFillSlot {
   assignedWorkerPk: ID
   id: ID!
+  requiredQualifications: [String!]!
   startsOnStandardWorkDay: Boolean!
   workHours: [AutoFillWorkHour!]!
 }

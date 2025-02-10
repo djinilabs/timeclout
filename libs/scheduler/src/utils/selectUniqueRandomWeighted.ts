@@ -6,7 +6,7 @@ export const selectUniqueRandomWeighted = <T>(
   count: number
 ): Array<T> => {
   if (count > from.length) {
-    throw new TypeError("count must be smaller or equal to from array");
+    throw new TypeError("not enough items to select");
   }
   const selected: Array<T> = [];
   for (let i = 0; i < count; i++) {

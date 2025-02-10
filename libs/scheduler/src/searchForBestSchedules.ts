@@ -86,8 +86,5 @@ export const searchForBestSchedules = ({
     }
   }
 
-  console.log(`Discarded ${discarded} schedules as invalid`);
-  console.log("Discarded reasons", discardedReasons);
-  console.log(`Created ${computed} valid schedules`);
   return top;
 };

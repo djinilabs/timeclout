@@ -24,6 +24,7 @@ type AutoFillSlot {
   id: ID!
   workHours: [AutoFillWorkHour!]!
   startsOnStandardWorkDay: Boolean!
+  requiredQualifications: [String!]!
   assignedWorkerPk: ID
 }
 
