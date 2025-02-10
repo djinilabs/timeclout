@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 export interface TimeSchedule {
   startHourMinutes: [number, number];
@@ -33,18 +33,43 @@ const getPrintableEndHour = (endHour: number) => {
 
 export const MiniTimeScheduleVisualizer = memo(
   ({ schedules }: TimeScheduleVisualizerProps) => {
+    const {
+      howManyDaysPercentage,
+      startPercent,
+      totalMinutes,
+      totalInconvenience,
+    } = useMemo(() => {
+      const howManyDaysPercentage = getPercentageOfDays(schedules);
+
+      const startTime = toMinutes(schedules[0].startHourMinutes);
+      const latestTime = toMinutes(
+        schedules[schedules.length - 1].endHourMinutes
+      );
+      const totalMinutes = latestTime;
+      const startPercent = Math.round((startTime / totalMinutes) * 100);
+
+      const totalInconvenience = schedules.reduce(
+        (acc, schedule) =>
+          acc +
+          schedule.inconveniencePerHour *
+            (schedule.endHourMinutes[0] +
+              schedule.endHourMinutes[1] / 60 -
+              (schedule.startHourMinutes[0] +
+                schedule.startHourMinutes[1] / 60)),
+        0
+      );
+
+      return {
+        howManyDaysPercentage,
+        startPercent,
+        totalMinutes,
+        totalInconvenience,
+      };
+    }, [schedules]);
+
     if (schedules.length === 0) {
       return null;
     }
-    const howManyDaysPercentage = getPercentageOfDays(schedules);
-
-    const startTime = toMinutes(schedules[0].startHourMinutes);
-    const latestTime = toMinutes(
-      schedules[schedules.length - 1].endHourMinutes
-    );
-    const totalMinutes = latestTime;
-    const startPercent = Math.round((startTime / totalMinutes) * 100);
-
     return (
       <div
         className="items-center grid grid-cols-5 truncate"
@@ -89,14 +114,21 @@ export const MiniTimeScheduleVisualizer = memo(
             );
           })}
         </div>
-        <div className="text-tiny text-gray-600 whitespace-nowrap col-span-5 text-right truncate">
-          {`${String(
-            getPrintableEndHour(
-              schedules[schedules.length - 1].endHourMinutes[0]
-            )
-          ).padStart(2, "0")}:${String(
-            schedules[schedules.length - 1].endHourMinutes[1]
-          ).padStart(2, "0")}`}
+        <div className=" col-span-5 grid grid-cols-2">
+          <div className="text-tiny text-gray-600 whitespace-nowrap text-right">
+            <span className="truncate bg-orange-300 text-white p-1">
+              {totalInconvenience.toFixed(1).toLocaleString()}
+            </span>
+          </div>
+          <div className="text-tiny text-gray-600 whitespace-nowrap text-right truncate">
+            {`${String(
+              getPrintableEndHour(
+                schedules[schedules.length - 1].endHourMinutes[0]
+              )
+            ).padStart(2, "0")}:${String(
+              schedules[schedules.length - 1].endHourMinutes[1]
+            ).padStart(2, "0")}`}
+          </div>
         </div>
       </div>
     );

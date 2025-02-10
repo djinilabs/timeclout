@@ -128,12 +128,26 @@ export const CreateOrEditScheduleShiftPosition: FC<
     },
   });
 
+  const [totalInconvenience, setTotalInconvenience] = useState(0);
+
   useEffect(() => {
     return form.store.subscribe((state) => {
       const newSkills = state.currentVal.values.requiredSkills;
       if (!dequal(skills, newSkills)) {
         setSkills(newSkills);
       }
+      setTotalInconvenience(
+        state.currentVal.values.schedules.reduce((acc, schedule) => {
+          return (
+            acc +
+            schedule.inconveniencePerHour *
+              (schedule.endHourMinutes[0] +
+                schedule.endHourMinutes[1] / 60 -
+                (schedule.startHourMinutes[0] +
+                  schedule.startHourMinutes[1] / 60))
+          );
+        }, 0)
+      );
     });
   }, [form, skills]);
 
@@ -306,6 +320,9 @@ export const CreateOrEditScheduleShiftPosition: FC<
                         schedules={field.state.value}
                         onChange={(schedules) => field.handleChange(schedules)}
                       />
+                      <p className="mt-3 text-sm/6 text-gray-600 mb-2">
+                        Total inconvenience: {totalInconvenience}
+                      </p>
                     </div>
                   </>
                 )}
