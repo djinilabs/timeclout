@@ -1,6 +1,6 @@
 import { RuleName } from "./rules/types";
 import { ShiftSchedule, SlotShift, WorkSlots, SlotWorker } from "./types";
-import { calculateMinimumRestSlotsAfterShift } from "./utils/calculateMinimumRestSlotsAfterShift";
+import { calculateMinimumRestMinutesAfterShift } from "./utils/calculateMinimumRestMinutesAfterShift";
 import { calculateSlotInconvenience } from "./utils/calculateSlotInconvenience";
 import { decreasingRandomLinearWeights } from "./utils/decreasingRandomLinearWeights";
 import { selectUniqueRandomWeighted } from "./utils/selectUniqueRandomWeighted";
@@ -12,7 +12,7 @@ export interface ScheduleOptions {
   workers: SlotWorker[];
   minimumRestSlotsAfterShift: {
     inconvenienceLessOrEqualThan: number;
-    minimumRestSlots: number;
+    minimumRestMinutes: number;
   }[];
   rules: Partial<Record<RuleName, unknown>>;
 }
@@ -22,17 +22,7 @@ export const randomSchedule = ({
   workers,
   minimumRestSlotsAfterShift,
 }: ScheduleOptions): ShiftSchedule => {
-  const resting = new Map<SlotWorker, number>();
-
-  const nextShift = () => {
-    for (const [worker, rest] of resting.entries()) {
-      if (rest === 0) {
-        resting.delete(worker);
-      } else {
-        resting.set(worker, rest - 1);
-      }
-    }
-  };
+  const busy = new Map<SlotWorker, Array<[number, number]>>();
 
   const pastWorkLoad = new Map<SlotWorker, number>();
 
@@ -41,14 +31,12 @@ export const randomSchedule = ({
 
   return {
     shifts: slots.map((slot): SlotShift => {
-      nextShift();
-
       const availableSortedWorkers = workers
         .filter((w) =>
           slot.requiredQualifications.every((q) => w.qualifications.includes(q))
         )
-        .filter(
-          (w) => isWorkerAvailableToWork(w, slot.workHours) && !resting.has(w)
+        .filter((w) =>
+          isWorkerAvailableToWork(w, slot.workHours, busy.get(w) ?? [])
         )
         .sort(sortByPastWorkLoad);
 
@@ -70,14 +58,22 @@ export const randomSchedule = ({
           );
 
       const slotInconvenience = calculateSlotInconvenience(slot);
-      const thisSlotMinimumRestSlotsAfterShift =
-        calculateMinimumRestSlotsAfterShift(
+      const thisSlotMinimumRestMinutesAfterShift =
+        calculateMinimumRestMinutesAfterShift(
           slotInconvenience,
           minimumRestSlotsAfterShift
         );
-      if (thisSlotMinimumRestSlotsAfterShift > 0) {
-        resting.set(worker, thisSlotMinimumRestSlotsAfterShift);
+      const firstMinuteOfShift = slot.workHours[0].start;
+      const lastMinuteOfShift = slot.workHours[slot.workHours.length - 1].end;
+      const pastBusy = busy.get(worker) ?? [];
+      pastBusy.push([firstMinuteOfShift, lastMinuteOfShift]);
+      if (thisSlotMinimumRestMinutesAfterShift > 0) {
+        pastBusy.push([
+          lastMinuteOfShift,
+          lastMinuteOfShift + thisSlotMinimumRestMinutesAfterShift,
+        ]);
       }
+      busy.set(worker, pastBusy);
       pastWorkLoad.set(
         worker,
         (pastWorkLoad.get(worker) ?? 0) + slotInconvenience

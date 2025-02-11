@@ -17,7 +17,7 @@ export interface SearchForBestSchedulesOptions {
   slots: Slot[];
   minimumRestSlotsAfterShift: {
     inconvenienceLessOrEqualThan: number;
-    minimumRestSlots: number;
+    minimumRestMinutes: number;
   }[];
   maxTryCount: number;
   keepTopCount: number;

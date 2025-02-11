@@ -35,7 +35,7 @@ export interface SchedulerOptions {
   slots: Slot[];
   minimumRestSlotsAfterShift: {
     inconvenienceLessOrEqualThan: number;
-    minimumRestSlots: number;
+    minimumRestMinutes: number;
   }[];
 }
 
@@ -47,9 +47,9 @@ export class Scheduler {
   private rules: Partial<Record<RuleName, unknown>>;
   private workers: SlotWorker[];
   private slots: Slot[];
-  private minimumRestSlotsAfterShift: {
+  private minimumRestMinutesAfterShift: {
     inconvenienceLessOrEqualThan: number;
-    minimumRestSlots: number;
+    minimumRestMinutes: number;
   }[];
 
   private topSolutions: ScoredShiftSchedule[] = [];
@@ -71,7 +71,7 @@ export class Scheduler {
     this.rules = options.rules;
     this.workers = options.workers;
     this.slots = options.slots;
-    this.minimumRestSlotsAfterShift = options.minimumRestSlotsAfterShift;
+    this.minimumRestMinutesAfterShift = options.minimumRestSlotsAfterShift;
   }
 
   private async cycle() {
@@ -80,7 +80,7 @@ export class Scheduler {
       const schedule = randomSchedule({
         workers: this.workers,
         slots: this.slots,
-        minimumRestSlotsAfterShift: this.minimumRestSlotsAfterShift,
+        minimumRestSlotsAfterShift: this.minimumRestMinutesAfterShift,
         rules: this.rules,
       });
 

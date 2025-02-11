@@ -1,13 +1,13 @@
-export const calculateMinimumRestSlotsAfterShift = (
+export const calculateMinimumRestMinutesAfterShift = (
   slotInconvenience: number,
   minimumRestSlotsAfterShift: {
     inconvenienceLessOrEqualThan: number;
-    minimumRestSlots: number;
+    minimumRestMinutes: number;
   }[]
 ) => {
   return (
     minimumRestSlotsAfterShift.find(
       (rest) => rest.inconvenienceLessOrEqualThan >= slotInconvenience
-    )?.minimumRestSlots ?? 0
+    )?.minimumRestMinutes ?? 0
   );
 };
