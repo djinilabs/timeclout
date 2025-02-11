@@ -1,4 +1,8 @@
-import { getCompoundedResourceRef, getResourceRef } from "@/utils";
+import {
+  getCompoundedResourceRef,
+  getResourceRef,
+  gettingResourceRef,
+} from "@/utils";
 import { z } from "zod";
 
 const TableBaseSchema = z.object({
@@ -30,7 +34,7 @@ export const tableSchemas = {
     pk: z.string().refine(getResourceRef),
     sk: z.string(), // user pk
     resourceType: z.string(),
-    parentPk: z.string().optional(),
+    parentPk: z.string().refine(getResourceRef).optional(),
     type: z.number().int().min(1),
   }),
   invitation: TableBaseSchema.extend({
@@ -46,8 +50,8 @@ export const tableSchemas = {
     sk: z.string(), // leave request startdate/enddate/type
     startDate: z.string().date(),
     endDate: z.string().date(),
-    companyPk: z.string().refine(getResourceRef).optional(),
-    userPk: z.string().refine(getResourceRef).optional(),
+    companyPk: z.string().refine(gettingResourceRef("companies")).optional(),
+    userPk: z.string().refine(gettingResourceRef("users")).optional(),
     type: z.string(),
     reason: z.string().optional(),
     approved: z.boolean().optional(),
@@ -63,9 +67,9 @@ export const tableSchemas = {
   }),
   shift_positions: TableBaseSchema.extend({
     // pk is teams/:teamId
-    pk: z.string().refine(getResourceRef),
+    pk: z.string().refine(gettingResourceRef("teams")),
     sk: z.string(), // daydate/nanoid
-    teamPk: z.string().refine(getResourceRef),
+    teamPk: z.string().refine(gettingResourceRef("teams")),
     day: z.string().date(),
     name: z.string().optional(),
     color: z.string().optional(),
