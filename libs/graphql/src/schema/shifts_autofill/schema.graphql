@@ -42,3 +42,17 @@ input AutoFillParamsInput {
 extend type Query {
   shiftsAutoFillParams(input: AutoFillParamsInput!): ShiftsAutoFillParams!
 }
+
+input AssignShiftPositionsInput {
+  team: String!
+  assignments: [ShiftPositionAssignmentInput!]!
+}
+
+input ShiftPositionAssignmentInput {
+  shiftPositionId: ID!
+  workerPk: ID!
+}
+
+extend type Mutation {
+  assignShiftPositions(input: AssignShiftPositionsInput!): [ShiftPosition!]!
+}

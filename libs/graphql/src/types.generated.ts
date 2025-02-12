@@ -25,6 +25,11 @@ export type ApproveLeaveRequestInput = {
   sk: Scalars['String']['input'];
 };
 
+export type AssignShiftPositionsInput = {
+  assignments: Array<ShiftPositionAssignmentInput>;
+  team: Scalars['String']['input'];
+};
+
 export type AutoFillParamsInput = {
   endDay: Scalars['String']['input'];
   startDay: Scalars['String']['input'];
@@ -187,6 +192,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation: Invitation;
   approveLeaveRequest: LeaveRequest;
+  assignShiftPositions: Array<ShiftPosition>;
   copyShiftPosition: ShiftPosition;
   createCompany: Company;
   createInvitation: Invitation;
@@ -227,6 +233,11 @@ export type MutationacceptInvitationArgs = {
 
 export type MutationapproveLeaveRequestArgs = {
   input: ApproveLeaveRequestInput;
+};
+
+
+export type MutationassignShiftPositionsArgs = {
+  input: AssignShiftPositionsInput;
 };
 
 
@@ -524,6 +535,11 @@ export type ShiftPosition = {
   sk: Scalars['String']['output'];
 };
 
+export type ShiftPositionAssignmentInput = {
+  shiftPositionId: Scalars['ID']['input'];
+  workerPk: Scalars['ID']['input'];
+};
+
 export type ShiftPositionSchedule = {
   __typename?: 'ShiftPositionSchedule';
   endHourMinutes: Array<Scalars['Int']['output']>;
@@ -719,6 +735,7 @@ export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
 export type ResolversTypes = {
   ApproveLeaveRequestInput: ApproveLeaveRequestInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  AssignShiftPositionsInput: AssignShiftPositionsInput;
   AutoFillParamsInput: AutoFillParamsInput;
   AutoFillSlot: ResolverTypeWrapper<AutoFillSlot>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -753,6 +770,7 @@ export type ResolversTypes = {
   RejectLeaveRequestInput: RejectLeaveRequestInput;
   Schedule: ResolverTypeWrapper<Schedule>;
   ShiftPosition: ResolverTypeWrapper<ShiftPosition>;
+  ShiftPositionAssignmentInput: ShiftPositionAssignmentInput;
   ShiftPositionSchedule: ResolverTypeWrapper<ShiftPositionSchedule>;
   ShiftPositionScheduleInput: ShiftPositionScheduleInput;
   ShiftsAutoFillParams: ResolverTypeWrapper<ShiftsAutoFillParams>;
@@ -769,6 +787,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   ApproveLeaveRequestInput: ApproveLeaveRequestInput;
   String: Scalars['String']['output'];
+  AssignShiftPositionsInput: AssignShiftPositionsInput;
   AutoFillParamsInput: AutoFillParamsInput;
   AutoFillSlot: AutoFillSlot;
   ID: Scalars['ID']['output'];
@@ -803,6 +822,7 @@ export type ResolversParentTypes = {
   RejectLeaveRequestInput: RejectLeaveRequestInput;
   Schedule: Schedule;
   ShiftPosition: ShiftPosition;
+  ShiftPositionAssignmentInput: ShiftPositionAssignmentInput;
   ShiftPositionSchedule: ShiftPositionSchedule;
   ShiftPositionScheduleInput: ShiftPositionScheduleInput;
   ShiftsAutoFillParams: ShiftsAutoFillParams;
@@ -933,6 +953,7 @@ export type MemberQualificationsResolvers<ContextType = any, ParentType extends 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   acceptInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationacceptInvitationArgs, 'secret'>>;
   approveLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationapproveLeaveRequestArgs, 'input'>>;
+  assignShiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<MutationassignShiftPositionsArgs, 'input'>>;
   copyShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationcopyShiftPositionArgs, 'input'>>;
   createCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationcreateCompanyArgs, 'name'>>;
   createInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationcreateInvitationArgs, 'invitedUserEmail' | 'permissionType' | 'toEntityPk'>>;

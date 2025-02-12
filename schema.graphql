@@ -8,6 +8,11 @@ input ApproveLeaveRequestInput {
   sk: String!
 }
 
+input AssignShiftPositionsInput {
+  assignments: [ShiftPositionAssignmentInput!]!
+  team: String!
+}
+
 input AutoFillParamsInput {
   endDay: String!
   startDay: String!
@@ -160,6 +165,7 @@ input MoveShiftPositionInput {
 type Mutation {
   acceptInvitation(secret: String!): Invitation!
   approveLeaveRequest(input: ApproveLeaveRequestInput!): LeaveRequest!
+  assignShiftPositions(input: AssignShiftPositionsInput!): [ShiftPosition!]!
   copyShiftPosition(input: CopyShiftPositionInput!): ShiftPosition!
   createCompany(name: String!): Company!
   createInvitation(invitedUserEmail: String!, permissionType: Int!, toEntityPk: String!): Invitation!
@@ -257,6 +263,11 @@ type ShiftPosition {
   requiredSkills: [String!]!
   schedules: [ShiftPositionSchedule!]!
   sk: String!
+}
+
+input ShiftPositionAssignmentInput {
+  shiftPositionId: ID!
+  workerPk: ID!
 }
 
 type ShiftPositionSchedule {
