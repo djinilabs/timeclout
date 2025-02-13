@@ -168,8 +168,8 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
         }}
       >
         {isAutoFillRunning
-          ? "Stop Auto Fill"
-          : "Start Auto Fill for selected dates"}
+          ? "Stop searching"
+          : "Start searching for the best solution"}
       </Button>
       <Suspense>
         <ShiftsAutoFillWithoutParams
