@@ -3146,6 +3146,18 @@ video {
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  .dark\:bg-gray-700 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
+  }
+
+  .dark\:text-white {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  }
+}
+
 @media (forced-colors: active) {
   .forced-colors\:appearance-auto {
     -webkit-appearance: auto;

@@ -1,9 +1,8 @@
 import { useState, useEffect, FC, Suspense, useRef } from "react";
 import { dequal } from "dequal";
-import { DateRange, DayPicker } from "react-day-picker";
 import { SchedulerWorkerClient } from "@/scheduler-worker";
 import { SchedulerState } from "@/scheduler";
-import { DayDate } from "@/day-date";
+import { DayDate, DayDateInterval } from "@/day-date";
 import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
 import { ShiftsAutoFillParams } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
@@ -11,14 +10,20 @@ import { Button } from "./stateless/Button";
 import { Loading } from "./stateless/Loading";
 import { ShiftsAutoFillProgress } from "./stateless/ShiftsAutoFillProgress";
 import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
-import { classNames } from "../utils/classNames";
 import { Transition } from "@headlessui/react";
+import {
+  ShiftAutoFillParams,
+  ShiftAutoFillParamValues,
+} from "./stateless/ShiftAutoFillParams";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;
   team: string;
   startDate: DayDate;
   endDate: DayDate;
+  workerInconvenienceEquality: number;
+  workerSlotEquality: number;
+  workerSlotProximity: number;
   onAssignShiftPositions: () => void;
 }
 
@@ -29,6 +34,9 @@ export const ShiftsAutoFillWithoutParams: FC<
   team,
   startDate,
   endDate,
+  workerInconvenienceEquality,
+  workerSlotEquality,
+  workerSlotProximity,
   onAssignShiftPositions,
 }) => {
   const [shiftsAutoFillParamsResponse] = useQuery<{
@@ -84,9 +92,9 @@ export const ShiftsAutoFillWithoutParams: FC<
         minimumRestSlotsAfterShift: [],
         keepTopSolutionsCount: 10,
         heuristics: {
-          "Worker Inconvenience Equality": 1,
-          "Worker Slot Equality": 1,
-          "Worker Slot Proximity": 1,
+          "Worker Inconvenience Equality": workerInconvenienceEquality,
+          "Worker Slot Equality": workerSlotEquality,
+          "Worker Slot Proximity": workerSlotProximity,
         },
         rules: {},
       },
@@ -101,7 +109,13 @@ export const ShiftsAutoFillWithoutParams: FC<
       stopping = true;
       client.stop();
     };
-  }, [isAutoFillRunning, shiftsAutoFillParams]);
+  }, [
+    isAutoFillRunning,
+    shiftsAutoFillParams,
+    workerInconvenienceEquality,
+    workerSlotEquality,
+    workerSlotProximity,
+  ]);
 
   const { data: shiftPositions } = useTeamShiftsQuery({
     team,
@@ -128,7 +142,7 @@ export const ShiftsAutoFillWithoutParams: FC<
 
 export interface ShiftsAutoFillProps {
   team: string;
-  startRange: DateRange;
+  startRange: DayDateInterval;
   onAssignShiftPositions: () => void;
 }
 
@@ -138,49 +152,65 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
   onAssignShiftPositions,
 }) => {
   const [isAutoFillRunning, setIsAutoFillRunning] = useState(false);
-  const [selectedRange, setSelectedRange] = useState<DateRange | undefined>(
-    startRange
-  );
-
+  const [shiftAutoFillParams, setShiftAutoFillParams] =
+    useState<ShiftAutoFillParamValues>({
+      startDate: startRange.start,
+      endDate: startRange.end,
+      workerInconvenienceEquality: 0.5,
+      workerSlotEquality: 0.5,
+      workerSlotProximity: 0.5,
+    });
   return (
     <>
       <Transition show={!isAutoFillRunning} appear>
         <div className="transition duration-300 ease-in data-[closed]:opacity-0 'data-[enter]:duration-100 data-[enter]:data-[closed]:-translate-x-full data-[leave]:duration-300 data-[leave]:data-[closed]:-translate-x-full">
-          <DayPicker
-            mode="range"
-            ISOWeek
-            timeZone="UTC"
-            numberOfMonths={2}
-            defaultMonth={startRange.from}
-            selected={selectedRange}
-            onSelect={(range) => {
-              setSelectedRange(range);
-            }}
+          <ShiftAutoFillParams
+            initialStartDate={startRange.start}
+            initialEndDate={startRange.end}
+            initialWorkerInconvenienceEquality={
+              shiftAutoFillParams?.workerInconvenienceEquality
+            }
+            initialWorkerSlotEquality={shiftAutoFillParams?.workerSlotEquality}
+            initialWorkerSlotProximity={
+              shiftAutoFillParams?.workerSlotProximity
+            }
+            onChange={setShiftAutoFillParams}
           />
         </div>
       </Transition>
-      <Button
-        disabled={!selectedRange}
-        onClick={() => {
-          setIsAutoFillRunning(!isAutoFillRunning);
-        }}
-      >
-        {isAutoFillRunning
-          ? "Stop searching"
-          : "Start searching for the best solution"}
-      </Button>
+      <div className="mt-5">
+        <Button
+          disabled={
+            !shiftAutoFillParams?.startDate || !shiftAutoFillParams?.endDate
+          }
+          onClick={() => {
+            setIsAutoFillRunning(!isAutoFillRunning);
+          }}
+        >
+          {isAutoFillRunning
+            ? "Stop searching"
+            : "Start searching for the best solution"}
+        </Button>
+      </div>
       <Suspense>
         <ShiftsAutoFillWithoutParams
           isAutoFillRunning={isAutoFillRunning}
           team={team}
           startDate={
-            selectedRange?.from
-              ? new DayDate(selectedRange.from)
+            shiftAutoFillParams?.startDate
+              ? shiftAutoFillParams.startDate
               : DayDate.today()
           }
           endDate={
-            selectedRange?.to ? new DayDate(selectedRange.to) : DayDate.today()
+            shiftAutoFillParams?.endDate
+              ? shiftAutoFillParams.endDate
+              : DayDate.today()
           }
+          workerInconvenienceEquality={
+            shiftAutoFillParams?.workerInconvenienceEquality
+          }
+          workerSlotEquality={shiftAutoFillParams?.workerSlotEquality}
+          workerSlotProximity={shiftAutoFillParams?.workerSlotProximity}
           onAssignShiftPositions={onAssignShiftPositions}
         />
       </Suspense>

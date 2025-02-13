@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
-import { DayDate } from "@/day-date";
+import { DayDate, DayDateInterval } from "@/day-date";
 import { Dialog } from "./stateless/Dialog";
 import { MonthCalendar } from "./stateless/MonthCalendar";
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
@@ -141,10 +141,11 @@ export const TeamShiftsCalendar = () => {
           <ShiftsAutoFill
             team={getDefined(team)}
             startRange={useMemo(
-              () => ({
-                from: selectedMonth.firstOfMonth().toDate(),
-                to: selectedMonth.nextMonth(1).previousDay().toDate(),
-              }),
+              () =>
+                new DayDateInterval(
+                  selectedMonth.firstOfMonth(),
+                  selectedMonth.nextMonth(1).previousDay()
+                ),
               [selectedMonth]
             )}
             onAssignShiftPositions={() => {
