@@ -25,6 +25,8 @@ export interface ShiftsAutoFillWithoutParamsProps {
   workerSlotEquality: number;
   workerSlotProximity: number;
   onAssignShiftPositions: () => void;
+  progress: SchedulerState | undefined;
+  onProgress: (progress: SchedulerState | undefined) => void;
 }
 
 export const ShiftsAutoFillWithoutParams: FC<
@@ -38,6 +40,8 @@ export const ShiftsAutoFillWithoutParams: FC<
   workerSlotEquality,
   workerSlotProximity,
   onAssignShiftPositions,
+  progress,
+  onProgress,
 }) => {
   const [shiftsAutoFillParamsResponse] = useQuery<{
     shiftsAutoFillParams: ShiftsAutoFillParams;
@@ -56,16 +60,14 @@ export const ShiftsAutoFillWithoutParams: FC<
   const shiftsAutoFillParams =
     shiftsAutoFillParamsResponse?.data?.shiftsAutoFillParams;
 
-  const [progress, setProgress] = useState<SchedulerState | undefined>();
-
   const queriedDates = useRef<DayDate[]>([startDate, endDate]);
 
   useEffect(() => {
     if (!dequal(queriedDates.current, [startDate, endDate])) {
-      setProgress(undefined);
+      onProgress(undefined);
       queriedDates.current = [startDate, endDate];
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, onProgress]);
 
   useEffect(() => {
     let stopping = false;
@@ -83,7 +85,7 @@ export const ShiftsAutoFillWithoutParams: FC<
       return;
     }
     console.log("Auto fill is going to start");
-    setProgress(undefined);
+    onProgress(undefined);
     const client = new SchedulerWorkerClient();
     client.start(
       {
@@ -100,7 +102,7 @@ export const ShiftsAutoFillWithoutParams: FC<
       },
       (progress) => {
         console.log("Progress", progress);
-        setProgress(progress);
+        onProgress(progress);
       }
     );
 
@@ -115,6 +117,7 @@ export const ShiftsAutoFillWithoutParams: FC<
     workerInconvenienceEquality,
     workerSlotEquality,
     workerSlotProximity,
+    onProgress,
   ]);
 
   const { data: shiftPositions } = useTeamShiftsQuery({
@@ -134,6 +137,7 @@ export const ShiftsAutoFillWithoutParams: FC<
           progress={progress}
           shiftPositions={shiftPositions}
           onAssignShiftPositions={onAssignShiftPositions}
+          canAssignShiftPositions={!isAutoFillRunning}
         />
       )}
     </div>
@@ -160,9 +164,10 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
       workerSlotEquality: 0.5,
       workerSlotProximity: 0.5,
     });
+  const [progress, setProgress] = useState<SchedulerState | undefined>();
   return (
     <>
-      <Transition show={!isAutoFillRunning} appear>
+      <Transition show={!isAutoFillRunning && !progress} appear>
         <div className="transition duration-300 ease-in data-[closed]:opacity-0 'data-[enter]:duration-100 data-[enter]:data-[closed]:-translate-x-full data-[leave]:duration-300 data-[leave]:data-[closed]:-translate-x-full">
           <ShiftAutoFillParams
             initialStartDate={startRange.start}
@@ -178,19 +183,27 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           />
         </div>
       </Transition>
-      <div className="mt-5">
-        <Button
-          disabled={
-            !shiftAutoFillParams?.startDate || !shiftAutoFillParams?.endDate
-          }
-          onClick={() => {
-            setIsAutoFillRunning(!isAutoFillRunning);
-          }}
-        >
-          {isAutoFillRunning
-            ? "Stop searching"
-            : "Start searching for the best solution"}
-        </Button>
+      <div className="mt-5 flex items-center">
+        {(isAutoFillRunning || !progress) && (
+          <>
+            <Button
+              disabled={
+                !shiftAutoFillParams?.startDate || !shiftAutoFillParams?.endDate
+              }
+              onClick={() => {
+                setIsAutoFillRunning(!isAutoFillRunning);
+              }}
+            >
+              {isAutoFillRunning
+                ? "Stop searching"
+                : "Start searching for the best solution"}
+            </Button>
+            <div className="ml-5"></div>
+          </>
+        )}
+        {!isAutoFillRunning && progress && (
+          <Button onClick={() => setProgress(undefined)}>Reset</Button>
+        )}
       </div>
       <Suspense>
         <ShiftsAutoFillWithoutParams
@@ -212,6 +225,8 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           workerSlotEquality={shiftAutoFillParams?.workerSlotEquality}
           workerSlotProximity={shiftAutoFillParams?.workerSlotProximity}
           onAssignShiftPositions={onAssignShiftPositions}
+          progress={progress}
+          onProgress={setProgress}
         />
       </Suspense>
     </>

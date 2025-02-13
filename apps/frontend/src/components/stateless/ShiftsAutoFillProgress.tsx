@@ -22,6 +22,7 @@ export interface ShiftsAutoFillProgressProps {
   endDate: DayDate;
   progress: SchedulerState;
   shiftPositions: ShiftPositionType[];
+  canAssignShiftPositions: boolean;
   onAssignShiftPositions: () => void;
 }
 
@@ -30,6 +31,7 @@ export const ShiftsAutoFillProgress = ({
   endDate,
   progress,
   shiftPositions,
+  canAssignShiftPositions,
   onAssignShiftPositions,
 }: ShiftsAutoFillProgressProps) => {
   const { team } = useParams();
@@ -116,14 +118,16 @@ export const ShiftsAutoFillProgress = ({
     <div className="grid grid-cols-5 gap-5">
       <div className="col-span-4">
         <div className="mt-5">
-          <Button
-            disabled={fetchingAssignShiftPositions}
-            onClick={handleAssignShiftPositions}
-          >
-            {fetchingAssignShiftPositions
-              ? "Assigning Shift Positions..."
-              : "Use this solution and assigning these shift Positions"}
-          </Button>
+          {canAssignShiftPositions && (
+            <Button
+              disabled={fetchingAssignShiftPositions}
+              onClick={handleAssignShiftPositions}
+            >
+              {fetchingAssignShiftPositions
+                ? "Assigning Shift Positions..."
+                : "Use this solution and assigning these shift Positions"}
+            </Button>
+          )}
         </div>
 
         {yearMonths.map((yearMonth) => (

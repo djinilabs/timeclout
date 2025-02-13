@@ -60,8 +60,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
   ]);
 
   return (
-    <div className="grid grid-cols-5 gap-5">
-      <div className="col-span-4">
+    <div className="grid grid-cols-3 gap-0">
+      <div className="col-span-2">
         <h3 className="mt-5 text-base font-semibold text-gray-900">
           Date range
         </h3>
