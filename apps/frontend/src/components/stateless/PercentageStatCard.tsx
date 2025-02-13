@@ -1,35 +1,33 @@
-export const PercentageStatCard = ({
-  name,
-  value,
-}: {
+import { FC, memo } from "react";
+
+export interface PercentageStatCardProps {
   name: string;
   value: number;
-}) => {
-  return (
-    <div
-      key={name}
-      className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
-    >
-      <dt className="truncate text-sm font-medium text-gray-500">{name}</dt>
-      <dd className="space-y-2">
-        <div className="w-full bg-gray-200 rounded-full h-2.5">
-          <div
-            className={`h-2.5 rounded-full ${
-              value >= 90
-                ? "bg-green-600"
-                : value >= 70
-                  ? "bg-yellow-400"
-                  : "bg-red-600"
-            }`}
-            style={{
-              width: `${Math.min(100, value).toLocaleString()}%`,
-            }}
-          />
-        </div>
-        <div className="text-3xl font-semibold tracking-tight text-gray-900 text-right">
-          {value}%
-        </div>
-      </dd>
-    </div>
-  );
-};
+}
+
+export const PercentageStatCard: FC<PercentageStatCardProps> = memo(
+  ({ name, value }) => {
+    return (
+      <div
+        key={name}
+        className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
+      >
+        <dt className="truncate text-sm font-medium text-gray-500">{name}</dt>
+        <dd className="space-y-2">
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div
+              className="h-2.5 rounded-full"
+              style={{
+                width: `${Math.min(100, value).toLocaleString()}%`,
+                backgroundColor: `hsl(${value * 1.2}, 70%, ${value < 50 ? 60 : 65}%)`,
+              }}
+            />
+          </div>
+          <div className="text-3xl font-semibold tracking-tight text-gray-900 text-right">
+            {value}%
+          </div>
+        </dd>
+      </div>
+    );
+  }
+);
