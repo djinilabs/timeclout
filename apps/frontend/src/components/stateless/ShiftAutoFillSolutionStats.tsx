@@ -57,7 +57,7 @@ export const ShiftAutoFillSolutionStats = ({
         Auto-fill progress
       </h3>
       <div>
-        <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <dl className="mt-5 grid grid-cols-1 gap-5">
           {stats.map((item) =>
             typeof item.stat === "string" ? (
               <div
@@ -82,7 +82,7 @@ export const ShiftAutoFillSolutionStats = ({
           <h3 className="text-base font-semibold text-gray-900">
             Discarded Schedules
           </h3>
-          <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <dl className="mt-5 grid grid-cols-1 gap-5">
             {discardedStats.map((item) => (
               <div
                 key={item.name}
@@ -101,7 +101,7 @@ export const ShiftAutoFillSolutionStats = ({
       )}
       <div className="mt-5"></div>
       <h3 className="text-base font-semibold text-gray-900">Top Solution</h3>
-      <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <dl className="mt-5 grid grid-cols-1 gap-5">
         {topSolutionStats?.map((item) => (
           <PercentageStatCard
             key={item.name}

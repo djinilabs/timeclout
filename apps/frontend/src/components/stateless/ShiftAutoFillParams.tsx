@@ -60,80 +60,87 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
   ]);
 
   return (
-    <div>
-      <DayPicker
-        mode="range"
-        ISOWeek
-        timeZone="UTC"
-        numberOfMonths={2}
-        defaultMonth={selectedDateRange?.from}
-        selected={selectedDateRange}
-        onSelect={setSelectedDateRange}
-      />
-      <h3 className="mt-5 text-base font-semibold text-gray-900">
-        Fine-tune parameters
-      </h3>
-      <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-        <div>
-          <div
-            key="worker-inconvenience-equality"
-            className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
-          >
-            <dt className="truncate text-sm font-medium text-gray-500">
-              Worker Inconvenience Equality
-            </dt>
-            <dd className="space-y-2">
+    <div className="grid grid-cols-3 gap-5">
+      <div>
+        <h3 className="mt-5 text-base font-semibold text-gray-900">
+          Fine-tune parameters
+        </h3>
+        <dl className="mt-5 grid grid-cols-1 gap-5">
+          <div>
+            <div
+              key="worker-inconvenience-equality"
+              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
+            >
+              <dt className="truncate text-sm font-medium text-gray-500">
+                Worker Inconvenience Equality
+              </dt>
+              <dd className="space-y-2">
+                <RangeSlider
+                  min={0}
+                  max={100}
+                  value={workerInconvenienceEquality}
+                  onChange={setWorkerInconvenienceEquality}
+                />
+                <div className="text-3xl font-semibold tracking-tight text-gray-900 text-right">
+                  {workerInconvenienceEquality}%
+                </div>
+              </dd>
+            </div>
+          </div>
+          <div>
+            <div
+              key="worker-slot-equality"
+              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
+            >
+              <dt className="truncate text-sm font-medium text-gray-500">
+                Worker Slot Equality
+              </dt>
               <RangeSlider
                 min={0}
                 max={100}
-                value={workerInconvenienceEquality}
-                onChange={setWorkerInconvenienceEquality}
+                value={workerSlotEquality}
+                onChange={setWorkerSlotEquality}
               />
               <div className="text-3xl font-semibold tracking-tight text-gray-900 text-right">
-                {workerInconvenienceEquality}%
+                {workerSlotEquality}%
               </div>
-            </dd>
-          </div>
-        </div>
-        <div>
-          <div
-            key="worker-slot-equality"
-            className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
-          >
-            <dt className="truncate text-sm font-medium text-gray-500">
-              Worker Slot Equality
-            </dt>
-            <RangeSlider
-              min={0}
-              max={100}
-              value={workerSlotEquality}
-              onChange={setWorkerSlotEquality}
-            />
-            <div className="text-3xl font-semibold tracking-tight text-gray-900 text-right">
-              {workerSlotEquality}%
             </div>
           </div>
-        </div>
-        <div>
-          <div
-            key="worker-slot-proximity"
-            className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
-          >
-            <dt className="truncate text-sm font-medium text-gray-500">
-              Worker Slot Proximity
-            </dt>
-            <RangeSlider
-              min={0}
-              max={100}
-              value={workerSlotProximity}
-              onChange={setWorkerSlotProximity}
-            />
-            <div className="text-3xl font-semibold tracking-tight text-gray-900 text-right">
-              {workerSlotProximity}%
+          <div>
+            <div
+              key="worker-slot-proximity"
+              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
+            >
+              <dt className="truncate text-sm font-medium text-gray-500">
+                Worker Slot Proximity
+              </dt>
+              <RangeSlider
+                min={0}
+                max={100}
+                value={workerSlotProximity}
+                onChange={setWorkerSlotProximity}
+              />
+              <div className="text-3xl font-semibold tracking-tight text-gray-900 text-right">
+                {workerSlotProximity}%
+              </div>
             </div>
           </div>
-        </div>
-      </dl>
+        </dl>
+      </div>{" "}
+      <div className="col-span-2">
+        <h3 className="mt-5 text-base font-semibold text-gray-900">
+          Date range
+        </h3>
+        <DayPicker
+          mode="range"
+          ISOWeek
+          timeZone="UTC"
+          numberOfMonths={2}
+          defaultMonth={selectedDateRange?.from}
+          selected={selectedDateRange}
+          onSelect={setSelectedDateRange}
+        />
+      </div>
     </div>
   );
 };

@@ -113,51 +113,55 @@ export const ShiftsAutoFillProgress = ({
   }, [assignShiftPositions, onAssignShiftPositions, team, topSolution]);
 
   return (
-    <>
-      <ShiftAutoFillSolutionStats progress={progress} />
+    <div className="grid grid-cols-5 gap-5">
+      <div className="col-span-4">
+        <div className="mt-5">
+          <Button
+            disabled={fetchingAssignShiftPositions}
+            onClick={handleAssignShiftPositions}
+          >
+            {fetchingAssignShiftPositions
+              ? "Assigning Shift Positions..."
+              : "Use this solution and assigning these shift Positions"}
+          </Button>
+        </div>
 
-      <div className="mt-5">
-        <Button
-          disabled={fetchingAssignShiftPositions}
-          onClick={handleAssignShiftPositions}
-        >
-          {fetchingAssignShiftPositions
-            ? "Assigning Shift Positions..."
-            : "Use this solution and assigning these shift Positions"}
-        </Button>
+        {yearMonths.map((yearMonth) => (
+          <div key={`${yearMonth.year}-${yearMonth.month}`}>
+            <MonthCalendar
+              year={yearMonth.year}
+              month={yearMonth.month - 1}
+              renderDay={(day) => {
+                const shiftPositions = assignedShiftPositions?.[day.date];
+                if (!shiftPositions) {
+                  return null;
+                }
+                const rowCount: number | undefined =
+                  maxRowsPerWeekNumber[new DayDate(day.date).getWeekNumber()];
+                return (
+                  <div
+                    className={classNames("h-full w-full grid")}
+                    style={{
+                      gridTemplateRows: `repeat(${rowCount ?? shiftPositions.length}, 1fr)`,
+                    }}
+                  >
+                    {shiftPositions.map((shiftPosition) => (
+                      <ShiftPosition
+                        key={shiftPosition.sk}
+                        shiftPosition={shiftPosition}
+                      />
+                    ))}
+                  </div>
+                );
+              }}
+            />
+          </div>
+        ))}
       </div>
 
-      {yearMonths.map((yearMonth) => (
-        <div key={`${yearMonth.year}-${yearMonth.month}`}>
-          <MonthCalendar
-            year={yearMonth.year}
-            month={yearMonth.month - 1}
-            renderDay={(day) => {
-              const shiftPositions = assignedShiftPositions?.[day.date];
-              if (!shiftPositions) {
-                return null;
-              }
-              const rowCount: number | undefined =
-                maxRowsPerWeekNumber[new DayDate(day.date).getWeekNumber()];
-              return (
-                <div
-                  className={classNames("h-full w-full grid")}
-                  style={{
-                    gridTemplateRows: `repeat(${rowCount ?? shiftPositions.length}, 1fr)`,
-                  }}
-                >
-                  {shiftPositions.map((shiftPosition) => (
-                    <ShiftPosition
-                      key={shiftPosition.sk}
-                      shiftPosition={shiftPosition}
-                    />
-                  ))}
-                </div>
-              );
-            }}
-          />
-        </div>
-      ))}
-    </>
+      <div className="col-span-1">
+        <ShiftAutoFillSolutionStats progress={progress} />
+      </div>
+    </div>
   );
 };
