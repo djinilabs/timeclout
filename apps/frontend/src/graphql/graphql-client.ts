@@ -15,7 +15,7 @@ const defaultClientOpts = (): ClientOptions => ({
     credentials: "same-origin",
     headers: {},
   },
-  requestPolicy: "cache-first",
+  requestPolicy: "cache-and-network",
   suspense: true,
   exchanges: [
     cacheExchange({
@@ -35,6 +35,7 @@ const defaultClientOpts = (): ClientOptions => ({
           (Array.isArray(m.qualifications) ? m.qualifications.join(",") : ""),
         ShiftPositionSchedule: () => nanoid(),
         ShiftPosition: (s: Data) => `${s.pk}:${s.sk}`,
+        AutoFillWorkHours: () => null,
       },
       updates: {
         Mutation: {
