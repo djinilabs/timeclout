@@ -65,6 +65,9 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
         <h3 className="mt-5 text-base font-semibold text-gray-900">
           Date range
         </h3>
+        <p className="text-sm text-gray-400 mb-4">
+          Select the period for which you want to automatically assign shifts
+        </p>
         <DayPicker
           mode="range"
           ISOWeek
@@ -79,6 +82,10 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
         <h3 className="mt-5 text-base font-semibold text-gray-900">
           Fine-tune parameters
         </h3>
+        <p className="text-sm text-gray-400 mb-4">
+          Adjust these parameters to control how the automatic assignment
+          balances different priorities
+        </p>
         <dl className="mt-5 grid grid-cols-1 gap-5">
           <div>
             <div
@@ -88,6 +95,10 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
               <dt className="truncate text-sm font-medium text-gray-500">
                 Worker Inconvenience Equality
               </dt>
+              <p className="text-sm text-gray-400 mt-1">
+                Higher values ensure workers get similar levels of inconvenient
+                shifts (nights, weekends)
+              </p>
               <dd className="space-y-2">
                 <RangeSlider
                   min={0}
@@ -107,8 +118,12 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
               className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
             >
               <dt className="truncate text-sm font-medium text-gray-500">
-                Worker Slot Equality
+                Worker Shift Equality
               </dt>
+              <p className="text-sm text-gray-400 mt-1">
+                Higher values ensure workers get a more equal distribution of
+                total shifts
+              </p>
               <RangeSlider
                 min={0}
                 max={100}
@@ -126,8 +141,12 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
               className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
             >
               <dt className="truncate text-sm font-medium text-gray-500">
-                Worker Slot Proximity
+                Worker Shift Proximity
               </dt>
+              <p className="text-sm text-gray-400 mt-1">
+                Higher values try to group shifts together, avoiding isolated
+                shifts for workers
+              </p>
               <RangeSlider
                 min={0}
                 max={100}

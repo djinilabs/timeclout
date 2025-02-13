@@ -20,7 +20,10 @@ export const RangeSlider: FC<RangeSliderProps> = ({
       max={max}
       value={value}
       onChange={(e) => onChange(Number(e.target.value))}
-      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+      style={{
+        background: `linear-gradient(to right, #008080 0%, #008080 ${value}%, #e0e0e0 ${value}%, #e0e0e0 100%)`,
+      }}
     />
   );
 };

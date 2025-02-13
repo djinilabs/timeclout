@@ -17,6 +17,8 @@ module.exports = {
     },
     fontSize: {
       tiny: "0.5rem",
+      sm: "0.875rem",
+      xs: "0.75rem",
     },
   },
   plugins: [],

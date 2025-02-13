@@ -105,8 +105,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
             )}
             <div className="hidden md:ml-4 md:flex md:items-center">
               {additionalActions?.map((action) => (
-                <div key={action.text}>
-                  <div className="ml-6 bg-gray-300" />
+                <div key={action.text} className="ml-6 bg-gray-300">
                   <Button onClick={action.onClick}>{action.text}</Button>
                 </div>
               ))}
