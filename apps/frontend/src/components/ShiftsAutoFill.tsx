@@ -1,17 +1,18 @@
 import { useState, useEffect, FC, Suspense, useRef } from "react";
-import { SchedulerWorkerClient } from "@/scheduler-worker";
+import { dequal } from "dequal";
 import { DateRange, DayPicker } from "react-day-picker";
-import { useQuery } from "../hooks/useQuery";
+import { SchedulerWorkerClient } from "@/scheduler-worker";
+import { SchedulerState } from "@/scheduler";
+import { DayDate } from "@/day-date";
 import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
 import { ShiftsAutoFillParams } from "../graphql/graphql";
+import { useQuery } from "../hooks/useQuery";
 import { Button } from "./stateless/Button";
 import { Loading } from "./stateless/Loading";
 import { ShiftsAutoFillProgress } from "./stateless/ShiftsAutoFillProgress";
-import { SchedulerState } from "@/scheduler";
 import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
-import { DayDate } from "@/day-date";
-import { dequal } from "dequal";
 import { classNames } from "../utils/classNames";
+import { Transition } from "@headlessui/react";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;
@@ -143,24 +144,21 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
 
   return (
     <>
-      <div
-        className={classNames(
-          isAutoFillRunning && "h-0 overflow-hidden",
-          "mb-5"
-        )}
-      >
-        <DayPicker
-          mode="range"
-          ISOWeek
-          timeZone="UTC"
-          numberOfMonths={2}
-          defaultMonth={startRange.from}
-          selected={selectedRange}
-          onSelect={(range) => {
-            setSelectedRange(range);
-          }}
-        />
-      </div>
+      <Transition show={!isAutoFillRunning} appear>
+        <div className="transition duration-300 ease-in data-[closed]:opacity-0 'data-[enter]:duration-100 data-[enter]:data-[closed]:-translate-x-full data-[leave]:duration-300 data-[leave]:data-[closed]:-translate-x-full">
+          <DayPicker
+            mode="range"
+            ISOWeek
+            timeZone="UTC"
+            numberOfMonths={2}
+            defaultMonth={startRange.from}
+            selected={selectedRange}
+            onSelect={(range) => {
+              setSelectedRange(range);
+            }}
+          />
+        </div>
+      </Transition>
       <Button
         disabled={!selectedRange}
         onClick={() => {
