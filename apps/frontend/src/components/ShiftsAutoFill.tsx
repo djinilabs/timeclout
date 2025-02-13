@@ -143,7 +143,12 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
 
   return (
     <>
-      <div className={classNames(isAutoFillRunning && "h-0 overflow-hidden")}>
+      <div
+        className={classNames(
+          isAutoFillRunning && "h-0 overflow-hidden",
+          "mb-5"
+        )}
+      >
         <DayPicker
           mode="range"
           ISOWeek
