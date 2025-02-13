@@ -76,6 +76,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
               <div className="relative flex items-center rounded-md bg-white shadow-xs items-stretch">
                 <button
                   type="button"
+                  key="prev-month"
                   onClick={handlePrevMonth}
                   className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
                 >
@@ -84,6 +85,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                 </button>
                 <button
                   type="button"
+                  key="today"
                   onClick={handleToday}
                   className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
                 >
@@ -92,6 +94,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                 <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                 <button
                   type="button"
+                  key="next-month"
                   onClick={handleNextMonth}
                   className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
                 >
@@ -102,12 +105,10 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
             )}
             <div className="hidden md:ml-4 md:flex md:items-center">
               {additionalActions?.map((action) => (
-                <>
+                <div key={action.text}>
                   <div className="ml-6 bg-gray-300" />
-                  <Button key={action.text} onClick={action.onClick}>
-                    {action.text}
-                  </Button>
-                </>
+                  <Button onClick={action.onClick}>{action.text}</Button>
+                </div>
               ))}
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">
@@ -122,7 +123,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
               >
                 <div className="py-1">
                   {additionalActions?.map((action) => (
-                    <MenuItem>
+                    <MenuItem key={action.text}>
                       <a
                         onClick={action.onClick}
                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"

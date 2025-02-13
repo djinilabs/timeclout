@@ -35,7 +35,7 @@ const defaultClientOpts = (): ClientOptions => ({
           (Array.isArray(m.qualifications) ? m.qualifications.join(",") : ""),
         ShiftPositionSchedule: () => nanoid(),
         ShiftPosition: (s: Data) => `${s.pk}:${s.sk}`,
-        AutoFillWorkHours: () => null,
+        AutoFillWorkHour: () => null,
       },
       updates: {
         Mutation: {
