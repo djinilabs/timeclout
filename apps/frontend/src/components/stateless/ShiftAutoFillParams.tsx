@@ -60,7 +60,21 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
   ]);
 
   return (
-    <div className="grid grid-cols-3 gap-5">
+    <div className="grid grid-cols-5 gap-5">
+      <div className="col-span-4">
+        <h3 className="mt-5 text-base font-semibold text-gray-900">
+          Date range
+        </h3>
+        <DayPicker
+          mode="range"
+          ISOWeek
+          timeZone="UTC"
+          numberOfMonths={2}
+          defaultMonth={selectedDateRange?.from}
+          selected={selectedDateRange}
+          onSelect={setSelectedDateRange}
+        />
+      </div>
       <div>
         <h3 className="mt-5 text-base font-semibold text-gray-900">
           Fine-tune parameters
@@ -126,20 +140,6 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
             </div>
           </div>
         </dl>
-      </div>{" "}
-      <div className="col-span-2">
-        <h3 className="mt-5 text-base font-semibold text-gray-900">
-          Date range
-        </h3>
-        <DayPicker
-          mode="range"
-          ISOWeek
-          timeZone="UTC"
-          numberOfMonths={2}
-          defaultMonth={selectedDateRange?.from}
-          selected={selectedDateRange}
-          onSelect={setSelectedDateRange}
-        />
       </div>
     </div>
   );
