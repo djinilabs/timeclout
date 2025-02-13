@@ -1,6 +1,8 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
+import { useParams } from "react-router-dom";
 import { SchedulerState } from "@/scheduler";
 import { DayDate } from "@/day-date";
+import assignShiftPositionsMutation from "@/graphql-client/mutations/assignShiftPositions.graphql";
 import { MonthCalendar } from "./MonthCalendar";
 import {
   useTeamShiftPositionsMap,
@@ -9,11 +11,17 @@ import {
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "./ShiftPosition";
 import { ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
+import { useMutation } from "../../hooks/useMutation";
+import { getDefined } from "@/utils";
+import { Button } from "./Button";
+import toast from "react-hot-toast";
+
 export interface ShiftsAutoFillProgressProps {
   startDate: DayDate;
   endDate: DayDate;
   progress: SchedulerState;
   shiftPositions: ShiftPositionType[];
+  onAssignShiftPositions: () => void;
 }
 
 export const ShiftsAutoFillProgress = ({
@@ -21,7 +29,9 @@ export const ShiftsAutoFillProgress = ({
   endDate,
   progress,
   shiftPositions,
+  onAssignShiftPositions,
 }: ShiftsAutoFillProgressProps) => {
+  const { team } = useParams();
   const topSolution = progress.topSolutions[0];
 
   const stats = useMemo(() => {
@@ -124,6 +134,31 @@ export const ShiftsAutoFillProgress = ({
       );
     }, [shiftPositionsMap, topSolution]);
 
+  // asssign shift positions
+
+  const [{ fetching: fetchingAssignShiftPositions }, assignShiftPositions] =
+    useMutation(assignShiftPositionsMutation);
+
+  const handleAssignShiftPositions = useCallback(async () => {
+    const solution = topSolution?.schedule;
+    if (!solution) {
+      return;
+    }
+    const result = await assignShiftPositions({
+      input: {
+        team: getDefined(team),
+        assignments: solution.shifts.map((shift) => ({
+          shiftPositionId: shift.slot.id,
+          workerPk: shift.assigned.pk,
+        })),
+      },
+    });
+    if (!result.error) {
+      toast.success("Shift positions assigned successfully");
+      onAssignShiftPositions();
+    }
+  }, [assignShiftPositions, onAssignShiftPositions, team, topSolution]);
+
   return (
     <>
       <div>
@@ -168,6 +203,14 @@ export const ShiftsAutoFillProgress = ({
 
       <div className="mt-5">
         <h3 className="text-base font-semibold text-gray-900">Top Solution</h3>
+        <Button
+          disabled={fetchingAssignShiftPositions}
+          onClick={handleAssignShiftPositions}
+        >
+          {fetchingAssignShiftPositions
+            ? "Assigning Shift Positions..."
+            : "Assign these shift positions"}
+        </Button>
         <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
           {topSolutionStats?.map((item) => (
             <div

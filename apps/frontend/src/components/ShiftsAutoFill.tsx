@@ -18,11 +18,18 @@ export interface ShiftsAutoFillWithoutParamsProps {
   team: string;
   startDate: DayDate;
   endDate: DayDate;
+  onAssignShiftPositions: () => void;
 }
 
 export const ShiftsAutoFillWithoutParams: FC<
   ShiftsAutoFillWithoutParamsProps
-> = ({ isAutoFillRunning, team, startDate, endDate }) => {
+> = ({
+  isAutoFillRunning,
+  team,
+  startDate,
+  endDate,
+  onAssignShiftPositions,
+}) => {
   const [shiftsAutoFillParamsResponse] = useQuery<{
     shiftsAutoFillParams: ShiftsAutoFillParams;
   }>({
@@ -111,6 +118,7 @@ export const ShiftsAutoFillWithoutParams: FC<
           endDate={endDate}
           progress={progress}
           shiftPositions={shiftPositions}
+          onAssignShiftPositions={onAssignShiftPositions}
         />
       )}
     </div>
@@ -120,11 +128,13 @@ export const ShiftsAutoFillWithoutParams: FC<
 export interface ShiftsAutoFillProps {
   team: string;
   startRange: DateRange;
+  onAssignShiftPositions: () => void;
 }
 
 export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
   team,
   startRange,
+  onAssignShiftPositions,
 }) => {
   const [isAutoFillRunning, setIsAutoFillRunning] = useState(false);
   const [selectedRange, setSelectedRange] = useState<DateRange | undefined>(
@@ -133,12 +143,13 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
 
   return (
     <>
-      <div className={classNames(isAutoFillRunning && "collapse")}>
+      <div className={classNames(isAutoFillRunning && "h-0 overflow-hidden")}>
         <DayPicker
           mode="range"
           ISOWeek
           timeZone="UTC"
           numberOfMonths={2}
+          defaultMonth={startRange.from}
           selected={selectedRange}
           onSelect={(range) => {
             setSelectedRange(range);
@@ -167,6 +178,7 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           endDate={
             selectedRange?.to ? new DayDate(selectedRange.to) : DayDate.today()
           }
+          onAssignShiftPositions={onAssignShiftPositions}
         />
       </Suspense>
     </>

@@ -142,11 +142,14 @@ export const TeamShiftsCalendar = () => {
             team={getDefined(team)}
             startRange={useMemo(
               () => ({
-                from: selectedMonth.toDate(),
+                from: selectedMonth.firstOfMonth().toDate(),
                 to: selectedMonth.nextMonth(1).previousDay().toDate(),
               }),
               [selectedMonth]
             )}
+            onAssignShiftPositions={() => {
+              setAutoFillDialogOpen(false);
+            }}
           />
         </Suspense>
       </Dialog>

@@ -954,6 +954,10 @@ video {
   height: 100%;
 }
 
+.h-0 {
+  height: 0px;
+}
+
 .max-h-60 {
   max-height: 15rem;
 }
