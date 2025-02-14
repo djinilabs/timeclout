@@ -104,15 +104,19 @@ export const ShiftPosition = memo(
             e.dataTransfer.clearData();
           }}
           className={classNames(
-            "group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full py-1",
+            "rounded group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full py-1",
             shiftPosition.fake && "opacity-50",
             "hover:ring-2 hover:ring-gray-200",
-            "outline-none focus:border-2 focus:border-blue-300"
+            "outline-none"
           )}
           style={{
             backgroundColor: shiftPosition.color
               ? `${colors[shiftPosition.color]}22`
               : undefined,
+            border: shiftPosition.color
+              ? `${focus ? "2" : "1"}px solid ${colors[shiftPosition.color]}${focus ? "ff" : "22"}`
+              : undefined,
+            padding: focus ? "-4px" : "-2px",
           }}
         >
           <Menu

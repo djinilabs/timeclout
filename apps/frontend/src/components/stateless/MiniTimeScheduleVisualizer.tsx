@@ -72,11 +72,11 @@ export const MiniTimeScheduleVisualizer = memo(
     }
     return (
       <div
-        className="items-center grid grid-cols-5 truncate"
+        className="items-center grid grid-cols-5"
         style={{ width: `${howManyDaysPercentage}%` }}
       >
         <div
-          className="text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap truncate"
+          className="text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap"
           style={{ marginLeft: `${startPercent}%` }}
         >
           {`${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
@@ -116,11 +116,11 @@ export const MiniTimeScheduleVisualizer = memo(
         </div>
         <div className=" col-span-5 grid grid-cols-2">
           <div className="text-tiny text-gray-600 whitespace-nowrap text-right">
-            <span className="truncate bg-orange-300 text-white p-1">
+            <span className="bg-orange-300 text-white p-1 rounded">
               {totalInconvenience.toFixed(1).toLocaleString()}
             </span>
           </div>
-          <div className="text-tiny text-gray-600 whitespace-nowrap text-right truncate">
+          <div className="text-tiny text-gray-600 whitespace-nowrap text-right">
             {`${String(
               getPrintableEndHour(
                 schedules[schedules.length - 1].endHourMinutes[0]

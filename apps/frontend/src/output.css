@@ -1780,6 +1780,14 @@ video {
   padding: 1rem;
 }
 
+.p-\[0\.5\] {
+  padding: 0.5;
+}
+
+.p-\[1\] {
+  padding: 1;
+}
+
 .px-1 {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
@@ -2561,6 +2569,14 @@ video {
   border-width: 2px;
 }
 
+.focus\:border:focus {
+  border-width: 1px;
+}
+
+.focus\:border-none:focus {
+  border-style: none;
+}
+
 .focus\:border-blue-300:focus {
   --tw-border-opacity: 1;
   border-color: rgb(147 197 253 / var(--tw-border-opacity, 1));
@@ -2597,6 +2613,10 @@ video {
 
 .focus\:outline-teal-600:focus {
   outline-color: #0d9488;
+}
+
+.focus\:outline-blue-300:focus {
+  outline-color: #93c5fd;
 }
 
 .focus\:ring-2:focus {
