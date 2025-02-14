@@ -11,11 +11,13 @@ import { SelectUser } from "./stateless/SelectUser";
 import { useQuery } from "../hooks/useQuery";
 import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
 import {
+  CreateShiftPositionInput,
   QueryTeamArgs,
   ShiftPosition,
   Team,
   TeamMembersArgs,
   TeamSettingsArgs,
+  UpdateShiftPositionInput,
 } from "../graphql/graphql";
 import { TimeSchedulesEditor } from "./stateless/TimeSchedulesEditor";
 import { EditQualifications } from "./EditQualifications";
@@ -29,7 +31,8 @@ import { ListBox } from "./stateless/ListBox";
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
   onCancel: () => void;
-  onSuccess: () => void;
+  onCreate: (input: CreateShiftPositionInput) => void;
+  onUpdate: (input: UpdateShiftPositionInput) => void;
   editingShiftPosition?: ShiftPosition;
 }
 
@@ -57,9 +60,7 @@ export interface CreateOrEditScheduleShiftPositionForm {
 
 export const CreateOrEditScheduleShiftPosition: FC<
   CreateOrEditScheduleShiftPositionProps
-> = ({ day, onCancel, onSuccess, editingShiftPosition }) => {
-  const { createShiftPosition, updateShiftPosition } = useTeamShiftActions();
-
+> = ({ day, onCancel, onCreate, onUpdate, editingShiftPosition }) => {
   const form = useForm<CreateOrEditScheduleShiftPositionForm>({
     defaultValues: useMemo(
       () => ({
@@ -83,7 +84,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
     ),
     onSubmit: async ({ value }) => {
       if (!editingShiftPosition) {
-        const success = await createShiftPosition({
+        onCreate({
           team: getDefined(teamPk, "No team provided"),
           day: value.day.toString(),
           name: value.name,
@@ -92,11 +93,8 @@ export const CreateOrEditScheduleShiftPosition: FC<
           schedules: value.schedules,
           assignedTo: value.assignedTo?.pk,
         });
-        if (success) {
-          onSuccess();
-        }
       } else {
-        const success = await updateShiftPosition({
+        onUpdate({
           pk: editingShiftPosition.pk,
           sk: editingShiftPosition.sk,
           day: value.day.toString(),
@@ -106,9 +104,6 @@ export const CreateOrEditScheduleShiftPosition: FC<
           schedules: value.schedules,
           assignedTo: value.assignedTo?.pk,
         });
-        if (success) {
-          onSuccess();
-        }
       }
     },
   });

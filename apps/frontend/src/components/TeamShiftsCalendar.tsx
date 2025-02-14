@@ -49,12 +49,13 @@ export const TeamShiftsCalendar = () => {
     [params, selectedMonth, setParams]
   );
 
-  const { data: shiftPositionsResult } = useTeamShiftsQuery({
-    team: getDefined(team),
-    startDay: selectedMonth.firstOfMonth().fullMonthBackFill(),
-    endDay: selectedMonth.nextMonth(1).previousDay().fullMonthForwardFill(),
-    pollingIntervalMs: 30000,
-  });
+  const { data: shiftPositionsResult, refetch: refetchTeamShiftsQuery } =
+    useTeamShiftsQuery({
+      team: getDefined(team),
+      startDay: selectedMonth.firstOfMonth().fullMonthBackFill(),
+      endDay: selectedMonth.nextMonth(1).previousDay().fullMonthForwardFill(),
+      pollingIntervalMs: 30000,
+    });
 
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
     useTeamShiftsDragAndDrop(shiftPositionsResult);
@@ -82,7 +83,8 @@ export const TeamShiftsCalendar = () => {
     hasCopiedShiftPosition,
   } = useTeamShiftsClipboard(focusedShiftPosition, focusedDay);
 
-  const { deleteShiftPosition } = useTeamShiftActions();
+  const { createShiftPosition, updateShiftPosition, deleteShiftPosition } =
+    useTeamShiftActions();
 
   // editing shift position
   const [editingShiftPosition, setEditingShiftPosition] = useState<
@@ -126,8 +128,25 @@ export const TeamShiftsCalendar = () => {
           <CreateOrEditScheduleShiftPosition
             editingShiftPosition={editingShiftPosition}
             day={focusedDay ? new DayDate(focusedDay) : selectedMonth}
-            onCancel={() => setCreateDialogOpen(false)}
-            onSuccess={() => setCreateDialogOpen(false)}
+            onCancel={useCallback(() => setCreateDialogOpen(false), [])}
+            onCreate={useCallback(
+              async (params) => {
+                if (await createShiftPosition(params)) {
+                  setCreateDialogOpen(false);
+                  refetchTeamShiftsQuery();
+                }
+              },
+              [createShiftPosition, refetchTeamShiftsQuery]
+            )}
+            onUpdate={useCallback(
+              async (params) => {
+                if (await updateShiftPosition(params)) {
+                  setCreateDialogOpen(false);
+                  refetchTeamShiftsQuery();
+                }
+              },
+              [refetchTeamShiftsQuery, updateShiftPosition]
+            )}
           />
         </Suspense>
       </Dialog>

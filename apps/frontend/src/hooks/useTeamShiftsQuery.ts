@@ -8,6 +8,7 @@ export interface UseTeamShiftsQueryResult {
   data: ShiftPosition[];
   error?: Error;
   fetching: boolean;
+  refetch: () => void;
 }
 
 export interface UseTeamShiftsQueryOptions {
@@ -25,7 +26,7 @@ export const useTeamShiftsQuery = ({
   pollingIntervalMs,
   pause,
 }: UseTeamShiftsQueryOptions): UseTeamShiftsQueryResult => {
-  const [shiftPositionsResult] = useQuery<{
+  const [shiftPositionsResult, refetch] = useQuery<{
     shiftPositions: ShiftPosition[];
   }>({
     query: shiftPositionsQuery,
@@ -45,5 +46,6 @@ export const useTeamShiftsQuery = ({
     ),
     error: shiftPositionsResult.error,
     fetching: shiftPositionsResult.fetching,
+    refetch,
   };
 };

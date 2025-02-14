@@ -1666,11 +1666,6 @@ video {
   background-color: rgb(254 252 232 / var(--tw-bg-opacity, 1));
 }
 
-.bg-teal-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(153 246 228 / var(--tw-bg-opacity, 1));
-}
-
 .fill-current {
   fill: currentColor;
 }
@@ -3157,43 +3152,6 @@ video {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .dark\:bg-gray-700 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
-  }
-
-  .dark\:bg-gray-200 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
-  }
-
-  .dark\:bg-gray-500 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(107 114 128 / var(--tw-bg-opacity, 1));
-  }
-
-  .dark\:bg-teal-500 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(20 184 166 / var(--tw-bg-opacity, 1));
-  }
-
-  .dark\:bg-teal-800 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(17 94 89 / var(--tw-bg-opacity, 1));
-  }
-
-  .dark\:bg-teal-700 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(15 118 110 / var(--tw-bg-opacity, 1));
-  }
-
-  .dark\:bg-teal-600 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(13 148 136 / var(--tw-bg-opacity, 1));
-  }
-}
-
 @media (forced-colors: active) {
   .forced-colors\:appearance-auto {
     -webkit-appearance: auto;
@@ -3205,68 +3163,6 @@ video {
     content: var(--tw-content);
     display: none;
   }
-}
-
-.\[\&\:\:-moz-range-thumb\]\:h-4::-moz-range-thumb {
-  height: 1rem;
-}
-
-.\[\&\:\:-moz-range-thumb\]\:w-4::-moz-range-thumb {
-  width: 1rem;
-}
-
-.\[\&\:\:-moz-range-thumb\]\:appearance-none::-moz-range-thumb {
-  -moz-appearance: none;
-       appearance: none;
-}
-
-.\[\&\:\:-moz-range-thumb\]\:rounded-full::-moz-range-thumb {
-  border-radius: 9999px;
-}
-
-.\[\&\:\:-moz-range-thumb\]\:border-2::-moz-range-thumb {
-  border-width: 2px;
-}
-
-.\[\&\:\:-moz-range-thumb\]\:border-teal-600::-moz-range-thumb {
-  --tw-border-opacity: 1;
-  border-color: rgb(13 148 136 / var(--tw-border-opacity, 1));
-}
-
-.\[\&\:\:-moz-range-thumb\]\:bg-white::-moz-range-thumb {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-
-.\[\&\:\:-webkit-slider-thumb\]\:h-4::-webkit-slider-thumb {
-  height: 1rem;
-}
-
-.\[\&\:\:-webkit-slider-thumb\]\:w-4::-webkit-slider-thumb {
-  width: 1rem;
-}
-
-.\[\&\:\:-webkit-slider-thumb\]\:appearance-none::-webkit-slider-thumb {
-  -webkit-appearance: none;
-          appearance: none;
-}
-
-.\[\&\:\:-webkit-slider-thumb\]\:rounded-full::-webkit-slider-thumb {
-  border-radius: 9999px;
-}
-
-.\[\&\:\:-webkit-slider-thumb\]\:border-2::-webkit-slider-thumb {
-  border-width: 2px;
-}
-
-.\[\&\:\:-webkit-slider-thumb\]\:border-teal-600::-webkit-slider-thumb {
-  --tw-border-opacity: 1;
-  border-color: rgb(13 148 136 / var(--tw-border-opacity, 1));
-}
-
-.\[\&\:\:-webkit-slider-thumb\]\:bg-white::-webkit-slider-thumb {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
 .\[\&\:not\(\:checked\)\]\:before\:hidden:not(:checked)::before {
