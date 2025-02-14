@@ -561,6 +561,7 @@ export type ShiftsAutoFillParams = {
 
 export type Team = {
   __typename?: 'Team';
+  approvedSchedule: Schedule;
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   members: Array<User>;
@@ -571,6 +572,12 @@ export type Team = {
   teamMembersQualifications: Array<MemberQualifications>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
+};
+
+
+export type TeamapprovedScheduleArgs = {
+  endDate: Scalars['Date']['input'];
+  startDate: Scalars['Date']['input'];
 };
 
 
@@ -1053,6 +1060,7 @@ export type ShiftsAutoFillParamsResolvers<ContextType = any, ParentType extends 
 };
 
 export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
+  approvedSchedule?: Resolver<ResolversTypes['Schedule'], ParentType, ContextType, RequireFields<TeamapprovedScheduleArgs, 'endDate' | 'startDate'>>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<TeammembersArgs>>;

@@ -853,6 +853,14 @@ video {
   margin-top: auto;
 }
 
+.-ml-2 {
+  margin-left: -0.5rem;
+}
+
+.-ml-3 {
+  margin-left: -0.75rem;
+}
+
 .block {
   display: block;
 }
@@ -1245,6 +1253,10 @@ video {
 
 .gap-px {
   gap: 1px;
+}
+
+.gap-1 {
+  gap: 0.25rem;
 }
 
 .gap-x-0\.5 {

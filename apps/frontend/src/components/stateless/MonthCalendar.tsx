@@ -5,7 +5,7 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import { Button } from "./Button";
-import { FC, memo, useCallback, useMemo } from "react";
+import { FC, memo, ReactNode, useCallback, useMemo } from "react";
 import { classNames } from "../../utils/classNames";
 import { months } from "../../utils/months";
 import { DayDate } from "@/day-date";
@@ -19,10 +19,17 @@ export interface Day {
 }
 
 export interface MonthCalendarProps {
-  additionalActions?: Array<{
-    text: string;
-    onClick: () => void;
-  }>;
+  additionalActions?: Array<
+    | {
+        type: "button";
+        text: string;
+        onClick: () => void;
+      }
+    | {
+        type: "component";
+        component: ReactNode;
+      }
+  >;
   year: number;
   month: number;
   goTo?: (year: number, month: number) => void;
@@ -104,9 +111,13 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
               </div>
             )}
             <div className="hidden md:ml-4 md:flex md:items-center">
-              {additionalActions?.map((action) => (
-                <div key={action.text} className="ml-6 bg-gray-300">
-                  <Button onClick={action.onClick}>{action.text}</Button>
+              {additionalActions?.map((action, index) => (
+                <div key={index} className="ml-6 bg-gray-300">
+                  {action.type === "button" ? (
+                    <Button onClick={action.onClick}>{action.text}</Button>
+                  ) : (
+                    action.component
+                  )}
                 </div>
               ))}
             </div>
@@ -121,16 +132,20 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                 className="absolute right-0 z-10 mt-3 w-36 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden data-closed:scale-95 data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
               >
                 <div className="py-1">
-                  {additionalActions?.map((action) => (
-                    <MenuItem key={action.text}>
-                      <a
-                        onClick={action.onClick}
-                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                      >
-                        {action.text}
-                      </a>
-                    </MenuItem>
-                  ))}
+                  {additionalActions?.map((action, index) =>
+                    action.type === "component" ? (
+                      <MenuItem key={index}>{action.component}</MenuItem>
+                    ) : (
+                      <MenuItem key={action.text}>
+                        <a
+                          onClick={action.onClick}
+                          className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                        >
+                          {action.text}
+                        </a>
+                      </MenuItem>
+                    )
+                  )}
                 </div>
                 {goTo && (
                   <div className="py-1">

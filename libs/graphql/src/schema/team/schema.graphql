@@ -12,6 +12,7 @@ type Team {
   updatedBy: User
   members(qualifications: [String!]): [User!]!
   schedule(startDate: Date!, endDate: Date!): Schedule!
+  approvedSchedule(startDate: Date!, endDate: Date!): Schedule!
   settings(name: String!): JSON
   teamMembersQualifications: [MemberQualifications!]!
 }

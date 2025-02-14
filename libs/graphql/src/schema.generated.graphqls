@@ -283,6 +283,7 @@ type ShiftsAutoFillParams {
 }
 
 type Team {
+  approvedSchedule(endDate: Date!, startDate: Date!): Schedule!
   createdAt: DateTime!
   createdBy: User!
   members(qualifications: [String!]): [User!]!

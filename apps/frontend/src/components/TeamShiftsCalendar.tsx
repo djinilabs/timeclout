@@ -19,9 +19,12 @@ import {
 import { classNames } from "../utils/classNames";
 import { ShiftPosition as ShiftPositionType } from "../graphql/graphql";
 import { ShiftsAutoFill } from "./ShiftsAutoFill";
+import { leaveTypeColors } from "../settings/leaveTypes";
+import { useTeamLeaveSchedule } from "../hooks/useTeamLeaveSchedule";
+import { Avatar } from "./stateless/Avatar";
 
 export const TeamShiftsCalendar = () => {
-  const { team } = useParams();
+  const { team, company } = useParams();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [autoFillDialogOpen, setAutoFillDialogOpen] = useState(false);
 
@@ -49,11 +52,19 @@ export const TeamShiftsCalendar = () => {
     [params, selectedMonth, setParams]
   );
 
+  const calendarStartDay = useMemo(() => {
+    return selectedMonth.firstOfMonth().fullMonthBackFill();
+  }, [selectedMonth]);
+
+  const calendarEndDay = useMemo(() => {
+    return selectedMonth.nextMonth(1).previousDay().fullMonthForwardFill();
+  }, [selectedMonth]);
+
   const { data: shiftPositionsResult, refetch: refetchTeamShiftsQuery } =
     useTeamShiftsQuery({
       team: getDefined(team),
-      startDay: selectedMonth.firstOfMonth().fullMonthBackFill(),
-      endDay: selectedMonth.nextMonth(1).previousDay().fullMonthForwardFill(),
+      startDay: calendarStartDay,
+      endDay: calendarEndDay,
       pollingIntervalMs: 30000,
     });
 
@@ -96,22 +107,58 @@ export const TeamShiftsCalendar = () => {
     setCreateDialogOpen(true);
   };
 
+  // team leave schedule
+
+  const [showLeaveSchedule, setShowLeaveSchedule] = useState(false);
+
+  const { leaveSchedule } = useTeamLeaveSchedule({
+    company: getDefined(company),
+    team: getDefined(team),
+    calendarStartDay,
+    calendarEndDay,
+    showLeaveSchedule,
+  });
+
+  console.log("leaveSchedule", leaveSchedule);
+
   // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
 
-  const maxRowsPerWeekNumber = useMemo(() => {
+  const maxShiftPositionRowsPerWeekNumber = useMemo(() => {
     const weekNumbers: Array<number> = [];
     for (const [day, shiftPositions] of Object.entries(
       shiftPositionsMap
     ).sort()) {
       const week = new DayDate(day).getWeekNumber();
-      const dayRows = shiftPositions.reduce(
+      const dayShiftPositionsRows = shiftPositions.reduce(
         (acc, shiftPosition) => acc + shiftPosition.rowSpan,
         0
       );
-      weekNumbers[week] = Math.max(weekNumbers[week] ?? 0, dayRows);
+      weekNumbers[week] = Math.max(
+        weekNumbers[week] ?? 0,
+        dayShiftPositionsRows
+      );
     }
+
     return weekNumbers;
   }, [shiftPositionsMap]);
+
+  const maxLeaveRowsPerWeekNumber = useMemo(() => {
+    const weekNumbers: Array<number> = [];
+    for (const [day, leaves] of Object.entries(leaveSchedule)) {
+      const week = new DayDate(day).getWeekNumber();
+      weekNumbers[week] = Math.max(weekNumbers[week] ?? 0, leaves.length);
+    }
+    return weekNumbers;
+  }, [leaveSchedule]);
+
+  // join the two arrays
+  const maxRowsPerWeekNumber = useMemo(() => {
+    return maxShiftPositionRowsPerWeekNumber.map(
+      (maxShiftPositionRows, week) => {
+        return maxShiftPositionRows + (maxLeaveRowsPerWeekNumber[week] ?? 0);
+      }
+    );
+  }, [maxShiftPositionRowsPerWeekNumber, maxLeaveRowsPerWeekNumber]);
 
   return (
     <>
@@ -177,28 +224,54 @@ export const TeamShiftsCalendar = () => {
         onDayFocus={setFocusedDay}
         year={selectedMonth.getYear()}
         month={selectedMonth.getMonth() - 1}
-        additionalActions={[
-          {
-            text: "Add position",
-            onClick: () => {
-              setEditingShiftPosition(undefined);
-              setCreateDialogOpen(true);
+        additionalActions={useMemo(
+          () => [
+            {
+              type: "button",
+              text: "Add position",
+              onClick: () => {
+                setEditingShiftPosition(undefined);
+                setCreateDialogOpen(true);
+              },
             },
-          },
-          {
-            text: "Auto fill",
-            onClick: () => {
-              setAutoFillDialogOpen(true);
+            {
+              type: "button",
+              text: "Auto fill",
+              onClick: () => {
+                setAutoFillDialogOpen(true);
+              },
             },
-          },
-        ]}
+            {
+              type: "component",
+              component: (
+                <div className="flex items-center gap-2">
+                  <input
+                    id="show-leave-schedule"
+                    type="checkbox"
+                    checked={showLeaveSchedule}
+                    onChange={(e) => {
+                      const newValue = e.target.checked;
+                      setShowLeaveSchedule(newValue);
+                      if (newValue) {
+                        refetchTeamShiftsQuery();
+                      }
+                    }}
+                  />
+                  <label htmlFor="show-leave-schedule">Show leaves</label>
+                </div>
+              ),
+            },
+          ],
+          [refetchTeamShiftsQuery, showLeaveSchedule]
+        )}
         goTo={(year, month) => {
           const day = new DayDate(year, month + 1, 1);
           goToMonth(day);
         }}
         renderDay={(day, dayIndex) => {
           const shiftPositions = shiftPositionsMap?.[day.date];
-          if (!shiftPositions) {
+          const leaves = leaveSchedule[day.date];
+          if (!shiftPositions && !leaves) {
             return null;
           }
           const rowCount: number | undefined =
@@ -207,10 +280,33 @@ export const TeamShiftsCalendar = () => {
             <div
               className={classNames("h-full w-full grid")}
               style={{
-                gridTemplateRows: `repeat(${rowCount ?? shiftPositions.length}, 1fr)`,
+                gridTemplateRows: `repeat(${rowCount ?? (shiftPositions?.length ?? 0) + (leaves?.length ?? 0)}, 1fr)`,
               }}
             >
-              {shiftPositions.map((shiftPosition, shiftPositionIndex) => (
+              {leaves?.map((leave) => (
+                <div key={leave.user.pk} className="p-2">
+                  <div className="flex items-center gap-1">
+                    <div className="text-sm flex items-center">
+                      <div
+                        className="text-sm rounded-full p-1 bg-white"
+                        style={{
+                          backgroundColor: leave.color,
+                        }}
+                        title={leave.type}
+                      >
+                        {leave.icon}
+                      </div>
+                    </div>
+                    <div className="flex items-center -ml-2">
+                      <Avatar size={25} {...leave.user} />
+                    </div>
+                    <div className="text-tiny truncate text-gray-400">
+                      {leave.user.name}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {shiftPositions?.map((shiftPosition, shiftPositionIndex) => (
                 <ShiftPosition
                   key={shiftPosition.sk}
                   focus={

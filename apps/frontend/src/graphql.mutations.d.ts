@@ -305,6 +305,15 @@ declare module '@/graphql-client/mutations/shiftsAutoFillParams.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/teamApprovedSchedule.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const TeamApprovedSchedule: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/teamQuery.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

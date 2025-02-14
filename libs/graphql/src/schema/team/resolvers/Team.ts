@@ -58,6 +58,32 @@ export const Team: TeamResolvers = {
       })) as unknown as UserSchedule[],
     };
   },
+  approvedSchedule: async (parent, { startDate, endDate }) => {
+    const { entity } = await database();
+    const unit = getDefined(
+      await entity.get(getDefined((parent as unknown as EntityRecord).parentPk))
+    );
+    const schedule = await teamSchedule(
+      getResourceRef(unit.parentPk, "companies"),
+      getResourceRef(parent.pk, "teams"),
+      new DayDate(startDate),
+      new DayDate(endDate),
+      { approved: true }
+    );
+    return {
+      ...schedule,
+      pk: `${schedule.team.pk}:${schedule.startDate.toString()}:${schedule.endDate.toString()}`,
+      team: schedule.team as unknown as TeamType,
+      startDate: schedule.startDate.toString(),
+      endDate: schedule.endDate.toString(),
+      userSchedules: schedule.userSchedules.map((userSchedule) => ({
+        ...userSchedule,
+        pk: `${userSchedule.user?.pk}:${userSchedule.startDate.toString()}:${userSchedule.endDate.toString()}`,
+        startDate: userSchedule.startDate.toString(),
+        endDate: userSchedule.endDate.toString(),
+      })) as unknown as UserSchedule[],
+    };
+  },
   settings: async (parent, args) => {
     return getEntitySettings(
       getResourceRef(parent.pk),

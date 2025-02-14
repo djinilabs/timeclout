@@ -1,9 +1,8 @@
-import { cacheExchange, Data, Entity } from "@urql/exchange-graphcache";
 import type { Client, ClientOptions } from "urql";
 import { fetchExchange, createClient as urqlCreateClient } from "urql";
-import { type Session } from "next-auth";
+import { cacheExchange, Data, Entity } from "@urql/exchange-graphcache";
 import merge from "deepmerge";
-import { nanoid } from "nanoid";
+import { type Session } from "next-auth";
 
 type WithSession = {
   session: Session;

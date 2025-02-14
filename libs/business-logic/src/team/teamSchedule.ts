@@ -5,11 +5,16 @@ import { DayDate } from "@/day-date";
 import { getLeavesForDateRange } from "../leave/getLeavesForDateRange";
 import { getLeaveRequestsForDateRange } from "../leaveRequest/getLeaveRequestsForDateRange";
 
+export interface TeamScheduleOptions {
+  approved?: boolean;
+}
+
 export const teamSchedule = async (
   companyRef: ResourceRef<"companies">,
   teamRef: ResourceRef<"teams">,
   startDate: DayDate,
-  endDate: DayDate
+  endDate: DayDate,
+  options?: TeamScheduleOptions
 ) => {
   const { entity } = await database();
   const memberRefs = await teamMembers(teamRef);
@@ -25,7 +30,8 @@ export const teamSchedule = async (
         companyRef,
         memberRef,
         startDate,
-        endDate
+        endDate,
+        options
       );
       return {
         user: await entity.get(memberRef),
