@@ -155,7 +155,9 @@ export const TeamShiftsCalendar = () => {
   const maxRowsPerWeekNumber = useMemo(() => {
     return maxShiftPositionRowsPerWeekNumber.map(
       (maxShiftPositionRows, week) => {
-        return maxShiftPositionRows + (maxLeaveRowsPerWeekNumber[week] ?? 0);
+        return (
+          maxShiftPositionRows * 2 + (maxLeaveRowsPerWeekNumber[week] ?? 0)
+        );
       }
     );
   }, [maxShiftPositionRowsPerWeekNumber, maxLeaveRowsPerWeekNumber]);
@@ -283,8 +285,15 @@ export const TeamShiftsCalendar = () => {
                 gridTemplateRows: `repeat(${rowCount ?? (shiftPositions?.length ?? 0) + (leaves?.length ?? 0)}, 1fr)`,
               }}
             >
-              {leaves?.map((leave) => (
-                <div key={leave.user.pk} className="p-2">
+              {leaves?.map((leave, leaveIndex) => (
+                <div
+                  key={leave.user.pk}
+                  className={classNames(
+                    "p-2 border-gray-200",
+                    leaveIndex > 0 && "border-t",
+                    shiftPositions?.length > 0 && "border-b"
+                  )}
+                >
                   <div className="flex items-center gap-1">
                     <div className="text-sm flex items-center">
                       <div
@@ -307,24 +316,25 @@ export const TeamShiftsCalendar = () => {
                 </div>
               ))}
               {shiftPositions?.map((shiftPosition, shiftPositionIndex) => (
-                <ShiftPosition
-                  key={shiftPosition.sk}
-                  focus={
-                    (focusedShiftPosition &&
-                      focusedShiftPosition == shiftPosition) ||
-                    false
-                  }
-                  setFocusedShiftPosition={setFocusedShiftPosition}
-                  shiftPosition={shiftPosition}
-                  tabIndex={dayIndex * 100 + shiftPositionIndex}
-                  handleEditShiftPosition={handleEditShiftPosition}
-                  copyShiftPositionToClipboard={copyShiftPositionToClipboard}
-                  hasCopiedShiftPosition={hasCopiedShiftPosition}
-                  pasteShiftPositionFromClipboard={
-                    pasteShiftPositionFromClipboard
-                  }
-                  deleteShiftPosition={deleteShiftPosition}
-                />
+                <div key={shiftPosition.sk} className="row-span-2">
+                  <ShiftPosition
+                    focus={
+                      (focusedShiftPosition &&
+                        focusedShiftPosition == shiftPosition) ||
+                      false
+                    }
+                    setFocusedShiftPosition={setFocusedShiftPosition}
+                    shiftPosition={shiftPosition}
+                    tabIndex={dayIndex * 100 + shiftPositionIndex}
+                    handleEditShiftPosition={handleEditShiftPosition}
+                    copyShiftPositionToClipboard={copyShiftPositionToClipboard}
+                    hasCopiedShiftPosition={hasCopiedShiftPosition}
+                    pasteShiftPositionFromClipboard={
+                      pasteShiftPositionFromClipboard
+                    }
+                    deleteShiftPosition={deleteShiftPosition}
+                  />
+                </div>
               ))}
             </div>
           );
