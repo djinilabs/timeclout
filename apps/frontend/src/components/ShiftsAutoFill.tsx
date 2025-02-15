@@ -28,6 +28,8 @@ export interface ShiftsAutoFillWithoutParamsProps {
   respectLeaveSchedule: boolean;
   requireMaximumIntervalBetweenShifts: boolean;
   maximumIntervalBetweenShifts: number;
+  requireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean;
+  minimumNumberOfShiftsPerWeekInStandardWorkday: number;
   onAssignShiftPositions: () => void;
   progress: SchedulerState | undefined;
   onProgress: (progress: SchedulerState | undefined) => void;
@@ -46,6 +48,8 @@ export const ShiftsAutoFillWithoutParams: FC<
   respectLeaveSchedule,
   requireMaximumIntervalBetweenShifts,
   maximumIntervalBetweenShifts,
+  requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+  minimumNumberOfShiftsPerWeekInStandardWorkday,
   onAssignShiftPositions,
   progress,
   onProgress,
@@ -98,6 +102,10 @@ export const ShiftsAutoFillWithoutParams: FC<
     if (requireMaximumIntervalBetweenShifts) {
       rules.minimumFrequency = maximumIntervalBetweenShifts * 24 * 60; // turn days into minutes
     }
+    if (requireMinimumNumberOfShiftsPerWeekInStandardWorkday) {
+      rules.minimumShiftsInStandardWorkdayPerWeek =
+        minimumNumberOfShiftsPerWeekInStandardWorkday;
+    }
     client.start(
       {
         workers: shiftsAutoFillParams.workers,
@@ -133,6 +141,8 @@ export const ShiftsAutoFillWithoutParams: FC<
     respectLeaveSchedule,
     requireMaximumIntervalBetweenShifts,
     maximumIntervalBetweenShifts,
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    minimumNumberOfShiftsPerWeekInStandardWorkday,
   ]);
 
   const { data: shiftPositions } = useTeamShiftsQuery({
@@ -181,6 +191,8 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
       respectLeaveSchedule: true,
       requireMaximumIntervalBetweenShifts: false,
       maximumIntervalBetweenShifts: 10,
+      requireMinimumNumberOfShiftsPerWeekInStandardWorkday: false,
+      minimumNumberOfShiftsPerWeekInStandardWorkday: 1,
     });
   const [progress, setProgress] = useState<SchedulerState | undefined>();
   return (
@@ -202,6 +214,12 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
             }
             initialMaximumIntervalBetweenShifts={
               shiftAutoFillParams?.maximumIntervalBetweenShifts
+            }
+            initialRequireMinimumNumberOfShiftsPerWeekInStandardWorkday={
+              shiftAutoFillParams?.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+            }
+            initialMinimumNumberOfShiftsPerWeekInStandardWorkday={
+              shiftAutoFillParams?.minimumNumberOfShiftsPerWeekInStandardWorkday
             }
             onChange={setShiftAutoFillParams}
           />
@@ -254,6 +272,12 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           }
           maximumIntervalBetweenShifts={
             shiftAutoFillParams?.maximumIntervalBetweenShifts
+          }
+          requireMinimumNumberOfShiftsPerWeekInStandardWorkday={
+            shiftAutoFillParams?.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+          }
+          minimumNumberOfShiftsPerWeekInStandardWorkday={
+            shiftAutoFillParams?.minimumNumberOfShiftsPerWeekInStandardWorkday
           }
           onAssignShiftPositions={onAssignShiftPositions}
           progress={progress}

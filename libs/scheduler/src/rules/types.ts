@@ -1,1 +1,4 @@
-export type RuleName = "minimumExperiencedWorker" | "minimumFrequency";
+export type RuleName =
+  | "minimumExperiencedWorker"
+  | "minimumFrequency"
+  | "minimumShiftsInStandardWorkdayPerWeek";

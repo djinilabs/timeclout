@@ -62,6 +62,7 @@ export const searchForBestSchedules = ({
         slots,
         minimumRestSlotsAfterShift,
         rules,
+        respectLeaveSchedule: true,
       });
 
       const [valid, reason] = isScheduleValid(schedule, workers, rules);

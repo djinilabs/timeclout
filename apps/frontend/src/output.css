@@ -1255,6 +1255,10 @@ video {
   gap: 0.5rem;
 }
 
+.gap-3 {
+  gap: 0.75rem;
+}
+
 .gap-4 {
   gap: 1rem;
 }
@@ -1265,10 +1269,6 @@ video {
 
 .gap-px {
   gap: 1px;
-}
-
-.gap-3 {
-  gap: 0.75rem;
 }
 
 .gap-x-0\.5 {
@@ -2209,10 +2209,6 @@ video {
 
 .outline-teal-600 {
   outline-color: #0d9488;
-}
-
-.outline-gray-200 {
-  outline-color: #e5e7eb;
 }
 
 .ring-0 {

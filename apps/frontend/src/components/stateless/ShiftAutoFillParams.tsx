@@ -13,6 +13,8 @@ export interface ShiftAutoFillParamValues {
   respectLeaveSchedule: boolean;
   requireMaximumIntervalBetweenShifts: boolean;
   maximumIntervalBetweenShifts: number;
+  requireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean;
+  minimumNumberOfShiftsPerWeekInStandardWorkday: number;
 }
 
 export interface ShiftAutoFillParamsProps {
@@ -23,6 +25,8 @@ export interface ShiftAutoFillParamsProps {
   initialWorkerSlotProximity: number;
   initialRequireMaximumIntervalBetweenShifts: boolean;
   initialMaximumIntervalBetweenShifts: number;
+  initialRequireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean;
+  initialMinimumNumberOfShiftsPerWeekInStandardWorkday: number;
   onChange: (params: ShiftAutoFillParamValues) => void;
 }
 
@@ -34,6 +38,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
   initialWorkerSlotProximity,
   initialRequireMaximumIntervalBetweenShifts,
   initialMaximumIntervalBetweenShifts,
+  initialRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+  initialMinimumNumberOfShiftsPerWeekInStandardWorkday,
   onChange,
 }) => {
   const [selectedDateRange, setSelectedDateRange] = useState<
@@ -56,6 +62,14 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
   ] = useState(initialRequireMaximumIntervalBetweenShifts);
   const [maximumIntervalBetweenShifts, setMaximumIntervalBetweenShifts] =
     useState(initialMaximumIntervalBetweenShifts);
+  const [
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+  ] = useState(initialRequireMinimumNumberOfShiftsPerWeekInStandardWorkday);
+  const [
+    minimumNumberOfShiftsPerWeekInStandardWorkday,
+    setMinimumNumberOfShiftsPerWeekInStandardWorkday,
+  ] = useState(initialMinimumNumberOfShiftsPerWeekInStandardWorkday);
 
   useEffect(() => {
     if (selectedDateRange?.from && selectedDateRange?.to) {
@@ -68,6 +82,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
         respectLeaveSchedule,
         requireMaximumIntervalBetweenShifts,
         maximumIntervalBetweenShifts,
+        requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+        minimumNumberOfShiftsPerWeekInStandardWorkday,
       });
     }
   }, [
@@ -79,6 +95,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
     respectLeaveSchedule,
     requireMaximumIntervalBetweenShifts,
     maximumIntervalBetweenShifts,
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    minimumNumberOfShiftsPerWeekInStandardWorkday,
   ]);
 
   return (
@@ -129,6 +147,33 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                     disabled={!requireMaximumIntervalBetweenShifts}
                     onChange={(e) =>
                       setMaximumIntervalBetweenShifts(parseInt(e.target.value))
+                    }
+                  />
+                )}
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center">
+                <LabeledSwitch
+                  label="Require a minimum number of shifts in a standard workday for each worker"
+                  checked={requireMinimumNumberOfShiftsPerWeekInStandardWorkday}
+                  onChange={
+                    setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday
+                  }
+                />
+                {requireMinimumNumberOfShiftsPerWeekInStandardWorkday && (
+                  <input
+                    type="number"
+                    value={minimumNumberOfShiftsPerWeekInStandardWorkday}
+                    min={1}
+                    className="w-16 text-right"
+                    disabled={
+                      !requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+                    }
+                    onChange={(e) =>
+                      setMinimumNumberOfShiftsPerWeekInStandardWorkday(
+                        parseInt(e.target.value)
+                      )
                     }
                   />
                 )}
@@ -203,8 +248,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                 Worker Shift Proximity
               </dt>
               <p className="text-sm text-gray-400 mt-1">
-                Higher values try to group shifts together, avoiding isolated
-                shifts for workers
+                Higher values try to equalize the spread of shifts for each
+                worker through time
               </p>
               <RangeSlider
                 min={0}

@@ -1,6 +1,6 @@
 import { SlotWorker, ValidationRule } from "../types";
 
-export const minimumShiftsInStandardWorkday: ValidationRule = (
+export const minimumShiftsInStandardWorkdayPerWeek: ValidationRule = (
   schedule,
   _workers,
   minimumStandardWorkDayShiftCount

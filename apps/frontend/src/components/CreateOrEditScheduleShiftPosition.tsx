@@ -21,7 +21,6 @@ import {
 } from "../graphql/graphql";
 import { TimeSchedulesEditor } from "./stateless/TimeSchedulesEditor";
 import { EditQualifications } from "./EditQualifications";
-import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
 import { Color, ColorPicker } from "./stateless/ColorPicker";
 import { Button } from "./stateless/Button";
 import { useTeamWithSettings } from "../hooks/useTeamWithSettings";

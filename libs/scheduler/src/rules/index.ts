@@ -1,14 +1,14 @@
 import type { ShiftSchedule, SlotWorker, ValidationRule } from "../types";
 import { maximumInconvenience } from "./maximumInconvenience";
 import { minimumFrequency } from "./minimumFrequency";
-import { minimumShiftsInStandardWorkday } from "./minimumShiftsInStandardWorkday";
+import { minimumShiftsInStandardWorkdayPerWeek } from "./minimumShiftsInStandardWorkdayPerWeek";
 import { RuleName } from "./types";
 export * from "./types";
 
 const rules: ValidationRule[] = [
   minimumFrequency,
   maximumInconvenience,
-  minimumShiftsInStandardWorkday,
+  minimumShiftsInStandardWorkdayPerWeek,
 ];
 
 export const isScheduleValid = (
