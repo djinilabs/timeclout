@@ -24,6 +24,7 @@ export interface ShiftsAutoFillWithoutParamsProps {
   workerInconvenienceEquality: number;
   workerSlotEquality: number;
   workerSlotProximity: number;
+  respectLeaveSchedule: boolean;
   onAssignShiftPositions: () => void;
   progress: SchedulerState | undefined;
   onProgress: (progress: SchedulerState | undefined) => void;
@@ -39,6 +40,7 @@ export const ShiftsAutoFillWithoutParams: FC<
   workerInconvenienceEquality,
   workerSlotEquality,
   workerSlotProximity,
+  respectLeaveSchedule,
   onAssignShiftPositions,
   progress,
   onProgress,
@@ -98,6 +100,7 @@ export const ShiftsAutoFillWithoutParams: FC<
           "Worker Slot Equality": workerSlotEquality,
           "Worker Slot Proximity": workerSlotProximity,
         },
+        respectLeaveSchedule,
         rules: {},
       },
       (progress) => {
@@ -118,6 +121,7 @@ export const ShiftsAutoFillWithoutParams: FC<
     workerSlotEquality,
     workerSlotProximity,
     onProgress,
+    respectLeaveSchedule,
   ]);
 
   const { data: shiftPositions } = useTeamShiftsQuery({
@@ -163,6 +167,7 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
       workerInconvenienceEquality: 0.5,
       workerSlotEquality: 0.5,
       workerSlotProximity: 0.5,
+      respectLeaveSchedule: true,
     });
   const [progress, setProgress] = useState<SchedulerState | undefined>();
   return (
@@ -224,6 +229,7 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           }
           workerSlotEquality={shiftAutoFillParams?.workerSlotEquality}
           workerSlotProximity={shiftAutoFillParams?.workerSlotProximity}
+          respectLeaveSchedule={shiftAutoFillParams?.respectLeaveSchedule}
           onAssignShiftPositions={onAssignShiftPositions}
           progress={progress}
           onProgress={setProgress}

@@ -21,9 +21,8 @@ import { ShiftPosition as ShiftPositionType } from "../graphql/graphql";
 import { ShiftsAutoFill } from "./ShiftsAutoFill";
 import { useTeamLeaveSchedule } from "../hooks/useTeamLeaveSchedule";
 import { Avatar } from "./stateless/Avatar";
-import { Field, Label } from "@headlessui/react";
-import { Switch } from "@headlessui/react";
 import { useLocalPreference } from "../hooks/useLocalPreference";
+import { LabeledSwitch } from "./stateless/LabeledSwitch";
 
 export const TeamShiftsCalendar = () => {
   const { team, company } = useParams();
@@ -68,6 +67,7 @@ export const TeamShiftsCalendar = () => {
       startDay: calendarStartDay,
       endDay: calendarEndDay,
       pollingIntervalMs: 30000,
+      pause: createDialogOpen || autoFillDialogOpen,
     });
 
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
@@ -121,7 +121,7 @@ export const TeamShiftsCalendar = () => {
     team: getDefined(team),
     calendarStartDay,
     calendarEndDay,
-    showLeaveSchedule,
+    pause: !showLeaveSchedule,
   });
 
   // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
@@ -249,28 +249,11 @@ export const TeamShiftsCalendar = () => {
             {
               type: "component",
               component: (
-                <Field className="flex items-center">
-                  <Switch
-                    id="show-leave-schedule"
-                    checked={showLeaveSchedule}
-                    onChange={setShowLeaveSchedule}
-                    className="group relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 data-[checked]:bg-teal-600"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none inline-block size-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out group-data-[checked]:translate-x-5"
-                    />
-                  </Switch>
-                  <Label
-                    htmlFor="show-leave-schedule"
-                    as="span"
-                    className="ml-3 text-sm"
-                  >
-                    <span className="font-medium text-gray-900">
-                      Show leaves
-                    </span>
-                  </Label>
-                </Field>
+                <LabeledSwitch
+                  label="Show leave schedule"
+                  checked={showLeaveSchedule}
+                  onChange={setShowLeaveSchedule}
+                />
               ),
             },
           ],

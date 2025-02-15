@@ -10,6 +10,7 @@ import { getDefined } from "@/utils";
 export interface ScheduleOptions {
   slots: WorkSlots;
   workers: SlotWorker[];
+  respectLeaveSchedule: boolean;
   minimumRestSlotsAfterShift: {
     inconvenienceLessOrEqualThan: number;
     minimumRestMinutes: number;
@@ -20,6 +21,7 @@ export interface ScheduleOptions {
 export const randomSchedule = ({
   slots,
   workers,
+  respectLeaveSchedule,
   minimumRestSlotsAfterShift,
 }: ScheduleOptions): ShiftSchedule => {
   const busy = new Map<SlotWorker, Array<[number, number]>>();
@@ -36,7 +38,12 @@ export const randomSchedule = ({
           slot.requiredQualifications.every((q) => w.qualifications.includes(q))
         )
         .filter((w) =>
-          isWorkerAvailableToWork(w, slot.workHours, busy.get(w) ?? [])
+          isWorkerAvailableToWork(
+            w,
+            slot.workHours,
+            busy.get(w) ?? [],
+            respectLeaveSchedule
+          )
         )
         .sort(sortByPastWorkLoad);
 

@@ -37,12 +37,14 @@ export interface SchedulerOptions {
     inconvenienceLessOrEqualThan: number;
     minimumRestMinutes: number;
   }[];
+  respectLeaveSchedule: boolean;
 }
 
 export class Scheduler {
   private options: SchedulerOptions;
   private _stop = false;
 
+  private respectLeaveSchedule: boolean;
   private heuristics: ShiftScheduleHeuristicWithMultiplier[];
   private rules: Partial<Record<RuleName, unknown>>;
   private workers: SlotWorker[];
@@ -58,6 +60,7 @@ export class Scheduler {
   private computed = 0;
 
   constructor(options: SchedulerOptions) {
+    console.log("Scheduler constructor %j", options);
     this.options = options;
     this.heuristics = Object.entries(options.heuristics).map(
       ([name, multiplier]) => ({
@@ -68,6 +71,7 @@ export class Scheduler {
         priorityMultiplier: multiplier,
       })
     );
+    this.respectLeaveSchedule = options.respectLeaveSchedule;
     this.rules = options.rules;
     this.workers = options.workers;
     this.slots = options.slots;
@@ -82,6 +86,7 @@ export class Scheduler {
         slots: this.slots,
         minimumRestSlotsAfterShift: this.minimumRestMinutesAfterShift,
         rules: this.rules,
+        respectLeaveSchedule: this.respectLeaveSchedule,
       });
 
       const [valid, reason] = isScheduleValid(

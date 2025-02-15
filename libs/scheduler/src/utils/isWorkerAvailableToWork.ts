@@ -3,11 +3,19 @@ import { isWorkerAvailableToWorkBetween } from "./isWorkerAvailableToWorkBetween
 export const isWorkerAvailableToWork = (
   worker: SlotWorker,
   slots: SlotWorkHour[],
-  resting: Array<[number, number]>
+  resting: Array<[number, number]>,
+  respectLeaveSchedule: boolean
 ) => {
   for (const slot of slots) {
     const { start: workStart, end: workEnd } = slot;
-    if (!isWorkerAvailableToWorkBetween(worker, workStart, workEnd)) {
+    if (
+      !isWorkerAvailableToWorkBetween(
+        worker,
+        workStart,
+        workEnd,
+        respectLeaveSchedule
+      )
+    ) {
       return false;
     }
     if (resting.some(([start, end]) => start <= workEnd && end >= workStart)) {

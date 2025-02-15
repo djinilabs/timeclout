@@ -34,7 +34,7 @@ export interface UseTeamLeaveScheduleParams {
   team: string;
   calendarStartDay: DayDate;
   calendarEndDay: DayDate;
-  showLeaveSchedule: boolean;
+  pause: boolean;
 }
 
 export const useTeamLeaveSchedule = ({
@@ -42,7 +42,7 @@ export const useTeamLeaveSchedule = ({
   team,
   calendarStartDay,
   calendarEndDay,
-  showLeaveSchedule,
+  pause,
 }: UseTeamLeaveScheduleParams): {
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
 } => {
@@ -58,12 +58,10 @@ export const useTeamLeaveSchedule = ({
       startDate: calendarStartDay.toString(),
       endDate: calendarEndDay.toString(),
     },
-    pause: !showLeaveSchedule,
+    pause,
   });
 
-  const teamScheduleResult = showLeaveSchedule
-    ? teamScheduleLastResult
-    : undefined;
+  const teamScheduleResult = pause ? undefined : teamScheduleLastResult;
 
   const leaveSchedule: Record<string, LeaveRenderInfo[]> = useMemo(() => {
     const schedule = teamScheduleResult?.team.approvedSchedule;

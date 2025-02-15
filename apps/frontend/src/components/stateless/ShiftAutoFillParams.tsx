@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 import { DayDate } from "@/day-date";
 import { RangeSlider } from "./RangeSlider";
+import { LabeledSwitch } from "./LabeledSwitch";
 
 export interface ShiftAutoFillParamValues {
   startDate: DayDate;
@@ -9,6 +10,7 @@ export interface ShiftAutoFillParamValues {
   workerInconvenienceEquality: number;
   workerSlotEquality: number;
   workerSlotProximity: number;
+  respectLeaveSchedule: boolean;
 }
 
 export interface ShiftAutoFillParamsProps {
@@ -41,6 +43,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
     initialWorkerSlotProximity * 100
   );
 
+  const [respectLeaveSchedule, setRespectLeaveSchedule] = useState(true);
+
   useEffect(() => {
     if (selectedDateRange?.from && selectedDateRange?.to) {
       onChange({
@@ -49,6 +53,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
         workerInconvenienceEquality: workerInconvenienceEquality / 100,
         workerSlotEquality: workerSlotEquality / 100,
         workerSlotProximity: workerSlotProximity / 100,
+        respectLeaveSchedule,
       });
     }
   }, [
@@ -57,26 +62,40 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
     workerInconvenienceEquality,
     workerSlotEquality,
     workerSlotProximity,
+    respectLeaveSchedule,
   ]);
 
   return (
     <div className="grid grid-cols-3 gap-0">
       <div className="col-span-2">
-        <h3 className="mt-5 text-base font-semibold text-gray-900">
-          Date range
-        </h3>
-        <p className="text-sm text-gray-400 mb-4">
-          Select the period for which you want to automatically assign shifts
-        </p>
-        <DayPicker
-          mode="range"
-          ISOWeek
-          timeZone="UTC"
-          numberOfMonths={2}
-          defaultMonth={selectedDateRange?.from}
-          selected={selectedDateRange}
-          onSelect={setSelectedDateRange}
-        />
+        <div className="grid grid-cols-1 gap-0">
+          <h3 className="mt-5 text-base font-semibold text-gray-900">
+            Date range
+          </h3>
+          <p className="text-sm text-gray-400 mb-4">
+            Select the period for which you want to automatically assign shifts
+          </p>
+          <DayPicker
+            mode="range"
+            ISOWeek
+            timeZone="UTC"
+            numberOfMonths={2}
+            defaultMonth={selectedDateRange?.from}
+            selected={selectedDateRange}
+            onSelect={setSelectedDateRange}
+          />
+        </div>
+        <div className="grid grid-cols-1 gap-0">
+          <h3 className="mt-5 text-base font-semibold text-gray-900">Rules</h3>
+          <p className="text-sm text-gray-400 mb-4">
+            Select the rules for which you want to automatically assign shifts
+          </p>
+          <LabeledSwitch
+            label="Respect leave schedule"
+            checked={respectLeaveSchedule}
+            onChange={setRespectLeaveSchedule}
+          />
+        </div>
       </div>
       <div>
         <h3 className="mt-5 text-base font-semibold text-gray-900">
