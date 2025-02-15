@@ -31,7 +31,7 @@ export interface AutoFillWorkHour {
 export interface AutoFillSlot {
   id: string;
   workHours: AutoFillWorkHour[];
-  startsOnStandardWorkDay: boolean;
+  startsOnDay: string;
   assignedWorkerPk: ResourceRef<"users"> | null;
   requiredQualifications: string[];
 }
@@ -147,7 +147,7 @@ export const shiftsAutoFillParams = async (
           hourMinutesToMinutes(schedule.endHourMinutes as [number, number]),
         inconvenienceMultiplier: schedule.inconveniencePerHour / 60,
       })),
-      startsOnStandardWorkDay: day.getWeekDayNumber() >= 5,
+      startsOnDay: day.toString(),
       assignedWorkerPk: position.assignedTo
         ? getResourceRef(position.assignedTo, "users")
         : null,

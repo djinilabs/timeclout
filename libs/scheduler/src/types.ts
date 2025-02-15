@@ -23,7 +23,7 @@ export interface SlotWorker {
 export interface Slot {
   id: string;
   workHours: SlotWorkHour[];
-  startsOnStandardWorkDay: boolean;
+  startsOnDay: string;
   assignedWorkerPk?: string | null;
   requiredQualifications: string[];
 }
@@ -36,6 +36,8 @@ export interface SlotShift {
 }
 
 export interface ShiftSchedule {
+  startDay: string;
+  endDay: string;
   shifts: Array<SlotShift>;
 }
 

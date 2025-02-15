@@ -20,7 +20,7 @@ query shiftsAutoFillParams($input: AutoFillParamsInput!) {
         end
         inconvenienceMultiplier
       }
-      startsOnStandardWorkDay
+      startsOnDay
       requiredQualifications
       assignedWorkerPk
     }

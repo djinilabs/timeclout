@@ -155,7 +155,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
             <div>
               <div className="flex items-center">
                 <LabeledSwitch
-                  label="Require a minimum number of shifts in a standard workday for each worker"
+                  label="Require a minimum number of shifts in a standard workday for each worker each week"
                   checked={requireMinimumNumberOfShiftsPerWeekInStandardWorkday}
                   onChange={
                     setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday

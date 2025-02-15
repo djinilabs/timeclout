@@ -28,6 +28,8 @@ export interface SchedulerListener {
 }
 
 export interface SchedulerOptions {
+  startDay: string;
+  endDay: string;
   keepTopSolutionsCount: number;
   heuristics: Record<string, number>;
   rules: Partial<Record<RuleName, unknown>>;
@@ -44,6 +46,8 @@ export class Scheduler {
   private options: SchedulerOptions;
   private _stop = false;
 
+  private startDay: string;
+  private endDay: string;
   private respectLeaveSchedule: boolean;
   private heuristics: ShiftScheduleHeuristicWithMultiplier[];
   private rules: Partial<Record<RuleName, unknown>>;
@@ -62,6 +66,8 @@ export class Scheduler {
   constructor(options: SchedulerOptions) {
     console.log("Scheduler constructor %j", options);
     this.options = options;
+    this.startDay = options.startDay;
+    this.endDay = options.endDay;
     this.heuristics = Object.entries(options.heuristics).map(
       ([name, multiplier]) => ({
         ...getDefined(
@@ -82,6 +88,8 @@ export class Scheduler {
     try {
       this.cycleCount += 1;
       const schedule = randomSchedule({
+        startDay: this.startDay,
+        endDay: this.endDay,
         workers: this.workers,
         slots: this.slots,
         minimumRestSlotsAfterShift: this.minimumRestMinutesAfterShift,

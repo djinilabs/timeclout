@@ -41,7 +41,7 @@ export type AutoFillSlot = {
   assignedWorkerPk?: Maybe<Scalars['ID']['output']>;
   id: Scalars['ID']['output'];
   requiredQualifications: Array<Scalars['String']['output']>;
-  startsOnStandardWorkDay: Scalars['Boolean']['output'];
+  startsOnDay: Scalars['String']['output'];
   workHours: Array<AutoFillWorkHour>;
 };
 
@@ -746,12 +746,12 @@ export type ResolversTypes = {
   AutoFillParamsInput: AutoFillParamsInput;
   AutoFillSlot: ResolverTypeWrapper<AutoFillSlot>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   AutoFillSlotWorker: ResolverTypeWrapper<AutoFillSlotWorker>;
   AutoFillWorkHour: ResolverTypeWrapper<AutoFillWorkHour>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   AutoFillWorkerLeave: ResolverTypeWrapper<AutoFillWorkerLeave>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Calendar: ResolverTypeWrapper<Calendar>;
   Company: ResolverTypeWrapper<Company>;
   CopyShiftPositionInput: CopyShiftPositionInput;
@@ -798,12 +798,12 @@ export type ResolversParentTypes = {
   AutoFillParamsInput: AutoFillParamsInput;
   AutoFillSlot: AutoFillSlot;
   ID: Scalars['ID']['output'];
-  Boolean: Scalars['Boolean']['output'];
   AutoFillSlotWorker: AutoFillSlotWorker;
   AutoFillWorkHour: AutoFillWorkHour;
   Int: Scalars['Int']['output'];
   Float: Scalars['Float']['output'];
   AutoFillWorkerLeave: AutoFillWorkerLeave;
+  Boolean: Scalars['Boolean']['output'];
   Calendar: Calendar;
   Company: Company;
   CopyShiftPositionInput: CopyShiftPositionInput;
@@ -846,7 +846,7 @@ export type AutoFillSlotResolvers<ContextType = any, ParentType extends Resolver
   assignedWorkerPk?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   requiredQualifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  startsOnStandardWorkDay?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  startsOnDay?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   workHours?: Resolver<Array<ResolversTypes['AutoFillWorkHour']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

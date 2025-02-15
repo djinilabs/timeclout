@@ -8,6 +8,8 @@ import { isWorkerAvailableToWork } from "./utils/isWorkerAvailableToWork";
 import { getDefined } from "@/utils";
 
 export interface ScheduleOptions {
+  startDay: string;
+  endDay: string;
   slots: WorkSlots;
   workers: SlotWorker[];
   respectLeaveSchedule: boolean;
@@ -19,6 +21,8 @@ export interface ScheduleOptions {
 }
 
 export const randomSchedule = ({
+  startDay,
+  endDay,
   slots,
   workers,
   respectLeaveSchedule,
@@ -32,6 +36,8 @@ export const randomSchedule = ({
     (pastWorkLoad.get(a) ?? 0) - (pastWorkLoad.get(b) ?? 0);
 
   return {
+    startDay,
+    endDay,
     shifts: slots.map((slot): SlotShift => {
       const availableSortedWorkers = workers
         .filter((w) =>

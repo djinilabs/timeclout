@@ -108,8 +108,13 @@ export const ShiftsAutoFillWithoutParams: FC<
     }
     client.start(
       {
+        startDay: startDate.toString(),
+        endDay: endDate.toString(),
         workers: shiftsAutoFillParams.workers,
-        slots: shiftsAutoFillParams.slots,
+        slots: shiftsAutoFillParams.slots.map((slot) => ({
+          ...slot,
+          startsOnDay: slot.startsOnDay,
+        })),
         minimumRestSlotsAfterShift: [],
         keepTopSolutionsCount: 10,
         heuristics: {

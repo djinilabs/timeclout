@@ -13,6 +13,8 @@ import { sortByScore } from "./utils/sortByScore";
 import { evaluateSchedule } from "./evaluateSchedule";
 
 export interface SearchForBestSchedulesOptions {
+  startDay: string;
+  endDay: string;
   workers: SlotWorker[];
   slots: Slot[];
   minimumRestSlotsAfterShift: {
@@ -34,6 +36,8 @@ export interface EvaluateScheduleResult {
 }
 
 export const searchForBestSchedules = ({
+  startDay,
+  endDay,
   workers,
   slots,
   minimumRestSlotsAfterShift,
@@ -58,6 +62,8 @@ export const searchForBestSchedules = ({
   for (let i = 0; i < maxTryCount; i++) {
     try {
       const schedule = randomSchedule({
+        startDay,
+        endDay,
         workers,
         slots,
         minimumRestSlotsAfterShift,
