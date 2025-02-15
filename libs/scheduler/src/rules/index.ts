@@ -3,6 +3,7 @@ import { maximumInconvenience } from "./maximumInconvenience";
 import { minimumFrequency } from "./minimumFrequency";
 import { minimumShiftsInStandardWorkday } from "./minimumShiftsInStandardWorkday";
 import { RuleName } from "./types";
+export * from "./types";
 
 const rules: ValidationRule[] = [
   minimumFrequency,

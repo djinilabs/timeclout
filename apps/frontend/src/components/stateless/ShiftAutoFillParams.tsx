@@ -11,6 +11,8 @@ export interface ShiftAutoFillParamValues {
   workerSlotEquality: number;
   workerSlotProximity: number;
   respectLeaveSchedule: boolean;
+  requireMaximumIntervalBetweenShifts: boolean;
+  maximumIntervalBetweenShifts: number;
 }
 
 export interface ShiftAutoFillParamsProps {
@@ -19,6 +21,8 @@ export interface ShiftAutoFillParamsProps {
   initialWorkerInconvenienceEquality: number;
   initialWorkerSlotEquality: number;
   initialWorkerSlotProximity: number;
+  initialRequireMaximumIntervalBetweenShifts: boolean;
+  initialMaximumIntervalBetweenShifts: number;
   onChange: (params: ShiftAutoFillParamValues) => void;
 }
 
@@ -28,6 +32,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
   initialWorkerInconvenienceEquality,
   initialWorkerSlotEquality,
   initialWorkerSlotProximity,
+  initialRequireMaximumIntervalBetweenShifts,
+  initialMaximumIntervalBetweenShifts,
   onChange,
 }) => {
   const [selectedDateRange, setSelectedDateRange] = useState<
@@ -44,6 +50,12 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
   );
 
   const [respectLeaveSchedule, setRespectLeaveSchedule] = useState(true);
+  const [
+    requireMaximumIntervalBetweenShifts,
+    setRequireMaximumIntervalBetweenShifts,
+  ] = useState(initialRequireMaximumIntervalBetweenShifts);
+  const [maximumIntervalBetweenShifts, setMaximumIntervalBetweenShifts] =
+    useState(initialMaximumIntervalBetweenShifts);
 
   useEffect(() => {
     if (selectedDateRange?.from && selectedDateRange?.to) {
@@ -54,6 +66,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
         workerSlotEquality: workerSlotEquality / 100,
         workerSlotProximity: workerSlotProximity / 100,
         respectLeaveSchedule,
+        requireMaximumIntervalBetweenShifts,
+        maximumIntervalBetweenShifts,
       });
     }
   }, [
@@ -63,6 +77,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
     workerSlotEquality,
     workerSlotProximity,
     respectLeaveSchedule,
+    requireMaximumIntervalBetweenShifts,
+    maximumIntervalBetweenShifts,
   ]);
 
   return (
@@ -88,13 +104,37 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
         <div className="grid grid-cols-1 gap-0">
           <h3 className="mt-5 text-base font-semibold text-gray-900">Rules</h3>
           <p className="text-sm text-gray-400 mb-4">
-            Select the rules for which you want to automatically assign shifts
+            Select the rules for which you want to enforce while automatically
+            assign shifts
           </p>
-          <LabeledSwitch
-            label="Respect leave schedule"
-            checked={respectLeaveSchedule}
-            onChange={setRespectLeaveSchedule}
-          />
+          <div className="grid grid-cols-1 gap-3">
+            <LabeledSwitch
+              label="Respect leave schedule"
+              checked={respectLeaveSchedule}
+              onChange={setRespectLeaveSchedule}
+            />
+            <div>
+              <div className="flex items-center">
+                <LabeledSwitch
+                  label="Require a maximum interval between shifts for each worker (in days)"
+                  checked={requireMaximumIntervalBetweenShifts}
+                  onChange={setRequireMaximumIntervalBetweenShifts}
+                />
+                {requireMaximumIntervalBetweenShifts && (
+                  <input
+                    type="number"
+                    value={maximumIntervalBetweenShifts}
+                    min={1}
+                    className="w-16 text-right"
+                    disabled={!requireMaximumIntervalBetweenShifts}
+                    onChange={(e) =>
+                      setMaximumIntervalBetweenShifts(parseInt(e.target.value))
+                    }
+                  />
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div>

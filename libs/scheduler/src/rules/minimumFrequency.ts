@@ -51,9 +51,5 @@ export const minimumFrequency: ValidationRule = (
     }
     previousShifts.set(shift.assigned, shift.slot.workHours[0].start);
   }
-
-  // simulate a last shift to check if all workers have scheduled work until the end
-  return workers.every((worker) =>
-    isShiftValid(worker, schedule.shifts.length)
-  );
+  return true;
 };

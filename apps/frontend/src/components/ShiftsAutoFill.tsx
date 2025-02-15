@@ -15,6 +15,7 @@ import {
   ShiftAutoFillParams,
   ShiftAutoFillParamValues,
 } from "./stateless/ShiftAutoFillParams";
+import { RuleName } from "@/scheduler";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;
@@ -25,6 +26,8 @@ export interface ShiftsAutoFillWithoutParamsProps {
   workerSlotEquality: number;
   workerSlotProximity: number;
   respectLeaveSchedule: boolean;
+  requireMaximumIntervalBetweenShifts: boolean;
+  maximumIntervalBetweenShifts: number;
   onAssignShiftPositions: () => void;
   progress: SchedulerState | undefined;
   onProgress: (progress: SchedulerState | undefined) => void;
@@ -41,6 +44,8 @@ export const ShiftsAutoFillWithoutParams: FC<
   workerSlotEquality,
   workerSlotProximity,
   respectLeaveSchedule,
+  requireMaximumIntervalBetweenShifts,
+  maximumIntervalBetweenShifts,
   onAssignShiftPositions,
   progress,
   onProgress,
@@ -89,6 +94,10 @@ export const ShiftsAutoFillWithoutParams: FC<
     console.log("Auto fill is going to start");
     onProgress(undefined);
     const client = new SchedulerWorkerClient();
+    const rules: Partial<Record<RuleName, unknown>> = {};
+    if (requireMaximumIntervalBetweenShifts) {
+      rules.minimumFrequency = maximumIntervalBetweenShifts * 24 * 60; // turn days into minutes
+    }
     client.start(
       {
         workers: shiftsAutoFillParams.workers,
@@ -101,7 +110,7 @@ export const ShiftsAutoFillWithoutParams: FC<
           "Worker Slot Proximity": workerSlotProximity,
         },
         respectLeaveSchedule,
-        rules: {},
+        rules,
       },
       (progress) => {
         console.log("Progress", progress);
@@ -122,6 +131,8 @@ export const ShiftsAutoFillWithoutParams: FC<
     workerSlotProximity,
     onProgress,
     respectLeaveSchedule,
+    requireMaximumIntervalBetweenShifts,
+    maximumIntervalBetweenShifts,
   ]);
 
   const { data: shiftPositions } = useTeamShiftsQuery({
@@ -168,6 +179,8 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
       workerSlotEquality: 0.5,
       workerSlotProximity: 0.5,
       respectLeaveSchedule: true,
+      requireMaximumIntervalBetweenShifts: false,
+      maximumIntervalBetweenShifts: 10,
     });
   const [progress, setProgress] = useState<SchedulerState | undefined>();
   return (
@@ -183,6 +196,12 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
             initialWorkerSlotEquality={shiftAutoFillParams?.workerSlotEquality}
             initialWorkerSlotProximity={
               shiftAutoFillParams?.workerSlotProximity
+            }
+            initialRequireMaximumIntervalBetweenShifts={
+              shiftAutoFillParams?.requireMaximumIntervalBetweenShifts
+            }
+            initialMaximumIntervalBetweenShifts={
+              shiftAutoFillParams?.maximumIntervalBetweenShifts
             }
             onChange={setShiftAutoFillParams}
           />
@@ -230,6 +249,12 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           workerSlotEquality={shiftAutoFillParams?.workerSlotEquality}
           workerSlotProximity={shiftAutoFillParams?.workerSlotProximity}
           respectLeaveSchedule={shiftAutoFillParams?.respectLeaveSchedule}
+          requireMaximumIntervalBetweenShifts={
+            shiftAutoFillParams?.requireMaximumIntervalBetweenShifts
+          }
+          maximumIntervalBetweenShifts={
+            shiftAutoFillParams?.maximumIntervalBetweenShifts
+          }
           onAssignShiftPositions={onAssignShiftPositions}
           progress={progress}
           onProgress={setProgress}
