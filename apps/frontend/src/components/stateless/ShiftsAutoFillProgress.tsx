@@ -18,8 +18,8 @@ import toast from "react-hot-toast";
 import { ShiftAutoFillSolutionStats } from "./ShiftAutoFillSolutionStats";
 
 export interface ShiftsAutoFillProgressProps {
-  startDate: DayDate;
-  endDate: DayDate;
+  startDate?: DayDate;
+  endDate?: DayDate;
   progress: SchedulerState;
   shiftPositions: ShiftPositionType[];
   canAssignShiftPositions: boolean;
@@ -40,7 +40,7 @@ export const ShiftsAutoFillProgress = ({
   const yearMonths: Array<{ year: number; month: number }> = useMemo(() => {
     const months = [];
     let start = startDate;
-    while (start.isBeforeOrEqual(endDate)) {
+    while (start && endDate && start.isBeforeOrEqual(endDate)) {
       months.push({ year: start.getYear(), month: start.getMonth() });
       start = start.nextMonth();
     }

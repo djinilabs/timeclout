@@ -13,8 +13,8 @@ export interface UseTeamShiftsQueryResult {
 
 export interface UseTeamShiftsQueryOptions {
   team: string;
-  startDay: DayDate;
-  endDay: DayDate;
+  startDay?: DayDate;
+  endDay?: DayDate;
   pollingIntervalMs?: number;
   pause?: boolean;
 }
@@ -33,10 +33,10 @@ export const useTeamShiftsQuery = ({
     pollingIntervalMs,
     variables: {
       team,
-      startDay: startDay.toString(),
-      endDay: endDay.toString(),
+      startDay: startDay?.toString() ?? "",
+      endDay: endDay?.toString() ?? "",
     },
-    pause,
+    pause: pause || !startDay || !endDay,
   });
 
   return {

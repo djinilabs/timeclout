@@ -1,12 +1,4 @@
-import {
-  useState,
-  useEffect,
-  FC,
-  Suspense,
-  useRef,
-  useCallback,
-  useMemo,
-} from "react";
+import { useState, useEffect, FC, Suspense, useRef, useCallback } from "react";
 import { dequal } from "dequal";
 import { SchedulerWorkerClient } from "@/scheduler-worker";
 import { SchedulerState } from "@/scheduler";
@@ -29,8 +21,8 @@ import { useLocalPreference } from "../hooks/useLocalPreference";
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;
   team: string;
-  startDate: DayDate;
-  endDate: DayDate;
+  startDate?: DayDate;
+  endDate?: DayDate;
   workerInconvenienceEquality: number;
   workerSlotEquality: number;
   workerSlotProximity: number;
@@ -39,6 +31,10 @@ export interface ShiftsAutoFillWithoutParamsProps {
   maximumIntervalBetweenShifts: number;
   requireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean;
   minimumNumberOfShiftsPerWeekInStandardWorkday: number;
+  minimumRestSlotsAfterShift: {
+    inconvenienceLessOrEqualThan: number;
+    minimumRestMinutes: number;
+  }[];
   onAssignShiftPositions: () => void;
   progress: SchedulerState | undefined;
   onProgress: (progress: SchedulerState | undefined) => void;
@@ -59,6 +55,7 @@ export const ShiftsAutoFillWithoutParams: FC<
   maximumIntervalBetweenShifts,
   requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
   minimumNumberOfShiftsPerWeekInStandardWorkday,
+  minimumRestSlotsAfterShift,
   onAssignShiftPositions,
   progress,
   onProgress,
@@ -70,17 +67,17 @@ export const ShiftsAutoFillWithoutParams: FC<
     variables: {
       input: {
         team,
-        startDay: startDate.toString(),
-        endDay: endDate.toString(),
+        startDay: startDate?.toString() ?? "",
+        endDay: endDate?.toString() ?? "",
       },
     },
-    pause: !isAutoFillRunning,
+    pause: !isAutoFillRunning || !startDate || !endDate,
   });
 
   const shiftsAutoFillParams =
     shiftsAutoFillParamsResponse?.data?.shiftsAutoFillParams;
 
-  const queriedDates = useRef<DayDate[]>([startDate, endDate]);
+  const queriedDates = useRef<Array<DayDate | undefined>>([startDate, endDate]);
 
   useEffect(() => {
     if (!dequal(queriedDates.current, [startDate, endDate])) {
@@ -117,14 +114,14 @@ export const ShiftsAutoFillWithoutParams: FC<
     }
     client.start(
       {
-        startDay: startDate.toString(),
-        endDay: endDate.toString(),
+        startDay: startDate?.toString() ?? "",
+        endDay: endDate?.toString() ?? "",
         workers: shiftsAutoFillParams.workers,
         slots: shiftsAutoFillParams.slots.map((slot) => ({
           ...slot,
           startsOnDay: slot.startsOnDay,
         })),
-        minimumRestSlotsAfterShift: [],
+        minimumRestSlotsAfterShift,
         keepTopSolutionsCount: 10,
         heuristics: {
           "Worker Inconvenience Equality": workerInconvenienceEquality,
@@ -159,6 +156,7 @@ export const ShiftsAutoFillWithoutParams: FC<
     minimumNumberOfShiftsPerWeekInStandardWorkday,
     startDate,
     endDate,
+    minimumRestSlotsAfterShift,
   ]);
 
   const { data: shiftPositions } = useTeamShiftsQuery({
@@ -203,6 +201,7 @@ const defaultShiftAutoFillParams: Omit<
   maximumIntervalBetweenShifts: 10,
   requireMinimumNumberOfShiftsPerWeekInStandardWorkday: false,
   minimumNumberOfShiftsPerWeekInStandardWorkday: 1,
+  minimumRestSlotsAfterShift: [],
 };
 
 export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
@@ -214,11 +213,15 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
   const [shiftAutoFillParams, setShiftAutoFillParams] = useLocalPreference<
     Omit<ShiftAutoFillParamValues, "startDate" | "endDate">
   >("shiftAutoFillParams", defaultShiftAutoFillParams);
-  const [dateRange, setDateRange] = useState<DayDateInterval>(startRange);
+  const [startDate, setStartDate] = useState<DayDate | undefined>(
+    startRange.start
+  );
+  const [endDate, setEndDate] = useState<DayDate | undefined>(startRange.end);
   const setAllShiftAutoFillParams = useCallback(
     (params: ShiftAutoFillParamValues) => {
       const { startDate, endDate, ...rest } = params;
-      setDateRange(new DayDateInterval(startDate, endDate));
+      setStartDate(startDate);
+      setEndDate(endDate);
       setShiftAutoFillParams((prev) => ({ ...prev, ...rest }));
     },
     [setShiftAutoFillParams]
@@ -229,9 +232,9 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
       <Transition show={!isAutoFillRunning && !progress} appear>
         <div className="transition duration-300 ease-in data-[closed]:opacity-0 'data-[enter]:duration-100 data-[enter]:data-[closed]:-translate-x-full data-[leave]:duration-300 data-[leave]:data-[closed]:-translate-x-full">
           <ShiftAutoFillParams
-            startDate={dateRange.start}
-            endDate={dateRange.end}
             {...shiftAutoFillParams}
+            startDate={startDate}
+            endDate={endDate}
             onChange={setAllShiftAutoFillParams}
           />
         </div>
@@ -240,7 +243,7 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
         {(isAutoFillRunning || !progress) && (
           <>
             <Button
-              disabled={!dateRange.start || !dateRange.end}
+              disabled={!startDate || !endDate}
               onClick={() => {
                 setIsAutoFillRunning(!isAutoFillRunning);
               }}
@@ -260,8 +263,8 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
         <ShiftsAutoFillWithoutParams
           isAutoFillRunning={isAutoFillRunning}
           team={team}
-          startDate={dateRange.start}
-          endDate={dateRange.end}
+          startDate={startDate}
+          endDate={endDate}
           workerInconvenienceEquality={
             shiftAutoFillParams.workerInconvenienceEquality
           }
@@ -279,6 +282,9 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           }
           minimumNumberOfShiftsPerWeekInStandardWorkday={
             shiftAutoFillParams.minimumNumberOfShiftsPerWeekInStandardWorkday
+          }
+          minimumRestSlotsAfterShift={
+            shiftAutoFillParams.minimumRestSlotsAfterShift
           }
           onAssignShiftPositions={onAssignShiftPositions}
           progress={progress}

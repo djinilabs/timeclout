@@ -33,6 +33,7 @@ const defaultClientOpts = (): ClientOptions => ({
         ShiftPositionSchedule: () => null,
         ShiftPosition: (s: Data) => `${s.pk}:${s.sk}`,
         AutoFillWorkHour: () => null,
+        AutoFillSlotWorker: () => null,
       },
       updates: {
         Mutation: {

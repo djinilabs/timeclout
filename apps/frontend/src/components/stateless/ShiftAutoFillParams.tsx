@@ -3,10 +3,11 @@ import { DayPicker } from "react-day-picker";
 import { DayDate } from "@/day-date";
 import { RangeSlider } from "./RangeSlider";
 import { LabeledSwitch } from "./LabeledSwitch";
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 export interface ShiftAutoFillParamValues {
-  startDate: DayDate;
-  endDate: DayDate;
+  startDate?: DayDate;
+  endDate?: DayDate;
   workerInconvenienceEquality: number;
   workerSlotEquality: number;
   workerSlotProximity: number;
@@ -15,6 +16,10 @@ export interface ShiftAutoFillParamValues {
   maximumIntervalBetweenShifts: number;
   requireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean;
   minimumNumberOfShiftsPerWeekInStandardWorkday: number;
+  minimumRestSlotsAfterShift: {
+    inconvenienceLessOrEqualThan: number;
+    minimumRestMinutes: number;
+  }[];
 }
 
 export interface ShiftAutoFillParamsProps extends ShiftAutoFillParamValues {
@@ -26,13 +31,23 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
   ...params
 }) => {
   const setProp = useCallback(
-    (key: keyof ShiftAutoFillParamValues) =>
-      (value: ShiftAutoFillParamValues[keyof ShiftAutoFillParamValues]) => {
+    <TKey extends keyof ShiftAutoFillParamValues>(key: TKey) =>
+      (value: ShiftAutoFillParamValues[TKey]) => {
         onChange({
           ...params,
           [key]: value,
         });
       },
+    [onChange, params]
+  );
+
+  const setPartial = useCallback(
+    (newProps: Partial<ShiftAutoFillParamValues>) => {
+      onChange({
+        ...params,
+        ...newProps,
+      });
+    },
     [onChange, params]
   );
 
@@ -51,16 +66,17 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
             ISOWeek
             timeZone="UTC"
             numberOfMonths={2}
-            defaultMonth={params.startDate.toDate()}
+            defaultMonth={params.startDate?.toDate()}
+            required
             selected={{
-              from: params.startDate.toDate(),
-              to: params.endDate.toDate(),
+              from: params.startDate?.toDate(),
+              to: params.endDate?.toDate(),
             }}
             onSelect={(range) => {
-              if (range && range.from && range.to) {
-                setProp("startDate")(new DayDate(range.from));
-                setProp("endDate")(new DayDate(range.to));
-              }
+              setPartial({
+                startDate: range?.from ? new DayDate(range.from) : undefined,
+                endDate: range?.to ? new DayDate(range.to) : undefined,
+              });
             }}
           />
         </div>
@@ -126,6 +142,114 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                     }
                   />
                 )}
+              </div>
+            </div>
+            <div>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center">
+                  <LabeledSwitch
+                    label="Require minimum rest periods between shifts based on inconvenience scores"
+                    checked={params.minimumRestSlotsAfterShift?.length > 0}
+                    onChange={(checked) => {
+                      if (checked) {
+                        setProp("minimumRestSlotsAfterShift")([
+                          {
+                            inconvenienceLessOrEqualThan: 50,
+                            minimumRestMinutes: 480,
+                          },
+                        ]);
+                      } else {
+                        setProp("minimumRestSlotsAfterShift")([]);
+                      }
+                    }}
+                  />
+                </div>
+
+                {params.minimumRestSlotsAfterShift &&
+                  params.minimumRestSlotsAfterShift.length > 0 && (
+                    <div className="ml-8 space-y-4">
+                      {params.minimumRestSlotsAfterShift.map((rule, index) => (
+                        <div key={index} className="flex items-center gap-4">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-600">
+                              For shifts with inconvenience score ≤
+                            </span>
+                            <input
+                              type="number"
+                              min={0}
+                              max={100}
+                              value={rule.inconvenienceLessOrEqualThan}
+                              onChange={(e) => {
+                                const newRules = [
+                                  ...params.minimumRestSlotsAfterShift,
+                                ];
+                                newRules[index] = {
+                                  ...rule,
+                                  inconvenienceLessOrEqualThan: parseInt(
+                                    e.target.value
+                                  ),
+                                };
+                                setProp("minimumRestSlotsAfterShift")(newRules);
+                              }}
+                              className="w-16 text-right"
+                            />
+                            <span className="text-sm text-gray-600">
+                              require
+                            </span>
+                            <input
+                              type="number"
+                              min={0}
+                              value={rule.minimumRestMinutes / 60}
+                              onChange={(e) => {
+                                const newRules = [
+                                  ...params.minimumRestSlotsAfterShift,
+                                ];
+                                newRules[index] = {
+                                  ...rule,
+                                  minimumRestMinutes:
+                                    parseInt(e.target.value) * 60,
+                                };
+                                setProp("minimumRestSlotsAfterShift")(newRules);
+                              }}
+                              className="w-16 text-right"
+                            />
+                            <span className="text-sm text-gray-600">
+                              hours rest
+                            </span>
+                          </div>
+                          <button
+                            onClick={() => {
+                              const newRules =
+                                params.minimumRestSlotsAfterShift.filter(
+                                  (_, i) => i !== index
+                                );
+                              setProp("minimumRestSlotsAfterShift")(newRules);
+                            }}
+                            className="inline-flex items-center justify-center rounded-full w-6 h-6 bg-red-600 hover:bg-red-800 text-white"
+                          >
+                            <MinusIcon className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+
+                      <button
+                        onClick={() => {
+                          setProp("minimumRestSlotsAfterShift")([
+                            ...params.minimumRestSlotsAfterShift,
+                            {
+                              inconvenienceLessOrEqualThan: 50,
+                              minimumRestMinutes: 480,
+                            },
+                          ]);
+                        }}
+                        className="text-white"
+                      >
+                        <span className="inline-flex items-center justify-center rounded-full w-6 h-6 bg-teal-600 hover:bg-teal-800 leading-none">
+                          <PlusIcon className="w-4 h-4" />
+                        </span>
+                      </button>
+                    </div>
+                  )}
               </div>
             </div>
           </div>
