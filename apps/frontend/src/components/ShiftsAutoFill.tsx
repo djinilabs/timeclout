@@ -1,4 +1,12 @@
-import { useState, useEffect, FC, Suspense, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  FC,
+  Suspense,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import { dequal } from "dequal";
 import { SchedulerWorkerClient } from "@/scheduler-worker";
 import { SchedulerState } from "@/scheduler";
@@ -16,6 +24,7 @@ import {
   ShiftAutoFillParamValues,
 } from "./stateless/ShiftAutoFillParams";
 import { RuleName } from "@/scheduler";
+import { useLocalPreference } from "../hooks/useLocalPreference";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;
@@ -148,6 +157,8 @@ export const ShiftsAutoFillWithoutParams: FC<
     maximumIntervalBetweenShifts,
     requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
     minimumNumberOfShiftsPerWeekInStandardWorkday,
+    startDate,
+    endDate,
   ]);
 
   const { data: shiftPositions } = useTeamShiftsQuery({
@@ -180,53 +191,48 @@ export interface ShiftsAutoFillProps {
   onAssignShiftPositions: () => void;
 }
 
+const defaultShiftAutoFillParams: Omit<
+  ShiftAutoFillParamValues,
+  "startDate" | "endDate"
+> = {
+  workerInconvenienceEquality: 50,
+  workerSlotEquality: 50,
+  workerSlotProximity: 50,
+  respectLeaveSchedule: true,
+  requireMaximumIntervalBetweenShifts: false,
+  maximumIntervalBetweenShifts: 10,
+  requireMinimumNumberOfShiftsPerWeekInStandardWorkday: false,
+  minimumNumberOfShiftsPerWeekInStandardWorkday: 1,
+};
+
 export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
   team,
   startRange,
   onAssignShiftPositions,
 }) => {
   const [isAutoFillRunning, setIsAutoFillRunning] = useState(false);
-  const [shiftAutoFillParams, setShiftAutoFillParams] =
-    useState<ShiftAutoFillParamValues>({
-      startDate: startRange.start,
-      endDate: startRange.end,
-      workerInconvenienceEquality: 0.5,
-      workerSlotEquality: 0.5,
-      workerSlotProximity: 0.5,
-      respectLeaveSchedule: true,
-      requireMaximumIntervalBetweenShifts: false,
-      maximumIntervalBetweenShifts: 10,
-      requireMinimumNumberOfShiftsPerWeekInStandardWorkday: false,
-      minimumNumberOfShiftsPerWeekInStandardWorkday: 1,
-    });
+  const [shiftAutoFillParams, setShiftAutoFillParams] = useLocalPreference<
+    Omit<ShiftAutoFillParamValues, "startDate" | "endDate">
+  >("shiftAutoFillParams", defaultShiftAutoFillParams);
+  const [dateRange, setDateRange] = useState<DayDateInterval>(startRange);
+  const setAllShiftAutoFillParams = useCallback(
+    (params: ShiftAutoFillParamValues) => {
+      const { startDate, endDate, ...rest } = params;
+      setDateRange(new DayDateInterval(startDate, endDate));
+      setShiftAutoFillParams((prev) => ({ ...prev, ...rest }));
+    },
+    [setShiftAutoFillParams]
+  );
   const [progress, setProgress] = useState<SchedulerState | undefined>();
   return (
     <>
       <Transition show={!isAutoFillRunning && !progress} appear>
         <div className="transition duration-300 ease-in data-[closed]:opacity-0 'data-[enter]:duration-100 data-[enter]:data-[closed]:-translate-x-full data-[leave]:duration-300 data-[leave]:data-[closed]:-translate-x-full">
           <ShiftAutoFillParams
-            initialStartDate={startRange.start}
-            initialEndDate={startRange.end}
-            initialWorkerInconvenienceEquality={
-              shiftAutoFillParams?.workerInconvenienceEquality
-            }
-            initialWorkerSlotEquality={shiftAutoFillParams?.workerSlotEquality}
-            initialWorkerSlotProximity={
-              shiftAutoFillParams?.workerSlotProximity
-            }
-            initialRequireMaximumIntervalBetweenShifts={
-              shiftAutoFillParams?.requireMaximumIntervalBetweenShifts
-            }
-            initialMaximumIntervalBetweenShifts={
-              shiftAutoFillParams?.maximumIntervalBetweenShifts
-            }
-            initialRequireMinimumNumberOfShiftsPerWeekInStandardWorkday={
-              shiftAutoFillParams?.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
-            }
-            initialMinimumNumberOfShiftsPerWeekInStandardWorkday={
-              shiftAutoFillParams?.minimumNumberOfShiftsPerWeekInStandardWorkday
-            }
-            onChange={setShiftAutoFillParams}
+            startDate={dateRange.start}
+            endDate={dateRange.end}
+            {...shiftAutoFillParams}
+            onChange={setAllShiftAutoFillParams}
           />
         </div>
       </Transition>
@@ -234,9 +240,7 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
         {(isAutoFillRunning || !progress) && (
           <>
             <Button
-              disabled={
-                !shiftAutoFillParams?.startDate || !shiftAutoFillParams?.endDate
-              }
+              disabled={!dateRange.start || !dateRange.end}
               onClick={() => {
                 setIsAutoFillRunning(!isAutoFillRunning);
               }}
@@ -256,33 +260,25 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
         <ShiftsAutoFillWithoutParams
           isAutoFillRunning={isAutoFillRunning}
           team={team}
-          startDate={
-            shiftAutoFillParams?.startDate
-              ? shiftAutoFillParams.startDate
-              : DayDate.today()
-          }
-          endDate={
-            shiftAutoFillParams?.endDate
-              ? shiftAutoFillParams.endDate
-              : DayDate.today()
-          }
+          startDate={dateRange.start}
+          endDate={dateRange.end}
           workerInconvenienceEquality={
-            shiftAutoFillParams?.workerInconvenienceEquality
+            shiftAutoFillParams.workerInconvenienceEquality
           }
-          workerSlotEquality={shiftAutoFillParams?.workerSlotEquality}
-          workerSlotProximity={shiftAutoFillParams?.workerSlotProximity}
-          respectLeaveSchedule={shiftAutoFillParams?.respectLeaveSchedule}
+          workerSlotEquality={shiftAutoFillParams.workerSlotEquality}
+          workerSlotProximity={shiftAutoFillParams.workerSlotProximity}
+          respectLeaveSchedule={shiftAutoFillParams.respectLeaveSchedule}
           requireMaximumIntervalBetweenShifts={
-            shiftAutoFillParams?.requireMaximumIntervalBetweenShifts
+            shiftAutoFillParams.requireMaximumIntervalBetweenShifts
           }
           maximumIntervalBetweenShifts={
-            shiftAutoFillParams?.maximumIntervalBetweenShifts
+            shiftAutoFillParams.maximumIntervalBetweenShifts
           }
           requireMinimumNumberOfShiftsPerWeekInStandardWorkday={
-            shiftAutoFillParams?.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+            shiftAutoFillParams.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
           }
           minimumNumberOfShiftsPerWeekInStandardWorkday={
-            shiftAutoFillParams?.minimumNumberOfShiftsPerWeekInStandardWorkday
+            shiftAutoFillParams.minimumNumberOfShiftsPerWeekInStandardWorkday
           }
           onAssignShiftPositions={onAssignShiftPositions}
           progress={progress}

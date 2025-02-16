@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from "react";
-import { DateRange, DayPicker } from "react-day-picker";
+import { FC, useCallback } from "react";
+import { DayPicker } from "react-day-picker";
 import { DayDate } from "@/day-date";
 import { RangeSlider } from "./RangeSlider";
 import { LabeledSwitch } from "./LabeledSwitch";
@@ -17,87 +17,24 @@ export interface ShiftAutoFillParamValues {
   minimumNumberOfShiftsPerWeekInStandardWorkday: number;
 }
 
-export interface ShiftAutoFillParamsProps {
-  initialStartDate: DayDate;
-  initialEndDate: DayDate;
-  initialWorkerInconvenienceEquality: number;
-  initialWorkerSlotEquality: number;
-  initialWorkerSlotProximity: number;
-  initialRequireMaximumIntervalBetweenShifts: boolean;
-  initialMaximumIntervalBetweenShifts: number;
-  initialRequireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean;
-  initialMinimumNumberOfShiftsPerWeekInStandardWorkday: number;
+export interface ShiftAutoFillParamsProps extends ShiftAutoFillParamValues {
   onChange: (params: ShiftAutoFillParamValues) => void;
 }
 
 export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
-  initialStartDate,
-  initialEndDate,
-  initialWorkerInconvenienceEquality,
-  initialWorkerSlotEquality,
-  initialWorkerSlotProximity,
-  initialRequireMaximumIntervalBetweenShifts,
-  initialMaximumIntervalBetweenShifts,
-  initialRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-  initialMinimumNumberOfShiftsPerWeekInStandardWorkday,
   onChange,
+  ...params
 }) => {
-  const [selectedDateRange, setSelectedDateRange] = useState<
-    DateRange | undefined
-  >({ from: initialStartDate.toDate(), to: initialEndDate.toDate() });
-
-  const [workerInconvenienceEquality, setWorkerInconvenienceEquality] =
-    useState(initialWorkerInconvenienceEquality * 100);
-  const [workerSlotEquality, setWorkerSlotEquality] = useState(
-    initialWorkerSlotEquality * 100
+  const setProp = useCallback(
+    (key: keyof ShiftAutoFillParamValues) =>
+      (value: ShiftAutoFillParamValues[keyof ShiftAutoFillParamValues]) => {
+        onChange({
+          ...params,
+          [key]: value,
+        });
+      },
+    [onChange, params]
   );
-  const [workerSlotProximity, setWorkerSlotProximity] = useState(
-    initialWorkerSlotProximity * 100
-  );
-
-  const [respectLeaveSchedule, setRespectLeaveSchedule] = useState(true);
-  const [
-    requireMaximumIntervalBetweenShifts,
-    setRequireMaximumIntervalBetweenShifts,
-  ] = useState(initialRequireMaximumIntervalBetweenShifts);
-  const [maximumIntervalBetweenShifts, setMaximumIntervalBetweenShifts] =
-    useState(initialMaximumIntervalBetweenShifts);
-  const [
-    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-    setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-  ] = useState(initialRequireMinimumNumberOfShiftsPerWeekInStandardWorkday);
-  const [
-    minimumNumberOfShiftsPerWeekInStandardWorkday,
-    setMinimumNumberOfShiftsPerWeekInStandardWorkday,
-  ] = useState(initialMinimumNumberOfShiftsPerWeekInStandardWorkday);
-
-  useEffect(() => {
-    if (selectedDateRange?.from && selectedDateRange?.to) {
-      onChange({
-        startDate: new DayDate(selectedDateRange.from),
-        endDate: new DayDate(selectedDateRange.to),
-        workerInconvenienceEquality: workerInconvenienceEquality / 100,
-        workerSlotEquality: workerSlotEquality / 100,
-        workerSlotProximity: workerSlotProximity / 100,
-        respectLeaveSchedule,
-        requireMaximumIntervalBetweenShifts,
-        maximumIntervalBetweenShifts,
-        requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-        minimumNumberOfShiftsPerWeekInStandardWorkday,
-      });
-    }
-  }, [
-    onChange,
-    selectedDateRange,
-    workerInconvenienceEquality,
-    workerSlotEquality,
-    workerSlotProximity,
-    respectLeaveSchedule,
-    requireMaximumIntervalBetweenShifts,
-    maximumIntervalBetweenShifts,
-    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-    minimumNumberOfShiftsPerWeekInStandardWorkday,
-  ]);
 
   return (
     <div className="grid grid-cols-3 gap-0">
@@ -114,9 +51,17 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
             ISOWeek
             timeZone="UTC"
             numberOfMonths={2}
-            defaultMonth={selectedDateRange?.from}
-            selected={selectedDateRange}
-            onSelect={setSelectedDateRange}
+            defaultMonth={params.startDate.toDate()}
+            selected={{
+              from: params.startDate.toDate(),
+              to: params.endDate.toDate(),
+            }}
+            onSelect={(range) => {
+              if (range && range.from && range.to) {
+                setProp("startDate")(new DayDate(range.from));
+                setProp("endDate")(new DayDate(range.to));
+              }
+            }}
           />
         </div>
         <div className="grid grid-cols-1 gap-0">
@@ -128,25 +73,27 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
           <div className="grid grid-cols-1 gap-3">
             <LabeledSwitch
               label="Respect leave schedule"
-              checked={respectLeaveSchedule}
-              onChange={setRespectLeaveSchedule}
+              checked={params.respectLeaveSchedule}
+              onChange={setProp("respectLeaveSchedule")}
             />
             <div>
               <div className="flex items-center">
                 <LabeledSwitch
                   label="Require a maximum interval between shifts for each worker (in days)"
-                  checked={requireMaximumIntervalBetweenShifts}
-                  onChange={setRequireMaximumIntervalBetweenShifts}
+                  checked={params.requireMaximumIntervalBetweenShifts}
+                  onChange={setProp("requireMaximumIntervalBetweenShifts")}
                 />
-                {requireMaximumIntervalBetweenShifts && (
+                {params.requireMaximumIntervalBetweenShifts && (
                   <input
                     type="number"
-                    value={maximumIntervalBetweenShifts}
+                    value={params.maximumIntervalBetweenShifts}
                     min={1}
                     className="w-16 text-right"
-                    disabled={!requireMaximumIntervalBetweenShifts}
+                    disabled={!params.requireMaximumIntervalBetweenShifts}
                     onChange={(e) =>
-                      setMaximumIntervalBetweenShifts(parseInt(e.target.value))
+                      setProp("maximumIntervalBetweenShifts")(
+                        parseInt(e.target.value)
+                      )
                     }
                   />
                 )}
@@ -156,22 +103,24 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
               <div className="flex items-center">
                 <LabeledSwitch
                   label="Require a minimum number of shifts in a standard workday for each worker each week"
-                  checked={requireMinimumNumberOfShiftsPerWeekInStandardWorkday}
-                  onChange={
-                    setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday
+                  checked={
+                    params.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
                   }
+                  onChange={setProp(
+                    "requireMinimumNumberOfShiftsPerWeekInStandardWorkday"
+                  )}
                 />
-                {requireMinimumNumberOfShiftsPerWeekInStandardWorkday && (
+                {params.requireMinimumNumberOfShiftsPerWeekInStandardWorkday && (
                   <input
                     type="number"
-                    value={minimumNumberOfShiftsPerWeekInStandardWorkday}
+                    value={params.minimumNumberOfShiftsPerWeekInStandardWorkday}
                     min={1}
                     className="w-16 text-right"
                     disabled={
-                      !requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+                      !params.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
                     }
                     onChange={(e) =>
-                      setMinimumNumberOfShiftsPerWeekInStandardWorkday(
+                      setProp("minimumNumberOfShiftsPerWeekInStandardWorkday")(
                         parseInt(e.target.value)
                       )
                     }
@@ -207,11 +156,11 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                 <RangeSlider
                   min={0}
                   max={100}
-                  value={workerInconvenienceEquality}
-                  onChange={setWorkerInconvenienceEquality}
+                  value={params.workerInconvenienceEquality}
+                  onChange={setProp("workerInconvenienceEquality")}
                 />
                 <div className="text-3xl font-semibold tracking-tight text-gray-900 text-right">
-                  {workerInconvenienceEquality}%
+                  {params.workerInconvenienceEquality}%
                 </div>
               </dd>
             </div>
@@ -231,11 +180,11 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
               <RangeSlider
                 min={0}
                 max={100}
-                value={workerSlotEquality}
-                onChange={setWorkerSlotEquality}
+                value={params.workerSlotEquality}
+                onChange={setProp("workerSlotEquality")}
               />
               <div className="text-3xl font-semibold tracking-tight text-gray-900 text-right">
-                {workerSlotEquality}%
+                {params.workerSlotEquality}%
               </div>
             </div>
           </div>
@@ -254,11 +203,11 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
               <RangeSlider
                 min={0}
                 max={100}
-                value={workerSlotProximity}
-                onChange={setWorkerSlotProximity}
+                value={params.workerSlotProximity}
+                onChange={setProp("workerSlotProximity")}
               />
               <div className="text-3xl font-semibold tracking-tight text-gray-900 text-right">
-                {workerSlotProximity}%
+                {params.workerSlotProximity}%
               </div>
             </div>
           </div>
