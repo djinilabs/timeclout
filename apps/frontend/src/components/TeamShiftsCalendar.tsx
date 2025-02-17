@@ -159,7 +159,7 @@ export const TeamShiftsCalendar = () => {
     return maxShiftPositionRowsPerWeekNumber.map(
       (maxShiftPositionRows, week) => {
         return (
-          maxShiftPositionRows * 2 + (maxLeaveRowsPerWeekNumber[week] ?? 0)
+          maxShiftPositionRows * 3 + (maxLeaveRowsPerWeekNumber[week] ?? 0) * 2
         );
       }
     );
@@ -283,7 +283,7 @@ export const TeamShiftsCalendar = () => {
                 <div
                   key={leave.user.pk}
                   className={classNames(
-                    "p-2 border-gray-200",
+                    "p-2 border-gray-200 row-span-2",
                     leaveIndex > 0 && "border-t",
                     shiftPositions?.length > 0 && "border-b"
                   )}
@@ -312,10 +312,13 @@ export const TeamShiftsCalendar = () => {
               {Array.from({
                 length: leaveRowCount - (leaves?.length ?? 0),
               }).map((_, leaveIndex) => (
-                <div key={`leave-${leaveIndex}`} className="h-full w-full" />
+                <div
+                  key={`leave-${leaveIndex}`}
+                  className="h-full w-full row-span-2"
+                />
               ))}
               {shiftPositions?.map((shiftPosition, shiftPositionIndex) => (
-                <div key={shiftPosition.sk} className="row-span-2">
+                <div key={shiftPosition.sk} className="row-span-3">
                   <ShiftPosition
                     lastRow={shiftPositionIndex === shiftPositions.length - 1}
                     focus={
