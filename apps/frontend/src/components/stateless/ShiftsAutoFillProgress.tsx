@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { SchedulerState } from "@/scheduler";
 import { DayDate } from "@/day-date";
@@ -16,6 +16,8 @@ import { getDefined } from "@/utils";
 import { Button } from "./Button";
 import toast from "react-hot-toast";
 import { ShiftAutoFillSolutionStats } from "./ShiftAutoFillSolutionStats";
+import { Tabs } from "./Tabs";
+import { ShiftAutoFillSolutionDetailedStats } from "./ShiftAutoFillSolutionDetailedStats";
 
 export interface ShiftsAutoFillProgressProps {
   startDate?: DayDate;
@@ -114,6 +116,22 @@ export const ShiftsAutoFillProgress = ({
     }
   }, [assignShiftPositions, onAssignShiftPositions, team, topSolution]);
 
+  const tabs = useMemo(
+    () => [
+      {
+        name: "Calendar",
+        href: "calendar",
+      },
+      {
+        name: "Stats",
+        href: "stats",
+      },
+    ],
+    []
+  );
+
+  const [tab, setTab] = useState(tabs[0]);
+
   return (
     <div className="grid grid-cols-5 gap-5">
       <div className="col-span-4">
@@ -130,37 +148,52 @@ export const ShiftsAutoFillProgress = ({
           )}
         </div>
 
-        {yearMonths.map((yearMonth) => (
-          <div key={`${yearMonth.year}-${yearMonth.month}`}>
-            <MonthCalendar
-              year={yearMonth.year}
-              month={yearMonth.month - 1}
-              renderDay={(day) => {
-                const shiftPositions = assignedShiftPositions?.[day.date];
-                if (!shiftPositions) {
-                  return null;
-                }
-                const rowCount: number | undefined =
-                  maxRowsPerWeekNumber[new DayDate(day.date).getWeekNumber()];
-                return (
-                  <div
-                    className={classNames("h-full w-full grid")}
-                    style={{
-                      gridTemplateRows: `repeat(${rowCount ?? shiftPositions.length}, 1fr)`,
+        <Tabs
+          onChange={setTab}
+          tabs={tabs}
+          tabPropName="shiftsAutoFillProgressTab"
+        >
+          {tab.href === "calendar" && (
+            <>
+              {yearMonths.map((yearMonth) => (
+                <div key={`${yearMonth.year}-${yearMonth.month}`}>
+                  <MonthCalendar
+                    year={yearMonth.year}
+                    month={yearMonth.month - 1}
+                    renderDay={(day) => {
+                      const shiftPositions = assignedShiftPositions?.[day.date];
+                      if (!shiftPositions) {
+                        return null;
+                      }
+                      const rowCount: number | undefined =
+                        maxRowsPerWeekNumber[
+                          new DayDate(day.date).getWeekNumber()
+                        ];
+                      return (
+                        <div
+                          className={classNames("h-full w-full grid")}
+                          style={{
+                            gridTemplateRows: `repeat(${rowCount ?? shiftPositions.length}, 1fr)`,
+                          }}
+                        >
+                          {shiftPositions.map((shiftPosition) => (
+                            <ShiftPosition
+                              key={shiftPosition.sk}
+                              shiftPosition={shiftPosition}
+                            />
+                          ))}
+                        </div>
+                      );
                     }}
-                  >
-                    {shiftPositions.map((shiftPosition) => (
-                      <ShiftPosition
-                        key={shiftPosition.sk}
-                        shiftPosition={shiftPosition}
-                      />
-                    ))}
-                  </div>
-                );
-              }}
-            />
-          </div>
-        ))}
+                  />
+                </div>
+              ))}
+            </>
+          )}
+          {tab.href === "stats" && (
+            <ShiftAutoFillSolutionDetailedStats progress={progress} />
+          )}
+        </Tabs>
       </div>
 
       <div className="col-span-1">

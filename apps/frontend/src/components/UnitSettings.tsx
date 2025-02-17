@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Tabs } from "./Tabs";
+import { Tabs } from "./stateless/Tabs";
 import { UnitManagers } from "./UnitManagers";
 
 export const UnitSettings = () => {

@@ -1,6 +1,6 @@
 import { FC, useMemo, useState } from "react";
 import { AllCompanyUnits } from "../components/AllCompanyUnits";
-import { Tabs } from "../components/Tabs";
+import { Tabs } from "../components/stateless/Tabs";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { CompanySettings } from "../components/CompanySettings";
 import { CompanyTimeOff } from "../components/CompanyTimeOff";

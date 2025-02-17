@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Tabs } from "./Tabs";
+import { Tabs } from "./stateless/Tabs";
 import { TeamQualifications } from "./TeamQualifications";
 import { TeamSchedulePositionTemplates } from "./TeamSchedulePositionTemplates";
 

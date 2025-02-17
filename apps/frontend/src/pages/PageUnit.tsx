@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AllUnitTeams } from "../components/AllUnitTeams";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
-import { Tabs } from "../components/Tabs";
+import { Tabs } from "../components/stateless/Tabs";
 import { UnitSettings } from "../components/UnitSettings";
 import { Suspense } from "../components/stateless/Suspense";
 

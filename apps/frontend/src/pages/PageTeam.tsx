@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
-import { type Tab, Tabs } from "../components/Tabs";
+import { type Tab, Tabs } from "../components/stateless/Tabs";
 import { TeamMembers } from "../components/TeamMembers";
 import { TeamInvites } from "../components/TeamInvites";
 import { TeamLeaveSchedule } from "../components/TeamLeaveSchedule";

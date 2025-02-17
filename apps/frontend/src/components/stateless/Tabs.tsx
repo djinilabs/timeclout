@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren, useCallback, useEffect, useMemo } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import { classNames } from "../utils/classNames";
-import { Suspense } from "./stateless/Suspense";
+import { classNames } from "../../utils/classNames";
+import { Suspense } from "./Suspense";
 
 export interface Tab {
   name: string;
