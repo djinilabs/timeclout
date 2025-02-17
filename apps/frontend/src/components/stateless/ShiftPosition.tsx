@@ -26,6 +26,7 @@ export interface ShiftPositionProps {
   hasCopiedShiftPosition?: boolean;
   pasteShiftPositionFromClipboard?: (day: string) => void;
   deleteShiftPosition?: (pk: string, sk: string) => void;
+  lastRow?: boolean;
 }
 
 const toMinutes = ([hours, minutes]: [number, number]) => {
@@ -47,6 +48,7 @@ export const ShiftPosition = memo(
     hasCopiedShiftPosition,
     pasteShiftPositionFromClipboard,
     deleteShiftPosition,
+    lastRow,
   }: ShiftPositionProps) => {
     const { schedules } = shiftPosition;
     const startTime = toMinutes(
@@ -104,7 +106,7 @@ export const ShiftPosition = memo(
             e.dataTransfer.clearData();
           }}
           className={classNames(
-            "rounded group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full py-1",
+            "rounded group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full",
             shiftPosition.fake && "opacity-50",
             "hover:ring-2 hover:ring-gray-200",
             "outline-none"
@@ -116,7 +118,8 @@ export const ShiftPosition = memo(
             border: shiftPosition.color
               ? `${focus ? "2" : "1"}px solid ${colors[shiftPosition.color]}${focus ? "ff" : "22"}`
               : undefined,
-            padding: focus ? "-4px" : "-2px",
+            borderBottom:
+              focus || lastRow ? undefined : `1px solid rgb(243 244 246)`,
           }}
         >
           <Menu

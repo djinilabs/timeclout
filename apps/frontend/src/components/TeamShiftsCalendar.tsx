@@ -269,8 +269,9 @@ export const TeamShiftsCalendar = () => {
           if (!shiftPositions && !leaves) {
             return null;
           }
-          const rowCount: number | undefined =
-            maxRowsPerWeekNumber[new DayDate(day.date).getWeekNumber()];
+          const weekNumber = new DayDate(day.date).getWeekNumber();
+          const rowCount: number | undefined = maxRowsPerWeekNumber[weekNumber];
+          const leaveRowCount = maxLeaveRowsPerWeekNumber[weekNumber] ?? 0;
           return (
             <div
               className={classNames("h-full w-full grid")}
@@ -308,9 +309,15 @@ export const TeamShiftsCalendar = () => {
                   </div>
                 </div>
               ))}
+              {Array.from({
+                length: leaveRowCount - (leaves?.length ?? 0),
+              }).map((_, leaveIndex) => (
+                <div key={`leave-${leaveIndex}`} className="h-full w-full" />
+              ))}
               {shiftPositions?.map((shiftPosition, shiftPositionIndex) => (
                 <div key={shiftPosition.sk} className="row-span-2">
                   <ShiftPosition
+                    lastRow={shiftPositionIndex === shiftPositions.length - 1}
                     focus={
                       (focusedShiftPosition &&
                         focusedShiftPosition == shiftPosition) ||

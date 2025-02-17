@@ -220,7 +220,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                     day.isCurrentMonth && !day.isToday && "text-gray-900",
 
                     !day.isCurrentMonth && !day.isToday && "text-gray-500",
-                    "flex flex-col py-2 min-h-[8rem]"
+                    "flex flex-col min-h-[8rem] pt-2"
                   )}
                 >
                   <time dateTime={day.date} className="ml-auto pr-2">
