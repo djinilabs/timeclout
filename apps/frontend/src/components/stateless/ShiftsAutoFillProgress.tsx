@@ -190,8 +190,8 @@ export const ShiftsAutoFillProgress = ({
               ))}
             </>
           )}
-          {tab.href === "stats" && (
-            <ShiftAutoFillSolutionDetailedStats progress={progress} />
+          {tab.href === "stats" && topSolution && (
+            <ShiftAutoFillSolutionDetailedStats schedule={topSolution} />
           )}
         </Tabs>
       </div>

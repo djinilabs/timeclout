@@ -1,115 +1,185 @@
 import { useMemo } from "react";
-import { type SchedulerState } from "@/scheduler";
-import { PercentageStatCard } from "./PercentageStatCard";
+import { Slot, SlotWorker, type ScoredShiftSchedule } from "@/scheduler";
+import { ResponsiveBar } from "@nivo/bar";
+import { Avatar } from "./Avatar";
 
 export interface ShiftAutoFillSolutionDetailedStatsProps {
-  progress: SchedulerState;
+  schedule: ScoredShiftSchedule;
 }
 
 export const ShiftAutoFillSolutionDetailedStats = ({
-  progress,
+  schedule,
 }: ShiftAutoFillSolutionDetailedStatsProps) => {
-  const topSolution = progress.topSolutions[0];
+  const { schedule: shiftSchedule } = schedule;
 
-  const stats = useMemo(() => {
-    return [
-      { name: "Cycle count", stat: progress.cycleCount.toLocaleString() },
-      { name: "Computed shifts", stat: progress.computed.toLocaleString() },
-      {
-        name: "Top score",
-        stat: (
-          <PercentageStatCard
-            key="top-score"
-            name="Top score"
-            value={Math.round((1 - (topSolution?.score ?? 0)) * 100)}
-          />
-        ),
-      },
-    ];
-  }, [progress, topSolution]);
+  const { workerById, inconvenienceByWorker, expectedInconvenience } =
+    useMemo(() => {
+      // Group shifts by worker
+      const workerShifts = shiftSchedule.shifts.reduce(
+        (acc, shift) => {
+          const workerPk = shift.assigned.pk;
+          if (!acc[workerPk]) {
+            acc[workerPk] = [];
+          }
+          acc[workerPk].push(shift.slot);
+          return acc;
+        },
+        {} as Record<string, Slot[]>
+      );
 
-  const discardedStats = useMemo(() => {
-    const total = Array.from(progress.discardedReasons.values()).reduce(
-      (sum, count) => sum + count,
-      0
-    );
+      // calculate expected inconvenience
+      // Calculate total inconvenience across all slots
+      const totalInconvenience = Object.values(workerShifts).reduce(
+        (acc, slots) =>
+          acc +
+          slots.reduce(
+            (slotAcc, slot) =>
+              slotAcc +
+              slot.workHours.reduce(
+                (hourAcc, workHour) =>
+                  hourAcc +
+                  (workHour.end - workHour.start) *
+                    workHour.inconvenienceMultiplier,
+                0
+              ),
+            0
+          ),
+        0
+      );
 
-    return Array.from(progress.discardedReasons.entries()).map(
-      ([reason, count]) => ({
-        name: reason,
-        stat: `${count.toLocaleString()} (${Math.round(
-          (count / total) * 100
-        )}%)`,
-      })
-    );
-  }, [progress.discardedReasons]);
+      // Calculate expected inconvenience per worker
+      const expectedInconvenience =
+        totalInconvenience / Object.keys(workerShifts).length;
 
-  const topSolutionStats = useMemo(() => {
-    return topSolution?.heuristicScores.map((heuristic) => ({
-      name: heuristic.name,
-      stat: Math.round((1 - heuristic.score) * 100),
-    }));
-  }, [topSolution]);
+      // Calculate total inconvenience per worker
+      const inconvenienceByWorker = Object.entries(workerShifts).map(
+        ([workerPk, slots]) => ({
+          workerPk,
+          totalInconvenience: slots.reduce(
+            (acc, slot) =>
+              acc +
+              slot.workHours.reduce(
+                (sum, workHour) =>
+                  sum +
+                  (workHour.end - workHour.start) *
+                    workHour.inconvenienceMultiplier,
+                0
+              ),
+            0
+          ),
+          numShifts: slots.length,
+        })
+      );
+
+      // Collect worker info by id
+      const workerById = shiftSchedule.shifts.reduce(
+        (acc, shift) => {
+          acc[shift.assigned.pk] = shift.assigned;
+          return acc;
+        },
+        {} as Record<string, SlotWorker>
+      );
+
+      return {
+        expectedInconvenience,
+        inconvenienceByWorker,
+        workerById,
+      };
+    }, [shiftSchedule]);
+
+  const maxDeviation = Math.max(
+    ...inconvenienceByWorker.map((w) =>
+      Math.abs(w.totalInconvenience - expectedInconvenience)
+    )
+  );
 
   return (
-    <div className="mt-5">
-      <h3 className="text-base font-semibold text-gray-900">
-        Auto-fill progress
-      </h3>
-      <div>
-        <dl className="mt-5 grid grid-cols-1 gap-5">
-          {stats.map((item) =>
-            typeof item.stat === "string" ? (
-              <div
-                key={item.name}
-                className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
-              >
-                <dt className="truncate text-sm font-medium text-gray-500">
-                  {item.name}
-                </dt>
-                <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-                  {item.stat}
-                </dd>
-              </div>
-            ) : (
-              item.stat
-            )
-          )}
-        </dl>
+    <div className="flex gap-4">
+      <div
+        className="w-full"
+        style={{ height: `${inconvenienceByWorker.length * 100}px` }}
+      >
+        <ResponsiveBar
+          labelTextColor="black"
+          label={({ data }) => {
+            const deviationPercent = (
+              (data.deviation / expectedInconvenience) *
+              100
+            ).toFixed(1);
+            return `${data.deviation >= 0 ? "+" : ""}${deviationPercent}%`;
+          }}
+          minValue={-maxDeviation}
+          maxValue={maxDeviation}
+          data={inconvenienceByWorker.map((worker) => ({
+            worker: worker.workerPk,
+            deviation: worker.totalInconvenience - expectedInconvenience,
+          }))}
+          keys={["deviation"]}
+          indexBy="worker"
+          layout="horizontal"
+          margin={{ top: 50, right: 50, bottom: 50, left: 120 }}
+          colors={({ data }) => {
+            const deviation = Math.abs(data.deviation);
+
+            const ratio = deviation / maxDeviation;
+            // Use teal color scale from light to dark based on ratio
+            const tealBase = 180; // Teal hue
+            const lightness = 80 - ratio * 40; // Vary from 80% to 30% lightness
+            return `hsl(${tealBase}, 50%, ${lightness}%)`;
+          }}
+          axisLeft={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: "Worker",
+            legendPosition: "middle",
+            legendOffset: -100,
+            renderTick: (tick) => {
+              const worker = workerById[tick.value];
+              return (
+                <g transform={`translate(${tick.x - 20},${tick.y})`}>
+                  <foreignObject x="-48" y="-12" width="200" height="60">
+                    <div className="flex gap-2 flex-col">
+                      <Avatar {...worker} size={24} />
+                      <span className="text-tiny">{worker.name}</span>
+                    </div>
+                  </foreignObject>
+                  <text
+                    x="-52"
+                    y="4"
+                    textAnchor="end"
+                    dominantBaseline="middle"
+                    style={{ fill: "rgb(102, 102, 102)", fontSize: "12px" }}
+                  >
+                    {tick.value.name}
+                  </text>
+                </g>
+              );
+            },
+          }}
+          axisBottom={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: "Inconvenience:Deviation from Expected",
+            legendPosition: "middle",
+            legendOffset: 40,
+          }}
+          markers={[
+            {
+              axis: "x",
+              value: 0,
+              lineStyle: { stroke: "#b0b0b0", strokeWidth: 1 },
+              legend: "",
+              legendPosition: "top",
+            },
+          ]}
+          labelSkipWidth={12}
+          labelSkipHeight={12}
+          role="application"
+          ariaLabel="Worker inconvenience deviation chart"
+        />
       </div>
-      {discardedStats.length > 0 && (
-        <div className="mt-5">
-          <h3 className="text-base font-semibold text-gray-900">
-            Discarded Schedules
-          </h3>
-          <dl className="mt-5 grid grid-cols-1 gap-5">
-            {discardedStats.map((item) => (
-              <div
-                key={item.name}
-                className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
-              >
-                <dt className="truncate text-sm font-medium text-gray-500">
-                  {item.name}
-                </dt>
-                <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-                  {item.stat}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      )}
-      <div className="mt-5"></div>
-      <h3 className="text-base font-semibold text-gray-900">Top Solution</h3>
-      <dl className="mt-5 grid grid-cols-1 gap-5">
-        {topSolutionStats?.map((item) => (
-          <PercentageStatCard
-            key={item.name}
-            name={item.name}
-            value={item.stat}
-          />
-        ))}
-      </dl>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { fetchExchange, createClient as urqlCreateClient } from "urql";
 import { cacheExchange, Data, Entity } from "@urql/exchange-graphcache";
 import merge from "deepmerge";
 import { type Session } from "next-auth";
+import { ShiftsAutoFillParams } from "libs/graphql/src/schema/shifts_autofill/resolvers/ShiftsAutoFillParams";
 
 type WithSession = {
   session: Session;
@@ -34,6 +35,7 @@ const defaultClientOpts = (): ClientOptions => ({
         ShiftPosition: (s: Data) => `${s.pk}:${s.sk}`,
         AutoFillWorkHour: () => null,
         AutoFillSlotWorker: () => null,
+        ShiftsAutoFillParams: () => null,
       },
       updates: {
         Mutation: {
