@@ -14,6 +14,7 @@ import {
   type ShiftPositionWithFake,
 } from "../../hooks/useTeamShiftPositionsMap";
 import { Popover } from "./Popover";
+import { toMinutes } from "../../utils/toMinutes";
 
 export interface ShiftPositionProps {
   shiftPosition: ShiftPositionWithRowSpan;
@@ -27,11 +28,8 @@ export interface ShiftPositionProps {
   pasteShiftPositionFromClipboard?: (day: string) => void;
   deleteShiftPosition?: (pk: string, sk: string) => void;
   lastRow?: boolean;
+  conflicts?: boolean;
 }
-
-const toMinutes = ([hours, minutes]: [number, number]) => {
-  return hours * 60 + minutes;
-};
 
 const isValidNumber = (value: number | undefined) =>
   value && Number.isFinite(value) && !Number.isNaN(value);
@@ -49,6 +47,7 @@ export const ShiftPosition = memo(
     pasteShiftPositionFromClipboard,
     deleteShiftPosition,
     lastRow,
+    conflicts,
   }: ShiftPositionProps) => {
     const { schedules } = shiftPosition;
     const startTime = toMinutes(
@@ -109,7 +108,9 @@ export const ShiftPosition = memo(
             "rounded group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full",
             shiftPosition.fake && "opacity-50",
             "hover:ring-2 hover:ring-gray-200",
-            "outline-none"
+            "outline-none",
+            conflicts &&
+              "bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#ef444422_10px,#ef444422_20px)]"
           )}
           style={{
             backgroundColor: shiftPosition.color

@@ -23,6 +23,7 @@ import { useTeamLeaveSchedule } from "../hooks/useTeamLeaveSchedule";
 import { Avatar } from "./stateless/Avatar";
 import { useLocalPreference } from "../hooks/useLocalPreference";
 import { LabeledSwitch } from "./stateless/LabeledSwitch";
+import { toMinutes } from "../utils/toMinutes";
 
 export const TeamShiftsCalendar = () => {
   const { team, company } = useParams();
@@ -317,28 +318,37 @@ export const TeamShiftsCalendar = () => {
                   className="h-full w-full row-span-2"
                 />
               ))}
-              {shiftPositions?.map((shiftPosition, shiftPositionIndex) => (
-                <div key={shiftPosition.sk} className="row-span-3">
-                  <ShiftPosition
-                    lastRow={shiftPositionIndex === shiftPositions.length - 1}
-                    focus={
-                      (focusedShiftPosition &&
-                        focusedShiftPosition == shiftPosition) ||
-                      false
-                    }
-                    setFocusedShiftPosition={setFocusedShiftPosition}
-                    shiftPosition={shiftPosition}
-                    tabIndex={dayIndex * 100 + shiftPositionIndex}
-                    handleEditShiftPosition={handleEditShiftPosition}
-                    copyShiftPositionToClipboard={copyShiftPositionToClipboard}
-                    hasCopiedShiftPosition={hasCopiedShiftPosition}
-                    pasteShiftPositionFromClipboard={
-                      pasteShiftPositionFromClipboard
-                    }
-                    deleteShiftPosition={deleteShiftPosition}
-                  />
-                </div>
-              ))}
+              {shiftPositions?.map((shiftPosition, shiftPositionIndex) => {
+                const hasConflict = leaves?.some(
+                  (leave) => leave.user.pk === shiftPosition.assignedTo?.pk
+                );
+
+                return (
+                  <div key={shiftPosition.sk} className="row-span-3">
+                    <ShiftPosition
+                      lastRow={shiftPositionIndex === shiftPositions.length - 1}
+                      focus={
+                        (focusedShiftPosition &&
+                          focusedShiftPosition == shiftPosition) ||
+                        false
+                      }
+                      setFocusedShiftPosition={setFocusedShiftPosition}
+                      shiftPosition={shiftPosition}
+                      tabIndex={dayIndex * 100 + shiftPositionIndex}
+                      handleEditShiftPosition={handleEditShiftPosition}
+                      copyShiftPositionToClipboard={
+                        copyShiftPositionToClipboard
+                      }
+                      hasCopiedShiftPosition={hasCopiedShiftPosition}
+                      pasteShiftPositionFromClipboard={
+                        pasteShiftPositionFromClipboard
+                      }
+                      deleteShiftPosition={deleteShiftPosition}
+                      conflicts={hasConflict}
+                    />
+                  </div>
+                );
+              })}
             </div>
           );
         }}

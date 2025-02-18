@@ -1,8 +1,7 @@
 import { DayDate } from "@/day-date";
 import { type ShiftPosition } from "libs/graphql/src/types.generated";
 import { type TimeSchedule } from "../components/stateless/TimeScheduleVisualizer";
-
-const toMinutes = ([hours, minutes]: [number, number]) => hours * 60 + minutes;
+import { toMinutes } from "./toMinutes";
 
 const minutesInDay = 24 * 60;
 

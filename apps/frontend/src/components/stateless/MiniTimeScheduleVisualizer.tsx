@@ -1,4 +1,5 @@
 import { memo, useMemo } from "react";
+import { toMinutes } from "../../utils/toMinutes";
 
 export interface TimeSchedule {
   startHourMinutes: [number, number];
@@ -9,10 +10,6 @@ export interface TimeSchedule {
 export interface TimeScheduleVisualizerProps {
   schedules: TimeSchedule[];
 }
-
-const toMinutes = ([hours, minutes]: [number, number]) => {
-  return hours * 60 + minutes;
-};
 
 const getPercentageOfDays = (schedules: TimeSchedule[]) => {
   const finalHour =
