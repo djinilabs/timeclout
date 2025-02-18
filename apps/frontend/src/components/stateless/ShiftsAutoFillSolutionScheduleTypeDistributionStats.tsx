@@ -1,6 +1,7 @@
 import { type ScoredShiftSchedule } from "@/scheduler";
 import { BarDatum, ResponsiveBar } from "@nivo/bar";
 import { Avatar } from "./Avatar";
+import { useMemo } from "react";
 
 export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
   schedule,
@@ -8,46 +9,57 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
   schedule: ScoredShiftSchedule;
 }) => {
   const { schedule: shiftSchedule } = schedule;
-  // Get unique type names from shifts
-  const typeNames = [
-    ...new Set(shiftSchedule.shifts.map((shift) => shift.slot.typeName)),
-  ];
 
-  // Count assignments per worker per type
-  const workerTypeAssignments = shiftSchedule.shifts.reduce(
-    (acc, shift) => {
-      if (!shift.assigned) return acc;
+  const { typeNames, workerStats, workerById } = useMemo(() => {
+    // Get unique type names from shifts
+    const typeNames = [
+      ...new Set(shiftSchedule.shifts.map((shift) => shift.slot.typeName)),
+    ];
 
-      if (!acc[shift.assigned.pk]) {
-        acc[shift.assigned.pk] = {
-          workerName: shift.assigned.pk,
-          ...typeNames.reduce(
-            (types, type) => ({ ...types, [type]: 0 }),
-            {} as Record<string, number>
-          ),
-        };
-      }
+    // Count assignments per worker per type
+    const workerTypeAssignments = shiftSchedule.shifts.reduce(
+      (acc, shift) => {
+        if (!shift.assigned) return acc;
 
-      (acc[shift.assigned.pk] as Record<string, number>)[shift.slot.typeName]++;
-      return acc;
-    },
-    {} as Record<string, unknown>
-  );
+        if (!acc[shift.assigned.pk]) {
+          acc[shift.assigned.pk] = {
+            workerName: shift.assigned.pk,
+            ...typeNames.reduce(
+              (types, type) => ({ ...types, [type]: 0 }),
+              {} as Record<string, number>
+            ),
+          };
+        }
 
-  console.log({ workerTypeAssignments });
+        (acc[shift.assigned.pk] as Record<string, number>)[
+          shift.slot.typeName
+        ]++;
+        return acc;
+      },
+      {} as Record<string, unknown>
+    );
 
-  const workerStats = Object.values(workerTypeAssignments);
+    console.log({ workerTypeAssignments });
 
-  // Collect worker info by id
-  const workerById = shiftSchedule.shifts.reduce(
-    (acc, shift) => {
-      if (shift.assigned) {
-        acc[shift.assigned.pk] = shift.assigned;
-      }
-      return acc;
-    },
-    {} as Record<string, (typeof shiftSchedule.shifts)[number]["assigned"]>
-  );
+    const workerStats = Object.values(workerTypeAssignments);
+
+    // Collect worker info by id
+    const workerById = shiftSchedule.shifts.reduce(
+      (acc, shift) => {
+        if (shift.assigned) {
+          acc[shift.assigned.pk] = shift.assigned;
+        }
+        return acc;
+      },
+      {} as Record<string, (typeof shiftSchedule.shifts)[number]["assigned"]>
+    );
+
+    return {
+      typeNames,
+      workerStats,
+      workerById,
+    };
+  }, [shiftSchedule]);
 
   console.log({ workerStats });
 
