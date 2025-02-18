@@ -319,9 +319,41 @@ export const TeamShiftsCalendar = () => {
                 />
               ))}
               {shiftPositions?.map((shiftPosition, shiftPositionIndex) => {
-                const hasConflict = leaves?.some(
-                  (leave) => leave.user.pk === shiftPosition.assignedTo?.pk
-                );
+                const hasConflict =
+                  leaves?.some(
+                    (leave) => leave.user.pk === shiftPosition.assignedTo?.pk
+                  ) ||
+                  shiftPosition.schedules.some((schedule) => {
+                    const startMinutes = toMinutes(
+                      schedule.startHourMinutes as [number, number]
+                    );
+                    const endMinutes = toMinutes(
+                      schedule.endHourMinutes as [number, number]
+                    );
+                    return shiftPositions.some((otherShiftPosition) => {
+                      if (
+                        otherShiftPosition.sk === shiftPosition.sk ||
+                        otherShiftPosition.assignedTo?.pk !==
+                          shiftPosition.assignedTo?.pk
+                      ) {
+                        return false;
+                      }
+                      return otherShiftPosition.schedules.some(
+                        (otherSchedule) => {
+                          const otherStartMinutes = toMinutes(
+                            otherSchedule.startHourMinutes as [number, number]
+                          );
+                          const otherEndMinutes = toMinutes(
+                            otherSchedule.endHourMinutes as [number, number]
+                          );
+                          return (
+                            startMinutes < otherEndMinutes &&
+                            endMinutes > otherStartMinutes
+                          );
+                        }
+                      );
+                    });
+                  });
 
                 return (
                   <div key={shiftPosition.sk} className="row-span-3">
