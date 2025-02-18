@@ -19,6 +19,7 @@ type AutoFillSlot {
   id: ID!
   requiredQualifications: [String!]!
   startsOnDay: String!
+  typeName: String!
   workHours: [AutoFillWorkHour!]!
 }
 

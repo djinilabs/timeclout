@@ -897,6 +897,18 @@ video {
   display: none;
 }
 
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-auto {
+  aspect-ratio: auto;
+}
+
+.aspect-\[2\/1\] {
+  aspect-ratio: 2/1;
+}
+
 .size-0\.5 {
   width: 0.125rem;
   height: 0.125rem;
@@ -1450,6 +1462,10 @@ video {
 
 .whitespace-nowrap {
   white-space: nowrap;
+}
+
+.text-nowrap {
+  text-wrap: nowrap;
 }
 
 .text-pretty {

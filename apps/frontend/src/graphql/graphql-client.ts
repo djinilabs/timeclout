@@ -3,7 +3,6 @@ import { fetchExchange, createClient as urqlCreateClient } from "urql";
 import { cacheExchange, Data, Entity } from "@urql/exchange-graphcache";
 import merge from "deepmerge";
 import { type Session } from "next-auth";
-import { ShiftsAutoFillParams } from "libs/graphql/src/schema/shifts_autofill/resolvers/ShiftsAutoFillParams";
 
 type WithSession = {
   session: Session;

@@ -55,6 +55,7 @@ export type AutoFillSlot = {
   id: Scalars["ID"]["output"];
   requiredQualifications: Array<Scalars["String"]["output"]>;
   startsOnDay: Scalars["String"]["output"];
+  typeName: Scalars["String"]["output"];
   workHours: Array<AutoFillWorkHour>;
 };
 

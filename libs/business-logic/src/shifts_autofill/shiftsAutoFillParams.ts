@@ -34,6 +34,7 @@ export interface AutoFillSlot {
   startsOnDay: string;
   assignedWorkerPk: ResourceRef<"users"> | null;
   requiredQualifications: string[];
+  typeName: string;
 }
 
 export interface ShiftsAutoFillParams {
@@ -152,6 +153,7 @@ export const shiftsAutoFillParams = async (
         ? getResourceRef(position.assignedTo, "users")
         : null,
       requiredQualifications: position.requiredSkills,
+      typeName: position.name ?? "",
     };
   });
 

@@ -42,6 +42,7 @@ export type AutoFillSlot = {
   id: Scalars['ID']['output'];
   requiredQualifications: Array<Scalars['String']['output']>;
   startsOnDay: Scalars['String']['output'];
+  typeName: Scalars['String']['output'];
   workHours: Array<AutoFillWorkHour>;
 };
 
@@ -847,6 +848,7 @@ export type AutoFillSlotResolvers<ContextType = any, ParentType extends Resolver
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   requiredQualifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   startsOnDay?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  typeName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   workHours?: Resolver<Array<ResolversTypes['AutoFillWorkHour']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

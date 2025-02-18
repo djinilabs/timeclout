@@ -23,6 +23,7 @@ query shiftsAutoFillParams($input: AutoFillParamsInput!) {
       startsOnDay
       requiredQualifications
       assignedWorkerPk
+      typeName
     }
   }
 }

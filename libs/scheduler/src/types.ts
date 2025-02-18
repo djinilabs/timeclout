@@ -26,6 +26,7 @@ export interface Slot {
   startsOnDay: string;
   assignedWorkerPk?: string | null;
   requiredQualifications: string[];
+  typeName: string;
 }
 
 export type WorkSlots = Slot[];

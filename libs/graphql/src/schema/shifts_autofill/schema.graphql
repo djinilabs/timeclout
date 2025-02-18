@@ -26,6 +26,7 @@ type AutoFillSlot {
   startsOnDay: String!
   requiredQualifications: [String!]!
   assignedWorkerPk: ID
+  typeName: String!
 }
 
 type ShiftsAutoFillParams {
