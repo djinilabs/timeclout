@@ -9,5 +9,5 @@ export const RequiresSession: FC<PropsWithChildren> = ({ children }) => {
       encodeURIComponent(window.location.href);
     return null;
   }
-  return <>{children}</>;
+  return children;
 };

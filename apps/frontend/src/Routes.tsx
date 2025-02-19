@@ -25,11 +25,11 @@ export const AppRoutes: FC = () => {
         path="/"
         element={
           <Suspense>
-            <RequiresSelfSettings>
-              <RequiresSession>
+            <RequiresSession>
+              <RequiresSelfSettings>
                 <Root />
-              </RequiresSession>
-            </RequiresSelfSettings>
+              </RequiresSelfSettings>
+            </RequiresSession>
           </Suspense>
         }
       />
