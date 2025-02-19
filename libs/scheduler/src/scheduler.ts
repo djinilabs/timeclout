@@ -1,4 +1,4 @@
-import { getDefined } from "@/utils";
+import { getDefined, timeout } from "@/utils";
 import { evaluateSchedule } from "./evaluateSchedule";
 import { isScheduleValid } from "./rules";
 import { RuleName } from "./rules/types";
@@ -62,6 +62,7 @@ export class Scheduler {
   private discardedReasons = new Map<string, number>();
   private cycleCount = 0;
   private computed = 0;
+  private lastBreaks = 0;
 
   constructor(options: SchedulerOptions) {
     console.log("Scheduler constructor %j", options);
@@ -146,12 +147,19 @@ export class Scheduler {
     return () => clearInterval(interval);
   }
 
+  timeSinceLastBreak() {
+    return Date.now() - this.lastBreaks;
+  }
+
   async start() {
     this._stop = false;
     while (!this._stop) {
       await this.cycle();
-      if (this.cycleCount % 1000 === 0) {
-        await new Promise((resolve) => setTimeout(resolve, 100));
+      if (this.cycleCount % 10 === 0) {
+        if (this.timeSinceLastBreak() > 1000) {
+          this.lastBreaks = Date.now();
+          await timeout(20);
+        }
       }
     }
   }

@@ -88,6 +88,7 @@ export const ShiftsAutoFillSolutionTimeDistributionStats = ({
         minValue="auto"
         maxValue="auto"
         colors="#14b8a6"
+        borderRadius={4}
         axisLeft={{
           tickSize: 5,
           tickPadding: 5,

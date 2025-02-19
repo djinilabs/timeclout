@@ -70,6 +70,7 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
         keys={typeNames}
         indexBy="workerName"
         margin={{ top: 50, right: 130, bottom: 120, left: 60 }}
+        borderRadius={4}
         layout="vertical"
         groupMode="stacked"
         colors={(bar) => {

@@ -124,6 +124,7 @@ export const ShiftsAutoFillSolutionInconvenienceDeviationStats = ({
           const lightness = 80 - ratio * 40; // Vary from 80% to 30% lightness
           return `hsl(${tealBase}, 50%, ${lightness}%)`;
         }}
+        borderRadius={4}
         axisLeft={{
           tickSize: 5,
           tickPadding: 5,
