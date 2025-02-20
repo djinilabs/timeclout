@@ -104,7 +104,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                     type="number"
                     value={params.maximumIntervalBetweenShifts}
                     min={1}
-                    className="w-16 text-right"
+                    className="w-16 text-center"
                     disabled={!params.requireMaximumIntervalBetweenShifts}
                     onChange={(e) =>
                       setProp("maximumIntervalBetweenShifts")(
@@ -131,7 +131,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                     type="number"
                     value={params.minimumNumberOfShiftsPerWeekInStandardWorkday}
                     min={1}
-                    className="w-16 text-right"
+                    className="w-16 text-center"
                     disabled={
                       !params.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
                     }
@@ -191,7 +191,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                                 };
                                 setProp("minimumRestSlotsAfterShift")(newRules);
                               }}
-                              className="w-16 text-right"
+                              className="w-16 text-center"
                             />
                             <span className="text-sm text-gray-600">
                               require
@@ -211,7 +211,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                                 };
                                 setProp("minimumRestSlotsAfterShift")(newRules);
                               }}
-                              className="w-16 text-right"
+                              className="w-16 text-center"
                             />
                             <span className="text-sm text-gray-600">
                               hours rest

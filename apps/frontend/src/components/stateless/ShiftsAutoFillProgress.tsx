@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import { ShiftAutoFillSolutionStats } from "./ShiftAutoFillSolutionStats";
 import { Tabs } from "./Tabs";
 import { ShiftAutoFillSolutionDetailedStats } from "./ShiftAutoFillSolutionDetailedStats";
+import { Attention } from "./Attention";
 
 export interface ShiftsAutoFillProgressProps {
   startDate?: DayDate;
@@ -132,6 +133,43 @@ export const ShiftsAutoFillProgress = ({
 
   const [tab, setTab] = useState(tabs[0]);
 
+  // problematic slots
+  const { computed, problemInSlotIds, discardedReasons } = progress;
+
+  const totalDiscarded = useMemo(() => {
+    return Array.from(discardedReasons.values()).reduce(
+      (acc, count) => acc + count,
+      0
+    );
+  }, [discardedReasons]);
+
+  console.log({ problemInSlotIds });
+  const problemInShiftPosition = useMemo(() => {
+    if (computed > totalDiscarded) {
+      return undefined;
+    }
+    const mostProblematicShiftPositionId = Array.from(problemInSlotIds).reduce<
+      [number, string]
+    >(
+      ([maxCount, maxId], [id, count]) => {
+        if (count > maxCount) {
+          return [count, id];
+        }
+        return [maxCount, maxId];
+      },
+      [0, ""]
+    )?.[1];
+    return shiftPositions.find(
+      (shiftPosition) => shiftPosition.sk === mostProblematicShiftPositionId
+    );
+  }, [computed, problemInSlotIds, shiftPositions, totalDiscarded]);
+
+  const problemInShiftPositionDay = useMemo(() => {
+    return problemInShiftPosition?.day
+      ? new DayDate(problemInShiftPosition?.day).toHumanString()
+      : undefined;
+  }, [problemInShiftPosition]);
+
   return (
     <div className="grid grid-cols-5 gap-5">
       <div className="col-span-4">
@@ -147,6 +185,30 @@ export const ShiftsAutoFillProgress = ({
             </Button>
           )}
         </div>
+        {problemInSlotIds.size > 0 && (
+          <div className="mt-5">
+            <Attention title="Attention needed">
+              <p>
+                There are {problemInSlotIds.size} conflict(s)s when trying to
+                search for a solution, starting on day{" "}
+                {problemInShiftPositionDay}.
+              </p>
+              <p>
+                The solution has been discarded because of the following
+                reasons:
+                <ul className="list-disc list-inside">
+                  {Array.from(discardedReasons.entries()).map(
+                    ([reason, count]) => (
+                      <li key={reason}>
+                        {reason}: {count}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </p>
+            </Attention>
+          </div>
+        )}
 
         <Tabs
           onChange={setTab}
@@ -180,6 +242,7 @@ export const ShiftsAutoFillProgress = ({
                             <ShiftPosition
                               key={shiftPosition.sk}
                               shiftPosition={shiftPosition}
+                              conflicts={problemInSlotIds.has(shiftPosition.sk)}
                             />
                           ))}
                         </div>

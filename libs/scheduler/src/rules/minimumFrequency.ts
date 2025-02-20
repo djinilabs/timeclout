@@ -17,39 +17,44 @@ const workerUnavailablityInSecondsBetween = (
   }, 0);
 };
 
-export const minimumFrequency: ValidationRule = (
-  schedule,
-  workers,
-  minimumFrequency
-) => {
-  if (typeof minimumFrequency !== "number") {
-    throw new TypeError("minimumFrequency must be a number");
-  }
-  const previousShifts = new Map(workers.map((worker) => [worker, 0]));
-
-  const isShiftValid = (worker: SlotWorker, startTime: number) => {
-    const previousShiftStartTime = previousShifts.get(worker);
-    if (
-      previousShiftStartTime != null &&
-      startTime -
-        previousShiftStartTime -
-        workerUnavailablityInSecondsBetween(
-          worker,
-          previousShiftStartTime,
-          startTime
-        ) >
-        minimumFrequency
-    ) {
-      return false;
+export const minimumFrequency: ValidationRule = {
+  id: "minimumFrequency",
+  name: (ruleOptions) => {
+    if (typeof ruleOptions !== "number") {
+      throw new TypeError("minimumFrequency must be a number");
     }
-    return true;
-  };
-
-  for (const shift of schedule.shifts) {
-    if (!isShiftValid(shift.assigned, shift.slot.workHours[0].start)) {
-      return false;
+    return `Minimum Frequency of ${ruleOptions / 24 / 60} days`;
+  },
+  function: (schedule, workers, minimumFrequency) => {
+    if (typeof minimumFrequency !== "number") {
+      throw new TypeError("minimumFrequency must be a number");
     }
-    previousShifts.set(shift.assigned, shift.slot.workHours[0].start);
-  }
-  return true;
+    const previousShifts = new Map(workers.map((worker) => [worker, 0]));
+
+    const isShiftValid = (worker: SlotWorker, startTime: number) => {
+      const previousShiftStartTime = previousShifts.get(worker);
+      if (
+        previousShiftStartTime != null &&
+        startTime -
+          previousShiftStartTime -
+          workerUnavailablityInSecondsBetween(
+            worker,
+            previousShiftStartTime,
+            startTime
+          ) >
+          minimumFrequency
+      ) {
+        return false;
+      }
+      return true;
+    };
+
+    for (const shift of schedule.shifts) {
+      if (!isShiftValid(shift.assigned, shift.slot.workHours[0].start)) {
+        return [false, shift.slot.id];
+      }
+      previousShifts.set(shift.assigned, shift.slot.workHours[0].start);
+    }
+    return [true];
+  },
 };

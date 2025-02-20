@@ -15,14 +15,19 @@ export const isScheduleValid = (
   schedule: ShiftSchedule,
   workers: SlotWorker[],
   ruleOptions: Partial<Record<RuleName, unknown>>
-): [valid: true] | [valid: false, reason: string] => {
+): [valid: true] | [valid: false, reason: string, problemInSlotId?: string] => {
   for (const [ruleName, ruleValue] of Object.entries(ruleOptions)) {
-    const rule = rules.find((rule) => rule.name === ruleName);
+    const rule = rules.find((rule) => rule.id === ruleName);
     if (!rule) {
       throw new Error(`Rule ${ruleName} not found`);
     }
-    if (!rule(schedule, workers, ruleValue)) {
-      return [false, rule.name];
+    const [valid, problemInSlotId] = rule.function(
+      schedule,
+      workers,
+      ruleValue
+    );
+    if (!valid) {
+      return [false, rule.name(ruleValue), problemInSlotId];
     }
   }
   return [true];

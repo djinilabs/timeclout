@@ -63,8 +63,14 @@ export interface ScoredShiftSchedule {
   schedule: ShiftSchedule;
 }
 
-export type ValidationRule = (
+export type ValidationFunction = (
   schedule: ShiftSchedule,
   workers: SlotWorker[],
   ruleOptions: unknown
-) => boolean;
+) => [valid: boolean, problemInSlotId?: string];
+
+export type ValidationRule = {
+  id: string;
+  name: (ruleOptions: unknown) => string;
+  function: ValidationFunction;
+};

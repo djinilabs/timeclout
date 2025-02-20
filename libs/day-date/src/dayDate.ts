@@ -8,6 +8,21 @@ const weekDays = [
   "saturday",
 ] as const;
 
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+] as const;
+
 // fixes the date to be valid, since users can enter overflowing months or days (like [2025, -1, 32])
 const fixNumberDate = ([year, month, day]: [number, number, number]): [
   number,
@@ -109,6 +124,10 @@ export class DayDate {
     return this.date.getUTCMonth() + 1;
   }
 
+  getMonthName() {
+    return monthNames[this.date.getUTCMonth()];
+  }
+
   setMonth(month: number) {
     const newDate = new Date(this.date);
     newDate.setUTCMonth(month - 1);
@@ -203,6 +222,12 @@ export class DayDate {
 
   toString() {
     return this.date.toISOString().split("T")[0];
+  }
+
+  toHumanString() {
+    return (
+      this.getMonthName() + " " + this.getDayOfMonth() + ", " + this.getYear()
+    );
   }
 
   toDate() {

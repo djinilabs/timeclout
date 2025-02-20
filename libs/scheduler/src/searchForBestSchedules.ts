@@ -50,6 +50,7 @@ export const searchForBestSchedules = ({
   let computed = 0;
   let top: Array<ScoredShiftSchedule> = [];
   const discardedReasons = new Map<string, number>();
+  const problemInSlotIds = new Map<string, number>();
   const heuristics: ShiftScheduleHeuristicWithMultiplier[] = Object.entries(
     _heuristics
   ).map(([heuristicName, multiplier]) => ({
@@ -71,10 +72,20 @@ export const searchForBestSchedules = ({
         respectLeaveSchedule: true,
       });
 
-      const [valid, reason] = isScheduleValid(schedule, workers, rules);
+      const [valid, reason, problemInSlotId] = isScheduleValid(
+        schedule,
+        workers,
+        rules
+      );
       if (!valid) {
         discarded += 1;
         discardedReasons.set(reason, (discardedReasons.get(reason) ?? 0) + 1);
+        if (problemInSlotId) {
+          problemInSlotIds.set(
+            problemInSlotId,
+            (problemInSlotIds.get(problemInSlotId) ?? 0) + 1
+          );
+        }
         continue;
       }
       computed += 1;

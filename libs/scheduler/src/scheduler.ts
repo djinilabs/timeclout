@@ -19,6 +19,7 @@ export interface SchedulerSubscriptionOptions {
 export interface SchedulerState {
   cycleCount: number;
   discardedReasons: Map<string, number>;
+  problemInSlotIds: Map<string, number>;
   computed: number;
   topSolutions: ScoredShiftSchedule[];
 }
@@ -60,6 +61,7 @@ export class Scheduler {
 
   private topSolutions: ScoredShiftSchedule[] = [];
   private discardedReasons = new Map<string, number>();
+  private problemInSlotIds = new Map<string, number>();
   private cycleCount = 0;
   private computed = 0;
   private lastBreaks = 0;
@@ -98,7 +100,7 @@ export class Scheduler {
         respectLeaveSchedule: this.respectLeaveSchedule,
       });
 
-      const [valid, reason] = isScheduleValid(
+      const [valid, reason, problemInSlotId] = isScheduleValid(
         schedule,
         this.workers,
         this.rules
@@ -108,6 +110,12 @@ export class Scheduler {
           reason,
           (this.discardedReasons.get(reason) ?? 0) + 1
         );
+        if (problemInSlotId) {
+          this.problemInSlotIds.set(
+            problemInSlotId,
+            (this.problemInSlotIds.get(problemInSlotId) ?? 0) + 1
+          );
+        }
         return;
       }
       this.computed += 1;
@@ -139,6 +147,7 @@ export class Scheduler {
       listener({
         cycleCount: this.cycleCount,
         discardedReasons: this.discardedReasons,
+        problemInSlotIds: this.problemInSlotIds,
         computed: this.computed,
         topSolutions: this.topSolutions,
       });
