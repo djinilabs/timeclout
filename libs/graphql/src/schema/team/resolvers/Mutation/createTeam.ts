@@ -2,11 +2,11 @@ import type { MutationResolvers, Team } from "./../../../../types.generated";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 import { notFound } from "@hapi/boom";
+import { giveAuthorization } from "@/business-logic";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { nanoid } from "nanoid";
-import { giveAuthorization } from "../../../../auth/giveAuthorization";
 
-export const createTeam: NonNullable<MutationResolvers['createTeam']> = async (
+export const createTeam: NonNullable<MutationResolvers["createTeam"]> = async (
   _parent,
   arg,
   _ctx

@@ -1,7 +1,6 @@
 import { useMemo } from "react";
-import { BoxPlotDatum, ResponsiveBoxPlot } from "@nivo/boxplot";
-import { Slot, SlotWorker, type ScoredShiftSchedule } from "@/scheduler";
-import { ResponsiveBar } from "@nivo/bar";
+import { ResponsiveBoxPlot } from "@nivo/boxplot";
+import { type ScoredShiftSchedule } from "@/scheduler";
 import { Avatar } from "./Avatar";
 
 export const ShiftsAutoFillSolutionTimeDistributionStats = ({

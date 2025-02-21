@@ -1,24 +1,27 @@
 import { notFound } from "@hapi/boom";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
-import { ensureAuthorization } from "@/business-logic";
-import type {
-  MutationResolvers,
-  ResolversTypes,
-} from "./../../../../types.generated";
-import { requireSession } from "../../../../session/requireSession";
 import { getDefined } from "@/utils";
+import { ensureAuthorization } from "../auth/ensureAuthorization";
 
-export const acceptInvitation: NonNullable<
-  MutationResolvers["acceptInvitation"]
-> = async (_parent, arg, ctx) => {
-  const session = await requireSession(ctx);
+export interface AcceptInvitationArgs {
+  user: {
+    pk: string;
+    email: string;
+  };
+  secret: string;
+}
+
+export const acceptInvitation = async ({
+  user,
+  secret,
+}: AcceptInvitationArgs) => {
   const { invitation, entity } = await database();
   const invitations = await invitation.query({
     IndexName: "bySecret",
     KeyConditionExpression: "secret = :secret",
     ExpressionAttributeValues: {
-      ":secret": arg.secret,
+      ":secret": secret,
     },
   });
 
@@ -28,10 +31,7 @@ export const acceptInvitation: NonNullable<
 
   const userInvitation = getDefined(invitations[0]);
 
-  if (
-    userInvitation.sk !==
-    getDefined(session.user?.email, "User email is required")
-  ) {
+  if (userInvitation.sk !== user.email) {
     throw notFound("Invitation not found");
   }
 
@@ -41,10 +41,7 @@ export const acceptInvitation: NonNullable<
     throw notFound("Team not found");
   }
 
-  const userPk = resourceRef(
-    "users",
-    getDefined(session.user?.id, "User ID is required")
-  );
+  const userPk = resourceRef("users", user.pk);
 
   // get unit the team belongs to
   const unit = await entity.get(
@@ -92,5 +89,5 @@ export const acceptInvitation: NonNullable<
   // delete invitation
   await invitation.delete(userInvitation.pk, userInvitation.sk);
 
-  return userInvitation as unknown as Promise<ResolversTypes["Invitation"]>;
+  return userInvitation;
 };

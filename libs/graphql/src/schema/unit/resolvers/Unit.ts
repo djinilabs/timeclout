@@ -1,9 +1,9 @@
 import { database, PERMISSION_LEVELS } from "@/tables";
+import { getAuthorizedForResource } from "@/business-logic";
+import { getResourceRef } from "@/utils";
 import type { Team, UnitResolvers, User } from "./../../../types.generated";
 import { getAuthorized } from "../../../../src/auth/getAuthorized";
-import { getAuthorizedForResource } from "libs/graphql/src/auth/getAuthorizedForResource";
-import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
-import { getResourceRef } from "@/utils";
+import { ensureAuthorized } from "../../../../src/auth/ensureAuthorized";
 
 export const Unit: UnitResolvers = {
   createdBy: async (parent) => {

@@ -2,11 +2,11 @@ import { notFound } from "@hapi/boom";
 import { nanoid } from "nanoid";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
+import { giveAuthorization } from "@/business-logic";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
-import { giveAuthorization } from "../../../../auth/giveAuthorization";
 
-export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
+export const createUnit: NonNullable<MutationResolvers["createUnit"]> = async (
   _parent,
   arg,
   _ctx
