@@ -44,9 +44,9 @@ export const TeamMembers = () => {
       </div>
       <ul role="list" className="divide-y divide-gray-100">
         {teamMembers.map((person: User) => (
-          <li key={person.email} className="flex justify-between gap-x-6 py-5">
+          <li key={person.pk} className="flex justify-between gap-x-6 py-5">
             <div className="grid grid-cols-[auto_1fr_auto_auto] items-center w-full gap-x-6">
-              <Avatar email={person.email} emailMd5={person.emailMd5} />
+              <Avatar {...person} />
 
               <div className="min-w-0">
                 <p className="text-sm/6 font-semibold text-gray-900">
