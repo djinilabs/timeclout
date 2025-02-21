@@ -194,7 +194,7 @@ export const ShiftsAutoFillProgress = ({
                 {problemInShiftPositionDay}.
               </p>
               <p>
-                The solution has been discarded because of the following
+                Some solutions have been discarded because of the following
                 reasons:
                 <ul className="list-disc list-inside">
                   {Array.from(discardedReasons.entries()).map(

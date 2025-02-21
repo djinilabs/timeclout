@@ -4,7 +4,9 @@ import { resourceRef } from "@/utils";
 import type { MutationResolvers, User } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 
-export const updateMySettings: NonNullable<MutationResolvers['updateMySettings']> = async (_parent, args, ctx) => {
+export const updateMySettings: NonNullable<
+  MutationResolvers["updateMySettings"]
+> = async (_parent, args, ctx) => {
   const session = await requireSession(ctx);
   const userId = session.user?.id;
   if (!userId) {
@@ -12,7 +14,7 @@ export const updateMySettings: NonNullable<MutationResolvers['updateMySettings']
   }
   const { entity_settings } = await database();
   const userRef = resourceRef("users", userId);
-  const user = await entity_settings.get(userRef);
+  const user = await entity_settings.get(userRef, args.name);
   if (!user) {
     throw notFound("User not found");
   }
