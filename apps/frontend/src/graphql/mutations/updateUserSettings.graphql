@@ -1,0 +1,17 @@
+mutation UpdateUserSettings(
+  $teamPk: String!
+  $userPk: String!
+  $name: String!
+  $settings: JSON!
+) {
+  updateUserSettings(
+    teamPk: $teamPk
+    userPk: $userPk
+    name: $name
+    settings: $settings
+  ) {
+    pk
+    name
+    settings(name: $name)
+  }
+}

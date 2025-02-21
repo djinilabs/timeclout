@@ -24,7 +24,11 @@ export const Unit: UnitResolvers = {
     return entity.batchGet(permissions.map((p) => p.pk)) as unknown as Team[];
   },
   members: async (parent, _args, ctx) => {
-    await ensureAuthorized(ctx, parent.pk, PERMISSION_LEVELS.WRITE);
+    await ensureAuthorized(
+      ctx,
+      getResourceRef(parent.pk),
+      PERMISSION_LEVELS.WRITE
+    );
     const permissions = await getAuthorizedForResource(
       getResourceRef(parent.pk)
     );

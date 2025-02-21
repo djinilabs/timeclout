@@ -5,7 +5,7 @@ import { ResourceRef } from "@/utils";
 
 export const ensureAuthorized = async (
   ctx: ResolverContext,
-  resource: string,
+  resource: ResourceRef,
   minimumPermission: number
 ): Promise<ResourceRef<"users">> => {
   const [authorized, userPk] = await isAuthorized(

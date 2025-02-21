@@ -1,6 +1,12 @@
 import { memo } from "react";
 
-const getColorAndBackground = (md5: string) => {
+const getColorAndBackground = (md5?: string | null) => {
+  if (!md5) {
+    return {
+      background: "#fff",
+      color: "#222",
+    };
+  }
   const matches = md5.match(/.{2}/g)!;
 
   const [red, green, blue] = matches.map((hex) => parseInt(hex, 16));
@@ -30,8 +36,8 @@ const getInitials = (name: string) => {
 
 export interface AvatarProps {
   name?: string;
-  email: string;
-  emailMd5: string;
+  email?: string | null;
+  emailMd5?: string | null;
   size?: number;
 }
 
@@ -41,7 +47,7 @@ export const Avatar = memo(
       Math.max(size, 250)
     )}&d=blank`;
 
-    const initials = getInitials(name ?? email.split("@")[0]);
+    const initials = getInitials(name ?? email?.split("@")[0] ?? "");
 
     const dimensions = {
       width: `${size}px`,
@@ -54,7 +60,7 @@ export const Avatar = memo(
 
     return (
       <div
-        title={name ?? email}
+        title={name ?? email ?? ""}
         className="relative inline-flex"
         style={{
           ...getColorAndBackground(emailMd5),

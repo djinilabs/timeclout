@@ -120,6 +120,12 @@ export type CreateShiftPositionInput = {
   team: Scalars['String']['input'];
 };
 
+export type CreateTeamMemberInput = {
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  teamPk: Scalars['String']['input'];
+};
+
 export type DeleteLeaveInput = {
   pk: Scalars['String']['input'];
   sk: Scalars['String']['input'];
@@ -200,6 +206,7 @@ export type Mutation = {
   createLeaveRequest: LeaveRequest;
   createShiftPosition: ShiftPosition;
   createTeam: Team;
+  createTeamMember: User;
   createUnit: Unit;
   deleteCompany: Company;
   deleteInvitation: Invitation;
@@ -224,6 +231,7 @@ export type Mutation = {
   updateTeamSettings: Team;
   updateUnit: Unit;
   updateUnitSettings: Unit;
+  updateUserSettings?: Maybe<User>;
 };
 
 
@@ -272,6 +280,11 @@ export type MutationcreateShiftPositionArgs = {
 export type MutationcreateTeamArgs = {
   name: Scalars['String']['input'];
   unitPk: Scalars['String']['input'];
+};
+
+
+export type MutationcreateTeamMemberArgs = {
+  input: CreateTeamMemberInput;
 };
 
 
@@ -407,6 +420,14 @@ export type MutationupdateUnitSettingsArgs = {
   name: Scalars['String']['input'];
   settings: Scalars['JSON']['input'];
   unitPk: Scalars['String']['input'];
+};
+
+
+export type MutationupdateUserSettingsArgs = {
+  name: Scalars['String']['input'];
+  settings: Scalars['JSON']['input'];
+  teamPk: Scalars['String']['input'];
+  userPk: Scalars['String']['input'];
 };
 
 export type PublishShiftPositionsInput = {
@@ -758,6 +779,7 @@ export type ResolversTypes = {
   CopyShiftPositionInput: CopyShiftPositionInput;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
   CreateShiftPositionInput: CreateShiftPositionInput;
+  CreateTeamMemberInput: CreateTeamMemberInput;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteLeaveInput: DeleteLeaveInput;
@@ -810,6 +832,7 @@ export type ResolversParentTypes = {
   CopyShiftPositionInput: CopyShiftPositionInput;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
   CreateShiftPositionInput: CreateShiftPositionInput;
+  CreateTeamMemberInput: CreateTeamMemberInput;
   Date: Scalars['Date']['output'];
   DateTime: Scalars['DateTime']['output'];
   DeleteLeaveInput: DeleteLeaveInput;
@@ -969,6 +992,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationcreateLeaveRequestArgs, 'input'>>;
   createShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationcreateShiftPositionArgs, 'input'>>;
   createTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationcreateTeamArgs, 'name' | 'unitPk'>>;
+  createTeamMember?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationcreateTeamMemberArgs, 'input'>>;
   createUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationcreateUnitArgs, 'companyPk' | 'name'>>;
   deleteCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationdeleteCompanyArgs, 'pk'>>;
   deleteInvitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<MutationdeleteInvitationArgs, 'pk' | 'sk'>>;
@@ -993,6 +1017,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateTeamSettings?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamSettingsArgs, 'name' | 'settings' | 'teamPk'>>;
   updateUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitArgs, 'name' | 'pk'>>;
   updateUnitSettings?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitSettingsArgs, 'name' | 'settings' | 'unitPk'>>;
+  updateUserSettings?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationupdateUserSettingsArgs, 'name' | 'settings' | 'teamPk' | 'userPk'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

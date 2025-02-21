@@ -6,14 +6,14 @@ import { giveAuthorization } from "@/business-logic";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
 
-export const createUnit: NonNullable<MutationResolvers["createUnit"]> = async (
+export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
   _parent,
   arg,
-  _ctx
+  ctx
 ) => {
   const companyPk = resourceRef("companies", arg.companyPk);
   const userPk = await ensureAuthorized(
-    _ctx,
+    ctx,
     companyPk,
     PERMISSION_LEVELS.WRITE
   );

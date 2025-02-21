@@ -71,6 +71,15 @@ declare module '@/graphql-client/queries/createTeam.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/createTeamMember.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const CreateTeamMember: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/createUnit.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -183,6 +192,15 @@ declare module '@/graphql-client/queries/updateUnitSettings.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const updateUnitSettings: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '@/graphql-client/queries/updateUserSettings.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateUserSettings: DocumentNode;
 
   export default defaultDocument;
 }

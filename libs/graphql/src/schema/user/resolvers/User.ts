@@ -4,7 +4,10 @@ import type { UserResolvers } from "./../../../types.generated";
 
 export const User: UserResolvers = {
   emailMd5: (parent) => {
-    return crypto.createHash("md5").update(parent.email).digest("hex");
+    return (
+      parent.email &&
+      crypto.createHash("md5").update(parent.email).digest("hex")
+    );
   },
   settings: async (parent, args) => {
     const { entity_settings } = await database();

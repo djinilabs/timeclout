@@ -17,6 +17,7 @@ import { PageNotFound } from "./pages/PageNotFound";
 import { PageMeEdit } from "./pages/PageMeEdit";
 import { Suspense } from "./components/stateless/Suspense";
 import { PagePendingLeaveRequests } from "./pages/PagePendingLeaveRequests";
+import { NewTeamMember } from "./routes/NewTeamMember";
 
 export const AppRoutes: FC = () => {
   return (
@@ -126,6 +127,14 @@ export const AppRoutes: FC = () => {
         element={
           <RequiresSession>
             <NewTeamInvite />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/:company/units/:unit/teams/:team/members/new"
+        element={
+          <RequiresSession>
+            <NewTeamMember />
           </RequiresSession>
         }
       />

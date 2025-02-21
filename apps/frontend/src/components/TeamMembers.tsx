@@ -34,7 +34,13 @@ export const TeamMembers = () => {
 
   return (
     <div className="mt-4">
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-x-2">
+        <Button
+          to={`/companies/${company}/units/${unit}/teams/${teamPk}/members/new`}
+        >
+          <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />{" "}
+          Create member user
+        </Button>
         <Button
           to={`/companies/${company}/units/${unit}/teams/${teamPk}/invites/new`}
         >

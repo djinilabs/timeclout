@@ -1,8 +1,8 @@
 import { notFound } from "@hapi/boom";
-import type { MutationResolvers, User } from "./../../../../types.generated";
-import { requireSession } from "../../../../session/requireSession";
 import { database } from "@/tables";
 import { resourceRef } from "@/utils";
+import type { MutationResolvers, User } from "./../../../../types.generated";
+import { requireSession } from "../../../../session/requireSession";
 
 export const updateMySettings: NonNullable<MutationResolvers['updateMySettings']> = async (_parent, args, ctx) => {
   const session = await requireSession(ctx);
@@ -12,7 +12,11 @@ export const updateMySettings: NonNullable<MutationResolvers['updateMySettings']
   }
   const { entity_settings } = await database();
   const userRef = resourceRef("users", userId);
-  const user = await entity_settings.upsert({
+  const user = await entity_settings.get(userRef);
+  if (!user) {
+    throw notFound("User not found");
+  }
+  await entity_settings.upsert({
     pk: userRef,
     sk: args.name,
     settings: args.settings,

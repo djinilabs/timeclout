@@ -1,5 +1,6 @@
 import { notFound } from "@hapi/boom";
 import { database, PERMISSION_LEVELS } from "@/tables";
+import { getResourceRef } from "@/utils";
 import type {
   MutationResolvers,
   ResolversTypes,
@@ -12,7 +13,11 @@ export const deleteInvitation: NonNullable<MutationResolvers['deleteInvitation']
   if (!invitationToDelete) {
     throw notFound("Invitation not found");
   }
-  await ensureAuthorized(ctx, invitationToDelete.pk, PERMISSION_LEVELS.OWNER);
+  await ensureAuthorized(
+    ctx,
+    getResourceRef(invitationToDelete.pk),
+    PERMISSION_LEVELS.OWNER
+  );
   return invitation.delete(
     invitationToDelete.pk,
     invitationToDelete.sk

@@ -6,7 +6,7 @@ import type {
 } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 import { isAuthorized } from "../../../../auth/isAuthorized";
-import { getDefined } from "@/utils";
+import { getDefined, getResourceRef } from "@/utils";
 
 export const invitation: NonNullable<QueryResolvers['invitation']> = async (
   _parent,
@@ -28,7 +28,13 @@ export const invitation: NonNullable<QueryResolvers['invitation']> = async (
   const user = await requireSession(ctx);
   if (
     user.user?.email === invitationToGet.sk ||
-    (await isAuthorized(ctx, invitationToGet.sk, PERMISSION_LEVELS.READ))[0]
+    (
+      await isAuthorized(
+        ctx,
+        getResourceRef(invitationToGet.sk),
+        PERMISSION_LEVELS.READ
+      )
+    )[0]
   ) {
     return invitationToGet as unknown as ResolversTypes["Invitation"];
   }

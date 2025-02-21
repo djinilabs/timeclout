@@ -6,7 +6,7 @@ import { giveAuthorization } from "@/business-logic";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { nanoid } from "nanoid";
 
-export const createTeam: NonNullable<MutationResolvers["createTeam"]> = async (
+export const createTeam: NonNullable<MutationResolvers['createTeam']> = async (
   _parent,
   arg,
   _ctx

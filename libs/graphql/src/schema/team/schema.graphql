@@ -17,6 +17,12 @@ type Team {
   teamMembersQualifications: [MemberQualifications!]!
 }
 
+input CreateTeamMemberInput {
+  teamPk: String!
+  name: String!
+  email: String!
+}
+
 extend type Mutation {
   createTeam(unitPk: String!, name: String!): Team!
   updateTeam(pk: String!, name: String!): Team!
@@ -28,6 +34,7 @@ extend type Mutation {
     userPk: String!
     qualifications: [String!]!
   ): Team!
+  createTeamMember(input: CreateTeamMemberInput!): User!
 }
 
 extend type Query {

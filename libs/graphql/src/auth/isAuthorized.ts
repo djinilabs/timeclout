@@ -1,25 +1,20 @@
-import { database } from "@/tables";
 import { getDefined, ResourceRef, resourceRef } from "@/utils";
 import { ResolverContext } from "../resolverContext";
 import { requireSession } from "../session/requireSession";
+import { isUserAuthorized } from "@/business-logic";
 
 export type IsAuthorizedResult = [false] | [true, ResourceRef<"users">];
 
 export const isAuthorized = async (
   ctx: ResolverContext,
-  resource: string,
+  resource: ResourceRef,
   minimumPermission: number
 ): Promise<IsAuthorizedResult> => {
   const session = await requireSession(ctx);
-  const userPk = resourceRef(
+  const userRef = resourceRef(
     "users",
     getDefined(session.user?.id, "User ID is required")
   );
 
-  const { permission } = await database();
-  const permissionRecord = await permission.get(resource, userPk);
-  if (!permissionRecord || permissionRecord.type < minimumPermission) {
-    return [false];
-  }
-  return [true, userPk];
+  return isUserAuthorized(userRef, resource, minimumPermission);
 };
