@@ -12,10 +12,14 @@ export const updateMySettings: NonNullable<
   if (!userId) {
     throw notFound("User not found");
   }
-  const { entity_settings } = await database();
-  const userRef = resourceRef("users", userId);
-  const user = await entity_settings.get(userRef, args.name);
+  const { entity, entity_settings } = await database();
+  const user = await entity.get(resourceRef("users", userId));
   if (!user) {
+    throw notFound("User not found");
+  }
+  const userRef = resourceRef("users", userId);
+  const userSettings = await entity_settings.get(userRef, args.name);
+  if (!userSettings) {
     throw notFound("User not found");
   }
   await entity_settings.upsert({
