@@ -105,6 +105,15 @@ export const TeamMembers = () => {
                   >
                     <MenuItem>
                       <a
+                        href={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
+                        className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
+                      >
+                        Edit
+                        <span className="sr-only">, {person.name}</span>
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
                         onClick={async () => {
                           const response = await removeUserFromTeam({
                             teamPk,

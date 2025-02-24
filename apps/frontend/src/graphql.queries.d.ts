@@ -170,6 +170,15 @@ declare module '@/graphql-client/queries/updateShiftPosition.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/updateTeamMember.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateTeamMember: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/updateTeamMemberQualifications.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -327,6 +336,15 @@ declare module '@/graphql-client/queries/teamApprovedSchedule.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const TeamApprovedSchedule: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '@/graphql-client/queries/teamMemberWithSettings.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const teamMemberWithSettings: DocumentNode;
 
   export default defaultDocument;
 }

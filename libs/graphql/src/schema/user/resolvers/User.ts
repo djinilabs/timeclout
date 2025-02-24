@@ -13,4 +13,15 @@ export const User: UserResolvers = {
     const { entity_settings } = await database();
     return (await entity_settings.get(parent.pk, args.name))?.settings;
   },
+  createdBy: async (parent) => {
+    const { entity } = await database();
+    return entity.get(parent.createdBy as unknown as string) as unknown as User;
+  },
+  updatedBy: async (parent) => {
+    if (!parent.updatedBy) {
+      return null;
+    }
+    const { entity } = await database();
+    return entity.get(parent.updatedBy as unknown as string) as unknown as User;
+  },
 };

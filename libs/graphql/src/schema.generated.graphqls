@@ -196,6 +196,7 @@ type Mutation {
   updateMySettings(name: String!, settings: JSON!): User
   updateShiftPosition(input: UpdateShiftPositionInput!): ShiftPosition!
   updateTeam(name: String!, pk: String!): Team!
+  updateTeamMember(input: UpdateTeamMemberInput!): User!
   updateTeamSettings(name: String!, settings: JSON!, teamPk: String!): Team!
   updateUnit(name: String!, pk: String!): Unit!
   updateUnitSettings(name: String!, settings: JSON!, unitPk: String!): Unit!
@@ -222,6 +223,7 @@ type Query {
   shiftPositions(input: QueryShiftPositionsInput!): [ShiftPosition!]!
   shiftsAutoFillParams(input: AutoFillParamsInput!): ShiftsAutoFillParams!
   team(teamPk: String!): Team!
+  teamMember(memberPk: String!, teamPk: String!): User!
   unit(unitPk: String!): Unit!
 }
 
@@ -342,7 +344,16 @@ input UpdateShiftPositionInput {
   sk: String!
 }
 
+input UpdateTeamMemberInput {
+  email: String!
+  memberPk: String!
+  name: String!
+  teamPk: String!
+}
+
 type User {
+  createdAt: DateTime!
+  createdBy: User!
   email: String!
   emailMd5: String!
   name: String!
@@ -350,6 +361,8 @@ type User {
   resourcePermission: Int
   resourcePermissionGivenAt: DateTime
   settings(name: String!): JSON
+  updatedAt: DateTime
+  updatedBy: User
 }
 
 type UserSchedule {

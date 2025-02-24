@@ -2,35 +2,63 @@ import { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FieldComponent, useForm } from "@tanstack/react-form";
 import { getDefined } from "@/utils";
+import teamMemberWithSettingsQuery from "@/graphql-client/queries/teamMemberWithSettings.graphql";
 import createTeamMemberMutation from "@/graphql-client/mutations/createTeamMember.graphql";
+import updateTeamMemberMutation from "@/graphql-client/mutations/updateTeamMember.graphql";
 import updateUserSettingsMutation from "@/graphql-client/mutations/updateUserSettings.graphql";
 import {
   Mutation,
   MutationCreateTeamMemberArgs,
   MutationUpdateUserSettingsArgs,
+  MutationUpdateTeamMemberArgs,
+  QueryTeamMemberArgs,
+  Query,
+  UserSettingsArgs,
 } from "../graphql/graphql";
 import { useMutation } from "../hooks/useMutation";
 import { Button } from "./stateless/Button";
 import { EditCountryAndRegion } from "./stateless/EditCountryAndRegion";
+import { useQuery } from "../hooks/useQuery";
 
-interface CreateTeamMemberProps {
+interface CreateOrEditTeamMemberProps {
   teamPk: string;
+  memberPk?: string;
   onDone: () => void;
 }
 
-export const CreateTeamMember: FC<CreateTeamMemberProps> = ({
+export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
   teamPk,
+  memberPk,
   onDone,
 }) => {
+  const [teamMemberQueryResponse] = useQuery<
+    { teamMember: Query["teamMember"] },
+    QueryTeamMemberArgs & UserSettingsArgs
+  >({
+    query: teamMemberWithSettingsQuery,
+    variables: { teamPk, memberPk: memberPk ?? "", name: "location" },
+    pause: !memberPk,
+  });
   const [, createTeamMember] = useMutation<
     { createTeamMember: Mutation["createTeamMember"] },
     MutationCreateTeamMemberArgs
   >(createTeamMemberMutation);
 
+  const [, updateTeamMember] = useMutation<
+    { updateTeamMember: Mutation["updateTeamMember"] },
+    MutationUpdateTeamMemberArgs
+  >(updateTeamMemberMutation);
+
   const [, updateUserSettings] = useMutation<
     Mutation["updateUserSettings"],
     MutationUpdateUserSettingsArgs
   >(updateUserSettingsMutation);
+
+  const locationSettings = teamMemberQueryResponse.data?.teamMember
+    ?.settings ?? {
+    country: undefined,
+    region: undefined,
+  };
 
   const form = useForm<{
     name: string;
@@ -39,23 +67,26 @@ export const CreateTeamMember: FC<CreateTeamMemberProps> = ({
     region: string | undefined;
   }>({
     defaultValues: {
-      name: "",
-      email: "",
-      country: undefined,
-      region: undefined,
+      name: teamMemberQueryResponse.data?.teamMember?.name ?? "",
+      email: teamMemberQueryResponse.data?.teamMember?.email ?? "",
+      country: locationSettings.country,
+      region: locationSettings.region,
     },
     onSubmit: async ({ value }) => {
-      const result = await createTeamMember({
+      const result = await (memberPk ? updateTeamMember : createTeamMember)({
         input: {
           name: value.name,
           email: value.email,
           teamPk,
+          memberPk: memberPk ?? "",
         },
       });
       if (!result.error) {
         const updateSettingsResult = await updateUserSettings({
           userPk: getDefined(
-            result.data?.createTeamMember.pk,
+            memberPk ??
+              (result as { data?: { createTeamMember?: { pk: string } } })?.data
+                ?.createTeamMember?.pk,
             "User PK is required"
           ),
           teamPk,
@@ -66,7 +97,7 @@ export const CreateTeamMember: FC<CreateTeamMemberProps> = ({
           },
         });
         if (!updateSettingsResult.error) {
-          toast.success("User created");
+          toast.success(`User ${memberPk ? "updated" : "created"}`);
           onDone();
         }
       }

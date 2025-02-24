@@ -226,6 +226,7 @@ export type Mutation = {
   updateMySettings?: Maybe<User>;
   updateShiftPosition: ShiftPosition;
   updateTeam: Team;
+  updateTeamMember: User;
   updateTeamSettings: Team;
   updateUnit: Unit;
   updateUnitSettings: Unit;
@@ -401,6 +402,11 @@ export type MutationUpdateTeamArgs = {
 };
 
 
+export type MutationUpdateTeamMemberArgs = {
+  input: UpdateTeamMemberInput;
+};
+
+
 export type MutationUpdateTeamSettingsArgs = {
   name: Scalars['String']['input'];
   settings: Scalars['JSON']['input'];
@@ -449,6 +455,7 @@ export type Query = {
   shiftPositions: Array<ShiftPosition>;
   shiftsAutoFillParams: ShiftsAutoFillParams;
   team: Team;
+  teamMember: User;
   unit: Unit;
 };
 
@@ -500,6 +507,12 @@ export type QueryShiftsAutoFillParamsArgs = {
 
 
 export type QueryTeamArgs = {
+  teamPk: Scalars['String']['input'];
+};
+
+
+export type QueryTeamMemberArgs = {
+  memberPk: Scalars['String']['input'];
   teamPk: Scalars['String']['input'];
 };
 
@@ -659,8 +672,17 @@ export type UpdateShiftPositionInput = {
   sk: Scalars['String']['input'];
 };
 
+export type UpdateTeamMemberInput = {
+  email: Scalars['String']['input'];
+  memberPk: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  teamPk: Scalars['String']['input'];
+};
+
 export type User = {
   __typename?: 'User';
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: User;
   email: Scalars['String']['output'];
   emailMd5: Scalars['String']['output'];
   name: Scalars['String']['output'];
@@ -668,6 +690,8 @@ export type User = {
   resourcePermission?: Maybe<Scalars['Int']['output']>;
   resourcePermissionGivenAt?: Maybe<Scalars['DateTime']['output']>;
   settings?: Maybe<Scalars['JSON']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
 };
 
 

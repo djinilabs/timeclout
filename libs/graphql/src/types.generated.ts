@@ -228,6 +228,7 @@ export type Mutation = {
   updateMySettings?: Maybe<User>;
   updateShiftPosition: ShiftPosition;
   updateTeam: Team;
+  updateTeamMember: User;
   updateTeamSettings: Team;
   updateUnit: Unit;
   updateUnitSettings: Unit;
@@ -403,6 +404,11 @@ export type MutationupdateTeamArgs = {
 };
 
 
+export type MutationupdateTeamMemberArgs = {
+  input: UpdateTeamMemberInput;
+};
+
+
 export type MutationupdateTeamSettingsArgs = {
   name: Scalars['String']['input'];
   settings: Scalars['JSON']['input'];
@@ -451,6 +457,7 @@ export type Query = {
   shiftPositions: Array<ShiftPosition>;
   shiftsAutoFillParams: ShiftsAutoFillParams;
   team: Team;
+  teamMember: User;
   unit: Unit;
 };
 
@@ -502,6 +509,12 @@ export type QueryshiftsAutoFillParamsArgs = {
 
 
 export type QueryteamArgs = {
+  teamPk: Scalars['String']['input'];
+};
+
+
+export type QueryteamMemberArgs = {
+  memberPk: Scalars['String']['input'];
   teamPk: Scalars['String']['input'];
 };
 
@@ -661,8 +674,17 @@ export type UpdateShiftPositionInput = {
   sk: Scalars['String']['input'];
 };
 
+export type UpdateTeamMemberInput = {
+  email: Scalars['String']['input'];
+  memberPk: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  teamPk: Scalars['String']['input'];
+};
+
 export type User = {
   __typename?: 'User';
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: User;
   email: Scalars['String']['output'];
   emailMd5: Scalars['String']['output'];
   name: Scalars['String']['output'];
@@ -670,6 +692,8 @@ export type User = {
   resourcePermission?: Maybe<Scalars['Int']['output']>;
   resourcePermissionGivenAt?: Maybe<Scalars['DateTime']['output']>;
   settings?: Maybe<Scalars['JSON']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
 };
 
 
@@ -809,6 +833,7 @@ export type ResolversTypes = {
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
   UpdateMeInput: UpdateMeInput;
   UpdateShiftPositionInput: UpdateShiftPositionInput;
+  UpdateTeamMemberInput: UpdateTeamMemberInput;
   User: ResolverTypeWrapper<User>;
   UserSchedule: ResolverTypeWrapper<UserSchedule>;
 };
@@ -862,6 +887,7 @@ export type ResolversParentTypes = {
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
   UpdateMeInput: UpdateMeInput;
   UpdateShiftPositionInput: UpdateShiftPositionInput;
+  UpdateTeamMemberInput: UpdateTeamMemberInput;
   User: User;
   UserSchedule: UserSchedule;
 };
@@ -1014,6 +1040,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateMySettings?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationupdateMySettingsArgs, 'name' | 'settings'>>;
   updateShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationupdateShiftPositionArgs, 'input'>>;
   updateTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamArgs, 'name' | 'pk'>>;
+  updateTeamMember?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationupdateTeamMemberArgs, 'input'>>;
   updateTeamSettings?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationupdateTeamSettingsArgs, 'name' | 'settings' | 'teamPk'>>;
   updateUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitArgs, 'name' | 'pk'>>;
   updateUnitSettings?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationupdateUnitSettingsArgs, 'name' | 'settings' | 'unitPk'>>;
@@ -1034,6 +1061,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   shiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<QueryshiftPositionsArgs, 'input'>>;
   shiftsAutoFillParams?: Resolver<ResolversTypes['ShiftsAutoFillParams'], ParentType, ContextType, RequireFields<QueryshiftsAutoFillParamsArgs, 'input'>>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;
+  teamMember?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryteamMemberArgs, 'memberPk' | 'teamPk'>>;
   unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<QueryunitArgs, 'unitPk'>>;
 };
 
@@ -1115,6 +1143,8 @@ export type UnitResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   emailMd5?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1122,6 +1152,8 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   resourcePermission?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   resourcePermissionGivenAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   settings?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<UsersettingsArgs, 'name'>>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

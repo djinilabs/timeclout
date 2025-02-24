@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { FieldComponent, useForm } from "@tanstack/react-form";
 import meQuery from "@/graphql-client/queries/me.graphql";
 import updateMeMutation from "@/graphql-client/mutations/updateMe.graphql";
@@ -155,7 +154,7 @@ export const MeEdit = () => {
 
             <EditCountryAndRegion
               Field={
-                form.Field as FieldComponent<{
+                form.Field as unknown as FieldComponent<{
                   country?: string;
                   region?: string;
                 }>

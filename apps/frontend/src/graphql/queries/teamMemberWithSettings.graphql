@@ -1,0 +1,25 @@
+query teamMemberWithSettings(
+  $teamPk: String!
+  $memberPk: String!
+  $name: String!
+) {
+  teamMember(teamPk: $teamPk, memberPk: $memberPk) {
+    pk
+    name
+    email
+    emailMd5
+    createdAt
+    createdBy {
+      pk
+      email
+      name
+    }
+    updatedAt
+    updatedBy {
+      pk
+      email
+      name
+    }
+    settings(name: $name)
+  }
+}

@@ -1,14 +1,16 @@
-import { requireSession } from "libs/graphql/src/session/requireSession";
-import { database, PERMISSION_LEVELS } from "@/tables";
-import { getDefined, resourceRef } from "@/utils";
-import type { MutationResolvers, User } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import { authConfig } from "@/auth-config";
 import { nanoid } from "nanoid";
 import { notFound } from "@hapi/boom";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { getDefined, resourceRef } from "@/utils";
+import { authConfig } from "@/auth-config";
 import { ensureAuthorization } from "@/business-logic";
+import type { MutationResolvers, User } from "./../../../../types.generated";
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { requireSession } from "../../../../session/requireSession";
 
-export const createTeamMember: NonNullable<MutationResolvers['createTeamMember']> = async (_parent, { input }, ctx) => {
+export const createTeamMember: NonNullable<
+  MutationResolvers["createTeamMember"]
+> = async (_parent, { input }, ctx) => {
   const teamRef = resourceRef("teams", input.teamPk);
   // ensure user has write access to team
   await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);

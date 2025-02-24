@@ -23,6 +23,13 @@ input CreateTeamMemberInput {
   email: String!
 }
 
+input UpdateTeamMemberInput {
+  teamPk: String!
+  memberPk: String!
+  name: String!
+  email: String!
+}
+
 extend type Mutation {
   createTeam(unitPk: String!, name: String!): Team!
   updateTeam(pk: String!, name: String!): Team!
@@ -35,8 +42,10 @@ extend type Mutation {
     qualifications: [String!]!
   ): Team!
   createTeamMember(input: CreateTeamMemberInput!): User!
+  updateTeamMember(input: UpdateTeamMemberInput!): User!
 }
 
 extend type Query {
   team(teamPk: String!): Team!
+  teamMember(teamPk: String!, memberPk: String!): User!
 }
