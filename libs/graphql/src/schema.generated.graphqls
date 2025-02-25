@@ -216,6 +216,7 @@ type Query {
   invitationsTo(toEntityPk: String!): [Invitation!]!
   leaveRequest(pk: String!, sk: String!): LeaveRequest!
   me: User
+  memberQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!, teamPk: String!, userPk: String!): [QuotaFulfilment!]!
   myInvitations: [Invitation!]!
   myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
   myQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!): [QuotaFulfilment!]!

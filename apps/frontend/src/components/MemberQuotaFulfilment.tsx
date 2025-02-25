@@ -1,0 +1,89 @@
+import memberQuotaFulfilmentQuery from "@/graphql-client/queries/memberQuotaFulfilment.graphql";
+import { useQuery } from "../hooks/useQuery";
+import { Query, QueryMemberQuotaFulfilmentArgs } from "../graphql/graphql";
+import { FC } from "react";
+
+export interface MemberQuotaFulfilmentProps {
+  companyPk: string;
+  teamPk: string;
+  userPk: string;
+  simulatesLeave: boolean;
+  simulatesLeaveType: string;
+  startDate: string;
+  endDate: string;
+}
+
+export const MemberQuotaFulfilment: FC<MemberQuotaFulfilmentProps> = ({
+  companyPk,
+  teamPk,
+  userPk,
+  startDate,
+  endDate,
+  simulatesLeave,
+  simulatesLeaveType,
+}) => {
+  const [myQuotaFulfilment] = useQuery<
+    { memberQuotaFulfilment: Query["memberQuotaFulfilment"] },
+    QueryMemberQuotaFulfilmentArgs
+  >({
+    query: memberQuotaFulfilmentQuery,
+    pause: !startDate || !endDate,
+    variables: {
+      companyPk,
+      teamPk,
+      userPk,
+      startDate,
+      endDate,
+      simulatesLeave,
+      simulatesLeaveType,
+    },
+  });
+
+  return (
+    <ul>
+      {myQuotaFulfilment.data?.memberQuotaFulfilment.map((quota) => {
+        const simulatedDaysLeft =
+          quota.quota -
+          quota.approvedUsed -
+          quota.pendingApprovalUsed -
+          (quota.simulatedUsed ?? 0);
+        return (
+          <li
+            key={quota.quotaStartDate}
+            className="flex flex-col text-gray-500 text-sm/6"
+          >
+            <span>
+              For the quota starting at {quota.quotaStartDate} and ending at{" "}
+              {quota.quotaEndDate} they have used{" "}
+              <b>{quota.approvedUsed} days</b> and have{" "}
+              <b>{quota.pendingApprovalUsed} days</b> pending approval.
+            </span>
+            {simulatesLeave && quota.simulatedUsed ? (
+              <>
+                <span>
+                  These leave days will deduct <b>{quota.simulatedUsed} days</b>{" "}
+                  from your quota{" "}
+                  {simulatedDaysLeft >= 0 ? (
+                    <>
+                      leaving them with <b>{simulatedDaysLeft} days</b> left.
+                    </>
+                  ) : (
+                    "."
+                  )}
+                </span>
+                <span>
+                  {simulatedDaysLeft < 0 && (
+                    <>
+                      They will have exceeded their quota by{" "}
+                      <b>{-simulatedDaysLeft} days</b>.
+                    </>
+                  )}
+                </span>
+              </>
+            ) : null}
+          </li>
+        );
+      })}
+    </ul>
+  );
+};

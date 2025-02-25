@@ -450,6 +450,7 @@ export type Query = {
   invitationsTo: Array<Invitation>;
   leaveRequest: LeaveRequest;
   me?: Maybe<User>;
+  memberQuotaFulfilment: Array<QuotaFulfilment>;
   myInvitations: Array<Invitation>;
   myLeaveCalendar: Calendar;
   myQuotaFulfilment: Array<QuotaFulfilment>;
@@ -480,6 +481,17 @@ export type QueryinvitationsToArgs = {
 export type QueryleaveRequestArgs = {
   pk: Scalars['String']['input'];
   sk: Scalars['String']['input'];
+};
+
+
+export type QuerymemberQuotaFulfilmentArgs = {
+  companyPk: Scalars['String']['input'];
+  endDate: Scalars['String']['input'];
+  simulatesLeave?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatesLeaveType?: InputMaybe<Scalars['String']['input']>;
+  startDate: Scalars['String']['input'];
+  teamPk: Scalars['String']['input'];
+  userPk: Scalars['String']['input'];
 };
 
 
@@ -1054,6 +1066,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   invitationsTo?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType, RequireFields<QueryinvitationsToArgs, 'toEntityPk'>>;
   leaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<QueryleaveRequestArgs, 'pk' | 'sk'>>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  memberQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymemberQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate' | 'teamPk' | 'userPk'>>;
   myInvitations?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType>;
   myLeaveCalendar?: Resolver<ResolversTypes['Calendar'], ParentType, ContextType, RequireFields<QuerymyLeaveCalendarArgs, 'companyPk' | 'year'>>;
   myQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymyQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate'>>;

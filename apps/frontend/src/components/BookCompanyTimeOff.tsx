@@ -1,14 +1,15 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { useParams } from "react-router-dom";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import toast from "react-hot-toast";
 import { getDefined } from "@/utils";
 import { leaveTypeParser } from "@/settings";
+import { DayDate } from "@/day-date";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import { Button } from "./stateless/Button";
 import { useQuery } from "../hooks/useQuery";
-import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import { DayDate } from "@/day-date";
 import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
 import { useHolidays } from "../hooks/useHolidays";
 import {
@@ -16,8 +17,6 @@ import {
   Query,
   QueryCompanyArgs,
 } from "../graphql/graphql";
-import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
-import toast from "react-hot-toast";
 import { Suspense } from "./stateless/Suspense";
 
 export type TimeOffRequest = {
@@ -26,16 +25,26 @@ export type TimeOffRequest = {
   reason: string;
 };
 
+export interface QuotaFulfilmentProps {
+  companyPk: string;
+  simulatesLeave: boolean;
+  simulatesLeaveType: string;
+  startDate: string;
+  endDate: string;
+}
+
 export type BookCompanyTimeOffProps = {
   onSubmit: (values: TimeOffRequest) => void;
   onCancel: () => void;
   location: { country: string; region: string };
+  quotaFulfilment: (props: QuotaFulfilmentProps) => ReactNode;
 };
 
 export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   onSubmit,
   onCancel,
   location,
+  quotaFulfilment,
 }) => {
   const { company } = useParams();
   const [companyWithSettings] = useQuery<
@@ -185,13 +194,13 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
               );
               return startDate && endDate ? (
                 <Suspense>
-                  <MyQuotaFulfilment
-                    companyPk={getDefined(company, "No company provided")}
-                    startDate={startDate.toISOString().split("T")[0]}
-                    endDate={endDate.toISOString().split("T")[0]}
-                    simulatesLeave={true}
-                    simulatesLeaveType={state.values.type}
-                  />
+                  {quotaFulfilment({
+                    companyPk: getDefined(company, "No company provided"),
+                    startDate: startDate.toISOString().split("T")[0],
+                    endDate: endDate.toISOString().split("T")[0],
+                    simulatesLeave: true,
+                    simulatesLeaveType: state.values.type,
+                  })}
                 </Suspense>
               ) : null;
             }}

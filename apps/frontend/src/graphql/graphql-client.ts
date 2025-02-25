@@ -35,6 +35,7 @@ const defaultClientOpts = (): ClientOptions => ({
         AutoFillWorkHour: () => null,
         AutoFillSlotWorker: () => null,
         ShiftsAutoFillParams: () => null,
+        QuotaFulfilment: () => null,
       },
       updates: {
         Mutation: {

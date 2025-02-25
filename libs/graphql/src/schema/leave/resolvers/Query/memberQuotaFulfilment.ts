@@ -1,19 +1,30 @@
 import { resourceRef } from "@/utils";
 import { PERMISSION_LEVELS } from "@/tables";
-import { getQuotaFulfilment } from "@/business-logic";
+import { getQuotaFulfilment, isUserAuthorized } from "@/business-logic";
 import { DayDate } from "@/day-date";
 import type { QueryResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const myQuotaFulfilment: NonNullable<QueryResolvers['myQuotaFulfilment']> = async (_parent, arg, ctx) => {
-  const { companyPk, startDate, endDate, simulatesLeave, simulatesLeaveType } =
-    arg;
+export const memberQuotaFulfilment: NonNullable<
+  QueryResolvers["memberQuotaFulfilment"]
+> = async (_parent, arg, ctx) => {
+  const {
+    companyPk,
+    teamPk,
+    userPk,
+    startDate,
+    endDate,
+    simulatesLeave,
+    simulatesLeaveType,
+  } = arg;
   const companyRef = resourceRef("companies", companyPk);
-  const userRef = await ensureAuthorized(
-    ctx,
-    companyRef,
-    PERMISSION_LEVELS.READ
-  );
+  await ensureAuthorized(ctx, companyRef, PERMISSION_LEVELS.READ);
+  const teamRef = resourceRef("teams", teamPk);
+  await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
+
+  // make sure user is on the team
+  const userRef = resourceRef("users", userPk);
+  await isUserAuthorized(userRef, teamRef, PERMISSION_LEVELS.READ);
 
   const quotaFulfilment = await getQuotaFulfilment({
     companyRef,

@@ -11,6 +11,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
 import { useState } from "react";
+import { MemberQuotaFulfilment } from "./MemberQuotaFulfilment";
 
 export const CreateTeamMemberLeaveRequest = () => {
   const { team: teamPk } = useParams();
@@ -32,7 +33,7 @@ export const CreateTeamMemberLeaveRequest = () => {
         Book Company Time Off
       </h3>
       <div className="py-5 grid grid-cols-3">
-        <div className="border-b border-gray-900/10 pb-6">
+        <div>
           <legend className="text-sm/6 font-semibold text-gray-900">
             Select User
           </legend>
@@ -44,6 +45,7 @@ export const CreateTeamMemberLeaveRequest = () => {
           <SelectUser
             onChange={setSelectedUser}
             users={queryResponse.data?.team?.members ?? []}
+            autoFocus
           />
         </div>
       </div>
@@ -52,6 +54,23 @@ export const CreateTeamMemberLeaveRequest = () => {
           onSubmit={() => {}}
           onCancel={() => {}}
           location={selectedUser?.settings}
+          quotaFulfilment={({
+            companyPk,
+            startDate,
+            endDate,
+            simulatesLeave,
+            simulatesLeaveType,
+          }) => (
+            <MemberQuotaFulfilment
+              companyPk={companyPk}
+              teamPk={getDefined(teamPk, "No team provided")}
+              userPk={selectedUser?.pk}
+              startDate={startDate}
+              endDate={endDate}
+              simulatesLeave={simulatesLeave}
+              simulatesLeaveType={simulatesLeaveType}
+            />
+          )}
         />
       ) : (
         <p>

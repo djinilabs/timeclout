@@ -31,6 +31,7 @@ import { leaveTypeColors } from "../settings/leaveTypes";
 import { leaveTypeIcons } from "../settings/leaveTypes";
 import { useHolidays } from "../hooks/useHolidays";
 import { Suspense } from "./stateless/Suspense";
+import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
 
 export const CompanyTimeOff = () => {
   const { company } = useParams();
@@ -213,6 +214,21 @@ export const CompanyTimeOff = () => {
             });
           }}
           location={userLocationSettings}
+          quotaFulfilment={({
+            companyPk,
+            startDate,
+            endDate,
+            simulatesLeave,
+            simulatesLeaveType,
+          }) => (
+            <MyQuotaFulfilment
+              companyPk={companyPk}
+              startDate={startDate}
+              endDate={endDate}
+              simulatesLeave={simulatesLeave}
+              simulatesLeaveType={simulatesLeaveType}
+            />
+          )}
         />
       ) : (
         <YearCalendar

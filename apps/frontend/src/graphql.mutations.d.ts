@@ -278,6 +278,15 @@ declare module '@/graphql-client/mutations/me.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/memberQuotaFulfilment.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const MemberQuotaFulfilment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/myLeaveCalendar.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

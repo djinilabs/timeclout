@@ -426,6 +426,7 @@ export type Query = {
   invitationsTo: Array<Invitation>;
   leaveRequest: LeaveRequest;
   me?: Maybe<User>;
+  memberQuotaFulfilment: Array<QuotaFulfilment>;
   myInvitations: Array<Invitation>;
   myLeaveCalendar: Calendar;
   myQuotaFulfilment: Array<QuotaFulfilment>;
@@ -452,6 +453,16 @@ export type QueryInvitationsToArgs = {
 export type QueryLeaveRequestArgs = {
   pk: Scalars["String"]["input"];
   sk: Scalars["String"]["input"];
+};
+
+export type QueryMemberQuotaFulfilmentArgs = {
+  companyPk: Scalars["String"]["input"];
+  endDate: Scalars["String"]["input"];
+  simulatesLeave?: InputMaybe<Scalars["Boolean"]["input"]>;
+  simulatesLeaveType?: InputMaybe<Scalars["String"]["input"]>;
+  startDate: Scalars["String"]["input"];
+  teamPk: Scalars["String"]["input"];
+  userPk: Scalars["String"]["input"];
 };
 
 export type QueryMyLeaveCalendarArgs = {

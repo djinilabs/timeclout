@@ -42,4 +42,13 @@ extend type Query {
     simulatesLeave: Boolean
     simulatesLeaveType: String
   ): [QuotaFulfilment!]!
+  memberQuotaFulfilment(
+    companyPk: String!
+    teamPk: String!
+    userPk: String!
+    startDate: String!
+    endDate: String!
+    simulatesLeave: Boolean
+    simulatesLeaveType: String
+  ): [QuotaFulfilment!]!
 }

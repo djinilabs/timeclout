@@ -1,0 +1,29 @@
+query MemberQuotaFulfilment(
+  $companyPk: String!
+  $teamPk: String!
+  $userPk: String!
+  $startDate: String!
+  $endDate: String!
+  $simulatesLeave: Boolean
+  $simulatesLeaveType: String
+) {
+  memberQuotaFulfilment(
+    companyPk: $companyPk
+    teamPk: $teamPk
+    userPk: $userPk
+    startDate: $startDate
+    endDate: $endDate
+    simulatesLeave: $simulatesLeave
+    simulatesLeaveType: $simulatesLeaveType
+  ) {
+    quota
+    quotaStartDate
+    quotaEndDate
+    approvedUsed
+    pendingApprovalUsed
+    simulatedUsed
+    simulatedType
+    simulatedStartDate
+    simulatedEndDate
+  }
+}
