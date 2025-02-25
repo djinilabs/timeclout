@@ -6,8 +6,8 @@ type User {
   resourcePermission: Int
   resourcePermissionGivenAt: DateTime
   settings(name: String!): JSON
-  createdAt: DateTime!
-  createdBy: User!
+  createdAt: DateTime
+  createdBy: User
   updatedAt: DateTime
   updatedBy: User
 }

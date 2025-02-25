@@ -1,6 +1,9 @@
 import crypto from "node:crypto";
 import { database } from "@/tables";
-import type { UserResolvers } from "./../../../types.generated";
+import type {
+  UserResolvers,
+  User as UserType,
+} from "./../../../types.generated";
 
 export const User: UserResolvers = {
   emailMd5: (parent) => {
@@ -15,13 +18,17 @@ export const User: UserResolvers = {
   },
   createdBy: async (parent) => {
     const { entity } = await database();
-    return entity.get(parent.createdBy as unknown as string) as unknown as User;
+    return entity.get(
+      parent.createdBy as unknown as string
+    ) as unknown as UserType;
   },
   updatedBy: async (parent) => {
     if (!parent.updatedBy) {
       return null;
     }
     const { entity } = await database();
-    return entity.get(parent.updatedBy as unknown as string) as unknown as User;
+    return entity.get(
+      parent.updatedBy as unknown as string
+    ) as unknown as UserType;
   },
 };

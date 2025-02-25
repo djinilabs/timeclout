@@ -8,9 +8,7 @@ import type { MutationResolvers, User } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { requireSession } from "../../../../session/requireSession";
 
-export const createTeamMember: NonNullable<
-  MutationResolvers["createTeamMember"]
-> = async (_parent, { input }, ctx) => {
+export const createTeamMember: NonNullable<MutationResolvers['createTeamMember']> = async (_parent, { input }, ctx) => {
   const teamRef = resourceRef("teams", input.teamPk);
   // ensure user has write access to team
   await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);

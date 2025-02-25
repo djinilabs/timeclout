@@ -1,5 +1,5 @@
 import { database, PERMISSION_LEVELS } from "@/tables";
-import { getResourceRef, resourceRef } from "@/utils";
+import { resourceRef } from "@/utils";
 import type { MutationResolvers, User } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { isUserAuthorized } from "@/business-logic";
