@@ -67,7 +67,13 @@ export const getCompoundedResourceRef =
 export const resourceRef = <T extends ResourceType = ResourceType>(
   resourceType: T,
   id: string
-): ResourceRef<T> => `${resourceType}/${id}`;
+): ResourceRef<T> => {
+  const prefix = `${resourceType}/`;
+  if (id.startsWith(prefix)) {
+    return id as ResourceRef<T>;
+  }
+  return `${prefix}${id}` as ResourceRef<T>;
+};
 
 export const compoundedResourceRef = (
   ...args: Array<ResourceRef>

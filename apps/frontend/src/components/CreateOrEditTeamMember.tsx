@@ -31,6 +31,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
   memberPk,
   onDone,
 }) => {
+  console.log("memberPk", memberPk);
   const [teamMemberQueryResponse] = useQuery<
     { teamMember: Query["teamMember"] },
     QueryTeamMemberArgs & UserSettingsArgs
@@ -73,14 +74,23 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
       region: locationSettings.region,
     },
     onSubmit: async ({ value }) => {
-      const result = await (memberPk ? updateTeamMember : createTeamMember)({
-        input: {
-          name: value.name,
-          email: value.email,
-          teamPk,
-          memberPk: memberPk ?? "",
-        },
-      });
+      const result = await (memberPk
+        ? updateTeamMember({
+            input: {
+              name: value.name,
+              email: value.email,
+              teamPk,
+              memberPk,
+            },
+          })
+        : createTeamMember({
+            input: {
+              name: value.name,
+              email: value.email,
+              teamPk,
+            },
+          }));
+
       if (!result.error) {
         const updateSettingsResult = await updateUserSettings({
           userPk: getDefined(
