@@ -24,7 +24,7 @@ const leaveTypesSchema = z.array(
 );
 
 export const leaveTypeParser = {
-  parse: (item: unknown) => {
+  parse: (item: unknown): LeaveTypes => {
     try {
       return leaveTypesSchema.parse(item);
     } catch (err) {

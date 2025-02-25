@@ -44,7 +44,7 @@ export const SelectUser: FC<SelectUserProps> = memo(
       >
         <div className="relative mt-2">
           <ComboboxInput
-            className="block w-full rounded-md bg-white py-1.5 pr-12 pl-3 text-base text-gray-900 outline-2 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600 sm:text-sm/6"
+            className="block w-full rounded-md bg-white py-1.5 pr-12 pl-3 text-base text-gray-900 outline-2 outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600 sm:text-sm/6"
             onChange={(event) => setQuery(event.target.value)}
             onBlur={() => setQuery("")}
             displayValue={(user: User) => user?.name}

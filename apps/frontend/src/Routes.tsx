@@ -19,6 +19,7 @@ import { Suspense } from "./components/stateless/Suspense";
 import { PagePendingLeaveRequests } from "./pages/PagePendingLeaveRequests";
 import { NewTeamMember } from "./routes/NewTeamMember";
 import { EditTeamMember } from "./routes/EditTeamMember";
+import { NewTeamMemberLeaveRequest } from "./routes/NewTeamMemberLeaveRequest";
 
 export const AppRoutes: FC = () => {
   return (
@@ -144,6 +145,14 @@ export const AppRoutes: FC = () => {
         element={
           <RequiresSession>
             <EditTeamMember />
+          </RequiresSession>
+        }
+      />
+      <Route
+        path="/companies/:company/units/:unit/teams/:team/leave-requests/new"
+        element={
+          <RequiresSession>
+            <NewTeamMemberLeaveRequest />
           </RequiresSession>
         }
       />

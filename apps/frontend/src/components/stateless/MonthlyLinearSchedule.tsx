@@ -2,17 +2,20 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   EllipsisHorizontalIcon,
+  PlusIcon,
 } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { memo, ReactNode, useCallback } from "react";
 import { Avatar } from "./Avatar";
 import { months } from "../../utils/months";
+import { Button } from "./Button";
+import { useParams } from "react-router-dom";
 
 export interface User {
   pk: string;
   name: string;
-  email: string;
-  emailMd5: string;
+  email?: string | null;
+  emailMd5?: string | null;
 }
 
 export interface LeaveRequest {
@@ -64,6 +67,7 @@ export const MonthlyLinearSchedule = memo(
 
     const yearMonth = `${year}-${month + 1}`;
     const humanYearMonth = `${months[month]} ${year}`;
+    const { company, unit, team } = useParams();
 
     return (
       <div>
@@ -92,11 +96,16 @@ export const MonthlyLinearSchedule = memo(
               <button
                 type="button"
                 onClick={handleNextMonth}
-                className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
+                className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50 mr-2"
               >
                 <span className="sr-only">Next year</span>
                 <ChevronRightIcon className="size-5" aria-hidden="true" />
               </button>
+              <Button
+                to={`/companies/${company}/units/${unit}/teams/${team}/leave-requests/new`}
+              >
+                <PlusIcon className="size-5" aria-hidden="true" />
+              </Button>
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">
               <MenuButton className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">

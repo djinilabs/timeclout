@@ -8,7 +8,6 @@ import { leaveTypeParser } from "@/settings";
 import { Button } from "./stateless/Button";
 import { useQuery } from "../hooks/useQuery";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import mySettingsQuery from "@/graphql-client/queries/mySettings.graphql";
 import { DayDate } from "@/day-date";
 import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
 import { useHolidays } from "../hooks/useHolidays";
@@ -30,11 +29,13 @@ export type TimeOffRequest = {
 export type BookCompanyTimeOffProps = {
   onSubmit: (values: TimeOffRequest) => void;
   onCancel: () => void;
+  location: { country: string; region: string };
 };
 
 export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   onSubmit,
   onCancel,
+  location,
 }) => {
   const { company } = useParams();
   const [companyWithSettings] = useQuery<
@@ -48,8 +49,13 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
     },
   });
 
-  const unparsedLeaveTypes = companyWithSettings?.data?.company?.settings;
-  const leaveTypes = leaveTypeParser.parse(unparsedLeaveTypes);
+  const leaveTypes = useMemo(
+    () =>
+      companyWithSettings?.data?.company?.settings
+        ? leaveTypeParser.parse(companyWithSettings?.data?.company?.settings)
+        : [],
+    [companyWithSettings]
+  );
 
   const form = useForm<TimeOffRequest>({
     defaultValues: {
@@ -62,34 +68,21 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
     },
   });
 
-  const [userLocationSettingsResult] = useQuery<{ me: Query["me"] }>({
-    query: mySettingsQuery,
-    variables: {
-      settingsName: "location",
-    },
-  });
-
   // Holidays
   const [startDate, setStartDate] = useState(() => new DayDate(new Date()));
   const [endDate, setEndDate] = useState(() =>
     new DayDate(new Date()).nextMonth(1).endOfMonth()
   );
-  const userLocationSettings = userLocationSettingsResult?.data?.me?.settings;
 
   const { data: holidays, error: holidaysError } = useHolidays(
     useMemo(
       () => ({
-        country: userLocationSettings?.country,
-        region: userLocationSettings?.region,
+        country: location.country,
+        region: location.region,
         startDate,
         endDate,
       }),
-      [
-        endDate,
-        startDate,
-        userLocationSettings?.country,
-        userLocationSettings?.region,
-      ]
+      [endDate, startDate, location]
     )
   );
 

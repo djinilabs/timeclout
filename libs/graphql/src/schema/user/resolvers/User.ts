@@ -6,10 +6,14 @@ import type {
 } from "./../../../types.generated";
 
 export const User: UserResolvers = {
+  email: (parent) => {
+    return parent.email ?? "";
+  },
   emailMd5: (parent) => {
     return (
-      parent.email &&
-      crypto.createHash("md5").update(parent.email).digest("hex")
+      (parent.email &&
+        crypto.createHash("md5").update(parent.email).digest("hex")) ??
+      ""
     );
   },
   settings: async (parent, args) => {

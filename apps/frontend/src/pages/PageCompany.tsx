@@ -10,7 +10,7 @@ export const PageCompany: FC = () => {
     () => [
       { name: "Company Units", href: "units" },
       { name: "Company Settings", href: "settings" },
-      { name: "Company Time Off", href: "time-off" },
+      { name: "My Time Off", href: "time-off" },
     ],
     []
   );

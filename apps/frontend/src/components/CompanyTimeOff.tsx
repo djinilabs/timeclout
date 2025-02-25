@@ -200,7 +200,7 @@ export const CompanyTimeOff = () => {
 
   return (
     <Suspense>
-      {params.get("bookTimeOff") === "true" ? (
+      {params.get("bookTimeOff") === "true" && userLocationSettings ? (
         <BookCompanyTimeOff
           onSubmit={onSubmit}
           onCancel={() => {
@@ -212,6 +212,7 @@ export const CompanyTimeOff = () => {
               }).toString(),
             });
           }}
+          location={userLocationSettings}
         />
       ) : (
         <YearCalendar
