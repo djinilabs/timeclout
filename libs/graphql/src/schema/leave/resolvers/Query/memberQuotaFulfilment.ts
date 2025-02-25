@@ -4,6 +4,7 @@ import { getQuotaFulfilment, isUserAuthorized } from "@/business-logic";
 import { DayDate } from "@/day-date";
 import type { QueryResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { forbidden } from "@hapi/boom";
 
 export const memberQuotaFulfilment: NonNullable<
   QueryResolvers["memberQuotaFulfilment"]
@@ -24,7 +25,14 @@ export const memberQuotaFulfilment: NonNullable<
 
   // make sure user is on the team
   const userRef = resourceRef("users", userPk);
-  await isUserAuthorized(userRef, teamRef, PERMISSION_LEVELS.READ);
+  const [isAuthorized] = await isUserAuthorized(
+    userRef,
+    teamRef,
+    PERMISSION_LEVELS.READ
+  );
+  if (!isAuthorized) {
+    throw forbidden("User is not in the specified team");
+  }
 
   const quotaFulfilment = await getQuotaFulfilment({
     companyRef,

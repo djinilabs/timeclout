@@ -22,6 +22,16 @@ input CreateLeaveRequestInput {
   reason: String!
 }
 
+input CreateLeaveRequestForUserInput {
+  companyPk: String!
+  teamPk: String!
+  startDate: String!
+  endDate: String!
+  type: String!
+  reason: String!
+  beneficiaryPk: String!
+}
+
 input UpdateLeaveRequestInput {
   pk: String!
   sk: String!
@@ -48,6 +58,9 @@ input ApproveLeaveRequestInput {
 
 extend type Mutation {
   createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
+  createLeaveRequestForUser(
+    input: CreateLeaveRequestForUserInput!
+  ): LeaveRequest!
   updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
   deleteLeaveRequest(input: DeleteLeaveRequestInput!): LeaveRequest!
   rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!

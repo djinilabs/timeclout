@@ -9,6 +9,7 @@ import { leaveRequestOverlaps } from "./leaveRequestOverlaps";
 export interface CreateLeaveRequestOptions {
   companyPk: ResourceRef;
   userPk: ResourceRef;
+  actingUserPk?: ResourceRef;
   leaveTypeName: string;
   startDateAsString: string;
   endDateAsString: string;
@@ -18,6 +19,7 @@ export interface CreateLeaveRequestOptions {
 export const createLeaveRequest = async ({
   companyPk,
   userPk,
+  actingUserPk = userPk,
   leaveTypeName,
   startDateAsString,
   endDateAsString,
@@ -37,9 +39,9 @@ export const createLeaveRequest = async ({
     userPk,
     reason,
     createdAt: new Date().toISOString(),
-    createdBy: userPk,
+    createdBy: actingUserPk,
     approved: !leaveType.needsManagerApproval,
-    approvedBy: leaveType.needsManagerApproval ? [] : [userPk],
+    approvedBy: leaveType.needsManagerApproval ? [] : [actingUserPk],
     approvedAt: leaveType.needsManagerApproval
       ? []
       : [new Date().toISOString()],

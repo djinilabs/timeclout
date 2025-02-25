@@ -53,6 +53,15 @@ declare module '@/graphql-client/queries/createLeaveRequest.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/createLeaveRequestForUser.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const CreateLeaveRequestForUser: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/createShiftPosition.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

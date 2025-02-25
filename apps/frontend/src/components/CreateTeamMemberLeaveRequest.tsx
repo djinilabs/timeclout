@@ -1,20 +1,25 @@
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
 import { getDefined } from "@/utils";
 import { BookCompanyTimeOff } from "./BookCompanyTimeOff";
 import { SelectUser } from "./stateless/SelectUser";
 import teamWithMemberAndTheirSettingsQuery from "@/graphql-client/queries/teamWithMembersAndTheirSettings.graphql";
+import createLeaveRequestForUserMutation from "@/graphql-client/mutations/createLeaveRequestForUser.graphql";
 import {
+  LeaveRequest,
+  MutationCreateLeaveRequestForUserArgs,
   QueryTeamArgs,
   Team,
   TeamSettingsArgs,
   User,
 } from "../graphql/graphql";
-import { useParams } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
-import { useState } from "react";
 import { MemberQuotaFulfilment } from "./MemberQuotaFulfilment";
+import { useMutation } from "../hooks/useMutation";
 
 export const CreateTeamMemberLeaveRequest = () => {
-  const { team: teamPk } = useParams();
+  const { team: teamPk, company, unit } = useParams();
   const [queryResponse] = useQuery<
     { team: Team },
     QueryTeamArgs & TeamSettingsArgs
@@ -26,6 +31,13 @@ export const CreateTeamMemberLeaveRequest = () => {
     },
   });
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  const [, createLeaveRequestForUser] = useMutation<
+    { createLeaveRequestForUser: LeaveRequest },
+    MutationCreateLeaveRequestForUserArgs
+  >(createLeaveRequestForUserMutation);
+
+  const navigate = useNavigate();
 
   return (
     <div className="space-y-6">
@@ -51,8 +63,36 @@ export const CreateTeamMemberLeaveRequest = () => {
       </div>
       {selectedUser?.settings ? (
         <BookCompanyTimeOff
-          onSubmit={() => {}}
-          onCancel={() => {}}
+          onSubmit={async (request) => {
+            const response = await createLeaveRequestForUser({
+              input: {
+                companyPk: getDefined(company, "No company provided"),
+                teamPk: getDefined(teamPk, "No team provided"),
+                beneficiaryPk: selectedUser?.pk,
+                type: request.type,
+                startDate: getDefined(
+                  request.dateRange[0],
+                  "No start date provided"
+                ),
+                endDate: getDefined(
+                  request.dateRange[1],
+                  "No end date provided"
+                ),
+                reason: request.reason,
+              },
+            });
+            if (!response.error) {
+              toast.success("Leave request created successfully");
+              navigate(
+                `/companies/${company}/units/${unit}/teams/${teamPk}?tab=leave-schedule`
+              );
+            }
+          }}
+          onCancel={() =>
+            navigate(
+              `/companies/${company}/units/${unit}/teams/${teamPk}?tab=leave-schedule`
+            )
+          }
           location={selectedUser?.settings}
           quotaFulfilment={({
             companyPk,
