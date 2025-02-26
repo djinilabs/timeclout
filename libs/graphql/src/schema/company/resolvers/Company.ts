@@ -1,7 +1,10 @@
 // @ts-ignore
 import { database } from "@/tables";
+import { getUserAuthorizationLevelForResource } from "@/business-logic";
+import { resourceRef } from "@/utils";
 import { CompanyResolvers, Unit, User } from "../../../types.generated";
-import { getAuthorized } from "libs/graphql/src/auth/getAuthorized";
+import { getAuthorized } from "../../../auth/getAuthorized";
+import { requireSession } from "../../../session/requireSession";
 
 export const Company: CompanyResolvers = {
   createdBy: async (parent) => {
@@ -28,5 +31,14 @@ export const Company: CompanyResolvers = {
   settings: async (parent, args) => {
     const { entity_settings } = await database();
     return (await entity_settings.get(parent.pk, args.name))?.settings;
+  },
+  resourcePermission: async (parent, _, ctx) => {
+    const session = await requireSession(ctx);
+    return session.user?.id
+      ? getUserAuthorizationLevelForResource(
+          resourceRef("companies", parent.pk),
+          resourceRef("users", session.user.id)
+        )
+      : null;
   },
 };

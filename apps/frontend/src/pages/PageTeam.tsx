@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { type Tab, Tabs } from "../components/stateless/Tabs";
 import { TeamMembers } from "../components/TeamMembers";
@@ -7,16 +7,35 @@ import { TeamLeaveSchedule } from "../components/TeamLeaveSchedule";
 import { Suspense } from "../components/stateless/Suspense";
 import { TeamShiftsCalendar } from "../components/TeamShiftsCalendar";
 import { TeamSettings } from "../components/TeamSettings";
-
-const tabs: Tab[] = [
-  { name: "Members", href: "members" },
-  { name: "Invitations", href: "invitations" },
-  { name: "Leave Schedule", href: "leave-schedule" },
-  { name: "Shifts Calendar", href: "shifts-calendar" },
-  { name: "Settings", href: "settings" },
-];
+import { useParams } from "react-router-dom";
+import { getDefined } from "@/utils";
+import { useQuery } from "../hooks/useQuery";
+import { Query, QueryTeamArgs } from "../graphql/graphql";
+import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 
 export const PageTeam = () => {
+  const { team: teamPk } = useParams();
+  const [queryResponse] = useQuery<{ team: Query["team"] }, QueryTeamArgs>({
+    query: teamQuery,
+    variables: {
+      teamPk: getDefined(teamPk, "No team provided"),
+    },
+  });
+  const team = queryResponse.data?.team;
+  const tabs = useMemo<Tab[]>(
+    () => [
+      { name: "Leave Schedule", href: "leave-schedule" },
+      { name: "Shifts Calendar", href: "shifts-calendar" },
+      ...((team?.resourcePermission ?? -1) >= 2 // WRITE
+        ? [
+            { name: "Members", href: "members" },
+            { name: "Invitations", href: "invitations" },
+            { name: "Settings", href: "settings" },
+          ]
+        : []),
+    ],
+    [team?.resourcePermission]
+  );
   const [currentTab, setCurrentTab] = useState(tabs[0]);
 
   return (

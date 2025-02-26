@@ -14,8 +14,11 @@ export const ensureAuthorized = async (
     minimumPermission
   );
   if (!authorized) {
+    console.trace(
+      `User does not have permission of level ${minimumPermission} to access this resouce (${resource})`
+    );
     throw forbidden(
-      `User does not have permission to access this resouce (${resource})`
+      `User does not have permission of level ${minimumPermission} to access this resouce (${resource})`
     );
   }
 

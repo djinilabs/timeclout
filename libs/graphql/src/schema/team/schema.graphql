@@ -15,6 +15,7 @@ type Team {
   approvedSchedule(startDate: Date!, endDate: Date!): Schedule!
   settings(name: String!): JSON
   teamMembersQualifications: [MemberQualifications!]!
+  resourcePermission: Int
 }
 
 input CreateTeamMemberInput {

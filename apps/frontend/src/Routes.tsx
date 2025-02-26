@@ -15,7 +15,6 @@ import { LeaveRequest } from "./routes/LeaveRequest";
 import { RequiresSelfSettings } from "./components/RequiresSelfSettings";
 import { PageNotFound } from "./pages/PageNotFound";
 import { PageMeEdit } from "./pages/PageMeEdit";
-import { Suspense } from "./components/stateless/Suspense";
 import { PagePendingLeaveRequests } from "./pages/PagePendingLeaveRequests";
 import { NewTeamMember } from "./routes/NewTeamMember";
 import { EditTeamMember } from "./routes/EditTeamMember";
@@ -27,13 +26,11 @@ export const AppRoutes: FC = () => {
       <Route
         path="/"
         element={
-          <Suspense>
-            <RequiresSession>
-              <RequiresSelfSettings>
-                <Root />
-              </RequiresSelfSettings>
-            </RequiresSession>
-          </Suspense>
+          <RequiresSession>
+            <RequiresSelfSettings>
+              <Root />
+            </RequiresSelfSettings>
+          </RequiresSession>
         }
       />
       <Route

@@ -56,6 +56,7 @@ type Company {
   createdBy: User!
   name: String!
   pk: String!
+  resourcePermission: Int
   settings(name: String!): JSON
   units: [Unit!]
   updatedAt: DateTime
@@ -313,6 +314,7 @@ type Team {
   members(qualifications: [String!]): [User!]!
   name: String!
   pk: String!
+  resourcePermission: Int
   schedule(endDate: Date!, startDate: Date!): Schedule!
   settings(name: String!): JSON
   teamMembersQualifications: [MemberQualifications!]!
@@ -326,6 +328,7 @@ type Unit {
   members: [User!]!
   name: String!
   pk: String!
+  resourcePermission: Int
   settings(name: String!): JSON
   teams: [Team!]!
   updatedAt: DateTime

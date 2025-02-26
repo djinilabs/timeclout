@@ -15,5 +15,6 @@ query companyWithSettings($companyPk: String!, $name: String!) {
       name
     }
     settings(name: $name)
+    resourcePermission
   }
 }

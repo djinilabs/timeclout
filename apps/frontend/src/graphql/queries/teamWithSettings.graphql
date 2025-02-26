@@ -3,5 +3,6 @@ query teamWithSettings($teamPk: String!, $name: String!) {
     pk
     name
     settings(name: $name)
+    resourcePermission
   }
 }

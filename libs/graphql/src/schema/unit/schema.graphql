@@ -8,6 +8,7 @@ type Unit {
   teams: [Team!]!
   settings(name: String!): JSON
   members: [User!]!
+  resourcePermission: Int
 }
 
 extend type Mutation {

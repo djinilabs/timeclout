@@ -24,5 +24,6 @@ query company($companyPk: String!) {
         name
       }
     }
+    resourcePermission
   }
 }

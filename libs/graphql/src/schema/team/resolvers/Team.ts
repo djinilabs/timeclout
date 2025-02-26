@@ -1,19 +1,21 @@
 import { database, EntityRecord } from "@/tables";
+import {
+  teamSchedule,
+  getEntitySettings,
+  teamMembersUsers,
+  teamMembersQualifications,
+  getUserAuthorizationLevelForResource,
+} from "@/business-logic";
+import { getDefined, getResourceRef, resourceRef, ResourceRef } from "@/utils";
+import { DayDate } from "@/day-date";
+import { SettingsTypeKey } from "@/settings";
 import type {
   Team as TeamType,
   TeamResolvers,
   User,
   UserSchedule,
 } from "./../../../types.generated";
-import {
-  teamSchedule,
-  getEntitySettings,
-  teamMembersUsers,
-  teamMembersQualifications,
-} from "@/business-logic";
-import { getDefined, getResourceRef, ResourceRef } from "@/utils";
-import { DayDate } from "@/day-date";
-import { SettingsTypeKey } from "@/settings";
+import { requireSession } from "../../../session/requireSession";
 
 export const Team: TeamResolvers = {
   createdBy: async (parent) => {
@@ -92,5 +94,14 @@ export const Team: TeamResolvers = {
   },
   teamMembersQualifications: async (parent) => {
     return teamMembersQualifications(getResourceRef(parent.pk));
+  },
+  resourcePermission: async (parent, _, ctx) => {
+    const session = await requireSession(ctx);
+    return session.user?.id
+      ? getUserAuthorizationLevelForResource(
+          resourceRef("teams", parent.pk),
+          resourceRef("users", session.user.id)
+        )
+      : null;
   },
 };

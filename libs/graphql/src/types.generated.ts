@@ -84,6 +84,7 @@ export type Company = {
   createdBy: User;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  resourcePermission?: Maybe<Scalars['Int']['output']>;
   settings?: Maybe<Scalars['JSON']['output']>;
   units?: Maybe<Array<Unit>>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -641,6 +642,7 @@ export type Team = {
   members: Array<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  resourcePermission?: Maybe<Scalars['Int']['output']>;
   schedule: Schedule;
   settings?: Maybe<Scalars['JSON']['output']>;
   teamMembersQualifications: Array<MemberQualifications>;
@@ -677,6 +679,7 @@ export type Unit = {
   members: Array<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
+  resourcePermission?: Maybe<Scalars['Int']['output']>;
   settings?: Maybe<Scalars['JSON']['output']>;
   teams: Array<Team>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -980,6 +983,7 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  resourcePermission?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   settings?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<CompanysettingsArgs, 'name'>>;
   units?: Resolver<Maybe<Array<ResolversTypes['Unit']>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
@@ -1165,6 +1169,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
   members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<TeammembersArgs>>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  resourcePermission?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   schedule?: Resolver<ResolversTypes['Schedule'], ParentType, ContextType, RequireFields<TeamscheduleArgs, 'endDate' | 'startDate'>>;
   settings?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<TeamsettingsArgs, 'name'>>;
   teamMembersQualifications?: Resolver<Array<ResolversTypes['MemberQualifications']>, ParentType, ContextType>;
@@ -1179,6 +1184,7 @@ export type UnitResolvers<ContextType = any, ParentType extends ResolversParentT
   members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  resourcePermission?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   settings?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<UnitsettingsArgs, 'name'>>;
   teams?: Resolver<Array<ResolversTypes['Team']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;

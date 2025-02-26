@@ -19,5 +19,6 @@ query teamWithMembersAndSettings(
       qualifications
     }
     settings(name: $name)
+    resourcePermission
   }
 }

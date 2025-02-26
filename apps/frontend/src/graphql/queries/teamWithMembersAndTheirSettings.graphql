@@ -11,5 +11,6 @@ query teamWithMembersAndTheirSettings($teamPk: String!, $name: String!) {
       resourcePermissionGivenAt
       settings(name: $name)
     }
+    resourcePermission
   }
 }

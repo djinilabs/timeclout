@@ -14,5 +14,6 @@ query teamWithMembers($teamPk: String!, $qualifications: [String!]) {
       userPk
       qualifications
     }
+    resourcePermission
   }
 }

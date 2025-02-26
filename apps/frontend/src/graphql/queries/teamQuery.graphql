@@ -14,5 +14,6 @@ query team($teamPk: String!) {
       email
       name
     }
+    resourcePermission
   }
 }

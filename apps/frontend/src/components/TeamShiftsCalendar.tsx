@@ -117,7 +117,7 @@ export const TeamShiftsCalendar = () => {
     false
   );
 
-  const { leaveSchedule } = useTeamLeaveSchedule({
+  const { leaveSchedule, team: teamResult } = useTeamLeaveSchedule({
     company: getDefined(company),
     team: getDefined(team),
     calendarStartDay,
@@ -232,21 +232,25 @@ export const TeamShiftsCalendar = () => {
         month={selectedMonth.getMonth() - 1}
         additionalActions={useMemo(
           () => [
-            {
-              type: "button",
-              text: "Add position",
-              onClick: () => {
-                setEditingShiftPosition(undefined);
-                setCreateDialogOpen(true);
-              },
-            },
-            {
-              type: "button",
-              text: "Auto fill",
-              onClick: () => {
-                setAutoFillDialogOpen(true);
-              },
-            },
+            ...((teamResult?.resourcePermission ?? -1) >= 2 // WRITE
+              ? [
+                  {
+                    type: "button",
+                    text: "Add position",
+                    onClick: () => {
+                      setEditingShiftPosition(undefined);
+                      setCreateDialogOpen(true);
+                    },
+                  } as const,
+                  {
+                    type: "button",
+                    text: "Auto fill",
+                    onClick: () => {
+                      setAutoFillDialogOpen(true);
+                    },
+                  } as const,
+                ]
+              : []),
             {
               type: "component",
               component: (
@@ -258,7 +262,11 @@ export const TeamShiftsCalendar = () => {
               ),
             },
           ],
-          [setShowLeaveSchedule, showLeaveSchedule]
+          [
+            setShowLeaveSchedule,
+            showLeaveSchedule,
+            teamResult?.resourcePermission,
+          ]
         )}
         goTo={(year, month) => {
           const day = new DayDate(year, month + 1, 1);

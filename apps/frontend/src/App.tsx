@@ -7,6 +7,7 @@ import { AppLayout } from "./AppLayout";
 import { AppRoutes } from "./Routes";
 import { createClient } from "./graphql/graphql-client";
 import { BrowserRouter } from "react-router-dom";
+import { Suspense } from "./components/stateless/Suspense";
 
 export const App: FC = () => {
   const client = useMemo(() => createClient(), []);
@@ -27,7 +28,9 @@ export const App: FC = () => {
           <SessionProvider refetchWhenOffline={false} basePath="/api/v1/auth">
             <UrqlProvider value={client}>
               <AppLayout>
-                <AppRoutes />
+                <Suspense>
+                  <AppRoutes />
+                </Suspense>
               </AppLayout>
             </UrqlProvider>
           </SessionProvider>

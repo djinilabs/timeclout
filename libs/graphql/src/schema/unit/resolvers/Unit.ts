@@ -1,9 +1,13 @@
 import { database, PERMISSION_LEVELS } from "@/tables";
-import { getAuthorizedForResource } from "@/business-logic";
-import { getResourceRef } from "@/utils";
+import {
+  getAuthorizedForResource,
+  getUserAuthorizationLevelForResource,
+} from "@/business-logic";
+import { getResourceRef, resourceRef } from "@/utils";
 import type { Team, UnitResolvers, User } from "./../../../types.generated";
-import { getAuthorized } from "../../../../src/auth/getAuthorized";
-import { ensureAuthorized } from "../../../../src/auth/ensureAuthorized";
+import { getAuthorized } from "../../../auth/getAuthorized";
+import { ensureAuthorized } from "../../../auth/ensureAuthorized";
+import { requireSession } from "../../../session/requireSession";
 
 export const Unit: UnitResolvers = {
   createdBy: async (parent) => {
@@ -42,5 +46,14 @@ export const Unit: UnitResolvers = {
   settings: async (parent, args) => {
     const { entity_settings } = await database();
     return (await entity_settings.get(parent.pk, args.name))?.settings;
+  },
+  resourcePermission: async (parent, _, ctx) => {
+    const session = await requireSession(ctx);
+    return session.user?.id
+      ? getUserAuthorizationLevelForResource(
+          resourceRef("units", parent.pk),
+          resourceRef("users", session.user.id)
+        )
+      : null;
   },
 };

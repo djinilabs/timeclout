@@ -45,6 +45,7 @@ export const useTeamLeaveSchedule = ({
   pause,
 }: UseTeamLeaveScheduleParams): {
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
+  team: Team | undefined;
 } => {
   const { settings: leaveTypesSettings } = useCompanyWithSettings({
     companyPk: getDefined(company),
@@ -110,5 +111,5 @@ export const useTeamLeaveSchedule = ({
       );
   }, [leaveTypesSettings, teamScheduleResult?.team.approvedSchedule]);
 
-  return { leaveSchedule };
+  return { leaveSchedule, team: teamScheduleResult?.team };
 };
