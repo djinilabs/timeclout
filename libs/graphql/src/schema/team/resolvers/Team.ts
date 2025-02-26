@@ -104,4 +104,22 @@ export const Team: TeamResolvers = {
         )
       : null;
   },
+  unitPk: async (parent) => {
+    return getDefined(
+      (parent as unknown as EntityRecord).parentPk,
+      "no parent pk in team"
+    );
+  },
+  companyPk: async (parent) => {
+    const unitPk = getDefined(
+      (parent as unknown as EntityRecord).parentPk,
+      "no parent pk in team"
+    );
+    const { entity } = await database();
+    const unit = await entity.get(unitPk);
+    return getDefined(
+      getDefined(unit, "no unit").parentPk,
+      "no parent pk in unit"
+    );
+  },
 };

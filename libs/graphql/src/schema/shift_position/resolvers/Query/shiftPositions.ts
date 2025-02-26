@@ -6,9 +6,7 @@ import type {
   ShiftPosition,
 } from "./../../../../types.generated";
 
-export const shiftPositions: NonNullable<
-  QueryResolvers["shiftPositions"]
-> = async (_parent, arg, ctx) => {
+export const shiftPositions: NonNullable<QueryResolvers['shiftPositions']> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const { team, startDay, endDay } = input;

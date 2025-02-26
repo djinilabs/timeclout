@@ -242,6 +242,24 @@ declare module '@/graphql-client/mutations/allCompanies.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/allTeams.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const allTeams: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '@/graphql-client/mutations/allUnits.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const allUnits: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/companyQuery.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

@@ -1,6 +1,5 @@
 import {
-  CalendarIcon,
-  ChartPieIcon,
+  BuildingOfficeIcon,
   Cog6ToothIcon,
   DocumentDuplicateIcon,
   FolderIcon,
@@ -8,28 +7,66 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import { classNames } from "../utils/classNames";
-import { Link, useLocation } from "react-router-dom";
-
-const navigation = [
-  { name: "Home", href: "/", icon: HomeIcon },
-  { name: "Team", href: "#", icon: UsersIcon },
-  { name: "Projects", href: "#", icon: FolderIcon },
-  { name: "Calendar", href: "#", icon: CalendarIcon },
-  {
-    name: "Leave Requests",
-    href: "/leave-requests/pending",
-    icon: DocumentDuplicateIcon,
-  },
-  { name: "Reports", href: "#", icon: ChartPieIcon },
-];
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H" },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T" },
-  { id: 3, name: "Workcation", href: "#", initial: "W" },
-];
+import { Link, useLocation, useParams } from "react-router-dom";
+import { Company, Team, Unit } from "../graphql/graphql";
+import { useQuery } from "../hooks/useQuery";
+import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
+import allUnitsQuery from "@/graphql-client/queries/allUnits.graphql";
+import allTeamsQuery from "@/graphql-client/queries/allTeams.graphql";
 
 export const SideBar = () => {
+  const { company } = useParams();
+  console.log("company", company);
+  const [allCompaniesResult] = useQuery<{ companies: Company[] }>({
+    query: allCompaniesQuery,
+  });
+
+  const allCompanies = allCompaniesResult.data?.companies ?? [];
+
+  const [allUnitsResult] = useQuery<{ units: Unit[] }>({
+    query: allUnitsQuery,
+    variables: {
+      pause: company == null,
+    },
+  });
+
+  const allUnits = allUnitsResult.data?.units ?? [];
+
+  const [allTeamsResult] = useQuery<{ allTeams: Team[] }>({
+    query: allTeamsQuery,
+    variables: {
+      pause: company == null,
+    },
+  });
+
+  const allTeams = allTeamsResult.data?.allTeams ?? [];
+
   const location = useLocation();
+
+  const navigation = [
+    { name: "Home", href: "/", icon: HomeIcon },
+    ...allCompanies.map((company) => ({
+      name: company.name,
+      href: `/${company.pk}`,
+      icon: BuildingOfficeIcon,
+    })),
+    ...allUnits.map((unit) => ({
+      name: unit.name,
+      href: `/${unit.companyPk}/${unit.pk}`,
+      icon: FolderIcon,
+    })),
+    ...allTeams.map((team) => ({
+      name: team.name,
+      href: `/${team.companyPk}/${team.unitPk}/${team.pk}`,
+      icon: UsersIcon,
+    })),
+    {
+      name: "Leave Requests",
+      href: "/leave-requests/pending",
+      icon: DocumentDuplicateIcon,
+    },
+  ];
+
   return (
     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-teal-600 px-6 pb-4">
       <div className="flex h-16 shrink-0 items-center">
@@ -65,31 +102,6 @@ export const SideBar = () => {
                     />
                     {item.name}
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
-          <li>
-            <div className="text-xs/6 font-semibold text-teal-200">
-              Your teams
-            </div>
-            <ul role="list" className="-mx-2 mt-2 space-y-1">
-              {teams.map((team) => (
-                <li key={team.name}>
-                  <a
-                    href={team.href}
-                    className={classNames(
-                      location.pathname === team.href
-                        ? "bg-teal-700 text-white"
-                        : "text-teal-200 hover:bg-teal-700 hover:text-white",
-                      "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold animate duration-200"
-                    )}
-                  >
-                    <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-teal-400 bg-teal-500 text-[0.625rem] font-medium text-white">
-                      {team.initial}
-                    </span>
-                    <span className="truncate">{team.name}</span>
-                  </a>
                 </li>
               ))}
             </ul>

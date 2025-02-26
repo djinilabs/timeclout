@@ -461,6 +461,7 @@ export type PublishShiftPositionsInput = {
 
 export type Query = {
   __typename?: 'Query';
+  allTeams: Array<Team>;
   companies: Array<Company>;
   company: Company;
   invitation: Invitation;
@@ -478,6 +479,7 @@ export type Query = {
   team: Team;
   teamMember: User;
   unit: Unit;
+  units: Array<Unit>;
 };
 
 
@@ -637,6 +639,7 @@ export type ShiftsAutoFillParams = {
 export type Team = {
   __typename?: 'Team';
   approvedSchedule: Schedule;
+  companyPk: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   members: Array<User>;
@@ -646,6 +649,7 @@ export type Team = {
   schedule: Schedule;
   settings?: Maybe<Scalars['JSON']['output']>;
   teamMembersQualifications: Array<MemberQualifications>;
+  unitPk: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
@@ -674,6 +678,7 @@ export type TeamsettingsArgs = {
 
 export type Unit = {
   __typename?: 'Unit';
+  companyPk: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   members: Array<User>;
@@ -1094,6 +1099,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  allTeams?: Resolver<Array<ResolversTypes['Team']>, ParentType, ContextType>;
   companies?: Resolver<Array<ResolversTypes['Company']>, ParentType, ContextType>;
   company?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<QuerycompanyArgs, 'companyPk'>>;
   invitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<QueryinvitationArgs, 'secret'>>;
@@ -1111,6 +1117,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;
   teamMember?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryteamMemberArgs, 'memberPk' | 'teamPk'>>;
   unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<QueryunitArgs, 'unitPk'>>;
+  units?: Resolver<Array<ResolversTypes['Unit']>, ParentType, ContextType>;
 };
 
 export type QuotaFulfilmentResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuotaFulfilment'] = ResolversParentTypes['QuotaFulfilment']> = {
@@ -1164,6 +1171,7 @@ export type ShiftsAutoFillParamsResolvers<ContextType = any, ParentType extends 
 
 export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
   approvedSchedule?: Resolver<ResolversTypes['Schedule'], ParentType, ContextType, RequireFields<TeamapprovedScheduleArgs, 'endDate' | 'startDate'>>;
+  companyPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<TeammembersArgs>>;
@@ -1173,12 +1181,14 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
   schedule?: Resolver<ResolversTypes['Schedule'], ParentType, ContextType, RequireFields<TeamscheduleArgs, 'endDate' | 'startDate'>>;
   settings?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<TeamsettingsArgs, 'name'>>;
   teamMembersQualifications?: Resolver<Array<ResolversTypes['MemberQualifications']>, ParentType, ContextType>;
+  unitPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UnitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Unit'] = ResolversParentTypes['Unit']> = {
+  companyPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;

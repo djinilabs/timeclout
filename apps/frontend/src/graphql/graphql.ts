@@ -459,6 +459,7 @@ export type PublishShiftPositionsInput = {
 
 export type Query = {
   __typename?: 'Query';
+  allTeams: Array<Team>;
   companies: Array<Company>;
   company: Company;
   invitation: Invitation;
@@ -476,6 +477,7 @@ export type Query = {
   team: Team;
   teamMember: User;
   unit: Unit;
+  units: Array<Unit>;
 };
 
 
@@ -635,6 +637,7 @@ export type ShiftsAutoFillParams = {
 export type Team = {
   __typename?: 'Team';
   approvedSchedule: Schedule;
+  companyPk: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   members: Array<User>;
@@ -644,6 +647,7 @@ export type Team = {
   schedule: Schedule;
   settings?: Maybe<Scalars['JSON']['output']>;
   teamMembersQualifications: Array<MemberQualifications>;
+  unitPk: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedBy?: Maybe<User>;
 };
@@ -672,6 +676,7 @@ export type TeamSettingsArgs = {
 
 export type Unit = {
   __typename?: 'Unit';
+  companyPk: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   members: Array<User>;

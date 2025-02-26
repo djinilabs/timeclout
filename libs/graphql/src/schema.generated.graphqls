@@ -222,6 +222,7 @@ input PublishShiftPositionsInput {
 }
 
 type Query {
+  allTeams: [Team!]!
   companies: [Company!]!
   company(companyPk: String!): Company!
   invitation(secret: String!): Invitation!
@@ -239,6 +240,7 @@ type Query {
   team(teamPk: String!): Team!
   teamMember(memberPk: String!, teamPk: String!): User!
   unit(unitPk: String!): Unit!
+  units: [Unit!]!
 }
 
 input QueryShiftPositionsInput {
@@ -309,6 +311,7 @@ type ShiftsAutoFillParams {
 
 type Team {
   approvedSchedule(endDate: Date!, startDate: Date!): Schedule!
+  companyPk: String!
   createdAt: DateTime!
   createdBy: User!
   members(qualifications: [String!]): [User!]!
@@ -318,11 +321,13 @@ type Team {
   schedule(endDate: Date!, startDate: Date!): Schedule!
   settings(name: String!): JSON
   teamMembersQualifications: [MemberQualifications!]!
+  unitPk: String!
   updatedAt: DateTime
   updatedBy: User
 }
 
 type Unit {
+  companyPk: String!
   createdAt: DateTime!
   createdBy: User!
   members: [User!]!

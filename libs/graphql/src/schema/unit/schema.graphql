@@ -9,6 +9,7 @@ type Unit {
   settings(name: String!): JSON
   members: [User!]!
   resourcePermission: Int
+  companyPk: String!
 }
 
 extend type Mutation {
@@ -20,4 +21,5 @@ extend type Mutation {
 
 extend type Query {
   unit(unitPk: String!): Unit!
+  units: [Unit!]!
 }

@@ -1,9 +1,9 @@
-import { database, PERMISSION_LEVELS } from "@/tables";
+import { database, EntityRecord, PERMISSION_LEVELS } from "@/tables";
 import {
   getAuthorizedForResource,
   getUserAuthorizationLevelForResource,
 } from "@/business-logic";
-import { getResourceRef, resourceRef } from "@/utils";
+import { getDefined, getResourceRef, resourceRef } from "@/utils";
 import type { Team, UnitResolvers, User } from "./../../../types.generated";
 import { getAuthorized } from "../../../auth/getAuthorized";
 import { ensureAuthorized } from "../../../auth/ensureAuthorized";
@@ -55,5 +55,11 @@ export const Unit: UnitResolvers = {
           resourceRef("users", session.user.id)
         )
       : null;
+  },
+  companyPk: async (parent) => {
+    return getDefined(
+      (parent as unknown as EntityRecord).parentPk,
+      "no parent pk in unit"
+    );
   },
 };

@@ -1,6 +1,7 @@
 /* This file was automatically generated. DO NOT UPDATE MANUALLY. */
     import type   { Resolvers } from './types.generated';
-    import    { companies as Query_companies } from './schema/company/resolvers/Query/companies';
+    import    { allTeams as Query_allTeams } from './schema/team/resolvers/Query/allTeams';
+import    { companies as Query_companies } from './schema/company/resolvers/Query/companies';
 import    { company as Query_company } from './schema/company/resolvers/Query/company';
 import    { invitation as Query_invitation } from './schema/invitation/resolvers/Query/invitation';
 import    { invitationsTo as Query_invitationsTo } from './schema/invitation/resolvers/Query/invitationsTo';
@@ -17,6 +18,7 @@ import    { shiftsAutoFillParams as Query_shiftsAutoFillParams } from './schema/
 import    { team as Query_team } from './schema/team/resolvers/Query/team';
 import    { teamMember as Query_teamMember } from './schema/team/resolvers/Query/teamMember';
 import    { unit as Query_unit } from './schema/unit/resolvers/Query/unit';
+import    { units as Query_units } from './schema/unit/resolvers/Query/units';
 import    { acceptInvitation as Mutation_acceptInvitation } from './schema/invitation/resolvers/Mutation/acceptInvitation';
 import    { approveLeaveRequest as Mutation_approveLeaveRequest } from './schema/leave_request/resolvers/Mutation/approveLeaveRequest';
 import    { assignShiftPositions as Mutation_assignShiftPositions } from './schema/shifts_autofill/resolvers/Mutation/assignShiftPositions';
@@ -75,7 +77,7 @@ import    { User } from './schema/user/resolvers/User';
 import    { UserSchedule } from './schema/schedule/resolvers/UserSchedule';
 import    { DateResolver,DateTimeResolver,JSONResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
-      Query: { companies: Query_companies,company: Query_company,invitation: Query_invitation,invitationsTo: Query_invitationsTo,leaveRequest: Query_leaveRequest,me: Query_me,memberQuotaFulfilment: Query_memberQuotaFulfilment,myInvitations: Query_myInvitations,myLeaveCalendar: Query_myLeaveCalendar,myLeaveRequests: Query_myLeaveRequests,myQuotaFulfilment: Query_myQuotaFulfilment,pendingLeaveRequests: Query_pendingLeaveRequests,shiftPositions: Query_shiftPositions,shiftsAutoFillParams: Query_shiftsAutoFillParams,team: Query_team,teamMember: Query_teamMember,unit: Query_unit },
+      Query: { allTeams: Query_allTeams,companies: Query_companies,company: Query_company,invitation: Query_invitation,invitationsTo: Query_invitationsTo,leaveRequest: Query_leaveRequest,me: Query_me,memberQuotaFulfilment: Query_memberQuotaFulfilment,myInvitations: Query_myInvitations,myLeaveCalendar: Query_myLeaveCalendar,myLeaveRequests: Query_myLeaveRequests,myQuotaFulfilment: Query_myQuotaFulfilment,pendingLeaveRequests: Query_pendingLeaveRequests,shiftPositions: Query_shiftPositions,shiftsAutoFillParams: Query_shiftsAutoFillParams,team: Query_team,teamMember: Query_teamMember,unit: Query_unit,units: Query_units },
       Mutation: { acceptInvitation: Mutation_acceptInvitation,approveLeaveRequest: Mutation_approveLeaveRequest,assignShiftPositions: Mutation_assignShiftPositions,copyShiftPosition: Mutation_copyShiftPosition,createCompany: Mutation_createCompany,createInvitation: Mutation_createInvitation,createLeaveRequest: Mutation_createLeaveRequest,createLeaveRequestForUser: Mutation_createLeaveRequestForUser,createShiftPosition: Mutation_createShiftPosition,createTeam: Mutation_createTeam,createTeamMember: Mutation_createTeamMember,createUnit: Mutation_createUnit,deleteCompany: Mutation_deleteCompany,deleteInvitation: Mutation_deleteInvitation,deleteLeave: Mutation_deleteLeave,deleteLeaveRequest: Mutation_deleteLeaveRequest,deleteShiftPosition: Mutation_deleteShiftPosition,deleteTeam: Mutation_deleteTeam,deleteUnit: Mutation_deleteUnit,moveShiftPosition: Mutation_moveShiftPosition,publishShiftPositions: Mutation_publishShiftPositions,rejectLeaveRequest: Mutation_rejectLeaveRequest,removeUserFromTeam: Mutation_removeUserFromTeam,saveTeamMemberQualifications: Mutation_saveTeamMemberQualifications,unpublishShiftPositions: Mutation_unpublishShiftPositions,updateCompany: Mutation_updateCompany,updateCompanySettings: Mutation_updateCompanySettings,updateLeaveRequest: Mutation_updateLeaveRequest,updateMe: Mutation_updateMe,updateMySettings: Mutation_updateMySettings,updateShiftPosition: Mutation_updateShiftPosition,updateTeam: Mutation_updateTeam,updateTeamMember: Mutation_updateTeamMember,updateTeamSettings: Mutation_updateTeamSettings,updateUnit: Mutation_updateUnit,updateUnitSettings: Mutation_updateUnitSettings,updateUserSettings: Mutation_updateUserSettings },
       
       AutoFillSlot: AutoFillSlot,

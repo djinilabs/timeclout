@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, PropsWithChildren, Suspense, useState } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -51,14 +51,18 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
                 </div>
               </TransitionChild>
               {/* Sidebar */}
-              <SideBar />
+              <Suspense>
+                <SideBar />
+              </Suspense>
             </DialogPanel>
           </div>
         </Dialog>
 
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          <SideBar />
+          <Suspense>
+            <SideBar />
+          </Suspense>
         </div>
 
         <div className="lg:pl-72">

@@ -16,6 +16,8 @@ type Team {
   settings(name: String!): JSON
   teamMembersQualifications: [MemberQualifications!]!
   resourcePermission: Int
+  unitPk: String!
+  companyPk: String!
 }
 
 input CreateTeamMemberInput {
@@ -48,5 +50,6 @@ extend type Mutation {
 
 extend type Query {
   team(teamPk: String!): Team!
+  allTeams: [Team!]!
   teamMember(teamPk: String!, memberPk: String!): User!
 }
