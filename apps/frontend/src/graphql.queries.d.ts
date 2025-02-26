@@ -107,6 +107,15 @@ declare module '@/graphql-client/queries/deleteInvitation.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/deleteLeaveRequest.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const deleteLeaveRequest: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/deleteShiftPosition.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

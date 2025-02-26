@@ -6,9 +6,7 @@ import type {
   QueryResolvers,
 } from "./../../../../types.generated";
 
-export const myLeaveRequests: NonNullable<
-  QueryResolvers["myLeaveRequests"]
-> = async (_parent, { companyPk }, ctx) => {
+export const myLeaveRequests: NonNullable<QueryResolvers['myLeaveRequests']> = async (_parent, { companyPk }, ctx) => {
   const user = await requireSessionUser(ctx);
   return (
     await userLeaveRequests(

@@ -6,9 +6,11 @@ import { requireSession } from "../../../../session/requireSession";
 import { database } from "@/tables";
 import { forbidden, notFound } from "@hapi/boom";
 import { getDefined, resourceRef } from "@/utils";
-import { canApproveLeaveRequest } from "@/business-logic";
+import { canApproveLeaveRequest, removeLeaveRequest } from "@/business-logic";
 
-export const deleteLeaveRequest: NonNullable<MutationResolvers['deleteLeaveRequest']> = async (_parent, arg, ctx) => {
+export const deleteLeaveRequest: NonNullable<
+  MutationResolvers["deleteLeaveRequest"]
+> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const { leave_request } = await database();
   const leaveRequest = await leave_request.get(arg.input.pk, arg.input.sk);
@@ -22,6 +24,9 @@ export const deleteLeaveRequest: NonNullable<MutationResolvers['deleteLeaveReque
   ) {
     throw forbidden("You are not allowed to delete this leave request");
   }
-  await leave_request.delete(arg.input.pk, arg.input.sk);
+  await removeLeaveRequest({
+    pk: leaveRequest.pk,
+    sk: leaveRequest.sk,
+  });
   return leaveRequest as unknown as LeaveRequest;
 };

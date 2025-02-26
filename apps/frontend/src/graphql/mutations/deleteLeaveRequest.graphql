@@ -1,0 +1,6 @@
+mutation deleteLeaveRequest($input: DeleteLeaveRequestInput!) {
+  deleteLeaveRequest(input: $input) {
+    pk
+    sk
+  }
+}

@@ -8,3 +8,4 @@ export * from "./rejectLeaveRequest";
 export * from "./getLeaveRequestsForDateRange";
 export * from "./getUserPendingLeaveRequests";
 export * from "./userLeaveRequests";
+export * from "./removeLeaveRequest";
