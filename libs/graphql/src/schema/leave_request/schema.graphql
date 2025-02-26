@@ -69,5 +69,6 @@ extend type Mutation {
 
 extend type Query {
   leaveRequest(pk: String!, sk: String!): LeaveRequest!
-  pendingLeaveRequests: [LeaveRequest!]!
+  pendingLeaveRequests(companyPk: String): [LeaveRequest!]!
+  myLeaveRequests(companyPk: String!): [LeaveRequest!]!
 }

@@ -3,11 +3,15 @@ import { database, LeaveRequestRecord } from "@/tables";
 import { getCompanyPksTheUserManages } from "../company/getCompanyPksTheUserManages";
 
 export const getUserPendingLeaveRequests = async (
-  userPk: ResourceRef
+  userPk: ResourceRef<"users">,
+  companyPk?: ResourceRef<"companies"> | null
 ): Promise<LeaveRequestRecord[]> => {
-  console.log("getUserPendingLeaveRequests", userPk);
-  const companyPksUserManages = await getCompanyPksTheUserManages(userPk);
-  console.log("companyPksUserManages", companyPksUserManages);
+  let companyPksUserManages = await getCompanyPksTheUserManages(userPk);
+  if (companyPk) {
+    companyPksUserManages = companyPksUserManages.filter(
+      (c) => c === companyPk
+    );
+  }
   const { leave_request } = await database();
   return (
     await Promise.all(

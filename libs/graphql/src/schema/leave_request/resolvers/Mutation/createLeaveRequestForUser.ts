@@ -11,9 +11,7 @@ import type {
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { forbidden } from "@hapi/boom";
 
-export const createLeaveRequestForUser: NonNullable<
-  MutationResolvers["createLeaveRequestForUser"]
-> = async (_parent, { input }, ctx) => {
+export const createLeaveRequestForUser: NonNullable<MutationResolvers['createLeaveRequestForUser']> = async (_parent, { input }, ctx) => {
   const companyResourceRef = resourceRef("companies", input.companyPk);
   const actingUserPk = await ensureAuthorized(
     ctx,

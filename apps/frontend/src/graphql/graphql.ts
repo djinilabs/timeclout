@@ -467,6 +467,7 @@ export type Query = {
   memberQuotaFulfilment: Array<QuotaFulfilment>;
   myInvitations: Array<Invitation>;
   myLeaveCalendar: Calendar;
+  myLeaveRequests: Array<LeaveRequest>;
   myQuotaFulfilment: Array<QuotaFulfilment>;
   pendingLeaveRequests: Array<LeaveRequest>;
   shiftPositions: Array<ShiftPosition>;
@@ -515,12 +516,22 @@ export type QueryMyLeaveCalendarArgs = {
 };
 
 
+export type QueryMyLeaveRequestsArgs = {
+  companyPk: Scalars['String']['input'];
+};
+
+
 export type QueryMyQuotaFulfilmentArgs = {
   companyPk: Scalars['String']['input'];
   endDate: Scalars['String']['input'];
   simulatesLeave?: InputMaybe<Scalars['Boolean']['input']>;
   simulatesLeaveType?: InputMaybe<Scalars['String']['input']>;
   startDate: Scalars['String']['input'];
+};
+
+
+export type QueryPendingLeaveRequestsArgs = {
+  companyPk?: InputMaybe<Scalars['String']['input']>;
 };
 
 

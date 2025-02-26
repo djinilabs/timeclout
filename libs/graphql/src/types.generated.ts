@@ -469,6 +469,7 @@ export type Query = {
   memberQuotaFulfilment: Array<QuotaFulfilment>;
   myInvitations: Array<Invitation>;
   myLeaveCalendar: Calendar;
+  myLeaveRequests: Array<LeaveRequest>;
   myQuotaFulfilment: Array<QuotaFulfilment>;
   pendingLeaveRequests: Array<LeaveRequest>;
   shiftPositions: Array<ShiftPosition>;
@@ -517,12 +518,22 @@ export type QuerymyLeaveCalendarArgs = {
 };
 
 
+export type QuerymyLeaveRequestsArgs = {
+  companyPk: Scalars['String']['input'];
+};
+
+
 export type QuerymyQuotaFulfilmentArgs = {
   companyPk: Scalars['String']['input'];
   endDate: Scalars['String']['input'];
   simulatesLeave?: InputMaybe<Scalars['Boolean']['input']>;
   simulatesLeaveType?: InputMaybe<Scalars['String']['input']>;
   startDate: Scalars['String']['input'];
+};
+
+
+export type QuerypendingLeaveRequestsArgs = {
+  companyPk?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1088,8 +1099,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   memberQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymemberQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate' | 'teamPk' | 'userPk'>>;
   myInvitations?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType>;
   myLeaveCalendar?: Resolver<ResolversTypes['Calendar'], ParentType, ContextType, RequireFields<QuerymyLeaveCalendarArgs, 'companyPk' | 'year'>>;
+  myLeaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType, RequireFields<QuerymyLeaveRequestsArgs, 'companyPk'>>;
   myQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymyQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate'>>;
-  pendingLeaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType>;
+  pendingLeaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType, Partial<QuerypendingLeaveRequestsArgs>>;
   shiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<QueryshiftPositionsArgs, 'input'>>;
   shiftsAutoFillParams?: Resolver<ResolversTypes['ShiftsAutoFillParams'], ParentType, ContextType, RequireFields<QueryshiftsAutoFillParamsArgs, 'input'>>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;

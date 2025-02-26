@@ -127,6 +127,7 @@ export type Query = {
   FilterExpression?: string;
   ExpressionAttributeValues?: Record<string, any>;
   ExpressionAttributeNames?: Record<string, string>;
+  ScanIndexForward?: boolean;
 };
 
 export type TableAPI<

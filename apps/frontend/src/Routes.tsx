@@ -77,6 +77,14 @@ export const AppRoutes: FC = () => {
         }
       />
       <Route
+        path="/companies/:company/units/:unit/teams/:team/leave-requests/new"
+        element={
+          <RequiresSession>
+            <NewTeamMemberLeaveRequest />
+          </RequiresSession>
+        }
+      />
+      <Route
         path="/companies/:company/users/:user/leave-requests/:startDate/:endDate/:leaveType"
         element={
           <RequiresSession>
@@ -145,14 +153,6 @@ export const AppRoutes: FC = () => {
         element={
           <RequiresSession>
             <EditTeamMember />
-          </RequiresSession>
-        }
-      />
-      <Route
-        path="/companies/:company/units/:unit/teams/:team/leave-requests/new"
-        element={
-          <RequiresSession>
-            <NewTeamMemberLeaveRequest />
           </RequiresSession>
         }
       />

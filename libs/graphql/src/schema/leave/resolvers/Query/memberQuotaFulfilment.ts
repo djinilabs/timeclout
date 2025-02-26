@@ -6,9 +6,7 @@ import type { QueryResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { forbidden } from "@hapi/boom";
 
-export const memberQuotaFulfilment: NonNullable<
-  QueryResolvers["memberQuotaFulfilment"]
-> = async (_parent, arg, ctx) => {
+export const memberQuotaFulfilment: NonNullable<QueryResolvers['memberQuotaFulfilment']> = async (_parent, arg, ctx) => {
   const {
     companyPk,
     teamPk,

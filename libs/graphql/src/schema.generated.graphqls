@@ -230,8 +230,9 @@ type Query {
   memberQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!, teamPk: String!, userPk: String!): [QuotaFulfilment!]!
   myInvitations: [Invitation!]!
   myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
+  myLeaveRequests(companyPk: String!): [LeaveRequest!]!
   myQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!): [QuotaFulfilment!]!
-  pendingLeaveRequests: [LeaveRequest!]!
+  pendingLeaveRequests(companyPk: String): [LeaveRequest!]!
   shiftPositions(input: QueryShiftPositionsInput!): [ShiftPosition!]!
   shiftsAutoFillParams(input: AutoFillParamsInput!): ShiftsAutoFillParams!
   team(teamPk: String!): Team!
