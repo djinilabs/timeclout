@@ -50,7 +50,7 @@ export const CreateTeamMemberLeaveRequest = () => {
             Select User
           </legend>
           <p className="mt-1 text-sm/6 text-gray-600">
-            Select the user you want to book time off for.
+            Select the user you want to request time off for.
           </p>
         </div>
         <div className="mt-6 space-y-3 col-span-2">

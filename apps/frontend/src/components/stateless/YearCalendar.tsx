@@ -88,7 +88,7 @@ export const YearCalendar = memo(
                 className="ml-6 rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
                 onClick={bookTimeOff}
               >
-                Book Time Off
+                Request Time Off
               </button>
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">
@@ -107,7 +107,7 @@ export const YearCalendar = memo(
                       onClick={bookTimeOff}
                       className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                     >
-                      Book time off
+                      Request time off
                     </a>
                   </MenuItem>
                 </div>

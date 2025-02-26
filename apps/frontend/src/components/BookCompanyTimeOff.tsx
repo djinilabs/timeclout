@@ -112,7 +112,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
     >
       <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
         <p className="mt-1 text-sm/6 text-gray-600 py-5">
-          Book time off by filling this form:
+          Request time off by filling this form:
         </p>
         <div className="flex py-5 md:col-span-2">
           <div className="px-4 justify-end">

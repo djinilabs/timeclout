@@ -46,14 +46,14 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
                   <p className="text-sm/6 text-gray-900">
                     <Link to={url}>{leaveRequest.type}</Link>
                   </p>
-                  {showState && (
-                    <p className="mt-1 text-xs/5 text-gray-500">
-                      Status: {leaveRequest.approved ? "Approved" : "Pending"}
-                    </p>
-                  )}
                   <p className="mt-1 text-xs/5 text-gray-500">
                     From {leaveRequest.startDate} to {leaveRequest.endDate}
                   </p>
+                  {showState && (
+                    <p className="mt-1 text-xs/5 text-gray-500">
+                      {leaveRequest.approved ? "Approved" : "Pending"}
+                    </p>
+                  )}
                   <p className="mt-1 text-xs/5 text-gray-500">
                     Created{" "}
                     <ReactTimeAgo date={new Date(leaveRequest.createdAt)} />
