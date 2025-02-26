@@ -2254,10 +2254,6 @@ video {
   outline-offset: -1px;
 }
 
-.outline-offset-1 {
-  outline-offset: 1px;
-}
-
 .outline-gray-300 {
   outline-color: #d1d5db;
 }
