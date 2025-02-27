@@ -56,4 +56,4 @@ jobs:
           cd ../..
           pnpm build
           cd apps/backend
-          pnpm arc deploy --production --no-hydrate
+          pnpm arc deploy --production --no-hydrate --verbose

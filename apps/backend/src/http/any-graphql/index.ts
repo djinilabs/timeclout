@@ -8,7 +8,9 @@ import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 // @ts-ignore
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
 import { handlingErrors } from "../../utils/handlingErrors";
-import { useSentry } from "@envelop/sentry";
+// force import because bundler doesn't include it
+import client from "@aws-lite/client";
+console.log("AWS lite client", client);
 
 const yoga = createYoga({
   graphqlEndpoint: "/graphql",
