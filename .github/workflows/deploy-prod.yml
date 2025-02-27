@@ -41,19 +41,19 @@ jobs:
         env:
           NODE_ENV: "production"
           BASE_URL: "https://tt3.app"
-          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          AUTH_MAILGUN_KEY: "a11992a9ddeb2f348d611cd4f6c74326-2e68d0fb-8ca6b509"
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           TT3_CUSTOM_DOMAIN: "tt3.app"
           TT3_CERTIFICATE_ARN: ${{ secrets.TT3_CERTIFICATE_ARN }}
           TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
           VITE_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
         run: |
-
           cd apps/backend
           export PATH=../../node_modules/.bin:$PATH
-          arc env production NODE_OPTIONS --enable-source-maps
+          pnpm arc env production NODE_OPTIONS --enable-source-maps
+          pnpm arc env production AUTH_SECRET ${{ secrets.AUTH_SECRET }}
+          pnpm arc env production AUTH_MAILGUN_KEY ${{ secrets.AUTH_MAILGUN_KEY }}
           cd ../..
           pnpm build
           cd apps/backend
-          ../../node_modules/.bin/arc deploy --production --no-hydrate
+          pnpm arc deploy --production --no-hydrate
