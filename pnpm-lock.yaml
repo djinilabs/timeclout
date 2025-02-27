@@ -40,6 +40,9 @@ importers:
       '@aws-lite/apigatewaymanagementapi-types':
         specifier: ^0.0.13
         version: 0.0.13
+      '@aws-lite/client':
+        specifier: ^0.23.0
+        version: 0.23.0
       '@aws-lite/dynamodb-types':
         specifier: ^0.3.11
         version: 0.3.11
@@ -435,6 +438,10 @@ packages:
 
   '@aws-lite/client@0.22.4':
     resolution: {integrity: sha512-52ua/U3+JXecuTtrTZ1XjSbDL2S+iyfOD/1daYRnPQ83YPNzo4BJe1iIVwtZbJB6goLyeVolxSlPmnuqF6JFvw==}
+    engines: {node: '>=16'}
+
+  '@aws-lite/client@0.23.0':
+    resolution: {integrity: sha512-hkU6KPy+/g3T9re9Jy2XVmbEwVwfZYYLlf6mVbUaHbZKj29E9zhrWajXX1LAob8UE3wst9qBNmoGGuGCMVaDcA==}
     engines: {node: '>=16'}
 
   '@aws-lite/cloudformation@0.0.5':
@@ -6686,6 +6693,10 @@ snapshots:
       aws4: 1.13.2
 
   '@aws-lite/client@0.22.4':
+    dependencies:
+      aws4: 1.13.2
+
+  '@aws-lite/client@0.23.0':
     dependencies:
       aws4: 1.13.2
 
