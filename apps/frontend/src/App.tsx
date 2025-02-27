@@ -1,7 +1,7 @@
 import { FC, useMemo } from "react";
 import { Provider as UrqlProvider } from "urql";
 import { SessionProvider } from "next-auth/react";
-import { ErrorBoundary } from "@sentry/react";
+import { ErrorBoundary, init as initSentry, withProfiler } from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppLayout } from "./AppLayout";
 import { AppRoutes } from "./Routes";
@@ -9,7 +9,15 @@ import { createClient } from "./graphql/graphql-client";
 import { BrowserRouter } from "react-router-dom";
 import { Suspense } from "./components/stateless/Suspense";
 
-export const App: FC = () => {
+const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
+
+if (SENTRY_DSN) {
+  initSentry({
+    dsn: SENTRY_DSN,
+  });
+}
+
+const AppComponent: FC = () => {
   const client = useMemo(() => createClient(), []);
   const queryClient = useMemo(() => new QueryClient(), []);
   return (
@@ -39,3 +47,7 @@ export const App: FC = () => {
     </ErrorBoundary>
   );
 };
+
+export const App = withProfiler(AppComponent, {
+  name: "tt3.app",
+});

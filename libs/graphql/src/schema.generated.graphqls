@@ -196,11 +196,9 @@ type Mutation {
   deleteTeam(pk: String!): Team!
   deleteUnit(pk: String!): Unit!
   moveShiftPosition(input: MoveShiftPositionInput!): ShiftPosition!
-  publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
   rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
   saveTeamMemberQualifications(qualifications: [String!]!, teamPk: String!, userPk: String!): Team!
-  unpublishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
   updateCompany(name: String!, pk: String!): Company!
   updateCompanySettings(companyPk: String!, name: String!, settings: JSON!): Company!
   updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!

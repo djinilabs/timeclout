@@ -1,0 +1,54 @@
+name: Deploy Prod
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-prod
+      cancel-in-progress: false
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          architecture: "x64"
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install -w
+
+      - name: Deploy
+        env:
+          NODE_ENV: "production"
+          BASE_URL: "https://tt3.app"
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          AUTH_MAILGUN_KEY: "a11992a9ddeb2f348d611cd4f6c74326-2e68d0fb-8ca6b509"
+          NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
+          TT3_CUSTOM_DOMAIN: "tt3.app"
+          TT3_CERTIFICATE_ARN: ${{ secrets.TT3_CERTIFICATE_ARN }}
+          TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
+          VITE_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
+        run: |
+
+          cd apps/backend
+          export PATH=../../node_modules/.bin:$PATH
+          arc env production NODE_OPTIONS --enable-source-maps
+          cd ../..
+          pnpm build
+          cd apps/backend
+          ../../node_modules/.bin/arc deploy --production --no-hydrate

@@ -91,6 +91,7 @@ events
 
 @plugins
 architect/plugin-typescript
+custom-domain
 
 @aws
 runtime typescript
