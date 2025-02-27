@@ -56,4 +56,4 @@ jobs:
           cd ../..
           pnpm build
           cd apps/backend
-          ../../node_modules/.bin/arc deploy --production --no-hydrate
+          ../../node_modules/.bin/arc deploy --production
