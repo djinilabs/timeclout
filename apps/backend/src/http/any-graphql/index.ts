@@ -4,6 +4,7 @@ import {
   Context,
 } from "aws-lambda";
 import { createSchema, createYoga, useLogger } from "graphql-yoga";
+import { useSentry } from "@envelop/sentry";
 import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 // @ts-ignore
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
