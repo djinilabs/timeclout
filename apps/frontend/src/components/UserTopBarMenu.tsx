@@ -1,19 +1,23 @@
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useSession, signOut } from "next-auth/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { i18n } from "@lingui/core";
 import meQuery from "@/graphql-client/queries/me.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { Query } from "../graphql/graphql";
 import { Avatar } from "./stateless/Avatar";
 import { Suspense } from "./stateless/Suspense";
 
-const userNavigation = [
-  { href: "/me/edit", name: "Profile" },
-  { name: "Sign out", onClick: () => signOut() },
-];
-
 export const LoadingUserTopBarMenu = () => {
+  const userNavigation = useMemo(
+    () => [
+      { href: "/me/edit", name: i18n.t("Profile") },
+      { name: i18n.t("Sign out"), onClick: () => signOut() },
+    ],
+    []
+  );
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });
   const me = result?.data?.me;
   const { data: session } = useSession();

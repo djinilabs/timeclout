@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/react/macro";
 import { PendingLeaveRequests } from "../components/PendingLeaveRequests";
 import { Suspense } from "../components/stateless/Suspense";
 
@@ -8,7 +9,7 @@ export const PagePendingLeaveRequests = () => {
         <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
           <div className="ml-4 mt-2">
             <h3 className="text-base font-semibold text-gray-900">
-              Pending Leave Requests
+              <Trans>Pending Leave Requests</Trans>
             </h3>
           </div>
         </div>

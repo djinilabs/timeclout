@@ -60,21 +60,25 @@ export const MyQuotaFulfilment = ({
                   <Trans>
                     These leave days will deduct{" "}
                     <b>{quota.simulatedUsed} days</b> from your quota{" "}
-                    {simulatedDaysLeft >= 0 ? (
-                      <>
-                        leaving you with <b>{simulatedDaysLeft} days</b> left.
-                      </>
-                    ) : (
-                      "."
-                    )}
                   </Trans>
+                  {simulatedDaysLeft >= 0 ? (
+                    <>
+                      <Trans>
+                        leaving you with <b>{simulatedDaysLeft} days</b> left.
+                      </Trans>
+                    </>
+                  ) : (
+                    "."
+                  )}
                 </span>
                 <span>
                   {simulatedDaysLeft < 0 && (
-                    <Trans>
-                      You will have exceeded your quota by{" "}
-                      <b>{-simulatedDaysLeft} days</b>.
-                    </Trans>
+                    <>
+                      <Trans>
+                        You will have exceeded your quota by{" "}
+                        <b>{-simulatedDaysLeft} days</b>.
+                      </Trans>
+                    </>
                   )}
                 </span>
               </>

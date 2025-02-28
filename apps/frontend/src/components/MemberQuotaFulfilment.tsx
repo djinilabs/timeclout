@@ -67,14 +67,16 @@ export const MemberQuotaFulfilment: FC<MemberQuotaFulfilmentProps> = ({
                   <Trans>
                     These leave days will deduct{" "}
                     <b>{quota.simulatedUsed} days</b> from your quota{" "}
-                    {simulatedDaysLeft >= 0 ? (
-                      <>
-                        leaving them with <b>{simulatedDaysLeft} days</b> left.
-                      </>
-                    ) : (
-                      "."
-                    )}
                   </Trans>
+                  {simulatedDaysLeft >= 0 ? (
+                    <>
+                      <Trans>
+                        leaving them with <b>{simulatedDaysLeft} days</b> left.
+                      </Trans>
+                    </>
+                  ) : (
+                    "."
+                  )}
                 </span>
                 <span>
                   {simulatedDaysLeft < 0 && (

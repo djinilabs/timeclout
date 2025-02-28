@@ -14,6 +14,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/UserTopBarMenu.tsx:16
+msgid "Profile"
+msgstr "Profile"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/UserTopBarMenu.tsx:17
+msgid "Sign out"
+msgstr "Sign out"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/AppLayout.tsx:91
 #: apps/frontend/src/AppLayout.tsx:92
 msgid "Search"
@@ -149,6 +159,11 @@ msgstr "Qualification name"
 #: apps/frontend/src/components/SideBar.tsx:48
 msgid "Home"
 msgstr "Home"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/SideBar.tsx:65
+msgid "Leave Requests"
+msgstr "Leave Requests"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/MeEdit.tsx:98
@@ -674,6 +689,14 @@ msgstr "Leave Type \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "LeaveRequest not found"
 
+#: apps/frontend/src/components/MemberQuotaFulfilment.tsx:73
+msgid "leaving them with <0>{simulatedDaysLeft} days</0> left."
+msgstr "leaving them with <0>{simulatedDaysLeft} days</0> left."
+
+#: apps/frontend/src/components/MyQuotaFulfilment.tsx:66
+msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
+msgstr "leaving you with <0>{simulatedDaysLeft} days</0> left."
+
 #: apps/frontend/src/components/TeamShiftsCalendar.tsx:194
 msgid "Loading calendar..."
 msgstr "Loading calendar..."
@@ -811,6 +834,10 @@ msgstr "Paste here"
 #: apps/frontend/src/components/stateless/LeaveRequest.tsx:110
 msgid "Pending"
 msgstr "Pending"
+
+#: apps/frontend/src/pages/PagePendingLeaveRequests.tsx:12
+msgid "Pending Leave Requests"
+msgstr "Pending Leave Requests"
 
 #: apps/frontend/src/components/MeEdit.tsx:83
 msgid "Personal Information"
@@ -1118,15 +1145,17 @@ msgid "There are {0} conflict(s)s when trying to search for a solution, starting
 msgstr "There are {0} conflict(s)s when trying to search for a solution, starting on day {problemInShiftPositionDay}."
 
 #. placeholder {0}: quota.simulatedUsed
-#. placeholder {1}: simulatedDaysLeft >= 0 ? ( <> leaving you with <b>{simulatedDaysLeft} days</b> left. </> ) : ( "." )
-#. placeholder {1}: simulatedDaysLeft >= 0 ? ( <> leaving them with <b>{simulatedDaysLeft} days</b> left. </> ) : ( "." )
 #: apps/frontend/src/components/MyQuotaFulfilment.tsx:60
 #: apps/frontend/src/components/MemberQuotaFulfilment.tsx:67
-msgid "These leave days will deduct <0>{0} days</0> from your quota {1}"
-msgstr "These leave days will deduct <0>{0} days</0> from your quota {1}"
+msgid "These leave days will deduct <0>{0} days</0> from your quota "
+msgstr "These leave days will deduct <0>{0} days</0> from your quota "
+
+#: apps/frontend/src/components/MemberQuotaFulfilment.tsx:67
+#~ msgid "These leave days will deduct <0>{0} days</0> from your quota {1}"
+#~ msgstr "These leave days will deduct <0>{0} days</0> from your quota {1}"
 
 #. placeholder {0}: -simulatedDaysLeft
-#: apps/frontend/src/components/MemberQuotaFulfilment.tsx:81
+#: apps/frontend/src/components/MemberQuotaFulfilment.tsx:83
 msgid "They will have exceeded their quota by <0>{0} days</0>."
 msgstr "They will have exceeded their quota by <0>{0} days</0>."
 
@@ -1266,6 +1295,6 @@ msgid "You have no pending leave requests"
 msgstr "You have no pending leave requests"
 
 #. placeholder {0}: -simulatedDaysLeft
-#: apps/frontend/src/components/MyQuotaFulfilment.tsx:74
+#: apps/frontend/src/components/MyQuotaFulfilment.tsx:77
 msgid "You will have exceeded your quota by <0>{0} days</0>."
 msgstr "You will have exceeded your quota by <0>{0} days</0>."

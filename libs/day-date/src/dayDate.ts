@@ -1,3 +1,5 @@
+import { i18n } from "@lingui/core";
+
 const weekDays = [
   "sunday",
   "monday",
@@ -225,9 +227,7 @@ export class DayDate {
   }
 
   toHumanString() {
-    return (
-      this.getMonthName() + " " + this.getDayOfMonth() + ", " + this.getYear()
-    );
+    return i18n.date(this.date);
   }
 
   toDate() {

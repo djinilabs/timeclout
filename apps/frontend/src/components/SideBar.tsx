@@ -62,7 +62,7 @@ export const SideBar = () => {
       icon: UsersIcon,
     })),
     {
-      name: "Leave Requests",
+      name: i18n.t("Leave Requests"),
       href: "/leave-requests/pending",
       icon: DocumentDuplicateIcon,
     },
