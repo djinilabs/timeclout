@@ -1,5 +1,6 @@
 import { type FC, useCallback, useEffect, useMemo, useState } from "react";
 import { dequal } from "dequal";
+import { Link, useParams } from "react-router-dom";
 import { Qualifications } from "@/settings";
 import { unique } from "@/utils";
 import { Badges } from "./stateless/Badges";
@@ -16,6 +17,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
   qualifications,
   onChange,
 }) => {
+  const { company, unit, team } = useParams();
   const removeQualification = useCallback(
     async (qualification: string) => {
       const newQualifications = qualifications.filter(
@@ -149,7 +151,18 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
             </div>
           </div>
         </>
-      ) : null}
+      ) : (
+        <div className="ml-2">
+          <p className="text-gray-500 text-sm">
+            No qualifications available for this team.{" "}
+            <Link
+              to={`/companies/${company}/units/${unit}/teams/${team}?tab=settings&settingsTab=qualifications`}
+            >
+              You can add them here
+            </Link>
+          </p>
+        </div>
+      )}
     </span>
   );
 };

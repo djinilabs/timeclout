@@ -277,7 +277,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
                         htmlFor={field.name}
                         className="block text-sm/6 font-medium text-gray-900"
                       >
-                        Required skills
+                        Required qualifications
                       </label>
                       <p className="mt-3 text-sm/6 text-gray-600 mb-2">
                         Set the skills required for this position.
