@@ -1059,6 +1059,10 @@ msgstr "September"
 msgid "Set a color to this position"
 msgstr "Set a color to this position"
 
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:370
+msgid "Set a name to this position"
+msgstr "Set a name to this position"
+
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:431
 msgid "Set the day for this position."
 msgstr "Set the day for this position."
@@ -1215,6 +1219,10 @@ msgstr "Unknown"
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:230
 msgid "Use a template to create this position."
 msgstr "Use a template to create this position."
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:250
+msgid "Use template"
+msgstr "Use template"
 
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:227
 msgid "Use template?"

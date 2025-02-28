@@ -247,7 +247,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
                           htmlFor="select"
                           className="ml-3 block text-sm/6 font-medium text-gray-900"
                         >
-                          Use template
+                          <Trans>Use template</Trans>
                         </label>
                       </div>
                     </div>
@@ -367,7 +367,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
                           <Trans>Name</Trans>
                         </label>
                         <p className="mt-3 text-sm/6 text-gray-600 mb-2">
-                          Set a name to this position
+                          <Trans>Set a name to this position</Trans>
                         </p>
                         <input
                           type="text"
