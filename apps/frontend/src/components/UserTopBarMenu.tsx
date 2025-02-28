@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSession, signOut } from "next-auth/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
 import meQuery from "@/graphql-client/queries/me.graphql";
 import { useQuery } from "../hooks/useQuery";
@@ -24,7 +25,9 @@ export const LoadingUserTopBarMenu = () => {
   return (
     <Menu as="div" className="relative">
       <MenuButton className="-m-1.5 flex items-center p-1.5">
-        <span className="sr-only">Open user menu</span>
+        <span className="sr-only">
+          <Trans>Open user menu</Trans>
+        </span>
         {me && <Avatar {...me} size={40} />}
         <span className="hidden lg:flex lg:items-center">
           <span

@@ -14,16 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/UserTopBarMenu.tsx:16
-msgid "Profile"
-msgstr "Profile"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/UserTopBarMenu.tsx:17
-msgid "Sign out"
-msgstr "Sign out"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/AppLayout.tsx:91
 #: apps/frontend/src/AppLayout.tsx:92
 msgid "Search"
@@ -140,6 +130,16 @@ msgid "Pending Leave Requests"
 msgstr "Pending Leave Requests"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/UserTopBarMenu.tsx:17
+msgid "Profile"
+msgstr "Profile"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/UserTopBarMenu.tsx:18
+msgid "Sign out"
+msgstr "Sign out"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/TeamSettings.tsx:10
 msgid "Qualifications"
 msgstr "Qualifications"
@@ -239,7 +239,7 @@ msgstr "Add a new team member to the team."
 msgid "Add position"
 msgstr "Add position"
 
-#: apps/frontend/src/components/EditQualifications.tsx:129
+#: apps/frontend/src/components/EditQualifications.tsx:122
 msgid "Add qualification"
 msgstr "Add qualification"
 
@@ -247,7 +247,7 @@ msgstr "Add qualification"
 msgid "Add Qualification"
 msgstr "Add Qualification"
 
-#: apps/frontend/src/components/EditQualifications.tsx:173
+#: apps/frontend/src/components/EditQualifications.tsx:166
 msgid "Add qualifications"
 msgstr "Add qualifications"
 
@@ -482,8 +482,8 @@ msgid "Edit position"
 msgstr "Edit position"
 
 #: apps/frontend/src/components/EditQualifications.tsx:97
-msgid "Edit Qualifications"
-msgstr "Edit Qualifications"
+#~ msgid "Edit Qualifications"
+#~ msgstr "Edit Qualifications"
 
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:212
 #~ msgid "Edit Shift Position"
@@ -774,7 +774,7 @@ msgstr "No location settings found for {0}"
 msgid "No managers assigned"
 msgstr "No managers assigned"
 
-#: apps/frontend/src/components/EditQualifications.tsx:168
+#: apps/frontend/src/components/EditQualifications.tsx:161
 msgid "No qualifications available for this team."
 msgstr "No qualifications available for this team."
 
@@ -820,6 +820,10 @@ msgstr "Open menu"
 #: apps/frontend/src/components/AllCompanyUnits.tsx:150
 msgid "Open options"
 msgstr "Open options"
+
+#: apps/frontend/src/components/UserTopBarMenu.tsx:29
+msgid "Open user menu"
+msgstr "Open user menu"
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:159
 msgid "Out of Office"
@@ -988,8 +992,8 @@ msgid "Save Changes"
 msgstr "Save Changes"
 
 #: apps/frontend/src/components/EditQualifications.tsx:179
-msgid "Save Qualifications"
-msgstr "Save Qualifications"
+#~ msgid "Save Qualifications"
+#~ msgstr "Save Qualifications"
 
 #: apps/frontend/src/components/CompanyYearlyQuota.tsx:197
 msgid "Save Settings"
@@ -1032,8 +1036,8 @@ msgid "Select the period for which you want to automatically assign shifts"
 msgstr "Select the period for which you want to automatically assign shifts"
 
 #: apps/frontend/src/components/EditQualifications.tsx:100
-msgid "Select the required qualifications for this position"
-msgstr "Select the required qualifications for this position"
+#~ msgid "Select the required qualifications for this position"
+#~ msgstr "Select the required qualifications for this position"
 
 #: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:92
 msgid "Select the rules for which you want to enforce while automatically assign shifts"
