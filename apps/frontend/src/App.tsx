@@ -11,6 +11,7 @@ import { Suspense } from "./components/stateless/Suspense";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { dynamicActivate } from "./i18n";
+import { RequiresSession } from "./components/RequiresSession";
 
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 
@@ -44,11 +45,13 @@ const AppComponent: FC = () => {
           <QueryClientProvider client={queryClient}>
             <SessionProvider refetchWhenOffline={false} basePath="/api/v1/auth">
               <UrqlProvider value={client}>
-                <AppLayout>
-                  <Suspense>
-                    <AppRoutes />
-                  </Suspense>
-                </AppLayout>
+                <RequiresSession>
+                  <AppLayout>
+                    <Suspense>
+                      <AppRoutes />
+                    </Suspense>
+                  </AppLayout>
+                </RequiresSession>
               </UrqlProvider>
             </SessionProvider>
           </QueryClientProvider>
