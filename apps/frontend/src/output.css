@@ -1573,11 +1573,6 @@ video {
   border-color: rgb(17 24 39 / 0.1);
 }
 
-.border-teal-400 {
-  --tw-border-opacity: 1;
-  border-color: rgb(45 212 191 / var(--tw-border-opacity, 1));
-}
-
 .border-teal-500 {
   --tw-border-opacity: 1;
   border-color: rgb(20 184 166 / var(--tw-border-opacity, 1));
@@ -1696,11 +1691,6 @@ video {
 .bg-teal-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(240 253 250 / var(--tw-bg-opacity, 1));
-}
-
-.bg-teal-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(20 184 166 / var(--tw-bg-opacity, 1));
 }
 
 .bg-teal-600 {
@@ -1997,10 +1987,6 @@ video {
 
 .text-right {
   text-align: right;
-}
-
-.text-\[0\.625rem\] {
-  font-size: 0.625rem;
 }
 
 .text-\[8px\] {

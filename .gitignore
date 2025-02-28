@@ -27,3 +27,6 @@ dist-ssr
 apps/backend/public
 apps/backend/db
 tsconfig.tsbuildinfo
+preferences.arc
+
+scripts/deploy.sh

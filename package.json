@@ -26,6 +26,7 @@
   "license": "ISC",
   "dependencies": {
     "@0no-co/graphqlsp": "^1.12.16",
+    "@architect/asap": "^7.0.10",
     "@architect/functions": "^8.1.6",
     "@auth/core": "^0.37.4",
     "@auth/dynamodb-adapter": "^2.7.4",

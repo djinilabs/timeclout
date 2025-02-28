@@ -4,6 +4,7 @@ tt3
 @http
 any /api/v1/auth/*
 any /graphql
+any /*
 
 @static
 spa true
