@@ -14,6 +14,31 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageTeam.tsx:28
+msgid "Leave Schedule"
+msgstr "Calendário de Ausência"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageTeam.tsx:29
+msgid "Shifts Calendar"
+msgstr "Calendário de Turnos"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageTeam.tsx:32
+msgid "Members"
+msgstr "Membros"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageTeam.tsx:33
+msgid "Invitations"
+msgstr "Convites"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageTeam.tsx:34
+msgid "Settings"
+msgstr "Configurações"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/pages/PageCompany.tsx:33
 msgid "Company Units"
 msgstr "Unidades da Empresa"
@@ -46,7 +71,7 @@ msgstr "Qualificações"
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/TeamSettings.tsx:12
 msgid "Schedule Position Templates"
-msgstr "Modelos de Posição de Horário"
+msgstr "Modelos de Turno"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/TeamSchedulePositionTemplates.tsx:90
@@ -179,9 +204,14 @@ msgstr "Atribuído a"
 msgid "Assigning Shift Positions..."
 msgstr "Atribuindo posições de turno..."
 
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:213
-msgid "at"
-msgstr "às"
+msgid "at for Saturday"
+msgstr "áb"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:213
+#~ msgid "at"
+#~ msgstr "às"
 
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:195
 msgid "Attention needed"
@@ -222,7 +252,7 @@ msgstr "Ocupado"
 
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:416
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
-msgstr "Salvando como modelo, você pode reutilizá-lo para criar novas posições no futuro."
+msgstr "Guardando como modelo, você pode reutilizá-lo para criar novas posições no futuro."
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:259
 #: apps/frontend/src/components/InviteToTeam.tsx:149
@@ -342,8 +372,8 @@ msgid "Discarded Schedules"
 msgstr "Agendamentos descartados"
 
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:195
-msgid "ed"
-msgstr "Editar"
+#~ msgid "ed"
+#~ msgstr "Editar"
 
 #: apps/frontend/src/components/TeamMembers.tsx:114
 #: apps/frontend/src/components/CompanyLeaveTypes.tsx:61
@@ -360,7 +390,7 @@ msgstr "Editar uma posição no horário da equipa."
 
 #: apps/frontend/src/components/TeamShiftsCalendar.tsx:206
 msgid "Edit position"
-msgstr "Editar posição"
+msgstr "Editar posição de turno"
 
 #: apps/frontend/src/components/EditQualifications.tsx:97
 msgid "Edit Qualifications"
@@ -392,8 +422,12 @@ msgstr "Data de fim"
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
-#: apps/frontend/src/components/stateless/YearCalendar.tsx:156
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:205
+msgid "F for Friday"
+msgstr "S"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:156
 msgid "F"
 msgstr "F"
 
@@ -481,9 +515,14 @@ msgstr "Horas entre turnos"
 msgid "hours rest"
 msgstr "horas de descanso"
 
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:201
-msgid "hu"
-msgstr "hu"
+msgid "hu for Thursday"
+msgstr "ui"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:201
+#~ msgid "hu"
+#~ msgstr "hu"
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:99
 msgid "Icon"
@@ -565,8 +604,12 @@ msgstr "Pedido de ausência não encontrado"
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
-#: apps/frontend/src/components/stateless/YearCalendar.tsx:144
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:181
+msgid "M for Monday"
+msgstr "S"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:144
 msgid "M"
 msgstr "M"
 
@@ -658,9 +701,14 @@ msgstr "Número de turnos"
 msgid "October"
 msgstr "Outubro"
 
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:183
-msgid "on"
-msgstr "em"
+msgid "on for Monday"
+msgstr "eg"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:183
+#~ msgid "on"
+#~ msgstr "em"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:102
 #: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:118
@@ -790,18 +838,31 @@ msgstr "Respeitar o calendário de ausências"
 msgid "Revoke Invitation"
 msgstr "Revogar convite"
 
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:207
-msgid "ri"
-msgstr "ri"
+msgid "ri for Friday"
+msgstr "ex"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:207
+#~ msgid "ri"
+#~ msgstr "ri"
 
 #: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:89
 msgid "Rules"
 msgstr "Regras"
 
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:211
+msgid "S for Saturday"
+msgstr "S"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:217
+msgid "S for Sunday"
+msgstr "D"
+
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:159
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:162
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:211
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:217
 msgid "S"
 msgstr "S"
 
@@ -954,10 +1015,18 @@ msgstr "Parar a pesquisa"
 msgid "Submit request for {0} and wait for approval"
 msgstr "Submeter pedido de {0} e aguardar aprovação"
 
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:187
+msgid "T for Tuesday"
+msgstr "T"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:199
+msgid "T for Thursday"
+msgstr "Q"
+
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:147
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:153
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:187
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:199
 msgid "T"
 msgstr "T"
 
@@ -1014,13 +1083,23 @@ msgstr "Tipo"
 msgid "Type of Leave"
 msgstr "Tipo de ausência"
 
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:189
-msgid "ue"
-msgstr "ue"
+msgid "ue for Tuesday"
+msgstr "er"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:189
+#~ msgid "ue"
+#~ msgstr "ue"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:219
+msgid "un for Sunday"
+msgstr "om"
 
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:219
-msgid "un"
-msgstr "un"
+#~ msgid "un"
+#~ msgstr "un"
 
 #: apps/frontend/src/components/TeamInvites.tsx:66
 msgid "Unknown"
@@ -1058,10 +1137,19 @@ msgstr "Ver unidade"
 msgid "Visible to"
 msgstr "Visível para"
 
-#: apps/frontend/src/components/stateless/YearCalendar.tsx:150
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:193
+msgid "W for Wednesday"
+msgstr "Q"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:150
 msgid "W"
 msgstr "W"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:195
+msgid "ed for Wednesday"
+msgstr "ua"
 
 #: apps/frontend/src/components/BookCompanyTimeOff.tsx:130
 msgid "What type of leave are you planning to take?"

@@ -97,7 +97,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                   type="button"
                   key="today"
                   onClick={handleToday}
-                  className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
+                  className="hidden h-9 border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
                 >
                   <Trans>Today</Trans>
                 </button>
@@ -178,45 +178,45 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
         <div className="ring-1 shadow-sm ring-black/5 flex flex-auto flex-col rounded-lg overflow-hidden">
           <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs/6 font-semibold text-gray-700 flex-none">
             <div className="bg-white py-2">
-              <Trans>M</Trans>
+              <Trans id="M for Monday">M</Trans>
               <span className="sr-only sm:not-sr-only">
-                <Trans>on</Trans>
+                <Trans id="on for Monday">on</Trans>
               </span>
             </div>
             <div className="bg-white py-2">
-              <Trans>T</Trans>
+              <Trans id="T for Tuesday">T</Trans>
               <span className="sr-only sm:not-sr-only">
-                <Trans>ue</Trans>
+                <Trans id="ue for Tuesday">ue</Trans>
               </span>
             </div>
             <div className="bg-white py-2">
-              <Trans>W</Trans>
+              <Trans id="W for Wednesday">W</Trans>
               <span className="sr-only sm:not-sr-only">
-                <Trans>ed</Trans>
+                <Trans id="ed for Wednesday">wednesday</Trans>
               </span>
             </div>
             <div className="bg-white py-2">
-              <Trans>T</Trans>
+              <Trans id="T for Thursday">T</Trans>
               <span className="sr-only sm:not-sr-only">
-                <Trans>hu</Trans>
+                <Trans id="hu for Thursday">hu</Trans>
               </span>
             </div>
             <div className="bg-white py-2">
-              <Trans>F</Trans>
+              <Trans id="F for Friday">F</Trans>
               <span className="sr-only sm:not-sr-only">
-                <Trans>ri</Trans>
+                <Trans id="ri for Friday">ri</Trans>
               </span>
             </div>
             <div className="bg-white py-2">
-              <Trans>S</Trans>
+              <Trans id="S for Saturday">S</Trans>
               <span className="sr-only sm:not-sr-only">
-                <Trans>at</Trans>
+                <Trans id="at for Saturday">at</Trans>
               </span>
             </div>
             <div className="bg-white py-2">
-              <Trans>S</Trans>
+              <Trans id="S for Sunday">S</Trans>
               <span className="sr-only sm:not-sr-only">
-                <Trans>un</Trans>
+                <Trans id="un for Sunday">un</Trans>
               </span>
             </div>
           </div>

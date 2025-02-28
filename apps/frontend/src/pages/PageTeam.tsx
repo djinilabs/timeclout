@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { i18n } from "@lingui/core";
 import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { type Tab, Tabs } from "../components/stateless/Tabs";
 import { TeamMembers } from "../components/TeamMembers";
@@ -24,13 +25,13 @@ export const PageTeam = () => {
   const team = queryResponse.data?.team;
   const tabs = useMemo<Tab[]>(
     () => [
-      { name: "Leave Schedule", href: "leave-schedule" },
-      { name: "Shifts Calendar", href: "shifts-calendar" },
+      { name: i18n.t("Leave Schedule"), href: "leave-schedule" },
+      { name: i18n.t("Shifts Calendar"), href: "shifts-calendar" },
       ...((team?.resourcePermission ?? -1) >= 2 // WRITE
         ? [
-            { name: "Members", href: "members" },
-            { name: "Invitations", href: "invitations" },
-            { name: "Settings", href: "settings" },
+            { name: i18n.t("Members"), href: "members" },
+            { name: i18n.t("Invitations"), href: "invitations" },
+            { name: i18n.t("Settings"), href: "settings" },
           ]
         : []),
     ],
