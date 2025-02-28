@@ -1,6 +1,6 @@
 import { type FC, useCallback, useEffect, useMemo, useState } from "react";
 import { dequal } from "dequal";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Qualifications } from "@/settings";
 import { unique } from "@/utils";
 import { Badges } from "./stateless/Badges";
