@@ -14,6 +14,72 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/AppLayout.tsx:91
+#: apps/frontend/src/AppLayout.tsx:92
+msgid "Search"
+msgstr "Search"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:5
+msgid "January"
+msgstr "January"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:6
+msgid "February"
+msgstr "February"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:7
+msgid "March"
+msgstr "March"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:8
+msgid "April"
+msgstr "April"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:9
+msgid "May"
+msgstr "May"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:10
+msgid "June"
+msgstr "June"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:11
+msgid "July"
+msgstr "July"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:12
+msgid "August"
+msgstr "August"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:13
+msgid "September"
+msgstr "September"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:14
+msgid "October"
+msgstr "October"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:15
+msgid "November"
+msgstr "November"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/months.ts:16
+msgid "December"
+msgstr "December"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/pages/PageTeam.tsx:28
 msgid "Leave Schedule"
 msgstr "Leave Schedule"
@@ -204,7 +270,7 @@ msgstr "April"
 msgid "Assign the managers for the workers in this unit:"
 msgstr "Assign the managers for the workers in this unit:"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:486
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:479
 msgid "Assigned to"
 msgstr "Assigned to"
 
@@ -258,14 +324,14 @@ msgstr "Book Company Time Off"
 msgid "Busy"
 msgstr "Busy"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:416
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:409
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
 msgstr "By saving this as a template, you can reuse it to create new positions in the future."
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:259
 #: apps/frontend/src/components/InviteToTeam.tsx:149
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:241
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:510
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:503
 #: apps/frontend/src/components/CompanyYearlyQuota.tsx:194
 #: apps/frontend/src/components/BookCompanyTimeOff.tsx:299
 msgid "Cancel"
@@ -275,7 +341,7 @@ msgstr "Cancel"
 msgid "Click the button below to accept the invitation."
 msgstr "Click the button below to accept the invitation."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:351
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:344
 msgid "Color"
 msgstr "Color"
 
@@ -314,8 +380,8 @@ msgid "Create new company"
 msgstr "Create new company"
 
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:214
-msgid "Create New Shift Position"
-msgstr "Create New Shift Position"
+#~ msgid "Create New Shift Position"
+#~ msgstr "Create New Shift Position"
 
 #: apps/frontend/src/components/AllUnitTeams.tsx:97
 msgid "Create new team"
@@ -355,7 +421,7 @@ msgstr "Created By"
 msgid "Date range"
 msgstr "Date range"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:435
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:428
 msgid "Day"
 msgstr "Day"
 
@@ -392,7 +458,7 @@ msgstr "Discarded Schedules"
 msgid "Edit"
 msgstr "Edit"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:222
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:215
 msgid "Edit a position in the team schedule."
 msgstr "Edit a position in the team schedule."
 
@@ -405,8 +471,8 @@ msgid "Edit Qualifications"
 msgstr "Edit Qualifications"
 
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:212
-msgid "Edit Shift Position"
-msgstr "Edit Shift Position"
+#~ msgid "Edit Shift Position"
+#~ msgstr "Edit Shift Position"
 
 #. placeholder {0}: leaveType.name
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:61
@@ -430,13 +496,13 @@ msgstr "End Date"
 msgid "Error loading calendar data"
 msgstr "Error loading calendar data"
 
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:156
+msgid "F"
+msgstr "F"
+
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:205
 msgid "F for Friday"
-msgstr "F"
-
-#: apps/frontend/src/components/stateless/YearCalendar.tsx:156
-msgid "F"
 msgstr "F"
 
 #: apps/frontend/src/components/CompanyYearlyQuota.tsx:113
@@ -550,7 +616,7 @@ msgstr "Inconvenience"
 msgid "Inconvenience:Deviation from Expected"
 msgstr "Inconvenience:Deviation from Expected"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:224
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:217
 msgid "Insert a position into the team schedule."
 msgstr "Insert a position into the team schedule."
 
@@ -612,13 +678,13 @@ msgstr "LeaveRequest not found"
 msgid "Loading calendar..."
 msgstr "Loading calendar..."
 
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:144
+msgid "M"
+msgstr "M"
+
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:181
 msgid "M for Monday"
-msgstr "M"
-
-#: apps/frontend/src/components/stateless/YearCalendar.tsx:144
-msgid "M"
 msgstr "M"
 
 #: apps/frontend/src/components/CompanyLeaveTypes.tsx:30
@@ -638,7 +704,7 @@ msgid "May"
 msgstr "May"
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:73
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:374
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:367
 #: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:150
 msgid "Name"
 msgstr "Name"
@@ -822,7 +888,7 @@ msgstr "Require a minimum number of shifts in a standard workday for each worker
 msgid "Require minimum rest periods between shifts based on inconvenience scores"
 msgstr "Require minimum rest periods between shifts based on inconvenience scores"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:291
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:284
 msgid "Required qualifications"
 msgstr "Required qualifications"
 
@@ -859,6 +925,11 @@ msgstr "ri"
 msgid "Rules"
 msgstr "Rules"
 
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:159
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:162
+msgid "S"
+msgstr "S"
+
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:211
 msgid "S for Saturday"
@@ -869,18 +940,13 @@ msgstr "S"
 msgid "S for Sunday"
 msgstr "S"
 
-#: apps/frontend/src/components/stateless/YearCalendar.tsx:159
-#: apps/frontend/src/components/stateless/YearCalendar.tsx:162
-msgid "S"
-msgstr "S"
-
 #: apps/frontend/src/components/MeEdit.tsx:174
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:265
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:244
 msgid "Save"
 msgstr "Save"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:412
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:405
 msgid "Save as template"
 msgstr "Save as template"
 
@@ -889,7 +955,7 @@ msgstr "Save as template"
 msgid "Save changes"
 msgstr "Save changes"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:520
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:513
 #: apps/frontend/src/components/CompanyWorkSchedule.tsx:182
 msgid "Save Changes"
 msgstr "Save Changes"
@@ -902,11 +968,11 @@ msgstr "Save Qualifications"
 msgid "Save Settings"
 msgstr "Save Settings"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:410
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:403
 msgid "Saving..."
 msgstr "Saving..."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:321
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:314
 msgid "Schedule"
 msgstr "Schedule"
 
@@ -958,11 +1024,11 @@ msgstr "Select User"
 msgid "September"
 msgstr "September"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:354
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:347
 msgid "Set a color to this position"
 msgstr "Set a color to this position"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:438
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:431
 msgid "Set the day for this position."
 msgstr "Set the day for this position."
 
@@ -970,15 +1036,15 @@ msgstr "Set the day for this position."
 msgid "Set the default number of leave days allocated to each employee per year."
 msgstr "Set the default number of leave days allocated to each employee per year."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:294
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:287
 msgid "Set the qualifications required for this position."
 msgstr "Set the qualifications required for this position."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:324
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:317
 msgid "Set the schedule for this position."
 msgstr "Set the schedule for this position."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:489
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:482
 msgid "Set the user assigned to this position."
 msgstr "Set the user assigned to this position."
 
@@ -1023,6 +1089,11 @@ msgstr "Stop searching"
 msgid "Submit request for {0} and wait for approval"
 msgstr "Submit request for {0} and wait for approval"
 
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:147
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:153
+msgid "T"
+msgstr "T"
+
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:187
 msgid "T for Tuesday"
@@ -1031,11 +1102,6 @@ msgstr "T"
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:199
 msgid "T for Thursday"
-msgstr "T"
-
-#: apps/frontend/src/components/stateless/YearCalendar.tsx:147
-#: apps/frontend/src/components/stateless/YearCalendar.tsx:153
-msgid "T"
 msgstr "T"
 
 #: apps/frontend/src/components/TeamShiftsCalendar.tsx:193
@@ -1079,7 +1145,7 @@ msgstr "Today"
 msgid "Top Solution"
 msgstr "Top Solution"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:333
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:326
 msgid "Total inconvenience: {totalInconvenience}"
 msgstr "Total inconvenience: {totalInconvenience}"
 
@@ -1113,11 +1179,11 @@ msgstr "un"
 msgid "Unknown"
 msgstr "Unknown"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:237
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:230
 msgid "Use a template to create this position."
 msgstr "Use a template to create this position."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:234
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:227
 msgid "Use template?"
 msgstr "Use template?"
 
@@ -1145,13 +1211,13 @@ msgstr "View unit"
 msgid "Visible to"
 msgstr "Visible to"
 
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:150
+msgid "W"
+msgstr "W"
+
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:193
 msgid "W for Wednesday"
-msgstr "W"
-
-#: apps/frontend/src/components/stateless/YearCalendar.tsx:150
-msgid "W"
 msgstr "W"
 
 #. js-lingui-explicit-id

@@ -226,8 +226,8 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
             <EditCountryAndRegion
               Field={
                 form.Field as FieldComponent<{
-                  country?: string;
-                  region?: string;
+                  country?: string | undefined;
+                  region?: string | undefined;
                 }>
               }
               selectedCountryIsoCode={selectedCountryIsoCode}

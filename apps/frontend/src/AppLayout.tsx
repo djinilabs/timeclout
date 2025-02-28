@@ -9,6 +9,7 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import { i18n } from "@lingui/core";
 import { UserTopBarMenu } from "./components/UserTopBarMenu";
 import { Toaster } from "react-hot-toast";
 import { SideBar } from "./components/SideBar";
@@ -87,8 +88,8 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
                 <input
                   name="search"
                   type="search"
-                  placeholder="Search"
-                  aria-label="Search"
+                  placeholder={i18n.t("Search")}
+                  aria-label={i18n.t("Search")}
                   className="col-start-1 row-start-1 block size-full bg-white pl-8 text-base text-gray-900 outline-none placeholder:text-gray-400 sm:text-sm/6"
                 />
                 <MagnifyingGlassIcon

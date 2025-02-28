@@ -1,7 +1,6 @@
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { useParams } from "react-router-dom";
-import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import toast from "react-hot-toast";
 import { Trans } from "@lingui/react/macro";
@@ -20,6 +19,7 @@ import {
   QueryCompanyArgs,
 } from "../graphql/graphql";
 import { Suspense } from "./stateless/Suspense";
+import { DayPicker } from "./stateless/DayPicker";
 
 export type TimeOffRequest = {
   type: string;
@@ -245,7 +245,6 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                   <DayPicker
                     ISOWeek
                     timeZone="UTC"
-                    locale={{ code: i18n.locale }}
                     mode="range"
                     required
                     selected={{

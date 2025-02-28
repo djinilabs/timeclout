@@ -14,7 +14,7 @@ export type Month = {
 };
 
 export const generateYearMonthsDays = (year: number) =>
-  months.map((month, monthIndex) => ({
+  months().map((month, monthIndex) => ({
     name: month,
     days: generateMonthDays(year, monthIndex, DayDate.today()),
   }));

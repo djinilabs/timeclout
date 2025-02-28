@@ -1,11 +1,10 @@
 import { FC, useCallback } from "react";
-import { DayPicker } from "react-day-picker";
 import { DayDate } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
-import { i18n } from "@lingui/core";
 import { RangeSlider } from "./RangeSlider";
 import { LabeledSwitch } from "./LabeledSwitch";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { DayPicker } from "./DayPicker";
 
 export interface ShiftAutoFillParamValues {
   startDate?: DayDate;
@@ -70,7 +69,6 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
             mode="range"
             ISOWeek
             timeZone="UTC"
-            locale={{ code: i18n.locale }}
             numberOfMonths={2}
             defaultMonth={params.startDate?.toDate()}
             required

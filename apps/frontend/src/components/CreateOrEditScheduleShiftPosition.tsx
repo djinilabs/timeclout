@@ -1,10 +1,8 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
-import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { dequal } from "dequal";
-import { i18n } from "@lingui/core";
 import { DayDate } from "@/day-date";
 import { getDefined } from "@/utils";
 import { SchedulePositionTemplate } from "@/settings";
@@ -28,6 +26,7 @@ import { Button } from "./stateless/Button";
 import { useTeamWithSettings } from "../hooks/useTeamWithSettings";
 import { useSaveTeamSettings } from "../hooks/useSaveTeamSettings";
 import { ListBox } from "./stateless/ListBox";
+import { DayPicker } from "./stateless/DayPicker";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
@@ -436,7 +435,6 @@ export const CreateOrEditScheduleShiftPosition: FC<
                       ISOWeek
                       timeZone="UTC"
                       required
-                      locale={{ code: i18n.locale }}
                       disabled={{
                         before: new Date(),
                       }}

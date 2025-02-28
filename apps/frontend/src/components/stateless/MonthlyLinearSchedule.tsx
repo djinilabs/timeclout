@@ -67,7 +67,7 @@ export const MonthlyLinearSchedule = memo(
     }, [goTo]);
 
     const yearMonth = `${year}-${month + 1}`;
-    const humanYearMonth = `${months[month]} ${year}`;
+    const humanYearMonth = `${months()[month]} ${year}`;
     const { company, unit, team } = useParams();
 
     return (
