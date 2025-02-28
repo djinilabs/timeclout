@@ -175,10 +175,6 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
           </div>
         )}
       </span>
-      <button className="btn btn-primary">
-        <Trans>Save Qualifications</Trans>
-      </button>
-      {/* ... rest of the component ... */}
     </div>
   );
 };
