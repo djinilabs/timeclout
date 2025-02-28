@@ -5,6 +5,7 @@ import { Qualifications } from "@/settings";
 import { unique } from "@/utils";
 import { Badges } from "./stateless/Badges";
 import { Badge } from "./stateless/Badge";
+import { Button } from "./stateless/Button";
 
 export interface EditQualificationsProps {
   qualificationSettings: Qualifications;
@@ -154,13 +155,13 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
       ) : (
         <div className="ml-2">
           <p className="text-gray-500 text-sm">
-            No qualifications available for this team.{" "}
-            <Link
-              to={`/companies/${company}/units/${unit}/teams/${team}?tab=settings&settingsTab=qualifications`}
-            >
-              You can add them here
-            </Link>
+            No qualifications available for this team.
           </p>
+          <Button
+            to={`/companies/${company}/units/${unit}/teams/${team}?tab=settings&settingsTab=qualifications`}
+          >
+            Add qualifications
+          </Button>
         </div>
       )}
     </span>
