@@ -6,6 +6,12 @@ import { getDefined, once, resourceRef } from "@/utils";
 import { database, EntityRecord } from "@/tables";
 import { ExpressAuthConfig } from "@auth/express";
 
+const acceptableEmailAddresses = new Set([
+  "i@pgte.me",
+  "pedro.teixeira@gmail.com",
+  "susana.g.chaves@gmail.com",
+]);
+
 export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
   // @ts-expect-error
   const client = await tables({
@@ -37,6 +43,10 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     providers: [Mailgun({ name: "TT3", from: "info@tt3.app" })],
     adapter: databaseAdapter,
     callbacks: {
+      async signIn({ user, account }) {
+        console.log("signIn", user, account);
+        return acceptableEmailAddresses.has(user.email ?? "");
+      },
       async jwt({ token, account }) {
         if (account?.type === "email" && account.providerAccountId) {
           token.email = account.providerAccountId;
