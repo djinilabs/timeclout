@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { Trans } from "@lingui/react/macro";
 import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
 import { type Company } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
@@ -27,9 +28,11 @@ const NoCompanies = () => {
           strokeLinejoin="round"
         />
       </svg>
-      <h3 className="mt-2 text-sm font-semibold text-gray-900">No companies</h3>
+      <h3 className="mt-2 text-sm font-semibold text-gray-900">
+        <Trans>No companies</Trans>
+      </h3>
       <p className="mt-1 text-sm text-gray-500">
-        Get started by creating a new company.
+        <Trans>Get started by creating a new company.</Trans>
       </p>
       <div className="mt-6">
         <button
@@ -40,7 +43,7 @@ const NoCompanies = () => {
           }}
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />
-          New Company
+          <Trans>New Company</Trans>
         </button>
       </div>
     </div>
@@ -66,10 +69,14 @@ export const AllUserCompanies = () => {
       <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
         <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
           <div className="ml-4 mt-2">
-            <h3 className="text-base font-semibold text-gray-900">Companies</h3>
+            <h3 className="text-base font-semibold text-gray-900">
+              <Trans>Companies</Trans>
+            </h3>
           </div>
           <div className="ml-4 mt-2 shrink-0">
-            <Button to="/companies/new">Create new company</Button>
+            <Button to="/companies/new">
+              <Trans>Create new company</Trans>
+            </Button>
           </div>
         </div>
       </div>
@@ -91,18 +98,19 @@ export const AllUserCompanies = () => {
                       "mt-0.5 whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
                     )}
                   >
-                    In progress
+                    <Trans>In progress</Trans>
                   </p>
                 </div>
                 <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
                   <p className="whitespace-nowrap">
-                    Created <ReactTimeAgo date={new Date(company.createdAt)} />
+                    <Trans>Created</Trans>{" "}
+                    <ReactTimeAgo date={new Date(company.createdAt)} />
                   </p>
                   <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
                     <circle r={1} cx={1} cy={1} />
                   </svg>
                   <p className="truncate">
-                    Created by {company.createdBy.name}
+                    <Trans>Created by</Trans> {company.createdBy.name}
                   </p>
                 </div>
               </div>
@@ -111,11 +119,14 @@ export const AllUserCompanies = () => {
                   to={`/${company.pk}`}
                   className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                 >
-                  View company<span className="sr-only">, {company.name}</span>
+                  <Trans>View company</Trans>
+                  <span className="sr-only">, {company.name}</span>
                 </Link>
                 <Menu as="div" className="relative flex-none">
                   <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                    <span className="sr-only">Open options</span>
+                    <span className="sr-only">
+                      <Trans>Open options</Trans>
+                    </span>
                     <EllipsisVerticalIcon
                       aria-hidden="true"
                       className="size-5"
@@ -130,7 +141,8 @@ export const AllUserCompanies = () => {
                         to={`/${company.pk}`}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                       >
-                        Edit<span className="sr-only">, {company.name}</span>
+                        <Trans>Edit</Trans>
+                        <span className="sr-only">, {company.name}</span>
                       </Link>
                     </MenuItem>
                   </MenuItems>

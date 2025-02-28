@@ -1,5 +1,6 @@
 import { HomeIcon } from "@heroicons/react/20/solid";
 import { Link, useParams } from "react-router-dom";
+import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
@@ -43,7 +44,9 @@ export const BreadcrumbNav = () => {
           <div className="flex items-center">
             <Link to="/" className="text-gray-400 hover:text-gray-500">
               <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
-              <span className="sr-only">Home</span>
+              <span className="sr-only">
+                <Trans>Home</Trans>
+              </span>
             </Link>
           </div>
         </li>
@@ -62,7 +65,7 @@ export const BreadcrumbNav = () => {
               to="/"
               className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
             >
-              Companies
+              <Trans>Companies</Trans>
             </Link>
           </div>
         </li>

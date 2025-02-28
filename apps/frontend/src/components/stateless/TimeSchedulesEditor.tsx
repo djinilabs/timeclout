@@ -1,4 +1,5 @@
 import { FC, memo } from "react";
+import { Trans } from "@lingui/react/macro";
 import { TimePicker } from "./TimePicker";
 import { TimeScheduleVisualizer } from "./TimeScheduleVisualizer";
 
@@ -50,7 +51,9 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
           return (
             <div className="grid grid-cols-7 gap-4 w-full" key={index}>
               <div className="flex items-center gap-2 col-span-2">
-                <label className="text-sm text-gray-600">Start</label>
+                <label className="text-sm text-gray-600">
+                  <Trans>Start</Trans>
+                </label>
                 <TimePicker
                   value={schedule.startHourMinutes}
                   onChange={(value) =>
@@ -60,7 +63,9 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
               </div>
 
               <div className="flex items-center gap-2 col-span-2">
-                <label className="text-sm text-gray-600">End</label>
+                <label className="text-sm text-gray-600">
+                  <Trans>End</Trans>
+                </label>
                 <TimePicker
                   value={schedule.endHourMinutes}
                   onChange={(value) =>
@@ -70,7 +75,9 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
               </div>
 
               <div className="flex items-center gap-2 col-span-2">
-                <label className="text-sm text-gray-600">Inconvenience</label>
+                <label className="text-sm text-gray-600">
+                  <Trans>Inconvenience</Trans>
+                </label>
                 <input
                   type="number"
                   className="w-12"

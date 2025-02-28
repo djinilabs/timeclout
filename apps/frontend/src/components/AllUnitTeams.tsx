@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { Trans } from "@lingui/react/macro";
 import { classNames } from "../utils/classNames";
 import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
 import { useQuery } from "../hooks/useQuery";
@@ -27,9 +28,11 @@ const NoTeams = () => {
           strokeLinejoin="round"
         />
       </svg>
-      <h3 className="mt-2 text-sm font-semibold text-gray-900">No teams</h3>
+      <h3 className="mt-2 text-sm font-semibold text-gray-900">
+        <Trans>No teams</Trans>
+      </h3>
       <p className="mt-1 text-sm text-gray-500">
-        Get started by creating a new team for this unit.
+        <Trans>Get started by creating a new team for this unit.</Trans>
       </p>
       <div className="mt-6">
         <button
@@ -40,7 +43,7 @@ const NoTeams = () => {
           }}
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />
-          New Team
+          <Trans>New Team</Trans>
         </button>
       </div>
     </div>
@@ -77,7 +80,9 @@ export const AllUnitTeams = () => {
           <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
             <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
               <div className="ml-4 mt-2">
-                <h3 className="text-base font-semibold text-gray-900">Teams</h3>
+                <h3 className="text-base font-semibold text-gray-900">
+                  <Trans>Teams</Trans>
+                </h3>
               </div>
               <div className="ml-4 mt-2 shrink-0">
                 <button
@@ -89,7 +94,7 @@ export const AllUnitTeams = () => {
                   }}
                   className="relative inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
                 >
-                  Create new team
+                  <Trans>Create new team</Trans>
                 </button>
               </div>
             </div>
@@ -121,17 +126,20 @@ export const AllUnitTeams = () => {
                     "mt-0.5 whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
                   )}
                 >
-                  In progress
+                  <Trans>In progress</Trans>
                 </p>
               </div>
               <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
                 <p className="whitespace-nowrap">
-                  Created <ReactTimeAgo date={new Date(team.createdAt)} />
+                  <Trans>Created</Trans>{" "}
+                  <ReactTimeAgo date={new Date(team.createdAt)} />
                 </p>
                 <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
                   <circle r={1} cx={1} cy={1} />
                 </svg>
-                <p className="truncate">Created by {team.createdBy.name}</p>
+                <p className="truncate">
+                  <Trans>Created by</Trans> {team.createdBy.name}
+                </p>
               </div>
             </div>
             <div
@@ -143,11 +151,14 @@ export const AllUnitTeams = () => {
                 to={`/companies/${companyPk}/${unit.pk}/${team.pk}`}
                 className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
               >
-                View team<span className="sr-only">, {team.name}</span>
+                <Trans>View team</Trans>
+                <span className="sr-only">, {team.name}</span>
               </Link>
               <Menu as="div" className="relative flex-none">
                 <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                  <span className="sr-only">Open options</span>
+                  <span className="sr-only">
+                    <Trans>Open options</Trans>
+                  </span>
                   <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
                 </MenuButton>
                 <MenuItems
@@ -159,7 +170,8 @@ export const AllUnitTeams = () => {
                       to={`/companies/${companyPk}/${unit.pk}/${team.pk}`}
                       className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                     >
-                      Edit<span className="sr-only">, {team.name}</span>
+                      <Trans>Edit</Trans>
+                      <span className="sr-only">, {team.name}</span>
                     </Link>
                   </MenuItem>
                 </MenuItems>

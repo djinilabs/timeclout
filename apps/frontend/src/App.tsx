@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, useMemo, useEffect } from "react";
 import { Provider as UrqlProvider } from "urql";
 import { SessionProvider } from "next-auth/react";
 import { ErrorBoundary, init as initSentry, withProfiler } from "@sentry/react";
@@ -8,6 +8,9 @@ import { AppRoutes } from "./Routes";
 import { createClient } from "./graphql/graphql-client";
 import { BrowserRouter } from "react-router-dom";
 import { Suspense } from "./components/stateless/Suspense";
+import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import { dynamicActivate } from "./i18n";
 
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 
@@ -20,6 +23,11 @@ if (SENTRY_DSN) {
 const AppComponent: FC = () => {
   const client = useMemo(() => createClient(), []);
   const queryClient = useMemo(() => new QueryClient(), []);
+
+  useEffect(() => {
+    dynamicActivate("pt");
+  }, []);
+
   return (
     <ErrorBoundary
       fallback={({ error }) => (
@@ -31,19 +39,21 @@ const AppComponent: FC = () => {
         </div>
       )}
     >
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-          <SessionProvider refetchWhenOffline={false} basePath="/api/v1/auth">
-            <UrqlProvider value={client}>
-              <AppLayout>
-                <Suspense>
-                  <AppRoutes />
-                </Suspense>
-              </AppLayout>
-            </UrqlProvider>
-          </SessionProvider>
-        </QueryClientProvider>
-      </BrowserRouter>
+      <I18nProvider i18n={i18n}>
+        <BrowserRouter>
+          <QueryClientProvider client={queryClient}>
+            <SessionProvider refetchWhenOffline={false} basePath="/api/v1/auth">
+              <UrqlProvider value={client}>
+                <AppLayout>
+                  <Suspense>
+                    <AppRoutes />
+                  </Suspense>
+                </AppLayout>
+              </UrqlProvider>
+            </SessionProvider>
+          </QueryClientProvider>
+        </BrowserRouter>
+      </I18nProvider>
     </ErrorBoundary>
   );
 };

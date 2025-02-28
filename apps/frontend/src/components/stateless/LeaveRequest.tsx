@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { Trans } from "@lingui/react/macro";
 import { LeaveRequest as LeaveRequestType } from "../../graphql/graphql";
 import { Avatar } from "./Avatar";
 export type LeaveRequestProps = Pick<
@@ -34,7 +35,8 @@ export const LeaveRequest: React.FC<LeaveRequestProps> = memo(
           <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
             <div className="ml-4 mt-2">
               <h3 className="text-base font-semibold text-gray-900">
-                {approved ? "Approved" : "Pending"} Leave Request
+                {approved ? <Trans>Approved</Trans> : <Trans>Pending</Trans>}{" "}
+                <Trans>Leave Request</Trans>
               </h3>
             </div>
           </div>
@@ -44,7 +46,7 @@ export const LeaveRequest: React.FC<LeaveRequestProps> = memo(
             <dl className="divide-y divide-gray-100">
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt className="text-sm font-medium text-gray-500">
-                  Created By:
+                  <Trans>Created By</Trans>:
                 </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                   <Avatar {...createdBy} size={30} />
@@ -53,7 +55,7 @@ export const LeaveRequest: React.FC<LeaveRequestProps> = memo(
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt className="text-sm font-medium text-gray-500">
-                  Beneficiary:
+                  <Trans>Beneficiary</Trans>:
                 </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                   <Avatar {...beneficiary} size={30} />
@@ -62,7 +64,7 @@ export const LeaveRequest: React.FC<LeaveRequestProps> = memo(
               </div>
               <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt className="text-sm font-medium text-gray-500">
-                  Created At:
+                  <Trans>Created At</Trans>:
                 </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                   {new Date(createdAt).toLocaleString()}
@@ -70,41 +72,49 @@ export const LeaveRequest: React.FC<LeaveRequestProps> = memo(
               </div>
               <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt className="text-sm font-medium text-gray-500">
-                  Start Date:
+                  <Trans>Start Date</Trans>:
                 </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                   {new Date(startDate).toLocaleDateString()}
                 </dd>
               </div>
               <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm font-medium text-gray-500">End Date:</dt>
+                <dt className="text-sm font-medium text-gray-500">
+                  <Trans>End Date</Trans>:
+                </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                   {new Date(endDate).toLocaleDateString()}
                 </dd>
               </div>
               <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm font-medium text-gray-500">Type:</dt>
+                <dt className="text-sm font-medium text-gray-500">
+                  <Trans>Type</Trans>:
+                </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                   {type}
                 </dd>
               </div>
               <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm font-medium text-gray-500">Reason:</dt>
+                <dt className="text-sm font-medium text-gray-500">
+                  <Trans>Reason</Trans>:
+                </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                   {reason}
                 </dd>
               </div>
               <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm font-medium text-gray-500">Status:</dt>
+                <dt className="text-sm font-medium text-gray-500">
+                  <Trans>Status</Trans>:
+                </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                  {approved ? "Approved" : "Pending"}
+                  {approved ? <Trans>Approved</Trans> : <Trans>Pending</Trans>}
                 </dd>
               </div>
               {approved && approvedBy && approvedAt && (
                 <>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium text-gray-500">
-                      Approved By:
+                      <Trans>Approved By</Trans>:
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                       {approvedBy.map((user, index) => (

@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FieldComponent, useForm } from "@tanstack/react-form";
+import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
 import teamMemberWithSettingsQuery from "@/graphql-client/queries/teamMemberWithSettings.graphql";
 import createTeamMemberMutation from "@/graphql-client/mutations/createTeamMember.graphql";
@@ -138,10 +139,10 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
             <h2 className="text-base/7 font-semibold text-gray-900">
-              Create Team Member
+              <Trans>Create Team Member</Trans>
             </h2>
             <p className="mt-1 text-sm/6 text-gray-600">
-              Add a new team member to the team.
+              <Trans>Add a new team member to the team.</Trans>
             </p>
           </div>
 
@@ -161,7 +162,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                     htmlFor={field.name}
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Professional name
+                    <Trans>Professional name</Trans>
                   </label>
                   <div className="mt-2">
                     <input
@@ -197,7 +198,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                     htmlFor={field.name}
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Email address
+                    <Trans>Email address</Trans>
                   </label>
                   <div className="mt-2">
                     <input
@@ -237,9 +238,11 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <Button type="button" cancel onClick={onDone}>
-          Cancel
+          <Trans>Cancel</Trans>
         </Button>
-        <Button type="submit">Save</Button>
+        <Button type="submit">
+          <Trans>Save</Trans>
+        </Button>
       </div>
     </form>
   );

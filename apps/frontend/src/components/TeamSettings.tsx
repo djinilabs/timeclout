@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { i18n } from "@lingui/core";
 import { Tabs } from "./stateless/Tabs";
 import { TeamQualifications } from "./TeamQualifications";
 import { TeamSchedulePositionTemplates } from "./TeamSchedulePositionTemplates";
@@ -6,9 +7,9 @@ import { TeamSchedulePositionTemplates } from "./TeamSchedulePositionTemplates";
 export const TeamSettings = () => {
   const tabs = useMemo(
     () => [
-      { name: "Qualifications", href: "qualifications" },
+      { name: i18n.t("Qualifications"), href: "qualifications" },
       {
-        name: "Schedule Position Templates",
+        name: i18n.t("Schedule Position Templates"),
         href: "schedule-position-templates",
       },
     ],

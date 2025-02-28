@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import toast from "react-hot-toast";
+import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import { leaveTypeParser } from "@/settings";
 import { DayDate } from "@/day-date";
@@ -112,7 +114,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
     >
       <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
         <p className="mt-1 text-sm/6 text-gray-600 py-5">
-          Request time off by filling this form:
+          <Trans>Request time off by filling this form:</Trans>
         </p>
         <div className="flex py-5 md:col-span-2">
           <div className="px-4 justify-end">
@@ -122,10 +124,12 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                 return (
                   <div className="border-b border-gray-900/10 pb-6">
                     <legend className="text-sm/6 font-semibold text-gray-900">
-                      Type of Leave
+                      <Trans>Type of Leave</Trans>
                     </legend>
                     <p className="mt-1 text-sm/6 text-gray-600">
-                      What type of leave are you planning to take?
+                      <Trans>
+                        What type of leave are you planning to take?
+                      </Trans>
                     </p>
                     <div className="mt-6 space-y-3">
                       {leaveTypes.map((leaveType) => (
@@ -165,12 +169,14 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                       htmlFor={field.name}
                       className="block text-sm/6 font-medium text-gray-900"
                     >
-                      Reason
+                      <Trans>Reason</Trans>
                     </label>
                     <textarea
                       autoFocus
                       value={field.state.value}
-                      placeholder="Please provide a reason for your leave request."
+                      placeholder={i18n.t(
+                        `Please provide a reason for your leave request.`
+                      )}
                       onChange={(e) => field.handleChange(e.target.value)}
                       name={field.name}
                       id={field.name}
@@ -186,7 +192,9 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
       </div>
       <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
         <div>
-          <p className="mt-1 text-sm/6 text-gray-600 py-5">Select the dates</p>
+          <p className="mt-1 text-sm/6 text-gray-600 py-5">
+            <Trans>Select the dates</Trans>
+          </p>
           <form.Subscribe
             children={(state) => {
               const [startDate, endDate] = state.values.dateRange.map((date) =>
@@ -222,12 +230,17 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                     htmlFor="dateRange"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Date range
+                    <Trans>Date range</Trans>
                   </label>
                   <p className="mt-1 text-sm/6 text-gray-600">
-                    {startDate && endDate
-                      ? `From ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`
-                      : "Select the date range for your leave."}
+                    {startDate && endDate ? (
+                      <Trans>
+                        From {startDate.toLocaleDateString()} to{" "}
+                        {endDate.toLocaleDateString()}
+                      </Trans>
+                    ) : (
+                      <Trans>Select the date range for your leave.</Trans>
+                    )}
                   </p>
                   <DayPicker
                     ISOWeek
@@ -283,7 +296,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
           return (
             <div className="mt-6 flex items-center justify-end gap-x-6">
               <Button cancel onClick={() => onCancel()}>
-                Cancel
+                <Trans>Cancel</Trans>
               </Button>
               <button
                 type="submit"
@@ -294,11 +307,16 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                     : "bg-teal-600 hover:bg-teal-500"
                 }`}
               >
-                {disabled
-                  ? "Fill in all the form fields"
-                  : selectedLeaveType?.needsManagerApproval
-                    ? `Submit request for ${selectedLeaveType.name} and wait for approval`
-                    : `Create ${selectedLeaveType?.name} leave`}
+                {disabled ? (
+                  <Trans>Fill in all the form fields</Trans>
+                ) : selectedLeaveType?.needsManagerApproval ? (
+                  <Trans>
+                    Submit request for {selectedLeaveType.name} and wait for
+                    approval
+                  </Trans>
+                ) : (
+                  <Trans>Create {selectedLeaveType?.name} leave</Trans>
+                )}
               </button>
             </div>
           );

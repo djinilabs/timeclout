@@ -6,6 +6,8 @@ import {
   HomeIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
+import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 import { classNames } from "../utils/classNames";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { Company, Team, Unit } from "../graphql/graphql";
@@ -16,7 +18,6 @@ import allTeamsQuery from "@/graphql-client/queries/allTeams.graphql";
 
 export const SideBar = () => {
   const { company } = useParams();
-  console.log("company", company);
   const [allCompaniesResult] = useQuery<{ companies: Company[] }>({
     query: allCompaniesQuery,
   });
@@ -44,7 +45,7 @@ export const SideBar = () => {
   const location = useLocation();
 
   const navigation = [
-    { name: "Home", href: "/", icon: HomeIcon },
+    { name: i18n.t("Home"), href: "/", icon: HomeIcon },
     ...allCompanies.map((company) => ({
       name: company.name,
       href: `/${company.pk}`,
@@ -115,7 +116,7 @@ export const SideBar = () => {
                 aria-hidden="true"
                 className="size-6 shrink-0 text-teal-200 group-hover:text-white"
               />
-              Settings
+              <Trans>Settings</Trans>
             </Link>
           </li>
         </ul>

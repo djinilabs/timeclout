@@ -5,6 +5,7 @@ import {
   ChevronRightIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
+import { Trans } from "@lingui/react/macro";
 import { generateYearMonthsDays } from "../../utils/generateYearMonthsDays";
 import { User } from "../../graphql/graphql";
 import { CalendarDay } from "./CalendarDay";
@@ -61,7 +62,9 @@ export const YearCalendar = memo(
                 onClick={() => goToYear(year - 1)}
                 className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
               >
-                <span className="sr-only">Previous year</span>
+                <span className="sr-only">
+                  <Trans>Previous year</Trans>
+                </span>
                 <ChevronLeftIcon className="size-5" aria-hidden="true" />
               </button>
               <button
@@ -69,7 +72,7 @@ export const YearCalendar = memo(
                 onClick={() => goToYear(new Date().getFullYear())}
                 className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
               >
-                Today
+                <Trans>Today</Trans>
               </button>
               <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
               <button
@@ -77,7 +80,9 @@ export const YearCalendar = memo(
                 onClick={() => goToYear(year + 1)}
                 className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
               >
-                <span className="sr-only">Next year</span>
+                <span className="sr-only">
+                  <Trans>Next year</Trans>
+                </span>
                 <ChevronRightIcon className="size-5" aria-hidden="true" />
               </button>
             </div>
@@ -88,12 +93,14 @@ export const YearCalendar = memo(
                 className="ml-6 rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
                 onClick={bookTimeOff}
               >
-                Request Time Off
+                <Trans>Request Time Off</Trans>
               </button>
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">
               <MenuButton className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">
+                  <Trans>Open menu</Trans>
+                </span>
                 <EllipsisHorizontalIcon className="size-5" aria-hidden="true" />
               </MenuButton>
 
@@ -107,7 +114,7 @@ export const YearCalendar = memo(
                       onClick={bookTimeOff}
                       className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                     >
-                      Request time off
+                      <Trans>Request time off</Trans>
                     </a>
                   </MenuItem>
                 </div>
@@ -117,7 +124,7 @@ export const YearCalendar = memo(
                       onClick={() => goToYear(new Date().getFullYear())}
                       className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                     >
-                      Go to today
+                      <Trans>Go to today</Trans>
                     </a>
                   </MenuItem>
                 </div>
@@ -133,13 +140,27 @@ export const YearCalendar = memo(
                   {month.name}
                 </h2>
                 <div className="mt-6 grid grid-cols-7 text-xs/6 text-gray-500">
-                  <div>M</div>
-                  <div>T</div>
-                  <div>W</div>
-                  <div>T</div>
-                  <div>F</div>
-                  <div>S</div>
-                  <div>S</div>
+                  <div>
+                    <Trans>M</Trans>
+                  </div>
+                  <div>
+                    <Trans>T</Trans>
+                  </div>
+                  <div>
+                    <Trans>W</Trans>
+                  </div>
+                  <div>
+                    <Trans>T</Trans>
+                  </div>
+                  <div>
+                    <Trans>F</Trans>
+                  </div>
+                  <div>
+                    <Trans>S</Trans>
+                  </div>
+                  <div>
+                    <Trans>S</Trans>
+                  </div>
                 </div>
                 <div className="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm ring-1 shadow-sm ring-gray-200">
                   {month.days.map((day, dayIdx) => {

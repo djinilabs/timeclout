@@ -1,6 +1,7 @@
 import { memo, useEffect, useRef } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { Trans } from "@lingui/react/macro";
 import { colors } from "@/settings";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
 import { Avatar } from "./Avatar";
@@ -144,7 +145,7 @@ export const ShiftPosition = memo(
                         "block w-full text-left px-4 py-2 text-sm text-gray-700"
                       )}
                     >
-                      Edit
+                      <Trans>Edit</Trans>
                     </button>
                   )}
                 </MenuItem>
@@ -159,7 +160,7 @@ export const ShiftPosition = memo(
                         "block w-full text-left px-4 py-2 text-sm text-gray-700"
                       )}
                     >
-                      Copy
+                      <Trans>Copy</Trans>
                     </button>
                   )}
                 </MenuItem>
@@ -175,7 +176,7 @@ export const ShiftPosition = memo(
                           "block w-full text-left px-4 py-2 text-sm text-gray-700"
                         )}
                       >
-                        Paste here
+                        <Trans>Paste here</Trans>
                       </button>
                     )}
                   </MenuItem>
@@ -194,7 +195,7 @@ export const ShiftPosition = memo(
                         "block w-full text-left px-4 py-2 text-sm text-gray-700"
                       )}
                     >
-                      Delete
+                      <Trans>Delete</Trans>
                     </button>
                   )}
                 </MenuItem>

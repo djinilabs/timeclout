@@ -4,6 +4,7 @@ import {
   ChevronRightIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
+import { Trans } from "@lingui/react/macro";
 import { Button } from "./Button";
 import { FC, memo, ReactNode, useCallback, useMemo } from "react";
 import { classNames } from "../../utils/classNames";
@@ -22,7 +23,7 @@ export interface MonthCalendarProps {
   additionalActions?: Array<
     | {
         type: "button";
-        text: string;
+        text: ReactNode;
         onClick: () => void;
       }
     | {
@@ -80,14 +81,16 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
           </h1>
           <div className="flex items-center">
             {goTo && (
-              <div className="relative flex items-center rounded-md bg-white shadow-xs items-stretch">
+              <div className="relative flex items-center rounded-md bg-white shadow-xs">
                 <button
                   type="button"
                   key="prev-month"
                   onClick={handlePrevMonth}
                   className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
                 >
-                  <span className="sr-only">Previous month</span>
+                  <span className="sr-only">
+                    <Trans>Previous month</Trans>
+                  </span>
                   <ChevronLeftIcon className="size-5" aria-hidden="true" />
                 </button>
                 <button
@@ -96,7 +99,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                   onClick={handleToday}
                   className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
                 >
-                  Today
+                  <Trans>Today</Trans>
                 </button>
                 <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                 <button
@@ -105,7 +108,9 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                   onClick={handleNextMonth}
                   className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
                 >
-                  <span className="sr-only">Next month</span>
+                  <span className="sr-only">
+                    <Trans>Next month</Trans>
+                  </span>
                   <ChevronRightIcon className="size-5" aria-hidden="true" />
                 </button>
               </div>
@@ -123,7 +128,9 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">
               <MenuButton className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">
+                  <Trans>Open menu</Trans>
+                </span>
                 <EllipsisHorizontalIcon className="size-5" aria-hidden="true" />
               </MenuButton>
 
@@ -136,7 +143,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                     action.type === "component" ? (
                       <MenuItem key={index}>{action.component}</MenuItem>
                     ) : (
-                      <MenuItem key={action.text}>
+                      <MenuItem key={index}>
                         <a
                           onClick={action.onClick}
                           className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
@@ -159,7 +166,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                         }
                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                       >
-                        Go to today
+                        <Trans>Go to today</Trans>
                       </a>
                     </MenuItem>
                   </div>
@@ -171,25 +178,46 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
         <div className="ring-1 shadow-sm ring-black/5 flex flex-auto flex-col rounded-lg overflow-hidden">
           <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs/6 font-semibold text-gray-700 flex-none">
             <div className="bg-white py-2">
-              M<span className="sr-only sm:not-sr-only">on</span>
+              <Trans>M</Trans>
+              <span className="sr-only sm:not-sr-only">
+                <Trans>on</Trans>
+              </span>
             </div>
             <div className="bg-white py-2">
-              T<span className="sr-only sm:not-sr-only">ue</span>
+              <Trans>T</Trans>
+              <span className="sr-only sm:not-sr-only">
+                <Trans>ue</Trans>
+              </span>
             </div>
             <div className="bg-white py-2">
-              W<span className="sr-only sm:not-sr-only">ed</span>
+              <Trans>W</Trans>
+              <span className="sr-only sm:not-sr-only">
+                <Trans>ed</Trans>
+              </span>
             </div>
             <div className="bg-white py-2">
-              T<span className="sr-only sm:not-sr-only">hu</span>
+              <Trans>T</Trans>
+              <span className="sr-only sm:not-sr-only">
+                <Trans>hu</Trans>
+              </span>
             </div>
             <div className="bg-white py-2">
-              F<span className="sr-only sm:not-sr-only">ri</span>
+              <Trans>F</Trans>
+              <span className="sr-only sm:not-sr-only">
+                <Trans>ri</Trans>
+              </span>
             </div>
             <div className="bg-white py-2">
-              S<span className="sr-only sm:not-sr-only">at</span>
+              <Trans>S</Trans>
+              <span className="sr-only sm:not-sr-only">
+                <Trans>at</Trans>
+              </span>
             </div>
             <div className="bg-white py-2">
-              S<span className="sr-only sm:not-sr-only">un</span>
+              <Trans>S</Trans>
+              <span className="sr-only sm:not-sr-only">
+                <Trans>un</Trans>
+              </span>
             </div>
           </div>
           <div className="flex text-xs/6 text-gray-700">

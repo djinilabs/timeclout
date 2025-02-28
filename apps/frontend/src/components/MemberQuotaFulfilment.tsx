@@ -1,7 +1,8 @@
+import { FC } from "react";
+import { Trans } from "@lingui/react/macro";
 import memberQuotaFulfilmentQuery from "@/graphql-client/queries/memberQuotaFulfilment.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { Query, QueryMemberQuotaFulfilmentArgs } from "../graphql/graphql";
-import { FC } from "react";
 
 export interface MemberQuotaFulfilmentProps {
   companyPk: string;
@@ -53,30 +54,34 @@ export const MemberQuotaFulfilment: FC<MemberQuotaFulfilmentProps> = ({
             className="flex flex-col text-gray-500 text-sm/6"
           >
             <span>
-              For the quota starting at {quota.quotaStartDate} and ending at{" "}
-              {quota.quotaEndDate} they have used{" "}
-              <b>{quota.approvedUsed} days</b> and have{" "}
-              <b>{quota.pendingApprovalUsed} days</b> pending approval.
+              <Trans>
+                For the quota starting at {quota.quotaStartDate} and ending at{" "}
+                {quota.quotaEndDate} they have used{" "}
+                <b>{quota.approvedUsed} days</b> and have{" "}
+                <b>{quota.pendingApprovalUsed} days</b> pending approval.
+              </Trans>
             </span>
             {simulatesLeave && quota.simulatedUsed ? (
               <>
                 <span>
-                  These leave days will deduct <b>{quota.simulatedUsed} days</b>{" "}
-                  from your quota{" "}
-                  {simulatedDaysLeft >= 0 ? (
-                    <>
-                      leaving them with <b>{simulatedDaysLeft} days</b> left.
-                    </>
-                  ) : (
-                    "."
-                  )}
+                  <Trans>
+                    These leave days will deduct{" "}
+                    <b>{quota.simulatedUsed} days</b> from your quota{" "}
+                    {simulatedDaysLeft >= 0 ? (
+                      <>
+                        leaving them with <b>{simulatedDaysLeft} days</b> left.
+                      </>
+                    ) : (
+                      "."
+                    )}
+                  </Trans>
                 </span>
                 <span>
                   {simulatedDaysLeft < 0 && (
-                    <>
+                    <Trans>
                       They will have exceeded their quota by{" "}
                       <b>{-simulatedDaysLeft} days</b>.
-                    </>
+                    </Trans>
                   )}
                 </span>
               </>

@@ -1,5 +1,6 @@
 import { FC, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import { AllCompanyUnits } from "../components/AllCompanyUnits";
@@ -29,13 +30,16 @@ export const PageCompany: FC = () => {
   const company = queryResponse.data?.company;
   const tabs = useMemo(
     () => [
-      { name: "Company Units", href: "units" },
-      { name: "My Time Off", href: "time-off" },
-      { name: "My Leave Requests", href: "my-leave-requests" },
+      { name: i18n.t("Company Units"), href: "units" },
+      { name: i18n.t("My Time Off"), href: "time-off" },
+      { name: i18n.t("My Leave Requests"), href: "my-leave-requests" },
       ...((company?.resourcePermission ?? -1) >= 2 // WRITE
         ? [
-            { name: "Company Settings", href: "settings" },
-            { name: "Pending Leave Requests", href: "pending-leave-requests" },
+            { name: i18n.t("Company Settings"), href: "settings" },
+            {
+              name: i18n.t("Pending Leave Requests"),
+              href: "pending-leave-requests",
+            },
           ]
         : []),
     ],

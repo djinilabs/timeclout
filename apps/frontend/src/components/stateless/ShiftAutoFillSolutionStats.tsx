@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Trans } from "@lingui/react/macro";
 import { type SchedulerState } from "@/scheduler";
 import { PercentageStatCard } from "./PercentageStatCard";
 
@@ -54,7 +55,7 @@ export const ShiftAutoFillSolutionStats = ({
   return (
     <div className="mt-5">
       <h3 className="text-base font-semibold text-gray-900">
-        Auto-fill progress
+        <Trans>Auto-fill progress</Trans>
       </h3>
       <div>
         <dl className="mt-5 grid grid-cols-1 gap-5">
@@ -80,7 +81,7 @@ export const ShiftAutoFillSolutionStats = ({
       {discardedStats.length > 0 && (
         <div className="mt-5">
           <h3 className="text-base font-semibold text-gray-900">
-            Discarded Schedules
+            <Trans>Discarded Schedules</Trans>
           </h3>
           <dl className="mt-5 grid grid-cols-1 gap-5">
             {discardedStats.map((item) => (
@@ -100,7 +101,9 @@ export const ShiftAutoFillSolutionStats = ({
         </div>
       )}
       <div className="mt-5"></div>
-      <h3 className="text-base font-semibold text-gray-900">Top Solution</h3>
+      <h3 className="text-base font-semibold text-gray-900">
+        <Trans>Top Solution</Trans>
+      </h3>
       <dl className="mt-5 grid grid-cols-1 gap-5">
         {topSolutionStats?.map((item) => (
           <PercentageStatCard

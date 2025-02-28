@@ -1,7 +1,9 @@
 import { useState, useEffect, FC, Suspense, useRef, useCallback } from "react";
 import { dequal } from "dequal";
+import { Transition } from "@headlessui/react";
+import { Trans } from "@lingui/react/macro";
 import { SchedulerWorkerClient } from "@/scheduler-worker";
-import { SchedulerState } from "@/scheduler";
+import { SchedulerState, RuleName } from "@/scheduler";
 import { DayDate, DayDateInterval } from "@/day-date";
 import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
 import { ShiftsAutoFillParams } from "../graphql/graphql";
@@ -10,12 +12,10 @@ import { Button } from "./stateless/Button";
 import { Loading } from "./stateless/Loading";
 import { ShiftsAutoFillProgress } from "./stateless/ShiftsAutoFillProgress";
 import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
-import { Transition } from "@headlessui/react";
 import {
   ShiftAutoFillParams,
   ShiftAutoFillParamValues,
 } from "./stateless/ShiftAutoFillParams";
-import { RuleName } from "@/scheduler";
 import { useLocalPreference } from "../hooks/useLocalPreference";
 
 export interface ShiftsAutoFillWithoutParamsProps {
@@ -248,15 +248,19 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
                 setIsAutoFillRunning(!isAutoFillRunning);
               }}
             >
-              {isAutoFillRunning
-                ? "Stop searching"
-                : "Start searching for the best solution"}
+              {isAutoFillRunning ? (
+                <Trans>Stop searching</Trans>
+              ) : (
+                <Trans>Start searching for the best solution</Trans>
+              )}
             </Button>
             <div className="ml-5"></div>
           </>
         )}
         {!isAutoFillRunning && progress && (
-          <Button onClick={() => setProgress(undefined)}>Reset</Button>
+          <Button onClick={() => setProgress(undefined)}>
+            <Trans>Reset</Trans>
+          </Button>
         )}
       </div>
       <Suspense>

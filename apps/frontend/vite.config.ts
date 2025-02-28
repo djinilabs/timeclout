@@ -3,11 +3,18 @@ import react from "@vitejs/plugin-react-swc";
 import graphqlLoader from "vite-plugin-graphql-loader";
 import path from "path";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { lingui } from "@lingui/vite-plugin";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), graphqlLoader(), tsconfigPaths()],
-
+  plugins: [
+    react({
+      plugins: [["@lingui/swc-plugin", {}]],
+    }),
+    graphqlLoader(),
+    tsconfigPaths(),
+    lingui(),
+  ],
   server: {
     open: true,
     port: 3000,

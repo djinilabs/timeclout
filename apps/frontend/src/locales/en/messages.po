@@ -1,0 +1,1117 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-02-28 13:27+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageCompany.tsx:33
+msgid "Company Units"
+msgstr "Company Units"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageCompany.tsx:34
+msgid "My Time Off"
+msgstr "My Time Off"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageCompany.tsx:35
+msgid "My Leave Requests"
+msgstr "My Leave Requests"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageCompany.tsx:38
+msgid "Company Settings"
+msgstr "Company Settings"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageCompany.tsx:40
+msgid "Pending Leave Requests"
+msgstr "Pending Leave Requests"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/TeamSettings.tsx:10
+msgid "Qualifications"
+msgstr "Qualifications"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/TeamSettings.tsx:12
+msgid "Schedule Position Templates"
+msgstr "Schedule Position Templates"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/TeamSchedulePositionTemplates.tsx:90
+#: apps/frontend/src/components/TeamQualifications.tsx:88
+msgid "Qualification name"
+msgstr "Qualification name"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/SideBar.tsx:48
+msgid "Home"
+msgstr "Home"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/MeEdit.tsx:98
+msgid "Professional name is required"
+msgstr "Professional name is required"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/InviteToTeam.tsx:65
+msgid "Email is required"
+msgstr "Email is required"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/InviteToTeam.tsx:109
+msgid "Please select a permission"
+msgstr "Please select a permission"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/InviteToTeam.tsx:118
+msgid "Member"
+msgstr "Member"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/InviteToTeam.tsx:119
+msgid "Admin"
+msgstr "Admin"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/InviteToTeam.tsx:120
+msgid "Owner"
+msgstr "Owner"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/CompanySettings.tsx:11
+msgid "Leave Types"
+msgstr "Leave Types"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/CompanySettings.tsx:12
+msgid "Yearly quota"
+msgstr "Yearly quota"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/CompanySettings.tsx:13
+msgid "Work schedule"
+msgstr "Work schedule"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:177
+msgid "Please provide a reason for your leave request."
+msgstr "Please provide a reason for your leave request."
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:93
+#~ msgid "{0}"
+#~ msgstr "{0}"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:212
+#~ msgid "{reason}: {count}"
+#~ msgstr "{reason}: {count}"
+
+#: apps/frontend/src/components/AcceptInvite.tsx:74
+msgid "Accept Invitation"
+msgstr "Accept Invitation"
+
+#: apps/frontend/src/components/UnitManagers.tsx:120
+msgid "Add a manager"
+msgstr "Add a manager"
+
+#: apps/frontend/src/components/CreateOrEditTeamMember.tsx:145
+msgid "Add a new team member to the team."
+msgstr "Add a new team member to the team."
+
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:266
+msgid "Add position"
+msgstr "Add position"
+
+#: apps/frontend/src/components/EditQualifications.tsx:129
+msgid "Add qualification"
+msgstr "Add qualification"
+
+#: apps/frontend/src/components/TeamQualifications.tsx:188
+msgid "Add Qualification"
+msgstr "Add Qualification"
+
+#: apps/frontend/src/components/EditQualifications.tsx:173
+msgid "Add qualifications"
+msgstr "Add qualifications"
+
+#: apps/frontend/src/components/MeEdit.tsx:86
+msgid "Add your personal information to help us identify you."
+msgstr "Add your personal information to help us identify you."
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:288
+msgid "Adjust these parameters to control how the automatic assignment balances different priorities"
+msgstr "Adjust these parameters to control how the automatic assignment balances different priorities"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:192
+msgid "All employees"
+msgstr "All employees"
+
+#: apps/frontend/src/components/LeaveRequest.tsx:102
+msgid "Approve leave request"
+msgstr "Approve leave request"
+
+#: apps/frontend/src/components/stateless/LeaveRequests.tsx:57
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:38
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:110
+msgid "Approved"
+msgstr "Approved"
+
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:117
+msgid "Approved By"
+msgstr "Approved By"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:119
+msgid "April"
+msgstr "April"
+
+#: apps/frontend/src/components/UnitManagers.tsx:89
+msgid "Assign the managers for the workers in this unit:"
+msgstr "Assign the managers for the workers in this unit:"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:486
+msgid "Assigned to"
+msgstr "Assigned to"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:184
+msgid "Assigning Shift Positions..."
+msgstr "Assigning Shift Positions..."
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:213
+msgid "at"
+msgstr "at"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:195
+msgid "Attention needed"
+msgstr "Attention needed"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:131
+msgid "August"
+msgstr "August"
+
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:236
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:274
+msgid "Auto fill"
+msgstr "Auto fill"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:58
+msgid "Auto-fill progress"
+msgstr "Auto-fill progress"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:156
+msgid "Available"
+msgstr "Available"
+
+#: apps/frontend/src/components/LeaveRequest.tsx:90
+msgid "Back to company"
+msgstr "Back to company"
+
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:58
+msgid "Beneficiary"
+msgstr "Beneficiary"
+
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:46
+msgid "Book Company Time Off"
+msgstr "Book Company Time Off"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:153
+msgid "Busy"
+msgstr "Busy"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:416
+msgid "By saving this as a template, you can reuse it to create new positions in the future."
+msgstr "By saving this as a template, you can reuse it to create new positions in the future."
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:259
+#: apps/frontend/src/components/InviteToTeam.tsx:149
+#: apps/frontend/src/components/CreateOrEditTeamMember.tsx:241
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:510
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:194
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:299
+msgid "Cancel"
+msgstr "Cancel"
+
+#: apps/frontend/src/components/AcceptInvite.tsx:69
+msgid "Click the button below to accept the invitation."
+msgstr "Click the button below to accept the invitation."
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:351
+msgid "Color"
+msgstr "Color"
+
+#: apps/frontend/src/components/BreadcrumbNav.tsx:68
+#: apps/frontend/src/components/AllUserCompanies.tsx:73
+msgid "Companies"
+msgstr "Companies"
+
+#: apps/frontend/src/components/CompanyWorkSchedule.tsx:103
+msgid "Configure the standard work schedule for employees in this company:"
+msgstr "Configure the standard work schedule for employees in this company:"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:68
+msgid "Configure the yearly leave quota settings for employees in this company:"
+msgstr "Configure the yearly leave quota settings for employees in this company:"
+
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:163
+msgid "Copy"
+msgstr "Copy"
+
+#: apps/frontend/src/components/stateless/EditCountryAndRegion.tsx:55
+msgid "Country"
+msgstr "Country"
+
+#. placeholder {0}: selectedLeaveType?.name
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:318
+msgid "Create {0} leave"
+msgstr "Create {0} leave"
+
+#: apps/frontend/src/components/TeamMembers.tsx:43
+msgid "Create member user"
+msgstr "Create member user"
+
+#: apps/frontend/src/components/AllUserCompanies.tsx:78
+msgid "Create new company"
+msgstr "Create new company"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:214
+msgid "Create New Shift Position"
+msgstr "Create New Shift Position"
+
+#: apps/frontend/src/components/AllUnitTeams.tsx:97
+msgid "Create new team"
+msgstr "Create new team"
+
+#: apps/frontend/src/components/AllCompanyUnits.tsx:82
+msgid "Create new Unit"
+msgstr "Create new Unit"
+
+#: apps/frontend/src/components/CreateOrEditTeamMember.tsx:142
+msgid "Create Team Member"
+msgstr "Create Team Member"
+
+#: apps/frontend/src/components/AllUserCompanies.tsx:106
+#: apps/frontend/src/components/AllUnitTeams.tsx:134
+#: apps/frontend/src/components/AllCompanyUnits.tsx:121
+#: apps/frontend/src/components/stateless/LeaveRequests.tsx:64
+msgid "Created"
+msgstr "Created"
+
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:67
+msgid "Created At"
+msgstr "Created At"
+
+#: apps/frontend/src/components/AllUserCompanies.tsx:113
+#: apps/frontend/src/components/AllUnitTeams.tsx:141
+#: apps/frontend/src/components/AllCompanyUnits.tsx:132
+msgid "Created by"
+msgstr "Created by"
+
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:49
+msgid "Created By"
+msgstr "Created By"
+
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:233
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:60
+msgid "Date range"
+msgstr "Date range"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:435
+msgid "Day"
+msgstr "Day"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:143
+msgid "December"
+msgstr "December"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:219
+msgid "Deducts from annual allowance"
+msgstr "Deducts from annual allowance"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:163
+msgid "Default Yearly Quota (days)"
+msgstr "Default Yearly Quota (days)"
+
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:198
+msgid "Delete"
+msgstr "Delete"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:84
+msgid "Discarded Schedules"
+msgstr "Discarded Schedules"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:195
+msgid "ed"
+msgstr "ed"
+
+#: apps/frontend/src/components/TeamMembers.tsx:114
+#: apps/frontend/src/components/CompanyLeaveTypes.tsx:61
+#: apps/frontend/src/components/AllUserCompanies.tsx:144
+#: apps/frontend/src/components/AllUnitTeams.tsx:173
+#: apps/frontend/src/components/AllCompanyUnits.tsx:166
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:148
+msgid "Edit"
+msgstr "Edit"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:222
+msgid "Edit a position in the team schedule."
+msgstr "Edit a position in the team schedule."
+
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:206
+msgid "Edit position"
+msgstr "Edit position"
+
+#: apps/frontend/src/components/EditQualifications.tsx:97
+msgid "Edit Qualifications"
+msgstr "Edit Qualifications"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:212
+msgid "Edit Shift Position"
+msgstr "Edit Shift Position"
+
+#. placeholder {0}: leaveType.name
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:61
+msgid "Edit the leave type \"{0}\""
+msgstr "Edit the leave type \"{0}\""
+
+#: apps/frontend/src/components/MeEdit.tsx:143
+#: apps/frontend/src/components/CreateOrEditTeamMember.tsx:201
+msgid "Email address"
+msgstr "Email address"
+
+#: apps/frontend/src/components/stateless/TimeSchedulesEditor.tsx:67
+msgid "End"
+msgstr "End"
+
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:83
+msgid "End Date"
+msgstr "End Date"
+
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:198
+msgid "Error loading calendar data"
+msgstr "Error loading calendar data"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:156
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:205
+msgid "F"
+msgstr "F"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:113
+msgid "February"
+msgstr "February"
+
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:311
+msgid "Fill in all the form fields"
+msgstr "Fill in all the form fields"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:285
+msgid "Fine-tune parameters"
+msgstr "Fine-tune parameters"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:198
+msgid "For shifts with inconvenience score ≤"
+msgstr "For shifts with inconvenience score ≤"
+
+#. placeholder {0}: quota.quotaStartDate
+#. placeholder {1}: quota.quotaEndDate
+#. placeholder {2}: quota.approvedUsed
+#. placeholder {3}: quota.pendingApprovalUsed
+#: apps/frontend/src/components/MemberQuotaFulfilment.tsx:57
+msgid "For the quota starting at {0} and ending at {1} they have used <0>{2} days</0> and have <1>{3} days</1> pending approval."
+msgstr "For the quota starting at {0} and ending at {1} they have used <0>{2} days</0> and have <1>{3} days</1> pending approval."
+
+#. placeholder {0}: quota.quotaStartDate
+#. placeholder {1}: quota.quotaEndDate
+#. placeholder {2}: quota.approvedUsed
+#. placeholder {3}: quota.pendingApprovalUsed
+#: apps/frontend/src/components/MyQuotaFulfilment.tsx:50
+msgid "For the quota starting at {0} and ending at {1} you have used <0>{2} days</0> and have <1>{3} days</1> pending approval."
+msgstr "For the quota starting at {0} and ending at {1} you have used <0>{2} days</0> and have <1>{3} days</1> pending approval."
+
+#: apps/frontend/src/components/stateless/LeaveRequests.tsx:51
+msgid "From"
+msgstr "From"
+
+#. placeholder {0}: startDate.toLocaleDateString()
+#. placeholder {1}: endDate.toLocaleDateString()
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:237
+msgid "From {0} to {1}"
+msgstr "From {0} to {1}"
+
+#: apps/frontend/src/components/AllUserCompanies.tsx:35
+msgid "Get started by creating a new company."
+msgstr "Get started by creating a new company."
+
+#: apps/frontend/src/components/AllUnitTeams.tsx:35
+msgid "Get started by creating a new team for this unit."
+msgstr "Get started by creating a new team for this unit."
+
+#: apps/frontend/src/components/AllCompanyUnits.tsx:36
+msgid "Get started by creating a new unit for this company."
+msgstr "Get started by creating a new unit for this company."
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:127
+#: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:133
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:169
+msgid "Go to today"
+msgstr "Go to today"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:330
+msgid "Higher values ensure workers get a more equal distribution of total shifts"
+msgstr "Higher values ensure workers get a more equal distribution of total shifts"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:303
+msgid "Higher values ensure workers get similar levels of inconvenient shifts (nights, weekends)"
+msgstr "Higher values ensure workers get similar levels of inconvenient shifts (nights, weekends)"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:355
+msgid "Higher values try to equalize the spread of shifts for each worker through time"
+msgstr "Higher values try to equalize the spread of shifts for each worker through time"
+
+#: apps/frontend/src/components/BreadcrumbNav.tsx:48
+msgid "Home"
+msgstr "Home"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionTimeDistributionStats.tsx:94
+msgid "Hours between shifts"
+msgstr "Hours between shifts"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:242
+msgid "hours rest"
+msgstr "hours rest"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:201
+msgid "hu"
+msgstr "hu"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:99
+msgid "Icon"
+msgstr "Icon"
+
+#: apps/frontend/src/components/AllUserCompanies.tsx:101
+#: apps/frontend/src/components/AllUnitTeams.tsx:129
+#: apps/frontend/src/components/AllCompanyUnits.tsx:110
+msgid "In progress"
+msgstr "In progress"
+
+#: apps/frontend/src/components/stateless/TimeSchedulesEditor.tsx:79
+msgid "Inconvenience"
+msgstr "Inconvenience"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:163
+msgid "Inconvenience:Deviation from Expected"
+msgstr "Inconvenience:Deviation from Expected"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:224
+msgid "Insert a position into the team schedule."
+msgstr "Insert a position into the team schedule."
+
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:208
+msgid "Insert position into the team schedule"
+msgstr "Insert position into the team schedule"
+
+#: apps/frontend/src/components/AcceptInvite.tsx:49
+msgid "Invitation not found"
+msgstr "Invitation not found"
+
+#: apps/frontend/src/components/InviteToTeam.tsx:146
+msgid "Invite"
+msgstr "Invite"
+
+#: apps/frontend/src/components/InviteToTeam.tsx:48
+msgid "Invite a team member to join your team."
+msgstr "Invite a team member to join your team."
+
+#: apps/frontend/src/components/TeamMembers.tsx:49
+#: apps/frontend/src/components/InviteToTeam.tsx:44
+msgid "Invite to team"
+msgstr "Invite to team"
+
+#: apps/frontend/src/components/TeamInvites.tsx:70
+msgid "Invited"
+msgstr "Invited"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:110
+msgid "January"
+msgstr "January"
+
+#: apps/frontend/src/components/TeamMembers.tsx:88
+msgid "Joined"
+msgstr "Joined"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:128
+msgid "July"
+msgstr "July"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:125
+msgid "June"
+msgstr "June"
+
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:39
+msgid "Leave Request"
+msgstr "Leave Request"
+
+#. placeholder {0}: leaveType.name
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:58
+msgid "Leave Type \"{0}\""
+msgstr "Leave Type \"{0}\""
+
+#: apps/frontend/src/components/LeaveRequest.tsx:79
+msgid "LeaveRequest not found"
+msgstr "LeaveRequest not found"
+
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:194
+msgid "Loading calendar..."
+msgstr "Loading calendar..."
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:144
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:181
+msgid "M"
+msgstr "M"
+
+#: apps/frontend/src/components/CompanyLeaveTypes.tsx:30
+msgid "Manage the leave types for the workers in this company:"
+msgstr "Manage the leave types for the workers in this company:"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:189
+msgid "Managers only"
+msgstr "Managers only"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:116
+msgid "March"
+msgstr "March"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:122
+msgid "May"
+msgstr "May"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:73
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:374
+#: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:150
+msgid "Name"
+msgstr "Name"
+
+#: apps/frontend/src/components/AllUserCompanies.tsx:46
+msgid "New Company"
+msgstr "New Company"
+
+#: apps/frontend/src/components/TeamInvites.tsx:37
+msgid "New Invitation"
+msgstr "New Invitation"
+
+#: apps/frontend/src/components/AllUnitTeams.tsx:46
+msgid "New Team"
+msgstr "New Team"
+
+#: apps/frontend/src/components/AllCompanyUnits.tsx:47
+msgid "New Unit"
+msgstr "New Unit"
+
+#: apps/frontend/src/components/stateless/TimePicker.tsx:70
+msgid "next day"
+msgstr "next day"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:112
+msgid "Next month"
+msgstr "Next month"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:84
+#: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:105
+msgid "Next year"
+msgstr "Next year"
+
+#: apps/frontend/src/components/AllUserCompanies.tsx:32
+msgid "No companies"
+msgstr "No companies"
+
+#. placeholder {0}: selectedUser?.name
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:119
+msgid "No location settings found for {0}"
+msgstr "No location settings found for {0}"
+
+#: apps/frontend/src/components/UnitManagers.tsx:114
+msgid "No managers assigned"
+msgstr "No managers assigned"
+
+#: apps/frontend/src/components/EditQualifications.tsx:168
+msgid "No qualifications available for this team."
+msgstr "No qualifications available for this team."
+
+#: apps/frontend/src/components/AllUnitTeams.tsx:32
+msgid "No teams"
+msgstr "No teams"
+
+#: apps/frontend/src/components/AllCompanyUnits.tsx:33
+msgid "No units"
+msgstr "No units"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:140
+msgid "November"
+msgstr "November"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:86
+msgid "Number of shifts"
+msgstr "Number of shifts"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:137
+msgid "October"
+msgstr "October"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:183
+msgid "on"
+msgstr "on"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:102
+#: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:118
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:132
+msgid "Open menu"
+msgstr "Open menu"
+
+#: apps/frontend/src/components/TeamMembers.tsx:98
+#: apps/frontend/src/components/TeamInvites.tsx:77
+#: apps/frontend/src/components/AllUserCompanies.tsx:128
+#: apps/frontend/src/components/AllUnitTeams.tsx:160
+#: apps/frontend/src/components/AllCompanyUnits.tsx:150
+msgid "Open options"
+msgstr "Open options"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:159
+msgid "Out of Office"
+msgstr "Out of Office"
+
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:179
+msgid "Paste here"
+msgstr "Paste here"
+
+#: apps/frontend/src/components/stateless/LeaveRequests.tsx:59
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:38
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:110
+msgid "Pending"
+msgstr "Pending"
+
+#: apps/frontend/src/components/MeEdit.tsx:83
+msgid "Personal Information"
+msgstr "Personal Information"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:119
+msgid "Pick a color"
+msgstr "Pick a color"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:92
+msgid "Previous month"
+msgstr "Previous month"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:66
+#: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:87
+msgid "Previous year"
+msgstr "Previous year"
+
+#: apps/frontend/src/components/MeEdit.tsx:108
+#: apps/frontend/src/components/CreateOrEditTeamMember.tsx:165
+msgid "Professional name"
+msgstr "Professional name"
+
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:172
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:99
+msgid "Reason"
+msgstr "Reason"
+
+#: apps/frontend/src/components/stateless/EditCountryAndRegion.tsx:93
+msgid "Region"
+msgstr "Region"
+
+#: apps/frontend/src/components/LeaveRequest.tsx:99
+msgid "Reject leave request"
+msgstr "Reject leave request"
+
+#: apps/frontend/src/components/TeamMembers.tsx:133
+msgid "Remove from team"
+msgstr "Remove from team"
+
+#: apps/frontend/src/components/LeaveRequest.tsx:94
+msgid "Remove leave request"
+msgstr "Remove leave request"
+
+#: apps/frontend/src/components/TeamSchedulePositionTemplates.tsx:165
+#: apps/frontend/src/components/TeamQualifications.tsx:163
+msgid "Remove Qualification"
+msgstr "Remove Qualification"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:117
+msgid "Request time off"
+msgstr "Request time off"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:96
+msgid "Request Time Off"
+msgstr "Request Time Off"
+
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:117
+msgid "Request time off by filling this form:"
+msgstr "Request time off by filling this form:"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:222
+msgid "require"
+msgstr "require"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:107
+msgid "Require a maximum interval between shifts for each worker (in days)"
+msgstr "Require a maximum interval between shifts for each worker (in days)"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:135
+msgid "Require a minimum number of shifts in a standard workday for each worker each week"
+msgstr "Require a minimum number of shifts in a standard workday for each worker each week"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:170
+msgid "Require minimum rest periods between shifts based on inconvenience scores"
+msgstr "Require minimum rest periods between shifts based on inconvenience scores"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:291
+msgid "Required qualifications"
+msgstr "Required qualifications"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:246
+msgid "Requires manager approval"
+msgstr "Requires manager approval"
+
+#: apps/frontend/src/components/ShiftsAutoFill.tsx:262
+msgid "Reset"
+msgstr "Reset"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:91
+msgid "Reset Month"
+msgstr "Reset Month"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:99
+msgid "Respect leave schedule"
+msgstr "Respect leave schedule"
+
+#: apps/frontend/src/components/TeamInvites.tsx:95
+msgid "Revoke Invitation"
+msgstr "Revoke Invitation"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:207
+msgid "ri"
+msgstr "ri"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:89
+msgid "Rules"
+msgstr "Rules"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:159
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:162
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:211
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:217
+msgid "S"
+msgstr "S"
+
+#: apps/frontend/src/components/MeEdit.tsx:174
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:265
+#: apps/frontend/src/components/CreateOrEditTeamMember.tsx:244
+msgid "Save"
+msgstr "Save"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:412
+msgid "Save as template"
+msgstr "Save as template"
+
+#: apps/frontend/src/components/TeamSchedulePositionTemplates.tsx:179
+#: apps/frontend/src/components/TeamQualifications.tsx:200
+msgid "Save changes"
+msgstr "Save changes"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:520
+#: apps/frontend/src/components/CompanyWorkSchedule.tsx:182
+msgid "Save Changes"
+msgstr "Save Changes"
+
+#: apps/frontend/src/components/EditQualifications.tsx:179
+msgid "Save Qualifications"
+msgstr "Save Qualifications"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:197
+msgid "Save Settings"
+msgstr "Save Settings"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:410
+msgid "Saving..."
+msgstr "Saving..."
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:321
+msgid "Schedule"
+msgstr "Schedule"
+
+#: apps/frontend/src/components/stateless/EditCountryAndRegion.tsx:67
+msgid "Select a country"
+msgstr "Select a country"
+
+#: apps/frontend/src/components/stateless/EditCountryAndRegion.tsx:106
+msgid "Select a region"
+msgstr "Select a region"
+
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:121
+msgid "Select a user"
+msgstr "Select a user"
+
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:242
+msgid "Select the date range for your leave."
+msgstr "Select the date range for your leave."
+
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:196
+msgid "Select the dates"
+msgstr "Select the dates"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:94
+msgid "Select the month when the yearly leave quota should reset for all employees."
+msgstr "Select the month when the yearly leave quota should reset for all employees."
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:63
+msgid "Select the period for which you want to automatically assign shifts"
+msgstr "Select the period for which you want to automatically assign shifts"
+
+#: apps/frontend/src/components/EditQualifications.tsx:100
+msgid "Select the required qualifications for this position"
+msgstr "Select the required qualifications for this position"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:92
+msgid "Select the rules for which you want to enforce while automatically assign shifts"
+msgstr "Select the rules for which you want to enforce while automatically assign shifts"
+
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:54
+msgid "Select the user you want to request time off for."
+msgstr "Select the user you want to request time off for."
+
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:51
+msgid "Select User"
+msgstr "Select User"
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:134
+msgid "September"
+msgstr "September"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:354
+msgid "Set a color to this position"
+msgstr "Set a color to this position"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:438
+msgid "Set the day for this position."
+msgstr "Set the day for this position."
+
+#: apps/frontend/src/components/CompanyYearlyQuota.tsx:166
+msgid "Set the default number of leave days allocated to each employee per year."
+msgstr "Set the default number of leave days allocated to each employee per year."
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:294
+msgid "Set the qualifications required for this position."
+msgstr "Set the qualifications required for this position."
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:324
+msgid "Set the schedule for this position."
+msgstr "Set the schedule for this position."
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:489
+msgid "Set the user assigned to this position."
+msgstr "Set the user assigned to this position."
+
+#: apps/frontend/src/components/SideBar.tsx:119
+msgid "Settings"
+msgstr "Settings"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:139
+msgid "Show in calendar as"
+msgstr "Show in calendar as"
+
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:285
+msgid "Show leave schedule"
+msgstr "Show leave schedule"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:204
+msgid "Some solutions have been discarded because of the following reasons:"
+msgstr "Some solutions have been discarded because of the following reasons:"
+
+#: apps/frontend/src/components/stateless/TimeSchedulesEditor.tsx:55
+msgid "Start"
+msgstr "Start"
+
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:75
+msgid "Start Date"
+msgstr "Start Date"
+
+#: apps/frontend/src/components/ShiftsAutoFill.tsx:254
+msgid "Start searching for the best solution"
+msgstr "Start searching for the best solution"
+
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:107
+msgid "Status"
+msgstr "Status"
+
+#: apps/frontend/src/components/ShiftsAutoFill.tsx:252
+msgid "Stop searching"
+msgstr "Stop searching"
+
+#. placeholder {0}: selectedLeaveType.name
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:313
+msgid "Submit request for {0} and wait for approval"
+msgstr "Submit request for {0} and wait for approval"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:147
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:153
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:187
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:199
+msgid "T"
+msgstr "T"
+
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:193
+#~ msgid "Team Shifts Calendar"
+#~ msgstr "Team Shifts Calendar"
+
+#: apps/frontend/src/components/AllUnitTeams.tsx:84
+msgid "Teams"
+msgstr "Teams"
+
+#. placeholder {0}: problemInSlotIds.size
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:197
+msgid "There are {0} conflict(s)s when trying to search for a solution, starting on day {problemInShiftPositionDay}."
+msgstr "There are {0} conflict(s)s when trying to search for a solution, starting on day {problemInShiftPositionDay}."
+
+#. placeholder {0}: quota.simulatedUsed
+#. placeholder {1}: simulatedDaysLeft >= 0 ? ( <> leaving you with <b>{simulatedDaysLeft} days</b> left. </> ) : ( "." )
+#. placeholder {1}: simulatedDaysLeft >= 0 ? ( <> leaving them with <b>{simulatedDaysLeft} days</b> left. </> ) : ( "." )
+#: apps/frontend/src/components/MyQuotaFulfilment.tsx:60
+#: apps/frontend/src/components/MemberQuotaFulfilment.tsx:67
+msgid "These leave days will deduct <0>{0} days</0> from your quota {1}"
+msgstr "These leave days will deduct <0>{0} days</0> from your quota {1}"
+
+#. placeholder {0}: -simulatedDaysLeft
+#: apps/frontend/src/components/MemberQuotaFulfilment.tsx:81
+msgid "They will have exceeded their quota by <0>{0} days</0>."
+msgstr "They will have exceeded their quota by <0>{0} days</0>."
+
+#: apps/frontend/src/components/CompanyWorkSchedule.tsx:158
+#: apps/frontend/src/components/stateless/LeaveRequests.tsx:52
+msgid "to"
+msgstr "to"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:75
+#: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:96
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:102
+msgid "Today"
+msgstr "Today"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:105
+msgid "Top Solution"
+msgstr "Top Solution"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:333
+msgid "Total inconvenience: {totalInconvenience}"
+msgstr "Total inconvenience: {totalInconvenience}"
+
+#: apps/frontend/src/components/stateless/LeaveRequest.tsx:91
+msgid "Type"
+msgstr "Type"
+
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:127
+msgid "Type of Leave"
+msgstr "Type of Leave"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:189
+msgid "ue"
+msgstr "ue"
+
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:219
+msgid "un"
+msgstr "un"
+
+#: apps/frontend/src/components/TeamInvites.tsx:66
+msgid "Unknown"
+msgstr "Unknown"
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:237
+msgid "Use a template to create this position."
+msgstr "Use a template to create this position."
+
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:234
+msgid "Use template?"
+msgstr "Use template?"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:186
+msgid "Use this solution and assigning these shift Positions"
+msgstr "Use this solution and assigning these shift Positions"
+
+#: apps/frontend/src/components/TeamMembers.tsx:127
+msgid "User removed from team"
+msgstr "User removed from team"
+
+#: apps/frontend/src/components/AllUserCompanies.tsx:122
+msgid "View company"
+msgstr "View company"
+
+#: apps/frontend/src/components/AllUnitTeams.tsx:154
+msgid "View team"
+msgstr "View team"
+
+#: apps/frontend/src/components/AllCompanyUnits.tsx:144
+msgid "View unit"
+msgstr "View unit"
+
+#: apps/frontend/src/components/LeaveTypeEditor.tsx:175
+msgid "Visible to"
+msgstr "Visible to"
+
+#: apps/frontend/src/components/stateless/YearCalendar.tsx:150
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:193
+msgid "W"
+msgstr "W"
+
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:130
+msgid "What type of leave are you planning to take?"
+msgstr "What type of leave are you planning to take?"
+
+#: apps/frontend/src/components/CompanyWorkSchedule.tsx:119
+msgid "Work Days"
+msgstr "Work Days"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionTimeDistributionStats.tsx:102
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:94
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:133
+msgid "Worker"
+msgstr "Worker"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:300
+msgid "Worker Inconvenience Equality"
+msgstr "Worker Inconvenience Equality"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:327
+msgid "Worker Shift Equality"
+msgstr "Worker Shift Equality"
+
+#: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:352
+msgid "Worker Shift Proximity"
+msgstr "Worker Shift Proximity"
+
+#: apps/frontend/src/components/AcceptInvite.tsx:58
+msgid "You have been invited"
+msgstr "You have been invited"
+
+#. placeholder {0}: invitation.toEntity.name
+#. placeholder {1}: permissionTypeToString(invitation.permissionType)
+#: apps/frontend/src/components/AcceptInvite.tsx:62
+msgid "You have been invited to join \"<0>{0}</0>\" with permission level \"{1}\"."
+msgstr "You have been invited to join \"<0>{0}</0>\" with permission level \"{1}\"."
+
+#: apps/frontend/src/components/stateless/LeaveRequests.tsx:83
+msgid "You have no pending leave requests"
+msgstr "You have no pending leave requests"
+
+#. placeholder {0}: -simulatedDaysLeft
+#: apps/frontend/src/components/MyQuotaFulfilment.tsx:74
+msgid "You will have exceeded your quota by <0>{0} days</0>."
+msgstr "You will have exceeded your quota by <0>{0} days</0>."

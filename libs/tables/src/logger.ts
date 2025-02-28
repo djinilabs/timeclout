@@ -1,6 +1,17 @@
 import chalk from "chalk";
 
 export const logger = (tableName: string) => {
+  if (
+    process.env.NODE_ENV !== "development" &&
+    process.env.NODE_ENV !== "production"
+  ) {
+    return {
+      debug: () => {},
+      info: () => {},
+      warn: () => {},
+      error: () => {},
+    };
+  }
   return {
     debug: (...args: unknown[]) => {
       console.debug(chalk.gray(`[${tableName}] [DEBUG]`), ...args);

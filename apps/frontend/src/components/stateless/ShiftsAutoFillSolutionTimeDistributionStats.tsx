@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { ResponsiveBoxPlot } from "@nivo/boxplot";
+import { Trans } from "@lingui/react/macro";
 import { type ScoredShiftSchedule } from "@/scheduler";
 import { Avatar } from "./Avatar";
 
@@ -67,8 +68,6 @@ export const ShiftsAutoFillSolutionTimeDistributionStats = ({
     };
   }, [shiftSchedule]);
 
-  console.log({ workerTimeIntervals, workerById });
-
   // Transform data for box plot - create one data point per interval
   const boxPlotData = useMemo(() => {
     return workerTimeIntervals.flatMap(({ workerPk, intervals }) =>
@@ -92,7 +91,7 @@ export const ShiftsAutoFillSolutionTimeDistributionStats = ({
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "Hours between shifts",
+          legend: <Trans>Hours between shifts</Trans>,
           legendPosition: "middle",
           legendOffset: -40,
         }}
@@ -100,7 +99,7 @@ export const ShiftsAutoFillSolutionTimeDistributionStats = ({
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "Worker",
+          legend: <Trans>Worker</Trans>,
           legendPosition: "middle",
           legendOffset: 80,
           renderTick: (tick) => {

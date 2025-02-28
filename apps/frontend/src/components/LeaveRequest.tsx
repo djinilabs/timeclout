@@ -1,5 +1,7 @@
+import { useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Trans } from "@lingui/react/macro";
 import leaveRequestQuery from "@/graphql-client/queries/leaveRequest.graphql";
 import approveLeaveRequestMutation from "@/graphql-client/mutations/approveLeaveRequest.graphql";
 import rejectLeaveRequestMutation from "@/graphql-client/mutations/rejectLeaveRequest.graphql";
@@ -12,7 +14,6 @@ import {
 import { LeaveRequest as LeaveRequestComponent } from "../components/stateless/LeaveRequest";
 import { Button } from "../components/stateless/Button";
 import { useMutation } from "../hooks/useMutation";
-import { useCallback } from "react";
 
 export const LeaveRequest = () => {
   const navigate = useNavigate();
@@ -73,26 +74,32 @@ export const LeaveRequest = () => {
   }, [leaveRequest, company, navigate, removeLeaveRequest]);
 
   if (!leaveRequest) {
-    return <div>LeaveRequest not found</div>;
+    return (
+      <div>
+        <Trans>LeaveRequest not found</Trans>
+      </div>
+    );
   }
-  console.log("leaveRequest", leaveRequest);
+
   return (
     <div className="flex flex-col gap-4">
       <LeaveRequestComponent {...leaveRequest} />
       <div className="flex gap-4 justify-end">
         <>
           <Button cancel onClick={() => navigate(`/companies/${company}`)}>
-            Back to company
+            <Trans>Back to company</Trans>
           </Button>
           {leaveRequest.approved ? (
-            <Button onClick={onRemoveLeaveRequest}>Remove leave request</Button>
+            <Button onClick={onRemoveLeaveRequest}>
+              <Trans>Remove leave request</Trans>
+            </Button>
           ) : (
             <>
               <Button cancel onClick={onRejectLeaveRequest}>
-                Reject leave request
+                <Trans>Reject leave request</Trans>
               </Button>
               <Button onClick={onApproveLeaveRequest}>
-                Approve leave request
+                <Trans>Approve leave request</Trans>
               </Button>
             </>
           )}

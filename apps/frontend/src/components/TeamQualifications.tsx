@@ -9,6 +9,8 @@ import {
 } from "@headlessui/react";
 import toast from "react-hot-toast";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import { Qualifications, qualificationsParser, colorNames } from "@/settings";
 import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
@@ -83,7 +85,7 @@ export const TeamQualifications = () => {
             onChange={(e) =>
               handleUpdateQualification(index, "name", e.target.value)
             }
-            placeholder="Qualification name"
+            placeholder={i18n.t("Qualification name")}
             className="border rounded px-2 py-1"
           />
           <Combobox
@@ -157,7 +159,9 @@ export const TeamQualifications = () => {
                 d="M19.5 12h-15"
               />
             </svg>
-            <span className="sr-only">Remove Qualification</span>
+            <span className="sr-only">
+              <Trans>Remove Qualification</Trans>
+            </span>
           </button>
         </div>
       ))}
@@ -180,7 +184,9 @@ export const TeamQualifications = () => {
             d="M12 4.5v15m7.5-7.5h-15"
           />
         </svg>
-        <span className="sr-only">Add Qualification</span>
+        <span className="sr-only">
+          <Trans>Add Qualification</Trans>
+        </span>
       </button>
 
       <div className="relative my-8">
@@ -190,7 +196,9 @@ export const TeamQualifications = () => {
       </div>
 
       <div className="flex justify-end pt-4">
-        <Button onClick={handleSaveChanges}>Save changes</Button>
+        <Button onClick={handleSaveChanges}>
+          <Trans>Save changes</Trans>
+        </Button>
       </div>
     </div>
   );

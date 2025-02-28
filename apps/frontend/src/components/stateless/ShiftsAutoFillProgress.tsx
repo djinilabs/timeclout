@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Trans } from "@lingui/react/macro";
 import { SchedulerState } from "@/scheduler";
 import { DayDate } from "@/day-date";
 import assignShiftPositionsMutation from "@/graphql-client/mutations/assignShiftPositions.graphql";
@@ -179,23 +180,31 @@ export const ShiftsAutoFillProgress = ({
               disabled={fetchingAssignShiftPositions}
               onClick={handleAssignShiftPositions}
             >
-              {fetchingAssignShiftPositions
-                ? "Assigning Shift Positions..."
-                : "Use this solution and assigning these shift Positions"}
+              {fetchingAssignShiftPositions ? (
+                <Trans>Assigning Shift Positions...</Trans>
+              ) : (
+                <Trans>
+                  Use this solution and assigning these shift Positions
+                </Trans>
+              )}
             </Button>
           )}
         </div>
         {problemInSlotIds.size > 0 && (
           <div className="mt-5">
-            <Attention title="Attention needed">
+            <Attention title={<Trans>Attention needed</Trans>}>
               <p>
-                There are {problemInSlotIds.size} conflict(s)s when trying to
-                search for a solution, starting on day{" "}
-                {problemInShiftPositionDay}.
+                <Trans>
+                  There are {problemInSlotIds.size} conflict(s)s when trying to
+                  search for a solution, starting on day{" "}
+                  {problemInShiftPositionDay}.
+                </Trans>
               </p>
               <p>
-                Some solutions have been discarded because of the following
-                reasons:
+                <Trans>
+                  Some solutions have been discarded because of the following
+                  reasons:
+                </Trans>
                 <ul className="list-disc list-inside">
                   {Array.from(discardedReasons.entries()).map(
                     ([reason, count]) => (

@@ -2,6 +2,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
+import { Trans } from "@lingui/react/macro";
 import invitationsToTeamQuery from "@/graphql-client/queries/invitationsToTeam.graphql";
 import deleteInvitationMutation from "@/graphql-client/mutations/deleteInvitation.graphql";
 import { Button } from "./stateless/Button";
@@ -32,8 +33,8 @@ export const TeamInvites = () => {
         <Button
           to={`/companies/${company}/units/${unit}/teams/${team}/invites/new`}
         >
-          <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" /> New
-          Invitation
+          <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />{" "}
+          <Trans>New Invitation</Trans>
         </Button>
       </div>
       <ul role="list" className="divide-y divide-gray-100">
@@ -61,16 +62,20 @@ export const TeamInvites = () => {
             <div className="flex shrink-0 items-center gap-x-6">
               <div className="hidden sm:flex sm:flex-col sm:items-end">
                 <p className="text-sm/6 text-gray-900">
-                  {permissionTypeToString(invitation.permissionType) ||
-                    "Unknown"}
+                  {permissionTypeToString(invitation.permissionType) || (
+                    <Trans>Unknown</Trans>
+                  )}
                 </p>
                 <p className="mt-1 text-xs/5 text-gray-500">
-                  Invited <ReactTimeAgo date={new Date(invitation.createdAt)} />
+                  <Trans>Invited</Trans>{" "}
+                  <ReactTimeAgo date={new Date(invitation.createdAt)} />
                 </p>
               </div>
               <Menu as="div" className="relative flex-none">
                 <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                  <span className="sr-only">Open options</span>
+                  <span className="sr-only">
+                    <Trans>Open options</Trans>
+                  </span>
                   <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
                 </MenuButton>
                 <MenuItems
@@ -87,7 +92,7 @@ export const TeamInvites = () => {
                       }}
                       className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                     >
-                      Revoke Invitation
+                      <Trans>Revoke Invitation</Trans>
                       <span className="sr-only">, {invitation.email}</span>
                     </a>
                   </MenuItem>

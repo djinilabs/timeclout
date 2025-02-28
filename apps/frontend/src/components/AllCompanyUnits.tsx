@@ -1,6 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { Trans } from "@lingui/react/macro";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
@@ -28,9 +29,11 @@ const NoUnits = () => {
           strokeLinejoin="round"
         />
       </svg>
-      <h3 className="mt-2 text-sm font-semibold text-gray-900">No units</h3>
+      <h3 className="mt-2 text-sm font-semibold text-gray-900">
+        <Trans>No units</Trans>
+      </h3>
       <p className="mt-1 text-sm text-gray-500">
-        Get started by creating a new unit for this company.
+        <Trans>Get started by creating a new unit for this company.</Trans>
       </p>
       <div className="mt-6">
         <button
@@ -41,7 +44,7 @@ const NoUnits = () => {
           }}
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />
-          New Unit
+          <Trans>New Unit</Trans>
         </button>
       </div>
     </div>
@@ -74,8 +77,10 @@ export const AllCompanyUnits = () => {
           <NoUnits />
         ) : (
           <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
-            <div className="ml-4 mt-2 ml-auto shrink-0">
-              <Button to={`/${company.pk}/units/new`}>Create new Unit</Button>
+            <div className="mt-2 ml-auto shrink-0">
+              <Button to={`/${company.pk}/units/new`}>
+                <Trans>Create new Unit</Trans>
+              </Button>
             </div>
           </div>
         )}
@@ -102,7 +107,7 @@ export const AllCompanyUnits = () => {
                       "mt-0.5 whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
                     )}
                   >
-                    In progress
+                    <Trans>In progress</Trans>
                   </p>
                 </div>
                 <div
@@ -113,7 +118,8 @@ export const AllCompanyUnits = () => {
                     key="unit-name-footer-created"
                     className="whitespace-nowrap"
                   >
-                    Created <ReactTimeAgo date={new Date(unit.createdAt)} />
+                    <Trans>Created</Trans>{" "}
+                    <ReactTimeAgo date={new Date(unit.createdAt)} />
                   </p>
                   <svg
                     key="unit-name-footer-separator"
@@ -123,7 +129,7 @@ export const AllCompanyUnits = () => {
                     <circle r={1} cx={1} cy={1} />
                   </svg>
                   <p key="unit-name-footer-created-by" className="truncate">
-                    Created by {unit.createdBy.name}
+                    <Trans>Created by</Trans> {unit.createdBy.name}
                   </p>
                 </div>
               </div>
@@ -135,11 +141,14 @@ export const AllCompanyUnits = () => {
                   to={`/${company.pk}/${unit.pk}`}
                   className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                 >
-                  View unit<span className="sr-only">, {unit.name}</span>
+                  <Trans>View unit</Trans>
+                  <span className="sr-only">, {unit.name}</span>
                 </Link>
                 <Menu as="div" className="relative flex-none">
                   <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                    <span className="sr-only">Open options</span>
+                    <span className="sr-only">
+                      <Trans>Open options</Trans>
+                    </span>
                     <EllipsisVerticalIcon
                       aria-hidden="true"
                       className="size-5"
@@ -154,7 +163,8 @@ export const AllCompanyUnits = () => {
                         to={`/${company.pk}/${unit.pk}`}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                       >
-                        Edit<span className="sr-only">, {unit.name}</span>
+                        <Trans>Edit</Trans>
+                        <span className="sr-only">, {unit.name}</span>
                       </Link>
                     </MenuItem>
                   </MenuItems>

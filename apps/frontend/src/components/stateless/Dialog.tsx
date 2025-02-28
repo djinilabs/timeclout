@@ -23,7 +23,7 @@ export const Dialog: FC<PropsWithChildren<DialogProps>> = memo(
           className="fixed inset-0 bg-gray-500/75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in z-[100]"
         />
 
-        <div className="fixed inset-0 w-screen w-full overflow-y-auto z-[200]">
+        <div className="fixed inset-0 w-screen overflow-y-auto z-[200]">
           <div className="flex min-w-full min-h-full items-end justify-center sm:p-0">
             <DialogPanel
               transition

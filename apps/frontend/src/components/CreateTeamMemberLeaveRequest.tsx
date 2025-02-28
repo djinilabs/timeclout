@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
 import { BookCompanyTimeOff } from "./BookCompanyTimeOff";
 import { SelectUser } from "./stateless/SelectUser";
@@ -42,15 +43,15 @@ export const CreateTeamMemberLeaveRequest = () => {
   return (
     <div className="space-y-6">
       <h3 className="text-lg font-medium leading-6 text-gray-900">
-        Book Company Time Off
+        <Trans>Book Company Time Off</Trans>
       </h3>
       <div className="py-5 grid grid-cols-3">
         <div>
           <legend className="text-sm/6 font-semibold text-gray-900">
-            Select User
+            <Trans>Select User</Trans>
           </legend>
           <p className="mt-1 text-sm/6 text-gray-600">
-            Select the user you want to request time off for.
+            <Trans>Select the user you want to request time off for.</Trans>
           </p>
         </div>
         <div className="mt-6 space-y-3 col-span-2">
@@ -114,9 +115,11 @@ export const CreateTeamMemberLeaveRequest = () => {
         />
       ) : (
         <p>
-          {selectedUser
-            ? `No location settings found for ${selectedUser?.name}`
-            : "Select a user"}
+          {selectedUser ? (
+            <Trans>No location settings found for {selectedUser?.name}</Trans>
+          ) : (
+            <Trans>Select a user</Trans>
+          )}
         </p>
       )}
     </div>

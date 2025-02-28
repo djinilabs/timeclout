@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { TrashIcon } from "@heroicons/react/20/solid";
+import { Trans } from "@lingui/react/macro";
 import { managersParser } from "@/settings";
 import { getDefined, unique } from "@/utils";
 import { useQuery } from "../hooks/useQuery";
@@ -85,7 +86,7 @@ export const UnitManagers = () => {
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
       <p className="mt-1 text-sm/6 text-gray-600 py-5">
-        Assign the managers for the workers in this unit:
+        <Trans>Assign the managers for the workers in this unit:</Trans>
       </p>
       <div className="py-5">
         {managers?.length > 0 ? (
@@ -109,11 +110,15 @@ export const UnitManagers = () => {
             </ul>
           </div>
         ) : (
-          <p className="text-sm/6 text-gray-600">No managers assigned</p>
+          <p className="text-sm/6 text-gray-600">
+            <Trans>No managers assigned</Trans>
+          </p>
         )}
         {addableUsers && addableUsers.length > 0 && (
           <div className="flex flex-col gap-y-4">
-            <p className="text-sm/6 text-gray-600">Add a manager</p>
+            <p className="text-sm/6 text-gray-600">
+              <Trans>Add a manager</Trans>
+            </p>
             <SelectUser users={addableUsers} onChange={addUser} />
           </div>
         )}

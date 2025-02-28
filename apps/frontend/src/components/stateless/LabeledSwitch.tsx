@@ -1,10 +1,10 @@
 import { Field, Label } from "@headlessui/react";
 import { Switch } from "@headlessui/react";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 export interface LabeledSwitchProps {
   id?: string;
-  label: string;
+  label: ReactNode;
   checked: boolean;
   onChange: (checked: boolean) => void;
 }

@@ -13,7 +13,7 @@ export interface TimeScheduleVisualizerProps {
 export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
   ({ schedules }) => {
     return (
-      <div className="flex items-center gap-2 w-full grid grid-cols-6">
+      <div className="items-center gap-2 w-full grid grid-cols-6">
         <div className="text-s text-gray-600 col-span-1">
           {schedules.length > 0
             ? `${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(

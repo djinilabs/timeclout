@@ -2,6 +2,7 @@ import { FC, useEffect } from "react";
 import toast from "react-hot-toast";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { FieldComponent } from "@tanstack/react-form";
+import { Trans } from "@lingui/react/macro";
 import { useCountries } from "../../hooks/useCountries";
 import { useCountrySubdivisions } from "../../hooks/useCountrySubdivisions";
 
@@ -51,7 +52,7 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
               htmlFor={field.name}
               className="block text-sm/6 font-medium text-gray-900"
             >
-              Country
+              <Trans>Country</Trans>
             </label>
             <div className="mt-2 grid grid-cols-1">
               <select
@@ -62,7 +63,9 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
                 }}
                 className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               >
-                <option value="">Select a country</option>
+                <option value="">
+                  <Trans>Select a country</Trans>
+                </option>
                 {countries?.map((country) => (
                   <option key={country.isoCode} value={country.isoCode}>
                     {country.name}
@@ -87,7 +90,7 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
                 htmlFor={field.name}
                 className="block text-sm/6 font-medium text-gray-900"
               >
-                Region
+                <Trans>Region</Trans>
               </label>
               <div className="mt-2 grid grid-cols-1">
                 <select
@@ -99,7 +102,9 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
                   }}
                   className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 >
-                  <option value="">Select a region</option>
+                  <option value="">
+                    <Trans>Select a region</Trans>
+                  </option>
                   {countrySubdivisions?.map((subdivision) => (
                     <option
                       key={subdivision.isoCode}

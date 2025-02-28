@@ -9,6 +9,8 @@ import {
 } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
+import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import {
   colorNames,
@@ -85,7 +87,7 @@ export const TeamSchedulePositionTemplates = () => {
             onChange={(e) =>
               handleUpdateQualification(index, "name", e.target.value)
             }
-            placeholder="Qualification name"
+            placeholder={i18n.t("Qualification name")}
             className="border rounded px-2 py-1"
           />
           <Combobox
@@ -159,7 +161,9 @@ export const TeamSchedulePositionTemplates = () => {
                 d="M19.5 12h-15"
               />
             </svg>
-            <span className="sr-only">Remove Qualification</span>
+            <span className="sr-only">
+              <Trans>Remove Qualification</Trans>
+            </span>
           </button>
         </div>
       ))}
@@ -171,7 +175,9 @@ export const TeamSchedulePositionTemplates = () => {
       </div>
 
       <div className="flex justify-end pt-4">
-        <Button onClick={handleSaveChanges}>Save changes</Button>
+        <Button onClick={handleSaveChanges}>
+          <Trans>Save changes</Trans>
+        </Button>
       </div>
     </div>
   );

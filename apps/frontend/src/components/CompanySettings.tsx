@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { i18n } from "@lingui/core";
 import { Tabs } from "./stateless/Tabs";
 import { CompanyLeaveTypes } from "./CompanyLeaveTypes";
 import { CompanyYearlyQuota } from "./CompanyYearlyQuota";
@@ -7,9 +8,9 @@ import { CompanyWorkSchedule } from "./CompanyWorkSchedule";
 export const CompanySettings = () => {
   const tabs = useMemo(
     () => [
-      { name: "Leave Types", href: "leave-types" },
-      { name: "Yearly quota", href: "yearly-quota" },
-      { name: "Work schedule", href: "work-schedule" },
+      { name: i18n.t("Leave Types"), href: "leave-types" },
+      { name: i18n.t("Yearly quota"), href: "yearly-quota" },
+      { name: i18n.t("Work schedule"), href: "work-schedule" },
     ],
     []
   );

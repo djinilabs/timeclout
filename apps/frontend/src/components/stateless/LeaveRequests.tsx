@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import { Trans } from "@lingui/react/macro";
 import { Avatar } from "./Avatar";
 import { LeaveRequest } from "../../graphql/graphql";
 
@@ -47,15 +48,20 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
                     <Link to={url}>{leaveRequest.type}</Link>
                   </p>
                   <p className="mt-1 text-xs/5 text-gray-500">
-                    From {leaveRequest.startDate} to {leaveRequest.endDate}
+                    <Trans>From</Trans> {leaveRequest.startDate}{" "}
+                    <Trans>to</Trans> {leaveRequest.endDate}
                   </p>
                   {showState && (
                     <p className="mt-1 text-xs/5 text-gray-500">
-                      {leaveRequest.approved ? "Approved" : "Pending"}
+                      {leaveRequest.approved ? (
+                        <Trans>Approved</Trans>
+                      ) : (
+                        <Trans>Pending</Trans>
+                      )}
                     </p>
                   )}
                   <p className="mt-1 text-xs/5 text-gray-500">
-                    Created{" "}
+                    <Trans>Created</Trans>{" "}
                     <ReactTimeAgo date={new Date(leaveRequest.createdAt)} />
                   </p>
                 </div>
@@ -74,7 +80,7 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
           <div className="flex min-w-0 gap-x-4">
             <div className="min-w-0 flex-auto">
               <p className="text-sm/6 font-semibold text-gray-900">
-                You have no pending leave requests
+                <Trans>You have no pending leave requests</Trans>
               </p>
             </div>
           </div>

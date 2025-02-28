@@ -3,6 +3,7 @@ import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import toast from "react-hot-toast";
+import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
 import teamWithMembersQuery from "@/graphql-client/queries/teamWithMembers.graphql";
 import removeUserFromTeamMutation from "@/graphql-client/mutations/removeUserFromTeam.graphql";
@@ -39,13 +40,13 @@ export const TeamMembers = () => {
           to={`/companies/${company}/units/${unit}/teams/${teamPk}/members/new`}
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />{" "}
-          Create member user
+          <Trans>Create member user</Trans>
         </Button>
         <Button
           to={`/companies/${company}/units/${unit}/teams/${teamPk}/invites/new`}
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />{" "}
-          Invite to team
+          <Trans>Invite to team</Trans>
         </Button>
       </div>
       <ul role="list" className="divide-y divide-gray-100">
@@ -84,7 +85,7 @@ export const TeamMembers = () => {
                   </p>
                   {person.resourcePermissionGivenAt && (
                     <p className="mt-1 text-xs/5 text-gray-500">
-                      Joined{" "}
+                      <Trans>Joined</Trans>{" "}
                       <ReactTimeAgo
                         date={new Date(person.resourcePermissionGivenAt)}
                       />
@@ -93,7 +94,9 @@ export const TeamMembers = () => {
                 </div>
                 <Menu as="div" className="relative flex-none">
                   <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                    <span className="sr-only">Open options</span>
+                    <span className="sr-only">
+                      <Trans>Open options</Trans>
+                    </span>
                     <EllipsisVerticalIcon
                       aria-hidden="true"
                       className="size-5"
@@ -108,7 +111,7 @@ export const TeamMembers = () => {
                         href={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                       >
-                        Edit
+                        <Trans>Edit</Trans>
                         <span className="sr-only">, {person.name}</span>
                       </a>
                     </MenuItem>
@@ -120,12 +123,14 @@ export const TeamMembers = () => {
                             userPk: person.pk,
                           });
                           if (!response.error) {
-                            toast.success("User removed from team");
+                            toast.success(
+                              <Trans>User removed from team</Trans>
+                            );
                           }
                         }}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                       >
-                        Remove from team
+                        <Trans>Remove from team</Trans>
                         <span className="sr-only">, {person.name}</span>
                       </a>
                     </MenuItem>

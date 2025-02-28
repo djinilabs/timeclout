@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Slot, SlotWorker, type ScoredShiftSchedule } from "@/scheduler";
 import { ResponsiveBar } from "@nivo/bar";
+import { Trans } from "@lingui/react/macro";
 import { Avatar } from "./Avatar";
 
 export const ShiftsAutoFillSolutionInconvenienceDeviationStats = ({
@@ -129,7 +130,7 @@ export const ShiftsAutoFillSolutionInconvenienceDeviationStats = ({
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "Worker",
+          legend: <Trans>Worker</Trans>,
           legendPosition: "middle",
           legendOffset: -100,
           renderTick: (tick) => {
@@ -159,7 +160,7 @@ export const ShiftsAutoFillSolutionInconvenienceDeviationStats = ({
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "Inconvenience:Deviation from Expected",
+          legend: <Trans>Inconvenience:Deviation from Expected</Trans>,
           legendPosition: "middle",
           legendOffset: 40,
         }}

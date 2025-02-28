@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { Trans } from "@lingui/react/macro";
 import { LeaveTypes, leaveTypeParser } from "@/settings";
 import { getDefined } from "@/utils";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
@@ -26,7 +27,7 @@ export const CompanyLeaveTypes = () => {
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
       <p className="mt-1 text-sm/6 text-gray-600 py-5">
-        Manage the leave types for the workers in this company:
+        <Trans>Manage the leave types for the workers in this company:</Trans>
       </p>
       <div className="flex py-5">
         <div>
@@ -57,7 +58,7 @@ export const CompanyLeaveTypes = () => {
                     href={`/companies/${companyPk}/settings/leaveTypes/${leaveType.name}`}
                     className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                   >
-                    Edit
+                    <Trans>Edit</Trans>
                   </a>
                 </div>
               </li>

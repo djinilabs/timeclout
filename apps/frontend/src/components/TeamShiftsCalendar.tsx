@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { DayDate, DayDateInterval } from "@/day-date";
+import { Trans } from "@lingui/react/macro";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { Dialog } from "./stateless/Dialog";
 import { MonthCalendar } from "./stateless/MonthCalendar";
@@ -68,14 +69,18 @@ export const TeamShiftsCalendar = () => {
     return selectedMonth.nextMonth(1).previousDay().fullMonthForwardFill();
   }, [selectedMonth]);
 
-  const { data: shiftPositionsResult, refetch: refetchTeamShiftsQuery } =
-    useTeamShiftsQuery({
-      team: getDefined(team),
-      startDay: calendarStartDay,
-      endDay: calendarEndDay,
-      pollingIntervalMs: 30000,
-      pause: createDialogOpen || autoFillDialogOpen,
-    });
+  const {
+    data: shiftPositionsResult,
+    refetch: refetchTeamShiftsQuery,
+    error,
+    fetching,
+  } = useTeamShiftsQuery({
+    team: getDefined(team),
+    startDay: calendarStartDay,
+    endDay: calendarEndDay,
+    pollingIntervalMs: 30000,
+    pause: createDialogOpen || autoFillDialogOpen,
+  });
 
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
     useTeamShiftsDragAndDrop(shiftPositionsResult);
@@ -183,46 +188,52 @@ export const TeamShiftsCalendar = () => {
   }, [maxShiftPositionRowsPerWeekNumber, maxLeaveRowsPerWeekNumber]);
 
   return (
-    <>
-      <Dialog
-        open={createDialogOpen}
-        onClose={() => setCreateDialogOpen(false)}
-        title={
-          editingShiftPosition
-            ? "Edit position"
-            : "Insert position into the team schedule."
-        }
-      >
-        <Suspense>
-          <CreateOrEditScheduleShiftPosition
-            editingShiftPosition={editingShiftPosition}
-            day={focusedDay ? new DayDate(focusedDay) : selectedMonth}
-            onCancel={useCallback(() => setCreateDialogOpen(false), [])}
-            onCreate={useCallback(
-              async (params) => {
+    <div>
+      {fetching ? (
+        <div>
+          <Trans>Loading calendar...</Trans>
+        </div>
+      ) : error ? (
+        <div>
+          <Trans>Error loading calendar data</Trans>
+        </div>
+      ) : (
+        <Dialog
+          open={createDialogOpen}
+          onClose={() => setCreateDialogOpen(false)}
+          title={
+            editingShiftPosition ? (
+              <Trans>Edit position</Trans>
+            ) : (
+              <Trans>Insert position into the team schedule</Trans>
+            )
+          }
+        >
+          <Suspense>
+            <CreateOrEditScheduleShiftPosition
+              editingShiftPosition={editingShiftPosition}
+              day={focusedDay ? new DayDate(focusedDay) : selectedMonth}
+              onCancel={() => setCreateDialogOpen(false)}
+              onCreate={async (params) => {
                 if (await createShiftPosition(params)) {
                   setCreateDialogOpen(false);
                   refetchTeamShiftsQuery();
                 }
-              },
-              [createShiftPosition, refetchTeamShiftsQuery]
-            )}
-            onUpdate={useCallback(
-              async (params) => {
+              }}
+              onUpdate={async (params) => {
                 if (await updateShiftPosition(params)) {
                   setCreateDialogOpen(false);
                   refetchTeamShiftsQuery();
                 }
-              },
-              [refetchTeamShiftsQuery, updateShiftPosition]
-            )}
-          />
-        </Suspense>
-      </Dialog>
+              }}
+            />
+          </Suspense>
+        </Dialog>
+      )}
       <Dialog
         open={autoFillDialogOpen}
         onClose={() => setAutoFillDialogOpen(false)}
-        title={"Auto fill"}
+        title={<Trans>Auto fill</Trans>}
         className="w-screen min-h-screen"
       >
         <Suspense>
@@ -252,7 +263,7 @@ export const TeamShiftsCalendar = () => {
               ? [
                   {
                     type: "button",
-                    text: "Add position",
+                    text: <Trans>Add position</Trans>,
                     onClick: () => {
                       setEditingShiftPosition(undefined);
                       setCreateDialogOpen(true);
@@ -260,7 +271,7 @@ export const TeamShiftsCalendar = () => {
                   } as const,
                   {
                     type: "button",
-                    text: "Auto fill",
+                    text: <Trans>Auto fill</Trans>,
                     onClick: () => {
                       setAutoFillDialogOpen(true);
                     },
@@ -271,7 +282,7 @@ export const TeamShiftsCalendar = () => {
               type: "component",
               component: (
                 <LabeledSwitch
-                  label="Show leave schedule"
+                  label={<Trans>Show leave schedule</Trans>}
                   checked={showLeaveSchedule}
                   onChange={setShowLeaveSchedule}
                 />
@@ -413,6 +424,6 @@ export const TeamShiftsCalendar = () => {
         onCellDragOver={onCellDragOver}
         onCellDragLeave={onCellDragLeave}
       />
-    </>
+    </div>
   );
 };

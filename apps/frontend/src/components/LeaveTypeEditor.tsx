@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
+import { Trans } from "@lingui/react/macro";
 import { leaveTypeParser } from "@/settings";
 import { IconPicker } from "./stateless/IconPicker";
 import { ColorPicker } from "./stateless/ColorPicker";
@@ -54,10 +55,10 @@ export const LeaveTypeEditor = ({
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base/7 font-semibold text-gray-900">
-            Leave Type &quot;{leaveType.name}&quot;
+            <Trans>Leave Type "{leaveType.name}"</Trans>
           </h2>
           <p className="mt-1 text-sm/6 text-gray-600">
-            Edit the leave type &quot;{leaveType.name}&quot;
+            <Trans>Edit the leave type "{leaveType.name}"</Trans>
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -69,7 +70,7 @@ export const LeaveTypeEditor = ({
                     htmlFor={field.name}
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Name
+                    <Trans>Name</Trans>
                   </label>
                   <div className="mt-2">
                     <div className="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-teal-600">
@@ -95,7 +96,7 @@ export const LeaveTypeEditor = ({
                     htmlFor={field.name}
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Icon
+                    <Trans>Icon</Trans>
                   </label>
                   <div className="mt-2">
                     <IconPicker
@@ -115,7 +116,7 @@ export const LeaveTypeEditor = ({
                     htmlFor={field.name}
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Pick a color
+                    <Trans>Pick a color</Trans>
                   </label>
                   <div className="mt-2">
                     <ColorPicker
@@ -135,7 +136,7 @@ export const LeaveTypeEditor = ({
                     htmlFor={field.name}
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Show in calendar as
+                    <Trans>Show in calendar as</Trans>
                   </label>
                   <div className="mt-2">
                     <select
@@ -148,9 +149,15 @@ export const LeaveTypeEditor = ({
                       }
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm/6"
                     >
-                      <option value="busy">Busy</option>
-                      <option value="available">Available</option>
-                      <option value="ooo">Out of Office</option>
+                      <option value="busy">
+                        <Trans>Busy</Trans>
+                      </option>
+                      <option value="available">
+                        <Trans>Available</Trans>
+                      </option>
+                      <option value="ooo">
+                        <Trans>Out of Office</Trans>
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -165,7 +172,7 @@ export const LeaveTypeEditor = ({
                     htmlFor={field.name}
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Visible to
+                    <Trans>Visible to</Trans>
                   </label>
                   <div className="mt-2">
                     <select
@@ -178,8 +185,12 @@ export const LeaveTypeEditor = ({
                       }
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm/6"
                     >
-                      <option value="managers">Managers only</option>
-                      <option value="employees">All employees</option>
+                      <option value="managers">
+                        <Trans>Managers only</Trans>
+                      </option>
+                      <option value="employees">
+                        <Trans>All employees</Trans>
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -205,7 +216,7 @@ export const LeaveTypeEditor = ({
                         htmlFor={field.name}
                         className="font-medium text-gray-900"
                       >
-                        Deducts from annual allowance
+                        <Trans>Deducts from annual allowance</Trans>
                       </label>
                     </div>
                   </div>
@@ -232,7 +243,7 @@ export const LeaveTypeEditor = ({
                         htmlFor={field.name}
                         className="font-medium text-gray-900"
                       >
-                        Requires manager approval
+                        <Trans>Requires manager approval</Trans>
                       </label>
                     </div>
                   </div>
@@ -245,13 +256,13 @@ export const LeaveTypeEditor = ({
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <button type="button" className="text-sm/6 font-semibold text-gray-900">
-          Cancel
+          <Trans>Cancel</Trans>
         </button>
         <button
           type="submit"
           className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
         >
-          Save
+          <Trans>Save</Trans>
         </button>
       </div>
     </form>

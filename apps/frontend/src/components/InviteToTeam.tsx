@@ -2,6 +2,8 @@ import { FC } from "react";
 import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
+import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 import inviteToTeamMutation from "@/graphql-client/mutations/inviteToTeam.graphql";
 import { useMutation } from "../hooks/useMutation";
 import { Mutation, MutationCreateInvitationArgs } from "../graphql/graphql";
@@ -34,14 +36,17 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
       toast.error("Please fill in all fields");
     },
   });
+
   return (
     <div className="bg-white shadow sm:rounded-lg">
       <div className="px-4 py-5 sm:p-6">
         <h3 className="text-base font-semibold text-gray-900">
-          Invite to team
+          <Trans>Invite to team</Trans>
         </h3>
         <div className="mt-2 max-w-xl text-sm text-gray-500">
-          <p>Invite a team member to join your team.</p>
+          <p>
+            <Trans>Invite a team member to join your team.</Trans>
+          </p>
         </div>
         <form
           className="mt-5 sm:flex sm:items-center"
@@ -57,7 +62,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
               validators={{
                 onChange: ({ value }) => {
                   if (!value) {
-                    return "Email is required";
+                    return i18n.t("Email is required");
                   }
                 },
               }}
@@ -101,7 +106,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
               validators={{
                 onChange: ({ value }) => {
                   if (!value) {
-                    return "Please select a permission";
+                    return i18n.t("Please select a permission");
                   }
                 },
               }}
@@ -110,9 +115,9 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
                   <div className="grid grid-cols-1">
                     <ListBox
                       options={[
-                        { key: "1", value: "Member" },
-                        { key: "2", value: "Admin" },
-                        { key: "3", value: "Owner" },
+                        { key: "1", value: i18n.t("Member") },
+                        { key: "2", value: i18n.t("Admin") },
+                        { key: "3", value: i18n.t("Owner") },
                       ]}
                       selected={field.state.value ?? "2"}
                       onChange={(value) => field.handleChange(value.toString())}
@@ -138,10 +143,10 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
             disabled={form.state.isSubmitting}
             className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 sm:ml-3 sm:mt-0 sm:w-auto"
           >
-            Invite
+            <Trans>Invite</Trans>
           </button>
           <Button cancel onClick={onDone}>
-            Cancel
+            <Trans>Cancel</Trans>
           </Button>
         </form>
       </div>

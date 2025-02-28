@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
+import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
 import { type WorkSchedule, worksScheduleParser } from "@/settings";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
@@ -99,7 +100,9 @@ export const CompanyWorkSchedule = () => {
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-6 md:grid-cols-3">
       <p className="mt-1 text-sm/6 text-gray-600 py-5">
-        Configure the standard work schedule for employees in this company:
+        <Trans>
+          Configure the standard work schedule for employees in this company:
+        </Trans>
       </p>
 
       <div className="flex py-5">
@@ -113,7 +116,7 @@ export const CompanyWorkSchedule = () => {
           <div className="space-y-6">
             <div>
               <h3 className="text-sm font-medium leading-6 text-gray-900">
-                Work Days
+                <Trans>Work Days</Trans>
               </h3>
               <div className="mt-4 space-y-3">
                 {workDays.map((day) => (
@@ -151,7 +154,9 @@ export const CompanyWorkSchedule = () => {
                                 }
                                 className="rounded border-gray-300 text-sm"
                               />
-                              <span className="text-sm text-gray-500">to</span>
+                              <span className="text-sm text-gray-500">
+                                <Trans>to</Trans>
+                              </span>
                               <input
                                 type="time"
                                 value={field.state.value.end}
@@ -173,7 +178,9 @@ export const CompanyWorkSchedule = () => {
               </div>
             </div>
 
-            <Button type="submit">Save Changes</Button>
+            <Button type="submit">
+              <Trans>Save Changes</Trans>
+            </Button>
           </div>
         </form>
       </div>

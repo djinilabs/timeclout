@@ -3,6 +3,8 @@ import { useSession } from "next-auth/react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FieldComponent, useForm } from "@tanstack/react-form";
+import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 import meQuery from "@/graphql-client/queries/me.graphql";
 import updateMeMutation from "@/graphql-client/mutations/updateMe.graphql";
 import {
@@ -78,10 +80,12 @@ export const MeEdit = () => {
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
             <h2 className="text-base/7 font-semibold text-gray-900">
-              Personal Information
+              <Trans>Personal Information</Trans>
             </h2>
             <p className="mt-1 text-sm/6 text-gray-600">
-              Add your personal information to help us identify you.
+              <Trans>
+                Add your personal information to help us identify you.
+              </Trans>
             </p>
           </div>
 
@@ -91,7 +95,7 @@ export const MeEdit = () => {
               validators={{
                 onChange: ({ value }) => {
                   if (!value) {
-                    return "Professional name is required";
+                    return i18n.t("Professional name is required");
                   }
                 },
               }}
@@ -101,7 +105,7 @@ export const MeEdit = () => {
                     htmlFor={field.name}
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Professional name
+                    <Trans>Professional name</Trans>
                   </label>
                   <div className="mt-2">
                     <input
@@ -136,7 +140,7 @@ export const MeEdit = () => {
                     htmlFor={field.name}
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Email address
+                    <Trans>Email address</Trans>
                   </label>
                   <div className="mt-2">
                     <input
@@ -166,7 +170,9 @@ export const MeEdit = () => {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <Button type="submit">Save</Button>
+        <Button type="submit">
+          <Trans>Save</Trans>
+        </Button>
       </div>
     </form>
   );

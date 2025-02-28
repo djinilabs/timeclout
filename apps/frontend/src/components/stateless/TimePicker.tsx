@@ -1,4 +1,5 @@
 import { FC, memo } from "react";
+import { Trans } from "@lingui/react/macro";
 
 export interface TimePickerProps {
   min?: [number, number];
@@ -66,7 +67,7 @@ export const TimePicker: FC<TimePickerProps> = memo(
           />
           {isNextDay && (
             <span className="-right-14 top-1/2 -translate-y-1/2 text-xs text-gray-500">
-              next day
+              <Trans>next day</Trans>
             </span>
           )}
         </div>

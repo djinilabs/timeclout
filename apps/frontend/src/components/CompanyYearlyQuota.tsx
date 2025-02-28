@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { Trans } from "@lingui/react/macro";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
 import { getDefined } from "@/utils";
@@ -64,7 +65,10 @@ export const CompanyYearlyQuota = () => {
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-6 md:grid-cols-3">
       <p className="mt-1 text-sm/6 text-gray-600 py-5">
-        Configure the yearly leave quota settings for employees in this company:
+        <Trans>
+          Configure the yearly leave quota settings for employees in this
+          company:
+        </Trans>
       </p>
 
       <div className="flex py-5">
@@ -84,11 +88,13 @@ export const CompanyYearlyQuota = () => {
                     htmlFor="resetMonth"
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Reset Month
+                    <Trans>Reset Month</Trans>
                   </label>
                   <p className="mt-2 text-sm text-gray-500">
-                    Select the month when the yearly leave quota should reset
-                    for all employees.
+                    <Trans>
+                      Select the month when the yearly leave quota should reset
+                      for all employees.
+                    </Trans>
                   </p>
                   <div className="mt-2 grid grid-cols-1">
                     <select
@@ -100,18 +106,42 @@ export const CompanyYearlyQuota = () => {
                       }}
                       value={field.state.value}
                     >
-                      <option value={1}>January</option>
-                      <option value={2}>February</option>
-                      <option value={3}>March</option>
-                      <option value={4}>April</option>
-                      <option value={5}>May</option>
-                      <option value={6}>June</option>
-                      <option value={7}>July</option>
-                      <option value={8}>August</option>
-                      <option value={9}>September</option>
-                      <option value={10}>October</option>
-                      <option value={11}>November</option>
-                      <option value={12}>December</option>
+                      <option value={1}>
+                        <Trans>January</Trans>
+                      </option>
+                      <option value={2}>
+                        <Trans>February</Trans>
+                      </option>
+                      <option value={3}>
+                        <Trans>March</Trans>
+                      </option>
+                      <option value={4}>
+                        <Trans>April</Trans>
+                      </option>
+                      <option value={5}>
+                        <Trans>May</Trans>
+                      </option>
+                      <option value={6}>
+                        <Trans>June</Trans>
+                      </option>
+                      <option value={7}>
+                        <Trans>July</Trans>
+                      </option>
+                      <option value={8}>
+                        <Trans>August</Trans>
+                      </option>
+                      <option value={9}>
+                        <Trans>September</Trans>
+                      </option>
+                      <option value={10}>
+                        <Trans>October</Trans>
+                      </option>
+                      <option value={11}>
+                        <Trans>November</Trans>
+                      </option>
+                      <option value={12}>
+                        <Trans>December</Trans>
+                      </option>
                     </select>
                     <ChevronDownIcon
                       aria-hidden="true"
@@ -130,11 +160,13 @@ export const CompanyYearlyQuota = () => {
                     htmlFor="defaultQuota"
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Default Yearly Quota (days)
+                    <Trans>Default Yearly Quota (days)</Trans>
                   </label>
                   <p className="mt-2 text-sm text-gray-500">
-                    Set the default number of leave days allocated to each
-                    employee per year.
+                    <Trans>
+                      Set the default number of leave days allocated to each
+                      employee per year.
+                    </Trans>
                   </p>
                   <div className="mt-2">
                     <input
@@ -159,9 +191,11 @@ export const CompanyYearlyQuota = () => {
                 cancel
                 onClick={() => navigate(`/companies/${companyPk}?tab=settings`)}
               >
-                Cancel
+                <Trans>Cancel</Trans>
               </Button>
-              <Button type="submit">Save Settings</Button>
+              <Button type="submit">
+                <Trans>Save Settings</Trans>
+              </Button>
             </div>
           </div>
         </form>

@@ -1,5 +1,6 @@
 import { type ScoredShiftSchedule } from "@/scheduler";
 import { BarDatum, ResponsiveBar } from "@nivo/bar";
+import { Trans } from "@lingui/react/macro";
 import { Avatar } from "./Avatar";
 import { useMemo } from "react";
 
@@ -61,8 +62,6 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
     };
   }, [shiftSchedule]);
 
-  console.log({ workerStats });
-
   return (
     <div className="w-full aspect-[2/1]">
       <ResponsiveBar
@@ -84,7 +83,7 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "Number of shifts",
+          legend: <Trans>Number of shifts</Trans>,
           legendPosition: "middle",
           legendOffset: -40,
         }}
@@ -92,7 +91,7 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "Worker",
+          legend: <Trans>Worker</Trans>,
           legendPosition: "middle",
           legendOffset: 80,
           renderTick: (tick) => {
