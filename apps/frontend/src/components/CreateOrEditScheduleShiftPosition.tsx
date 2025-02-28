@@ -280,7 +280,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
                         Required qualifications
                       </label>
                       <p className="mt-3 text-sm/6 text-gray-600 mb-2">
-                        Set the skills required for this position.
+                        Set the qualifications required for this position.
                       </p>
                       <EditQualifications
                         qualifications={field.state.value}
