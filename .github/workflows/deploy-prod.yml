@@ -50,7 +50,7 @@ jobs:
         run: |
           cd apps/backend
           export PATH=../../node_modules/.bin:$PATH
-          pnpm arc env --add --env production AUTH_SECRET "${{ secrets.AUTH_SECRET }}""
+          pnpm arc env --add --env production AUTH_SECRET "${{ secrets.AUTH_SECRET }}"
           pnpm arc env --add --env production AUTH_MAILGUN_KEY "${{ secrets.AUTH_MAILGUN_KEY }}"
           cd ../..
           pnpm build
