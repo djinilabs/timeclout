@@ -333,7 +333,7 @@ msgstr "Ocupado"
 
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:409
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
-msgstr "Guardando como modelo, você pode reutilizá-lo para criar novas posições no futuro."
+msgstr "Guardando como modelo, pode reutilizá-lo para criar novas posições no futuro."
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:259
 #: apps/frontend/src/components/InviteToTeam.tsx:149
