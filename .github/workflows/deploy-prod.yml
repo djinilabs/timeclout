@@ -50,9 +50,9 @@ jobs:
         run: |
           cd apps/backend
           export PATH=../../node_modules/.bin:$PATH
-          pnpm arc env --add --env production NODE_OPTIONS --enable-source-maps
-          pnpm arc env --add --env production AUTH_SECRET ${{ secrets.AUTH_SECRET }}
-          pnpm arc env --add --env production AUTH_MAILGUN_KEY ${{ secrets.AUTH_MAILGUN_KEY }}
+          pnpm arc env --add --env production NODE_OPTIONS "--enable-source-maps"
+          pnpm arc env --add --env production AUTH_SECRET "${{ secrets.AUTH_SECRET }}""
+          pnpm arc env --add --env production AUTH_MAILGUN_KEY "${{ secrets.AUTH_MAILGUN_KEY }}"
           cd ../..
           pnpm build
           cd apps/backend
