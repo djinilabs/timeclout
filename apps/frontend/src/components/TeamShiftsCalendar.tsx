@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { DayDate, DayDateInterval } from "@/day-date";
+import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { Dialog } from "./stateless/Dialog";
 import { MonthCalendar } from "./stateless/MonthCalendar";
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
@@ -17,13 +18,18 @@ import {
   useTeamShiftPositionsMap,
 } from "../hooks/useTeamShiftPositionsMap";
 import { classNames } from "../utils/classNames";
-import { ShiftPosition as ShiftPositionType } from "../graphql/graphql";
+import {
+  Query,
+  QueryTeamArgs,
+  ShiftPosition as ShiftPositionType,
+} from "../graphql/graphql";
 import { ShiftsAutoFill } from "./ShiftsAutoFill";
 import { useTeamLeaveSchedule } from "../hooks/useTeamLeaveSchedule";
 import { Avatar } from "./stateless/Avatar";
 import { useLocalPreference } from "../hooks/useLocalPreference";
 import { LabeledSwitch } from "./stateless/LabeledSwitch";
 import { toMinutes } from "../utils/toMinutes";
+import { useQuery } from "../hooks/useQuery";
 
 export const TeamShiftsCalendar = () => {
   const { team, company } = useParams();
@@ -110,6 +116,16 @@ export const TeamShiftsCalendar = () => {
     setCreateDialogOpen(true);
   };
 
+  // team
+
+  const [queryResponse] = useQuery<{ team: Query["team"] }, QueryTeamArgs>({
+    query: teamQuery,
+    variables: {
+      teamPk: getDefined(team, "No team provided"),
+    },
+  });
+  const teamResult = queryResponse.data?.team;
+
   // team leave schedule
 
   const [showLeaveSchedule, setShowLeaveSchedule] = useLocalPreference(
@@ -117,7 +133,7 @@ export const TeamShiftsCalendar = () => {
     false
   );
 
-  const { leaveSchedule, team: teamResult } = useTeamLeaveSchedule({
+  const { leaveSchedule } = useTeamLeaveSchedule({
     company: getDefined(company),
     team: getDefined(team),
     calendarStartDay,

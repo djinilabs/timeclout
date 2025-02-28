@@ -4,20 +4,8 @@ query TeamApprovedSchedule(
   $endDate: Date!
 ) {
   team(teamPk: $teamPk) {
+    pk
     name
-    createdAt
-    createdBy {
-      pk
-      email
-      name
-    }
-    updatedAt
-    updatedBy {
-      pk
-      email
-      name
-    }
-    resourcePermission
     approvedSchedule(startDate: $startDate, endDate: $endDate) {
       pk
       userSchedules {
