@@ -4,6 +4,7 @@ import { useForm } from "@tanstack/react-form";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { dequal } from "dequal";
+import { i18n } from "@lingui/core";
 import { DayDate } from "@/day-date";
 import { getDefined } from "@/utils";
 import { SchedulePositionTemplate } from "@/settings";
@@ -207,13 +208,6 @@ export const CreateOrEditScheduleShiftPosition: FC<
 
   return (
     <div>
-      <h3>
-        {editingShiftPosition ? (
-          <Trans>Edit Shift Position</Trans>
-        ) : (
-          <Trans>Create New Shift Position</Trans>
-        )}
-      </h3>
       <form>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
@@ -442,6 +436,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
                       ISOWeek
                       timeZone="UTC"
                       required
+                      locale={{ code: i18n.locale }}
                       disabled={{
                         before: new Date(),
                       }}

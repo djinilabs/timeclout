@@ -245,6 +245,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                   <DayPicker
                     ISOWeek
                     timeZone="UTC"
+                    locale={{ code: i18n.locale }}
                     mode="range"
                     required
                     selected={{
