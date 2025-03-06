@@ -35,7 +35,7 @@ jobs:
           cache: pnpm
 
       - name: Install
-        run: pnpm install -w
+        run: pnpm install -w && cd apps/homepage && pnpm install
 
       - name: Deploy
         env:

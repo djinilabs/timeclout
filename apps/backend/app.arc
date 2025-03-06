@@ -2,12 +2,9 @@
 tt3
 
 @http
+any /*
 any /api/v1/auth/*
 any /graphql
-any /*
-
-@static
-spa true
 
 @tables
 

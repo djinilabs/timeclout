@@ -42,7 +42,7 @@ export const BreadcrumbNav = () => {
       >
         <li key="home" className="flex">
           <div className="flex items-center">
-            <Link to="/" className="text-gray-400 hover:text-gray-500">
+            <Link to="/companies" className="text-gray-400 hover:text-gray-500">
               <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
               <span className="sr-only">
                 <Trans>Home</Trans>
@@ -62,7 +62,7 @@ export const BreadcrumbNav = () => {
               <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
             </svg>
             <Link
-              to="/"
+              to="/companies"
               className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
             >
               <Trans>Companies</Trans>

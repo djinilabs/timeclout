@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import { RequiresSession } from "./components/RequiresSession";
-import { Root } from "./routes/Root";
+import { Companies } from "./routes/Companies";
 import { NewCompany } from "./routes/NewCompany";
 import { Company } from "./routes/Company";
 import { NewUnit } from "./routes/NewUnit";
@@ -28,7 +28,18 @@ export const AppRoutes: FC = () => {
         element={
           <RequiresSession>
             <RequiresSelfSettings>
-              <Root />
+              <Companies />
+            </RequiresSelfSettings>
+          </RequiresSession>
+        }
+      />
+
+      <Route
+        path="/companies"
+        element={
+          <RequiresSession>
+            <RequiresSelfSettings>
+              <Companies />
             </RequiresSelfSettings>
           </RequiresSession>
         }
