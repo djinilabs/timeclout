@@ -71,11 +71,13 @@ export const SideBar = () => {
   return (
     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-teal-600 px-6 pb-4">
       <div className="flex h-16 shrink-0 items-center">
-        <img
-          alt="Team Time Table"
-          src="/images/tt3.svg"
-          className="h-20 w-auto"
-        />
+        <a href="/homepage">
+          <img
+            alt="Team Time Table"
+            src="/images/tt3.svg"
+            className="h-20 w-auto"
+          />
+        </a>
       </div>
       <nav className="flex flex-1 flex-col">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">

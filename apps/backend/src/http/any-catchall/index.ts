@@ -1,3 +1,4 @@
+// @ts-ignore
 import asap from "@architect/asap";
 import { APIGatewayProxyEventV2, Context } from "aws-lambda";
 
