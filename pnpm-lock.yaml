@@ -30,7 +30,7 @@ importers:
         version: 7.0.10
       '@architect/functions':
         specifier: ^8.1.6
-        version: 8.1.6(patch_hash=wjjtw46v6xaiwiud4q4gxcd3gu)
+        version: 8.1.7(patch_hash=wjjtw46v6xaiwiud4q4gxcd3gu)
       '@auth/core':
         specifier: ^0.37.4
         version: 0.37.4(patch_hash=aeyot3iwk2unqcchidhys6cc5q)
@@ -463,6 +463,14 @@ packages:
       graphql:
         optional: true
 
+  '@0no-co/graphql.web@1.1.2':
+    resolution: {integrity: sha512-N2NGsU5FLBhT8NZ+3l2YrzZSHITjNXNuDhC4iDiikv0IujaJ0Xc6xIxQZ/Ek3Cb+rgPjnLHYyJm11tInuJn+cw==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    peerDependenciesMeta:
+      graphql:
+        optional: true
+
   '@0no-co/graphqlsp@1.12.16':
     resolution: {integrity: sha512-B5pyYVH93Etv7xjT6IfB7QtMBdaaC07yjbhN6v8H7KgFStMkPvi+oWYBTibMFRMY89qwc9H8YixXg8SXDVgYWw==}
     peerDependencies:
@@ -506,8 +514,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  '@architect/functions@8.1.6':
-    resolution: {integrity: sha512-ZDRJ+0O3pYPFjbLcKomlcoulM9vebA8pxbhdzG1QUslgcrtkRDuW1Vo/6x96joaOr57VId03wewwsrNEwbWdcw==}
+  '@architect/functions@8.1.7':
+    resolution: {integrity: sha512-+2+houdMC3FXROgY4i46VbzQwHq4ryLdWrPbO2VEuegBp0KdhQLgD/4W7aYGQ31qx58yQr2hYgZ/ZhdLYEwHSA==}
     engines: {node: '>=16'}
 
   '@architect/hydrate@4.0.7':
@@ -611,8 +619,8 @@ packages:
     resolution: {integrity: sha512-8x0gFcuVRH1Z/JXAcKRF0LQ0nyQbStHmnbaC6RTcosny8vkWx1IIsa61rYQiQIn7K0hNOK9zMsh0FgOcRDYwWg==}
     engines: {node: '>=16'}
 
-  '@aws-lite/apigatewaymanagementapi@0.0.8':
-    resolution: {integrity: sha512-uAb9G/XlmhvUAFT9iZukqXP6rGAQTOVIcG/3h8nB9E9Y/S0nzIqpszrhMnan+qT7hpCOe3Lz8OLcKsyopgD7wg==}
+  '@aws-lite/apigatewaymanagementapi@0.0.10':
+    resolution: {integrity: sha512-fIkUYTV4TF0wnNwzvbqWou/I0bxGsgJbbawBmeKoJIc+3yc2PzOIP6RqNPmWjlUHsuI7QnymPgWljWfvExlaVg==}
     engines: {node: '>=16'}
 
   '@aws-lite/apigatewayv2@0.0.4':
@@ -663,8 +671,8 @@ packages:
     resolution: {integrity: sha512-Z28ndCj5ME8Bfs6Fj6mFoqaeUuZXpP0bKCK2uNSRRgxDQqkXvGrAWJ8woNPkwSe4ndhQknouJCuIrlwFE4jSDA==}
     engines: {node: '>=16'}
 
-  '@aws-lite/sns@0.0.6':
-    resolution: {integrity: sha512-TWApAplmlO15vQzq3GX6X9FMki6c1x6bq0X2PWgq5tiwVEFhNuuxs463uTEHoDmd7gGBgE0l8WhUgS6FPDOHfA==}
+  '@aws-lite/sns@0.0.8':
+    resolution: {integrity: sha512-MIzHe66kLNyzPFY/DX30uN7DlVQsnBiHPYbq/7syNWuoYSG8bkWuUX2CVIuSL7Ji5jaLpQ4lf8/VQ+SiAeoIZA==}
     engines: {node: '>=16'}
 
   '@aws-lite/sqs-types@0.2.6':
@@ -4203,6 +4211,11 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  acorn@8.14.1:
+    resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
   agent-base@7.1.3:
     resolution: {integrity: sha512-jRR5wdylq8CkOe6hei19GGZnxM6rBGwFl3Bg0YItGDimvjGtAvdZk4Pu6Cl4u4Igsws4a1fd1Vq3ezrhn4KmFw==}
     engines: {node: '>= 14'}
@@ -4443,6 +4456,9 @@ packages:
 
   caniuse-lite@1.0.30001690:
     resolution: {integrity: sha512-5ExiE3qQN6oF8Clf8ifIDcMRCRE/dMGcETG/XGMD8/XiXm6HXQgQTh1yZYLXXpSOsEUlJm1Xr7kGULZTuGtP/w==}
+
+  caniuse-lite@1.0.30001702:
+    resolution: {integrity: sha512-LoPe/D7zioC0REI5W73PeR1e1MLCipRGq/VkovJnd6Df+QVqT+vT33OXCp8QUd7kA7RZrHWxb1B36OQKI/0gOA==}
 
   capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
@@ -6991,6 +7007,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.7.1:
+    resolution: {integrity: sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   send@0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
     engines: {node: '>= 0.8.0'}
@@ -7756,6 +7777,9 @@ packages:
   wonka@6.3.4:
     resolution: {integrity: sha512-CjpbqNtBGNAeyNS/9W6q3kSkKE52+FjIj7AkFlLr11s/VWGUu6a2CdYSdGxocIhIVjaW/zchesBQUKPVU69Cqg==}
 
+  wonka@6.3.5:
+    resolution: {integrity: sha512-SSil+ecw6B4/Dm7Pf2sAshKQ5hWFvfyGlfPbEd6A14dOH6VDjrmbY86u6nZvy9omGwwIPFR8V41+of1EezgoUw==}
+
   word-wrap@1.2.5:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
@@ -7874,6 +7898,10 @@ snapshots:
     optionalDependencies:
       graphql: 16.10.0
 
+  '@0no-co/graphql.web@1.1.2(graphql@16.10.0)':
+    optionalDependencies:
+      graphql: 16.10.0
+
   '@0no-co/graphqlsp@1.12.16(graphql@16.10.0)(typescript@5.6.3)':
     dependencies:
       '@gql.tada/internal': 1.0.8(graphql@16.10.0)(typescript@5.6.3)
@@ -7975,15 +8003,15 @@ snapshots:
       run-waterfall: 1.1.7
       yesno: 0.4.0
 
-  '@architect/functions@8.1.6(patch_hash=wjjtw46v6xaiwiud4q4gxcd3gu)':
+  '@architect/functions@8.1.7(patch_hash=wjjtw46v6xaiwiud4q4gxcd3gu)':
     dependencies:
-      '@aws-lite/apigatewaymanagementapi': 0.0.8
-      '@aws-lite/client': 0.21.10
+      '@aws-lite/apigatewaymanagementapi': 0.0.10
+      '@aws-lite/client': 0.22.4
       '@aws-lite/dynamodb': 0.3.9
-      '@aws-lite/sns': 0.0.6
+      '@aws-lite/sns': 0.0.8
       '@aws-lite/sqs': 0.2.4
       '@aws-lite/ssm': 0.2.5
-      cookie: 0.6.0
+      cookie: 1.0.2
       cookie-signature: 1.2.2
       csrf: 3.1.0
       node-webtokens: 1.0.4
@@ -8184,7 +8212,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-lite/apigatewaymanagementapi@0.0.8': {}
+  '@aws-lite/apigatewaymanagementapi@0.0.10': {}
 
   '@aws-lite/apigatewayv2@0.0.4': {}
 
@@ -8224,7 +8252,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-lite/sns@0.0.6': {}
+  '@aws-lite/sns@0.0.8': {}
 
   '@aws-lite/sqs-types@0.2.6':
     dependencies:
@@ -12621,8 +12649,8 @@ snapshots:
 
   '@urql/core@5.1.0(graphql@16.10.0)':
     dependencies:
-      '@0no-co/graphql.web': 1.0.12(graphql@16.10.0)
-      wonka: 6.3.4
+      '@0no-co/graphql.web': 1.1.2(graphql@16.10.0)
+      wonka: 6.3.5
     transitivePeerDependencies:
       - graphql
 
@@ -12774,10 +12802,13 @@ snapshots:
 
   acorn-walk@8.3.4:
     dependencies:
-      acorn: 8.14.0
+      acorn: 8.14.1
     optional: true
 
   acorn@8.14.0: {}
+
+  acorn@8.14.1:
+    optional: true
 
   agent-base@7.1.3: {}
 
@@ -13073,6 +13104,8 @@ snapshots:
   camelcase@6.3.0: {}
 
   caniuse-lite@1.0.30001690: {}
+
+  caniuse-lite@1.0.30001702: {}
 
   capital-case@1.0.4:
     dependencies:
@@ -14993,7 +15026,7 @@ snapshots:
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.15
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001690
+      caniuse-lite: 1.0.30001702
       postcss: 8.4.31
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -15784,6 +15817,9 @@ snapshots:
 
   semver@7.6.3: {}
 
+  semver@7.7.1:
+    optional: true
+
   send@0.18.0:
     dependencies:
       debug: 2.6.9
@@ -15869,7 +15905,7 @@ snapshots:
     dependencies:
       color: 4.2.3
       detect-libc: 2.0.3
-      semver: 7.6.3
+      semver: 7.7.1
     optionalDependencies:
       '@img/sharp-darwin-arm64': 0.33.5
       '@img/sharp-darwin-x64': 0.33.5
@@ -16243,7 +16279,7 @@ snapshots:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 22.10.2
-      acorn: 8.14.0
+      acorn: 8.14.1
       acorn-walk: 8.3.4
       arg: 4.1.3
       create-require: 1.1.1
@@ -16677,6 +16713,8 @@ snapshots:
       string-width: 4.2.3
 
   wonka@6.3.4: {}
+
+  wonka@6.3.5: {}
 
   word-wrap@1.2.5: {}
 
