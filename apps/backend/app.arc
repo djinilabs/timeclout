@@ -6,6 +6,9 @@ any /*
 any /api/v1/auth/*
 any /graphql
 
+@static
+spa true
+
 @tables
 
 next-auth
