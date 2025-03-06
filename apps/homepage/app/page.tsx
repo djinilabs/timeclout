@@ -17,7 +17,7 @@ export default function HomePage() {
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <img
-              src="/tt3-logo-3.svg"
+              src="/homepage/tt3-logo-3.svg"
               alt="Team Time Tables"
               className="h-[60px] w-auto"
             />
@@ -108,7 +108,7 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-teal-200/20 to-teal-400/20 rounded-lg blur-xl" />
                 <div className="relative bg-white border rounded-lg shadow-lg overflow-hidden">
                   <img
-                    src="/istockphoto-543351810-1024x1024.jpg"
+                    src="/homepage/istockphoto-543351810-1024x1024.jpg"
                     alt="Team Time Table dashboard preview"
                     className="w-full aspect-[4/3] object-cover"
                   />
@@ -273,7 +273,7 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-teal-200/20 to-teal-400/20 rounded-lg blur-xl" />
                 <div className="relative bg-white border rounded-lg shadow-lg overflow-hidden">
                   <img
-                    src="/screenshot-2.png"
+                    src="/homepage/screenshot-2.png"
                     alt="AI-powered scheduling interface"
                     className="w-full aspect-[4/3] object-cover"
                   />
@@ -452,7 +452,7 @@ export default function HomePage() {
               <div className="flex flex-col border rounded-lg p-6 bg-white">
                 <div className="flex items-center space-x-4 mb-4">
                   <img
-                    src="/placeholder.svg?height=60&width=60"
+                    src="/homepage/placeholder.svg?height=60&width=60"
                     alt="Sarah Johnson"
                     className="rounded-full w-12 h-12 object-cover"
                   />
@@ -523,7 +523,7 @@ export default function HomePage() {
               <div className="flex flex-col border rounded-lg p-6 bg-white">
                 <div className="flex items-center space-x-4 mb-4">
                   <img
-                    src="/placeholder.svg?height=60&width=60"
+                    src="/homepage/placeholder.svg?height=60&width=60"
                     alt="Emily Rodriguez"
                     className="rounded-full w-12 h-12 object-cover"
                   />
@@ -687,7 +687,7 @@ export default function HomePage() {
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <img
-                  src="/tt3-logo-3.svg"
+                  src="/homepage/tt3-logo-3.svg"
                   alt="Team Time Tables"
                   className="h-20 w-auto"
                 />
