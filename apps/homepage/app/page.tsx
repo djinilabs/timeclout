@@ -273,9 +273,9 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-teal-200/20 to-teal-400/20 rounded-lg blur-xl" />
                 <div className="relative bg-white border rounded-lg shadow-lg overflow-hidden">
                   <img
-                    src="/homepage/screenshot-2.png"
+                    src="/homepage/screenshot-3.png"
                     alt="AI-powered scheduling interface"
-                    className="w-full aspect-[4/3] object-cover"
+                    className="w-full object-cover"
                   />
                 </div>
               </div>
