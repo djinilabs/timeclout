@@ -20,10 +20,6 @@ export default defineConfig({
     port: 3000,
 
     proxy: {
-      "/homepage": {
-        target: "http://localhost:3333",
-        changeOrigin: true,
-      },
       "/graphql": {
         target: "http://localhost:3333",
         changeOrigin: true,

@@ -71,7 +71,7 @@ export const SideBar = () => {
   return (
     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-teal-600 px-6 pb-4">
       <div className="flex h-16 shrink-0 items-center">
-        <a href="/homepage">
+        <a href="https://tt3.app">
           <img
             alt="Team Time Table"
             src="/images/tt3-logo-white.svg"
