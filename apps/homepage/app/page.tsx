@@ -109,7 +109,7 @@ export default function HomePage() {
                 <div className="relative bg-white border rounded-lg shadow-lg overflow-hidden">
                   <img
                     src="/homepage/istockphoto-543351810-1024x1024.jpg"
-                    alt="Team Time Table dashboard preview"
+                    alt="Team of health workers"
                     className="w-full aspect-[4/3] object-cover"
                   />
                 </div>

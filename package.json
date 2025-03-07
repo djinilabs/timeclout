@@ -4,6 +4,7 @@
   "description": "",
   "type": "module",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "run-p dev:backend dev:frontend",
     "dev:backend": "ARC_DB_PATH=./db run-p dev:watch-source-refresh-lambda dev:backend:sandbox",
