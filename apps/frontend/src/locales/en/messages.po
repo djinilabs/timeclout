@@ -105,6 +105,16 @@ msgid "Settings"
 msgstr "Settings"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageNewUnit.tsx:68
+msgid "Unit name is required"
+msgstr "Unit name is required"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageNewCompany.tsx:66
+msgid "Company name is required"
+msgstr "Company name is required"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/pages/PageCompany.tsx:33
 msgid "Company Units"
 msgstr "Company Units"
@@ -343,6 +353,8 @@ msgstr "Busy"
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
 msgstr "By saving this as a template, you can reuse it to create new positions in the future."
 
+#: apps/frontend/src/pages/PageNewUnit.tsx:123
+#: apps/frontend/src/pages/PageNewCompany.tsx:117
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:259
 #: apps/frontend/src/components/InviteToTeam.tsx:149
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:241
@@ -365,6 +377,10 @@ msgstr "Color"
 msgid "Companies"
 msgstr "Companies"
 
+#: apps/frontend/src/pages/PageNewCompany.tsx:77
+msgid "Company name"
+msgstr "Company name"
+
 #: apps/frontend/src/components/CompanyWorkSchedule.tsx:103
 msgid "Configure the standard work schedule for employees in this company:"
 msgstr "Configure the standard work schedule for employees in this company:"
@@ -381,10 +397,23 @@ msgstr "Copy"
 msgid "Country"
 msgstr "Country"
 
+#: apps/frontend/src/pages/PageNewUnit.tsx:130
+#: apps/frontend/src/pages/PageNewCompany.tsx:124
+msgid "Create"
+msgstr "Create"
+
 #. placeholder {0}: selectedLeaveType?.name
 #: apps/frontend/src/components/BookCompanyTimeOff.tsx:318
 msgid "Create {0} leave"
 msgstr "Create {0} leave"
+
+#: apps/frontend/src/pages/PageNewCompany.tsx:49
+msgid "Create a new Company"
+msgstr "Create a new Company"
+
+#: apps/frontend/src/pages/PageNewUnit.tsx:51
+msgid "Create a new Unit"
+msgstr "Create a new Unit"
 
 #: apps/frontend/src/components/TeamMembers.tsx:43
 msgid "Create member user"
@@ -580,6 +609,10 @@ msgstr "Get started by creating a new unit for this company."
 msgid "Go to today"
 msgstr "Go to today"
 
+#: apps/frontend/src/components/TeamInvites.tsx:33
+msgid "Here you can invite users to your team."
+msgstr "Here you can invite users to your team."
+
 #: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:330
 msgid "Higher values ensure workers get a more equal distribution of total shifts"
 msgstr "Higher values ensure workers get a more equal distribution of total shifts"
@@ -656,7 +689,7 @@ msgstr "Invite a team member to join your team."
 msgid "Invite to team"
 msgstr "Invite to team"
 
-#: apps/frontend/src/components/TeamInvites.tsx:70
+#: apps/frontend/src/components/TeamInvites.tsx:78
 msgid "Invited"
 msgstr "Invited"
 
@@ -736,7 +769,7 @@ msgstr "Name"
 msgid "New Company"
 msgstr "New Company"
 
-#: apps/frontend/src/components/TeamInvites.tsx:37
+#: apps/frontend/src/components/TeamInvites.tsx:40
 msgid "New Invitation"
 msgstr "New Invitation"
 
@@ -764,6 +797,10 @@ msgstr "Next year"
 #: apps/frontend/src/components/AllUserCompanies.tsx:32
 msgid "No companies"
 msgstr "No companies"
+
+#: apps/frontend/src/components/TeamInvites.tsx:45
+msgid "No invitations found."
+msgstr "No invitations found."
 
 #. placeholder {0}: selectedUser?.name
 #: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:119
@@ -814,7 +851,7 @@ msgid "Open menu"
 msgstr "Open menu"
 
 #: apps/frontend/src/components/TeamMembers.tsx:98
-#: apps/frontend/src/components/TeamInvites.tsx:77
+#: apps/frontend/src/components/TeamInvites.tsx:85
 #: apps/frontend/src/components/AllUserCompanies.tsx:128
 #: apps/frontend/src/components/AllUnitTeams.tsx:160
 #: apps/frontend/src/components/AllCompanyUnits.tsx:150
@@ -939,7 +976,7 @@ msgstr "Reset Month"
 msgid "Respect leave schedule"
 msgstr "Respect leave schedule"
 
-#: apps/frontend/src/components/TeamInvites.tsx:95
+#: apps/frontend/src/components/TeamInvites.tsx:103
 msgid "Revoke Invitation"
 msgstr "Revoke Invitation"
 
@@ -1083,7 +1120,7 @@ msgstr "Set the schedule for this position."
 msgid "Set the user assigned to this position."
 msgstr "Set the user assigned to this position."
 
-#: apps/frontend/src/components/SideBar.tsx:119
+#: apps/frontend/src/components/SideBar.tsx:121
 msgid "Settings"
 msgstr "Settings"
 
@@ -1172,6 +1209,14 @@ msgstr "They will have exceeded their quota by <0>{0} days</0>."
 msgid "to"
 msgstr "to"
 
+#: apps/frontend/src/pages/PageNewCompany.tsx:52
+msgid "To create a new company you just have to fill in the company name and click on \"Create\"."
+msgstr "To create a new company you just have to fill in the company name and click on \"Create\"."
+
+#: apps/frontend/src/pages/PageNewUnit.tsx:54
+msgid "To create a new unit you just have to fill in the unit name and click on \"Create\"."
+msgstr "To create a new unit you just have to fill in the unit name and click on \"Create\"."
+
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:75
 #: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:96
 #: apps/frontend/src/components/stateless/MonthCalendar.tsx:102
@@ -1212,7 +1257,11 @@ msgstr "un"
 #~ msgid "un"
 #~ msgstr "un"
 
-#: apps/frontend/src/components/TeamInvites.tsx:66
+#: apps/frontend/src/pages/PageNewUnit.tsx:79
+msgid "Unit name"
+msgstr "Unit name"
+
+#: apps/frontend/src/components/TeamInvites.tsx:74
 msgid "Unknown"
 msgstr "Unknown"
 

@@ -7,6 +7,8 @@ import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { getDefined } from "@/utils";
 import { useMutation } from "../hooks/useMutation";
 import { Mutation, MutationCreateUnitArgs } from "../graphql/graphql";
+import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 
 export const PageNewUnit = () => {
   const { company: companyPk } = useParams();
@@ -46,11 +48,13 @@ export const PageNewUnit = () => {
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
             <div>
               <h2 className="text-base/7 font-semibold text-gray-900">
-                Create a new Unit
+                <Trans>Create a new Unit</Trans>
               </h2>
               <p className="mt-1 text-sm/6 text-gray-600">
-                To create a new unit you just have to fill in the unit name and
-                click on "Create".
+                <Trans>
+                  To create a new unit you just have to fill in the unit name
+                  and click on "Create".
+                </Trans>
               </p>
             </div>
 
@@ -61,7 +65,7 @@ export const PageNewUnit = () => {
                   validators={{
                     onChange: ({ value }) => {
                       if (!value) {
-                        return "Unit name is required";
+                        return i18n.t("Unit name is required");
                       }
                     },
                   }}
@@ -72,7 +76,7 @@ export const PageNewUnit = () => {
                           htmlFor="first-name"
                           className="block text-sm/6 font-medium text-gray-900"
                         >
-                          Unit name
+                          <Trans>Unit name</Trans>
                         </label>
                         <div className="mt-2 grid grid-cols-1">
                           <input
@@ -116,14 +120,14 @@ export const PageNewUnit = () => {
             type="button"
             className="text-sm/6 font-semibold text-gray-900"
           >
-            Cancel
+            <Trans>Cancel</Trans>
           </button>
           <button
             type="submit"
             disabled={form.state.isSubmitting}
             className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
           >
-            Create
+            <Trans>Create</Trans>
           </button>
         </div>
       </form>
