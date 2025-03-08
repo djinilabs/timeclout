@@ -16,6 +16,7 @@ import {
   Mutation,
   MutationUpdateCompanySettingsArgs,
 } from "../graphql/graphql";
+import { i18n } from "@lingui/core";
 
 const workDays = [
   "monday",
@@ -92,7 +93,7 @@ export const CompanyWorkSchedule = () => {
         settings: value,
       });
       if (!result.error) {
-        toast.success("Work schedule updated successfully");
+        toast.success(i18n.t("Work schedule updated successfully"));
       }
     },
   });

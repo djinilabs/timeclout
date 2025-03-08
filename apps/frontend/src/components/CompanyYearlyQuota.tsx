@@ -17,6 +17,7 @@ import { Button } from "./stateless/Button";
 import { useMutation } from "../hooks/useMutation";
 import { useForm } from "@tanstack/react-form";
 import { yearlyQuotaParser } from "@/settings";
+import { i18n } from "@lingui/core";
 
 export const CompanyYearlyQuota = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ export const CompanyYearlyQuota = () => {
         settings: value,
       });
       if (!result.error) {
-        toast.success("Settings updated successfully");
+        toast.success(i18n.t("Settings updated successfully"));
       }
     },
   });

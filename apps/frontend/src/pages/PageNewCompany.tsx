@@ -31,10 +31,6 @@ export const PageNewCompany = () => {
   });
   return (
     <div>
-      <div className="border-b border-gray-200 pb-5">
-        <h3 className="text-base font-semibold text-gray-900">Companies</h3>
-      </div>
-
       <form
         onSubmit={(e) => {
           e.preventDefault();

@@ -32,7 +32,7 @@ import { leaveTypeIcons } from "../settings/leaveTypes";
 import { useHolidays } from "../hooks/useHolidays";
 import { Suspense } from "./stateless/Suspense";
 import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
-
+import { i18n } from "@lingui/core";
 export const CompanyTimeOff = () => {
   const { company } = useParams();
   const [year, setYear] = useState(new Date().getFullYear());
@@ -151,7 +151,7 @@ export const CompanyTimeOff = () => {
         },
       });
       if (!result.error) {
-        toast.success("Leave request submitted");
+        toast.success(i18n.t("Leave request submitted"));
         refreshMyLeaveCalendar();
         navigate({
           pathname: location.pathname,
