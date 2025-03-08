@@ -99,7 +99,7 @@ export const AllCompanyUnits = () => {
                   className="flex items-start gap-x-3"
                 >
                   <p className="text-sm/6 font-semibold text-gray-900">
-                    {unit.name}
+                    <Link to={`/${company.pk}/${unit.pk}`}>{unit.name}</Link>
                   </p>
                   <p
                     className={classNames(
