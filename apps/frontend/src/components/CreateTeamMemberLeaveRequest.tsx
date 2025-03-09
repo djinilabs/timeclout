@@ -18,6 +18,7 @@ import {
 import { useQuery } from "../hooks/useQuery";
 import { MemberQuotaFulfilment } from "./MemberQuotaFulfilment";
 import { useMutation } from "../hooks/useMutation";
+import { i18n } from "@lingui/core";
 
 export const CreateTeamMemberLeaveRequest = () => {
   const { team: teamPk, company, unit } = useParams();
@@ -83,7 +84,7 @@ export const CreateTeamMemberLeaveRequest = () => {
               },
             });
             if (!response.error) {
-              toast.success("Leave request created successfully");
+              toast.success(i18n.t("Leave request created successfully"));
               navigate(
                 `/companies/${company}/units/${unit}/teams/${teamPk}?tab=leave-schedule`
               );

@@ -25,11 +25,13 @@ export const PageTeam = () => {
   const team = queryResponse.data?.team;
   const tabs = useMemo<Tab[]>(
     () => [
+      ...((team?.resourcePermission ?? -1) >= 2
+        ? [{ name: i18n.t("Members"), href: "members" }]
+        : []),
       { name: i18n.t("Leave Schedule"), href: "leave-schedule" },
       { name: i18n.t("Shifts Calendar"), href: "shifts-calendar" },
       ...((team?.resourcePermission ?? -1) >= 2 // WRITE
         ? [
-            { name: i18n.t("Members"), href: "members" },
             { name: i18n.t("Invitations"), href: "invitations" },
             { name: i18n.t("Settings"), href: "settings" },
           ]
