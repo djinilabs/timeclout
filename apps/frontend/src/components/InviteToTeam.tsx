@@ -28,12 +28,12 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
         permissionType: Number(value["permission"]),
       });
       if (!response.error) {
-        toast.success("Invitation sent");
+        toast.success(i18n.t("Invitation sent"));
         onDone();
       }
     },
     onSubmitInvalid: () => {
-      toast.error("Please fill in all fields");
+      toast.error(i18n.t("Please fill in all fields"));
     },
   });
 

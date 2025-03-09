@@ -15,6 +15,7 @@ import {
   Query,
   QueryInvitationArgs,
 } from "../graphql/graphql";
+import { i18n } from "@lingui/core";
 
 export const AcceptInvite: FC = () => {
   const [searchParams] = useSearchParams();
@@ -39,7 +40,7 @@ export const AcceptInvite: FC = () => {
       secret: getDefined(searchParams.get("secret"), "No secret provided"),
     });
     if (!result.error) {
-      toast.success("Invitation accepted");
+      toast.success(i18n.t("Invitation accepted"));
       navigate("/");
     }
   };
