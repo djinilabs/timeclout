@@ -36,7 +36,7 @@ importers:
         version: 0.38.0(patch_hash=aeyot3iwk2unqcchidhys6cc5q)
       '@auth/dynamodb-adapter':
         specifier: ^2.7.4
-        version: 2.7.4(@aws-sdk/client-dynamodb@3.758.0)(@aws-sdk/lib-dynamodb@3.758.0(@aws-sdk/client-dynamodb@3.758.0))
+        version: 2.8.0(@aws-sdk/client-dynamodb@3.758.0)(@aws-sdk/lib-dynamodb@3.758.0(@aws-sdk/client-dynamodb@3.758.0))
       '@auth/express':
         specifier: ^0.8.4
         version: 0.8.4(patch_hash=lqf76gr6a76ohc32qzyi7sms7i)(express@4.21.2)
@@ -430,8 +430,8 @@ packages:
       nodemailer:
         optional: true
 
-  '@auth/dynamodb-adapter@2.7.4':
-    resolution: {integrity: sha512-VHOaUdUwSOEOlDUiKT09G1G8MS2SQZ9IkKSVBe3giDz1cAOw6dDcizlq1BIxFuItB2I3N+0Pc9aUc/xRF6ULBw==}
+  '@auth/dynamodb-adapter@2.8.0':
+    resolution: {integrity: sha512-CoA2dQvoIwB43AhcDpqxFaU/ZAACtW5PhfARPsvKy2taHeyGkOwXlVQ4BBnQ4qIN/FVQ24QPXdGrkRyk2SCCBQ==}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.36.1
       '@aws-sdk/lib-dynamodb': ^3.36.1
@@ -7209,9 +7209,9 @@ snapshots:
       preact: 10.24.3
       preact-render-to-string: 6.5.11(preact@10.24.3)
 
-  '@auth/dynamodb-adapter@2.7.4(@aws-sdk/client-dynamodb@3.758.0)(@aws-sdk/lib-dynamodb@3.758.0(@aws-sdk/client-dynamodb@3.758.0))':
+  '@auth/dynamodb-adapter@2.8.0(@aws-sdk/client-dynamodb@3.758.0)(@aws-sdk/lib-dynamodb@3.758.0(@aws-sdk/client-dynamodb@3.758.0))':
     dependencies:
-      '@auth/core': 0.37.4(patch_hash=aeyot3iwk2unqcchidhys6cc5q)
+      '@auth/core': 0.38.0(patch_hash=aeyot3iwk2unqcchidhys6cc5q)
       '@aws-sdk/client-dynamodb': 3.758.0
       '@aws-sdk/lib-dynamodb': 3.758.0(@aws-sdk/client-dynamodb@3.758.0)
     transitivePeerDependencies:
