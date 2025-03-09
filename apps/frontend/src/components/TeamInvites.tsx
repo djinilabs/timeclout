@@ -29,6 +29,9 @@ export const TeamInvites = () => {
 
   return (
     <div className="mt-4">
+      <p className="text-sm/6 text-gray-500">
+        <Trans>Here you can invite users to your team.</Trans>
+      </p>
       <div className="flex justify-end">
         <Button
           to={`/companies/${company}/units/${unit}/teams/${team}/invites/new`}
@@ -37,6 +40,11 @@ export const TeamInvites = () => {
           <Trans>New Invitation</Trans>
         </Button>
       </div>
+      {allInvitations?.data?.invitationsTo?.length === 0 && (
+        <p className="text-sm/6 text-gray-500">
+          <Trans>No invitations found.</Trans>
+        </p>
+      )}
       <ul role="list" className="divide-y divide-gray-100">
         {allInvitations?.data?.invitationsTo?.map((invitation: Invitation) => (
           <li

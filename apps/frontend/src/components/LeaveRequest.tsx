@@ -14,7 +14,7 @@ import {
 import { LeaveRequest as LeaveRequestComponent } from "../components/stateless/LeaveRequest";
 import { Button } from "../components/stateless/Button";
 import { useMutation } from "../hooks/useMutation";
-
+import { i18n } from "@lingui/core";
 export const LeaveRequest = () => {
   const navigate = useNavigate();
   const { company, user, startDate, endDate, leaveType } = useParams();
@@ -40,7 +40,7 @@ export const LeaveRequest = () => {
       input: { pk: leaveRequest.pk, sk: leaveRequest.sk },
     });
     if (!result.error) {
-      toast.success("Leave request rejected");
+      toast.success(i18n.t("Leave request rejected"));
       navigate(`/companies/${company}`);
     }
   }, [leaveRequest, company, navigate, rejectLeaveRequest]);
@@ -54,7 +54,7 @@ export const LeaveRequest = () => {
       input: { pk: leaveRequest.pk, sk: leaveRequest.sk },
     });
     if (!result.error) {
-      toast.success("Leave request approved");
+      toast.success(i18n.t("Leave request approved"));
       navigate(`/companies/${company}`);
     }
   }, [leaveRequest, company, navigate, approveLeaveRequest]);
@@ -68,7 +68,7 @@ export const LeaveRequest = () => {
       input: { pk: leaveRequest.pk, sk: leaveRequest.sk },
     });
     if (!result.error) {
-      toast.success("Leave request removed");
+      toast.success(i18n.t("Leave request removed"));
       navigate(`/companies/${company}`);
     }
   }, [leaveRequest, company, navigate, removeLeaveRequest]);

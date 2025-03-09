@@ -1,6 +1,6 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import toast from "react-hot-toast";
 import { Trans } from "@lingui/react/macro";
@@ -53,11 +53,20 @@ export const TeamMembers = () => {
         {teamMembers.map((person: User) => (
           <li key={person.pk} className="flex justify-between gap-x-6 py-5">
             <div className="grid grid-cols-[auto_1fr_auto_auto] items-center w-full gap-x-6">
-              <Avatar {...person} />
+              <Link
+                to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
+              >
+                <Avatar {...person} />
+              </Link>
 
               <div className="min-w-0">
                 <p className="text-sm/6 font-semibold text-gray-900">
-                  {person.name}
+                  <Link
+                    to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
+                    className="hover:underline"
+                  >
+                    {person.name}
+                  </Link>
                 </p>
                 <p className="mt-1 flex text-xs/5 text-gray-500">
                   <a
@@ -107,13 +116,13 @@ export const TeamMembers = () => {
                     className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                   >
                     <MenuItem>
-                      <a
-                        href={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
+                      <Link
+                        to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                       >
                         <Trans>Edit</Trans>
                         <span className="sr-only">, {person.name}</span>
-                      </a>
+                      </Link>
                     </MenuItem>
                     <MenuItem>
                       <a

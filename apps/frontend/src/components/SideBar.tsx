@@ -74,7 +74,7 @@ export const SideBar = () => {
         <a href="https://tt3.app">
           <img
             alt="Team Time Table"
-            src="/images/tt3-logo-white.svg"
+            src="/images/tt3-logo.svg"
             className="h-20 w-auto"
           />
         </a>
