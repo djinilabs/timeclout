@@ -20,7 +20,7 @@ import { ShiftAutoFillSolutionStats } from "./ShiftAutoFillSolutionStats";
 import { Tabs } from "./Tabs";
 import { ShiftAutoFillSolutionDetailedStats } from "./ShiftAutoFillSolutionDetailedStats";
 import { Attention } from "./Attention";
-
+import { i18n } from "@lingui/core";
 export interface ShiftsAutoFillProgressProps {
   startDate?: DayDate;
   endDate?: DayDate;
@@ -113,7 +113,7 @@ export const ShiftsAutoFillProgress = ({
       },
     });
     if (!result.error) {
-      toast.success("Shift positions assigned successfully");
+      toast.success(i18n.t("Shift positions assigned successfully"));
       onAssignShiftPositions();
     }
   }, [assignShiftPositions, onAssignShiftPositions, team, topSolution]);

@@ -84,8 +84,8 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
                 className={classNames(
                   tab.href === currentTab?.href
                     ? "border-teal-500 text-teal-600"
-                    : "border-transparent text-gray-500 hover:border-gray-200 hover:text-gray-700",
-                  "flex whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium"
+                    : "border-transparent text-gray-500 hover:border-teal-500 hover:text-teal-600",
+                  "flex whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium transition-colors duration-200"
                 )}
               >
                 {tab.name}
