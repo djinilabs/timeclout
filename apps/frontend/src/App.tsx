@@ -46,11 +46,9 @@ const AppComponent: FC = () => {
             <SessionProvider refetchWhenOffline={false} basePath="/api/v1/auth">
               <UrqlProvider value={client}>
                 <RequiresSession>
-                  <AppLayout>
-                    <Suspense>
-                      <AppRoutes />
-                    </Suspense>
-                  </AppLayout>
+                  <Suspense>
+                    <AppRoutes />
+                  </Suspense>
                 </RequiresSession>
               </UrqlProvider>
             </SessionProvider>
