@@ -7,6 +7,7 @@ import { Suspense } from "./stateless/Suspense";
 import { useMutation } from "../hooks/useMutation";
 import { EditQualifications } from "./EditQualifications";
 import { useTeamWithSettings } from "../hooks/useTeamWithSettings";
+import { i18n } from "@lingui/core";
 
 export interface TeamMemberQualificationsProps {
   qualifications: string[];
@@ -36,7 +37,7 @@ const InternalTeamMemberQualifications: FC<TeamMemberQualificationsProps> = ({
       });
 
       if (!response.error) {
-        toast.success("Qualification added");
+        toast.success(i18n.t("Qualification added"));
       }
     },
     [memberPk, teamPk, updateTeamMemberQualifications]

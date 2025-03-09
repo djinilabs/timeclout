@@ -72,7 +72,7 @@ export const TeamQualifications = () => {
       name: "qualifications",
       settings: localQualifications,
     });
-    toast.success("Team qualifications saved");
+    toast.success(i18n.t("Team qualifications saved"));
   };
 
   return (
