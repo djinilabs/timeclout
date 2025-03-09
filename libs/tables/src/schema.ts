@@ -137,6 +137,10 @@ export type TableAPI<
   >,
 > = {
   delete: (key: string, sk?: string) => Promise<TTableRecord>;
+  deleteIfExists: (
+    key: string,
+    sk?: string
+  ) => Promise<TTableRecord | undefined>;
   deleteAll: (key: string) => Promise<void>;
   get: (pk: string, sk?: string) => Promise<TTableRecord | undefined>;
   batchGet: (keys: string[]) => Promise<TTableRecord[]>;

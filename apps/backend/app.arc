@@ -64,6 +64,10 @@ next-auth
   sk **String
   name GSI1
 
+entity
+  parentPk *String
+  name byParentPk
+
 permission
   resourceType *String
   sk **String

@@ -68,6 +68,19 @@ export const tableApi = <
         throw err;
       }
     },
+    deleteIfExists: async (pk: string, sk?: string) => {
+      try {
+        const item = await self.get(pk, sk);
+        if (!item) {
+          return undefined;
+        }
+        await lowLevelTable.delete(sk ? { pk, sk } : { pk });
+        return item;
+      } catch (err) {
+        console.error("Error deleting item", tableName, pk, sk, err);
+        throw err;
+      }
+    },
     get: async (pk: string, sk?: string) => {
       try {
         if (!pk) {

@@ -3,7 +3,12 @@ import {
   APIGatewayProxyResult,
   Context,
 } from "aws-lambda";
-import { createSchema, createYoga, useLogger } from "graphql-yoga";
+import {
+  createSchema,
+  createYoga,
+  useLogger,
+  useErrorHandler,
+} from "graphql-yoga";
 import { useSentry } from "@envelop/sentry";
 import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 // @ts-ignore
@@ -26,6 +31,9 @@ const yoga = createYoga({
     }),
     useLogger({
       logFn: (event, { args, result }) => {
+        if (!process.env.DEBUG_GRAPHQL) {
+          return;
+        }
         if (event == "execute-start") {
           console.log(
             `[graphql] [${event}] [${args.operationName}] %s`,
@@ -42,6 +50,11 @@ const yoga = createYoga({
           );
         }
       },
+    }),
+    useErrorHandler(({ errors, phase }) => {
+      for (const error of errors) {
+        console.error(`[graphql] [error in phase ${phase}]`, error);
+      }
     }),
   ],
 });
