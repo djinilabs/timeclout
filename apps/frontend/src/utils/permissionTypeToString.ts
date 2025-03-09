@@ -1,14 +1,16 @@
+import { i18n } from "@lingui/core";
+
 export const permissionTypeToString = (permissionType?: number | null) => {
   if (!permissionType) {
-    return "Unknown";
+    return i18n.t("Unknown");
   }
 
   switch (permissionType) {
     case 1:
-      return "Member";
+      return i18n.t("Member");
     case 2:
-      return "Admin";
+      return i18n.t("Admin");
     case 3:
-      return "Owner";
+      return i18n.t("Owner");
   }
 };

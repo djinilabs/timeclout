@@ -117,7 +117,11 @@ export const AllUnitTeams = () => {
                   key="team-name"
                   className="text-sm/6 font-semibold text-gray-900"
                 >
-                  {team.name}
+                  <Link
+                    to={`/companies/${companyPk}/units/${unitPk}/${team.pk}`}
+                  >
+                    {team.name}
+                  </Link>
                 </p>
                 <p
                   key="team-status"

@@ -4,6 +4,7 @@
   "description": "",
   "type": "module",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "run-p dev:backend dev:frontend",
     "dev:backend": "ARC_DB_PATH=./db run-p dev:watch-source-refresh-lambda dev:backend:sandbox",
@@ -13,8 +14,7 @@
     "dev:frontend": "run-p dev:frontend:app dev:frontend:styles",
     "dev:frontend:app": "cd apps/frontend && vite",
     "dev:frontend:styles": "pnpm tailwindcss -i ./apps/frontend/src/input.css -o ./apps/frontend/src/output.css --watch",
-    "build": "pnpm build:homepage && pnpm build:frontend",
-    "build:homepage": "cd apps/homepage && pnpm build && mkdir -p ../backend/public/homepage && cp -r out/* ../backend/public/homepage",
+    "build": "pnpm build:frontend",
     "build:frontend": "cd apps/frontend && tsc -b && vite build",
     "lint:frontend": "cd apps/frontend && eslint .",
     "preview:frontend": "cd apps/frontend && vite preview",
@@ -117,7 +117,7 @@
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.1"
   },
-  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf",
+  "packageManager": "pnpm@9.15.7+sha512.ed98f9c748442673c46964b70345bd2282c9b305e8eae539b34ab31d6ef24ef8dd59d8b55f27466f705500b009d9c113471cf87e544f3d5036b297330c26e996",
   "pnpm": {
     "patchedDependencies": {
       "@architect/functions": "patches/@architect__functions.patch",

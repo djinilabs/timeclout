@@ -15,29 +15,13 @@ export default defineConfig({
     tsconfigPaths(),
     lingui(),
   ],
-  server: {
-    open: true,
-    port: 3000,
-
-    proxy: {
-      "/graphql": {
-        target: "http://localhost:3333",
-        changeOrigin: true,
-      },
-      "/api": {
-        target: "http://localhost:3333",
-        changeOrigin: true,
-      },
-    },
-  },
   resolve: {
     alias: {
-      "@/graphql-client": path.resolve(__dirname, "./src/graphql"),
+      "@/graphql-client": path.resolve(
+        __dirname,
+        "./apps/frontend/src/graphql"
+      ),
     },
-  },
-  build: {
-    sourcemap: true,
-    outDir: "../backend/public",
   },
   define: {
     "process.env": {},

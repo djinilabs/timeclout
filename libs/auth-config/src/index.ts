@@ -36,7 +36,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     },
     theme: {
       colorScheme: "light",
-      logo: "/images/tt3.svg",
+      logo: "/images/tt3-logo.svg",
       brandColor: "#008080",
       buttonText: "Sign in",
     },

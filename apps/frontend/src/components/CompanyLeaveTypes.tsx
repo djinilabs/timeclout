@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
 import { LeaveTypes, leaveTypeParser } from "@/settings";
 import { getDefined } from "@/utils";
@@ -54,12 +54,12 @@ export const CompanyLeaveTypes = () => {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <a
-                    href={`/companies/${companyPk}/settings/leaveTypes/${leaveType.name}`}
+                  <Link
+                    to={`/companies/${companyPk}/settings/leaveTypes/${leaveType.name}`}
                     className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                   >
                     <Trans>Edit</Trans>
-                  </a>
+                  </Link>
                 </div>
               </li>
             ))}

@@ -10,7 +10,7 @@ import {
   CreateShiftPositionInput,
   UpdateShiftPositionInput,
 } from "libs/graphql/src/types.generated";
-
+import { i18n } from "@lingui/core";
 export interface UseTeamShiftActions {
   moveShiftPosition: (pk: string, sk: string, day: string) => Promise<void>;
   copyShiftPosition: (pk: string, sk: string, day: string) => Promise<void>;
@@ -32,7 +32,7 @@ export const useTeamShiftActions = (): UseTeamShiftActions => {
         console.log("input:", input);
         const result = await createShiftPosition({ input });
         if (!result.error) {
-          toast.success("Shift position created");
+          toast.success(i18n.t("Shift position created"));
           return true;
         }
         return false;
@@ -44,7 +44,7 @@ export const useTeamShiftActions = (): UseTeamShiftActions => {
         console.log("input:", input);
         const result = await updateShiftPosition({ input });
         if (!result.error) {
-          toast.success("Shift position updated");
+          toast.success(i18n.t("Shift position updated"));
           return true;
         }
         return false;
@@ -57,7 +57,7 @@ export const useTeamShiftActions = (): UseTeamShiftActions => {
           input: { pk, sk, day },
         });
         if (!result.error) {
-          toast.success("Shift position moved");
+          toast.success(i18n.t("Shift position moved"));
         }
       },
       [moveShiftPosition]
@@ -68,7 +68,7 @@ export const useTeamShiftActions = (): UseTeamShiftActions => {
           input: { pk, sk, day },
         });
         if (!result.error) {
-          toast.success("Shift position copied");
+          toast.success(i18n.t("Shift position copied"));
         }
       },
       [copyShiftPosition]
@@ -77,7 +77,7 @@ export const useTeamShiftActions = (): UseTeamShiftActions => {
       async (pk, sk) => {
         const result = await deleteShiftPosition({ input: { pk, sk } });
         if (!result.error) {
-          toast.success("Shift position deleted");
+          toast.success(i18n.t("Shift position deleted"));
         }
       },
       [deleteShiftPosition]
