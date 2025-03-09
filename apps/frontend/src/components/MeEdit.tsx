@@ -54,7 +54,7 @@ export const MeEdit = () => {
         },
       });
       if (!result.error) {
-        toast.success("Your profile has been updated");
+        toast.success(i18n.t("Your profile has been updated"));
         updateSession();
         navigate("/");
       }

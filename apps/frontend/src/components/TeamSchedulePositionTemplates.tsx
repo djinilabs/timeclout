@@ -74,7 +74,7 @@ export const TeamSchedulePositionTemplates = () => {
       name: "schedulePositionTemplates",
       settings: localSchedulePositionTemplates,
     });
-    toast.success("Team schedule position templates saved");
+    toast.success(i18n.t("Team schedule position templates saved"));
   };
 
   return (
