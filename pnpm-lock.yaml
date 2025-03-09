@@ -201,7 +201,7 @@ importers:
         version: 3.4.17(ts-node@10.9.2(@swc/core@1.10.2(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.6.3))
       urql:
         specifier: ^4.2.1
-        version: 4.2.1(@urql/core@5.1.0(graphql@16.10.0))(react@18.3.1)
+        version: 4.2.2(@urql/core@5.1.0(graphql@16.10.0))(react@18.3.1)
       zod:
         specifier: ^3.24.1
         version: 3.24.2
@@ -6249,8 +6249,8 @@ packages:
   urlpattern-polyfill@10.0.0:
     resolution: {integrity: sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg==}
 
-  urql@4.2.1:
-    resolution: {integrity: sha512-Y/cVi1rsR96kbF3VX6YgfHw1V3kJ287nR1TqpjGzVPyAmXuwRvBvABI+sHY2WOquWCNh+kvFapM/LLYeiC3wig==}
+  urql@4.2.2:
+    resolution: {integrity: sha512-3GgqNa6iF7bC4hY/ImJKN4REQILcSU9VKcKL8gfELZM8mM5BnLH1BsCc8kBdnVGD1LIFOs4W3O2idNHhON1r0w==}
     peerDependencies:
       '@urql/core': ^5.0.0
       react: '>= 16.8.0'
@@ -13810,11 +13810,11 @@ snapshots:
 
   urlpattern-polyfill@10.0.0: {}
 
-  urql@4.2.1(@urql/core@5.1.0(graphql@16.10.0))(react@18.3.1):
+  urql@4.2.2(@urql/core@5.1.0(graphql@16.10.0))(react@18.3.1):
     dependencies:
       '@urql/core': 5.1.0(graphql@16.10.0)
       react: 18.3.1
-      wonka: 6.3.4
+      wonka: 6.3.5
 
   use-sync-external-store@1.4.0(react@18.3.1):
     dependencies:
