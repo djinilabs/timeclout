@@ -88,90 +88,79 @@ export const AllCompanyUnits = () => {
 
       <ul>
         {company?.units?.map((unit: Unit) => (
-          <>
-            <li
-              key={unit.pk}
-              className="flex items-center justify-between gap-x-6 py-5"
-            >
-              <div key="unit-name" className="min-w-0">
-                <div
-                  key="unit-name-header"
-                  className="flex items-start gap-x-3"
+          <li
+            key={unit.pk}
+            className="flex items-center justify-between gap-x-6 py-5"
+          >
+            <div key="unit-name" className="min-w-0">
+              <div key="unit-name-header" className="flex items-start gap-x-3">
+                <p className="text-sm/6 font-semibold text-gray-900">
+                  <Link to={`/${company.pk}/${unit.pk}`}>{unit.name}</Link>
+                </p>
+                <p
+                  className={classNames(
+                    statuses["In progress"],
+                    "mt-0.5 whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
+                  )}
                 >
-                  <p className="text-sm/6 font-semibold text-gray-900">
-                    <Link to={`/${company.pk}/${unit.pk}`}>{unit.name}</Link>
-                  </p>
-                  <p
-                    className={classNames(
-                      statuses["In progress"],
-                      "mt-0.5 whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
-                    )}
-                  >
-                    <Trans>In progress</Trans>
-                  </p>
-                </div>
-                <div
-                  key="unit-name-footer"
-                  className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500"
-                >
-                  <p
-                    key="unit-name-footer-created"
-                    className="whitespace-nowrap"
-                  >
-                    <Trans>Created</Trans>{" "}
-                    <ReactTimeAgo date={new Date(unit.createdAt)} />
-                  </p>
-                  <svg
-                    key="unit-name-footer-separator"
-                    viewBox="0 0 2 2"
-                    className="size-0.5 fill-current"
-                  >
-                    <circle r={1} cx={1} cy={1} />
-                  </svg>
-                  <p key="unit-name-footer-created-by" className="truncate">
-                    <Trans>Created by</Trans> {unit.createdBy.name}
-                  </p>
-                </div>
+                  <Trans>In progress</Trans>
+                </p>
               </div>
               <div
-                key="unit-actions"
-                className="flex flex-none items-center gap-x-4"
+                key="unit-name-footer"
+                className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500"
               >
-                <Link
-                  to={`/${company.pk}/${unit.pk}`}
-                  className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+                <p key="unit-name-footer-created" className="whitespace-nowrap">
+                  <Trans>Created</Trans>{" "}
+                  <ReactTimeAgo date={new Date(unit.createdAt)} />
+                </p>
+                <svg
+                  key="unit-name-footer-separator"
+                  viewBox="0 0 2 2"
+                  className="size-0.5 fill-current"
                 >
-                  <Trans>View unit</Trans>
-                  <span className="sr-only">, {unit.name}</span>
-                </Link>
-                <Menu as="div" className="relative flex-none">
-                  <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                    <span className="sr-only">
-                      <Trans>Open options</Trans>
-                    </span>
-                    <EllipsisVerticalIcon
-                      aria-hidden="true"
-                      className="size-5"
-                    />
-                  </MenuButton>
-                  <MenuItems
-                    transition
-                    className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                  >
-                    <MenuItem>
-                      <Link
-                        to={`/${company.pk}/${unit.pk}`}
-                        className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
-                      >
-                        <Trans>Edit</Trans>
-                        <span className="sr-only">, {unit.name}</span>
-                      </Link>
-                    </MenuItem>
-                  </MenuItems>
-                </Menu>
+                  <circle r={1} cx={1} cy={1} />
+                </svg>
+                <p key="unit-name-footer-created-by" className="truncate">
+                  <Trans>Created by</Trans> {unit.createdBy.name}
+                </p>
               </div>
-            </li>
-          </>
+            </div>
+            <div
+              key="unit-actions"
+              className="flex flex-none items-center gap-x-4"
+            >
+              <Link
+                to={`/${company.pk}/${unit.pk}`}
+                className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+              >
+                <Trans>View unit</Trans>
+                <span className="sr-only">, {unit.name}</span>
+              </Link>
+              <Menu as="div" className="relative flex-none">
+                <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                  <span className="sr-only">
+                    <Trans>Open options</Trans>
+                  </span>
+                  <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
+                </MenuButton>
+                <MenuItems
+                  transition
+                  className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                >
+                  <MenuItem>
+                    <Link
+                      to={`/${company.pk}/${unit.pk}`}
+                      className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
+                    >
+                      <Trans>Edit</Trans>
+                      <span className="sr-only">, {unit.name}</span>
+                    </Link>
+                  </MenuItem>
+                </MenuItems>
+              </Menu>
+            </div>
+          </li>
         ))}
       </ul>
     </div>

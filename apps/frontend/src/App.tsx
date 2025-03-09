@@ -3,7 +3,6 @@ import { Provider as UrqlProvider } from "urql";
 import { SessionProvider } from "next-auth/react";
 import { ErrorBoundary, init as initSentry, withProfiler } from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AppLayout } from "./AppLayout";
 import { AppRoutes } from "./Routes";
 import { createClient } from "./graphql/graphql-client";
 import { BrowserRouter } from "react-router-dom";
@@ -46,11 +45,9 @@ const AppComponent: FC = () => {
             <SessionProvider refetchWhenOffline={false} basePath="/api/v1/auth">
               <UrqlProvider value={client}>
                 <RequiresSession>
-                  <AppLayout>
-                    <Suspense>
-                      <AppRoutes />
-                    </Suspense>
-                  </AppLayout>
+                  <Suspense>
+                    <AppRoutes />
+                  </Suspense>
                 </RequiresSession>
               </UrqlProvider>
             </SessionProvider>
