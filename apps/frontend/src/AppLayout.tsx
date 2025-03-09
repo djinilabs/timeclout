@@ -8,14 +8,24 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import {
+  MagnifyingGlassIcon,
+  QuestionMarkCircleIcon,
+} from "@heroicons/react/20/solid";
 import { i18n } from "@lingui/core";
 import { UserTopBarMenu } from "./components/UserTopBarMenu";
 import { Toaster } from "react-hot-toast";
 import { SideBar } from "./components/SideBar";
+import { ContextualHelp } from "./components/ContextualHelp";
+import { useLocalPreference } from "./hooks/useLocalPreference";
 
 export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const [helpPanelOpen, setHelpPanelOpen] = useLocalPreference(
+    "helpPanelOpen",
+    false
+  );
 
   return (
     <>
@@ -66,7 +76,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
           </Suspense>
         </div>
 
-        <div className="lg:pl-72">
+        <div className={`lg:pl-72 ${helpPanelOpen ? "lg:pr-72" : ""}`}>
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
             <button
               type="button"
@@ -121,6 +131,40 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
             <div className="px-4 sm:px-6 lg:px-8">{children}</div>
           </main>
         </div>
+
+        {/* Help panel */}
+        <div
+          className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${helpPanelOpen ? "translate-x-0" : "translate-x-full"}`}
+        >
+          <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
+            <h2 className="text-lg font-medium text-gray-900">Help</h2>
+            <button
+              type="button"
+              onClick={() => setHelpPanelOpen(false)}
+              className="-m-2.5 p-2.5 text-gray-700"
+            >
+              <span className="sr-only">Close help panel</span>
+              <XMarkIcon aria-hidden="true" className="size-6" />
+            </button>
+          </div>
+          <div className="p-4">
+            <ContextualHelp />
+          </div>
+        </div>
+
+        {/* Toggle help panel button */}
+        <button
+          type="button"
+          onClick={() => setHelpPanelOpen(!helpPanelOpen)}
+          className="fixed right-4 bottom-4 bg-indigo-600 text-white rounded-full p-3 shadow-lg hover:bg-indigo-700"
+        >
+          <span className="sr-only">Toggle help panel</span>
+          {helpPanelOpen ? (
+            <XMarkIcon aria-hidden="true" className="size-6" />
+          ) : (
+            <QuestionMarkCircleIcon aria-hidden="true" className="size-6" />
+          )}
+        </button>
       </div>
     </>
   );
