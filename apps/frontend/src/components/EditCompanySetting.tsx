@@ -13,7 +13,7 @@ import {
   Query,
   QueryCompanyArgs,
 } from "../graphql/graphql";
-
+import { i18n } from "@lingui/core";
 const settingEditor: Record<
   string,
   React.FC<{ settings: unknown; onSubmit: (values: unknown) => void }>
@@ -49,7 +49,7 @@ export const EditCompanySetting = () => {
       settings: values,
     });
     if (!response.error) {
-      toast.success("Settings updated");
+      toast.success(i18n.t("Settings updated"));
       navigate(`/companies/${companyPk}?tab=settings&settingsTab=leave-types`);
     }
   };

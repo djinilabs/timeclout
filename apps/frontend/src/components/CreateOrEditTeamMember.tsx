@@ -139,10 +139,18 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
             <h2 className="text-base/7 font-semibold text-gray-900">
-              <Trans>Create Team Member</Trans>
+              {memberPk ? (
+                <Trans>Edit Team Member</Trans>
+              ) : (
+                <Trans>Create Team Member</Trans>
+              )}
             </h2>
             <p className="mt-1 text-sm/6 text-gray-600">
-              <Trans>Add a new team member to the team.</Trans>
+              {memberPk ? (
+                <Trans>Edit a team member to the team.</Trans>
+              ) : (
+                <Trans>Add a new team member to the team.</Trans>
+              )}
             </p>
           </div>
 

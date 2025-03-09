@@ -28,6 +28,4 @@ apps/backend/public
 apps/backend/db
 tsconfig.tsbuildinfo
 preferences.arc
-apps/homepage/out
-apps/homepage/.next
 scripts/deploy.sh
