@@ -14,10 +14,9 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/AppLayout.tsx:91
-#: apps/frontend/src/AppLayout.tsx:92
-msgid "Search"
-msgstr "Pesquisar"
+#: apps/frontend/src/pages/PageUnit.tsx:23
+msgid "Teams"
+msgstr "Equipas"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
@@ -103,32 +102,33 @@ msgid "December"
 msgstr "Dezembro"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageTeam.tsx:29
-msgid "Members"
-msgstr "Membros"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageTeam.tsx:31
-msgid "Leave Schedule"
-msgstr "Calendário de Ausência"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageTeam.tsx:32
-msgid "Shifts Calendar"
-msgstr "Calendário de Turnos"
-
-#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageUnit.tsx:25
 #: apps/frontend/src/pages/PageTeam.tsx:35
-msgid "Invitations"
-msgstr "Convites"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageTeam.tsx:36
 msgid "Settings"
 msgstr "Configurações"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageNewUnit.tsx:68
+#: apps/frontend/src/pages/PageTeam.tsx:28
+msgid "Members"
+msgstr "Membros"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageTeam.tsx:30
+msgid "Leave Schedule"
+msgstr "Calendário de Ausência"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageTeam.tsx:31
+msgid "Shifts Calendar"
+msgstr "Calendário de Turnos"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageTeam.tsx:34
+msgid "Invitations"
+msgstr "Convites"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageNewUnit.tsx:64
 msgid "Unit name is required"
 msgstr "O nome da unidade é obrigatório"
 
@@ -138,27 +138,27 @@ msgid "Company name is required"
 msgstr "O nome da empresa é obrigatório"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageCompany.tsx:33
+#: apps/frontend/src/pages/PageCompany.tsx:32
 msgid "Company Units"
 msgstr "Unidades da Empresa"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageCompany.tsx:34
+#: apps/frontend/src/pages/PageCompany.tsx:33
 msgid "My Time Off"
 msgstr "Meus Dias de Ausência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageCompany.tsx:35
+#: apps/frontend/src/pages/PageCompany.tsx:34
 msgid "My Leave Requests"
 msgstr "Meus Pedidos de Ausência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageCompany.tsx:38
+#: apps/frontend/src/pages/PageCompany.tsx:37
 msgid "Company Settings"
 msgstr "Configurações da Empresa"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageCompany.tsx:40
+#: apps/frontend/src/pages/PageCompany.tsx:39
 msgid "Pending Leave Requests"
 msgstr "Pedidos de Ausência Pendentes"
 
@@ -338,6 +338,12 @@ msgstr "Convite aceite"
 msgid "Shift positions assigned successfully"
 msgstr "Posições de turno atribuídas com sucesso"
 
+#. js-lingui-explicit-id
+#: apps/frontend/src/AppLayout.tsx:91
+#: apps/frontend/src/AppLayout.tsx:92
+#~ msgid "Search"
+#~ msgstr "Pesquisar"
+
 #: apps/frontend/src/components/AcceptInvite.tsx:75
 msgid "Accept Invitation"
 msgstr "Aceitar Convite"
@@ -458,7 +464,7 @@ msgstr "Ocupado"
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
 msgstr "Guardando como modelo, pode reutilizá-lo para criar novas posições no futuro."
 
-#: apps/frontend/src/pages/PageNewUnit.tsx:123
+#: apps/frontend/src/pages/PageNewUnit.tsx:119
 #: apps/frontend/src/pages/PageNewCompany.tsx:113
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:259
 #: apps/frontend/src/components/InviteToTeam.tsx:149
@@ -477,8 +483,7 @@ msgstr "Clique no botão abaixo para aceitar o convite."
 msgid "Color"
 msgstr "Cor"
 
-#: apps/frontend/src/components/BreadcrumbNav.tsx:68
-#: apps/frontend/src/components/AllUserCompanies.tsx:73
+#: apps/frontend/src/components/AllUserCompanies.tsx:66
 msgid "Companies"
 msgstr "Empresas"
 
@@ -502,7 +507,7 @@ msgstr "Copiar"
 msgid "Country"
 msgstr "País"
 
-#: apps/frontend/src/pages/PageNewUnit.tsx:130
+#: apps/frontend/src/pages/PageNewUnit.tsx:126
 #: apps/frontend/src/pages/PageNewCompany.tsx:120
 msgid "Create"
 msgstr "Criar"
@@ -516,7 +521,7 @@ msgstr "Criar ausência para {0}"
 msgid "Create a new Company"
 msgstr "Criar uma nova empresa"
 
-#: apps/frontend/src/pages/PageNewUnit.tsx:51
+#: apps/frontend/src/pages/PageNewUnit.tsx:47
 msgid "Create a new Unit"
 msgstr "Criar uma nova unidade"
 
@@ -524,7 +529,7 @@ msgstr "Criar uma nova unidade"
 msgid "Create member user"
 msgstr "Criar utilizador membro"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:78
+#: apps/frontend/src/components/AllUserCompanies.tsx:71
 msgid "Create new company"
 msgstr "Criar nova empresa"
 
@@ -532,11 +537,11 @@ msgstr "Criar nova empresa"
 #~ msgid "Create New Shift Position"
 #~ msgstr "Criar nova posição de turno"
 
-#: apps/frontend/src/components/AllUnitTeams.tsx:97
+#: apps/frontend/src/components/AllUnitTeams.tsx:83
 msgid "Create new team"
 msgstr "Criar nova equipa"
 
-#: apps/frontend/src/components/AllCompanyUnits.tsx:82
+#: apps/frontend/src/components/AllCompanyUnits.tsx:75
 msgid "Create new Unit"
 msgstr "Criar nova unidade"
 
@@ -544,9 +549,9 @@ msgstr "Criar nova unidade"
 msgid "Create Team Member"
 msgstr "Criar membro da equipa"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:106
-#: apps/frontend/src/components/AllUnitTeams.tsx:138
-#: apps/frontend/src/components/AllCompanyUnits.tsx:121
+#: apps/frontend/src/components/AllUserCompanies.tsx:91
+#: apps/frontend/src/components/AllUnitTeams.tsx:115
+#: apps/frontend/src/components/AllCompanyUnits.tsx:99
 #: apps/frontend/src/components/stateless/LeaveRequests.tsx:64
 msgid "Created"
 msgstr "Criado"
@@ -555,9 +560,9 @@ msgstr "Criado"
 msgid "Created At"
 msgstr "Criado a"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:113
-#: apps/frontend/src/components/AllUnitTeams.tsx:145
-#: apps/frontend/src/components/AllCompanyUnits.tsx:132
+#: apps/frontend/src/components/AllUserCompanies.tsx:98
+#: apps/frontend/src/components/AllUnitTeams.tsx:122
+#: apps/frontend/src/components/AllCompanyUnits.tsx:110
 msgid "Created by"
 msgstr "Criado por"
 
@@ -600,9 +605,9 @@ msgstr "Agendamentos descartados"
 
 #: apps/frontend/src/components/TeamMembers.tsx:123
 #: apps/frontend/src/components/CompanyLeaveTypes.tsx:61
-#: apps/frontend/src/components/AllUserCompanies.tsx:144
-#: apps/frontend/src/components/AllUnitTeams.tsx:177
-#: apps/frontend/src/components/AllCompanyUnits.tsx:166
+#: apps/frontend/src/components/AllUserCompanies.tsx:129
+#: apps/frontend/src/components/AllUnitTeams.tsx:154
+#: apps/frontend/src/components/AllCompanyUnits.tsx:141
 #: apps/frontend/src/components/stateless/ShiftPosition.tsx:148
 msgid "Edit"
 msgstr "Editar"
@@ -704,15 +709,15 @@ msgstr "De"
 msgid "From {0} to {1}"
 msgstr "De {0} a {1}"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:35
+#: apps/frontend/src/components/AllUserCompanies.tsx:34
 msgid "Get started by creating a new company."
 msgstr "Comece por criar uma nova empresa."
 
-#: apps/frontend/src/components/AllUnitTeams.tsx:35
+#: apps/frontend/src/components/AllUnitTeams.tsx:34
 msgid "Get started by creating a new team for this unit."
 msgstr "Comece por criar uma nova equipa para esta unidade."
 
-#: apps/frontend/src/components/AllCompanyUnits.tsx:36
+#: apps/frontend/src/components/AllCompanyUnits.tsx:35
 msgid "Get started by creating a new unit for this company."
 msgstr "Comece por criar uma nova unidade para esta empresa."
 
@@ -766,8 +771,8 @@ msgstr "Ícone"
 #: apps/frontend/src/components/AllUserCompanies.tsx:101
 #: apps/frontend/src/components/AllUnitTeams.tsx:133
 #: apps/frontend/src/components/AllCompanyUnits.tsx:110
-msgid "In progress"
-msgstr "Em progresso"
+#~ msgid "In progress"
+#~ msgstr "Em progresso"
 
 #: apps/frontend/src/components/stateless/TimeSchedulesEditor.tsx:79
 msgid "Inconvenience"
@@ -878,7 +883,7 @@ msgstr "Maio"
 msgid "Name"
 msgstr "Nome"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:46
+#: apps/frontend/src/components/AllUserCompanies.tsx:45
 msgid "New Company"
 msgstr "Nova empresa"
 
@@ -886,11 +891,11 @@ msgstr "Nova empresa"
 msgid "New Invitation"
 msgstr "Novo convite"
 
-#: apps/frontend/src/components/AllUnitTeams.tsx:46
+#: apps/frontend/src/components/AllUnitTeams.tsx:45
 msgid "New Team"
 msgstr "Nova equipa"
 
-#: apps/frontend/src/components/AllCompanyUnits.tsx:47
+#: apps/frontend/src/components/AllCompanyUnits.tsx:46
 msgid "New Unit"
 msgstr "Nova unidade"
 
@@ -907,7 +912,7 @@ msgstr "Mês seguinte"
 msgid "Next year"
 msgstr "Ano seguinte"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:32
+#: apps/frontend/src/components/AllUserCompanies.tsx:31
 msgid "No companies"
 msgstr "Nenhuma empresa"
 
@@ -928,11 +933,11 @@ msgstr "Nenhum gestor atribuído"
 msgid "No qualifications available for this team."
 msgstr "Nenhuma qualificação disponível para esta equipa."
 
-#: apps/frontend/src/components/AllUnitTeams.tsx:32
+#: apps/frontend/src/components/AllUnitTeams.tsx:31
 msgid "No teams"
 msgstr "Nenhuma equipa"
 
-#: apps/frontend/src/components/AllCompanyUnits.tsx:33
+#: apps/frontend/src/components/AllCompanyUnits.tsx:32
 msgid "No units"
 msgstr "Nenhuma unidade"
 
@@ -965,9 +970,9 @@ msgstr "Abrir menu"
 
 #: apps/frontend/src/components/TeamMembers.tsx:107
 #: apps/frontend/src/components/TeamInvites.tsx:85
-#: apps/frontend/src/components/AllUserCompanies.tsx:128
-#: apps/frontend/src/components/AllUnitTeams.tsx:164
-#: apps/frontend/src/components/AllCompanyUnits.tsx:150
+#: apps/frontend/src/components/AllUserCompanies.tsx:113
+#: apps/frontend/src/components/AllUnitTeams.tsx:141
+#: apps/frontend/src/components/AllCompanyUnits.tsx:128
 msgid "Open options"
 msgstr "Abrir opções"
 
@@ -1294,8 +1299,8 @@ msgstr "Q"
 #~ msgstr "Calendário de turnos da equipa"
 
 #: apps/frontend/src/components/AllUnitTeams.tsx:84
-msgid "Teams"
-msgstr "Equipas"
+#~ msgid "Teams"
+#~ msgstr "Equipas"
 
 #. placeholder {0}: problemInSlotIds.size
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:197
@@ -1322,7 +1327,7 @@ msgstr "para"
 msgid "To create a new company you just have to fill in the company name and click on \"Create\"."
 msgstr "Para criar uma nova empresa, basta preencher o nome da empresa e clicar em \"Criar\"."
 
-#: apps/frontend/src/pages/PageNewUnit.tsx:54
+#: apps/frontend/src/pages/PageNewUnit.tsx:50
 msgid "To create a new unit you just have to fill in the unit name and click on \"Create\"."
 msgstr "Para criar uma nova unidade, basta preencher o nome da unidade e clicar em \"Criar\"."
 
@@ -1366,7 +1371,7 @@ msgstr "om"
 #~ msgid "un"
 #~ msgstr "un"
 
-#: apps/frontend/src/pages/PageNewUnit.tsx:79
+#: apps/frontend/src/pages/PageNewUnit.tsx:75
 msgid "Unit name"
 msgstr "Nome da unidade"
 
@@ -1394,15 +1399,15 @@ msgstr "Usar esta solução e atribuir estes turnos"
 msgid "User removed from team"
 msgstr "Utilizador removido da equipa"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:122
+#: apps/frontend/src/components/AllUserCompanies.tsx:107
 msgid "View company"
 msgstr "Ver empresa"
 
-#: apps/frontend/src/components/AllUnitTeams.tsx:158
+#: apps/frontend/src/components/AllUnitTeams.tsx:135
 msgid "View team"
 msgstr "Ver equipa"
 
-#: apps/frontend/src/components/AllCompanyUnits.tsx:144
+#: apps/frontend/src/components/AllCompanyUnits.tsx:122
 msgid "View unit"
 msgstr "Ver unidade"
 

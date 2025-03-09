@@ -12,6 +12,5 @@ export type DayPickerProps = Parameters<typeof DayPickerComponent>[0];
 
 export const DayPicker: FC<DayPickerProps> = (props) => {
   const locale = locales[i18n.locale];
-  console.log(locale);
   return <DayPickerComponent {...props} locale={locale} />;
 };

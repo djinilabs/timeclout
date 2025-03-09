@@ -5,7 +5,6 @@ import { getDefined } from "@/utils";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import { AllCompanyUnits } from "../components/AllCompanyUnits";
 import { Tabs } from "../components/stateless/Tabs";
-import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { CompanySettings } from "../components/CompanySettings";
 import { CompanyTimeOff } from "../components/CompanyTimeOff";
 import { Suspense } from "../components/stateless/Suspense";
@@ -49,8 +48,6 @@ export const PageCompany: FC = () => {
 
   return (
     <Suspense>
-      <BreadcrumbNav />
-
       <Tabs tabs={tabs} onChange={setTab}>
         {(() => {
           if (tab.href === "units") {

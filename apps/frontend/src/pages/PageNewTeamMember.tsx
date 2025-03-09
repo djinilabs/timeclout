@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { getDefined } from "@/utils";
-import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { CreateOrEditTeamMember } from "../components/CreateOrEditTeamMember";
 import { Suspense } from "../components/stateless/Suspense";
 
@@ -10,7 +9,6 @@ export const PageNewTeamMember = () => {
   return (
     <Suspense>
       <div>
-        <BreadcrumbNav />
         <CreateOrEditTeamMember
           teamPk={getDefined(team, "Team PK is required")}
           onDone={() =>

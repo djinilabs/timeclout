@@ -1,7 +1,6 @@
 import { HomeIcon } from "@heroicons/react/20/solid";
 import { Link, useParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
-import { getDefined } from "@/utils";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { useQuery } from "../hooks/useQuery";
@@ -16,11 +15,12 @@ export const BreadcrumbNav = () => {
   >({
     query: companyQuery,
     variables: {
-      companyPk: getDefined(companyPk, "No company provided"),
+      companyPk: companyPk ?? "",
     },
+    pause: !companyPk,
   });
 
-  const company = queryResponse.data?.company;
+  const company = companyPk ? queryResponse.data?.company : undefined;
 
   const unit = company?.units?.find((unit) => unit.pk === `units/${unitPk}`);
 
@@ -32,13 +32,13 @@ export const BreadcrumbNav = () => {
     pause: !teamPk,
   });
 
-  const team = teamQueryResponse.data?.team;
+  const team = teamPk && teamQueryResponse.data?.team;
 
   return (
-    <nav aria-label="Breadcrumb" className="flex mb-8">
+    <nav aria-label="Breadcrumb" className="flex h-full">
       <ol
         role="list"
-        className="flex space-x-4 rounded-md bg-white px-6 shadow"
+        className="flex space-x-4 rounded-md bg-white px-6 shadow h-full"
       >
         <li key="home" className="flex">
           <div className="flex items-center">
@@ -47,25 +47,6 @@ export const BreadcrumbNav = () => {
               <span className="sr-only">
                 <Trans>Home</Trans>
               </span>
-            </Link>
-          </div>
-        </li>
-        <li key="companies" className="flex">
-          <div className="flex items-center">
-            <svg
-              fill="currentColor"
-              viewBox="0 0 24 44"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-              className="h-full w-6 shrink-0 text-gray-200"
-            >
-              <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-            </svg>
-            <Link
-              to="/companies"
-              className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-            >
-              <Trans>Companies</Trans>
             </Link>
           </div>
         </li>
@@ -84,7 +65,7 @@ export const BreadcrumbNav = () => {
                 </svg>
                 <Link
                   to={`/${company.pk}`}
-                  className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                  className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
                 >
                   {company.name}
                 </Link>
@@ -105,7 +86,7 @@ export const BreadcrumbNav = () => {
                     </svg>
                     <Link
                       to={`/${company.pk}/${unit.pk}`}
-                      className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                      className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
                     >
                       {unit.name}
                     </Link>
@@ -125,7 +106,7 @@ export const BreadcrumbNav = () => {
                       </svg>
                       <Link
                         to={`/${company.pk}/${unit.pk}/${team.pk}`}
-                        className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                        className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
                       >
                         {team.name}
                       </Link>

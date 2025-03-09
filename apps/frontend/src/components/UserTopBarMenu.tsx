@@ -24,7 +24,7 @@ export const LoadingUserTopBarMenu = () => {
   const { data: session } = useSession();
   return (
     <Menu as="div" className="relative">
-      <MenuButton className="-m-1.5 flex items-center p-1.5">
+      <MenuButton className="flex items-center p-1.5">
         <span className="sr-only">
           <Trans>Open user menu</Trans>
         </span>

@@ -41,7 +41,6 @@ const getCountrySubdivisions = async ({
 };
 
 export const useCountrySubdivisions = (props: GetCountrySubdivisionsProps) => {
-  console.log("useCountrySubdivisions props", props);
   const { data, error } = useQuery({
     queryKey: [
       "countrySubdivisions",
