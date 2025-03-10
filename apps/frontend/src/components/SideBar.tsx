@@ -16,6 +16,14 @@ import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
 import allUnitsQuery from "@/graphql-client/queries/allUnits.graphql";
 import allTeamsQuery from "@/graphql-client/queries/allTeams.graphql";
 
+export interface NavigationItem {
+  name: string;
+  href: string;
+  icon: React.ElementType;
+  sepBefore?: boolean;
+  sepAfter?: boolean;
+}
+
 export const SideBar = () => {
   const { company } = useParams();
   const [allCompaniesResult] = useQuery<{ companies: Company[] }>({
@@ -44,7 +52,7 @@ export const SideBar = () => {
 
   const location = useLocation();
 
-  const navigation = [
+  const navigation: Array<NavigationItem> = [
     { name: i18n.t("Home"), href: "/", icon: HomeIcon },
     ...allCompanies.map((company) => ({
       name: company.name,
@@ -65,6 +73,7 @@ export const SideBar = () => {
       name: i18n.t("Leave Requests"),
       href: "/leave-requests/pending",
       icon: DocumentDuplicateIcon,
+      sepBefore: true,
     },
   ];
 
@@ -75,7 +84,7 @@ export const SideBar = () => {
           <img
             alt="Team Time Table"
             src="/images/tt3-logo.svg"
-            className="h-20 w-auto"
+            className="h-20 w-auto mt-2"
           />
         </a>
       </div>
@@ -84,14 +93,22 @@ export const SideBar = () => {
           <li>
             <ul role="list" className="-mx-2 space-y-1">
               {navigation.map((item) => (
-                <li key={item.name}>
+                <li
+                  key={item.name}
+                  className={classNames(
+                    item.sepBefore && "mt-8 border-t border-teal-500",
+                    item.sepAfter && "mb-8 border-b border-teal-500"
+                  )}
+                >
                   <Link
                     to={item.href}
                     className={classNames(
                       location.pathname === item.href
                         ? "bg-teal-700 text-white"
                         : "text-teal-200 hover:bg-teal-700 hover:text-white",
-                      "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold animate duration-200"
+                      "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold animate duration-200",
+                      item.sepBefore && "mt-4",
+                      item.sepAfter && "mb-4"
                     )}
                   >
                     <item.icon
