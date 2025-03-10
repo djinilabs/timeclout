@@ -1,18 +1,13 @@
 import { FC, useEffect } from "react";
 import toast from "react-hot-toast";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import { FieldComponent } from "@tanstack/react-form";
 import { Trans } from "@lingui/react/macro";
 import { useCountries } from "../../hooks/useCountries";
 import { useCountrySubdivisions } from "../../hooks/useCountrySubdivisions";
+import { FieldComponent } from "./types";
 
 interface EditCountryAndRegionProps {
-  Field: FieldComponent<
-    {
-      country?: string;
-      region?: string;
-    } & Record<string, unknown>
-  >;
+  Field: FieldComponent;
   selectedCountryIsoCode: string | undefined;
 }
 

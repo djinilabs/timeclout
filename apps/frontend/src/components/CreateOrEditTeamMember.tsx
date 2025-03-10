@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FieldComponent, useForm } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
 import teamMemberWithSettingsQuery from "@/graphql-client/queries/teamMemberWithSettings.graphql";
@@ -21,6 +21,7 @@ import { Button } from "./stateless/Button";
 import { EditCountryAndRegion } from "./stateless/EditCountryAndRegion";
 import { useQuery } from "../hooks/useQuery";
 import { PermissionInput } from "./stateless/PermissionInput";
+import { FieldComponent } from "./stateless/types";
 interface CreateOrEditTeamMemberProps {
   teamPk: string;
   memberPk?: string;
@@ -61,13 +62,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
     region: undefined,
   };
 
-  const form = useForm<{
-    name: string;
-    email: string;
-    country: string | undefined;
-    region: string | undefined;
-    permission: string;
-  }>({
+  const form = useForm({
     defaultValues: {
       name: teamMemberQueryResponse.data?.teamMember?.name ?? "",
       email: teamMemberQueryResponse.data?.teamMember?.email ?? "",
@@ -237,12 +232,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
             />
 
             <EditCountryAndRegion
-              Field={
-                form.Field as FieldComponent<{
-                  country?: string | undefined;
-                  region?: string | undefined;
-                }>
-              }
+              Field={form.Field as FieldComponent}
               selectedCountryIsoCode={selectedCountryIsoCode}
             />
 
@@ -254,13 +244,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                 <Trans>Permission</Trans>
               </label>
               <div key="permission" className="w-full sm:max-w-xs">
-                <PermissionInput
-                  Field={
-                    form.Field as FieldComponent<{
-                      permission?: string;
-                    }>
-                  }
-                />
+                <PermissionInput Field={form.Field as FieldComponent} />
               </div>
             </div>
           </div>

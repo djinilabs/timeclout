@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { useForm } from "@tanstack/react-form";
-import { FieldComponent } from "@tanstack/react-form";
 import toast from "react-hot-toast";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import { Trans } from "@lingui/react/macro";
@@ -10,6 +9,7 @@ import { useMutation } from "../hooks/useMutation";
 import { Mutation, MutationCreateInvitationArgs } from "../graphql/graphql";
 import { Button } from "./stateless/Button";
 import { PermissionInput } from "./stateless/PermissionInput";
+import { FieldComponent } from "./stateless/types";
 
 export interface InviteToTeamProps {
   teamPk: string;
@@ -21,7 +21,11 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
     Mutation["createInvitation"],
     MutationCreateInvitationArgs
   >(inviteToTeamMutation);
-  const form = useForm<{ email: string; permission: string }>({
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      permission: "",
+    },
     onSubmit: async ({ value }) => {
       const response = await inviteToTeam({
         toEntityPk: teamPk,
@@ -101,13 +105,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
             />
           </div>
           <div key="permission" className="w-full sm:max-w-xs">
-            <PermissionInput
-              Field={
-                form.Field as FieldComponent<{
-                  permission?: string;
-                }>
-              }
-            />
+            <PermissionInput Field={form.Field as FieldComponent} />
           </div>
           <button
             type="submit"

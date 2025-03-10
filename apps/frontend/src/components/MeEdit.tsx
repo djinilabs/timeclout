@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { FieldComponent, useForm } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
 import meQuery from "@/graphql-client/queries/me.graphql";
@@ -17,6 +17,7 @@ import { useQuery } from "../hooks/useQuery";
 import { useMutation } from "../hooks/useMutation";
 import { Button } from "./stateless/Button";
 import { EditCountryAndRegion } from "./stateless/EditCountryAndRegion";
+import { FieldComponent } from "./stateless/types";
 
 export const MeEdit = () => {
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });
@@ -157,12 +158,7 @@ export const MeEdit = () => {
             />
 
             <EditCountryAndRegion
-              Field={
-                form.Field as unknown as FieldComponent<{
-                  country?: string;
-                  region?: string;
-                }>
-              }
+              Field={form.Field as FieldComponent}
               selectedCountryIsoCode={selectedCountryIsoCode}
             />
           </div>
