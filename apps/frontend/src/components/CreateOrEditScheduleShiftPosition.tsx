@@ -61,7 +61,7 @@ export interface CreateOrEditScheduleShiftPositionForm {
 export const CreateOrEditScheduleShiftPosition: FC<
   CreateOrEditScheduleShiftPositionProps
 > = ({ day, onCancel, onCreate, onUpdate, editingShiftPosition }) => {
-  const form = useForm<CreateOrEditScheduleShiftPositionForm>({
+  const form = useForm({
     defaultValues: useMemo(
       () => ({
         name: editingShiftPosition?.name ?? "",

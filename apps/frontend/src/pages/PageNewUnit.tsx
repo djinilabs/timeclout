@@ -16,7 +16,7 @@ export const PageNewUnit = () => {
     Mutation["createUnit"],
     MutationCreateUnitArgs
   >(createUnitMutation);
-  const form = useForm<{ "unit-name": string }>({
+  const form = useForm({
     onSubmit: async ({ value }) => {
       const response = await createUnit({
         companyPk: getDefined(companyPk, "No company provided"),
