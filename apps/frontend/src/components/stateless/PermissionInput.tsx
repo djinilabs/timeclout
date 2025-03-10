@@ -1,14 +1,10 @@
 import { i18n } from "@lingui/core";
-import { ListBox } from "./ListBox";
-import { FieldComponent } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
+import { ListBox } from "./ListBox";
+import { FieldComponent } from "./types";
 
 export interface PermissionInputProps {
-  Field: FieldComponent<
-    {
-      permission?: string;
-    } & Record<string, unknown>
-  >;
+  Field: FieldComponent;
 }
 
 export const PermissionInput = ({ Field }: PermissionInputProps) => {

@@ -21,9 +21,11 @@ import {
 import { Suspense } from "./stateless/Suspense";
 import { DayPicker } from "./stateless/DayPicker";
 
+export type DateRange = [startDate?: string, endDate?: string];
+
 export type TimeOffRequest = {
   type: string;
-  dateRange: [startDate?: string, endDate?: string];
+  dateRange: DateRange;
   reason: string;
 };
 
@@ -68,10 +70,10 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
     [companyWithSettings]
   );
 
-  const form = useForm<TimeOffRequest>({
+  const form = useForm({
     defaultValues: {
       type: leaveTypes[0].name,
-      dateRange: [],
+      dateRange: [] as DateRange,
       reason: "",
     },
     onSubmit: ({ value }) => {

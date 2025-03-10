@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
 import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
-import { type WorkSchedule, worksScheduleParser } from "@/settings";
+import { worksScheduleParser } from "@/settings";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
 import { useQuery } from "../hooks/useQuery";
@@ -84,7 +84,7 @@ export const CompanyWorkSchedule = () => {
     MutationUpdateCompanySettingsArgs
   >(updateCompanySettingsMutation);
 
-  const form = useForm<WorkSchedule>({
+  const form = useForm({
     defaultValues: workScheduleSettings ?? defaultWorkSchedule,
     onSubmit: async ({ value }) => {
       const result = await updateSettings({
