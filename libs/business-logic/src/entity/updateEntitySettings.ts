@@ -5,7 +5,7 @@ import { settingsTypes } from "@/settings";
 export const updateEntitySettings = async (
   entityRef: string,
   name: string,
-  unparsedSettings: Record<string, any>,
+  unparsedSettings: Record<string, unknown>,
   actingUserPk: string
 ) => {
   const { entity, entity_settings } = await database();

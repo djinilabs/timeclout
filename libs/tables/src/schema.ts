@@ -125,7 +125,7 @@ export type Query = {
   IndexName?: string;
   KeyConditionExpression?: string;
   FilterExpression?: string;
-  ExpressionAttributeValues?: Record<string, any>;
+  ExpressionAttributeValues?: Record<string, unknown>;
   ExpressionAttributeNames?: Record<string, string>;
   ScanIndexForward?: boolean;
 };

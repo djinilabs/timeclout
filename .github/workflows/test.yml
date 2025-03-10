@@ -31,4 +31,5 @@ jobs:
       - name: Test
         run: |
           pnpm typecheck
+          pnpm lint
           pnpm test

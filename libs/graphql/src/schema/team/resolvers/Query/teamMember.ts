@@ -15,7 +15,7 @@ export const teamMember: NonNullable<QueryResolvers["teamMember"]> = async (
   await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
   const { entity } = await database();
   const userRef = resourceRef("users", memberPk);
-  const [isAuthorized, _userPk, permission] = await isUserAuthorized(
+  const [isAuthorized, , permission] = await isUserAuthorized(
     userRef,
     teamRef,
     PERMISSION_LEVELS.READ

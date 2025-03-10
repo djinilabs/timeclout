@@ -4,6 +4,7 @@ import { DatabaseSchema, TableAPI, TableName, tableSchemas } from "./schema";
 import { tableApi } from "./tableApi";
 
 export const database = once(async (): Promise<DatabaseSchema> => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const client = await tables();
   const existingTables = Array.from(

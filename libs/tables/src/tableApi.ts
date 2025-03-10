@@ -8,7 +8,7 @@ import { logger } from "./logger";
 // removes undefined values from the item
 const cleanItem = <T extends object>(item: T): T => {
   return Object.fromEntries(
-    Object.entries(item).filter(([_, value]) => value !== undefined)
+    Object.entries(item).filter(([, value]) => value !== undefined)
   ) as T;
 };
 
@@ -146,8 +146,11 @@ export const tableApi = <
           ExpressionAttributeNames: { "#version": "version" },
         });
         return newItem;
-      } catch (err: any) {
-        if (err.message.toLowerCase().includes("conditional request failed")) {
+      } catch (err: unknown) {
+        if (
+          err instanceof Error &&
+          err.message.toLowerCase().includes("conditional request failed")
+        ) {
           throw conflict("Item was outdated");
         }
         throw err;
@@ -171,8 +174,11 @@ export const tableApi = <
           ConditionExpression: "attribute_not_exists(pk)",
         });
         return parsedItem as TTableRecord;
-      } catch (err: any) {
-        if (err.message.toLowerCase().includes("conditional request failed")) {
+      } catch (err: unknown) {
+        if (
+          err instanceof Error &&
+          err.message.toLowerCase().includes("conditional request failed")
+        ) {
           throw conflict("Item already exists");
         }
         throw err;
@@ -183,7 +189,7 @@ export const tableApi = <
       try {
         const existingItem = await self.get(item.pk, item.sk);
         if (existingItem) {
-          console.info("existingItem", existingItem);
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { createdAt, createdBy, ...rest } = item;
           return self.update(
             parseItem(
@@ -195,7 +201,7 @@ export const tableApi = <
             )
           );
         }
-        console.info("NON existingItem");
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { updatedAt, updatedBy, version, ...rest } = item;
         return self.create(rest as TTableRecord);
       } catch (err) {

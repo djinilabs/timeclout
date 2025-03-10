@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   APIGatewayProxyEventV2,
   APIGatewayProxyResult,
@@ -11,6 +12,7 @@ import {
 } from "graphql-yoga";
 import { useSentry } from "@envelop/sentry";
 import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
 import { handlingErrors } from "../../utils/handlingErrors";

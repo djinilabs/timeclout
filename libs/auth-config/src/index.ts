@@ -13,6 +13,7 @@ const acceptableEmailAddresses = new Set([
 ]);
 
 export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   const client = await tables({
     awsSdkClient: true,

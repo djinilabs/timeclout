@@ -8,7 +8,7 @@ import { getDefined } from "@/utils";
 const eventToRequest = (event: APIGatewayProxyEventV2): Request => {
   const headers = new Headers(
     Object.fromEntries(
-      Object.entries(event.headers).filter(([_, v]) => v !== undefined)
+      Object.entries(event.headers).filter(([, v]) => v !== undefined)
     ) as Record<string, string>
   );
   if (event.cookies?.length) {
