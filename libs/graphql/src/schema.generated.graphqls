@@ -101,6 +101,7 @@ input CreateShiftPositionInput {
 input CreateTeamMemberInput {
   email: String!
   name: String!
+  permission: Int!
   teamPk: String!
 }
 
@@ -367,6 +368,7 @@ input UpdateTeamMemberInput {
   email: String!
   memberPk: String!
   name: String!
+  permission: Int!
   teamPk: String!
 }
 

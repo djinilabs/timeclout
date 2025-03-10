@@ -24,6 +24,7 @@ input CreateTeamMemberInput {
   teamPk: String!
   name: String!
   email: String!
+  permission: Int!
 }
 
 input UpdateTeamMemberInput {
@@ -31,6 +32,7 @@ input UpdateTeamMemberInput {
   memberPk: String!
   name: String!
   email: String!
+  permission: Int!
 }
 
 extend type Mutation {

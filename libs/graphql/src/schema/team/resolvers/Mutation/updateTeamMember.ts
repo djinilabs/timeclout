@@ -3,11 +3,13 @@ import { requireSession } from "../../../../session/requireSession";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { getDefined, resourceRef } from "@/utils";
 import { authConfig } from "@/auth-config";
-import { isUserAuthorized } from "@/business-logic";
+import { isUserAuthorized, ensureExactAuthorization } from "@/business-logic";
 import type { MutationResolvers, User } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const updateTeamMember: NonNullable<MutationResolvers['updateTeamMember']> = async (_parent, { input }, ctx) => {
+export const updateTeamMember: NonNullable<
+  MutationResolvers["updateTeamMember"]
+> = async (_parent, { input }, ctx) => {
   const teamRef = resourceRef("teams", input.teamPk);
   // ensure user has write access to team
   await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
@@ -38,6 +40,8 @@ export const updateTeamMember: NonNullable<MutationResolvers['updateTeamMember']
     updatedBy,
   };
   (await entity.update(user)) as unknown as Promise<User>;
+
+  await ensureExactAuthorization(teamRef, userRef, input.permission, updatedBy);
 
   return user as unknown as User;
 };

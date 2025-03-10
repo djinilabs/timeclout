@@ -1,7 +1,9 @@
 import { database } from "@/tables";
 import { ResourceRef } from "@/utils";
 
-export type IsUserAuthorizedResult = [false] | [true, ResourceRef<"users">];
+export type IsUserAuthorizedResult =
+  | [false]
+  | [true, ResourceRef<"users">, number];
 
 export const isUserAuthorized = async (
   userPk: ResourceRef<"users">,
@@ -13,5 +15,5 @@ export const isUserAuthorized = async (
   if (!permissionRecord || permissionRecord.type < minimumPermission) {
     return [false];
   }
-  return [true, userPk];
+  return [true, userPk, permissionRecord.type];
 };
