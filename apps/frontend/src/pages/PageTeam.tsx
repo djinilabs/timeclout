@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { i18n } from "@lingui/core";
-import { BreadcrumbNav } from "../components/BreadcrumbNav";
 import { type Tab, Tabs } from "../components/stateless/Tabs";
 import { TeamMembers } from "../components/TeamMembers";
 import { TeamInvites } from "../components/TeamInvites";
@@ -44,7 +43,6 @@ export const PageTeam = () => {
   return (
     <Suspense>
       <div>
-        <BreadcrumbNav />
         <Tabs tabs={tabs} onChange={setCurrentTab}>
           {currentTab.href === "members" && <TeamMembers />}
           {currentTab.href === "invitations" && <TeamInvites />}

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import { RequiresSession } from "./components/RequiresSession";
 import { Companies } from "./routes/Companies";
@@ -27,7 +27,9 @@ export const AppRoutes: FC = () => {
       <Route
         element={
           <AppLayout>
-            <Outlet />
+            <Suspense>
+              <Outlet />
+            </Suspense>
           </AppLayout>
         }
       >

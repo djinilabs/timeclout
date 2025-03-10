@@ -1,4 +1,3 @@
-// @ts-ignore
 import { database } from "@/tables";
 import { getUserAuthorizationLevelForResource } from "@/business-logic";
 import { resourceRef } from "@/utils";

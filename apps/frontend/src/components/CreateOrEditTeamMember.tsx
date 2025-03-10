@@ -20,7 +20,7 @@ import { useMutation } from "../hooks/useMutation";
 import { Button } from "./stateless/Button";
 import { EditCountryAndRegion } from "./stateless/EditCountryAndRegion";
 import { useQuery } from "../hooks/useQuery";
-
+import { PermissionInput } from "./stateless/PermissionInput";
 interface CreateOrEditTeamMemberProps {
   teamPk: string;
   memberPk?: string;
@@ -32,7 +32,6 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
   memberPk,
   onDone,
 }) => {
-  console.log("memberPk", memberPk);
   const [teamMemberQueryResponse] = useQuery<
     { teamMember: Query["teamMember"] },
     QueryTeamMemberArgs & UserSettingsArgs
@@ -67,12 +66,16 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
     email: string;
     country: string | undefined;
     region: string | undefined;
+    permission: string;
   }>({
     defaultValues: {
       name: teamMemberQueryResponse.data?.teamMember?.name ?? "",
       email: teamMemberQueryResponse.data?.teamMember?.email ?? "",
       country: locationSettings.country,
       region: locationSettings.region,
+      permission: (
+        teamMemberQueryResponse.data?.teamMember?.resourcePermission ?? 1
+      ).toString(),
     },
     onSubmit: async ({ value }) => {
       const result = await (memberPk
@@ -82,6 +85,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
               email: value.email,
               teamPk,
               memberPk,
+              permission: Number(value.permission),
             },
           })
         : createTeamMember({
@@ -89,6 +93,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
               name: value.name,
               email: value.email,
               teamPk,
+              permission: Number(value.permission),
             },
           }));
 
@@ -240,6 +245,24 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
               }
               selectedCountryIsoCode={selectedCountryIsoCode}
             />
+
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="permission"
+                className="block text-sm/6 font-medium text-gray-900"
+              >
+                <Trans>Permission</Trans>
+              </label>
+              <div key="permission" className="w-full sm:max-w-xs">
+                <PermissionInput
+                  Field={
+                    form.Field as FieldComponent<{
+                      permission?: string;
+                    }>
+                  }
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

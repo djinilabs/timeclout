@@ -3,7 +3,6 @@ import { useParams, useSearchParams } from "react-router-dom";
 
 const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();
-  console.log({ company, unit, team });
   const [params] = useSearchParams();
   const tab = params.get("tab") ?? "";
 

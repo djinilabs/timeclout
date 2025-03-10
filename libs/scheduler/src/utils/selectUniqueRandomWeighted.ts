@@ -10,8 +10,7 @@ export const selectUniqueRandomWeighted = <T>(
   }
   const selected: Array<T> = [];
   for (let i = 0; i < count; i++) {
-    let tryFrom: T;
-    tryFrom = selectRandomWeighted(
+    const tryFrom = selectRandomWeighted(
       from.filter((v) => !selected.includes(v)),
       weights.filter((_, index) => !selected.includes(from[index] as T))
     );

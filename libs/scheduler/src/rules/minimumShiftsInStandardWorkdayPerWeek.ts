@@ -19,14 +19,14 @@ export const minimumShiftsInStandardWorkdayPerWeek: ValidationRule = {
     const workersShiftDays = new Map<SlotWorker, DayDate[]>();
     for (const shift of schedule.shifts) {
       const worker = shift.assigned;
-      let workerShiftDays = workersShiftDays.get(worker) ?? [];
+      const workerShiftDays = workersShiftDays.get(worker) ?? [];
       workerShiftDays.push(new DayDate(shift.slot.startsOnDay));
       workersShiftDays.set(worker, workerShiftDays);
     }
 
     let day = new DayDate(schedule.startDay);
     const endDay = new DayDate(schedule.endDay);
-    let workersShiftCountOnCurrentWeek = new Map<SlotWorker, number>();
+    const workersShiftCountOnCurrentWeek = new Map<SlotWorker, number>();
     while (day.getWeekDay() !== "monday") {
       day = day.nextDay();
     }

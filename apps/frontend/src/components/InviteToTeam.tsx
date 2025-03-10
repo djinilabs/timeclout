@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useForm } from "@tanstack/react-form";
+import { FieldComponent } from "@tanstack/react-form";
 import toast from "react-hot-toast";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import { Trans } from "@lingui/react/macro";
@@ -8,7 +9,7 @@ import inviteToTeamMutation from "@/graphql-client/mutations/inviteToTeam.graphq
 import { useMutation } from "../hooks/useMutation";
 import { Mutation, MutationCreateInvitationArgs } from "../graphql/graphql";
 import { Button } from "./stateless/Button";
-import { ListBox } from "./stateless/ListBox";
+import { PermissionInput } from "./stateless/PermissionInput";
 
 export interface InviteToTeamProps {
   teamPk: string;
@@ -100,42 +101,12 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
             />
           </div>
           <div key="permission" className="w-full sm:max-w-xs">
-            <form.Field
-              name="permission"
-              defaultValue="1"
-              validators={{
-                onChange: ({ value }) => {
-                  if (!value) {
-                    return i18n.t("Please select a permission");
-                  }
-                },
-              }}
-              children={(field) => {
-                return (
-                  <div className="grid grid-cols-1">
-                    <ListBox
-                      options={[
-                        { key: "1", value: i18n.t("Member") },
-                        { key: "2", value: i18n.t("Admin") },
-                        { key: "3", value: i18n.t("Owner") },
-                      ]}
-                      selected={field.state.value ?? "2"}
-                      onChange={(value) => field.handleChange(value.toString())}
-                    />
-                    {field.state.meta.errors.length > 0 ? (
-                      <ExclamationCircleIcon
-                        aria-hidden="true"
-                        className="pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4"
-                      />
-                    ) : null}
-                    {field.state.meta.errors.length > 0 ? (
-                      <p className="mt-2 text-sm text-red-600">
-                        {field.state.meta.errors.join(", ")}
-                      </p>
-                    ) : null}
-                  </div>
-                );
-              }}
+            <PermissionInput
+              Field={
+                form.Field as FieldComponent<{
+                  permission?: string;
+                }>
+              }
             />
           </div>
           <button

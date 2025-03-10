@@ -118,6 +118,11 @@ export class DayDate {
     return weekDays[this.date.getUTCDay()];
   }
 
+  isWeekend() {
+    const weekDayNumber = this.getWeekDayNumber();
+    return weekDayNumber === 0 || weekDayNumber === 6;
+  }
+
   getMonthDayNumber() {
     return this.date.getUTCDate();
   }

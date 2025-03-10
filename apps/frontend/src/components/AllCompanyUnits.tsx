@@ -3,7 +3,6 @@ import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
-import { classNames } from "../utils/classNames";
 import ReactTimeAgo from "react-time-ago";
 import { useQuery } from "../hooks/useQuery";
 import { Button } from "./stateless/Button";
@@ -51,12 +50,6 @@ const NoUnits = () => {
   );
 };
 
-const statuses = {
-  Complete: "text-green-700 bg-green-50 ring-green-600/20",
-  "In progress": "text-gray-600 bg-gray-50 ring-gray-500/10",
-  Archived: "text-yellow-800 bg-yellow-50 ring-yellow-600/20",
-};
-
 export const AllCompanyUnits = () => {
   const { company: companyPk } = useParams();
 
@@ -94,16 +87,8 @@ export const AllCompanyUnits = () => {
           >
             <div key="unit-name" className="min-w-0">
               <div key="unit-name-header" className="flex items-start gap-x-3">
-                <p className="text-sm/6 font-semibold text-gray-900">
+                <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
                   <Link to={`/${company.pk}/${unit.pk}`}>{unit.name}</Link>
-                </p>
-                <p
-                  className={classNames(
-                    statuses["In progress"],
-                    "mt-0.5 whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
-                  )}
-                >
-                  <Trans>In progress</Trans>
                 </p>
               </div>
               <div

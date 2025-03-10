@@ -134,6 +134,7 @@ export type CreateShiftPositionInput = {
 export type CreateTeamMemberInput = {
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  permission: Scalars['Int']['input'];
   teamPk: Scalars['String']['input'];
 };
 
@@ -713,6 +714,7 @@ export type UpdateTeamMemberInput = {
   email: Scalars['String']['input'];
   memberPk: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  permission: Scalars['Int']['input'];
   teamPk: Scalars['String']['input'];
 };
 

@@ -6,7 +6,6 @@ import { Trans } from "@lingui/react/macro";
 import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
 import { type Company } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { classNames } from "../utils/classNames";
 import { Button } from "./stateless/Button";
 
 const NoCompanies = () => {
@@ -50,12 +49,6 @@ const NoCompanies = () => {
   );
 };
 
-const statuses = {
-  Complete: "text-green-700 bg-green-50 ring-green-600/20",
-  "In progress": "text-gray-600 bg-gray-50 ring-gray-500/10",
-  Archived: "text-yellow-800 bg-yellow-50 ring-yellow-600/20",
-};
-
 export const AllUserCompanies = () => {
   const [allCompanies] = useQuery<{ companies: Company[] }>({
     query: allCompaniesQuery,
@@ -89,16 +82,8 @@ export const AllUserCompanies = () => {
             >
               <div className="min-w-0">
                 <div className="flex items-start gap-x-3">
-                  <p className="text-sm/6 font-semibold text-gray-900">
-                    {company.name}
-                  </p>
-                  <p
-                    className={classNames(
-                      statuses["In progress"],
-                      "mt-0.5 whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
-                    )}
-                  >
-                    <Trans>In progress</Trans>
+                  <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
+                    <Link to={`/${company.pk}`}>{company.name}</Link>
                   </p>
                 </div>
                 <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">

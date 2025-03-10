@@ -9,13 +9,11 @@ export const workerSlotEqualityHeuristic: ShiftScheduleHeuristic = {
     const workerMinutes: Map<SlotWorker, number> = new Map();
 
     for (const shift of schedule.shifts) {
-      let index = 0;
       const currentSlotCount = workerMinutes.get(shift.assigned) ?? 0;
       workerMinutes.set(
         shift.assigned,
         currentSlotCount + countTotalMinutesInSlot(shift.slot)
       );
-      index++;
     }
 
     const [expectedMinutesPerWorker, workerUnavailabilityRatio] =

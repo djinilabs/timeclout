@@ -1,5 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+import { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
+
 /* eslint-disable */
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -146,6 +146,7 @@ export type CreateShiftPositionInput = {
 export type CreateTeamMemberInput = {
   email: Scalars["String"]["input"];
   name: Scalars["String"]["input"];
+  permission: Scalars["Int"]["input"];
   teamPk: Scalars["String"]["input"];
 };
 
@@ -671,6 +672,7 @@ export type UpdateTeamMemberInput = {
   email: Scalars["String"]["input"];
   memberPk: Scalars["String"]["input"];
   name: Scalars["String"]["input"];
+  permission: Scalars["Int"]["input"];
   teamPk: Scalars["String"]["input"];
 };
 
@@ -708,12 +710,13 @@ export class TypedDocumentString<TResult, TVariables>
   implements DocumentTypeDecoration<TResult, TVariables>
 {
   __apiType?: DocumentTypeDecoration<TResult, TVariables>["__apiType"];
+  private value: string;
+  public __meta__?: Record<string, any> | undefined;
 
-  constructor(
-    private value: string,
-    public __meta__?: Record<string, any> | undefined
-  ) {
+  constructor(value: string, __meta__?: Record<string, any> | undefined) {
     super(value);
+    this.value = value;
+    this.__meta__ = __meta__;
   }
 
   toString(): string & DocumentTypeDecoration<TResult, TVariables> {
