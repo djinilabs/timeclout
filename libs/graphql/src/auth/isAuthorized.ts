@@ -3,7 +3,7 @@ import { ResolverContext } from "../resolverContext";
 import { requireSession } from "../session/requireSession";
 import { isUserAuthorized } from "@/business-logic";
 
-export type IsAuthorizedResult = [false] | [true, ResourceRef<"users">];
+export type IsAuthorizedResult = [false] | [true, ResourceRef<"users">, number];
 
 export const isAuthorized = async (
   ctx: ResolverContext,
