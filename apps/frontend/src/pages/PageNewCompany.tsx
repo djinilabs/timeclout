@@ -17,7 +17,18 @@ export const PageNewCompany = () => {
     MutationCreateCompanyArgs
   >(createCompanyMutation);
 
-  const form = useForm({
+  const form = useForm<
+    { "company-name": string },
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined
+  >({
     onSubmit: async ({ value }) => {
       const response = await createCompany({ name: value["company-name"] });
       if (!response.error) {
