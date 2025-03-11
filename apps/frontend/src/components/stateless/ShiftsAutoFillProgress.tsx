@@ -144,7 +144,6 @@ export const ShiftsAutoFillProgress = ({
     );
   }, [discardedReasons]);
 
-  console.log({ problemInSlotIds });
   const problemInShiftPosition = useMemo(() => {
     if (computed > totalDiscarded) {
       return undefined;
@@ -171,16 +170,12 @@ export const ShiftsAutoFillProgress = ({
       : undefined;
   }, [problemInShiftPosition]);
 
-  console.log("discardedReasons", discardedReasons);
-
   const discardedReasonsList = useMemo(() => {
     return Array.from(discardedReasons.entries()).map(([reason, count]) => ({
       reason,
       count,
     }));
   }, [discardedReasons]);
-
-  console.log("discardedReasonsList", discardedReasonsList);
 
   return (
     <div className="grid grid-cols-5 gap-5">
