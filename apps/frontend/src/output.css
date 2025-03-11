@@ -1087,6 +1087,10 @@ video {
   width: 60px;
 }
 
+.w-64 {
+  width: 16rem;
+}
+
 .min-w-0 {
   min-width: 0px;
 }
@@ -1445,6 +1449,11 @@ video {
 
 .gap-y-1 {
   row-gap: 0.25rem;
+}
+
+.gap-x-2\.5 {
+  -moz-column-gap: 0.625rem;
+       column-gap: 0.625rem;
 }
 
 .space-x-3 > :not([hidden]) ~ :not([hidden]) {

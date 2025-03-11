@@ -54,7 +54,7 @@ export const TeamMembers = () => {
           <li key={person.pk} className="flex justify-between gap-x-6 py-5">
             <div className="grid grid-cols-[1fr_3fr_1fr] items-center w-full gap-x-6">
               <div className="grid grid-cols-[60px_1fr] gap-x-2">
-                <div>
+                <div className="hidden sm:block">
                   <Link
                     to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
                   >
@@ -81,7 +81,7 @@ export const TeamMembers = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end">
+              <div className="hidden sm:flex justify-end">
                 <TeamMemberQualifications
                   qualifications={
                     queryResponse.data?.team?.teamMembersQualifications.find(
