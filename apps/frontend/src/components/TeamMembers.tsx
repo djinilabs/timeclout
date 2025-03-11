@@ -52,42 +52,47 @@ export const TeamMembers = () => {
       <ul role="list" className="divide-y divide-gray-100">
         {teamMembers.map((person: User) => (
           <li key={person.pk} className="flex justify-between gap-x-6 py-5">
-            <div className="grid grid-cols-[auto_1fr_auto_auto] items-center w-full gap-x-6">
-              <Link
-                to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
-              >
-                <Avatar {...person} />
-              </Link>
-
-              <div className="min-w-0">
-                <p className="text-sm/6 font-semibold text-gray-900">
+            <div className="grid grid-cols-[1fr_3fr_1fr] items-center w-full gap-x-6">
+              <div className="grid grid-cols-[60px_1fr] gap-x-2">
+                <div>
                   <Link
                     to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
-                    className="hover:underline"
                   >
-                    {person.name}
+                    <Avatar {...person} />
                   </Link>
-                </p>
-                <p className="mt-1 flex text-xs/5 text-gray-500">
-                  <a
-                    href={`mailto:${person.email}`}
-                    className="truncate hover:underline"
-                  >
-                    {person.email}
-                  </a>
-                </p>
+                </div>
+                <div>
+                  <p className="text-sm/6 font-semibold text-gray-900">
+                    <Link
+                      to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
+                      className="hover:underline"
+                    >
+                      {person.name}
+                    </Link>
+                  </p>
+                  <p className="mt-1 flex text-xs/5 text-gray-500">
+                    <a
+                      href={`mailto:${person.email}`}
+                      className="truncate hover:underline"
+                    >
+                      {person.email}
+                    </a>
+                  </p>
+                </div>
               </div>
 
-              <TeamMemberQualifications
-                qualifications={
-                  queryResponse.data?.team?.teamMembersQualifications.find(
-                    (qualification) => qualification.userPk === person.pk
-                  )?.qualifications ?? []
-                }
-                memberPk={person.pk}
-              />
+              <div className="flex justify-end">
+                <TeamMemberQualifications
+                  qualifications={
+                    queryResponse.data?.team?.teamMembersQualifications.find(
+                      (qualification) => qualification.userPk === person.pk
+                    )?.qualifications ?? []
+                  }
+                  memberPk={person.pk}
+                />
+              </div>
 
-              <div className="flex items-center gap-x-6">
+              <div className="flex gap-x-6 justify-end min-w-[200px] max-w-[260px]">
                 <div className="hidden sm:flex sm:flex-col sm:items-end">
                   <p className="text-sm/6 text-gray-900">
                     {permissionTypeToString(person.resourcePermission)}
