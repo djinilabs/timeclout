@@ -171,11 +171,22 @@ export const ShiftsAutoFillProgress = ({
       : undefined;
   }, [problemInShiftPosition]);
 
+  console.log("discardedReasons", discardedReasons);
+
+  const discardedReasonsList = useMemo(() => {
+    return Array.from(discardedReasons.entries()).map(([reason, count]) => ({
+      reason,
+      count,
+    }));
+  }, [discardedReasons]);
+
+  console.log("discardedReasonsList", discardedReasonsList);
+
   return (
     <div className="grid grid-cols-5 gap-5">
       <div className="col-span-4">
         <div className="mt-5">
-          {canAssignShiftPositions && (
+          {canAssignShiftPositions && topSolution?.schedule && (
             <Button
               disabled={fetchingAssignShiftPositions}
               onClick={handleAssignShiftPositions}
@@ -190,31 +201,37 @@ export const ShiftsAutoFillProgress = ({
             </Button>
           )}
         </div>
-        {problemInSlotIds.size > 0 && (
+        {discardedReasonsList.length > 0 && (
           <div className="mt-5">
             <Attention title={<Trans>Attention needed</Trans>}>
-              <p>
-                <Trans>
-                  There are {problemInSlotIds.size} conflict(s)s when trying to
-                  search for a solution, starting on day{" "}
-                  {problemInShiftPositionDay}.
-                </Trans>
-              </p>
-              <p>
-                <Trans>
-                  Some solutions have been discarded because of the following
-                  reasons:
-                </Trans>
-                <ul className="list-disc list-inside">
-                  {Array.from(discardedReasons.entries()).map(
-                    ([reason, count]) => (
-                      <li key={reason}>
-                        {reason}: {count}
-                      </li>
-                    )
+              <>
+                <p>
+                  <Trans>There are</Trans>{" "}
+                  {problemInSlotIds.size + discardedReasonsList.length}{" "}
+                  <Trans>
+                    conflict(s) when trying to search for a solution
+                  </Trans>
+                  {problemInShiftPositionDay ? (
+                    <>
+                      <Trans>starting on day</Trans> {problemInShiftPositionDay}
+                    </>
+                  ) : (
+                    ""
                   )}
-                </ul>
-              </p>
+                  .
+                </p>
+                <p>
+                  <Trans>
+                    Some solutions have been discarded because of the following
+                    reasons:
+                  </Trans>
+                  <ul className="list-disc list-inside">
+                    {discardedReasonsList.map(({ reason, count }) => (
+                      <li key={reason}>{reason}</li>
+                    ))}
+                  </ul>
+                </p>
+              </>
             </Attention>
           </div>
         )}
@@ -262,7 +279,7 @@ export const ShiftsAutoFillProgress = ({
               ))}
             </>
           )}
-          {tab.href === "stats" && topSolution && (
+          {tab.href === "stats" && topSolution?.schedule && (
             <ShiftAutoFillSolutionDetailedStats schedule={topSolution} />
           )}
         </Tabs>

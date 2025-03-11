@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Trans } from "@lingui/react/macro";
 import { type SchedulerState } from "@/scheduler";
 import { PercentageStatCard } from "./PercentageStatCard";
+import { i18n } from "@lingui/core";
 
 export interface ShiftAutoFillSolutionStatsProps {
   progress: SchedulerState;
@@ -14,10 +15,8 @@ export const ShiftAutoFillSolutionStats = ({
 
   const stats = useMemo(() => {
     return [
-      { name: "Cycle count", stat: progress.cycleCount.toLocaleString() },
-      { name: "Computed shifts", stat: progress.computed.toLocaleString() },
       {
-        name: "Top score",
+        name: i18n.t("Score"),
         stat: (
           <PercentageStatCard
             key="top-score"
@@ -27,7 +26,7 @@ export const ShiftAutoFillSolutionStats = ({
         ),
       },
     ];
-  }, [progress, topSolution]);
+  }, [topSolution]);
 
   const discardedStats = useMemo(() => {
     const total = Array.from(progress.discardedReasons.values()).reduce(
@@ -38,9 +37,7 @@ export const ShiftAutoFillSolutionStats = ({
     return Array.from(progress.discardedReasons.entries()).map(
       ([reason, count]) => ({
         name: reason,
-        stat: `${count.toLocaleString()} (${Math.round(
-          (count / total) * 100
-        )}%)`,
+        stat: `${Math.round((count / total) * 100).toLocaleString()}%`,
       })
     );
   }, [progress.discardedReasons]);
@@ -53,10 +50,7 @@ export const ShiftAutoFillSolutionStats = ({
   }, [topSolution]);
 
   return (
-    <div className="mt-5">
-      <h3 className="text-base font-semibold text-gray-900">
-        <Trans>Auto-fill progress</Trans>
-      </h3>
+    <div>
       <div>
         <dl className="mt-5 grid grid-cols-1 gap-5">
           {stats.map((item) =>
@@ -100,19 +94,22 @@ export const ShiftAutoFillSolutionStats = ({
           </dl>
         </div>
       )}
-      <div className="mt-5"></div>
-      <h3 className="text-base font-semibold text-gray-900">
-        <Trans>Top Solution</Trans>
-      </h3>
-      <dl className="mt-5 grid grid-cols-1 gap-5">
-        {topSolutionStats?.map((item) => (
-          <PercentageStatCard
-            key={item.name}
-            name={item.name}
-            value={item.stat}
-          />
-        ))}
-      </dl>
+      {topSolutionStats?.length > 0 && (
+        <div className="mt-5">
+          <h3 className="text-base font-semibold text-gray-900">
+            <Trans>Top Solution</Trans>
+          </h3>
+          <dl className="mt-5 grid grid-cols-1 gap-5">
+            {topSolutionStats?.map((item) => (
+              <PercentageStatCard
+                key={item.name}
+                name={item.name}
+                value={item.stat}
+              />
+            ))}
+          </dl>
+        </div>
+      )}
     </div>
   );
 };
