@@ -5,7 +5,7 @@ import { CompanyLeaveTypes } from "./CompanyLeaveTypes";
 import { CompanyYearlyQuota } from "./CompanyYearlyQuota";
 import { CompanyWorkSchedule } from "./CompanyWorkSchedule";
 
-export const CompanySettings = () => {
+const CompanySettings = () => {
   const tabs = useMemo(
     () => [
       { name: i18n.t("Leave Types"), href: "leave-types" },
@@ -25,3 +25,5 @@ export const CompanySettings = () => {
     </div>
   );
 };
+
+export default CompanySettings;

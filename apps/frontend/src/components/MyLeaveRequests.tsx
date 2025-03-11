@@ -4,7 +4,7 @@ import myLeaveRequestsQuery from "@/graphql-client/queries/myLeaveRequests.graph
 import { Query } from "../graphql/graphql";
 import { LeaveRequests } from "./stateless/LeaveRequests";
 
-export const MyLeaveRequests = () => {
+const MyLeaveRequests = () => {
   const { company } = useParams();
 
   const [myLeaveRequestResult] = useQuery<{
@@ -17,3 +17,5 @@ export const MyLeaveRequests = () => {
   const myLeaveRequests = myLeaveRequestResult.data?.myLeaveRequests;
   return <LeaveRequests leaveRequests={myLeaveRequests} showState />;
 };
+
+export default MyLeaveRequests;

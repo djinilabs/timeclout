@@ -33,7 +33,8 @@ import { useHolidays } from "../hooks/useHolidays";
 import { Suspense } from "./stateless/Suspense";
 import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
 import { i18n } from "@lingui/core";
-export const CompanyTimeOff = () => {
+
+const CompanyTimeOff = () => {
   const { company } = useParams();
   const [year, setYear] = useState(new Date().getFullYear());
   const location = useLocation();
@@ -250,3 +251,5 @@ export const CompanyTimeOff = () => {
     </Suspense>
   );
 };
+
+export default CompanyTimeOff;

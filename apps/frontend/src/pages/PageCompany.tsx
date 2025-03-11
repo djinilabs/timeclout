@@ -3,17 +3,19 @@ import { useParams } from "react-router-dom";
 import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
-import { AllCompanyUnits } from "../components/AllCompanyUnits";
 import { Tabs } from "../components/stateless/Tabs";
-import { CompanySettings } from "../components/CompanySettings";
-import { CompanyTimeOff } from "../components/CompanyTimeOff";
 import { Suspense } from "../components/stateless/Suspense";
-import { PendingCompanyLeaveRequests } from "../components/PendingCompanyLeaveRequests";
-import { MyLeaveRequests } from "../components/MyLeaveRequests";
 import { useQuery } from "../hooks/useQuery";
 import { Query, QueryCompanyArgs } from "../graphql/graphql";
 
 const PageNotFound = lazy(() => import("./PageNotFound"));
+const AllCompanyUnits = lazy(() => import("../components/AllCompanyUnits"));
+const CompanySettings = lazy(() => import("../components/CompanySettings"));
+const CompanyTimeOff = lazy(() => import("../components/CompanyTimeOff"));
+const PendingCompanyLeaveRequests = lazy(
+  () => import("../components/PendingCompanyLeaveRequests")
+);
+const MyLeaveRequests = lazy(() => import("../components/MyLeaveRequests"));
 
 export const PageCompany: FC = () => {
   const { company: companyPk } = useParams();

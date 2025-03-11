@@ -50,7 +50,7 @@ const NoUnits = () => {
   );
 };
 
-export const AllCompanyUnits = () => {
+const AllCompanyUnits = () => {
   const { company: companyPk } = useParams();
 
   const [queryResponse] = useQuery<{ company: Query["company"] }>({
@@ -151,3 +151,5 @@ export const AllCompanyUnits = () => {
     </div>
   );
 };
+
+export default AllCompanyUnits;
