@@ -1,5 +1,7 @@
 import { PageCompanies } from "../pages/PageCompanies";
 
-export const Companies = () => {
+const Companies = () => {
   return <PageCompanies />;
 };
+
+export default Companies;

@@ -24,7 +24,7 @@ export interface NavigationItem {
   sepAfter?: boolean;
 }
 
-export const SideBar = () => {
+const SideBar = () => {
   const { company } = useParams();
   const [allCompaniesResult] = useQuery<{ companies: Company[] }>({
     query: allCompaniesQuery,
@@ -143,3 +143,5 @@ export const SideBar = () => {
     </div>
   );
 };
+
+export default SideBar;

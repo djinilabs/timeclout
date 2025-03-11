@@ -1,25 +1,30 @@
-import { FC, Suspense } from "react";
+import { FC, lazy, Suspense } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import { RequiresSession } from "./components/RequiresSession";
-import { Companies } from "./routes/Companies";
-import { NewCompany } from "./routes/NewCompany";
-import { Company } from "./routes/Company";
-import { NewUnit } from "./routes/NewUnit";
-import { Unit } from "./routes/Unit";
-import { NewTeam } from "./routes/NewTeam";
-import { Team } from "./routes/Team";
-import { NewTeamInvite } from "./routes/NewTeamInvite";
-import { InviteAccept } from "./routes/InviteAccept";
-import { CompanySettings } from "./routes/CompanySettings";
-import { LeaveRequest } from "./routes/LeaveRequest";
 import { RequiresSelfSettings } from "./components/RequiresSelfSettings";
-import { PageNotFound } from "./pages/PageNotFound";
-import { PageMeEdit } from "./pages/PageMeEdit";
-import { PagePendingLeaveRequests } from "./pages/PagePendingLeaveRequests";
-import { NewTeamMember } from "./routes/NewTeamMember";
-import { EditTeamMember } from "./routes/EditTeamMember";
-import { NewTeamMemberLeaveRequest } from "./routes/NewTeamMemberLeaveRequest";
 import { AppLayout } from "./AppLayout";
+
+const LazyCompanies = lazy(() => import("./routes/Companies"));
+const LazyNewCompany = lazy(() => import("./routes/NewCompany"));
+const LazyCompany = lazy(() => import("./routes/Company"));
+const LazyNewUnit = lazy(() => import("./routes/NewUnit"));
+const LazyUnit = lazy(() => import("./routes/Unit"));
+const LazyNewTeam = lazy(() => import("./routes/NewTeam"));
+const LazyTeam = lazy(() => import("./routes/Team"));
+const LazyNewTeamInvite = lazy(() => import("./routes/NewTeamInvite"));
+const LazyInviteAccept = lazy(() => import("./routes/InviteAccept"));
+const LazyCompanySettings = lazy(() => import("./routes/CompanySettings"));
+const LazyLeaveRequest = lazy(() => import("./routes/LeaveRequest"));
+const LazyPageNotFound = lazy(() => import("./pages/PageNotFound"));
+const LazyPageMeEdit = lazy(() => import("./pages/PageMeEdit"));
+const LazyPagePendingLeaveRequests = lazy(
+  () => import("./pages/PagePendingLeaveRequests")
+);
+const LazyNewTeamMember = lazy(() => import("./routes/NewTeamMember"));
+const LazyEditTeamMember = lazy(() => import("./routes/EditTeamMember"));
+const LazyNewTeamMemberLeaveRequest = lazy(
+  () => import("./routes/NewTeamMemberLeaveRequest")
+);
 
 export const AppRoutes: FC = () => {
   return (
@@ -38,7 +43,7 @@ export const AppRoutes: FC = () => {
           element={
             <RequiresSession>
               <RequiresSelfSettings>
-                <Companies />
+                <LazyCompanies />
               </RequiresSelfSettings>
             </RequiresSession>
           }
@@ -49,7 +54,7 @@ export const AppRoutes: FC = () => {
           element={
             <RequiresSession>
               <RequiresSelfSettings>
-                <Companies />
+                <LazyCompanies />
               </RequiresSelfSettings>
             </RequiresSession>
           }
@@ -58,7 +63,7 @@ export const AppRoutes: FC = () => {
           path="/me/edit"
           element={
             <RequiresSession>
-              <PageMeEdit />
+              <LazyPageMeEdit />
             </RequiresSession>
           }
         />
@@ -66,7 +71,7 @@ export const AppRoutes: FC = () => {
           path="/leave-requests/pending"
           element={
             <RequiresSession>
-              <PagePendingLeaveRequests />
+              <LazyPagePendingLeaveRequests />
             </RequiresSession>
           }
         />
@@ -74,7 +79,7 @@ export const AppRoutes: FC = () => {
           path="/invites/accept"
           element={
             <RequiresSession>
-              <InviteAccept />
+              <LazyInviteAccept />
             </RequiresSession>
           }
         />
@@ -82,7 +87,7 @@ export const AppRoutes: FC = () => {
           path="/companies/new"
           element={
             <RequiresSession>
-              <NewCompany />
+              <LazyNewCompany />
             </RequiresSession>
           }
         />
@@ -90,7 +95,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company"
           element={
             <RequiresSession>
-              <Company />
+              <LazyCompany />
             </RequiresSession>
           }
         />
@@ -98,7 +103,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/units/:unit/teams/:team/leave-requests/new"
           element={
             <RequiresSession>
-              <NewTeamMemberLeaveRequest />
+              <LazyNewTeamMemberLeaveRequest />
             </RequiresSession>
           }
         />
@@ -106,7 +111,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/users/:user/leave-requests/:startDate/:endDate/:leaveType"
           element={
             <RequiresSession>
-              <LeaveRequest />
+              <LazyLeaveRequest />
             </RequiresSession>
           }
         />
@@ -114,7 +119,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/settings/:settingName/:settingId"
           element={
             <RequiresSession>
-              <CompanySettings />
+              <LazyCompanySettings />
             </RequiresSession>
           }
         />
@@ -122,7 +127,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/units/new"
           element={
             <RequiresSession>
-              <NewUnit />
+              <LazyNewUnit />
             </RequiresSession>
           }
         />
@@ -130,7 +135,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/units/:unit"
           element={
             <RequiresSession>
-              <Unit />
+              <LazyUnit />
             </RequiresSession>
           }
         />
@@ -138,7 +143,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/units/:unit/teams/new"
           element={
             <RequiresSession>
-              <NewTeam />
+              <LazyNewTeam />
             </RequiresSession>
           }
         />
@@ -146,7 +151,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/units/:unit/teams/:team"
           element={
             <RequiresSession>
-              <Team />
+              <LazyTeam />
             </RequiresSession>
           }
         />
@@ -154,7 +159,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/units/:unit/teams/:team/invites/new"
           element={
             <RequiresSession>
-              <NewTeamInvite />
+              <LazyNewTeamInvite />
             </RequiresSession>
           }
         />
@@ -162,7 +167,7 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/units/:unit/teams/:team/members/new"
           element={
             <RequiresSession>
-              <NewTeamMember />
+              <LazyNewTeamMember />
             </RequiresSession>
           }
         />
@@ -170,11 +175,11 @@ export const AppRoutes: FC = () => {
           path="/companies/:company/units/:unit/teams/:team/users/:member"
           element={
             <RequiresSession>
-              <EditTeamMember />
+              <LazyEditTeamMember />
             </RequiresSession>
           }
         />
-        <Route path="*" element={<PageNotFound />} />
+        <Route path="*" element={<LazyPageNotFound />} />
       </Route>
     </Routes>
   );

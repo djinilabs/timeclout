@@ -1,3 +1,5 @@
 import { PageLeaveRequest } from "../pages/PageLeaveRequest";
 
-export const LeaveRequest = () => <PageLeaveRequest />;
+const LeaveRequest = () => <PageLeaveRequest />;
+
+export default LeaveRequest;

@@ -1,5 +1,7 @@
 import { PageNewTeam } from "../pages/PageNewTeam";
 
-export const NewTeam = () => {
+const NewTeam = () => {
   return <PageNewTeam />;
 };
+
+export default NewTeam;

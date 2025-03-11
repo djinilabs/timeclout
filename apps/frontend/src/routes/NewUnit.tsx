@@ -1,5 +1,7 @@
 import { PageNewUnit } from "../pages/PageNewUnit";
 
-export const NewUnit = () => {
+const NewUnit = () => {
   return <PageNewUnit />;
 };
+
+export default NewUnit;

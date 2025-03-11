@@ -1,5 +1,7 @@
 import { MeEdit } from "../components/MeEdit";
 
-export const PageMeEdit = () => {
+const PageMeEdit = () => {
   return <MeEdit />;
 };
+
+export default PageMeEdit;

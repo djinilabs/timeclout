@@ -1,5 +1,7 @@
 import { PageNewTeamMemberLeaveRequest } from "../pages/PageNewTeamMemberLeaveRequest";
 
-export const NewTeamMemberLeaveRequest = () => {
+const NewTeamMemberLeaveRequest = () => {
   return <PageNewTeamMemberLeaveRequest />;
 };
+
+export default NewTeamMemberLeaveRequest;

@@ -2,7 +2,7 @@ import { Trans } from "@lingui/react/macro";
 import { PendingLeaveRequests } from "../components/PendingLeaveRequests";
 import { Suspense } from "../components/stateless/Suspense";
 
-export const PagePendingLeaveRequests = () => {
+const PagePendingLeaveRequests = () => {
   return (
     <div>
       <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
@@ -20,3 +20,5 @@ export const PagePendingLeaveRequests = () => {
     </div>
   );
 };
+
+export default PagePendingLeaveRequests;

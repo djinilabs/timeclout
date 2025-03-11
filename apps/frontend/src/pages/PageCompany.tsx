@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, lazy, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
@@ -10,9 +10,10 @@ import { CompanyTimeOff } from "../components/CompanyTimeOff";
 import { Suspense } from "../components/stateless/Suspense";
 import { PendingCompanyLeaveRequests } from "../components/PendingCompanyLeaveRequests";
 import { MyLeaveRequests } from "../components/MyLeaveRequests";
-import { PageNotFound } from "./PageNotFound";
 import { useQuery } from "../hooks/useQuery";
 import { Query, QueryCompanyArgs } from "../graphql/graphql";
+
+const PageNotFound = lazy(() => import("./PageNotFound"));
 
 export const PageCompany: FC = () => {
   const { company: companyPk } = useParams();

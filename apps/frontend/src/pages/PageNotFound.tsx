@@ -1,4 +1,4 @@
-export const PageNotFound = () => {
+const PageNotFound = () => {
   return (
     <>
       <div className="grid min-h-full grid-cols-1 grid-rows-[1fr_auto_1fr] bg-white lg:grid-cols-[max(50%,36rem)_1fr]">
@@ -32,3 +32,5 @@ export const PageNotFound = () => {
     </>
   );
 };
+
+export default PageNotFound;

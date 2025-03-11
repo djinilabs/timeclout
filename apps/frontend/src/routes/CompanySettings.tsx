@@ -1,5 +1,7 @@
 import { PageCompanySettings } from "../pages/PageCompanySettings";
 
-export const CompanySettings = () => {
+const CompanySettings = () => {
   return <PageCompanySettings />;
 };
+
+export default CompanySettings;

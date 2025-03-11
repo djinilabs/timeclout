@@ -1,5 +1,7 @@
 import { PageUnit } from "../pages/PageUnit";
 
-export const Unit = () => {
+const Unit = () => {
   return <PageUnit />;
 };
+
+export default Unit;

@@ -1,5 +1,7 @@
 import { PageNewTeamMember } from "../pages/PageNewTeamMember";
 
-export const NewTeamMember = () => {
+const NewTeamMember = () => {
   return <PageNewTeamMember />;
 };
+
+export default NewTeamMember;

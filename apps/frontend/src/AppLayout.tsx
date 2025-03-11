@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, PropsWithChildren, Suspense, useState } from "react";
+import { FC, PropsWithChildren, Suspense, useState, lazy } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -11,11 +11,11 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
 import { UserTopBarMenu } from "./components/UserTopBarMenu";
 import { Toaster } from "react-hot-toast";
-import { SideBar } from "./components/SideBar";
-import { ContextualHelp } from "./components/ContextualHelp";
 import { useLocalPreference } from "./hooks/useLocalPreference";
 import { BreadcrumbNav } from "./components/BreadcrumbNav";
 
+const ContextualHelp = lazy(() => import("./components/ContextualHelp"));
+const SideBar = lazy(() => import("./components/SideBar"));
 export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -59,9 +59,11 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
                 </div>
               </TransitionChild>
               {/* Sidebar */}
-              <Suspense>
-                <SideBar />
-              </Suspense>
+              {sidebarOpen ? (
+                <Suspense>
+                  <SideBar />
+                </Suspense>
+              ) : null}
             </DialogPanel>
           </div>
         </Dialog>
@@ -129,7 +131,11 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
             </button>
           </div>
           <div className="p-4">
-            <ContextualHelp />
+            {helpPanelOpen ? (
+              <Suspense>
+                <ContextualHelp />
+              </Suspense>
+            ) : null}
           </div>
         </div>
 

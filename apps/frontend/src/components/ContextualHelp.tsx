@@ -438,7 +438,7 @@ const ContextualHelpContent = () => {
   }
 };
 
-export const ContextualHelp = () => {
+const ContextualHelp = () => {
   return (
     <>
       <ContextualHelpContent />
@@ -452,3 +452,5 @@ export const ContextualHelp = () => {
     </>
   );
 };
+
+export default ContextualHelp;
