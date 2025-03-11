@@ -48,7 +48,7 @@ export const useCountrySubdivisions = (props: GetCountrySubdivisionsProps) => {
       props.languageIsoCode,
     ],
     queryFn: () => getCountrySubdivisions(props),
-    enabled: !!props.countryIsoCode,
+    enabled: props.countryIsoCode != null,
   });
   return { data, error };
 };

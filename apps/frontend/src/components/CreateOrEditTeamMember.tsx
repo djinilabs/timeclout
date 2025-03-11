@@ -117,7 +117,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
 
   const [selectedCountryIsoCode, setSelectedCountryIsoCode] = useState<
     string | undefined
-  >(undefined);
+  >(form.store.state.values.country);
 
   useEffect(
     () =>
