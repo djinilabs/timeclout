@@ -226,7 +226,7 @@ export const ShiftsAutoFillProgress = ({
                     reasons:
                   </Trans>
                   <ul className="list-disc list-inside">
-                    {discardedReasonsList.map(({ reason, count }) => (
+                    {discardedReasonsList.map(({ reason }) => (
                       <li key={reason}>{reason}</li>
                     ))}
                   </ul>
