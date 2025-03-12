@@ -86,7 +86,7 @@
     "react-router": "^7.1.1",
     "react-router-dom": "^7.1.1",
     "react-time-ago": "^7.3.3",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "^3.4.17",
     "urql": "^4.2.1",
     "zod": "^3.24.1"
   },
