@@ -78,6 +78,7 @@
     "lodash.debounce": "^4.0.8",
     "nanoid": "^5.0.9",
     "next-auth": "5.0.0-beta.25",
+    "posthog-js": "^1.230.2",
     "react": "^19.0.0",
     "react-day-picker": "^9.5.0",
     "react-dom": "^19.0.0",
