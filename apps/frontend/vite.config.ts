@@ -4,6 +4,10 @@ import graphqlLoader from "vite-plugin-graphql-loader";
 import path from "path";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { lingui } from "@lingui/vite-plugin";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -11,9 +15,14 @@ export default defineConfig({
     react({
       plugins: [["@lingui/swc-plugin", {}]],
     }),
+    tailwindcss(),
     graphqlLoader(),
     tsconfigPaths(),
     lingui(),
+    sentryVitePlugin({
+      org: "tt3",
+      project: "tt3",
+    }),
   ],
   server: {
     open: true,

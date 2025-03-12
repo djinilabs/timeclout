@@ -1,11 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import graphqlLoader from "vite-plugin-graphql-loader";
-import { sentryVitePlugin } from "@sentry/vite-plugin";
 import path from "path";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { lingui } from "@lingui/vite-plugin";
-import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -13,14 +11,9 @@ export default defineConfig({
     react({
       plugins: [["@lingui/swc-plugin", {}]],
     }),
-    tailwindcss(),
     graphqlLoader(),
     tsconfigPaths(),
     lingui(),
-    sentryVitePlugin({
-      org: "tt3",
-      project: "tt3",
-    }),
   ],
 
   resolve: {
