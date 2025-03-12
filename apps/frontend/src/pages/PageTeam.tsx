@@ -12,6 +12,7 @@ import { getDefined } from "@/utils";
 import { useQuery } from "../hooks/useQuery";
 import { Query, QueryTeamArgs } from "../graphql/graphql";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
+import { TeamCalenderIntegrations } from "../components/TeamCalenderIntegrations";
 
 export const PageTeam = () => {
   const { team: teamPk } = useParams();
@@ -35,6 +36,7 @@ export const PageTeam = () => {
             { name: i18n.t("Settings"), href: "settings" },
           ]
         : []),
+      { name: i18n.t("Calender integrations"), href: "calender-integrations" },
     ],
     [team?.resourcePermission]
   );
@@ -49,6 +51,9 @@ export const PageTeam = () => {
           {currentTab.href === "leave-schedule" && <TeamLeaveSchedule />}
           {currentTab.href === "shifts-calendar" && <TeamShiftsCalendar />}
           {currentTab.href === "settings" && <TeamSettings />}
+          {currentTab.href === "calender-integrations" && (
+            <TeamCalenderIntegrations />
+          )}
         </Tabs>
       </div>
     </Suspense>

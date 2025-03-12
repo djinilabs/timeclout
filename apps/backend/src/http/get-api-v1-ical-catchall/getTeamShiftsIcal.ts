@@ -32,7 +32,10 @@ export const getTeamShiftsIcal = async (teamId: string): Promise<string> => {
   });
 
   for (const shift of shifts) {
-    calendar.createEvent(await icalEventFromShift(shift));
+    const event = await icalEventFromShift(shift);
+    if (event) {
+      calendar.createEvent(event);
+    }
   }
 
   return calendar.toString();
