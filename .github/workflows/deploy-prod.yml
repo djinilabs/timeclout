@@ -52,19 +52,16 @@ jobs:
           TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
           VITE_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
-          SENTRY_AUTH_TOKEN: "${{secrets.SENTRY_AUTH_TOKEN}}"
           SENTRY_TRACES_SAMPLE_RATE: "1.0"
-          INJECT_NODE_OPTIONS: "--import @sentry/aws-serverless/awslambda-auto"
+          SENTRY_PROFILES_SAMPLE_RATE: "1.0"
         run: |
           cd apps/backend
           export PATH=../../node_modules/.bin:$PATH
           pnpm arc env --add --env production AUTH_SECRET "${AUTH_SECRET}"
           pnpm arc env --add --env production AUTH_MAILGUN_KEY "${AUTH_MAILGUN_KEY}"
           pnpm arc env --add --env production SENTRY_DSN "${SENTRY_DSN}"
-          pnpm arc env --add --env production SENTRY_AUTH_TOKEN "${SENTRY_AUTH_TOKEN}"
           pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "${SENTRY_TRACES_SAMPLE_RATE}"
-          echo "INJECT_NODE_OPTIONS: ${INJECT_NODE_OPTIONS}"
-          pnpm arc env --add --env production NODE_OPTIONS "${INJECT_NODE_OPTIONS}"
+          pnpm arc env --add --env production SENTRY_PROFILES_SAMPLE_RATE "${SENTRY_PROFILES_SAMPLE_RATE}"
           cd ../..
           pnpm build
           cd apps/backend

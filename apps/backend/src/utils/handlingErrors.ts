@@ -6,7 +6,15 @@ import {
   Callback,
   APIGatewayProxyResult,
 } from "aws-lambda";
-import { wrapHandler } from "@sentry/aws-serverless";
+import { init, wrapHandler } from "@sentry/aws-serverless";
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
+
+init({
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: Number(process.env.SENTRY_TRACES_SAMPLE_RATE),
+  profilesSampleRate: Number(process.env.SENTRY_PROFILES_SAMPLE_RATE),
+  integrations: [nodeProfilingIntegration()],
+});
 
 export const handlingErrors = (
   userHandler: APIGatewayProxyHandlerV2
