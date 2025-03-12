@@ -61,7 +61,7 @@ jobs:
           pnpm arc env --add --env production SENTRY_DSN "${{ secrets.VITE_SENTRY_DSN }}"
           pnpm arc env --add --env production SENTRY_AUTH_TOKEN "${{ secrets.SENTRY_AUTH_TOKEN }}"
           pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "1.0"
-          pnpm arc env --add --env production NODE_OPTIONS "--import @sentry/aws-serverless/awslambda-auto"
+          pnpm arc env --add --env production NODE_OPTIONS '--import @sentry/aws-serverless/awslambda-auto'
           cd ../..
           pnpm build
           cd apps/backend
