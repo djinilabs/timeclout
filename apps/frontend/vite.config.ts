@@ -48,7 +48,14 @@ export default defineConfig({
     outDir: "../backend/public",
   },
   define: {
-    "process.env": {},
+    "process.env": {
+      VITE_PUBLIC_POSTHOG_KEY: JSON.stringify(
+        process.env.VITE_PUBLIC_POSTHOG_KEY
+      ),
+      VITE_PUBLIC_POSTHOG_HOST: JSON.stringify(
+        process.env.VITE_PUBLIC_POSTHOG_HOST
+      ),
+    },
     global: "globalThis",
   },
   worker: {
