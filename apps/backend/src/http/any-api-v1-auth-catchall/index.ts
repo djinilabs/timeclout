@@ -1,12 +1,15 @@
 import serverlessExpress from "@vendia/serverless-express";
 import { createApp } from "./auth-app";
+import { handlingErrors } from "../../utils/handlingErrors";
 
 const createHandler = async () => {
   const app = await createApp();
-  return serverlessExpress({
-    app,
-    respondWithErrors: true,
-  });
+  return handlingErrors(
+    serverlessExpress({
+      app,
+      respondWithErrors: true,
+    })
+  );
 };
 
 export const handler = async (

@@ -5,8 +5,10 @@ import {
   Context,
   Callback,
 } from "aws-lambda";
+import { wrapHandler } from "@sentry/aws-serverless";
 
-export const handlingErrors = (handler: APIGatewayProxyHandlerV2) => {
+export const handlingErrors = (userHandler: APIGatewayProxyHandlerV2) => {
+  const handler = wrapHandler(userHandler);
   return async (
     event: APIGatewayProxyEventV2,
     context: Context,
