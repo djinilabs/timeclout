@@ -10,6 +10,7 @@ export const AnalyticsProvider: FC<PropsWithChildren> = ({ children }) => {
   if (!key) {
     return children;
   }
+  console.log("Using posthog provider");
   return (
     <PostHogProvider apiKey={key} options={postHogOptions}>
       {children}
