@@ -15,6 +15,12 @@ const TableBaseSchema = z.object({
   updatedBy: z.string().refine(getResourceRef).optional(),
 });
 
+const shiftPositionScheduleSchema = z.object({
+  startHourMinutes: z.array(z.number().int().min(0)),
+  endHourMinutes: z.array(z.number().int().min(0)),
+  inconveniencePerHour: z.number().min(0),
+});
+
 export const tableSchemas = {
   entity: TableBaseSchema.extend({
     // pk is entity pk
@@ -76,13 +82,7 @@ export const tableSchemas = {
     published: z.boolean(),
     replaces: z.string().optional(),
     requiredSkills: z.array(z.string()),
-    schedules: z.array(
-      z.object({
-        startHourMinutes: z.array(z.number().int().min(0)),
-        endHourMinutes: z.array(z.number().int().min(0)),
-        inconveniencePerHour: z.number().min(0),
-      })
-    ),
+    schedules: z.array(shiftPositionScheduleSchema),
     assignedTo: z.string().refine(getResourceRef).optional(),
   }),
 } as const;
@@ -93,6 +93,9 @@ export type LeaveRequestRecord = z.infer<typeof tableSchemas.leave_request>;
 export type LeaveRecord = z.infer<typeof tableSchemas.leave>;
 export type InvitationRecord = z.infer<typeof tableSchemas.invitation>;
 export type ShiftPositionsRecord = z.infer<typeof tableSchemas.shift_positions>;
+export type ShiftPositionsSchedule = z.infer<
+  typeof shiftPositionScheduleSchema
+>;
 
 export const PERMISSION_LEVELS = {
   READ: 1,

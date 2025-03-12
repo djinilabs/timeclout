@@ -4,6 +4,7 @@ tt3
 @http
 any /*
 any /api/v1/auth/*
+get /api/v1/ical/*
 any /graphql
 
 @static
