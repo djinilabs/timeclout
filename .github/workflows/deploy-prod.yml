@@ -57,12 +57,13 @@ jobs:
         run: |
           cd apps/backend
           export PATH=../../node_modules/.bin:$PATH
-          pnpm arc env --add --env production AUTH_SECRET "${{ secrets.AUTH_SECRET }}"
-          pnpm arc env --add --env production AUTH_MAILGUN_KEY "${{ secrets.AUTH_MAILGUN_KEY }}"
-          pnpm arc env --add --env production SENTRY_DSN "${{ secrets.VITE_SENTRY_DSN }}"
-          pnpm arc env --add --env production SENTRY_AUTH_TOKEN "${{ secrets.SENTRY_AUTH_TOKEN }}"
-          pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "${{ env.SENTRY_TRACES_SAMPLE_RATE }}"
-          pnpm arc env --add --env production NODE_OPTIONS "${{ env.INJECT_NODE_OPTIONS }}"
+          pnpm arc env --add --env production AUTH_SECRET "${AUTH_SECRET}"
+          pnpm arc env --add --env production AUTH_MAILGUN_KEY "${AUTH_MAILGUN_KEY}"
+          pnpm arc env --add --env production SENTRY_DSN "${SENTRY_DSN}"
+          pnpm arc env --add --env production SENTRY_AUTH_TOKEN "${SENTRY_AUTH_TOKEN}"
+          pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "${SENTRY_TRACES_SAMPLE_RATE}"
+          echo "INJECT_NODE_OPTIONS: ${INJECT_NODE_OPTIONS}"
+          pnpm arc env --add --env production NODE_OPTIONS "${INJECT_NODE_OPTIONS}"
           cd ../..
           pnpm build
           cd apps/backend
