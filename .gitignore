@@ -29,3 +29,6 @@ apps/backend/db
 tsconfig.tsbuildinfo
 preferences.arc
 scripts/deploy.sh
+
+# Sentry Config File
+.env.sentry-build-plugin

@@ -50,6 +50,7 @@ jobs:
           TT3_CERTIFICATE_ARN: ${{ secrets.TT3_CERTIFICATE_ARN }}
           TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
           VITE_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
+          SENTRY_AUTH_TOKEN: "${{secrets.SENTRY_AUTH_TOKEN}}"
         run: |
           cd apps/backend
           export PATH=../../node_modules/.bin:$PATH

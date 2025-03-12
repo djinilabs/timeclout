@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import graphqlLoader from "vite-plugin-graphql-loader";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import path from "path";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { lingui } from "@lingui/vite-plugin";
@@ -18,7 +19,12 @@ export default defineConfig({
     graphqlLoader(),
     tsconfigPaths(),
     lingui(),
+    sentryVitePlugin({
+      org: "tt3",
+      project: "tt3",
+    }),
   ],
+
   resolve: {
     alias: {
       "@/graphql-client": path.resolve(
@@ -27,12 +33,18 @@ export default defineConfig({
       ),
     },
   },
+
   define: {
     "process.env": {},
     global: "globalThis",
   },
+
   worker: {
     plugins: () => [tsconfigPaths()],
     format: "es",
+  },
+
+  build: {
+    sourcemap: true,
   },
 });
