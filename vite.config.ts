@@ -4,6 +4,7 @@ import graphqlLoader from "vite-plugin-graphql-loader";
 import path from "path";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { lingui } from "@lingui/vite-plugin";
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -11,6 +12,7 @@ export default defineConfig({
     react({
       plugins: [["@lingui/swc-plugin", {}]],
     }),
+    tailwindcss(),
     graphqlLoader(),
     tsconfigPaths(),
     lingui(),
