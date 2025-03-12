@@ -13,7 +13,7 @@ import { dynamicActivate } from "./i18n";
 import { RequiresSession } from "./components/RequiresSession";
 import { AnalyticsProvider } from "./AnalyticsProvider";
 
-const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
+const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
 
 if (SENTRY_DSN) {
   console.debug("initializing Sentry...");

@@ -50,7 +50,7 @@ jobs:
           AUTH_MAILGUN_KEY: ${{ secrets.AUTH_MAILGUN_KEY }}
           TT3_CERTIFICATE_ARN: ${{ secrets.TT3_CERTIFICATE_ARN }}
           TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
-          VITE_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
+          VITE_PUBLIC_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           VITE_PUBLIC_POSTHOG_KEY: phc_XU057cIRzEJ2mfLNL5HuoWNBu0w2yjzpMKYUlrb8Jsk
           VITE_PUBLIC_POSTHOG_HOST: https://eu.i.posthog.com
           SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"

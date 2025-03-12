@@ -49,6 +49,9 @@ export default defineConfig({
   },
   define: {
     "process.env": {
+      VITE_PUBLIC_SENTRY_DSN: JSON.stringify(
+        process.env.VITE_PUBLIC_SENTRY_DSN
+      ),
       VITE_PUBLIC_POSTHOG_KEY: JSON.stringify(
         process.env.VITE_PUBLIC_POSTHOG_KEY
       ),
