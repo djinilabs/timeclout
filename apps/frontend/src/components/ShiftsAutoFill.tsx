@@ -230,7 +230,7 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
   return (
     <>
       <Transition show={!isAutoFillRunning && !progress} appear>
-        <div className="transition duration-300 ease-in data-closed:opacity-0 'data-enter:duration-100 data-enter:data-closed:-translate-x-full data-leave:duration-300 data-leave:data-closed:-translate-x-full">
+        <div className="transition duration-300 ease-in data-[closed]:opacity-0 'data-[enter]:duration-100 data-[enter]:data-[closed]:-translate-x-full data-[leave]:duration-300 data-[leave]:data-[closed]:-translate-x-full">
           <ShiftAutoFillParams
             {...shiftAutoFillParams}
             startDate={startDate}

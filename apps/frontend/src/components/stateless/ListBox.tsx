@@ -40,19 +40,19 @@ export const ListBox: FC<ListBoxProps> = memo(
 
           <ListboxOptions
             transition
-            className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden data-closed:data-leave:opacity-0 data-leave:transition data-leave:duration-100 data-leave:ease-in sm:text-sm"
+            className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
           >
             {options.map((option) => (
               <ListboxOption
                 key={option.key}
                 value={option}
-                className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-focus:bg-teal-600 data-focus:text-white data-focus:outline-hidden"
+                className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-teal-600 data-[focus]:text-white data-[focus]:outline-none"
               >
-                <span className="block truncate font-normal group-data-selected:font-semibold">
+                <span className="block truncate font-normal group-data-[selected]:font-semibold">
                   {option.value}
                 </span>
 
-                <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-teal-600 group-[&:not([data-selected])]:hidden group-data-focus:text-white">
+                <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-teal-600 group-[&:not([data-selected])]:hidden group-data-[focus]:text-white">
                   <CheckIcon aria-hidden="true" className="size-5" />
                 </span>
               </ListboxOption>

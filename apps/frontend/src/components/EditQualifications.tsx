@@ -102,7 +102,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
           <button
             type="button"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="ml-2 inline-flex items-center rounded-full border border-gray-300 bg-white p-1 text-gray-400 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+            className="ml-2 inline-flex items-center rounded-full border border-gray-300 bg-white p-1 text-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

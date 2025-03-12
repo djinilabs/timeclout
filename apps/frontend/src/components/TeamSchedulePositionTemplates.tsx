@@ -88,7 +88,7 @@ export const TeamSchedulePositionTemplates = () => {
               handleUpdateQualification(index, "name", e.target.value)
             }
             placeholder={i18n.t("Qualification name")}
-            className="border rounded-sm px-2 py-1"
+            className="border rounded px-2 py-1"
           />
           <Combobox
             as="div"
@@ -145,7 +145,7 @@ export const TeamSchedulePositionTemplates = () => {
           </Combobox>
           <button
             onClick={() => handleRemoveSchedulePositionTemplate(index)}
-            className="rounded-full bg-teal-600 p-2 text-white hover:bg-teal-700 focus:outline-hidden focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+            className="rounded-full bg-teal-600 p-2 text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

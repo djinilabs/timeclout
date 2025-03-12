@@ -57,7 +57,7 @@ export const ShiftAutoFillSolutionStats = ({
             typeof item.stat === "string" ? (
               <div
                 key={item.name}
-                className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-sm sm:p-6"
+                className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
               >
                 <dt className="truncate text-sm font-medium text-gray-500">
                   {item.name}
@@ -81,7 +81,7 @@ export const ShiftAutoFillSolutionStats = ({
             {discardedStats.map((item) => (
               <div
                 key={item.name}
-                className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-sm sm:p-6"
+                className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
               >
                 <dt className="truncate text-sm font-medium text-gray-500">
                   {item.name}

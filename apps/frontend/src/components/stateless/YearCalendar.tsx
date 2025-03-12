@@ -56,7 +56,7 @@ export const YearCalendar = memo(
             <time dateTime={year.toString()}>{year}</time>
           </h1>
           <div className="flex items-center">
-            <div className="relative flex items-center rounded-md bg-white shadow-2xs md:items-stretch">
+            <div className="relative flex items-center rounded-md bg-white shadow-xs md:items-stretch">
               <button
                 type="button"
                 onClick={() => goToYear(year - 1)}
@@ -90,7 +90,7 @@ export const YearCalendar = memo(
               <div className="ml-6 h-6 w-px bg-gray-300" />
               <button
                 type="button"
-                className="ml-6 rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-2xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+                className="ml-6 rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
                 onClick={bookTimeOff}
               >
                 <Trans>Request Time Off</Trans>
@@ -162,7 +162,7 @@ export const YearCalendar = memo(
                     <Trans>S</Trans>
                   </div>
                 </div>
-                <div className="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm ring-1 shadow-xs ring-gray-200">
+                <div className="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm ring-1 shadow-sm ring-gray-200">
                   {month.days.map((day, dayIdx) => {
                     const isLeave = calendarDateMap[day.date];
                     const isHovering = hoveringDay === day.date;

@@ -79,7 +79,7 @@ export const ShiftsAutoFillSolutionTimeDistributionStats = ({
   }, [workerTimeIntervals]);
 
   return (
-    <div className="w-full aspect-2/1">
+    <div className="w-full aspect-[2/1]">
       <ResponsiveBoxPlot
         data={boxPlotData}
         margin={{ top: 50, right: 130, bottom: 120, left: 60 }}

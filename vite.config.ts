@@ -5,8 +5,6 @@ import { sentryVitePlugin } from "@sentry/vite-plugin";
 import path from "path";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { lingui } from "@lingui/vite-plugin";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/

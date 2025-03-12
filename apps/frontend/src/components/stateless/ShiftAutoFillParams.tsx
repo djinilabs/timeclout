@@ -294,7 +294,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
           <div>
             <div
               key="worker-inconvenience-equality"
-              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-sm sm:p-6"
+              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
             >
               <dt className="truncate text-sm font-medium text-gray-500">
                 <Trans>Worker Inconvenience Equality</Trans>
@@ -321,7 +321,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
           <div>
             <div
               key="worker-slot-equality"
-              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-sm sm:p-6"
+              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
             >
               <dt className="truncate text-sm font-medium text-gray-500">
                 <Trans>Worker Shift Equality</Trans>
@@ -346,7 +346,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
           <div>
             <div
               key="worker-slot-proximity"
-              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-sm sm:p-6"
+              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
             >
               <dt className="truncate text-sm font-medium text-gray-500">
                 <Trans>Worker Shift Proximity</Trans>
