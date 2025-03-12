@@ -45,7 +45,7 @@ jobs:
         env:
           NODE_ENV: "production"
           BASE_URL: "https://app.tt3.app"
-          NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768 --import @sentry/aws-serverless/awslambda-auto"
+          NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           TT3_CERTIFICATE_ARN: ${{ secrets.TT3_CERTIFICATE_ARN }}
           TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
@@ -58,6 +58,10 @@ jobs:
           export PATH=../../node_modules/.bin:$PATH
           pnpm arc env --add --env production AUTH_SECRET "${{ secrets.AUTH_SECRET }}"
           pnpm arc env --add --env production AUTH_MAILGUN_KEY "${{ secrets.AUTH_MAILGUN_KEY }}"
+          pnpm arc env --add --env production SENTRY_DSN "${{ secrets.VITE_SENTRY_DSN }}"
+          pnpm arc env --add --env production SENTRY_AUTH_TOKEN "${{ secrets.SENTRY_AUTH_TOKEN }}"
+          pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "1.0"
+          pnpm arc env --add --env production NODE_OPTIONS "--import @sentry/aws-serverless/awslambda-auto"
           cd ../..
           pnpm build
           cd apps/backend
