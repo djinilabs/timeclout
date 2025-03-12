@@ -4,18 +4,23 @@ import {
   APIGatewayProxyEventV2,
   Context,
   Callback,
+  APIGatewayProxyResult,
 } from "aws-lambda";
 import { wrapHandler } from "@sentry/aws-serverless";
 
-export const handlingErrors = (userHandler: APIGatewayProxyHandlerV2) => {
+export const handlingErrors = (
+  userHandler: APIGatewayProxyHandlerV2
+): APIGatewayProxyHandlerV2 => {
   const handler = wrapHandler(userHandler);
   return async (
     event: APIGatewayProxyEventV2,
     context: Context,
     callback: Callback
-  ) => {
+  ): Promise<APIGatewayProxyResult | string> => {
     try {
-      return await handler(event, context, callback);
+      return (await handler(event, context, callback)) as
+        | APIGatewayProxyResult
+        | string;
     } catch (error) {
       const boomed = boomify(error as Error);
       if (boomed.isServer) {
@@ -26,7 +31,7 @@ export const handlingErrors = (userHandler: APIGatewayProxyHandlerV2) => {
       const { statusCode, headers, payload } = boomed.output;
       return {
         statusCode,
-        headers,
+        headers: headers as Record<string, string | number | boolean>,
         body: JSON.stringify(payload),
       };
     }

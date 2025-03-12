@@ -1,20 +1,26 @@
+import { APIGatewayProxyHandlerV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import serverlessExpress from "@vendia/serverless-express";
 import { createApp } from "./auth-app";
 import { handlingErrors } from "../../utils/handlingErrors";
 
-const createHandler = async () => {
+let cachedHandler: APIGatewayProxyHandlerV2 | undefined;
+
+const createHandler = async (): Promise<APIGatewayProxyHandlerV2> => {
+  if (cachedHandler) {
+    return cachedHandler;
+  }
   const app = await createApp();
-  return handlingErrors(
+  const handler = handlingErrors(
     serverlessExpress({
       app,
       respondWithErrors: true,
     })
   );
+  cachedHandler = handler;
+  return handler;
 };
 
-export const handler = async (
-  ...args: Parameters<ReturnType<typeof serverlessExpress>>
-) => {
-  const h = await createHandler();
-  return h(...args);
+export const handler: APIGatewayProxyHandlerV2 = async (...args) => {
+  const h: APIGatewayProxyHandlerV2 = await createHandler();
+  return h(...args) as Promise<APIGatewayProxyResultV2>;
 };
