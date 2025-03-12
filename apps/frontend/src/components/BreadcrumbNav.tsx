@@ -38,7 +38,7 @@ export const BreadcrumbNav = () => {
     <nav aria-label="Breadcrumb" className="flex h-full">
       <ol
         role="list"
-        className="flex space-x-4 rounded-md bg-white px-6 shadow h-full"
+        className="flex space-x-4 rounded-md bg-white px-6 shadow-sm h-full"
       >
         <li key="home" className="flex">
           <div className="flex items-center">

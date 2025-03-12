@@ -81,7 +81,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
           </h1>
           <div className="flex items-center">
             {goTo && (
-              <div className="relative flex items-center rounded-md bg-white shadow-xs">
+              <div className="relative flex items-center rounded-md bg-white shadow-2xs">
                 <button
                   type="button"
                   key="prev-month"
@@ -175,7 +175,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
             </Menu>
           </div>
         </header>
-        <div className="ring-1 shadow-sm ring-black/5 flex flex-auto flex-col rounded-lg overflow-hidden">
+        <div className="ring-1 shadow-xs ring-black/5 flex flex-auto flex-col rounded-lg overflow-hidden">
           <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs/6 font-semibold text-gray-700 flex-none">
             <div className="bg-white py-2">
               <Trans id="M for Monday">M</Trans>

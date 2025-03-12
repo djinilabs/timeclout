@@ -80,7 +80,7 @@ export const MiniTimeScheduleVisualizer = memo(
             schedules[0].startHourMinutes[1]
           ).padStart(2, "0")}`}
         </div>
-        <div className="relative h-1 rounded col-span-5">
+        <div className="relative h-1 rounded-sm col-span-5">
           {schedules.map((schedule, index) => {
             const startHour = schedule.startHourMinutes[0];
             const startMinutes = schedule.startHourMinutes[1];
@@ -100,7 +100,7 @@ export const MiniTimeScheduleVisualizer = memo(
             return (
               <div
                 key={index}
-                className="absolute h-full rounded"
+                className="absolute h-full rounded-sm"
                 style={{
                   left: `${startPercent}%`,
                   width: `${width}%`,
@@ -113,7 +113,7 @@ export const MiniTimeScheduleVisualizer = memo(
         </div>
         <div className=" col-span-5 grid grid-cols-2">
           <div className="text-tiny text-gray-600 whitespace-nowrap text-right leading-normal">
-            <span className="bg-orange-300 text-white p-1 rounded">
+            <span className="bg-orange-300 text-white p-1 rounded-sm">
               {totalInconvenience.toFixed(1).toLocaleString()}
             </span>
           </div>

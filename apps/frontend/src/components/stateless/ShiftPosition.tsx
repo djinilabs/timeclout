@@ -106,10 +106,10 @@ export const ShiftPosition = memo(
             e.dataTransfer.clearData();
           }}
           className={classNames(
-            "rounded group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full",
+            "rounded-sm group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full",
             shiftPosition.fake && "opacity-50",
             "hover:ring-2 hover:ring-gray-200",
-            "outline-none",
+            "outline-hidden",
             conflicts &&
               "bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#ef444422_10px,#ef444422_20px)]"
           )}
@@ -126,11 +126,11 @@ export const ShiftPosition = memo(
         >
           <Menu
             as="div"
-            className="right-0 top-0 absolute opacity-0 group-hover:opacity-100 z-[200]"
+            className="right-0 top-0 absolute opacity-0 group-hover:opacity-100 z-200"
           >
             <MenuButton
               ref={menuButtonRef}
-              className="cursor-pointer hover:bg-black hover:bg-opacity-10 rounded"
+              className="cursor-pointer hover:bg-black hover:bg-opacity-10 rounded-sm"
             >
               <EllipsisHorizontalIcon className="w-4 h-4" />
             </MenuButton>
