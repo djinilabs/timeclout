@@ -53,6 +53,7 @@ jobs:
           SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           SENTRY_AUTH_TOKEN: "${{secrets.SENTRY_AUTH_TOKEN}}"
           SENTRY_TRACES_SAMPLE_RATE: "1.0"
+          INJECT_NODE_OPTIONS: "--import @sentry/aws-serverless/awslambda-auto"
         run: |
           cd apps/backend
           export PATH=../../node_modules/.bin:$PATH
@@ -60,8 +61,8 @@ jobs:
           pnpm arc env --add --env production AUTH_MAILGUN_KEY "${{ secrets.AUTH_MAILGUN_KEY }}"
           pnpm arc env --add --env production SENTRY_DSN "${{ secrets.VITE_SENTRY_DSN }}"
           pnpm arc env --add --env production SENTRY_AUTH_TOKEN "${{ secrets.SENTRY_AUTH_TOKEN }}"
-          pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "1.0"
-          pnpm arc env --add --env production NODE_OPTIONS '--import @sentry/aws-serverless/awslambda-auto'
+          pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "${{ env.SENTRY_TRACES_SAMPLE_RATE }}"
+          pnpm arc env --add --env production NODE_OPTIONS "${{ env.INJECT_NODE_OPTIONS }}"
           cd ../..
           pnpm build
           cd apps/backend
