@@ -15,9 +15,11 @@ import { RequiresSession } from "./components/RequiresSession";
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 
 if (SENTRY_DSN) {
+  console.debug("initializing Sentry...");
   initSentry({
     dsn: SENTRY_DSN,
   });
+  console.debug("Sentry initialized.");
 }
 
 const AppComponent: FC = () => {
