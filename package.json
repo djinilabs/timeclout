@@ -19,7 +19,9 @@
     "preview:frontend": "cd apps/frontend && vite preview",
     "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit",
-    "test": "cd libs && vitest run && cd ../apps/frontend && vitest run",
+    "test": "pnpm test:frontend && pnpm test:libs",
+    "test:frontend": "cd apps/frontend && vitest run",
+    "test:libs": "cd libs && vitest run",
     "lint": "pnpm eslint",
     "i18n:extract": "cd apps/frontend && pnpm lingui extract",
     "i18n:compile": "cd apps/frontend && pnpm lingui compile --namespace es"
