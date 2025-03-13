@@ -7,7 +7,6 @@ import {
   HomeIcon,
   UsersIcon,
   ChevronLeftIcon,
-  ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
@@ -176,18 +175,12 @@ const SideBar = ({ expanded, alwaysExpanded, setExpanded }: SideBarProps) => {
       {!alwaysExpanded && (
         <button
           onClick={() => setExpanded(!expanded)}
-          className="absolute bottom-4 -right-3 bg-teal-700 text-white rounded-full p-1.5 hover:bg-teal-800 transition-colors"
+          className="absolute bottom-4 right-3 bg-teal-700 text-white rounded-full p-1.5 hover:bg-teal-800 transition-colors"
           title={expanded ? "Collapse sidebar" : "Expand sidebar"}
         >
-          {expanded ? (
-            <ChevronLeftIcon
-              className={`size-4 transition-transform duration-300 ${expanded ? "" : "rotate-180"}`}
-            />
-          ) : (
-            <ChevronRightIcon
-              className={`size-4 transition-transform duration-300 ${expanded ? "" : "rotate-180"}`}
-            />
-          )}
+          <ChevronLeftIcon
+            className={`size-4 transition-transform duration-500 ${expanded ? "" : "rotate-180"}`}
+          />
         </button>
       )}
     </div>

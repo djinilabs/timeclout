@@ -1,4 +1,4 @@
-import { database, type ShiftPositionsRecord } from "@/tables";
+import { type ShiftPositionsRecord } from "@/tables";
 import { resourceRef } from "@/utils";
 import { ICalEventData } from "ical-generator";
 import { UserCache } from "./userCache";

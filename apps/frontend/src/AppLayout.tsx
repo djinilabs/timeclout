@@ -93,7 +93,14 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
           </Suspense>
         </div>
 
-        <div className={`flex-1 ${helpPanelOpen ? "lg:pr-72" : ""} lg:pl-72`}>
+        <div
+          className={classNames(
+            "flex-1",
+            helpPanelOpen ? "lg:pr-72" : "",
+            sidebarExpanded ? "lg:pl-72" : "lg:pl-20",
+            "transition-[padding] duration-300"
+          )}
+        >
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white shadow-sm sm:gap-x-6">
             <button
               type="button"
