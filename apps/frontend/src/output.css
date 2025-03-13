@@ -604,6 +604,10 @@ video {
   pointer-events: none;
 }
 
+.visible {
+  visibility: visible;
+}
+
 .fixed {
   position: fixed;
 }
@@ -642,10 +646,6 @@ video {
   right: -3.5rem;
 }
 
-.-right-3 {
-  right: -0.75rem;
-}
-
 .-top-px {
   top: -1px;
 }
@@ -670,6 +670,10 @@ video {
   right: 0px;
 }
 
+.right-3 {
+  right: 0.75rem;
+}
+
 .right-4 {
   right: 1rem;
 }
@@ -684,10 +688,6 @@ video {
 
 .top-4 {
   top: 1rem;
-}
-
-.right-3 {
-  right: 0.75rem;
 }
 
 .isolate {
@@ -3351,16 +3351,16 @@ video {
     padding-right: 2rem;
   }
 
+  .lg\:pl-20 {
+    padding-left: 5rem;
+  }
+
   .lg\:pl-72 {
     padding-left: 18rem;
   }
 
   .lg\:pr-72 {
     padding-right: 18rem;
-  }
-
-  .lg\:pl-20 {
-    padding-left: 5rem;
   }
 }
 
