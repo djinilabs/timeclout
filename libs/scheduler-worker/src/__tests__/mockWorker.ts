@@ -1,7 +1,7 @@
 export class MockWorker implements Worker {
-  onmessage: ((this: Worker, ev: MessageEvent) => any) | null = null;
-  onmessageerror: ((this: Worker, ev: MessageEvent) => any) | null = null;
-  onerror: ((this: Worker, ev: ErrorEvent) => any) | null = null;
+  onmessage: ((this: Worker, ev: MessageEvent) => unknown) | null = null;
+  onmessageerror: ((this: Worker, ev: MessageEvent) => unknown) | null = null;
+  onerror: ((this: Worker, ev: ErrorEvent) => unknown) | null = null;
 
   private intervalId: NodeJS.Timeout | null = null;
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Scheduler } from "../scheduler";
+import { Scheduler, SchedulerState } from "../scheduler";
 import { SlotWorker, Slot } from "../types";
 
 describe("Scheduler", () => {
@@ -81,7 +81,7 @@ describe("Scheduler", () => {
 
   it("should generate valid schedules", async () => {
     const scheduler = new Scheduler(defaultOptions);
-    let state: any = null;
+    let state: SchedulerState | null = null;
 
     // Subscribe to scheduler updates
     scheduler.subscribe(
@@ -98,11 +98,11 @@ describe("Scheduler", () => {
 
     // Verify that solutions were generated
     expect(state).toBeDefined();
-    expect(state.computed).toBeGreaterThan(0);
-    expect(state.topSolutions.length).toBeGreaterThan(0);
+    expect(state!.computed).toBeGreaterThan(0);
+    expect(state!.topSolutions.length).toBeGreaterThan(0);
 
     // Verify solution structure
-    const solution = state.topSolutions[0];
+    const solution = state!.topSolutions[0];
     expect(solution).toHaveProperty("score");
     expect(solution).toHaveProperty("schedule");
     expect(solution).toHaveProperty("heuristicScores");
@@ -115,7 +115,7 @@ describe("Scheduler", () => {
     expect(schedule.shifts.length).toBe(mockSlots.length);
 
     // Verify each shift has required properties
-    schedule.shifts.forEach((shift: Record<string, unknown>) => {
+    schedule.shifts.forEach((shift) => {
       expect(shift).toHaveProperty("slot");
       expect(shift).toHaveProperty("assigned");
       expect(mockWorkers).toContainEqual(shift.assigned);
@@ -133,7 +133,7 @@ describe("Scheduler", () => {
       ],
     });
 
-    let state: any = null;
+    let state: SchedulerState | null = null;
     scheduler.subscribe(
       (newState) => {
         state = newState;
@@ -146,8 +146,8 @@ describe("Scheduler", () => {
     scheduler.stop();
 
     // Verify that solutions respect rest periods
-    expect(state.topSolutions.length).toBeGreaterThan(0);
-    const solution = state.topSolutions[0];
+    expect(state!.topSolutions.length).toBeGreaterThan(0);
+    const solution = state!.topSolutions[0];
 
     // Sort shifts by start time
     const sortedShifts = [...solution.schedule.shifts].sort((a, b) => {

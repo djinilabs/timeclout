@@ -158,6 +158,7 @@ describe("SchedulerWorkerClient", () => {
     try {
       client.stop();
     } catch (e) {
+      console.error("Error stopping worker", e);
       // Ignore errors if worker wasn't started
     }
   });
