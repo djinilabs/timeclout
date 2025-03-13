@@ -13,7 +13,7 @@ export interface TimeScheduleVisualizerProps {
 
 const getPercentageOfDays = (schedules: TimeSchedule[]) => {
   const finalHour =
-    toMinutes(schedules[0].startHourMinutes) +
+    toMinutes(schedules[0]?.startHourMinutes) +
     schedules.reduce((acc, schedule) => {
       return (
         acc +
@@ -38,9 +38,9 @@ export const MiniTimeScheduleVisualizer = memo(
     } = useMemo(() => {
       const howManyDaysPercentage = getPercentageOfDays(schedules);
 
-      const startTime = toMinutes(schedules[0].startHourMinutes);
+      const startTime = toMinutes(schedules[0]?.startHourMinutes);
       const latestTime = toMinutes(
-        schedules[schedules.length - 1].endHourMinutes
+        schedules[schedules.length - 1]?.endHourMinutes
       );
       const totalMinutes = latestTime;
       const startPercent = Math.round((startTime / totalMinutes) * 100);
@@ -67,6 +67,7 @@ export const MiniTimeScheduleVisualizer = memo(
     if (schedules.length === 0) {
       return null;
     }
+
     return (
       <div
         className="items-center grid grid-cols-5"
