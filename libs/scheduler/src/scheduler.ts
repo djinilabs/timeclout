@@ -67,7 +67,6 @@ export class Scheduler {
   private lastBreaks = 0;
 
   constructor(options: SchedulerOptions) {
-    console.log("Scheduler constructor %j", options);
     this.options = options;
     this.startDay = options.startDay;
     this.endDay = options.endDay;
