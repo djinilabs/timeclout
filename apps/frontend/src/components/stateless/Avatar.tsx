@@ -91,7 +91,7 @@ export const Avatar = memo(
             borderRadius: "50%",
           }}
           src={url}
-          alt={`${email}’s avatar`}
+          alt={`${email ?? ""}’s avatar`}
         />
       </div>
     );

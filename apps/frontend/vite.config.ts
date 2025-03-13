@@ -59,4 +59,9 @@ export default defineConfig({
     plugins: () => [tsconfigPaths()],
     format: "es",
   },
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "./setupTests.mjs",
+  },
 });
