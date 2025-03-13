@@ -103,29 +103,34 @@ msgstr "Teams"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/pages/PageUnit.tsx:25
-#: apps/frontend/src/pages/PageTeam.tsx:35
+#: apps/frontend/src/pages/PageTeam.tsx:36
 msgid "Settings"
 msgstr "Settings"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageTeam.tsx:28
+#: apps/frontend/src/pages/PageTeam.tsx:29
 msgid "Members"
 msgstr "Members"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageTeam.tsx:30
+#: apps/frontend/src/pages/PageTeam.tsx:31
 msgid "Leave Schedule"
 msgstr "Leave Schedule"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageTeam.tsx:31
+#: apps/frontend/src/pages/PageTeam.tsx:32
 msgid "Shifts Calendar"
 msgstr "Shifts Calendar"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageTeam.tsx:34
+#: apps/frontend/src/pages/PageTeam.tsx:35
 msgid "Invitations"
 msgstr "Invitations"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageTeam.tsx:39
+msgid "Calendar integrations"
+msgstr "Calendar integrations"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/pages/PageNewUnit.tsx:75
@@ -227,6 +232,11 @@ msgstr "Team qualifications saved"
 #: apps/frontend/src/components/TeamMemberQualifications.tsx:40
 msgid "Qualification added"
 msgstr "Qualification added"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:66
+msgid "Copy URL"
+msgstr "Copy URL"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/SideBar.tsx:56
@@ -423,7 +433,7 @@ msgstr "Assign the managers for the workers in this unit:"
 msgid "Assigned to"
 msgstr "Assigned to"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:195
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:190
 msgid "Assigning Shift Positions..."
 msgstr "Assigning Shift Positions..."
 
@@ -436,7 +446,7 @@ msgstr "at"
 #~ msgid "at"
 #~ msgstr "at"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:206
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:201
 msgid "Attention needed"
 msgstr "Attention needed"
 
@@ -477,6 +487,10 @@ msgstr "Busy"
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
 msgstr "By saving this as a template, you can reuse it to create new positions in the future."
 
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:12
+msgid "Calendar subscriptions:"
+msgstr "Calendar subscriptions:"
+
 #: apps/frontend/src/pages/PageNewUnit.tsx:130
 #: apps/frontend/src/pages/PageNewCompany.tsx:124
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:259
@@ -512,7 +526,7 @@ msgstr "Configure the standard work schedule for employees in this company:"
 msgid "Configure the yearly leave quota settings for employees in this company:"
 msgstr "Configure the yearly leave quota settings for employees in this company:"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:211
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:206
 msgid "conflict(s) when trying to search for a solution"
 msgstr "conflict(s) when trying to search for a solution"
 
@@ -788,6 +802,18 @@ msgstr "hu"
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:99
 msgid "Icon"
 msgstr "Icon"
+
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:29
+msgid "In Apple Calendar: File > New Calendar Subscription and paste the URL"
+msgstr "In Apple Calendar: File > New Calendar Subscription and paste the URL"
+
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:23
+msgid "In Google Calendar: Click the + next to \"Other calendars\" > \"From URL\" and paste the URL"
+msgstr "In Google Calendar: Click the + next to \"Other calendars\" > \"From URL\" and paste the URL"
+
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:35
+msgid "In Outlook: Settings > Calendar > Add calendar > Subscribe from web and paste the URL"
+msgstr "In Outlook: Settings > Calendar > Add calendar > Subscribe from web and paste the URL"
 
 #: apps/frontend/src/components/AllUserCompanies.tsx:101
 #: apps/frontend/src/components/AllUnitTeams.tsx:133
@@ -1275,7 +1301,7 @@ msgstr "Show in calendar as"
 msgid "Show leave schedule"
 msgstr "Show leave schedule"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:224
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:219
 msgid "Some solutions have been discarded because of the following reasons:"
 msgstr "Some solutions have been discarded because of the following reasons:"
 
@@ -1291,7 +1317,7 @@ msgstr "Start Date"
 msgid "Start searching for the best solution"
 msgstr "Start searching for the best solution"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:216
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:211
 msgid "starting on day"
 msgstr "starting on day"
 
@@ -1323,6 +1349,10 @@ msgstr "T"
 msgid "T for Thursday"
 msgstr "T"
 
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:45
+msgid "Team shifts calendar"
+msgstr "Team shifts calendar"
+
 #: apps/frontend/src/components/TeamShiftsCalendar.tsx:193
 #~ msgid "Team Shifts Calendar"
 #~ msgstr "Team Shifts Calendar"
@@ -1331,7 +1361,7 @@ msgstr "T"
 #~ msgid "Teams"
 #~ msgstr "Teams"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:209
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:204
 msgid "There are"
 msgstr "There are"
 
@@ -1427,7 +1457,7 @@ msgstr "Use template"
 msgid "Use template?"
 msgstr "Use template?"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:197
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:192
 msgid "Use this solution and assigning these shift Positions"
 msgstr "Use this solution and assigning these shift Positions"
 
@@ -1490,6 +1520,10 @@ msgstr "Worker Shift Equality"
 #: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:352
 msgid "Worker Shift Proximity"
 msgstr "Worker Shift Proximity"
+
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:15
+msgid "You can subscribe to your team's calendar using the URL below. This allows you to see team shifts directly in your calendar app. To subscribe:"
+msgstr "You can subscribe to your team's calendar using the URL below. This allows you to see team shifts directly in your calendar app. To subscribe:"
 
 #: apps/frontend/src/components/AcceptInvite.tsx:59
 msgid "You have been invited"
