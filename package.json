@@ -21,7 +21,7 @@
     "typecheck": "tsc --noEmit",
     "test": "pnpm test:frontend && pnpm test:libs",
     "test:frontend": "cd apps/frontend && vitest run",
-    "test:libs": "cd libs && vitest run",
+    "test:libs": "npx vitest run libs",
     "lint": "pnpm eslint",
     "i18n:extract": "cd apps/frontend && pnpm lingui extract",
     "i18n:compile": "cd apps/frontend && pnpm lingui compile --namespace es"

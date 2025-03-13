@@ -7,6 +7,7 @@ import { lingui } from "@lingui/vite-plugin";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "./",
   plugins: [
     react({
       plugins: [["@lingui/swc-plugin", {}]],
@@ -37,5 +38,11 @@ export default defineConfig({
 
   build: {
     sourcemap: true,
+  },
+
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: ["./vitest.setup.ts"],
   },
 });
