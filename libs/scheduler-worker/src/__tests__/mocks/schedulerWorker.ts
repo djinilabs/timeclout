@@ -63,7 +63,7 @@ export class MockWorker {
     }, 100);
   }
 
-  postMessage(message: any): void {}
+  postMessage(): void {}
 
   terminate(): void {
     if (this.intervalId) {

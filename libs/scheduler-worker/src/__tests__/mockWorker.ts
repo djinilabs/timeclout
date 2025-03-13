@@ -62,7 +62,7 @@ export class MockWorker implements Worker {
     }, 100);
   }
 
-  postMessage(message: any): void {
+  postMessage(): void {
     // Simulate worker receiving message
   }
 

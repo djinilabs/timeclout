@@ -115,7 +115,7 @@ describe("Scheduler", () => {
     expect(schedule.shifts.length).toBe(mockSlots.length);
 
     // Verify each shift has required properties
-    schedule.shifts.forEach((shift) => {
+    schedule.shifts.forEach((shift: Record<string, unknown>) => {
       expect(shift).toHaveProperty("slot");
       expect(shift).toHaveProperty("assigned");
       expect(mockWorkers).toContainEqual(shift.assigned);
