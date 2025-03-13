@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useForm } from "@tanstack/react-form";
 import { Trans } from "@lingui/react/macro";
@@ -25,7 +24,7 @@ export const MeEdit = () => {
 
   const [selectedCountryIsoCode, setSelectedCountryIsoCode] = useState<
     string | undefined
-  >(undefined);
+  >(me?.settings?.country ?? undefined);
 
   const [, updateMe] = useMutation<
     Mutation["updateMe"],
@@ -33,8 +32,6 @@ export const MeEdit = () => {
   >(updateMeMutation);
 
   const { update: updateSession } = useSession();
-
-  const navigate = useNavigate();
 
   const form = useForm({
     defaultValues: {
@@ -57,7 +54,6 @@ export const MeEdit = () => {
       if (!result.error) {
         toast.success(i18n.t("Your profile has been updated"));
         updateSession();
-        navigate("/");
       }
     },
   });
