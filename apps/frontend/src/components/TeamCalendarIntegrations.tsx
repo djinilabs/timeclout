@@ -72,7 +72,7 @@ export const TeamCalendarIntegrations = () => {
                 await navigator.clipboard.writeText(url);
                 const button = document.activeElement as HTMLButtonElement;
                 const originalContent = button.innerHTML;
-                button.innerHTML = `<span class="text-sm font-medium text-green-600">Copied!</span>`;
+                button.innerHTML = `<span class="text-sm font-medium text-green-600">${i18n.t("Copied!")}</span>`;
                 setTimeout(() => {
                   button.innerHTML = originalContent;
                 }, 2000);

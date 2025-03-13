@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:75
+msgid "Copied!"
+msgstr "Copied!"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Unknown"
@@ -234,17 +239,27 @@ msgid "Qualification added"
 msgstr "Qualification added"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:66
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:8
+msgid "Team shifts calendar"
+msgstr "Team shifts calendar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:9
+msgid "Team leaves calendar"
+msgstr "Team leaves calendar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:81
 msgid "Copy URL"
 msgstr "Copy URL"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/SideBar.tsx:56
+#: apps/frontend/src/components/SideBar.tsx:71
 msgid "Home"
 msgstr "Home"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/SideBar.tsx:73
+#: apps/frontend/src/components/SideBar.tsx:88
 msgid "Leave Requests"
 msgstr "Leave Requests"
 
@@ -487,7 +502,7 @@ msgstr "Busy"
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
 msgstr "By saving this as a template, you can reuse it to create new positions in the future."
 
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:12
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:23
 msgid "Calendar subscriptions:"
 msgstr "Calendar subscriptions:"
 
@@ -803,15 +818,15 @@ msgstr "hu"
 msgid "Icon"
 msgstr "Icon"
 
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:29
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:40
 msgid "In Apple Calendar: File > New Calendar Subscription and paste the URL"
 msgstr "In Apple Calendar: File > New Calendar Subscription and paste the URL"
 
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:23
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:34
 msgid "In Google Calendar: Click the + next to \"Other calendars\" > \"From URL\" and paste the URL"
 msgstr "In Google Calendar: Click the + next to \"Other calendars\" > \"From URL\" and paste the URL"
 
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:35
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:46
 msgid "In Outlook: Settings > Calendar > Add calendar > Subscribe from web and paste the URL"
 msgstr "In Outlook: Settings > Calendar > Add calendar > Subscribe from web and paste the URL"
 
@@ -1289,7 +1304,7 @@ msgstr "Set the schedule for this position."
 msgid "Set the user assigned to this position."
 msgstr "Set the user assigned to this position."
 
-#: apps/frontend/src/components/SideBar.tsx:138
+#: apps/frontend/src/components/SideBar.tsx:166
 msgid "Settings"
 msgstr "Settings"
 
@@ -1350,8 +1365,8 @@ msgid "T for Thursday"
 msgstr "T"
 
 #: apps/frontend/src/components/TeamCalendarIntegrations.tsx:45
-msgid "Team shifts calendar"
-msgstr "Team shifts calendar"
+#~ msgid "Team shifts calendar"
+#~ msgstr "Team shifts calendar"
 
 #: apps/frontend/src/components/TeamShiftsCalendar.tsx:193
 #~ msgid "Team Shifts Calendar"
@@ -1521,7 +1536,7 @@ msgstr "Worker Shift Equality"
 msgid "Worker Shift Proximity"
 msgstr "Worker Shift Proximity"
 
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:15
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:26
 msgid "You can subscribe to your team's calendar using the URL below. This allows you to see team shifts directly in your calendar app. To subscribe:"
 msgstr "You can subscribe to your team's calendar using the URL below. This allows you to see team shifts directly in your calendar app. To subscribe:"
 
