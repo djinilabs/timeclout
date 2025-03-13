@@ -18,7 +18,6 @@ import { classNames } from "../utils/classNames";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { Company, Team, Unit } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { useLocalPreference } from "../hooks/useLocalPreference";
 
 export interface NavigationItem {
   name: string;
@@ -28,9 +27,13 @@ export interface NavigationItem {
   sepAfter?: boolean;
 }
 
-const SideBar = () => {
+export interface SideBarProps {
+  expanded: boolean;
+  setExpanded: (expanded: boolean) => void;
+}
+
+const SideBar = ({ expanded, setExpanded }: SideBarProps) => {
   const { company } = useParams();
-  const [expanded, setExpanded] = useLocalPreference("sidebarExpanded", true);
   const [allCompaniesResult] = useQuery<{ companies: Company[] }>({
     query: allCompaniesQuery,
   });

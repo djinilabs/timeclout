@@ -13,11 +13,17 @@ import { UserTopBarMenu } from "./components/UserTopBarMenu";
 import { Toaster } from "react-hot-toast";
 import { useLocalPreference } from "./hooks/useLocalPreference";
 import { BreadcrumbNav } from "./components/BreadcrumbNav";
+import { classNames } from "./utils/classNames";
 
 const ContextualHelp = lazy(() => import("./components/ContextualHelp"));
 const SideBar = lazy(() => import("./components/SideBar"));
+
 export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarExpanded, setSidebarExpanded] = useLocalPreference(
+    "sidebarExpanded",
+    true
+  );
 
   const [helpPanelOpen, setHelpPanelOpen] = useLocalPreference(
     "helpPanelOpen",
@@ -27,7 +33,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Toaster />
-      <div>
+      <div className="flex h-screen">
         <Dialog
           open={sidebarOpen}
           onClose={setSidebarOpen}
@@ -61,7 +67,10 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
               {/* Sidebar */}
               {sidebarOpen ? (
                 <Suspense>
-                  <SideBar />
+                  <SideBar
+                    expanded={sidebarExpanded}
+                    setExpanded={setSidebarExpanded}
+                  />
                 </Suspense>
               ) : null}
             </DialogPanel>
@@ -69,13 +78,21 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         </Dialog>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+        <div
+          className={classNames(
+            "hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col",
+            sidebarExpanded ? "lg:w-72" : "lg:w-20"
+          )}
+        >
           <Suspense>
-            <SideBar />
+            <SideBar
+              expanded={sidebarExpanded}
+              setExpanded={setSidebarExpanded}
+            />
           </Suspense>
         </div>
 
-        <div className={`lg:pl-72 ${helpPanelOpen ? "lg:pr-72" : ""}`}>
+        <div className={`flex-1 ${helpPanelOpen ? "lg:pr-72" : ""} lg:pl-72`}>
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white shadow-sm sm:gap-x-6">
             <button
               type="button"
