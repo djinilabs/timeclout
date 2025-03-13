@@ -30,9 +30,15 @@ export interface SideBarProps {
   expanded: boolean;
   alwaysExpanded?: boolean;
   setExpanded: (expanded: boolean) => void;
+  onSelect?: () => void;
 }
 
-const SideBar = ({ expanded, alwaysExpanded, setExpanded }: SideBarProps) => {
+const SideBar = ({
+  expanded,
+  alwaysExpanded,
+  setExpanded,
+  onSelect,
+}: SideBarProps) => {
   const { company } = useParams();
   const [allCompaniesResult] = useQuery<{ companies: Company[] }>({
     query: allCompaniesQuery,
@@ -133,6 +139,7 @@ const SideBar = ({ expanded, alwaysExpanded, setExpanded }: SideBarProps) => {
                       item.sepAfter && "mb-4"
                     )}
                     title={!expanded ? item.name : undefined}
+                    onClick={onSelect}
                   >
                     <item.icon
                       aria-hidden="true"
@@ -158,6 +165,7 @@ const SideBar = ({ expanded, alwaysExpanded, setExpanded }: SideBarProps) => {
               to="/me/edit"
               className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-teal-200 hover:bg-teal-700 hover:text-white animate duration-200"
               title={!expanded ? "Settings" : undefined}
+              onClick={onSelect}
             >
               <Cog6ToothIcon
                 aria-hidden="true"
