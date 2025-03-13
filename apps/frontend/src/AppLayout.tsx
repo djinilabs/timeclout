@@ -68,7 +68,8 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
               {sidebarOpen ? (
                 <Suspense>
                   <SideBar
-                    expanded={sidebarExpanded}
+                    expanded={true}
+                    alwaysExpanded
                     setExpanded={setSidebarExpanded}
                   />
                 </Suspense>
