@@ -1,0 +1,156 @@
+import { describe, expect, it, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { MonthCalendar } from "../MonthCalendar";
+import { I18nProvider } from "@lingui/react";
+import { i18n } from "@lingui/core";
+import { BrowserRouter } from "react-router-dom";
+
+// Mock ResizeObserver
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+global.ResizeObserver = ResizeObserverMock;
+
+describe("MonthCalendar", () => {
+  beforeEach(() => {
+    // Initialize i18n for each test
+    i18n.load({
+      en: {
+        messages: {
+          "M for Monday": { message: "M" },
+          "T for Tuesday": { message: "T" },
+          "W for Wednesday": { message: "W" },
+          "T for Thursday": { message: "T" },
+          "F for Friday": { message: "F" },
+          "S for Saturday": { message: "S" },
+          "S for Sunday": { message: "S" },
+          "Previous month": { message: "Previous month" },
+          "Next month": { message: "Next month" },
+          Today: { message: "Today" },
+        },
+      },
+    });
+    i18n.activate("en");
+  });
+
+  const defaultProps = {
+    year: 2024,
+    month: 2, // March (0-based)
+    renderDay: (day: { date: string }) => (
+      <div data-testid={`day-${day.date}`}>
+        <span>{day.date.split("-")[2]}</span>
+      </div>
+    ),
+  };
+
+  const renderWithI18n = (ui: React.ReactNode) => {
+    return render(
+      <BrowserRouter>
+        <I18nProvider i18n={i18n}>{ui}</I18nProvider>
+      </BrowserRouter>
+    );
+  };
+
+  it("renders month and year in header", () => {
+    renderWithI18n(<MonthCalendar {...defaultProps} />);
+    const headerHeading = screen.getByRole("heading", { name: "March 2024" });
+    expect(headerHeading).toBeInTheDocument();
+  });
+
+  it("renders weekday headers", () => {
+    renderWithI18n(<MonthCalendar {...defaultProps} />);
+    const weekdays = ["M", "T", "W", "T", "F", "S", "S"];
+    weekdays.forEach((day) => {
+      const elements = screen.getAllByText(day);
+      expect(elements.length).toBeGreaterThan(0);
+    });
+  });
+
+  it("calls goTo when navigation buttons are clicked", () => {
+    const goTo = vi.fn();
+    renderWithI18n(<MonthCalendar {...defaultProps} goTo={goTo} />);
+
+    // Previous month
+    const prevButton = screen.getByRole("button", { name: /previous month/i });
+    fireEvent.click(prevButton);
+    expect(goTo).toHaveBeenCalledWith(2024, 1);
+
+    // Next month
+    const nextButton = screen.getByRole("button", { name: /next month/i });
+    fireEvent.click(nextButton);
+    expect(goTo).toHaveBeenCalledWith(2024, 3);
+
+    // Today
+    const todayButton = screen.getByRole("button", { name: /today/i });
+    fireEvent.click(todayButton);
+    const today = new Date();
+    expect(goTo).toHaveBeenCalledWith(today.getFullYear(), today.getMonth());
+  });
+
+  it("renders additional actions in desktop view", () => {
+    const handleClick = vi.fn();
+    const additionalActions = [
+      {
+        type: "button" as const,
+        text: "Add Event",
+        onClick: handleClick,
+      },
+    ];
+
+    renderWithI18n(
+      <MonthCalendar {...defaultProps} additionalActions={additionalActions} />
+    );
+
+    const button = screen.getByRole("button", { name: "Add Event" });
+    expect(button).toBeInTheDocument();
+    fireEvent.click(button);
+    expect(handleClick).toHaveBeenCalled();
+  });
+
+  it("calls onDayFocus when a day cell receives focus", () => {
+    const onDayFocus = vi.fn();
+    renderWithI18n(<MonthCalendar {...defaultProps} onDayFocus={onDayFocus} />);
+
+    // Find first day cell by its content (01)
+    const firstDayCell = screen.getByText("01").closest("div[tabindex]");
+    if (firstDayCell) {
+      fireEvent.focus(firstDayCell);
+      expect(onDayFocus).toHaveBeenCalledWith(
+        expect.stringMatching(/2024-03-01/)
+      );
+    }
+  });
+
+  it("applies correct styling for current month and other month days", () => {
+    renderWithI18n(<MonthCalendar {...defaultProps} />);
+
+    // Current month day (March 15)
+    const currentMonthDay = screen
+      .getByTestId("day-2024-03-15")
+      .closest("div[tabindex]");
+    expect(currentMonthDay).toHaveClass("bg-white");
+
+    // Previous month day (if visible)
+    const prevMonthDay = screen
+      .getByTestId("day-2024-02-29")
+      .closest("div[tabindex]");
+    expect(prevMonthDay).toHaveClass("bg-gray-50");
+  });
+
+  it("renders custom day content", () => {
+    const customRenderDay = (day: { date: string }) => (
+      <div data-testid={`custom-${day.date}`}>Custom content</div>
+    );
+
+    renderWithI18n(
+      <MonthCalendar {...defaultProps} renderDay={customRenderDay} />
+    );
+
+    // Look for a specific day's custom content
+    const customContent = screen.getByTestId("custom-2024-03-01");
+    expect(customContent).toBeInTheDocument();
+    expect(customContent).toHaveTextContent("Custom content");
+  });
+});
