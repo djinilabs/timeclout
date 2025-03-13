@@ -4,6 +4,7 @@ import { icalEventFromShift } from "./icalEventFromShift";
 import { DayDate } from "@/day-date";
 import { resourceRef } from "@/utils";
 import { notFound } from "@hapi/boom";
+import { userCache } from "./userCache";
 
 export const getTeamShiftsIcal = async (teamId: string): Promise<string> => {
   const { entity, shift_positions } = await database();
@@ -31,8 +32,10 @@ export const getTeamShiftsIcal = async (teamId: string): Promise<string> => {
     },
   });
 
+  const users = await userCache();
+
   for (const shift of shifts) {
-    const event = await icalEventFromShift(shift);
+    const event = await icalEventFromShift(shift, users);
     if (event) {
       calendar.createEvent(event);
     }

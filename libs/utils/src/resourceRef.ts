@@ -64,6 +64,23 @@ export const getCompoundedResourceRef =
     return r as ResourceRef;
   };
 
+export const getCompoundedResourceRefConstituents = (
+  r: string
+): Array<ResourceRef> => {
+  const constituents = r.split("/");
+  if (constituents.length % 2 !== 0) {
+    throw new Error(`Invalid compounded resource reference: ${r}`);
+  }
+
+  const refs: ResourceRef[] = [];
+  for (let i = 0; i < constituents.length; i += 2) {
+    refs.push(
+      resourceRef(constituents[i] as ResourceType, constituents[i + 1])
+    );
+  }
+  return refs;
+};
+
 export const resourceRef = <T extends ResourceType = ResourceType>(
   resourceType: T,
   id: string
