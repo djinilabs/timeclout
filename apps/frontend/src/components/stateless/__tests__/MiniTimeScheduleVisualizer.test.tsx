@@ -49,7 +49,7 @@ describe("MiniTimeScheduleVisualizer", () => {
     const { container } = render(
       <MiniTimeScheduleVisualizer schedules={mockSchedules} />
     );
-    const scheduleBars = container.querySelectorAll(".absolute.h-full.rounded");
+    const scheduleBars = container.querySelectorAll(".absolute.h-full.rounded-sm");
 
     expect(scheduleBars).toHaveLength(2);
 

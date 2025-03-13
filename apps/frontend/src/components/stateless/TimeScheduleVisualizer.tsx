@@ -21,7 +21,7 @@ export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
               ).padStart(2, "0")}`
             : "00:00"}
         </div>
-        <div className="relative h-2 bg-gray-200 rounded col-span-4">
+        <div className="relative h-2 bg-gray-200 rounded-sm col-span-4">
           {schedules.map((schedule, index) => {
             const startHour = schedule.startHourMinutes[0];
             const startMinutes = schedule.startHourMinutes[1];
@@ -46,14 +46,14 @@ export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
             return (
               <div
                 key={index}
-                className="absolute h-full rounded group"
+                className="absolute h-full rounded-sm group"
                 style={{
                   left: `${startPercent}%`,
                   width: `${width}%`,
                   backgroundColor: `rgb(${Math.min(255, schedule.inconveniencePerHour * 100)}, ${Math.max(0, 255 - schedule.inconveniencePerHour * 100)}, 0)`,
                 }}
               >
-                <div className="absolute bottom-full mb-1 hidden group-hover:block whitespace-nowrap bg-gray-900 text-white text-xs rounded px-2 py-1">
+                <div className="absolute bottom-full mb-1 hidden group-hover:block whitespace-nowrap bg-gray-900 text-white text-xs rounded-sm px-2 py-1">
                   {`${String(startHour % 24).padStart(2, "0")}:${String(startMinutes).padStart(2, "0")}${startHour >= 24 ? " next day" : ""} - ${String(endHour % 24).padStart(2, "0")}:${String(endMinutes).padStart(2, "0")}${endHour >= 24 ? " next day" : ""}`}
                 </div>
               </div>

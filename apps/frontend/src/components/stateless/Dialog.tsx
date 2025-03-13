@@ -20,15 +20,15 @@ export const Dialog: FC<PropsWithChildren<DialogProps>> = memo(
       <HeadlessDialog open={open} onClose={onClose} className="relative">
         <DialogBackdrop
           transition
-          className="fixed inset-0 bg-gray-500/75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in z-[100]"
+          className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-leave:duration-200 data-enter:ease-out data-leave:ease-in z-100"
         />
 
-        <div className="fixed inset-0 w-screen overflow-y-auto z-[200]">
+        <div className="fixed inset-0 w-screen overflow-y-auto z-200">
           <div className="flex min-w-full min-h-full items-end justify-center sm:p-0">
             <DialogPanel
               transition
               className={classNames(
-                "relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in data-closed:sm:translate-y-0 data-closed:sm:scale-95",
+                "relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:data-closed:translate-y-0 sm:data-closed:scale-95",
                 className
               )}
             >

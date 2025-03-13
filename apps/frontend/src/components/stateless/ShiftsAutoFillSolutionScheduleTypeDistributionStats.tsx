@@ -63,7 +63,7 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
   }, [shiftSchedule]);
 
   return (
-    <div className="w-full aspect-[2/1]">
+    <div className="w-full aspect-2/1">
       <ResponsiveBar
         data={workerStats as BarDatum[]}
         keys={typeNames}

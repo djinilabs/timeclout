@@ -10,7 +10,7 @@ export const PercentageStatCard: FC<PercentageStatCardProps> = memo(
     return (
       <div
         key={name}
-        className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
+        className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-sm sm:p-6"
       >
         <dt className="truncate text-sm font-medium text-gray-500">{name}</dt>
         <dd className="space-y-2">

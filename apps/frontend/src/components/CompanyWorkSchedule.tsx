@@ -136,7 +136,7 @@ export const CompanyWorkSchedule = () => {
                                   isWorkDay: e.target.checked,
                                 })
                               }
-                              className="h-4 w-4 rounded border-gray-300"
+                              className="h-4 w-4 rounded-sm border-gray-300"
                             />
                             <span className="ml-3 text-sm capitalize">
                               {day}
@@ -153,7 +153,7 @@ export const CompanyWorkSchedule = () => {
                                     start: e.target.value,
                                   })
                                 }
-                                className="rounded border-gray-300 text-sm"
+                                className="rounded-sm border-gray-300 text-sm"
                               />
                               <span className="text-sm text-gray-500">
                                 <Trans>to</Trans>
@@ -167,7 +167,7 @@ export const CompanyWorkSchedule = () => {
                                     end: e.target.value,
                                   })
                                 }
-                                className="rounded border-gray-300 text-sm"
+                                className="rounded-sm border-gray-300 text-sm"
                               />
                             </div>
                           )}

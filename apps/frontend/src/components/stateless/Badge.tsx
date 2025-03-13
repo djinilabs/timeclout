@@ -20,7 +20,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-gray-500/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-gray-500/20"
             >
               <span className="sr-only">Remove</span>
               <svg
@@ -45,7 +45,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-red-600/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-red-600/20"
             >
               <span className="sr-only">Remove</span>
               <svg
@@ -70,7 +70,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-yellow-600/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-yellow-600/20"
             >
               <span className="sr-only">Remove</span>
               <svg
@@ -95,7 +95,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-green-600/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-green-600/20"
             >
               <span className="sr-only">Remove</span>
               <svg
@@ -120,7 +120,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-blue-600/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-blue-600/20"
             >
               <span className="sr-only">Remove</span>
               <svg
@@ -145,7 +145,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-indigo-600/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-indigo-600/20"
             >
               <span className="sr-only">Remove</span>
               <svg
@@ -170,7 +170,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-purple-600/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-purple-600/20"
             >
               <span className="sr-only">Remove</span>
               <svg
@@ -195,7 +195,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-pink-600/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-pink-600/20"
             >
               <span className="sr-only">Remove</span>
               <svg
@@ -220,7 +220,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-orange-600/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-orange-600/20"
             >
               <span className="sr-only">Remove</span>
               <svg
@@ -245,7 +245,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-teal-600/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-teal-600/20"
             >
               <span className="sr-only">Remove</span>
               <svg
@@ -270,7 +270,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
             <button
               type="button"
               onClick={() => onRemove()}
-              className="group relative -mr-1 size-3.5 rounded-sm hover:bg-lime-600/20"
+              className="group relative -mr-1 size-3.5 rounded-xs hover:bg-lime-600/20"
             >
               <span className="sr-only">Remove</span>
               <svg
