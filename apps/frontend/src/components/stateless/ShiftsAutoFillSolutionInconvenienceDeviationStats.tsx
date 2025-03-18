@@ -135,6 +135,9 @@ export const ShiftsAutoFillSolutionInconvenienceDeviationStats = ({
           legendOffset: -100,
           renderTick: (tick) => {
             const worker = workerById[tick.value];
+            if (!worker) {
+              return null;
+            }
             return (
               <g transform={`translate(${tick.x - 20},${tick.y})`}>
                 <foreignObject x="-48" y="-12" width="200" height="60">
