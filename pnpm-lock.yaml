@@ -220,7 +220,7 @@ importers:
     devDependencies:
       '@architect/architect':
         specifier: ^11.1.0
-        version: 11.1.0
+        version: 11.2.0
       '@architect/plugin-typescript':
         specifier: ^2.1.0
         version: 2.1.0
@@ -337,8 +337,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@architect/architect@11.1.0':
-    resolution: {integrity: sha512-jHv/pORSK+JgzH0au2UwIp0e/cxzOPjYIfu8rGbiOIWG3Trw/0iLvNgrb7vKW2UcsjdFs0RP3R3Z7ezr54ywIg==}
+  '@architect/architect@11.2.0':
+    resolution: {integrity: sha512-sBLZOa6vTG1F0fHULc3CmrK7458aGS0Zxqbt8inB1yVtqiSP2lDM2+Dizgqreh9gI92D8JHc0j1jP6q659ZYAA==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -351,8 +351,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  '@architect/deploy@5.0.7':
-    resolution: {integrity: sha512-Be3P363ottT53q3VEBQB/auAMLdpMWgPBg+n4LNftWDK2CmTBh9/zT/CQGTTVHdcK0s799q6nYGYdLDUdWOFsQ==}
+  '@architect/deploy@5.0.8':
+    resolution: {integrity: sha512-D6NAgjm6/2rQsR1qKPYxH/xwhOIrEaFWhX4wAgMVq5Yh7W6ahJC6nuPw/RA/aYr657uZ4ofMfVj+pNbZd8meXw==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -370,13 +370,13 @@ packages:
     resolution: {integrity: sha512-+2+houdMC3FXROgY4i46VbzQwHq4ryLdWrPbO2VEuegBp0KdhQLgD/4W7aYGQ31qx58yQr2hYgZ/ZhdLYEwHSA==}
     engines: {node: '>=16'}
 
-  '@architect/hydrate@4.0.7':
-    resolution: {integrity: sha512-+GPK0hnZuR7PLRknFHOwwHvzz7ZIE6roNldZfc4pMtDQlYwrJckyP7HzLl/vU/FZ8BxfDf/NfpvcEN5bSiEs7w==}
+  '@architect/hydrate@4.0.8':
+    resolution: {integrity: sha512-rf5xA9ZHWj69CPbwuQB3P0gscX+1ast0IilrqbGglZKi0DS4Xkoo6kJpUbdGfRsNAV3Of+z2GM0XLfEnuigVWg==}
     engines: {node: '>=16'}
     hasBin: true
 
-  '@architect/inventory@4.0.5':
-    resolution: {integrity: sha512-lDmH3iOejxWDLolI8tFuLgaqgT1ANuB4TrS3qHno43v+Tx+EEi5Nw6HWJ8LJ6onuStpzNWTMJtSssaJgJUSHrQ==}
+  '@architect/inventory@4.0.6':
+    resolution: {integrity: sha512-vCKfoogAQmHPXDgCU76lvHsmmMdMoLDOEi21f6kq31G++lpqhY6+68fsOxnV1iakDY6tXV5YeZ0WGLOBa37/fA==}
     engines: {node: '>=16'}
 
   '@architect/logs@5.0.5':
@@ -3726,11 +3726,6 @@ packages:
     resolution: {integrity: sha512-M0EUka6rb+QC4l9Z3T0nJEzNOO7JcoJlYMrBlyBCiFSXRyxjLKayd4TbQs2FDRWQU1h9FR7QVNHt+PEaoNL5rQ==}
     engines: {node: '>=0.4.0'}
 
-  acorn@8.14.0:
-    resolution: {integrity: sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-
   acorn@8.14.1:
     resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
     engines: {node: '>=0.4.0'}
@@ -4148,10 +4143,6 @@ packages:
       typescript:
         optional: true
 
-  cpr@3.0.1:
-    resolution: {integrity: sha512-Xch4PXQ/KC8lJ+KfJ9JI6eG/nmppLrPPWg5Q+vh65Qr9EjuJEubxh/H/Le1TmCZ7+Xv7iJuNRqapyOFZB+wsxA==}
-    hasBin: true
-
   cross-fetch@3.2.0:
     resolution: {integrity: sha512-Q+xVJLoGOeIMXZmbUK4HYk+69cQH6LudR0Vu/pRm2YlU/hDV9CiS0gKUMaWY5f2NeUH9C1nV3bsTlCo0FsTV1Q==}
 
@@ -4539,10 +4530,6 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
-  esquery@1.5.0:
-    resolution: {integrity: sha512-YQLXUplAwJgCydQ78IMJywZCceoqk1oH01OERdSAJc/7U2AylwjhSCLDEtqwg811idIS/9fIU5GjG73IgjKMVg==}
-    engines: {node: '>=0.10'}
-
   esquery@1.6.0:
     resolution: {integrity: sha512-ca9pw9fomFcKPvFLXhBKUK90ZvGibiGOvRJNbjljY7s7uq/5YO4BOzcYtJqExdx99rF6aAcnRxHmcUHcz6sQsg==}
     engines: {node: '>=0.10'}
@@ -4683,6 +4670,10 @@ packages:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
     engines: {node: '>=14'}
 
+  foreground-child@3.3.1:
+    resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
+    engines: {node: '>=14'}
+
   form-data@4.0.2:
     resolution: {integrity: sha512-hGfm/slu0ZabnNt4oaRZ6uREyfCj6P4fT/n6A1rGV+Z0VdGXjfOhVUpkn6qVQONHGIFwmveGXyDs75+nr6FM8w==}
     engines: {node: '>= 6'}
@@ -4702,8 +4693,8 @@ packages:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
 
-  fs-extra@11.2.0:
-    resolution: {integrity: sha512-PmDi3uwK5nFuXh7XDTlVnS17xJS7vW36is2+w3xcv8SVxiB4NyATf4ctkVY5bkSjX0Y4nbvZCq1/EjtEyr9ktw==}
+  fs-extra@11.3.0:
+    resolution: {integrity: sha512-Z4XaCL6dUDHfP/jT25jJKMmtxvuwbkrD1vNSMFlo9lNLY2c5FHYSQgHPRZUjAB26TpDEoW9HCOgplrdbaPV/ew==}
     engines: {node: '>=14.14'}
 
   fs.realpath@1.0.0:
@@ -4756,14 +4747,14 @@ packages:
     engines: {node: '>=16 || 14 >=14.18'}
     hasBin: true
 
+  glob@10.4.5:
+    resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
+    hasBin: true
+
   glob@11.0.1:
     resolution: {integrity: sha512-zrQDm8XPnYEKawJScsnM0QzobJxlT/kHOOlRTio8IH/GrmxRE5fjllkzdaHclIuNjUQTJYH2xHNIGfdpJkDJUw==}
     engines: {node: 20 || >=22}
     hasBin: true
-
-  glob@7.2.3:
-    resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@9.3.5:
     resolution: {integrity: sha512-e1LleDykUz2Iu+MTYdkSsuWX8lvAjAcs0Xef0lNIu0S2wOAzuTxCJtcd9S3cijlwYF18EsU3rzb8jPVobxDh9Q==}
@@ -5009,10 +5000,6 @@ packages:
   indent-string@4.0.0:
     resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
     engines: {node: '>=8'}
-
-  inflight@1.0.6:
-    resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
-    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -5273,8 +5260,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  lambda-runtimes@2.0.3:
-    resolution: {integrity: sha512-kctr26kT0sJoBU7OQTcuCbY1KQYpEm3GoeTMMHsud6ALemF8LNoWxkChDInwStZ9l6Vtae2PkNahY6JClT4LDA==}
+  lambda-runtimes@2.0.5:
+    resolution: {integrity: sha512-6BoLX9xuvr+B/f05MOhJnzRdF8Za5YYh82n45ndun9EU3uhJv9kIwnYrOrvuA7MoGwZgCMI7RUhBRzfw/l63SQ==}
     engines: {node: '>=14'}
 
   lazy@1.0.11:
@@ -5588,10 +5575,6 @@ packages:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
 
-  mkdirp@0.5.6:
-    resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
-    hasBin: true
-
   mkdirp@3.0.1:
     resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
     engines: {node: '>=10'}
@@ -5851,10 +5834,6 @@ packages:
   path-exists@4.0.0:
     resolution: {integrity: sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==}
     engines: {node: '>=8'}
-
-  path-is-absolute@1.0.1:
-    resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
-    engines: {node: '>=0.10.0'}
 
   path-key@3.1.1:
     resolution: {integrity: sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==}
@@ -6200,8 +6179,8 @@ packages:
   regenerator-runtime@0.14.1:
     resolution: {integrity: sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw==}
 
-  registry-auth-token@5.0.3:
-    resolution: {integrity: sha512-1bpc9IyC+e+CNFRaWyn77tk4xGG4PPUyfakSmA6F6cvUDjrm58dfyJ3II+9yb10EDkHoy1LaPSmHaWLOH3m6HA==}
+  registry-auth-token@5.1.0:
+    resolution: {integrity: sha512-GdekYuwLXLxMuFTwAPg5UKGLW/UXzQrZvH/Zj791BQif5T05T0RsaLfHc9q3ZOKi7n+BoprPD9mJ0O0k4xzUlw==}
     engines: {node: '>=14'}
 
   registry-url@5.1.0:
@@ -6257,11 +6236,6 @@ packages:
 
   rfdc@1.4.1:
     resolution: {integrity: sha512-q1b3N5QkRUWUl7iyylaaj3kOpIT0N2i9MqIEQXP73GVsN9cw3fdx8X63cEmWhJGi2PPCF23Ijp7ktmd39rawIA==}
-
-  rimraf@2.7.1:
-    resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
-    deprecated: Rimraf versions prior to v4 are no longer supported
-    hasBin: true
 
   rndm@1.2.0:
     resolution: {integrity: sha512-fJhQQI5tLrQvYIYFpOnFinzv9dwmR7hRnUz1XqP3OJ1jIweTNOd6aTO4jwQSgcBSFUB+/KHJxuGneime+FdzOw==}
@@ -6329,11 +6303,6 @@ packages:
 
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
-    hasBin: true
-
-  semver@7.6.3:
-    resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==}
-    engines: {node: '>=10'}
     hasBin: true
 
   semver@7.7.1:
@@ -7142,14 +7111,14 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@architect/architect@11.1.0':
+  '@architect/architect@11.2.0':
     dependencies:
       '@architect/create': 5.0.3
-      '@architect/deploy': 5.0.7
+      '@architect/deploy': 5.0.8
       '@architect/destroy': 4.0.5
       '@architect/env': 4.0.5
-      '@architect/hydrate': 4.0.7
-      '@architect/inventory': 4.0.5
+      '@architect/hydrate': 4.0.8
+      '@architect/inventory': 4.0.6
       '@architect/logs': 5.0.5
       '@architect/sandbox': 6.0.5(patch_hash=1226dfbd45bad482250582dc4bd351f2abc9d1c5aebcea7f04cf6e48ce92f065)
       '@architect/utils': 4.0.6
@@ -7170,17 +7139,17 @@ snapshots:
 
   '@architect/create@5.0.3':
     dependencies:
-      '@architect/inventory': 4.0.5
+      '@architect/inventory': 4.0.6
       '@architect/utils': 4.0.6
       chalk: 4.1.2
-      lambda-runtimes: 2.0.3
+      lambda-runtimes: 2.0.5
       minimist: 1.2.8
 
-  '@architect/deploy@5.0.7':
+  '@architect/deploy@5.0.8':
     dependencies:
       '@architect/create': 5.0.3
-      '@architect/hydrate': 4.0.7
-      '@architect/inventory': 4.0.5
+      '@architect/hydrate': 4.0.8
+      '@architect/inventory': 4.0.6
       '@architect/package': 9.0.3
       '@architect/utils': 4.0.6
       '@aws-lite/apigatewayv2': 0.0.4
@@ -7191,7 +7160,7 @@ snapshots:
       '@aws-lite/s3': 0.1.22
       '@aws-lite/ssm': 0.2.5
       chalk: 4.1.2
-      fs-extra: 11.2.0
+      fs-extra: 11.3.0
       get-folder-size: 2.0.1
       glob: 10.3.16
       mime-types: 2.1.35
@@ -7205,7 +7174,7 @@ snapshots:
 
   '@architect/destroy@4.0.5':
     dependencies:
-      '@architect/inventory': 4.0.5
+      '@architect/inventory': 4.0.6
       '@architect/utils': 4.0.6
       '@aws-lite/client': 0.21.10
       '@aws-lite/cloudformation': 0.0.5
@@ -7218,7 +7187,7 @@ snapshots:
 
   '@architect/env@4.0.5':
     dependencies:
-      '@architect/inventory': 4.0.5
+      '@architect/inventory': 4.0.6
       '@architect/parser': 7.0.1
       '@architect/utils': 4.0.6
       '@aws-lite/client': 0.21.10
@@ -7246,31 +7215,30 @@ snapshots:
       run-waterfall: 1.1.7
       uid-safe: 2.1.5
 
-  '@architect/hydrate@4.0.7':
+  '@architect/hydrate@4.0.8':
     dependencies:
-      '@architect/inventory': 4.0.5
+      '@architect/inventory': 4.0.6
       '@architect/utils': 4.0.6
       acorn-loose: 8.4.0
       chalk: 4.1.2
-      cpr: 3.0.1
-      esquery: 1.5.0
-      glob: 10.3.16
+      esquery: 1.6.0
+      glob: 10.4.5
       minimist: 1.2.8
       run-series: 1.1.9
       symlink-or-copy: 1.3.1
 
-  '@architect/inventory@4.0.5':
+  '@architect/inventory@4.0.6':
     dependencies:
       '@architect/asap': 7.0.10
       '@architect/parser': 7.0.1
       '@architect/utils': 4.0.6
       '@aws-lite/client': 0.21.10
       '@aws-lite/ssm': 0.2.5
-      lambda-runtimes: 2.0.3
+      lambda-runtimes: 2.0.5
 
   '@architect/logs@5.0.5':
     dependencies:
-      '@architect/inventory': 4.0.5
+      '@architect/inventory': 4.0.6
       '@architect/utils': 4.0.6
       '@aws-lite/client': 0.21.10
       '@aws-lite/cloudformation': 0.0.5
@@ -7283,7 +7251,7 @@ snapshots:
 
   '@architect/package@9.0.3':
     dependencies:
-      '@architect/inventory': 4.0.5
+      '@architect/inventory': 4.0.6
       '@architect/utils': 4.0.6
 
   '@architect/parser@7.0.1': {}
@@ -7298,8 +7266,8 @@ snapshots:
     dependencies:
       '@architect/asap': 7.0.10
       '@architect/create': 5.0.3
-      '@architect/hydrate': 4.0.7
-      '@architect/inventory': 4.0.5
+      '@architect/hydrate': 4.0.8
+      '@architect/inventory': 4.0.6
       '@architect/utils': 4.0.6
       '@aws-lite/client': 0.21.10
       '@aws-lite/dynamodb': 0.3.9
@@ -7311,7 +7279,7 @@ snapshots:
       finalhandler: 1.2.1
       glob: 10.3.16
       http-proxy: 1.18.1
-      lambda-runtimes: 2.0.3
+      lambda-runtimes: 2.0.5
       minimist: 1.2.8
       router: 1.3.8
       run-parallel: 1.2.0
@@ -11753,9 +11721,7 @@ snapshots:
 
   acorn-loose@8.4.0:
     dependencies:
-      acorn: 8.14.0
-
-  acorn@8.14.0: {}
+      acorn: 8.14.1
 
   acorn@8.14.1: {}
 
@@ -12218,13 +12184,6 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.2
 
-  cpr@3.0.1:
-    dependencies:
-      graceful-fs: 4.2.11
-      minimist: 1.2.8
-      mkdirp: 0.5.6
-      rimraf: 2.7.1
-
   cross-fetch@3.2.0:
     dependencies:
       node-fetch: 2.7.0
@@ -12377,7 +12336,7 @@ snapshots:
 
   depstatus@1.1.1:
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.1
 
   dequal@2.0.3: {}
 
@@ -12661,10 +12620,6 @@ snapshots:
 
   esprima@4.0.1: {}
 
-  esquery@1.5.0:
-    dependencies:
-      estraverse: 5.3.0
-
   esquery@1.6.0:
     dependencies:
       estraverse: 5.3.0
@@ -12847,6 +12802,11 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
+  foreground-child@3.3.1:
+    dependencies:
+      cross-spawn: 7.0.6
+      signal-exit: 4.1.0
+
   form-data@4.0.2:
     dependencies:
       asynckit: 0.4.0
@@ -12864,7 +12824,7 @@ snapshots:
 
   fresh@0.5.2: {}
 
-  fs-extra@11.2.0:
+  fs-extra@11.3.0:
     dependencies:
       graceful-fs: 4.2.11
       jsonfile: 6.1.0
@@ -12915,10 +12875,19 @@ snapshots:
 
   glob@10.3.16:
     dependencies:
-      foreground-child: 3.3.0
+      foreground-child: 3.3.1
       jackspeak: 3.4.3
       minimatch: 9.0.5
       minipass: 7.1.2
+      path-scurry: 1.11.1
+
+  glob@10.4.5:
+    dependencies:
+      foreground-child: 3.3.1
+      jackspeak: 3.4.3
+      minimatch: 9.0.5
+      minipass: 7.1.2
+      package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
 
   glob@11.0.1:
@@ -12929,15 +12898,6 @@ snapshots:
       minipass: 7.1.2
       package-json-from-dist: 1.0.1
       path-scurry: 2.0.0
-
-  glob@7.2.3:
-    dependencies:
-      fs.realpath: 1.0.0
-      inflight: 1.0.6
-      inherits: 2.0.4
-      minimatch: 3.1.2
-      once: 1.4.0
-      path-is-absolute: 1.0.1
 
   glob@9.3.5:
     dependencies:
@@ -13174,11 +13134,6 @@ snapshots:
   imurmurhash@0.1.4: {}
 
   indent-string@4.0.0: {}
-
-  inflight@1.0.6:
-    dependencies:
-      once: 1.4.0
-      wrappy: 1.0.2
 
   inherits@2.0.4: {}
 
@@ -13449,7 +13404,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  lambda-runtimes@2.0.3: {}
+  lambda-runtimes@2.0.5: {}
 
   lazy@1.0.11: {}
 
@@ -13709,10 +13664,6 @@ snapshots:
 
   minipass@7.1.2: {}
 
-  mkdirp@0.5.6:
-    dependencies:
-      minimist: 1.2.8
-
   mkdirp@3.0.1: {}
 
   mnemonist@0.38.3:
@@ -13946,8 +13897,6 @@ snapshots:
   path-exists@3.0.0: {}
 
   path-exists@4.0.0: {}
-
-  path-is-absolute@1.0.1: {}
 
   path-key@3.1.1: {}
 
@@ -14254,7 +14203,7 @@ snapshots:
 
   regenerator-runtime@0.14.1: {}
 
-  registry-auth-token@5.0.3:
+  registry-auth-token@5.1.0:
     dependencies:
       '@pnpm/npm-conf': 2.3.1
 
@@ -14308,10 +14257,6 @@ snapshots:
   reusify@1.0.4: {}
 
   rfdc@1.4.1: {}
-
-  rimraf@2.7.1:
-    dependencies:
-      glob: 7.2.3
 
   rndm@1.2.0: {}
 
@@ -14397,8 +14342,6 @@ snapshots:
       semver: 6.3.1
 
   semver@6.3.1: {}
-
-  semver@7.6.3: {}
 
   semver@7.7.1: {}
 
@@ -14855,9 +14798,9 @@ snapshots:
       is-yarn-global: 0.3.0
       isomorphic-fetch: 3.0.0
       pupa: 2.1.1
-      registry-auth-token: 5.0.3
+      registry-auth-token: 5.1.0
       registry-url: 5.1.0
-      semver: 7.6.3
+      semver: 7.7.1
       semver-diff: 3.1.1
       xdg-basedir: 4.0.0
     transitivePeerDependencies:
