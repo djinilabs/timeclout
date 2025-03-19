@@ -101,8 +101,8 @@ importers:
         specifier: 0.0.34
         version: 0.0.34(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-email/text':
-        specifier: ^0.0.11
-        version: 0.0.11(react@19.0.0)
+        specifier: ^0.1.0
+        version: 0.1.0(react@19.0.0)
       '@sentry/aws-serverless':
         specifier: ^9.5.0
         version: 9.6.0
@@ -2541,12 +2541,6 @@ packages:
 
   '@react-email/tailwind@1.0.4':
     resolution: {integrity: sha512-tJdcusncdqgvTUYZIuhNC6LYTfL9vNTSQpwWdTCQhQ1lsrNCEE4OKCSdzSV3S9F32pi0i0xQ+YPJHKIzGjdTSA==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      react: ^18.0 || ^19.0 || ^19.0.0-rc
-
-  '@react-email/text@0.0.11':
-    resolution: {integrity: sha512-a7nl/2KLpRHOYx75YbYZpWspUbX1DFY7JIZbOv5x0QU8SvwDbJt+Hm01vG34PffFyYvHEXrc6Qnip2RTjljNjg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^18.0 || ^19.0 || ^19.0.0-rc
@@ -10256,10 +10250,6 @@ snapshots:
       react: 19.0.0
 
   '@react-email/tailwind@1.0.4(react@19.0.0)':
-    dependencies:
-      react: 19.0.0
-
-  '@react-email/text@0.0.11(react@19.0.0)':
     dependencies:
       react: 19.0.0
 
