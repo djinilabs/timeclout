@@ -68,7 +68,7 @@ export const ShiftsAutoFillWithoutParams: FC<
       input: {
         team,
         startDay: startDate?.toString() ?? "",
-        endDay: endDate?.toString() ?? "",
+        endDay: endDate?.nextDay().toString() ?? "",
       },
     },
     pause: !isAutoFillRunning || !startDate || !endDate,
@@ -94,7 +94,7 @@ export const ShiftsAutoFillWithoutParams: FC<
     }
 
     if (stopping) {
-      console.log("Auto fill is stopping");
+      console.log("Auto fill is stopping (1)");
       return;
     }
     if (!shiftsAutoFillParams) {
@@ -115,7 +115,7 @@ export const ShiftsAutoFillWithoutParams: FC<
     client.start(
       {
         startDay: startDate?.toString() ?? "",
-        endDay: endDate?.toString() ?? "",
+        endDay: endDate?.nextDay().toString() ?? "",
         workers: shiftsAutoFillParams.workers,
         slots: shiftsAutoFillParams.slots.map((slot) => ({
           ...slot,
@@ -138,7 +138,7 @@ export const ShiftsAutoFillWithoutParams: FC<
     );
 
     return () => {
-      console.log("Auto fill is stopping");
+      console.log("Auto fill is stopping (2)");
       stopping = true;
       client.stop();
     };

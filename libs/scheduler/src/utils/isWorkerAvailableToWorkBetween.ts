@@ -9,7 +9,7 @@ export const isWorkerAvailableToWorkBetween = (
   if (!respectLeaveSchedule) {
     return true;
   }
-  return worker.approvedLeaves.every((leave) => {
+  return !worker.approvedLeaves.some((leave) => {
     return leave.start <= endTime && leave.end >= startTime;
   });
 };
