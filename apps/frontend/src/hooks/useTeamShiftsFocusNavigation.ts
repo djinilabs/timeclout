@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DayDate } from "@/day-date";
 import { useKeysNavigation } from "../hooks/useKeysNavigation";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
@@ -19,7 +19,6 @@ export interface UseTeamShiftsFocusNavigationProps {
 export const useTeamShiftsFocusNavigation = ({
   shiftPositionsMap,
   selectedMonth,
-  previouslySelectedMonth,
   goToMonth,
 }: UseTeamShiftsFocusNavigationProps) => {
   const [focusedShiftPosition, setFocusedShiftPosition] =
