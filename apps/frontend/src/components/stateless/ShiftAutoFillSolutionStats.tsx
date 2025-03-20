@@ -15,16 +15,20 @@ export const ShiftAutoFillSolutionStats = ({
 
   const stats = useMemo(() => {
     return [
-      {
-        name: i18n.t("Score"),
-        stat: (
-          <PercentageStatCard
-            key="top-score"
-            name="Top score"
-            value={Math.round((1 - (topSolution?.score ?? 0)) * 100)}
-          />
-        ),
-      },
+      ...(topSolution
+        ? [
+            {
+              name: i18n.t("Score"),
+              stat: (
+                <PercentageStatCard
+                  key="top-score"
+                  name="Top score"
+                  value={Math.round((1 - (topSolution?.score ?? 0)) * 100)}
+                />
+              ),
+            },
+          ]
+        : []),
     ];
   }, [topSolution]);
 
