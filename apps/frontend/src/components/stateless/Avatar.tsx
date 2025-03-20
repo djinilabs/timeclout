@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { getInitials } from "../../utils/getInitials";
 
 const getColorAndBackground = (md5?: string | null) => {
   if (!md5) {
@@ -20,20 +21,6 @@ const getColorAndBackground = (md5?: string | null) => {
     color,
   };
 };
-
-const getInitials = (name: string) => {
-  name = name.trim();
-
-  if (name.length <= 3) return name;
-
-  return name
-    .split(/[\s.]+/)
-    .map((w) => w[0])
-    .slice(0, 3)
-    .join("")
-    .toUpperCase();
-};
-
 export interface AvatarProps {
   name?: string;
   email?: string | null;

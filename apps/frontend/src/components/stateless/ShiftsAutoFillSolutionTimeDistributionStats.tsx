@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { ResponsiveBoxPlot } from "@nivo/boxplot";
 import { Trans } from "@lingui/react/macro";
 import { type ScoredShiftSchedule } from "@/scheduler";
-import { Avatar } from "./Avatar";
+import { getInitials } from "../../utils/getInitials";
 
 export const ShiftsAutoFillSolutionTimeDistributionStats = ({
   schedule,
@@ -108,8 +108,9 @@ export const ShiftsAutoFillSolutionTimeDistributionStats = ({
               <g transform={`translate(${tick.x},${tick.y + 20})`}>
                 <foreignObject x="-24" y="-12" width="80" height="60">
                   <div className="flex gap-2 flex-col items-center">
-                    <Avatar {...worker} size={24} />
-                    <span className="text-tiny text-nowrap">{worker.name}</span>
+                    <span className="text-sm text-nowrap">
+                      {getInitials(worker.name)}
+                    </span>
                   </div>
                 </foreignObject>
               </g>

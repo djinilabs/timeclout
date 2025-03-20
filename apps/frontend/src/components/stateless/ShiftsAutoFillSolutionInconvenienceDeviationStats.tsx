@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Slot, SlotWorker, type ScoredShiftSchedule } from "@/scheduler";
 import { ResponsiveBar } from "@nivo/bar";
 import { Trans } from "@lingui/react/macro";
-import { Avatar } from "./Avatar";
+import { getInitials } from "../../utils/getInitials";
 
 export const ShiftsAutoFillSolutionInconvenienceDeviationStats = ({
   schedule,
@@ -142,8 +142,7 @@ export const ShiftsAutoFillSolutionInconvenienceDeviationStats = ({
               <g transform={`translate(${tick.x - 20},${tick.y})`}>
                 <foreignObject x="-48" y="-12" width="200" height="60">
                   <div className="flex gap-2 flex-col">
-                    <Avatar {...worker} size={24} />
-                    <span className="text-tiny">{worker.name}</span>
+                    <span className="text-sm">{getInitials(worker.name)}</span>
                   </div>
                 </foreignObject>
                 <text
@@ -151,7 +150,7 @@ export const ShiftsAutoFillSolutionInconvenienceDeviationStats = ({
                   y="4"
                   textAnchor="end"
                   dominantBaseline="middle"
-                  style={{ fill: "rgb(102, 102, 102)", fontSize: "12px" }}
+                  style={{ fill: "rgb(102, 102, 102)", fontSize: "14px" }}
                 >
                   {tick.value.name}
                 </text>

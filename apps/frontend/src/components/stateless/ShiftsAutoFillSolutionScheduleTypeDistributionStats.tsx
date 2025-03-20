@@ -1,8 +1,8 @@
 import { type ScoredShiftSchedule } from "@/scheduler";
 import { BarDatum, ResponsiveBar } from "@nivo/bar";
 import { Trans } from "@lingui/react/macro";
-import { Avatar } from "./Avatar";
 import { useMemo } from "react";
+import { getInitials } from "../../utils/getInitials";
 
 export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
   schedule,
@@ -96,12 +96,16 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
           legendOffset: 80,
           renderTick: (tick) => {
             const worker = workerById[tick.value];
+            if (!worker) {
+              return null;
+            }
             return (
               <g transform={`translate(${tick.x},${tick.y + 20})`}>
                 <foreignObject x="-24" y="-12" width="80" height="60">
                   <div className="flex gap-2 flex-col items-center">
-                    <Avatar {...worker} size={24} />
-                    <span className="text-tiny text-nowrap">{worker.name}</span>
+                    <span className="text-sm text-nowrap">
+                      {getInitials(worker.name)}
+                    </span>
                   </div>
                 </foreignObject>
               </g>
