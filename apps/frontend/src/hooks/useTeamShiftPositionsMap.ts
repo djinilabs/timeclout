@@ -27,7 +27,7 @@ export interface UseTeamShiftPositionsMapResult {
 export const useTeamShiftPositionsMap = ({
   shiftPositionsResult,
   draggingShiftPosition,
-  spillTime,
+  spillTime = true,
 }: UseTeamShiftPositionsMapParams): UseTeamShiftPositionsMapResult => {
   const shiftPositions = useMemo(() => {
     if (draggingShiftPosition) {

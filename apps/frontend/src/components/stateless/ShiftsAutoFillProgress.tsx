@@ -21,6 +21,7 @@ import { Tabs } from "./Tabs";
 import { ShiftAutoFillSolutionDetailedStats } from "./ShiftAutoFillSolutionDetailedStats";
 import { Attention } from "./Attention";
 import { i18n } from "@lingui/core";
+import { LabeledSwitch } from "./LabeledSwitch";
 export interface ShiftsAutoFillProgressProps {
   startDate?: DayDate;
   endDate?: DayDate;
@@ -51,8 +52,11 @@ export const ShiftsAutoFillProgress = ({
     return months;
   }, [startDate, endDate]);
 
+  const [showScheduleDetails, setShowScheduleDetails] = useState(false);
+
   const { shiftPositionsMap } = useTeamShiftPositionsMap({
     shiftPositionsResult: shiftPositions,
+    spillTime: showScheduleDetails,
   });
 
   // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
@@ -243,6 +247,18 @@ export const ShiftsAutoFillProgress = ({
                   <MonthCalendar
                     year={yearMonth.year}
                     month={yearMonth.month - 1}
+                    additionalActions={[
+                      {
+                        type: "component",
+                        component: (
+                          <LabeledSwitch
+                            label={<Trans>Show schedule details</Trans>}
+                            checked={showScheduleDetails}
+                            onChange={setShowScheduleDetails}
+                          />
+                        ),
+                      },
+                    ]}
                     renderDay={(day) => {
                       const shiftPositions = assignedShiftPositions?.[day.date];
                       if (!shiftPositions) {
@@ -264,6 +280,7 @@ export const ShiftsAutoFillProgress = ({
                               key={shiftPosition.sk}
                               shiftPosition={shiftPosition}
                               conflicts={problemInSlotIds.has(shiftPosition.sk)}
+                              showScheduleDetails={showScheduleDetails}
                             />
                           ))}
                         </div>
