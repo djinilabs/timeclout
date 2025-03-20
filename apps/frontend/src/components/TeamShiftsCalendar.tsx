@@ -110,9 +110,6 @@ export const TeamShiftsCalendar = () => {
       goToMonth,
     });
 
-  console.log("focusedDay", focusedDay);
-  console.log("focusedShiftPosition", focusedShiftPosition);
-
   const setFocusedDay = useCallback(
     (day: string) => {
       _setFocusedDay(day);
