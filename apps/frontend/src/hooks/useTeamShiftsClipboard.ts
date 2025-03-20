@@ -8,7 +8,7 @@ type ShiftPositionWithFake = ShiftPosition & {
 
 export const useTeamShiftsClipboard = (
   focusedShiftPosition: ShiftPositionWithFake | null,
-  selectedDay: string | null
+  selectedDay?: string
 ) => {
   const [copyingShiftPosition, setCopyingShiftPosition] =
     useState<ShiftPositionWithFake | null>(null);

@@ -39,6 +39,7 @@ export interface MonthCalendarProps {
   onCellDragEnter?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
   onCellDragLeave?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
   onCellDragOver?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
+  focusedDay?: string;
   onDayFocus?: (day: string) => void;
 }
 
@@ -54,6 +55,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
     onCellDragLeave,
     onCellDragOver,
     onDayFocus,
+    focusedDay,
   }) => {
     const days = useMemo(() => {
       return generateMonthDays(year, month, DayDate.today());
@@ -72,7 +74,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
     }, [goTo]);
 
     return (
-      <div className="flex h-full flex-col">
+      <div className={classNames("flex h-full flex-col")}>
         <header className="flex items-center justify-between px-6 py-4 flex-none">
           <h1 className="text-base font-semibold text-gray-900">
             <time dateTime={`${year}-${month + 1}`}>
@@ -248,6 +250,8 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                     day.isCurrentMonth && !day.isToday && "text-gray-900",
 
                     !day.isCurrentMonth && !day.isToday && "text-gray-500",
+                    focusedDay === day.date &&
+                      "border border-dashed border-teal-300 -p-1",
                     "flex flex-col min-h-[8rem] pt-2"
                   )}
                 >

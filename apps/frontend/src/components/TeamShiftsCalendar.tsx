@@ -3,16 +3,16 @@ import { useParams, useSearchParams } from "react-router";
 import { DayDate, DayDateInterval } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
+import { getDefined } from "@/utils";
 import { Dialog } from "./stateless/Dialog";
 import { MonthCalendar } from "./stateless/MonthCalendar";
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
 import { Suspense } from "./stateless/Suspense";
-import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
-import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
-import { getDefined } from "@/utils";
+import { ShiftPosition } from "./stateless/ShiftPosition";
 import { useTeamShiftsDragAndDrop } from "../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../hooks/useTeamShiftsClipboard";
-import { ShiftPosition } from "./stateless/ShiftPosition";
+import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
+import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
 import { useTeamShiftsFocusNavigation } from "../hooks/useTeamShiftsFocusNavigation";
 import {
   type ShiftPositionWithFake,
@@ -46,17 +46,17 @@ export const TeamShiftsCalendar = () => {
     return new DayDate(month);
   }, [params]);
 
-  const [previouslySelectedMonth, setPreviouslySelectedMonth] = useState<
-    DayDate | undefined
-  >();
+  const [previouslySelectedMonth, setPreviouslySelectedMonth] =
+    useState<DayDate>(selectedMonth);
 
   const goToMonth = useCallback(
     (_month: DayDate) => {
       const month = _month.firstOfMonth();
-      setPreviouslySelectedMonth(selectedMonth);
-      params.set("month", month.toString());
-      setParams(params);
-      setFocusedDay(month.toString());
+      if (!selectedMonth.isSameMonth(month)) {
+        setPreviouslySelectedMonth(selectedMonth);
+        params.set("month", month.toString());
+        setParams(params);
+      }
     },
     [params, selectedMonth, setParams]
   );
@@ -92,7 +92,8 @@ export const TeamShiftsCalendar = () => {
 
   // ------- focus navigation -------
 
-  const [focusedDay, setFocusedDay] = useState<string | null>(null);
+  const [focusedDay, _setFocusedDay] = useState<string | undefined>();
+
   const { focusedShiftPosition, setFocusedShiftPosition } =
     useTeamShiftsFocusNavigation({
       shiftPositionsMap,
@@ -100,6 +101,19 @@ export const TeamShiftsCalendar = () => {
       previouslySelectedMonth: previouslySelectedMonth ?? null,
       goToMonth,
     });
+
+  console.log("focusedDay", focusedDay);
+  console.log("focusedShiftPosition", focusedShiftPosition);
+
+  const setFocusedDay = useCallback(
+    (day: string) => {
+      _setFocusedDay(day);
+      if (focusedShiftPosition && focusedShiftPosition.day !== day) {
+        setFocusedShiftPosition(null);
+      }
+    },
+    [focusedShiftPosition, setFocusedShiftPosition]
+  );
   // ------- clipboard -------
 
   const {
@@ -255,6 +269,7 @@ export const TeamShiftsCalendar = () => {
       </Dialog>
       <MonthCalendar
         onDayFocus={setFocusedDay}
+        focusedDay={focusedDay}
         year={selectedMonth.getYear()}
         month={selectedMonth.getMonth() - 1}
         additionalActions={useMemo(
@@ -308,9 +323,10 @@ export const TeamShiftsCalendar = () => {
           const weekNumber = new DayDate(day.date).getWeekNumber();
           const rowCount: number | undefined = maxRowsPerWeekNumber[weekNumber];
           const leaveRowCount = maxLeaveRowsPerWeekNumber[weekNumber] ?? 0;
+
           return (
             <div
-              className={classNames("h-full w-full grid")}
+              className="h-full w-full grid"
               style={{
                 gridTemplateRows: `repeat(${rowCount ?? (shiftPositions?.length ?? 0) + (leaves?.length ?? 0)}, 1fr)`,
               }}
