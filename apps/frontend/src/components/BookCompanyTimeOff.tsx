@@ -277,7 +277,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                       dayOfWeek: { dayOfWeek: [0, 6] },
                     }}
                     modifiersClassNames={{
-                      holiday: "bg-red-500 text-white mx-auto rounded-full",
+                      holiday: "bg-red-400 text-white mx-auto",
                       dayOfWeek: "bg-gray-100 text-gray-500 mx-auto",
                     }}
                   />
