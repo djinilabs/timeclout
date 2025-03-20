@@ -352,9 +352,9 @@ export const TeamShiftsCalendar = () => {
                 <div
                   key={leave.user.pk}
                   className={classNames(
-                    "p-2 border-gray-200 row-span-2",
-                    leaveIndex > 0 && "border-t",
-                    shiftPositions?.length > 0 && "border-b"
+                    "p-2 border-gray-100 row-span-2 bg-gray-50",
+                    leaveIndex === 0 && "border-t",
+                    leaveIndex === leaves.length - 1 && "border-b"
                   )}
                 >
                   <div className="flex items-center gap-1">
