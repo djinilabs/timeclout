@@ -13,7 +13,6 @@ export type DayPickerProps = Parameters<typeof DayPickerComponent>[0];
 
 export const DayPicker: FC<DayPickerProps> = (props) => {
   const locale = locales[i18n.locale];
-  console.log(defaultClassNames);
   return (
     <DayPickerComponent
       {...props}
