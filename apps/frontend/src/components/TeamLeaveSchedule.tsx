@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import teamScheduleQuery from "@/graphql-client/queries/teamSchedule.graphql";
