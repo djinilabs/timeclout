@@ -19,6 +19,7 @@ import { MonthlyLinearSchedule } from "./stateless/MonthlyLinearSchedule";
 import { leaveTypeParser } from "@/settings";
 import { leaveTypeColors } from "../settings/leaveTypes";
 import { leaveTypeIcons } from "../settings/leaveTypes";
+import { useLocalPreference } from "../hooks/useLocalPreference";
 
 export const TeamLeaveSchedule = () => {
   const { team: teamId, company: companyId } = useParams();
@@ -46,7 +47,12 @@ export const TeamLeaveSchedule = () => {
     [companyWithSettingsQueryResponse]
   );
 
-  const [date, setDate] = useState(new DayDate(new Date()).firstOfMonth());
+  const [dateAsString, setDateAsString] = useLocalPreference(
+    "team-leave-schedule-date-2",
+    new DayDate(new Date()).firstOfMonth().toString()
+  );
+
+  const date = useMemo(() => new DayDate(dateAsString), [dateAsString]);
 
   const [teamScheduleResponse] = useQuery<
     { team: Team },
@@ -96,13 +102,16 @@ export const TeamLeaveSchedule = () => {
     <MonthlyLinearSchedule
       year={date.getYear()}
       month={date.getMonth() - 1}
-      goTo={useCallback((year, month) => {
-        const d = new Date();
-        d.setUTCFullYear(year);
-        d.setUTCMonth(month);
-        d.setUTCDate(1);
-        setDate(new DayDate(d));
-      }, [])}
+      goTo={useCallback(
+        (year, month) => {
+          const d = new Date();
+          d.setUTCFullYear(year);
+          d.setUTCMonth(month);
+          d.setUTCDate(1);
+          setDateAsString(new DayDate(d).toString());
+        },
+        [setDateAsString]
+      )}
       schedule={schedule}
     />
   );
