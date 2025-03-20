@@ -203,6 +203,16 @@ msgid "Sign out"
 msgstr "Sign out"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/UnitManagers.tsx:51
+msgid "User added as manager"
+msgstr "User added as manager"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/UnitManagers.tsx:78
+msgid "User removed as manager"
+msgstr "User removed as manager"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/TeamSettings.tsx:10
 msgid "Qualifications"
 msgstr "Qualifications"
@@ -391,7 +401,7 @@ msgstr "Please select a permission"
 msgid "Accept Invitation"
 msgstr "Accept Invitation"
 
-#: apps/frontend/src/components/UnitManagers.tsx:120
+#: apps/frontend/src/components/UnitManagers.tsx:123
 msgid "Add a manager"
 msgstr "Add a manager"
 
@@ -445,11 +455,11 @@ msgstr "Approved By"
 msgid "April"
 msgstr "April"
 
-#: apps/frontend/src/components/UnitManagers.tsx:89
+#: apps/frontend/src/components/UnitManagers.tsx:92
 msgid "Assign the managers for the workers in this unit:"
 msgstr "Assign the managers for the workers in this unit:"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:490
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:488
 msgid "Assigned to"
 msgstr "Assigned to"
 
@@ -503,7 +513,7 @@ msgstr "Book Company Time Off"
 msgid "Busy"
 msgstr "Busy"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:420
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:418
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
 msgstr "By saving this as a template, you can reuse it to create new positions in the future."
 
@@ -516,7 +526,7 @@ msgstr "Calendar subscriptions:"
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:259
 #: apps/frontend/src/components/InviteToTeam.tsx:118
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:256
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:518
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:516
 #: apps/frontend/src/components/CompanyYearlyQuota.tsx:195
 #: apps/frontend/src/components/BookCompanyTimeOff.tsx:301
 msgid "Cancel"
@@ -526,7 +536,7 @@ msgstr "Cancel"
 msgid "Click the button below to accept the invitation."
 msgstr "Click the button below to accept the invitation."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:355
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:353
 msgid "Color"
 msgstr "Color"
 
@@ -630,7 +640,7 @@ msgstr "Created By"
 msgid "Date range"
 msgstr "Date range"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:439
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:437
 msgid "Day"
 msgstr "Day"
 
@@ -667,7 +677,7 @@ msgstr "Discarded Schedules"
 msgid "Edit"
 msgstr "Edit"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:226
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:224
 msgid "Edit a position in the team schedule."
 msgstr "Edit a position in the team schedule."
 
@@ -849,7 +859,7 @@ msgstr "Inconvenience"
 msgid "Inconvenience:Deviation from Expected"
 msgstr "Inconvenience:Deviation from Expected"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:228
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:226
 msgid "Insert a position into the team schedule."
 msgstr "Insert a position into the team schedule."
 
@@ -945,7 +955,7 @@ msgid "May"
 msgstr "May"
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:73
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:378
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:376
 #: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:152
 msgid "Name"
 msgstr "Name"
@@ -992,7 +1002,7 @@ msgstr "No invitations found."
 msgid "No location settings found for {0}"
 msgstr "No location settings found for {0}"
 
-#: apps/frontend/src/components/UnitManagers.tsx:114
+#: apps/frontend/src/components/UnitManagers.tsx:117
 msgid "No managers assigned"
 msgstr "No managers assigned"
 
@@ -1145,7 +1155,7 @@ msgstr "Require a minimum number of shifts in a standard workday for each worker
 msgid "Require minimum rest periods between shifts based on inconvenience scores"
 msgstr "Require minimum rest periods between shifts based on inconvenience scores"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:295
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:293
 msgid "Required qualifications"
 msgstr "Required qualifications"
 
@@ -1203,7 +1213,7 @@ msgstr "S"
 msgid "Save"
 msgstr "Save"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:416
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:414
 msgid "Save as template"
 msgstr "Save as template"
 
@@ -1212,7 +1222,7 @@ msgstr "Save as template"
 msgid "Save changes"
 msgstr "Save changes"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:528
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:526
 #: apps/frontend/src/components/CompanyWorkSchedule.tsx:183
 msgid "Save Changes"
 msgstr "Save Changes"
@@ -1225,11 +1235,11 @@ msgstr "Save Changes"
 msgid "Save Settings"
 msgstr "Save Settings"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:414
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:412
 msgid "Saving..."
 msgstr "Saving..."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:325
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:323
 msgid "Schedule"
 msgstr "Schedule"
 
@@ -1281,15 +1291,15 @@ msgstr "Select User"
 msgid "September"
 msgstr "September"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:358
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:356
 msgid "Set a color to this position"
 msgstr "Set a color to this position"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:381
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:379
 msgid "Set a name to this position"
 msgstr "Set a name to this position"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:442
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:440
 msgid "Set the day for this position."
 msgstr "Set the day for this position."
 
@@ -1297,15 +1307,15 @@ msgstr "Set the day for this position."
 msgid "Set the default number of leave days allocated to each employee per year."
 msgstr "Set the default number of leave days allocated to each employee per year."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:298
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:296
 msgid "Set the qualifications required for this position."
 msgstr "Set the qualifications required for this position."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:328
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:326
 msgid "Set the schedule for this position."
 msgstr "Set the schedule for this position."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:493
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:491
 msgid "Set the user assigned to this position."
 msgstr "Set the user assigned to this position."
 
@@ -1432,7 +1442,7 @@ msgstr "Today"
 msgid "Top Solution"
 msgstr "Top Solution"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:337
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:335
 msgid "Total inconvenience: {totalInconvenience}"
 msgstr "Total inconvenience: {totalInconvenience}"
 
@@ -1470,15 +1480,15 @@ msgstr "Unit name"
 msgid "Unknown"
 msgstr "Unknown"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:241
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:239
 msgid "Use a template to create this position."
 msgstr "Use a template to create this position."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:261
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:259
 msgid "Use template"
 msgstr "Use template"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:238
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:236
 msgid "Use template?"
 msgstr "Use template?"
 

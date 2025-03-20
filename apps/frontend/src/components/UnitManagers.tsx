@@ -17,6 +17,8 @@ import {
   UnitSettingsArgs,
   User,
 } from "../graphql/graphql";
+import { i18n } from "@lingui/core";
+import toast from "react-hot-toast";
 
 export const UnitManagers = () => {
   const { unit: unitPk } = useParams();
@@ -41,12 +43,12 @@ export const UnitManagers = () => {
 
   const addUser = useCallback(
     async (user: User) => {
-      console.log("adding user", user);
       await updateUnitSettings({
         unitPk,
         name: "managers",
         settings: unique([...(unit?.settings || []), user.pk]),
       });
+      toast.success(i18n.t("User added as manager"));
       reexecuteUnitWithMembersAndSettingsQuery();
     },
     [
@@ -73,6 +75,7 @@ export const UnitManagers = () => {
           )
         ),
       });
+      toast.success(i18n.t("User removed as manager"));
       reexecuteUnitWithMembersAndSettingsQuery();
     },
     [
