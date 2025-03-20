@@ -27,6 +27,7 @@ import { useTeamWithSettings } from "../hooks/useTeamWithSettings";
 import { useSaveTeamSettings } from "../hooks/useSaveTeamSettings";
 import { ListBox } from "./stateless/ListBox";
 import { DayPicker } from "./stateless/DayPicker";
+import { calculateShiftPositionSchedulesTotalInconvenience } from "../utils/calculateShiftPositionSchedulesTotalInconvenience";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
@@ -134,7 +135,11 @@ export const CreateOrEditScheduleShiftPosition: FC<
     },
   });
 
-  const [totalInconvenience, setTotalInconvenience] = useState(0);
+  const [totalInconvenience, setTotalInconvenience] = useState(
+    calculateShiftPositionSchedulesTotalInconvenience(
+      form.store.state.values.schedules
+    )
+  );
 
   useEffect(() => {
     return form.store.subscribe((state) => {
@@ -143,16 +148,9 @@ export const CreateOrEditScheduleShiftPosition: FC<
         setSkills(newSkills);
       }
       setTotalInconvenience(
-        state.currentVal.values.schedules.reduce((acc, schedule) => {
-          return (
-            acc +
-            schedule.inconveniencePerHour *
-              (schedule.endHourMinutes[0] +
-                schedule.endHourMinutes[1] / 60 -
-                (schedule.startHourMinutes[0] +
-                  schedule.startHourMinutes[1] / 60))
-          );
-        }, 0)
+        calculateShiftPositionSchedulesTotalInconvenience(
+          state.currentVal.values.schedules
+        )
       );
     });
   }, [form, skills]);
