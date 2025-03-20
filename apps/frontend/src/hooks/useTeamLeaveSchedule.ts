@@ -34,7 +34,7 @@ export interface UseTeamLeaveScheduleParams {
   team: string;
   calendarStartDay: DayDate;
   calendarEndDay: DayDate;
-  pause: boolean;
+  pause?: boolean;
 }
 
 export const useTeamLeaveSchedule = ({

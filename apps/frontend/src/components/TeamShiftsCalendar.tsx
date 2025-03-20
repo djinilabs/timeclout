@@ -110,8 +110,6 @@ export const TeamShiftsCalendar = () => {
       goToMonth,
     });
 
-  console.log("focusedShiftPosition", focusedShiftPosition);
-
   // ------- clipboard -------
 
   const {

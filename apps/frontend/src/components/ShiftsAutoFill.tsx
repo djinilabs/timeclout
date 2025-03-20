@@ -1,4 +1,4 @@
-import { useState, useEffect, FC, Suspense, useRef, useCallback } from "react";
+import { useState, useEffect, FC, useRef, useCallback } from "react";
 import { dequal } from "dequal";
 import { Transition } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
@@ -17,6 +17,7 @@ import {
   ShiftAutoFillParamValues,
 } from "./stateless/ShiftAutoFillParams";
 import { useLocalPreference } from "../hooks/useLocalPreference";
+import { Suspense } from "./stateless/Suspense";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;
@@ -170,14 +171,16 @@ export const ShiftsAutoFillWithoutParams: FC<
     <div>
       {isAutoFillRunning && <Loading />}
       {progress && shiftPositions && (
-        <ShiftsAutoFillProgress
-          startDate={startDate}
-          endDate={endDate}
-          progress={progress}
-          shiftPositions={shiftPositions}
-          onAssignShiftPositions={onAssignShiftPositions}
-          canAssignShiftPositions={!isAutoFillRunning}
-        />
+        <Suspense>
+          <ShiftsAutoFillProgress
+            startDate={startDate}
+            endDate={endDate}
+            progress={progress}
+            shiftPositions={shiftPositions}
+            onAssignShiftPositions={onAssignShiftPositions}
+            canAssignShiftPositions={!isAutoFillRunning}
+          />
+        </Suspense>
       )}
     </div>
   );
