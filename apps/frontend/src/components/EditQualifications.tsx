@@ -129,7 +129,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
               role="menu"
               className={`absolute mt-1 w-fit rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 ${
                 isMenuOpen ? "block" : "hidden"
-              }`}
+              } z-300`}
             >
               <div className="p-2">
                 {applieableQualifications?.map((qualification) => (
