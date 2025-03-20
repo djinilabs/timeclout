@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:75
-msgid "Copied!"
-msgstr "Copiado!"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -249,27 +244,32 @@ msgid "Team leaves calendar"
 msgstr "Calendário de ausências da equipa"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:75
+msgid "Copied!"
+msgstr "Copiado!"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/TeamCalendarIntegrations.tsx:81
 msgid "Copy URL"
 msgstr "Copiar URL"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/SideBar.tsx:71
+#: apps/frontend/src/components/SideBar.tsx:80
 msgid "Home"
 msgstr "Início"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/SideBar.tsx:88
+#: apps/frontend/src/components/SideBar.tsx:97
 msgid "Leave Requests"
 msgstr "Pedidos de Ausência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/MeEdit.tsx:58
+#: apps/frontend/src/components/MeEdit.tsx:55
 msgid "Your profile has been updated"
 msgstr "O seu perfil foi atualizado"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/MeEdit.tsx:99
+#: apps/frontend/src/components/MeEdit.tsx:95
 msgid "Professional name is required"
 msgstr "O nome profissional é obrigatório"
 
@@ -386,7 +386,7 @@ msgstr "Adicionar um gerente"
 msgid "Add a new team member to the team."
 msgstr "Adicionar um novo membro à equipa."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:266
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:289
 msgid "Add position"
 msgstr "Adicionar posição"
 
@@ -402,7 +402,7 @@ msgstr "Adicionar Qualificação"
 msgid "Add qualifications"
 msgstr "Adicionar qualificações"
 
-#: apps/frontend/src/components/MeEdit.tsx:87
+#: apps/frontend/src/components/MeEdit.tsx:83
 msgid "Add your personal information to help us identify you."
 msgstr "Adicione suas informações pessoais para nos ajudar a identificá-lo."
 
@@ -445,7 +445,7 @@ msgid "Assigning Shift Positions..."
 msgstr "Atribuindo posições de turno..."
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:213
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:215
 msgid "at for Saturday"
 msgstr "áb"
 
@@ -461,8 +461,8 @@ msgstr "Atenção necessária"
 msgid "August"
 msgstr "Agosto"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:236
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:274
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:258
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:297
 msgid "Auto fill"
 msgstr "Auto preenchimento"
 
@@ -537,7 +537,7 @@ msgstr "Configure as configurações de cota anual de ausência para os funcion�
 msgid "conflict(s) when trying to search for a solution"
 msgstr "Conflito(s) enquanto pesquisando por solução"
 
-#: apps/frontend/src/components/stateless/ShiftPosition.tsx:163
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:165
 msgid "Copy"
 msgstr "Copiar"
 
@@ -629,7 +629,7 @@ msgstr "Deduz da cota anual"
 msgid "Default Yearly Quota (days)"
 msgstr "Cota anual padrão (dias)"
 
-#: apps/frontend/src/components/stateless/ShiftPosition.tsx:198
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:200
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -646,7 +646,7 @@ msgstr "Agendamentos descartados"
 #: apps/frontend/src/components/AllUserCompanies.tsx:129
 #: apps/frontend/src/components/AllUnitTeams.tsx:154
 #: apps/frontend/src/components/AllCompanyUnits.tsx:141
-#: apps/frontend/src/components/stateless/ShiftPosition.tsx:148
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:150
 msgid "Edit"
 msgstr "Editar"
 
@@ -658,7 +658,7 @@ msgstr "Editar uma posição no horário da equipa."
 msgid "Edit a team member to the team."
 msgstr "Editar um membro da equipa."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:206
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:228
 msgid "Edit position"
 msgstr "Editar posição de turno"
 
@@ -679,7 +679,7 @@ msgstr "Editar membro da equipa"
 msgid "Edit the leave type \"{0}\""
 msgstr "Editar o tipo de ausência \"{0}\""
 
-#: apps/frontend/src/components/MeEdit.tsx:144
+#: apps/frontend/src/components/MeEdit.tsx:140
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:209
 msgid "Email address"
 msgstr "Endereço de email"
@@ -692,7 +692,7 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:198
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:220
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
@@ -701,7 +701,7 @@ msgid "F"
 msgstr "F"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:205
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:207
 msgid "F for Friday"
 msgstr "S"
 
@@ -761,7 +761,7 @@ msgstr "Comece por criar uma nova unidade para esta empresa."
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:127
 #: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:134
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:169
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:171
 msgid "Go to today"
 msgstr "Ir para hoje"
 
@@ -794,7 +794,7 @@ msgid "hours rest"
 msgstr "horas de descanso"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:201
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:203
 msgid "hu for Thursday"
 msgstr "ui"
 
@@ -828,7 +828,7 @@ msgstr "No Outlook: Definições > Calendário > Adicionar calendário > Subscre
 msgid "Inconvenience"
 msgstr "Inconveniência"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:163
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:166
 msgid "Inconvenience:Deviation from Expected"
 msgstr "Inconveniência: Desvio do esperado"
 
@@ -836,7 +836,7 @@ msgstr "Inconveniência: Desvio do esperado"
 msgid "Insert a position into the team schedule."
 msgstr "Inserir uma posição no horário da equipa."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:208
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:230
 msgid "Insert position into the team schedule"
 msgstr "Inserir posição no horário da equipa"
 
@@ -898,7 +898,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:194
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:216
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -907,7 +907,7 @@ msgid "M"
 msgstr "M"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:181
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:183
 msgid "M for Monday"
 msgstr "S"
 
@@ -953,7 +953,7 @@ msgstr "Nova unidade"
 msgid "next day"
 msgstr "dia seguinte"
 
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:112
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:114
 msgid "Next month"
 msgstr "Mês seguinte"
 
@@ -1004,7 +1004,7 @@ msgid "October"
 msgstr "Outubro"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:183
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:185
 msgid "on for Monday"
 msgstr "eg"
 
@@ -1014,7 +1014,7 @@ msgstr "eg"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:102
 #: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:119
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:132
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:134
 msgid "Open menu"
 msgstr "Abrir menu"
 
@@ -1034,7 +1034,7 @@ msgstr "Abrir menu de utilizador"
 msgid "Out of Office"
 msgstr "Fora de Escritório"
 
-#: apps/frontend/src/components/stateless/ShiftPosition.tsx:179
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:181
 msgid "Paste here"
 msgstr "Colar aqui"
 
@@ -1052,7 +1052,7 @@ msgstr "Pedidos de Ausência Pendentes"
 msgid "Permission"
 msgstr "Permissão"
 
-#: apps/frontend/src/components/MeEdit.tsx:84
+#: apps/frontend/src/components/MeEdit.tsx:80
 msgid "Personal Information"
 msgstr "Informação pessoal"
 
@@ -1060,7 +1060,7 @@ msgstr "Informação pessoal"
 msgid "Pick a color"
 msgstr "Escolher uma cor"
 
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:92
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:94
 msgid "Previous month"
 msgstr "Mês anterior"
 
@@ -1069,7 +1069,7 @@ msgstr "Mês anterior"
 msgid "Previous year"
 msgstr "Ano anterior"
 
-#: apps/frontend/src/components/MeEdit.tsx:109
+#: apps/frontend/src/components/MeEdit.tsx:105
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:173
 msgid "Professional name"
 msgstr "Nome profissional"
@@ -1153,7 +1153,7 @@ msgid "Revoke Invitation"
 msgstr "Revogar convite"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:207
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:209
 msgid "ri for Friday"
 msgstr "ex"
 
@@ -1171,16 +1171,16 @@ msgid "S"
 msgstr "S"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:211
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:213
 msgid "S for Saturday"
 msgstr "S"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:217
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:219
 msgid "S for Sunday"
 msgstr "D"
 
-#: apps/frontend/src/components/MeEdit.tsx:170
+#: apps/frontend/src/components/MeEdit.tsx:166
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:265
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:259
 msgid "Save"
@@ -1292,7 +1292,7 @@ msgstr "Definir o horário para esta posição."
 msgid "Set the user assigned to this position."
 msgstr "Definir o utilizador atribuído a esta posição."
 
-#: apps/frontend/src/components/SideBar.tsx:166
+#: apps/frontend/src/components/SideBar.tsx:177
 msgid "Settings"
 msgstr "Definir as configurações"
 
@@ -1300,9 +1300,13 @@ msgstr "Definir as configurações"
 msgid "Show in calendar as"
 msgstr "Mostrar no calendário como"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:285
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:308
 msgid "Show leave schedule"
 msgstr "Mostrar o calendário de ausências"
+
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:318
+msgid "Show schedule details"
+msgstr "Mostrar detalhes"
 
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:219
 msgid "Some solutions have been discarded because of the following reasons:"
@@ -1343,12 +1347,12 @@ msgid "T"
 msgstr "T"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:187
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:189
 msgid "T for Tuesday"
 msgstr "T"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:199
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:201
 msgid "T for Thursday"
 msgstr "Q"
 
@@ -1398,7 +1402,7 @@ msgstr "Para criar uma nova unidade, basta preencher o nome da unidade e clicar 
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:75
 #: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:97
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:102
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:104
 msgid "Today"
 msgstr "Hoje"
 
@@ -1419,7 +1423,7 @@ msgid "Type of Leave"
 msgstr "Tipo de ausência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:189
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:191
 msgid "ue for Tuesday"
 msgstr "er"
 
@@ -1428,7 +1432,7 @@ msgstr "er"
 #~ msgstr "ue"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:219
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:221
 msgid "un for Sunday"
 msgstr "om"
 
@@ -1485,12 +1489,12 @@ msgid "W"
 msgstr "W"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:193
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:195
 msgid "W for Wednesday"
 msgstr "Q"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthCalendar.tsx:195
+#: apps/frontend/src/components/stateless/MonthCalendar.tsx:197
 msgid "ed for Wednesday"
 msgstr "ua"
 
