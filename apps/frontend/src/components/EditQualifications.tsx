@@ -118,9 +118,11 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
                 d="M12 4.5v15m7.5-7.5h-15"
               />
             </svg>
-            <span className="sr-only">
-              <Trans>Add qualification</Trans>
-            </span>
+            {badges.length == 0 ? (
+              <span className="text-xs">
+                <Trans>Add qualification</Trans>
+              </span>
+            ) : null}
           </button>
           <div className="relative">
             <div
