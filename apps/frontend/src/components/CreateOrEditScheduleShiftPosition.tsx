@@ -55,7 +55,7 @@ export interface CreateOrEditScheduleShiftPositionForm {
   color?: Color | undefined;
   requiredSkills: string[];
   schedules: ShiftPositionSchedule[];
-  assignedTo?: User;
+  assignedTo?: User | null;
 }
 
 export const CreateOrEditScheduleShiftPosition: FC<
@@ -89,7 +89,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
               inconveniencePerHour: 1,
             },
           ],
-        assignedTo: editingShiftPosition?.assignedTo ?? undefined,
+        assignedTo: editingShiftPosition?.assignedTo ?? null,
       }),
       [day, editingShiftPosition]
     ),
@@ -495,7 +495,11 @@ export const CreateOrEditScheduleShiftPosition: FC<
                       <SelectUser
                         users={teamWithMembersAndSettings?.team?.members ?? []}
                         user={field.state.value}
-                        onChange={(user) => field.handleChange(user)}
+                        allowEmpty
+                        onChange={(user) => {
+                          console.log("user", user);
+                          field.handleChange(user);
+                        }}
                       />
                     </div>
                   </>

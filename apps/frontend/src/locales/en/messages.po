@@ -354,7 +354,7 @@ msgid "Invitation accepted"
 msgstr "Invitation accepted"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:116
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:120
 msgid "Shift positions assigned successfully"
 msgstr "Shift positions assigned successfully"
 
@@ -362,6 +362,11 @@ msgstr "Shift positions assigned successfully"
 #: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:19
 msgid "Score"
 msgstr "Score"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/SelectUser.tsx:71
+msgid "Unassigned"
+msgstr "Unassigned"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/PermissionInput.tsx:18
@@ -394,11 +399,11 @@ msgstr "Add a manager"
 msgid "Add a new team member to the team."
 msgstr "Add a new team member to the team."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:289
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:286
 msgid "Add position"
 msgstr "Add position"
 
-#: apps/frontend/src/components/EditQualifications.tsx:122
+#: apps/frontend/src/components/EditQualifications.tsx:123
 msgid "Add qualification"
 msgstr "Add qualification"
 
@@ -406,7 +411,7 @@ msgstr "Add qualification"
 msgid "Add Qualification"
 msgstr "Add Qualification"
 
-#: apps/frontend/src/components/EditQualifications.tsx:166
+#: apps/frontend/src/components/EditQualifications.tsx:168
 msgid "Add qualifications"
 msgstr "Add qualifications"
 
@@ -448,7 +453,7 @@ msgstr "Assign the managers for the workers in this unit:"
 msgid "Assigned to"
 msgstr "Assigned to"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:190
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:194
 msgid "Assigning Shift Positions..."
 msgstr "Assigning Shift Positions..."
 
@@ -461,7 +466,7 @@ msgstr "at"
 #~ msgid "at"
 #~ msgstr "at"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:201
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:205
 msgid "Attention needed"
 msgstr "Attention needed"
 
@@ -469,8 +474,8 @@ msgstr "Attention needed"
 msgid "August"
 msgstr "August"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:258
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:297
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:255
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:294
 msgid "Auto fill"
 msgstr "Auto fill"
 
@@ -511,7 +516,7 @@ msgstr "Calendar subscriptions:"
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:259
 #: apps/frontend/src/components/InviteToTeam.tsx:118
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:256
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:514
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:518
 #: apps/frontend/src/components/CompanyYearlyQuota.tsx:195
 #: apps/frontend/src/components/BookCompanyTimeOff.tsx:301
 msgid "Cancel"
@@ -541,7 +546,7 @@ msgstr "Configure the standard work schedule for employees in this company:"
 msgid "Configure the yearly leave quota settings for employees in this company:"
 msgstr "Configure the yearly leave quota settings for employees in this company:"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:206
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:210
 msgid "conflict(s) when trying to search for a solution"
 msgstr "conflict(s) when trying to search for a solution"
 
@@ -670,7 +675,7 @@ msgstr "Edit a position in the team schedule."
 msgid "Edit a team member to the team."
 msgstr "Edit a team member to the team."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:228
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:225
 msgid "Edit position"
 msgstr "Edit position"
 
@@ -704,7 +709,7 @@ msgstr "End"
 msgid "End Date"
 msgstr "End Date"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:220
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:217
 msgid "Error loading calendar data"
 msgstr "Error loading calendar data"
 
@@ -848,7 +853,7 @@ msgstr "Inconvenience:Deviation from Expected"
 msgid "Insert a position into the team schedule."
 msgstr "Insert a position into the team schedule."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:230
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:227
 msgid "Insert position into the team schedule"
 msgstr "Insert position into the team schedule"
 
@@ -910,7 +915,7 @@ msgstr "leaving them with <0>{simulatedDaysLeft} days</0> left."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "leaving you with <0>{simulatedDaysLeft} days</0> left."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:216
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:213
 msgid "Loading calendar..."
 msgstr "Loading calendar..."
 
@@ -941,7 +946,7 @@ msgstr "May"
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:73
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:378
-#: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:151
+#: apps/frontend/src/components/stateless/MonthlyLinearSchedule.tsx:152
 msgid "Name"
 msgstr "Name"
 
@@ -991,7 +996,7 @@ msgstr "No location settings found for {0}"
 msgid "No managers assigned"
 msgstr "No managers assigned"
 
-#: apps/frontend/src/components/EditQualifications.tsx:161
+#: apps/frontend/src/components/EditQualifications.tsx:163
 msgid "No qualifications available for this team."
 msgstr "No qualifications available for this team."
 
@@ -1207,7 +1212,7 @@ msgstr "Save as template"
 msgid "Save changes"
 msgstr "Save changes"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:524
+#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:528
 #: apps/frontend/src/components/CompanyWorkSchedule.tsx:183
 msgid "Save Changes"
 msgstr "Save Changes"
@@ -1312,15 +1317,16 @@ msgstr "Settings"
 msgid "Show in calendar as"
 msgstr "Show in calendar as"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:308
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:305
 msgid "Show leave schedule"
 msgstr "Show leave schedule"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:318
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:315
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:255
 msgid "Show schedule details"
 msgstr "Show schedule details"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:219
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:223
 msgid "Some solutions have been discarded because of the following reasons:"
 msgstr "Some solutions have been discarded because of the following reasons:"
 
@@ -1336,7 +1342,7 @@ msgstr "Start Date"
 msgid "Start searching for the best solution"
 msgstr "Start searching for the best solution"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:211
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:215
 msgid "starting on day"
 msgstr "starting on day"
 
@@ -1380,7 +1386,7 @@ msgstr "T"
 #~ msgid "Teams"
 #~ msgstr "Teams"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:204
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:208
 msgid "There are"
 msgstr "There are"
 
@@ -1476,7 +1482,7 @@ msgstr "Use template"
 msgid "Use template?"
 msgstr "Use template?"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:192
+#: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:196
 msgid "Use this solution and assigning these shift Positions"
 msgstr "Use this solution and assigning these shift Positions"
 
