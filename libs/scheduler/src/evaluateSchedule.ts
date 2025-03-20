@@ -1,5 +1,7 @@
-import { EvaluateScheduleResult } from "./searchForBestSchedules";
-import { ShiftScheduleHeuristicWithMultiplier } from "./types";
+import {
+  ShiftScheduleHeuristicWithMultiplier,
+  EvaluateScheduleResult,
+} from "./types";
 import { ShiftSchedule } from "./types";
 
 export const evaluateSchedule = (

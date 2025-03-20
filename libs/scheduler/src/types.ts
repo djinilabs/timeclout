@@ -74,3 +74,11 @@ export type ValidationRule = {
   name: (ruleOptions: unknown) => string;
   function: ValidationFunction;
 };
+
+export interface EvaluateScheduleResult {
+  finalScore: number;
+  euristicScore: Array<{
+    name: string;
+    score: number;
+  }>;
+}

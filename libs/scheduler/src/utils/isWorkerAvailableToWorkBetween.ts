@@ -1,5 +1,22 @@
-import { SlotWorker } from "../types";
+import { SlotWorker, SlotWorkerLeave } from "../types";
 
+const doesLeaveConflictWithWork = (
+  leave: SlotWorkerLeave,
+  startTime: number,
+  endTime: number
+) => {
+  return leave.start <= endTime && leave.end >= startTime;
+};
+
+const doesAnyLeaveConflictWithWork = (
+  leaves: SlotWorkerLeave[],
+  startTime: number,
+  endTime: number
+) => {
+  return leaves.some((leave) =>
+    doesLeaveConflictWithWork(leave, startTime, endTime)
+  );
+};
 export const isWorkerAvailableToWorkBetween = (
   worker: SlotWorker,
   startTime: number,
@@ -9,7 +26,9 @@ export const isWorkerAvailableToWorkBetween = (
   if (!respectLeaveSchedule) {
     return true;
   }
-  return !worker.approvedLeaves.some((leave) => {
-    return leave.start <= endTime && leave.end >= startTime;
-  });
+  return !doesAnyLeaveConflictWithWork(
+    worker.approvedLeaves,
+    startTime,
+    endTime
+  );
 };
