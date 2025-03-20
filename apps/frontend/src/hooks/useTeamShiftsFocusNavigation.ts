@@ -97,48 +97,6 @@ export const useTeamShiftsFocusNavigation = ({
     },
   });
 
-  useEffect(() => {
-    if (
-      !focusedShiftPosition &&
-      shiftPositionsMap &&
-      (!previouslySelectedMonth ||
-        !previouslySelectedMonth?.isSameMonth(selectedMonth))
-    ) {
-      // determine the new focused shift position based on the previously selected month
-      // first, we need to determine which direction to scan the month: up or down
-      const direction =
-        previouslySelectedMonth == null ||
-        previouslySelectedMonth.isBefore(selectedMonth)
-          ? 1
-          : -1;
-
-      let scanningDay =
-        direction == 1
-          ? selectedMonth.firstOfMonth()
-          : selectedMonth.endOfMonth();
-      while (scanningDay.isSameMonth(selectedMonth)) {
-        const shiftPositions = shiftPositionsMap[scanningDay.toString()];
-        if (shiftPositions) {
-          const candidate =
-            shiftPositions[direction == 1 ? 0 : shiftPositions.length - 1];
-          if (
-            candidate &&
-            new DayDate(candidate.day).isSameMonth(selectedMonth)
-          ) {
-            setFocusedShiftPosition(candidate);
-            break;
-          }
-        }
-        scanningDay = scanningDay.nextDay(direction);
-      }
-    }
-  }, [
-    focusedShiftPosition,
-    previouslySelectedMonth,
-    selectedMonth,
-    shiftPositionsMap,
-  ]);
-
   return {
     setFocusedShiftPosition,
     focusedShiftPosition,

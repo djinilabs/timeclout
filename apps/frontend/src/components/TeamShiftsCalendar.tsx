@@ -100,7 +100,7 @@ export const TeamShiftsCalendar = () => {
 
   // ------- focus navigation -------
 
-  const [focusedDay, _setFocusedDay] = useState<string | undefined>();
+  const [focusedDay, setFocusedDay] = useState<string | undefined>();
 
   const { focusedShiftPosition, setFocusedShiftPosition } =
     useTeamShiftsFocusNavigation({
@@ -110,15 +110,8 @@ export const TeamShiftsCalendar = () => {
       goToMonth,
     });
 
-  const setFocusedDay = useCallback(
-    (day: string) => {
-      _setFocusedDay(day);
-      if (focusedShiftPosition && focusedShiftPosition.day !== day) {
-        setFocusedShiftPosition(null);
-      }
-    },
-    [focusedShiftPosition, setFocusedShiftPosition]
-  );
+  console.log("focusedShiftPosition", focusedShiftPosition);
+
   // ------- clipboard -------
 
   const {
@@ -433,7 +426,10 @@ export const TeamShiftsCalendar = () => {
                           focusedShiftPosition == shiftPosition) ||
                         false
                       }
-                      setFocusedShiftPosition={setFocusedShiftPosition}
+                      setFocusedShiftPosition={(shiftPosition) => {
+                        console.log("new focused shiftPosition", shiftPosition);
+                        setFocusedShiftPosition(shiftPosition);
+                      }}
                       shiftPosition={shiftPosition}
                       tabIndex={dayIndex * 100 + shiftPositionIndex}
                       handleEditShiftPosition={handleEditShiftPosition}
