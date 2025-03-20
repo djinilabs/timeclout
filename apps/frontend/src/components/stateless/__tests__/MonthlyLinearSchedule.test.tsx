@@ -121,11 +121,13 @@ describe("MonthlyLinearSchedule", () => {
     expect(goTo).toHaveBeenCalledWith(today.getFullYear(), today.getMonth());
   });
 
-  it.skip("renders table headers with days of month", () => {
+  it("renders table headers with days of month", async () => {
     renderWithProviders(<MonthlyLinearSchedule {...defaultProps} />);
     // March 2024 has 31 days
     for (let day = 1; day <= 31; day++) {
-      expect(screen.findAllByText(day.toString())).toBeInTheDocument();
+      expect(
+        (await screen.findAllByText(day.toString())).length
+      ).toBeGreaterThanOrEqual(1);
     }
   });
 
