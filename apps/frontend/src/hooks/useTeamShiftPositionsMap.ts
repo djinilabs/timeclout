@@ -11,6 +11,7 @@ export type ShiftPositionWithFake = ShiftPositionType & {
 export interface UseTeamShiftPositionsMapParams {
   draggingShiftPosition?: ShiftPositionType | null;
   shiftPositionsResult: ShiftPositionType[];
+  spillTime?: boolean;
 }
 
 export interface ShiftPositionWithRowSpan extends ShiftPositionWithFake {
@@ -26,6 +27,7 @@ export interface UseTeamShiftPositionsMapResult {
 export const useTeamShiftPositionsMap = ({
   shiftPositionsResult,
   draggingShiftPosition,
+  spillTime,
 }: UseTeamShiftPositionsMapParams): UseTeamShiftPositionsMapResult => {
   const shiftPositions = useMemo(() => {
     if (draggingShiftPosition) {
@@ -38,7 +40,11 @@ export const useTeamShiftPositionsMap = ({
 
   const shiftPositionsMap = useMemo(() => {
     const entries = shiftPositions.flatMap((shiftPosition) => {
-      return splitShiftPositionForEachDay(shiftPosition).map(
+      return (
+        spillTime
+          ? splitShiftPositionForEachDay(shiftPosition)
+          : [shiftPosition]
+      ).map(
         (splittedShiftPosition) =>
           [
             splittedShiftPosition.day,
@@ -119,7 +125,7 @@ export const useTeamShiftPositionsMap = ({
     }
 
     return newMap;
-  }, [draggingShiftPosition, shiftPositions]);
+  }, [draggingShiftPosition, shiftPositions, spillTime]);
 
   return {
     shiftPositionsMap,

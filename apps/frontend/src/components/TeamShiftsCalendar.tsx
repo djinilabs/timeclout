@@ -85,9 +85,17 @@ export const TeamShiftsCalendar = () => {
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
     useTeamShiftsDragAndDrop(shiftPositionsResult);
 
+  // ------- schedule details -------
+
+  const [showScheduleDetails, setShowScheduleDetails] = useLocalPreference(
+    "team-shifts-calendar-show-schedule-details",
+    false
+  );
+
   const { shiftPositionsMap } = useTeamShiftPositionsMap({
     draggingShiftPosition,
     shiftPositionsResult,
+    spillTime: showScheduleDetails,
   });
 
   // ------- focus navigation -------
@@ -303,10 +311,22 @@ export const TeamShiftsCalendar = () => {
                 />
               ),
             },
+            {
+              type: "component",
+              component: (
+                <LabeledSwitch
+                  label={<Trans>Show schedule details</Trans>}
+                  checked={showScheduleDetails}
+                  onChange={setShowScheduleDetails}
+                />
+              ),
+            },
           ],
           [
             setShowLeaveSchedule,
+            setShowScheduleDetails,
             showLeaveSchedule,
+            showScheduleDetails,
             teamResult?.resourcePermission,
           ]
         )}
@@ -429,6 +449,7 @@ export const TeamShiftsCalendar = () => {
                       }
                       deleteShiftPosition={deleteShiftPosition}
                       conflicts={hasConflict}
+                      showScheduleDetails={showScheduleDetails}
                     />
                   </div>
                 );

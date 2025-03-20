@@ -30,6 +30,7 @@ export interface ShiftPositionProps {
   deleteShiftPosition?: (pk: string, sk: string) => void;
   lastRow?: boolean;
   conflicts?: boolean;
+  showScheduleDetails?: boolean;
 }
 
 const isValidNumber = (value: number | undefined) =>
@@ -49,6 +50,7 @@ export const ShiftPosition = memo(
     deleteShiftPosition,
     lastRow,
     conflicts,
+    showScheduleDetails,
   }: ShiftPositionProps) => {
     const { schedules } = shiftPosition;
     const startTime = toMinutes(
@@ -206,7 +208,7 @@ export const ShiftPosition = memo(
           <div
             className="flex-auto flex items-center justify-left ml-2 overflow-hidden"
             style={{
-              marginLeft: `${startPercent}%`,
+              marginLeft: showScheduleDetails ? `${startPercent}%` : undefined,
             }}
           >
             {shiftPosition.assignedTo && (
@@ -221,9 +223,11 @@ export const ShiftPosition = memo(
               {shiftPosition.name}
             </span>
           </div>
-          <MiniTimeScheduleVisualizer
-            schedules={schedules as Array<TimeSchedule>}
-          />
+          {showScheduleDetails && (
+            <MiniTimeScheduleVisualizer
+              schedules={schedules as Array<TimeSchedule>}
+            />
+          )}
         </div>
       </>
     );
