@@ -72,8 +72,8 @@ export const MonthlyLinearSchedule = memo(
     const { company, unit, team } = useParams();
 
     return (
-      <div>
-        <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+      <div className="flex flex-col h-[calc(100vh-64px)]">
+        <header className="flex-none flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-white">
           <h1 className="text-base font-semibold text-gray-900">
             <time dateTime={yearMonth}>{humanYearMonth}</time>
           </h1>
@@ -140,76 +140,81 @@ export const MonthlyLinearSchedule = memo(
           </div>
         </header>
 
-        <div className="mt-6 overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-300">
-            <thead>
-              <tr>
-                <th
-                  scope="col"
-                  className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 border-r border-gray-300"
-                >
-                  <Trans>Name</Trans>
-                </th>
-                {Array.from(
-                  { length: new Date(year, month + 1, 0).getDate() },
-                  (_, i) => i + 1
-                ).map((day) => (
+        <div className="flex-1 relative">
+          <div className="absolute inset-0 overflow-auto">
+            <table className="min-w-full divide-y divide-gray-300">
+              <thead>
+                <tr>
                   <th
-                    key={day}
                     scope="col"
-                    className="px-1 py-3.5 text-center text-sm font-semibold text-gray-900 border-r border-gray-300"
+                    className="bg-white sticky top-0 left-0 z-20 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 border-r border-gray-300 shadow-[0_1px_3px_0_rgba(0,0,0,0.1)]"
                   >
-                    {day}
+                    <Trans>Name</Trans>
                   </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {schedule?.map((userSchedule) => (
-                <tr key={userSchedule.user.pk}>
-                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 flex items-center gap-2 border-r border-gray-300">
-                    <Avatar {...userSchedule.user} size={30} />
-                    <span className="text-sm font-medium text-gray-600">
-                      {userSchedule.user.name}
-                    </span>
-                  </td>
                   {Array.from(
                     { length: new Date(year, month + 1, 0).getDate() },
                     (_, i) => i + 1
-                  ).map((day) => {
-                    const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-                    const dayDate = new DayDate(date);
-                    const leave = userSchedule.leaves[date];
-
-                    return (
-                      <td
-                        key={day}
-                        className={`whitespace-nowrap text-sm text-center border-r border-gray-100 ${
-                          dayDate.isWeekend() ? "bg-gray-50" : ""
-                        }`}
-                      >
-                        {leave && (
-                          <span
-                            title={leave.leaveRequest?.type}
-                            className={`inline-flex items-center rounded-full px-2 py-2 ${
-                              leave?.leaveRequest &&
-                              !leave.leaveRequest.approved &&
-                              "opacity-50"
-                            }`}
-                            style={{
-                              backgroundColor: leave?.color,
-                            }}
-                          >
-                            {leave.icon}
-                          </span>
-                        )}
-                      </td>
-                    );
-                  })}
+                  ).map((day) => (
+                    <th
+                      key={day}
+                      scope="col"
+                      className="bg-white sticky top-0 z-20 px-1 py-3.5 text-center text-sm font-semibold text-gray-900 border-r border-gray-300 shadow-[0_1px_3px_0_rgba(0,0,0,0.1)]"
+                    >
+                      {day}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {schedule?.map((userSchedule) => (
+                  <tr key={userSchedule.user.pk}>
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 flex items-center gap-2 border-r border-gray-300">
+                      <Avatar {...userSchedule.user} size={30} />
+                      <span className="text-sm font-medium text-gray-600">
+                        {userSchedule.user.name}
+                      </span>
+                    </td>
+                    {Array.from(
+                      { length: new Date(year, month + 1, 0).getDate() },
+                      (_, i) => i + 1
+                    ).map((day) => {
+                      const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                      const dayDate = new DayDate(date);
+                      const leave = userSchedule.leaves[date];
+
+                      return (
+                        <td
+                          key={day}
+                          className={`whitespace-nowrap text-sm text-center border-r border-gray-100 relative ${
+                            dayDate.isWeekend() ? "bg-gray-50" : ""
+                          }`}
+                        >
+                          <span className="absolute top-1 right-1 text-gray-300 text-xs">
+                            {day}
+                          </span>
+                          {leave && (
+                            <span
+                              title={leave.leaveRequest?.type}
+                              className={`inline-flex items-center rounded-full px-2 py-2 ${
+                                leave?.leaveRequest &&
+                                !leave.leaveRequest.approved &&
+                                "opacity-50"
+                              }`}
+                              style={{
+                                backgroundColor: leave?.color,
+                              }}
+                            >
+                              {leave.icon}
+                            </span>
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     );
