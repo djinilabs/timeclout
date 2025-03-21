@@ -42,6 +42,8 @@ export interface ShiftsAutoFillParams {
   slots: AutoFillSlot[];
 }
 
+const ONE_DAY_IN_MINUTES = 24 * 60;
+
 const hourMinutesToMinutes = ([hours, minutes]: [number, number]) => {
   return hours * 60 + minutes;
 };
@@ -109,7 +111,9 @@ export const shiftsAutoFillParams = async (
         .filter((leave) => leave.approved)
         .map((leave) => ({
           start: diffInMinutes(startDay, new DayDate(leave.startDate)),
-          end: diffInMinutes(startDay, new DayDate(leave.endDate)),
+          end:
+            diffInMinutes(startDay, new DayDate(leave.endDate)) +
+            ONE_DAY_IN_MINUTES,
           type: leave.type,
           isPersonal:
             getDefined(

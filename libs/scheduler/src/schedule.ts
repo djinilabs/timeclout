@@ -43,18 +43,22 @@ export const randomSchedule = ({
         .filter((w) =>
           slot.requiredQualifications.every((q) => w.qualifications.includes(q))
         )
-        .filter((w) =>
-          isWorkerAvailableToWork(
+        .filter((w) => {
+          const [available] = isWorkerAvailableToWork(
             w,
             slot.workHours,
             busy.get(w) ?? [],
-            respectLeaveSchedule
-          )
-        )
+            respectLeaveSchedule,
+            startDay
+          );
+          return available;
+        })
         .sort(sortByPastWorkLoad);
 
       if (!slot.assignedWorkerPk && availableSortedWorkers.length < 1) {
-        throw new Error("Not enough workers available");
+        throw new Error(
+          `Of ${workers.length} workers, none is available to work on day ${slot.startsOnDay}`
+        );
       }
 
       const worker: SlotWorker = slot.assignedWorkerPk
