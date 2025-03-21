@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Trans } from "@lingui/react/macro";
@@ -15,9 +15,23 @@ import { LeaveRequest as LeaveRequestComponent } from "../components/stateless/L
 import { Button } from "../components/stateless/Button";
 import { useMutation } from "../hooks/useMutation";
 import { i18n } from "@lingui/core";
-export const LeaveRequest = () => {
+
+export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
   const navigate = useNavigate();
+
   const { company, user, startDate, endDate, leaveType } = useParams();
+  const backTo = useMemo(() => {
+    const url = new URL(
+      window.origin + (callbackUrl ?? `/companies/${company}`)
+    );
+    return {
+      pathname: url.pathname,
+      search: url.search,
+    };
+  }, [callbackUrl, company]);
+
+  console.log(backTo);
+
   const [queryResult] = useQuery<
     { leaveRequest: LeaveRequestType },
     QueryLeaveRequestArgs
@@ -41,9 +55,9 @@ export const LeaveRequest = () => {
     });
     if (!result.error) {
       toast.success(i18n.t("Leave request rejected"));
-      navigate(`/companies/${company}`);
+      navigate(backTo);
     }
-  }, [leaveRequest, company, navigate, rejectLeaveRequest]);
+  }, [leaveRequest, navigate, rejectLeaveRequest, backTo]);
 
   const [, approveLeaveRequest] = useMutation(approveLeaveRequestMutation);
   const onApproveLeaveRequest = useCallback(async () => {
@@ -55,9 +69,9 @@ export const LeaveRequest = () => {
     });
     if (!result.error) {
       toast.success(i18n.t("Leave request approved"));
-      navigate(`/companies/${company}`);
+      navigate(backTo);
     }
-  }, [leaveRequest, company, navigate, approveLeaveRequest]);
+  }, [leaveRequest, navigate, approveLeaveRequest, backTo]);
 
   const [, removeLeaveRequest] = useMutation(deleteLeaveRequestMutation);
   const onRemoveLeaveRequest = useCallback(async () => {
@@ -69,9 +83,9 @@ export const LeaveRequest = () => {
     });
     if (!result.error) {
       toast.success(i18n.t("Leave request removed"));
-      navigate(`/companies/${company}`);
+      navigate(backTo);
     }
-  }, [leaveRequest, company, navigate, removeLeaveRequest]);
+  }, [leaveRequest, navigate, removeLeaveRequest, backTo]);
 
   if (!leaveRequest) {
     return (
@@ -86,8 +100,11 @@ export const LeaveRequest = () => {
       <LeaveRequestComponent {...leaveRequest} />
       <div className="flex gap-4 justify-end">
         <>
-          <Button cancel onClick={() => navigate(`/companies/${company}`)}>
-            <Trans>Back to company</Trans>
+          <Button
+            cancel
+            onClick={() => navigate(callbackUrl ?? `/companies/${company}`)}
+          >
+            <Trans>Cancel</Trans>
           </Button>
           {leaveRequest.approved ? (
             <Button onClick={onRemoveLeaveRequest}>

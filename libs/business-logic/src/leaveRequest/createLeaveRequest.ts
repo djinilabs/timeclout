@@ -67,7 +67,7 @@ export const createLeaveRequest = async ({
       "@/business-logic/leaveRequest/createLeaveRequest.ts: approving leave request",
       leaveRequest
     );
-    await approveLeaveRequest(leaveRequest, userPk);
+    await approveLeaveRequest(leaveRequest, actingUserPk);
   } else {
     console.log(
       "@/business-logic/leaveRequest/createLeaveRequest.ts: not approving leave request",

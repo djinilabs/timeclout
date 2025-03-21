@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { memo, ReactNode, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
 import { Avatar } from "./Avatar";
 import { months } from "../../utils/months";
@@ -192,21 +192,34 @@ export const MonthlyLinearSchedule = memo(
                           <span className="absolute top-1 right-1 text-gray-300 text-xs">
                             {day}
                           </span>
-                          {leave && (
-                            <span
-                              title={leave.leaveRequest?.type}
-                              className={`inline-flex items-center rounded-full px-2 py-2 ${
-                                leave?.leaveRequest &&
-                                !leave.leaveRequest.approved &&
-                                "opacity-50"
-                              }`}
-                              style={{
-                                backgroundColor: leave?.color,
-                              }}
-                            >
-                              {leave.icon}
-                            </span>
-                          )}
+                          {leave &&
+                            (leave.leaveRequest ? (
+                              <Link
+                                to={`/${leave.leaveRequest.pk}/leave-requests/${leave.leaveRequest.sk}?callbackUrl=${encodeURIComponent(
+                                  window.location.pathname +
+                                    window.location.search
+                                )}`}
+                                title={leave.leaveRequest.type}
+                                className={`inline-flex items-center rounded-full px-2 py-2 ${
+                                  !leave.leaveRequest.approved && "opacity-50"
+                                }`}
+                                style={{
+                                  backgroundColor: leave.color,
+                                }}
+                              >
+                                {leave.icon}
+                              </Link>
+                            ) : (
+                              <span
+                                title={leave.type}
+                                className="inline-flex items-center rounded-full px-2 py-2"
+                                style={{
+                                  backgroundColor: leave.color,
+                                }}
+                              >
+                                {leave.icon}
+                              </span>
+                            ))}
                         </td>
                       );
                     })}
