@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
 import { BookCompanyTimeOff } from "./BookCompanyTimeOff";
@@ -32,7 +32,20 @@ export const CreateTeamMemberLeaveRequest = () => {
       name: "location",
     },
   });
+  const users = useMemo(
+    () => queryResponse.data?.team?.members ?? [],
+    [queryResponse.data]
+  );
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  const [searchParams] = useSearchParams();
+  const userPk = searchParams.get("user");
+
+  useEffect(() => {
+    if (userPk && users && !selectedUser) {
+      setSelectedUser(users.find((u) => u.pk === userPk) ?? null);
+    }
+  }, [users, userPk, selectedUser]);
 
   const [, createLeaveRequestForUser] = useMutation<
     { createLeaveRequestForUser: LeaveRequest },
@@ -57,8 +70,9 @@ export const CreateTeamMemberLeaveRequest = () => {
         </div>
         <div className="mt-6 space-y-3 col-span-2">
           <SelectUser
+            user={selectedUser}
             onChange={setSelectedUser}
-            users={queryResponse.data?.team?.members ?? []}
+            users={users}
             autoFocus
           />
         </div>

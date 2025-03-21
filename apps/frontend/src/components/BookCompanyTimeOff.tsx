@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import "react-day-picker/style.css";
 import toast from "react-hot-toast";
 import { Trans } from "@lingui/react/macro";
@@ -70,10 +70,18 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
     [companyWithSettings]
   );
 
+  const [searchParams] = useSearchParams();
+  const startDateParam = searchParams.get("date");
+  const [startDate, setStartDate] = useState(
+    () => new DayDate(startDateParam ?? new Date())
+  );
+
   const form = useForm({
     defaultValues: {
       type: leaveTypes[0].name,
-      dateRange: [] as DateRange,
+      dateRange: (startDateParam
+        ? [startDateParam, startDateParam]
+        : []) satisfies DateRange,
       reason: "",
     },
     onSubmit: ({ value }) => {
@@ -82,7 +90,6 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   });
 
   // Holidays
-  const [startDate, setStartDate] = useState(() => new DayDate(new Date()));
   const [endDate, setEndDate] = useState(() =>
     new DayDate(new Date()).nextMonth(1).endOfMonth()
   );
@@ -264,8 +271,8 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                     }
                     onSelect={(range) =>
                       field.handleChange([
-                        range?.from?.toISOString().split("T")[0],
-                        range?.to?.toISOString().split("T")[0],
+                        range?.from?.toISOString().split("T")[0] ?? "",
+                        range?.to?.toISOString().split("T")[0] ?? "",
                       ])
                     }
                     onMonthChange={(month) => {

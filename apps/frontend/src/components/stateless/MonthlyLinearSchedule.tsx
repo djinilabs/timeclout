@@ -185,13 +185,27 @@ export const MonthlyLinearSchedule = memo(
                       return (
                         <td
                           key={day}
-                          className={`whitespace-nowrap text-sm text-center border-r border-gray-100 relative ${
+                          className={`whitespace-nowrap text-sm text-center border-r border-gray-100 relative group ${
                             dayDate.isWeekend() ? "bg-gray-50" : ""
                           }`}
                         >
                           <span className="absolute top-1 right-1 text-gray-300 text-xs">
                             {day}
                           </span>
+
+                          {!leave?.leaveRequest ? (
+                            <Link
+                              to={`/companies/${company}/units/${unit}/teams/${team}/leave-requests/new?date=${date}&user=${encodeURIComponent(
+                                userSchedule.user.pk
+                              )}`}
+                              className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <span className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
+                                <span className="text-gray-600">+</span>
+                              </span>
+                            </Link>
+                          ) : null}
+
                           {leave &&
                             (leave.leaveRequest ? (
                               <Link

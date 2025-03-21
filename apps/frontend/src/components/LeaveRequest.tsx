@@ -30,8 +30,6 @@ export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
     };
   }, [callbackUrl, company]);
 
-  console.log(backTo);
-
   const [queryResult] = useQuery<
     { leaveRequest: LeaveRequestType },
     QueryLeaveRequestArgs
