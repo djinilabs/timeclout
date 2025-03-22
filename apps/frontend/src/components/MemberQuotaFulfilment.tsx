@@ -29,6 +29,7 @@ export const MemberQuotaFulfilment: FC<MemberQuotaFulfilmentProps> = ({
   >({
     query: memberQuotaFulfilmentQuery,
     pause: !startDate || !endDate,
+    toastIfError: false,
     variables: {
       companyPk,
       teamPk,

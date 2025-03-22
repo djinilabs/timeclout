@@ -7,6 +7,7 @@ type ExtendedUseQueryProps<
   TVariables extends AnyVariables = AnyVariables,
 > = UseQueryArgs<TVariables, TData> & {
   pollingIntervalMs?: number;
+  toastIfError?: boolean;
 };
 
 export const useQuery = <
@@ -14,6 +15,7 @@ export const useQuery = <
   TVariables extends AnyVariables = AnyVariables,
 >({
   pollingIntervalMs,
+  toastIfError = true,
   ...props
 }: ExtendedUseQueryProps<TData, TVariables>): ReturnType<
   typeof urqlUseQuery<TData, TVariables>
@@ -25,14 +27,18 @@ export const useQuery = <
     let handle: string | undefined;
     if (result.error) {
       console.error(result.error);
-      handle = toast.error("Error fetching companies: " + result.error.message);
+      if (toastIfError) {
+        handle = toast.error(
+          "Error fetching companies: " + result.error.message
+        );
+      }
     }
     return () => {
       if (handle) {
         toast.remove(handle);
       }
     };
-  }, [result.error]);
+  }, [result.error, toastIfError]);
 
   useEffect(() => {
     if (pollingIntervalMs) {

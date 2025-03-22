@@ -16,11 +16,23 @@ export const getEntitySettings = async <
     if (settings == null) {
       return undefined;
     }
-    return settingsTypes[settingsKey].parse(settings) as TShape;
   } catch (err) {
     console.error(err);
     throw new Error(
       `Error getting entity settings for entity: ${entityPk} and settings key: ${settingsKey}: ${JSON.stringify(
+        settings
+      )}: ${err.message}`
+    );
+  }
+  if (settings == null) {
+    return undefined;
+  }
+  try {
+    return settingsTypes[settingsKey].parse(settings) as TShape;
+  } catch (err) {
+    console.error(err);
+    throw new Error(
+      `Error parsing entity settings for entity: ${entityPk} and settings key: ${settingsKey}: ${JSON.stringify(
         settings
       )}: ${err.message}`
     );
