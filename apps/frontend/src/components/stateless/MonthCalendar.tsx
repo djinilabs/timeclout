@@ -281,14 +281,17 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                     day.isToday && "font-semibold",
                     day.isToday && "text-teal-600",
                     day.isCurrentMonth && !day.isToday && "text-gray-900",
-
                     !day.isCurrentMonth && !day.isToday && "text-gray-500",
                     focusedDay === day.date &&
                       "border border-dashed border-teal-300 -p-1",
                     "flex flex-col min-h-[8rem] pt-2"
                   )}
                 >
-                  <time dateTime={day.date} className="ml-auto pr-2">
+                  <time
+                    key={`time-${day.date}`}
+                    dateTime={day.date}
+                    className="ml-auto pr-2"
+                  >
                     {day.date.split("-").pop()?.replace(/^0/, "")}
                   </time>
                   <div
