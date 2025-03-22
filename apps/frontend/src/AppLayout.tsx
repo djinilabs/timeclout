@@ -41,7 +41,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         >
           <DialogBackdrop
             transition
-            className="fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear data-closed:opacity-0"
+            className="fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear data-closed:opacity-0 heyney"
           />
 
           <div className="fixed inset-0 flex">

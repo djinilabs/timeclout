@@ -335,15 +335,15 @@ export const TeamShiftsCalendar = () => {
 
           return (
             <div
+              key={`day-${day.date}`}
               className="h-full w-full grid"
               style={{
                 gridTemplateRows: `repeat(${rowCount ?? (shiftPositions?.length ?? 0) + (leaves?.length ?? 0)}, 1fr)`,
               }}
             >
               {leaves?.map((leave, leaveIndex) => (
-                <Transition show={showLeaveSchedule} appear>
+                <Transition show={showLeaveSchedule} appear key={leaveIndex}>
                   <div
-                    key={leave.user.pk}
                     className={classNames(
                       "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
                       leaveIndex === 0 && "border-t",
@@ -351,8 +351,12 @@ export const TeamShiftsCalendar = () => {
                     )}
                   >
                     <div className="flex items-center gap-1">
-                      <div className="text-sm flex items-center">
+                      <div
+                        key={`leave-icon-container-${leaveIndex}`}
+                        className="text-sm flex items-center"
+                      >
                         <div
+                          key={`leave-icon-${leaveIndex}`}
                           className="text-sm rounded-full p-1 bg-white"
                           style={{
                             backgroundColor: leave.color,
@@ -362,10 +366,16 @@ export const TeamShiftsCalendar = () => {
                           {leave.icon}
                         </div>
                       </div>
-                      <div className="flex items-center -ml-2">
+                      <div
+                        key={`leave-avatar-container-${leaveIndex}`}
+                        className="flex items-center -ml-2"
+                      >
                         <Avatar size={25} {...leave.user} />
                       </div>
-                      <div className="text-tiny truncate text-gray-400">
+                      <div
+                        key={`leave-name-${leaveIndex}`}
+                        className="text-tiny truncate text-gray-400"
+                      >
                         {leave.user.name}
                       </div>
                     </div>
@@ -376,7 +386,7 @@ export const TeamShiftsCalendar = () => {
                 length: leaveRowCount - (leaves?.length ?? 0),
               }).map((_, leaveIndex) => (
                 <div
-                  key={`leave-${leaveIndex}`}
+                  key={`leave-row-${leaveIndex}`}
                   className="h-full w-full row-span-2"
                 />
               ))}
@@ -420,7 +430,7 @@ export const TeamShiftsCalendar = () => {
 
                 return (
                   <div
-                    key={shiftPosition.sk}
+                    key={`shift-position-${shiftPositionIndex}`}
                     className="row-span-3 transition-all duration-300 ease-in"
                   >
                     <ShiftPosition

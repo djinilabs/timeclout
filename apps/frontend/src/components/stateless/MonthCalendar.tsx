@@ -74,16 +74,28 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
     }, [goTo]);
 
     return (
-      <div className={classNames("flex h-full flex-col")}>
-        <header className="flex items-center justify-between px-6 py-4 flex-none">
-          <h1 className="text-base font-semibold text-gray-900">
+      <div
+        key="calendar-container"
+        className={classNames("flex h-full flex-col")}
+      >
+        <header
+          key="calendar-header"
+          className="flex items-center justify-between px-6 py-4 flex-none"
+        >
+          <h1
+            key="calendar-title"
+            className="text-base font-semibold text-gray-900"
+          >
             <time dateTime={`${year}-${month + 1}`}>
               {months()[month]} {year}
             </time>
           </h1>
-          <div className="flex items-center">
+          <div key="calendar-controls" className="flex items-center">
             {goTo && (
-              <div className="relative flex items-center rounded-md bg-white shadow-2xs">
+              <div
+                key="month-nav"
+                className="relative flex items-center rounded-md bg-white shadow-2xs"
+              >
                 <button
                   type="button"
                   key="prev-month"
@@ -103,7 +115,10 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                 >
                   <Trans>Today</Trans>
                 </button>
-                <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                <span
+                  key="divider"
+                  className="relative -mx-px h-5 w-px bg-gray-300 md:hidden"
+                />
                 <button
                   type="button"
                   key="next-month"
@@ -117,9 +132,12 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                 </button>
               </div>
             )}
-            <div className="hidden md:ml-4 md:flex md:items-center">
+            <div
+              key="desktop-actions"
+              className="hidden md:ml-4 md:flex md:items-center"
+            >
               {additionalActions?.map((action, index) => (
-                <div key={index} className="ml-6">
+                <div key={`desktop-action-${index}`} className="ml-6">
                   {action.type === "button" ? (
                     <Button onClick={action.onClick}>{action.text}</Button>
                   ) : (
@@ -128,7 +146,11 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                 </div>
               ))}
             </div>
-            <Menu as="div" className="relative ml-6 md:hidden">
+            <Menu
+              as="div"
+              key="mobile-menu"
+              className="relative ml-6 md:hidden"
+            >
               <MenuButton className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">
                 <span className="sr-only">
                   <Trans>Open menu</Trans>
@@ -140,12 +162,14 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                 transition
                 className="absolute right-0 z-10 mt-3 w-36 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden data-closed:scale-95 data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
               >
-                <div className="py-1">
+                <div key="mobile-actions" className="py-1">
                   {additionalActions?.map((action, index) =>
                     action.type === "component" ? (
-                      <MenuItem key={index}>{action.component}</MenuItem>
+                      <MenuItem key={`mobile-component-${index}`}>
+                        {action.component}
+                      </MenuItem>
                     ) : (
-                      <MenuItem key={index}>
+                      <MenuItem key={`mobile-action-${index}`}>
                         <a
                           onClick={action.onClick}
                           className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
@@ -157,7 +181,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                   )}
                 </div>
                 {goTo && (
-                  <div className="py-1">
+                  <div key="mobile-today" className="py-1">
                     <MenuItem>
                       <a
                         onClick={() =>
@@ -177,55 +201,65 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
             </Menu>
           </div>
         </header>
-        <div className="ring-1 shadow-xs ring-black/5 flex flex-auto flex-col rounded-lg overflow-hidden">
-          <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs/6 font-semibold text-gray-700 flex-none">
-            <div className="bg-white py-2">
+        <div
+          key="calendar-body"
+          className="ring-1 shadow-xs ring-black/5 flex flex-auto flex-col rounded-lg overflow-hidden"
+        >
+          <div
+            key="weekday-headers"
+            className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs/6 font-semibold text-gray-700 flex-none"
+          >
+            <div key="monday-header" className="bg-white py-2">
               <Trans id="M for Monday">M</Trans>
               <span className="sr-only sm:not-sr-only">
                 <Trans id="on for Monday">on</Trans>
               </span>
             </div>
-            <div className="bg-white py-2">
+            <div key="tuesday-header" className="bg-white py-2">
               <Trans id="T for Tuesday">T</Trans>
               <span className="sr-only sm:not-sr-only">
                 <Trans id="ue for Tuesday">ue</Trans>
               </span>
             </div>
-            <div className="bg-white py-2">
+            <div key="wednesday-header" className="bg-white py-2">
               <Trans id="W for Wednesday">W</Trans>
               <span className="sr-only sm:not-sr-only">
                 <Trans id="ed for Wednesday">wednesday</Trans>
               </span>
             </div>
-            <div className="bg-white py-2">
+            <div key="thursday-header" className="bg-white py-2">
               <Trans id="T for Thursday">T</Trans>
               <span className="sr-only sm:not-sr-only">
                 <Trans id="hu for Thursday">hu</Trans>
               </span>
             </div>
-            <div className="bg-white py-2">
+            <div key="friday-header" className="bg-white py-2">
               <Trans id="F for Friday">F</Trans>
               <span className="sr-only sm:not-sr-only">
                 <Trans id="ri for Friday">ri</Trans>
               </span>
             </div>
-            <div className="bg-white py-2">
+            <div key="saturday-header" className="bg-white py-2">
               <Trans id="S for Saturday">S</Trans>
               <span className="sr-only sm:not-sr-only">
                 <Trans id="at for Saturday">at</Trans>
               </span>
             </div>
-            <div className="bg-white py-2">
+            <div key="sunday-header" className="bg-white py-2">
               <Trans id="S for Sunday">S</Trans>
               <span className="sr-only sm:not-sr-only">
                 <Trans id="un for Sunday">un</Trans>
               </span>
             </div>
           </div>
-          <div className="flex text-xs/6 text-gray-700">
-            <div className="divide-y divide-x divide-gray-200 w-full grid grid-cols-7 gap-0">
+          <div key="calendar-grid" className="flex text-xs/6 text-gray-700">
+            <div
+              key="days-grid"
+              className="divide-y divide-x divide-gray-200 w-full grid grid-cols-7 gap-0"
+            >
               {days.map((day, index) => (
                 <div
+                  key={`day-${day.date}`}
                   tabIndex={index * 100}
                   autoFocus={index === 0}
                   onFocus={() => onDayFocus?.(day.date)}
@@ -242,7 +276,6 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                     e.preventDefault();
                     onCellDragOver?.(day.date, e);
                   }}
-                  key={day.date}
                   className={classNames(
                     day.isCurrentMonth ? "bg-white" : "bg-gray-50",
                     day.isToday && "font-semibold",
@@ -258,7 +291,10 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                   <time dateTime={day.date} className="ml-auto pr-2">
                     {day.date.split("-").pop()?.replace(/^0/, "")}
                   </time>
-                  <div className="h-full w-full overflow-hidden">
+                  <div
+                    key={`day-content-${day.date}`}
+                    className="h-full w-full overflow-hidden"
+                  >
                     {renderDay(day, index)}
                   </div>
                 </div>
