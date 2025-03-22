@@ -1,5 +1,11 @@
 import { memo, useEffect, useRef } from "react";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from "@headlessui/react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { colors } from "@/settings";
@@ -206,7 +212,7 @@ export const ShiftPosition = memo(
           </Menu>
 
           <div
-            className="flex-auto flex items-center justify-left ml-2 overflow-hidden"
+            className="flex-auto flex items-center justify-left ml-2 overflow-hidden transition-all duration-300 ease-in"
             style={{
               marginLeft: showScheduleDetails ? `${startPercent}%` : undefined,
             }}
@@ -223,11 +229,13 @@ export const ShiftPosition = memo(
               {shiftPosition.name}
             </span>
           </div>
-          {showScheduleDetails && (
-            <MiniTimeScheduleVisualizer
-              schedules={schedules as Array<TimeSchedule>}
-            />
-          )}
+          <Transition show={showScheduleDetails} appear>
+            <div className="transition-all duration-300 ease-in data-[closed]:opacity-0">
+              <MiniTimeScheduleVisualizer
+                schedules={schedules as Array<TimeSchedule>}
+              />
+            </div>
+          </Transition>
         </div>
       </>
     );

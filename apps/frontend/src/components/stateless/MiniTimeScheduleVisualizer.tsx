@@ -74,7 +74,7 @@ export const MiniTimeScheduleVisualizer = memo(
         style={{ width: `${howManyDaysPercentage}%` }}
       >
         <div
-          className="text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap leading-none"
+          className="transition-all duration-300 ease-in text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap leading-none"
           style={{ marginLeft: `${startPercent}%` }}
         >
           {`${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
@@ -101,7 +101,7 @@ export const MiniTimeScheduleVisualizer = memo(
             return (
               <div
                 key={index}
-                className="absolute h-full rounded-sm"
+                className="absolute h-full rounded-sm transition-all duration-300 ease-in"
                 style={{
                   left: `${startPercent}%`,
                   width: `${width}%`,
