@@ -61,7 +61,7 @@ export const useTeamLeaveSchedule = ({
     pause,
   });
 
-  const teamScheduleResult = pause ? undefined : teamScheduleLastResult;
+  const teamScheduleResult = teamScheduleLastResult;
 
   const leaveSchedule: Record<string, LeaveRenderInfo[]> = useMemo(() => {
     const schedule = teamScheduleResult?.team.approvedSchedule;

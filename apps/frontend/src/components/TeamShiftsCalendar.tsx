@@ -31,6 +31,7 @@ import { useLocalPreference } from "../hooks/useLocalPreference";
 import { LabeledSwitch } from "./stateless/LabeledSwitch";
 import { toMinutes } from "../utils/toMinutes";
 import { useQuery } from "../hooks/useQuery";
+import { Transition } from "@headlessui/react";
 
 export const TeamShiftsCalendar = () => {
   const { team, company } = useParams();
@@ -340,34 +341,36 @@ export const TeamShiftsCalendar = () => {
               }}
             >
               {leaves?.map((leave, leaveIndex) => (
-                <div
-                  key={leave.user.pk}
-                  className={classNames(
-                    "p-2 border-gray-100 row-span-2 bg-gray-50",
-                    leaveIndex === 0 && "border-t",
-                    leaveIndex === leaves.length - 1 && "border-b"
-                  )}
-                >
-                  <div className="flex items-center gap-1">
-                    <div className="text-sm flex items-center">
-                      <div
-                        className="text-sm rounded-full p-1 bg-white"
-                        style={{
-                          backgroundColor: leave.color,
-                        }}
-                        title={leave.type}
-                      >
-                        {leave.icon}
+                <Transition show={showLeaveSchedule} appear>
+                  <div
+                    key={leave.user.pk}
+                    className={classNames(
+                      "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                      leaveIndex === 0 && "border-t",
+                      leaveIndex === leaves.length - 1 && "border-b"
+                    )}
+                  >
+                    <div className="flex items-center gap-1">
+                      <div className="text-sm flex items-center">
+                        <div
+                          className="text-sm rounded-full p-1 bg-white"
+                          style={{
+                            backgroundColor: leave.color,
+                          }}
+                          title={leave.type}
+                        >
+                          {leave.icon}
+                        </div>
+                      </div>
+                      <div className="flex items-center -ml-2">
+                        <Avatar size={25} {...leave.user} />
+                      </div>
+                      <div className="text-tiny truncate text-gray-400">
+                        {leave.user.name}
                       </div>
                     </div>
-                    <div className="flex items-center -ml-2">
-                      <Avatar size={25} {...leave.user} />
-                    </div>
-                    <div className="text-tiny truncate text-gray-400">
-                      {leave.user.name}
-                    </div>
                   </div>
-                </div>
+                </Transition>
               ))}
               {Array.from({
                 length: leaveRowCount - (leaves?.length ?? 0),
@@ -416,7 +419,10 @@ export const TeamShiftsCalendar = () => {
                     }));
 
                 return (
-                  <div key={shiftPosition.sk} className="row-span-3">
+                  <div
+                    key={shiftPosition.sk}
+                    className="row-span-3 transition-all duration-300 ease-in"
+                  >
                     <ShiftPosition
                       lastRow={shiftPositionIndex === shiftPositions.length - 1}
                       focus={
