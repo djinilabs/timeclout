@@ -1,5 +1,5 @@
-import { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /* eslint-disable */
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -244,6 +244,7 @@ export type Mutation = {
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
   saveTeamMemberQualifications: Team;
+  unassignShiftPositions: Array<ShiftPosition>;
   updateCompany: Company;
   updateCompanySettings: Company;
   updateLeaveRequest: LeaveRequest;
@@ -356,6 +357,10 @@ export type MutationSaveTeamMemberQualificationsArgs = {
   qualifications: Array<Scalars["String"]["input"]>;
   teamPk: Scalars["String"]["input"];
   userPk: Scalars["String"]["input"];
+};
+
+export type MutationUnassignShiftPositionsArgs = {
+  input: UnassignShiftPositionsInput;
 };
 
 export type MutationUpdateCompanyArgs = {
@@ -622,6 +627,12 @@ export type TeamScheduleArgs = {
 
 export type TeamSettingsArgs = {
   name: Scalars["String"]["input"];
+};
+
+export type UnassignShiftPositionsInput = {
+  endDay: Scalars["String"]["input"];
+  startDay: Scalars["String"]["input"];
+  team: Scalars["String"]["input"];
 };
 
 export type Unit = {

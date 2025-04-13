@@ -5,7 +5,7 @@ import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { forbidden } from "@hapi/boom";
 import { isUserAuthorized } from "@/business-logic";
 
-export const teamMember: NonNullable<QueryResolvers["teamMember"]> = async (
+export const teamMember: NonNullable<QueryResolvers['teamMember']> = async (
   _parent,
   { teamPk, memberPk },
   ctx
