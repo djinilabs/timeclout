@@ -17,8 +17,13 @@ export interface UnassignShiftPositionsDialogProps {
 export const UnassignShiftPositionsDialog: FC<
   UnassignShiftPositionsDialogProps
 > = ({ team, onClose, onUnassign }) => {
-  const [startDate, setStartDate] = useState<DayDate>(DayDate.today());
-  const [endDate, setEndDate] = useState<DayDate>(DayDate.today());
+  const [dateRange, setDateRange] = useState<{
+    from: DayDate;
+    to: DayDate;
+  }>({
+    from: DayDate.today(),
+    to: DayDate.today(),
+  });
 
   const [{ fetching }, unassignShiftPositions] = useMutation(
     unassignShiftPositionsMutation
@@ -28,8 +33,8 @@ export const UnassignShiftPositionsDialog: FC<
     const result = await unassignShiftPositions({
       input: {
         team,
-        startDay: startDate.toString(),
-        endDay: endDate.toString(),
+        startDay: dateRange.from.toString(),
+        endDay: dateRange.to.toString(),
       },
     });
 
@@ -38,34 +43,31 @@ export const UnassignShiftPositionsDialog: FC<
       onUnassign();
       onClose();
     }
-  }, [endDate, onClose, onUnassign, startDate, team, unassignShiftPositions]);
+  }, [dateRange, onClose, onUnassign, team, unassignShiftPositions]);
 
   return (
     <div className="space-y-4">
       <div className="space-y-2">
         <label className="block text-sm font-medium text-gray-700">
-          <Trans>Start date</Trans>
+          <Trans>Date range</Trans>
         </label>
         <DayPicker
-          mode="single"
+          mode="range"
           ISOWeek
           timeZone="UTC"
           required
-          selected={startDate.toDate()}
-          onSelect={(date) => date && setStartDate(new DayDate(date))}
-        />
-      </div>
-      <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
-          <Trans>End date</Trans>
-        </label>
-        <DayPicker
-          mode="single"
-          ISOWeek
-          timeZone="UTC"
-          required
-          selected={endDate.toDate()}
-          onSelect={(date) => date && setEndDate(new DayDate(date))}
+          selected={{
+            from: dateRange.from.toDate(),
+            to: dateRange.to.toDate(),
+          }}
+          onSelect={(range) => {
+            if (range?.from && range?.to) {
+              setDateRange({
+                from: new DayDate(range.from),
+                to: new DayDate(range.to),
+              });
+            }
+          }}
         />
       </div>
       <div className="flex justify-end space-x-2">

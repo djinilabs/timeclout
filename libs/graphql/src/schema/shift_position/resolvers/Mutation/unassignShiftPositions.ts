@@ -5,6 +5,7 @@ import type {
   ShiftPosition,
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
+import { DayDate } from "@/day-date";
 
 export const unassignShiftPositions: NonNullable<
   MutationResolvers["unassignShiftPositions"]
@@ -19,12 +20,16 @@ export const unassignShiftPositions: NonNullable<
   const pk = resourceRef("teams", team);
   const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
 
+  console.log("unassign shift positions", pk, startDay, endDay);
+
+  const endDayDate = new DayDate(endDay);
+
   const positions = await shift_positions.query({
     KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
     ExpressionAttributeValues: {
       ":pk": pk,
       ":startDay": startDay,
-      ":endDay": endDay,
+      ":endDay": endDayDate.nextDay().toString(),
     },
   });
 
