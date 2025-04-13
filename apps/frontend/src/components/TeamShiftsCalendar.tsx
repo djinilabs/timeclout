@@ -32,11 +32,13 @@ import { LabeledSwitch } from "./stateless/LabeledSwitch";
 import { toMinutes } from "../utils/toMinutes";
 import { useQuery } from "../hooks/useQuery";
 import { Transition } from "@headlessui/react";
+import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
 
 export const TeamShiftsCalendar = () => {
   const { team, company } = useParams();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [autoFillDialogOpen, setAutoFillDialogOpen] = useState(false);
+  const [unassignDialogOpen, setUnassignDialogOpen] = useState(false);
 
   const [params, setParams] = useSearchParams();
   const selectedMonth = useMemo(() => {
@@ -80,7 +82,7 @@ export const TeamShiftsCalendar = () => {
     startDay: calendarStartDay,
     endDay: calendarEndDay,
     pollingIntervalMs: 30000,
-    pause: createDialogOpen || autoFillDialogOpen,
+    pause: createDialogOpen || autoFillDialogOpen || unassignDialogOpen,
   });
 
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
@@ -264,6 +266,21 @@ export const TeamShiftsCalendar = () => {
           />
         </Suspense>
       </Dialog>
+      <Dialog
+        open={unassignDialogOpen}
+        onClose={() => setUnassignDialogOpen(false)}
+        title={<Trans>Unassign shift positions</Trans>}
+      >
+        <Suspense>
+          <UnassignShiftPositionsDialog
+            team={getDefined(team)}
+            onClose={() => setUnassignDialogOpen(false)}
+            onUnassign={() => {
+              refetchTeamShiftsQuery();
+            }}
+          />
+        </Suspense>
+      </Dialog>
       <MonthCalendar
         onDayFocus={setFocusedDay}
         focusedDay={focusedDay}
@@ -286,6 +303,13 @@ export const TeamShiftsCalendar = () => {
                     text: <Trans>Auto fill</Trans>,
                     onClick: () => {
                       setAutoFillDialogOpen(true);
+                    },
+                  } as const,
+                  {
+                    type: "button",
+                    text: <Trans>Unassign positions</Trans>,
+                    onClick: () => {
+                      setUnassignDialogOpen(true);
                     },
                   } as const,
                 ]

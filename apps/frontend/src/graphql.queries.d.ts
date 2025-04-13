@@ -161,6 +161,15 @@ declare module '@/graphql-client/queries/removeUserFromTeam.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/unassignShiftPositions.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UnassignShiftPositions: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/updateCompanySettings.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
