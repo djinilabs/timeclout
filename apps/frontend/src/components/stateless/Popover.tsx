@@ -23,6 +23,7 @@ export const Popover: FC<PopoverProps> = memo(
         ref={setPopperElement}
         style={{
           ...styles.popper,
+          pointerEvents: "none",
           width: "100px",
           height: "100px",
         }}
