@@ -23,11 +23,13 @@ import { DayPicker } from "./stateless/DayPicker";
 
 export type DateRange = [startDate?: string, endDate?: string];
 
-export type TimeOffRequest = {
+export interface TimeOffRequest {
+  mode: "range" | "multiple";
   type: string;
   dateRange: DateRange;
+  dates: string[];
   reason: string;
-};
+}
 
 export interface QuotaFulfilmentProps {
   companyPk: string;
@@ -75,16 +77,19 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   const [startDate, setStartDate] = useState(
     () => new DayDate(startDateParam ?? new Date())
   );
+  const [dateMode, setDateMode] = useState<"range" | "multiple">("range");
 
   const form = useForm({
     defaultValues: {
+      mode: dateMode,
       type: leaveTypes[0].name,
+      dates: [],
       dateRange: (startDateParam
         ? [startDateParam, startDateParam]
         : []) satisfies DateRange,
       reason: "",
-    },
-    onSubmit: ({ value }) => {
+    } satisfies TimeOffRequest,
+    onSubmit: ({ value }: { value: TimeOffRequest }) => {
       onSubmit(value);
     },
   });
@@ -224,74 +229,150 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
           />
         </div>
         <div className="flex py-5 col-span-2">
-          <form.Field
-            name="dateRange"
-            children={(field) => {
-              const [startDate, endDate] = field.state.value.map((date) =>
-                date ? new Date(date) : undefined
-              );
-              const holidaysDates = Object.keys(holidays ?? {}).map(
-                (date) => new Date(date + "T00:00:00Z")
-              );
-              return (
-                <div>
-                  <label
-                    htmlFor="dateRange"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    <Trans>Date range</Trans>
-                  </label>
-                  <p className="mt-1 text-sm/6 text-gray-600">
-                    {startDate && endDate ? (
-                      <Trans>
-                        From {startDate.toLocaleDateString()} to{" "}
-                        {endDate.toLocaleDateString()}
-                      </Trans>
-                    ) : (
-                      <Trans>Select the date range for your leave.</Trans>
-                    )}
-                  </p>
-                  <DayPicker
-                    ISOWeek
-                    timeZone="UTC"
-                    mode="range"
-                    required
-                    selected={{
-                      from: startDate,
-                      to: endDate,
-                    }}
-                    disabled={{
-                      before: new Date(),
-                    }}
-                    numberOfMonths={2}
-                    captionLayout="dropdown"
-                    startMonth={new Date()}
-                    endMonth={
-                      new Date(new Date().setMonth(new Date().getMonth() + 24))
-                    }
-                    onSelect={(range) =>
-                      field.handleChange([
-                        range?.from?.toISOString().split("T")[0] ?? "",
-                        range?.to?.toISOString().split("T")[0] ?? "",
-                      ])
-                    }
-                    onMonthChange={(month) => {
-                      setStartDate(new DayDate(month));
-                      setEndDate(new DayDate(month).nextMonth(1).endOfMonth());
-                    }}
-                    modifiers={{
-                      holiday: holidaysDates,
-                      dayOfWeek: { dayOfWeek: [0, 6] },
-                    }}
-                    modifiersClassNames={{
-                      holiday: "bg-red-400 text-white mx-auto",
-                      dayOfWeek: "bg-gray-100 text-gray-500 mx-auto",
-                    }}
-                  />
-                </div>
-              );
-            }}
-          />
+          {dateMode == "range" ? (
+            <form.Field
+              name="dateRange"
+              children={(field) => {
+                const [startDate, endDate] = field.state.value.map((date) =>
+                  date ? new Date(date) : undefined
+                );
+                const holidaysDates = Object.keys(holidays ?? {}).map(
+                  (date) => new Date(date + "T00:00:00Z")
+                );
+                return (
+                  <div>
+                    <label
+                      htmlFor="dateRange"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      <Trans>Date range</Trans>
+                    </label>
+                    <p className="mt-1 text-sm/6 text-gray-600">
+                      {startDate && endDate ? (
+                        <Trans>
+                          From {startDate.toLocaleDateString()} to{" "}
+                          {endDate.toLocaleDateString()}
+                        </Trans>
+                      ) : (
+                        <Trans>Select the date range for your leave.</Trans>
+                      )}
+                    </p>
+                    <DayPicker
+                      ISOWeek
+                      timeZone="UTC"
+                      required
+                      modes={["range", "multiple"]}
+                      onChangeMode={(mode) => {
+                        if (mode === "multiple") {
+                          setDateMode(mode);
+                        }
+                      }}
+                      mode="range"
+                      selected={{
+                        from: startDate,
+                        to: endDate,
+                      }}
+                      disabled={{
+                        before: new Date(),
+                      }}
+                      numberOfMonths={2}
+                      captionLayout="dropdown"
+                      startMonth={new Date()}
+                      endMonth={
+                        new Date(
+                          new Date().setMonth(new Date().getMonth() + 24)
+                        )
+                      }
+                      onSelect={(range) =>
+                        field.handleChange([
+                          range?.from?.toISOString().split("T")[0] ?? "",
+                          range?.to?.toISOString().split("T")[0] ?? "",
+                        ])
+                      }
+                      onMonthChange={(month) => {
+                        setStartDate(new DayDate(month));
+                        setEndDate(
+                          new DayDate(month).nextMonth(1).endOfMonth()
+                        );
+                      }}
+                      modifiers={{
+                        holiday: holidaysDates,
+                        dayOfWeek: { dayOfWeek: [0, 6] },
+                      }}
+                      modifiersClassNames={{
+                        holiday: "bg-red-400 text-white mx-auto",
+                        dayOfWeek: "bg-gray-100 text-gray-500 mx-auto",
+                      }}
+                    />
+                  </div>
+                );
+              }}
+            />
+          ) : (
+            // dateMode == "multiple"
+            <form.Field
+              name="dates"
+              children={(field) => {
+                const dates = field.state.value.map((d) => new Date(d));
+                const holidaysDates = Object.keys(holidays ?? {}).map(
+                  (date) => new Date(date + "T00:00:00Z")
+                );
+                return (
+                  <div>
+                    <label
+                      htmlFor="dateRange"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      <Trans>Date range</Trans>
+                    </label>
+                    <DayPicker
+                      ISOWeek
+                      timeZone="UTC"
+                      required
+                      modes={["range", "multiple"]}
+                      onChangeMode={(mode) => {
+                        if (mode === "range") {
+                          setDateMode(mode);
+                        }
+                      }}
+                      mode="multiple"
+                      selected={dates}
+                      disabled={{
+                        before: new Date(),
+                      }}
+                      numberOfMonths={2}
+                      captionLayout="dropdown"
+                      startMonth={new Date()}
+                      endMonth={
+                        new Date(
+                          new Date().setMonth(new Date().getMonth() + 24)
+                        )
+                      }
+                      onSelect={(dates) =>
+                        field.handleChange(
+                          dates.map((d) => new DayDate(d).toString())
+                        )
+                      }
+                      onMonthChange={(month) => {
+                        setStartDate(new DayDate(month));
+                        setEndDate(
+                          new DayDate(month).nextMonth(1).endOfMonth()
+                        );
+                      }}
+                      modifiers={{
+                        holiday: holidaysDates,
+                        dayOfWeek: { dayOfWeek: [0, 6] },
+                      }}
+                      modifiersClassNames={{
+                        holiday: "bg-red-400 text-white mx-auto",
+                        dayOfWeek: "bg-gray-100 text-gray-500 mx-auto",
+                      }}
+                    />
+                  </div>
+                );
+              }}
+            />
+          )}
         </div>
       </div>
       <form.Subscribe
