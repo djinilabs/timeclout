@@ -20,6 +20,7 @@ export interface Day {
 }
 
 export interface MonthCalendarProps {
+  show?: boolean;
   additionalActions?: Array<
     | {
         type: "button";
@@ -45,6 +46,7 @@ export interface MonthCalendarProps {
 
 export const MonthCalendar: FC<MonthCalendarProps> = memo(
   ({
+    show = true,
     additionalActions,
     year,
     month,
@@ -72,6 +74,10 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
     const handleToday = useCallback(() => {
       goTo?.(new Date().getFullYear(), new Date().getMonth());
     }, [goTo]);
+
+    if (!show) {
+      return;
+    }
 
     return (
       <div
