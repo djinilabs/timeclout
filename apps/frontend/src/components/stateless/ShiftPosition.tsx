@@ -138,7 +138,7 @@ export const ShiftPosition = memo(
           >
             <MenuButton
               ref={menuButtonRef}
-              className="cursor-pointer hover:bg-black hover:bg-opacity-10 rounded-sm"
+              className="cursor-pointer hover:bg-gray-200 hover:bg-opacity-10 rounded-sm"
             >
               <EllipsisHorizontalIcon className="w-4 h-4" />
             </MenuButton>
