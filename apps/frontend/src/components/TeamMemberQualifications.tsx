@@ -37,7 +37,7 @@ const InternalTeamMemberQualifications: FC<TeamMemberQualificationsProps> = ({
       });
 
       if (!response.error) {
-        toast.success(i18n.t("Qualification added"));
+        toast.success(i18n.t("Qualifications changed"));
       }
     },
     [memberPk, teamPk, updateTeamMemberQualifications]

@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/UnassignShiftPositionsDialog.tsx:42
-msgid "Shift positions unassigned successfully"
-msgstr ""
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -218,6 +213,11 @@ msgid "User removed as manager"
 msgstr "Utilizador removido como gerente"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/UnassignShiftPositionsDialog.tsx:42
+msgid "Shift positions unassigned successfully"
+msgstr "As atribuições das posições de turno foram removidas com sucesso"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/TeamSettings.tsx:10
 msgid "Qualifications"
 msgstr "Qualificações"
@@ -245,8 +245,8 @@ msgstr "Qualificações da equipa guardadas"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/TeamMemberQualifications.tsx:40
-msgid "Qualification added"
-msgstr "Qualificação adicionada"
+msgid "Qualifications changed"
+msgstr "Qualificações alteradas"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/TeamCalendarIntegrations.tsx:8
@@ -387,6 +387,11 @@ msgstr "Não atribuido"
 #: apps/frontend/src/components/stateless/PermissionInput.tsx:18
 msgid "Please select a permission"
 msgstr "Por favor, selecione uma permissão"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/TeamMemberQualifications.tsx:40
+#~ msgid "Qualification added"
+#~ msgstr "Qualificação adicionada"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/AppLayout.tsx:91

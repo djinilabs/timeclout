@@ -5,11 +5,10 @@ import { Placement } from "@popperjs/core";
 export interface PopoverProps extends PropsWithChildren {
   referenceElement: HTMLElement | null;
   placement?: Placement;
-  open: boolean;
 }
 
 export const Popover: FC<PopoverProps> = memo(
-  ({ open, children, referenceElement, placement }) => {
+  ({ children, referenceElement, placement }) => {
     const [popperElement, setPopperElement] = useState<HTMLElement | null>(
       null
     );
