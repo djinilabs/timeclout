@@ -19,7 +19,15 @@ export const Popover: FC<PopoverProps> = memo(
     });
 
     return createPortal(
-      <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+      <div
+        ref={setPopperElement}
+        style={{
+          ...styles.popper,
+          width: "100px",
+          height: "100px",
+        }}
+        {...attributes.popper}
+      >
         <div ref={setArrowElement} style={styles.arrow} />
         {children}
       </div>,

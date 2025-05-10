@@ -296,7 +296,7 @@ export const MonthCalendar: FC<MonthCalendarProps> = memo(
                   <time
                     key={`time-${day.date}`}
                     dateTime={day.date}
-                    className="ml-auto pr-2"
+                    className="ml-auto pr-2 font-extrabold"
                   >
                     {day.date.split("-").pop()?.replace(/^0/, "")}
                   </time>
