@@ -7,9 +7,11 @@ import { BookCompanyTimeOff } from "./BookCompanyTimeOff";
 import { SelectUser } from "./stateless/SelectUser";
 import teamWithMemberAndTheirSettingsQuery from "@/graphql-client/queries/teamWithMembersAndTheirSettings.graphql";
 import createLeaveRequestForUserMutation from "@/graphql-client/mutations/createLeaveRequestForUser.graphql";
+import createSingleDayLeaveRequestsForUserMutation from "@/graphql-client/mutations/createSingleDayLeaveRequestsForUser.graphql";
 import {
   LeaveRequest,
   MutationCreateLeaveRequestForUserArgs,
+  MutationCreateSingleDayLeaveRequestsForUserArgs,
   QueryTeamArgs,
   Team,
   TeamSettingsArgs,
@@ -52,6 +54,11 @@ export const CreateTeamMemberLeaveRequest = () => {
     MutationCreateLeaveRequestForUserArgs
   >(createLeaveRequestForUserMutation);
 
+  const [, createSingleDayLeaveRequestsForUser] = useMutation<
+    { createSingleDayLeaveRequestsForUser: LeaveRequest },
+    MutationCreateSingleDayLeaveRequestsForUserArgs
+  >(createSingleDayLeaveRequestsForUserMutation);
+
   const navigate = useNavigate();
 
   return (
@@ -80,29 +87,48 @@ export const CreateTeamMemberLeaveRequest = () => {
       {selectedUser?.settings ? (
         <BookCompanyTimeOff
           onSubmit={async (request) => {
-            const response = await createLeaveRequestForUser({
-              input: {
-                companyPk: getDefined(company, "No company provided"),
-                teamPk: getDefined(teamPk, "No team provided"),
-                beneficiaryPk: selectedUser?.pk,
-                type: request.type,
-                startDate: getDefined(
-                  request.dateRange[0],
-                  "No start date provided"
-                ),
-                endDate: getDefined(
-                  request.dateRange[1],
-                  "No end date provided"
-                ),
-                reason: request.reason,
-              },
-            });
-            if (!response.error) {
-              toast.success(i18n.t("Leave request created successfully"));
-              navigate(
-                `/companies/${company}/units/${unit}/teams/${teamPk}?tab=leave-schedule`
-              );
+            if (request.dateRange && request.mode === "range") {
+              const response = await createLeaveRequestForUser({
+                input: {
+                  companyPk: getDefined(company, "No company provided"),
+                  teamPk: getDefined(teamPk, "No team provided"),
+                  beneficiaryPk: selectedUser?.pk,
+                  type: request.type,
+                  startDate: getDefined(
+                    request.dateRange[0],
+                    "No start date provided"
+                  ),
+                  endDate: getDefined(
+                    request.dateRange[1],
+                    "No end date provided"
+                  ),
+                  reason: request.reason,
+                },
+              });
+              if (!response.error) {
+                toast.success(i18n.t("Leave request created successfully"));
+              }
             }
+
+            if (request.mode === "multiple" && request.dates.length) {
+              const response = await createSingleDayLeaveRequestsForUser({
+                input: {
+                  companyPk: getDefined(company, "No company provided"),
+                  teamPk: getDefined(teamPk, "No team provided"),
+                  beneficiaryPk: selectedUser?.pk,
+                  type: request.type,
+                  dates: request.dates,
+                  reason: request.reason,
+                },
+              });
+              if (!response.error) {
+                toast.success(i18n.t("Leave request created successfully"));
+              }
+            }
+
+            navigate(
+              `/companies/${company}/units/${unit}/teams/${teamPk}?tab=leave-schedule`
+            );
           }}
           onCancel={() =>
             navigate(

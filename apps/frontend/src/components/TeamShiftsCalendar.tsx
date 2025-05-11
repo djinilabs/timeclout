@@ -40,6 +40,9 @@ export const TeamShiftsCalendar = () => {
   const [autoFillDialogOpen, setAutoFillDialogOpen] = useState(false);
   const [unassignDialogOpen, setUnassignDialogOpen] = useState(false);
 
+  const anyDialogOpen =
+    createDialogOpen || autoFillDialogOpen || unassignDialogOpen;
+
   const [params, setParams] = useSearchParams();
   const selectedMonth = useMemo(() => {
     const month = params.get("month");
@@ -282,6 +285,7 @@ export const TeamShiftsCalendar = () => {
         </Suspense>
       </Dialog>
       <MonthCalendar
+        show={!anyDialogOpen}
         onDayFocus={setFocusedDay}
         focusedDay={focusedDay}
         year={selectedMonth.getYear()}

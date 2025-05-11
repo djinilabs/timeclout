@@ -131,6 +131,22 @@ export type CreateShiftPositionInput = {
   team: Scalars['String']['input'];
 };
 
+export type CreateSingleDayLeaveRequestsForUserInput = {
+  beneficiaryPk: Scalars['String']['input'];
+  companyPk: Scalars['String']['input'];
+  dates: Array<Scalars['String']['input']>;
+  reason: Scalars['String']['input'];
+  teamPk: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
+export type CreateSingleDayLeaveRequestsInput = {
+  companyPk: Scalars['String']['input'];
+  days: Array<Scalars['String']['input']>;
+  reason: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
 export type CreateTeamMemberInput = {
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
@@ -218,6 +234,8 @@ export type Mutation = {
   createLeaveRequest: LeaveRequest;
   createLeaveRequestForUser: LeaveRequest;
   createShiftPosition: ShiftPosition;
+  createSingleDayLeaveRequests: LeaveRequest;
+  createSingleDayLeaveRequestsForUser: Array<LeaveRequest>;
   createTeam: Team;
   createTeamMember: User;
   createUnit: Unit;
@@ -292,6 +310,16 @@ export type MutationcreateLeaveRequestForUserArgs = {
 
 export type MutationcreateShiftPositionArgs = {
   input: CreateShiftPositionInput;
+};
+
+
+export type MutationcreateSingleDayLeaveRequestsArgs = {
+  input: CreateSingleDayLeaveRequestsInput;
+};
+
+
+export type MutationcreateSingleDayLeaveRequestsForUserArgs = {
+  input: CreateSingleDayLeaveRequestsForUserInput;
 };
 
 
@@ -853,6 +881,8 @@ export type ResolversTypes = {
   CreateLeaveRequestForUserInput: CreateLeaveRequestForUserInput;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
   CreateShiftPositionInput: CreateShiftPositionInput;
+  CreateSingleDayLeaveRequestsForUserInput: CreateSingleDayLeaveRequestsForUserInput;
+  CreateSingleDayLeaveRequestsInput: CreateSingleDayLeaveRequestsInput;
   CreateTeamMemberInput: CreateTeamMemberInput;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
@@ -909,6 +939,8 @@ export type ResolversParentTypes = {
   CreateLeaveRequestForUserInput: CreateLeaveRequestForUserInput;
   CreateLeaveRequestInput: CreateLeaveRequestInput;
   CreateShiftPositionInput: CreateShiftPositionInput;
+  CreateSingleDayLeaveRequestsForUserInput: CreateSingleDayLeaveRequestsForUserInput;
+  CreateSingleDayLeaveRequestsInput: CreateSingleDayLeaveRequestsInput;
   CreateTeamMemberInput: CreateTeamMemberInput;
   Date: Scalars['Date']['output'];
   DateTime: Scalars['DateTime']['output'];
@@ -1072,6 +1104,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationcreateLeaveRequestArgs, 'input'>>;
   createLeaveRequestForUser?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationcreateLeaveRequestForUserArgs, 'input'>>;
   createShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationcreateShiftPositionArgs, 'input'>>;
+  createSingleDayLeaveRequests?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationcreateSingleDayLeaveRequestsArgs, 'input'>>;
+  createSingleDayLeaveRequestsForUser?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType, RequireFields<MutationcreateSingleDayLeaveRequestsForUserArgs, 'input'>>;
   createTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationcreateTeamArgs, 'name' | 'unitPk'>>;
   createTeamMember?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationcreateTeamMemberArgs, 'input'>>;
   createUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationcreateUnitArgs, 'companyPk' | 'name'>>;

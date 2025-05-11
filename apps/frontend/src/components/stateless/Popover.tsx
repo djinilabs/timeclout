@@ -12,9 +12,11 @@ export const Popover: FC<PopoverProps> = memo(
     const [popperElement, setPopperElement] = useState<HTMLElement | null>(
       null
     );
+
     const [arrowElement, setArrowElement] = useState<HTMLElement | null>(null);
     const { styles, attributes } = usePopper(referenceElement, popperElement, {
       placement,
+      strategy: "absolute",
       modifiers: [{ name: "arrow", options: { element: arrowElement } }],
     });
 

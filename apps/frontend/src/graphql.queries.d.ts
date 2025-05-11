@@ -71,6 +71,24 @@ declare module '@/graphql-client/queries/createShiftPosition.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/createSingleDayLeaveRequests.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const CreateSingleDayLeaveRequests: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '@/graphql-client/queries/createSingleDayLeaveRequestsForUser.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const CreateSingleDayLeaveRequestsForUser: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/createTeam.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

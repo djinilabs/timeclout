@@ -138,12 +138,12 @@ export const ShiftPosition = memo(
           >
             <MenuButton
               ref={menuButtonRef}
-              className="cursor-pointer hover:bg-black hover:bg-opacity-10 rounded-sm"
+              className="cursor-pointer hover:bg-gray-200 hover:bg-opacity-10 rounded-sm"
             >
               <EllipsisHorizontalIcon className="w-4 h-4" />
             </MenuButton>
-            <Popover placement="top" referenceElement={menuButtonRef.current}>
-              <MenuItems className="absolute right-0 mt-2 w-28 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+            <Popover placement="auto" referenceElement={menuButtonRef.current}>
+              <MenuItems className="rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                 <MenuItem>
                   {({ active }) => (
                     <button
