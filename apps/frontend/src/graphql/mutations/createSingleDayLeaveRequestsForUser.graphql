@@ -1,0 +1,7 @@
+mutation CreateSingleDayLeaveRequestsForUser(
+  $input: CreateSingleDayLeaveRequestsForUserInput!
+) {
+  createSingleDayLeaveRequestsForUser(input: $input) {
+    pk
+  }
+}

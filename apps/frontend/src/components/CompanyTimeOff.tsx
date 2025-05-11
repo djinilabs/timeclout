@@ -23,6 +23,7 @@ import {
   LeaveRequest,
   Mutation,
   MutationCreateLeaveRequestArgs,
+  MutationCreateSingleDayLeaveRequestsArgs,
   Query,
   QueryCompanyArgs,
 } from "../graphql/graphql";
@@ -136,36 +137,62 @@ const CompanyTimeOff = () => {
     Mutation["createLeaveRequest"],
     MutationCreateLeaveRequestArgs
   >(createLeaveRequestMutation);
+
+  const [, createSingleDayLeaveRequests] = useMutation<
+    Mutation["createSingleDayLeaveRequests"],
+    MutationCreateSingleDayLeaveRequestsArgs
+  >(createLeaveRequestMutation);
+
   const onSubmit = useCallback(
     async (values: TimeOffRequest) => {
       const [startDate, endDate] = values.dateRange;
-      if (!startDate || !endDate) {
+      const dates = values.dates;
+      if (!dates.length && (!startDate || !endDate)) {
         return;
       }
-      const result = await createLeaveRequest({
-        input: {
-          companyPk: getDefined(company, "No company provided"),
-          type: values.type,
-          reason: values.reason,
-          startDate: startDate,
-          endDate: endDate,
-        },
-      });
-      if (!result.error) {
-        toast.success(i18n.t("Leave request submitted"));
-        refreshMyLeaveCalendar();
-        navigate({
-          pathname: location.pathname,
-          search: new URLSearchParams({
-            ...Object.fromEntries(params),
-            bookTimeOff: "false",
-          }).toString(),
+      if (startDate && endDate) {
+        const result = await createLeaveRequest({
+          input: {
+            companyPk: getDefined(company, "No company provided"),
+            type: values.type,
+            reason: values.reason,
+            startDate: startDate,
+            endDate: endDate,
+          },
         });
+        if (!result.error) {
+          toast.success(i18n.t("Leave request submitted"));
+        }
       }
+
+      if (dates.length) {
+        const result = await createSingleDayLeaveRequests({
+          input: {
+            companyPk: getDefined(company, "No company provided"),
+            type: values.type,
+            reason: values.reason,
+            days: values.dates,
+          },
+        });
+
+        if (!result.error) {
+          toast.success(i18n.t("Leave requests submitted"));
+        }
+      }
+
+      refreshMyLeaveCalendar();
+      navigate({
+        pathname: location.pathname,
+        search: new URLSearchParams({
+          ...Object.fromEntries(params),
+          bookTimeOff: "false",
+        }).toString(),
+      });
     },
     [
       company,
       createLeaveRequest,
+      createSingleDayLeaveRequests,
       location.pathname,
       navigate,
       params,

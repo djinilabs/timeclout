@@ -22,11 +22,27 @@ input CreateLeaveRequestInput {
   reason: String!
 }
 
+input CreateSingleDayLeaveRequestsInput {
+  companyPk: String!
+  days: [String!]!
+  type: String!
+  reason: String!
+}
+
 input CreateLeaveRequestForUserInput {
   companyPk: String!
   teamPk: String!
   startDate: String!
   endDate: String!
+  type: String!
+  reason: String!
+  beneficiaryPk: String!
+}
+
+input CreateSingleDayLeaveRequestsForUserInput {
+  companyPk: String!
+  teamPk: String!
+  dates: [String!]!
   type: String!
   reason: String!
   beneficiaryPk: String!
@@ -58,9 +74,15 @@ input ApproveLeaveRequestInput {
 
 extend type Mutation {
   createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
+  createSingleDayLeaveRequests(
+    input: CreateSingleDayLeaveRequestsInput!
+  ): LeaveRequest!
   createLeaveRequestForUser(
     input: CreateLeaveRequestForUserInput!
   ): LeaveRequest!
+  createSingleDayLeaveRequestsForUser(
+    input: CreateSingleDayLeaveRequestsForUserInput!
+  ): [LeaveRequest!]!
   updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
   deleteLeaveRequest(input: DeleteLeaveRequestInput!): LeaveRequest!
   rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!

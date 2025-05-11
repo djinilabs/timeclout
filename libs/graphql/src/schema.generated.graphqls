@@ -98,6 +98,22 @@ input CreateShiftPositionInput {
   team: String!
 }
 
+input CreateSingleDayLeaveRequestsForUserInput {
+  beneficiaryPk: String!
+  companyPk: String!
+  dates: [String!]!
+  reason: String!
+  teamPk: String!
+  type: String!
+}
+
+input CreateSingleDayLeaveRequestsInput {
+  companyPk: String!
+  days: [String!]!
+  reason: String!
+  type: String!
+}
+
 input CreateTeamMemberInput {
   email: String!
   name: String!
@@ -186,6 +202,8 @@ type Mutation {
   createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
   createLeaveRequestForUser(input: CreateLeaveRequestForUserInput!): LeaveRequest!
   createShiftPosition(input: CreateShiftPositionInput!): ShiftPosition!
+  createSingleDayLeaveRequests(input: CreateSingleDayLeaveRequestsInput!): LeaveRequest!
+  createSingleDayLeaveRequestsForUser(input: CreateSingleDayLeaveRequestsForUserInput!): [LeaveRequest!]!
   createTeam(name: String!, unitPk: String!): Team!
   createTeamMember(input: CreateTeamMemberInput!): User!
   createUnit(companyPk: String!, name: String!): Unit!

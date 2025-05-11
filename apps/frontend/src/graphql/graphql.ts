@@ -143,6 +143,22 @@ export type CreateShiftPositionInput = {
   team: Scalars["String"]["input"];
 };
 
+export type CreateSingleDayLeaveRequestsForUserInput = {
+  beneficiaryPk: Scalars["String"]["input"];
+  companyPk: Scalars["String"]["input"];
+  dates: Array<Scalars["String"]["input"]>;
+  reason: Scalars["String"]["input"];
+  teamPk: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
+};
+
+export type CreateSingleDayLeaveRequestsInput = {
+  companyPk: Scalars["String"]["input"];
+  days: Array<Scalars["String"]["input"]>;
+  reason: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
+};
+
 export type CreateTeamMemberInput = {
   email: Scalars["String"]["input"];
   name: Scalars["String"]["input"];
@@ -230,6 +246,8 @@ export type Mutation = {
   createLeaveRequest: LeaveRequest;
   createLeaveRequestForUser: LeaveRequest;
   createShiftPosition: ShiftPosition;
+  createSingleDayLeaveRequests: LeaveRequest;
+  createSingleDayLeaveRequestsForUser: Array<LeaveRequest>;
   createTeam: Team;
   createTeamMember: User;
   createUnit: Unit;
@@ -295,6 +313,14 @@ export type MutationCreateLeaveRequestForUserArgs = {
 
 export type MutationCreateShiftPositionArgs = {
   input: CreateShiftPositionInput;
+};
+
+export type MutationCreateSingleDayLeaveRequestsArgs = {
+  input: CreateSingleDayLeaveRequestsInput;
+};
+
+export type MutationCreateSingleDayLeaveRequestsForUserArgs = {
+  input: CreateSingleDayLeaveRequestsForUserInput;
 };
 
 export type MutationCreateTeamArgs = {
