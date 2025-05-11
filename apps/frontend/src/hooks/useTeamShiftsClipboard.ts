@@ -14,18 +14,30 @@ export const useTeamShiftsClipboard = (
   const [copyingShiftPositions, setCopyingShiftPositions] = useState<
     ShiftPositionWithFake[] | null
   >(null);
+  const [cuttingShiftPositions, setCuttingShiftPositions] = useState<
+    ShiftPositionWithFake[] | null
+  >(null);
   const { copyShiftPosition, deleteShiftPosition } = useTeamShiftActions();
 
   const pasteShiftPositionFromClipboard = useCallback(
-    (day: string) => {
-      if (!copyingShiftPositions) {
+    async (day: string) => {
+      if (!copyingShiftPositions && !cuttingShiftPositions) {
         return;
       }
-      for (const shiftPosition of selectedShiftPositions) {
+      for (const shiftPosition of copyingShiftPositions ?? []) {
         copyShiftPosition(shiftPosition.pk, shiftPosition.sk, day);
       }
+      for (const shiftPosition of cuttingShiftPositions ?? []) {
+        await copyShiftPosition(shiftPosition.pk, shiftPosition.sk, day);
+        await deleteShiftPosition(shiftPosition.pk, shiftPosition.sk);
+      }
     },
-    [copyShiftPosition, copyingShiftPositions, selectedShiftPositions]
+    [
+      copyShiftPosition,
+      copyingShiftPositions,
+      cuttingShiftPositions,
+      deleteShiftPosition,
+    ]
   );
 
   const deleteShiftPositionsFromClipboard = useCallback(() => {
@@ -40,6 +52,21 @@ export const useTeamShiftsClipboard = (
       if (e.metaKey && e.key === "c") {
         if (selectedShiftPositions.length) {
           setCopyingShiftPositions(selectedShiftPositions);
+        }
+        setCuttingShiftPositions([]);
+      }
+    };
+    window.addEventListener("keydown", handleCopy);
+    return () => window.removeEventListener("keydown", handleCopy);
+  }, [selectedShiftPositions]);
+
+  // catch command-x
+  useEffect(() => {
+    const handleCopy = (e: KeyboardEvent) => {
+      if (e.metaKey && e.key === "x") {
+        if (selectedShiftPositions.length) {
+          setCuttingShiftPositions(selectedShiftPositions);
+          setCopyingShiftPositions([]);
         }
       }
     };
