@@ -5,8 +5,11 @@ import type {
   QueryResolvers,
   ShiftPosition,
 } from "./../../../../types.generated";
+import { DayDate } from "@/day-date";
 
-export const shiftPositions: NonNullable<QueryResolvers['shiftPositions']> = async (_parent, arg, ctx) => {
+export const shiftPositions: NonNullable<
+  QueryResolvers["shiftPositions"]
+> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const { team, startDay, endDay } = input;
@@ -17,8 +20,12 @@ export const shiftPositions: NonNullable<QueryResolvers['shiftPositions']> = asy
     ExpressionAttributeValues: {
       ":pk": pk,
       ":startDay": startDay,
-      ":endDay": endDay,
+      ":endDay": new DayDate(endDay).nextDay().toString(),
     },
   });
-  return result as unknown as ShiftPosition[];
+  return result.sort((a, b) =>
+    a.name && b.name
+      ? a.name.localeCompare(b.name)
+      : a.createdAt.localeCompare(b.createdAt)
+  ) as unknown as ShiftPosition[];
 };

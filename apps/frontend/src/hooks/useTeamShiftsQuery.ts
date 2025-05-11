@@ -26,6 +26,8 @@ export const useTeamShiftsQuery = ({
   pollingIntervalMs,
   pause,
 }: UseTeamShiftsQueryOptions): UseTeamShiftsQueryResult => {
+  console.log("start day:", startDay);
+  console.log("end day:", endDay);
   const [shiftPositionsResult, refetch] = useQuery<{
     shiftPositions: ShiftPosition[];
   }>({
