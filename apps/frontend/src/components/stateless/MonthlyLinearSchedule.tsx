@@ -168,12 +168,12 @@ export const MonthlyLinearSchedule = memo(
               <tbody className="divide-y divide-gray-200">
                 {schedule?.map((userSchedule) => (
                   <tr key={userSchedule.user.pk}>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 flex items-center gap-2 border-r border-gray-300">
+                    <th className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 flex items-center gap-2 border-r border-gray-300">
                       <Avatar {...userSchedule.user} size={30} />
                       <span className="text-sm font-medium text-gray-600">
                         {userSchedule.user.name}
                       </span>
-                    </td>
+                    </th>
                     {Array.from(
                       { length: new Date(year, month + 1, 0).getDate() },
                       (_, i) => i + 1
