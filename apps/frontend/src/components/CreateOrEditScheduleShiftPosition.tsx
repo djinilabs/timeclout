@@ -216,7 +216,12 @@ export const CreateOrEditScheduleShiftPosition: FC<
 
   return (
     <div>
-      <form>
+      <form
+        onSubmit={(ev) => {
+          ev.preventDefault();
+          form.handleSubmit();
+        }}
+      >
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <p className="mt-1 text-sm/6 text-gray-600">
@@ -517,10 +522,6 @@ export const CreateOrEditScheduleShiftPosition: FC<
           </button>
           <button
             type="submit"
-            onClick={(ev) => {
-              ev.preventDefault();
-              form.handleSubmit();
-            }}
             className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-2xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
           >
             <Trans>Save Changes</Trans>

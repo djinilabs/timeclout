@@ -140,19 +140,6 @@ export const TeamShiftsCalendar = () => {
     [selectedShiftPositions]
   );
 
-  useEffect(() => {
-    if (
-      focusedShiftPosition != null &&
-      !selectedShiftPositions.includes(
-        focusedShiftPosition as ShiftPositionWithFake
-      )
-    ) {
-      setSelectedShiftPositions((shiftPositions) =>
-        shiftPositions.concat([focusedShiftPosition as ShiftPositionWithFake])
-      );
-    }
-  }, [focusedShiftPosition, selectedShiftPositions]);
-
   // ------- clipboard -------
 
   const {

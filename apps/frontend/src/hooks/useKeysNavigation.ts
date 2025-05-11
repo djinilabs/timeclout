@@ -16,23 +16,15 @@ export const useKeysNavigation = ({
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === "ArrowUp") {
-        event.preventDefault();
-        event.stopPropagation();
         onUp();
       }
       if (event.key === "ArrowDown") {
-        event.preventDefault();
-        event.stopPropagation();
         onDown();
       }
       if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        event.stopPropagation();
         onLeft();
       }
       if (event.key === "ArrowRight") {
-        event.preventDefault();
-        event.stopPropagation();
         onRight();
       }
     },
