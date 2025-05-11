@@ -14,6 +14,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/hooks/useTeamShiftsClipboard.ts:70
+msgid "Are you sure you want to delete the selected shift positions?"
+msgstr "Are you sure you want to delete the selected shift positions?"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/CompanyTimeOff.tsx:179
+msgid "Leave requests submitted"
+msgstr "Leave requests submitted"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Unknown"
@@ -324,7 +334,8 @@ msgid "Settings updated"
 msgstr "Settings updated"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:101
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:109
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:125
 msgid "Leave request created successfully"
 msgstr "Leave request created successfully"
 
@@ -339,7 +350,7 @@ msgid "Work schedule updated successfully"
 msgstr "Work schedule updated successfully"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/CompanyTimeOff.tsx:155
+#: apps/frontend/src/components/CompanyTimeOff.tsx:164
 msgid "Leave request submitted"
 msgstr "Leave request submitted"
 
@@ -359,7 +370,7 @@ msgid "Work schedule"
 msgstr "Work schedule"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:186
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:194
 msgid "Please provide a reason for your leave request."
 msgstr "Please provide a reason for your leave request."
 
@@ -419,7 +430,7 @@ msgstr "Add a manager"
 msgid "Add a new team member to the team."
 msgstr "Add a new team member to the team."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:299
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:337
 msgid "Add position"
 msgstr "Add position"
 
@@ -494,8 +505,8 @@ msgstr "Attention needed"
 msgid "August"
 msgstr "August"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:252
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:307
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:290
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:345
 msgid "Auto fill"
 msgstr "Auto fill"
 
@@ -515,7 +526,7 @@ msgstr "Available"
 msgid "Beneficiary"
 msgstr "Beneficiary"
 
-#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:60
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:67
 msgid "Book Company Time Off"
 msgstr "Book Company Time Off"
 
@@ -540,7 +551,7 @@ msgstr "Calendar subscriptions:"
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:256
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:516
 #: apps/frontend/src/components/CompanyYearlyQuota.tsx:195
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:308
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:393
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -576,7 +587,7 @@ msgstr "conflict(s) when trying to search for a solution"
 #~ msgid "conflict(s)s when trying to search for a solution"
 #~ msgstr "conflict(s)s when trying to search for a solution"
 
-#: apps/frontend/src/components/stateless/ShiftPosition.tsx:171
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:173
 msgid "Copy"
 msgstr "Copy"
 
@@ -590,7 +601,7 @@ msgid "Create"
 msgstr "Create"
 
 #. placeholder {0}: selectedLeaveType?.name
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:327
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:412
 msgid "Create {0} leave"
 msgstr "Create {0} leave"
 
@@ -648,7 +659,8 @@ msgid "Created By"
 msgstr "Created By"
 
 #: apps/frontend/src/components/UnassignShiftPositionsDialog.tsx:52
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:242
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:251
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:329
 #: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:60
 msgid "Date range"
 msgstr "Date range"
@@ -669,7 +681,7 @@ msgstr "Deducts from annual allowance"
 msgid "Default Yearly Quota (days)"
 msgstr "Default Yearly Quota (days)"
 
-#: apps/frontend/src/components/stateless/ShiftPosition.tsx:206
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:208
 msgid "Delete"
 msgstr "Delete"
 
@@ -686,7 +698,7 @@ msgstr "Discarded Schedules"
 #: apps/frontend/src/components/AllUserCompanies.tsx:129
 #: apps/frontend/src/components/AllUnitTeams.tsx:154
 #: apps/frontend/src/components/AllCompanyUnits.tsx:141
-#: apps/frontend/src/components/stateless/ShiftPosition.tsx:156
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:158
 msgid "Edit"
 msgstr "Edit"
 
@@ -698,7 +710,7 @@ msgstr "Edit a position in the team schedule."
 msgid "Edit a team member to the team."
 msgstr "Edit a team member to the team."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:222
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:260
 msgid "Edit position"
 msgstr "Edit position"
 
@@ -732,7 +744,7 @@ msgstr "End"
 msgid "End Date"
 msgstr "End Date"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:214
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:252
 msgid "Error loading calendar data"
 msgstr "Error loading calendar data"
 
@@ -749,7 +761,7 @@ msgstr "F"
 msgid "February"
 msgstr "February"
 
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:320
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:405
 msgid "Fill in all the form fields"
 msgstr "Fill in all the form fields"
 
@@ -783,7 +795,7 @@ msgstr "From"
 
 #. placeholder {0}: startDate.toLocaleDateString()
 #. placeholder {1}: endDate.toLocaleDateString()
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:246
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:255
 msgid "From {0} to {1}"
 msgstr "From {0} to {1}"
 
@@ -876,7 +888,7 @@ msgstr "Inconvenience:Deviation from Expected"
 msgid "Insert a position into the team schedule."
 msgstr "Insert a position into the team schedule."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:224
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:262
 msgid "Insert position into the team schedule"
 msgstr "Insert position into the team schedule"
 
@@ -938,7 +950,7 @@ msgstr "leaving them with <0>{simulatedDaysLeft} days</0> left."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "leaving you with <0>{simulatedDaysLeft} days</0> left."
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:210
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:248
 msgid "Loading calendar..."
 msgstr "Loading calendar..."
 
@@ -1011,7 +1023,7 @@ msgid "No invitations found."
 msgstr "No invitations found."
 
 #. placeholder {0}: selectedUser?.name
-#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:134
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:160
 msgid "No location settings found for {0}"
 msgstr "No location settings found for {0}"
 
@@ -1074,7 +1086,7 @@ msgstr "Open user menu"
 msgid "Out of Office"
 msgstr "Out of Office"
 
-#: apps/frontend/src/components/stateless/ShiftPosition.tsx:187
+#: apps/frontend/src/components/stateless/ShiftPosition.tsx:189
 msgid "Paste here"
 msgstr "Paste here"
 
@@ -1114,7 +1126,7 @@ msgstr "Previous year"
 msgid "Professional name"
 msgstr "Professional name"
 
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:181
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:189
 #: apps/frontend/src/components/stateless/LeaveRequest.tsx:99
 msgid "Reason"
 msgstr "Reason"
@@ -1148,7 +1160,7 @@ msgstr "Request time off"
 msgid "Request Time Off"
 msgstr "Request Time Off"
 
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:126
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:134
 msgid "Request time off by filling this form:"
 msgstr "Request time off by filling this form:"
 
@@ -1264,15 +1276,15 @@ msgstr "Select a country"
 msgid "Select a region"
 msgstr "Select a region"
 
-#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:136
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:162
 msgid "Select a user"
 msgstr "Select a user"
 
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:251
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:260
 msgid "Select the date range for your leave."
 msgstr "Select the date range for your leave."
 
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:205
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:213
 msgid "Select the dates"
 msgstr "Select the dates"
 
@@ -1292,11 +1304,11 @@ msgstr "Select the period for which you want to automatically assign shifts"
 msgid "Select the rules for which you want to enforce while automatically assign shifts"
 msgstr "Select the rules for which you want to enforce while automatically assign shifts"
 
-#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:68
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:75
 msgid "Select the user you want to request time off for."
 msgstr "Select the user you want to request time off for."
 
-#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:65
+#: apps/frontend/src/components/CreateTeamMemberLeaveRequest.tsx:72
 msgid "Select User"
 msgstr "Select User"
 
@@ -1340,12 +1352,12 @@ msgstr "Settings"
 msgid "Show in calendar as"
 msgstr "Show in calendar as"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:325
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:363
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:282
 msgid "Show leave schedule"
 msgstr "Show leave schedule"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:335
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:373
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:272
 msgid "Show schedule details"
 msgstr "Show schedule details"
@@ -1379,7 +1391,7 @@ msgid "Stop searching"
 msgstr "Stop searching"
 
 #. placeholder {0}: selectedLeaveType.name
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:322
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:407
 msgid "Submit request for {0} and wait for approval"
 msgstr "Submit request for {0} and wait for approval"
 
@@ -1464,7 +1476,7 @@ msgstr "Total inconvenience: {totalInconvenience}"
 msgid "Type"
 msgstr "Type"
 
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:136
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:144
 msgid "Type of Leave"
 msgstr "Type of Leave"
 
@@ -1490,11 +1502,11 @@ msgstr "un"
 msgid "Unassign"
 msgstr "Unassign"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:314
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:352
 msgid "Unassign positions"
 msgstr "Unassign positions"
 
-#: apps/frontend/src/components/TeamShiftsCalendar.tsx:275
+#: apps/frontend/src/components/TeamShiftsCalendar.tsx:313
 msgid "Unassign shift positions"
 msgstr "Unassign shift positions"
 
@@ -1556,7 +1568,7 @@ msgstr "W"
 msgid "ed for Wednesday"
 msgstr "wednesday"
 
-#: apps/frontend/src/components/BookCompanyTimeOff.tsx:139
+#: apps/frontend/src/components/BookCompanyTimeOff.tsx:147
 msgid "What type of leave are you planning to take?"
 msgstr "What type of leave are you planning to take?"
 

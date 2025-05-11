@@ -157,7 +157,6 @@ export const TeamShiftsCalendar = () => {
 
   const {
     copyShiftPositionToClipboard,
-    deleteShiftPositionsFromClipboard,
     pasteShiftPositionFromClipboard,
     hasCopiedShiftPosition,
   } = useTeamShiftsClipboard(selectedShiftPositions, focusedDay);
@@ -521,7 +520,9 @@ export const TeamShiftsCalendar = () => {
                       copyShiftPositionToClipboard={
                         copyShiftPositionToClipboard
                       }
-                      hasCopiedShiftPosition={hasCopiedShiftPosition}
+                      hasCopiedShiftPosition={
+                        hasCopiedShiftPosition || undefined
+                      }
                       pasteShiftPositionFromClipboard={
                         pasteShiftPositionFromClipboard
                       }
