@@ -150,7 +150,7 @@ const CompanyTimeOff = () => {
       if (!dates.length && (!startDate || !endDate)) {
         return;
       }
-      if (startDate && endDate) {
+      if (values.mode === "range" && startDate && endDate) {
         const result = await createLeaveRequest({
           input: {
             companyPk: getDefined(company, "No company provided"),
@@ -165,7 +165,7 @@ const CompanyTimeOff = () => {
         }
       }
 
-      if (dates.length) {
+      if (values.mode === "multiple" && dates.length) {
         const result = await createSingleDayLeaveRequests({
           input: {
             companyPk: getDefined(company, "No company provided"),

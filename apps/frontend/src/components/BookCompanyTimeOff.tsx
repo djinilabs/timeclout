@@ -90,7 +90,10 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
       reason: "",
     } satisfies TimeOffRequest,
     onSubmit: ({ value }: { value: TimeOffRequest }) => {
-      onSubmit(value);
+      onSubmit({
+        ...value,
+        mode: dateMode,
+      });
     },
   });
 
@@ -382,7 +385,8 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
           );
           const disabled =
             form.state.isSubmitting ||
-            !state.values.dateRange.filter(Boolean).length;
+            (!state.values.dateRange.filter(Boolean).length &&
+              !state.values.dates.length);
           return (
             <div className="mt-6 flex items-center justify-end gap-x-6">
               <Button cancel onClick={() => onCancel()}>

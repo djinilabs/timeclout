@@ -87,7 +87,7 @@ export const CreateTeamMemberLeaveRequest = () => {
       {selectedUser?.settings ? (
         <BookCompanyTimeOff
           onSubmit={async (request) => {
-            if (request.dateRange) {
+            if (request.dateRange && request.mode === "range") {
               const response = await createLeaveRequestForUser({
                 input: {
                   companyPk: getDefined(company, "No company provided"),
@@ -110,7 +110,7 @@ export const CreateTeamMemberLeaveRequest = () => {
               }
             }
 
-            if (request.dates.length) {
+            if (request.mode === "multiple" && request.dates.length) {
               const response = await createSingleDayLeaveRequestsForUser({
                 input: {
                   companyPk: getDefined(company, "No company provided"),
