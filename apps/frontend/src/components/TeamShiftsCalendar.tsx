@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { DayDate, DayDateInterval } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
