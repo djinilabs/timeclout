@@ -395,7 +395,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
               <button
                 type="submit"
                 disabled={disabled}
-                className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 ${
+                className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-teal-600 ${
                   disabled
                     ? "bg-teal-300 cursor-not-allowed"
                     : "bg-teal-600 hover:bg-teal-500"
