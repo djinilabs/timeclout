@@ -1,42 +1,51 @@
 import { useCallback, useEffect, useState } from "react";
 import { ShiftPosition } from "libs/graphql/src/types.generated";
 import { useTeamShiftActions } from "./useTeamShiftActions";
+import { i18n } from "@lingui/core";
 type ShiftPositionWithFake = ShiftPosition & {
   fake?: boolean;
   fakeFrom?: string;
 };
 
 export const useTeamShiftsClipboard = (
-  focusedShiftPosition: ShiftPositionWithFake | null,
+  selectedShiftPositions: ShiftPositionWithFake[],
   selectedDay?: string
 ) => {
-  const [copyingShiftPosition, setCopyingShiftPosition] =
-    useState<ShiftPositionWithFake | null>(null);
-  const { copyShiftPosition } = useTeamShiftActions();
+  const [copyingShiftPositions, setCopyingShiftPositions] = useState<
+    ShiftPositionWithFake[] | null
+  >(null);
+  const { copyShiftPosition, deleteShiftPosition } = useTeamShiftActions();
 
   const pasteShiftPositionFromClipboard = useCallback(
     (day: string) => {
-      if (!copyingShiftPosition) {
+      if (!copyingShiftPositions) {
         return;
       }
-      copyShiftPosition(copyingShiftPosition.pk, copyingShiftPosition.sk, day);
+      for (const shiftPosition of selectedShiftPositions) {
+        copyShiftPosition(shiftPosition.pk, shiftPosition.sk, day);
+      }
     },
-    [copyingShiftPosition, copyShiftPosition]
+    [copyShiftPosition, copyingShiftPositions, selectedShiftPositions]
   );
+
+  const deleteShiftPositionsFromClipboard = useCallback(() => {
+    for (const shiftPosition of selectedShiftPositions) {
+      deleteShiftPosition(shiftPosition.pk, shiftPosition.sk);
+    }
+  }, [deleteShiftPosition, selectedShiftPositions]);
 
   // catch command-c
   useEffect(() => {
     const handleCopy = (e: KeyboardEvent) => {
       if (e.metaKey && e.key === "c") {
-        console.log("copy");
-        if (focusedShiftPosition) {
-          setCopyingShiftPosition(focusedShiftPosition);
+        if (selectedShiftPositions.length) {
+          setCopyingShiftPositions(selectedShiftPositions);
         }
       }
     };
     window.addEventListener("keydown", handleCopy);
     return () => window.removeEventListener("keydown", handleCopy);
-  }, [focusedShiftPosition]);
+  }, [selectedShiftPositions]);
 
   // catch command-v
   useEffect(() => {
@@ -49,9 +58,36 @@ export const useTeamShiftsClipboard = (
     return () => window.removeEventListener("keydown", handlePaste);
   }, [selectedDay, pasteShiftPositionFromClipboard]);
 
+  // catch delete
+  useEffect(() => {
+    const handleDelete = async (e: KeyboardEvent) => {
+      if (
+        (e.key === "Backspace" || e.key === "Delete") &&
+        selectedShiftPositions.length > 0
+      ) {
+        if (
+          confirm(
+            i18n.t(
+              "Are you sure you want to delete the selected shift positions?"
+            )
+          )
+        ) {
+          deleteShiftPositionsFromClipboard();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleDelete);
+    return () => window.removeEventListener("keydown", handleDelete);
+  }, [
+    selectedDay,
+    pasteShiftPositionFromClipboard,
+    deleteShiftPositionsFromClipboard,
+    selectedShiftPositions.length,
+  ]);
+
   const copyShiftPositionToClipboard = useCallback(
     (shiftPosition: ShiftPositionWithFake) => {
-      setCopyingShiftPosition(shiftPosition);
+      setCopyingShiftPositions([shiftPosition]);
     },
     []
   );
@@ -59,6 +95,7 @@ export const useTeamShiftsClipboard = (
   return {
     copyShiftPositionToClipboard,
     pasteShiftPositionFromClipboard,
-    hasCopiedShiftPosition: !!copyingShiftPosition,
+    hasCopiedShiftPosition:
+      copyingShiftPositions && copyingShiftPositions?.length > 0,
   };
 };

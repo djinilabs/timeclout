@@ -36,6 +36,7 @@ export interface ShiftPositionProps {
   deleteShiftPosition?: (pk: string, sk: string) => void;
   lastRow?: boolean;
   conflicts?: boolean;
+  isSelected?: boolean;
   showScheduleDetails?: boolean;
 }
 
@@ -56,6 +57,7 @@ export const ShiftPosition = memo(
     deleteShiftPosition,
     lastRow,
     conflicts,
+    isSelected,
     showScheduleDetails,
   }: ShiftPositionProps) => {
     const { schedules } = shiftPosition;
@@ -123,10 +125,10 @@ export const ShiftPosition = memo(
           )}
           style={{
             backgroundColor: shiftPosition.color
-              ? `${colors[shiftPosition.color]}22`
+              ? `${colors[shiftPosition.color]}${isSelected ? "88" : "22"}`
               : undefined,
             border: shiftPosition.color
-              ? `${focus ? "2" : "1"}px solid ${colors[shiftPosition.color]}${focus ? "ff" : "22"}`
+              ? `${focus ? "2" : "1"}px solid ${colors[shiftPosition.color]}${focus || isSelected ? "ff" : "22"}`
               : undefined,
             borderBottom:
               focus || lastRow ? undefined : `1px solid rgb(243 244 246)`,

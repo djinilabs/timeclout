@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { DayDate, DayDateInterval } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
@@ -116,13 +116,51 @@ export const TeamShiftsCalendar = () => {
       goToMonth,
     });
 
+  // ------- shift position selection -------
+
+  const [selectedShiftPositions, setSelectedShiftPositions] = useState<
+    ShiftPositionWithFake[]
+  >([]);
+  const onShiftPositionClick = useCallback(
+    (shiftPosition: ShiftPositionWithFake, ev: MouseEvent) => {
+      if (ev.shiftKey) {
+        if (selectedShiftPositions.includes(shiftPosition)) {
+          setSelectedShiftPositions((shiftPositions) =>
+            shiftPositions.filter((pos) => pos !== shiftPosition)
+          );
+        } else {
+          setSelectedShiftPositions((shiftPositions) =>
+            shiftPositions.concat([shiftPosition])
+          );
+        }
+      } else {
+        setSelectedShiftPositions([shiftPosition]);
+      }
+    },
+    [selectedShiftPositions]
+  );
+
+  useEffect(() => {
+    if (
+      focusedShiftPosition != null &&
+      !selectedShiftPositions.includes(
+        focusedShiftPosition as ShiftPositionWithFake
+      )
+    ) {
+      setSelectedShiftPositions((shiftPositions) =>
+        shiftPositions.concat([focusedShiftPosition as ShiftPositionWithFake])
+      );
+    }
+  }, [focusedShiftPosition, selectedShiftPositions]);
+
   // ------- clipboard -------
 
   const {
     copyShiftPositionToClipboard,
+    deleteShiftPositionsFromClipboard,
     pasteShiftPositionFromClipboard,
     hasCopiedShiftPosition,
-  } = useTeamShiftsClipboard(focusedShiftPosition, focusedDay);
+  } = useTeamShiftsClipboard(selectedShiftPositions, focusedDay);
 
   const { createShiftPosition, updateShiftPosition, deleteShiftPosition } =
     useTeamShiftActions();
@@ -460,6 +498,11 @@ export const TeamShiftsCalendar = () => {
                   <div
                     key={`shift-position-${shiftPositionIndex}`}
                     className="row-span-3 transition-all duration-300 ease-in"
+                    onClick={(ev) => {
+                      onShiftPositionClick(shiftPosition, ev);
+                      ev.preventDefault();
+                      ev.stopPropagation();
+                    }}
                   >
                     <ShiftPosition
                       lastRow={shiftPositionIndex === shiftPositions.length - 1}
@@ -484,6 +527,9 @@ export const TeamShiftsCalendar = () => {
                       }
                       deleteShiftPosition={deleteShiftPosition}
                       conflicts={hasConflict}
+                      isSelected={selectedShiftPositions.includes(
+                        shiftPosition
+                      )}
                       showScheduleDetails={showScheduleDetails}
                     />
                   </div>
