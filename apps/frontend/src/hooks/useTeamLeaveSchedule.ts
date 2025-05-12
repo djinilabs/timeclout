@@ -17,7 +17,7 @@ interface LeaveInfo {
   };
 }
 
-interface LeaveRenderInfo {
+export interface LeaveRenderInfo {
   type: string;
   user: {
     pk: string;
