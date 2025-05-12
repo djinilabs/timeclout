@@ -34,7 +34,7 @@ import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
 import { MemberLeaveInCalendar } from "./stateless/MemberLeaveInCalendar";
 import { classNames } from "../utils/classNames";
 
-export const TeamShiftsCalendar = () => {
+export const TeamShiftsSchedule = () => {
   const { team, company } = useParams();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [autoFillDialogOpen, setAutoFillDialogOpen] = useState(false);

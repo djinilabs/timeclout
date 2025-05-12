@@ -5,7 +5,7 @@ import { TeamMembers } from "../components/TeamMembers";
 import { TeamInvites } from "../components/TeamInvites";
 import { TeamLeaveSchedule } from "../components/TeamLeaveSchedule";
 import { Suspense } from "../components/stateless/Suspense";
-import { TeamShiftsCalendar } from "../components/TeamShiftsCalendar";
+import { TeamShiftsSchedule } from "../components/TeamShiftsSchedule";
 import { TeamSettings } from "../components/TeamSettings";
 import { useParams } from "react-router-dom";
 import { getDefined } from "@/utils";
@@ -49,7 +49,7 @@ export const PageTeam = () => {
           {currentTab.href === "members" && <TeamMembers />}
           {currentTab.href === "invitations" && <TeamInvites />}
           {currentTab.href === "leave-schedule" && <TeamLeaveSchedule />}
-          {currentTab.href === "shifts-calendar" && <TeamShiftsCalendar />}
+          {currentTab.href === "shifts-calendar" && <TeamShiftsSchedule />}
           {currentTab.href === "settings" && <TeamSettings />}
           {currentTab.href === "calendar-integrations" && (
             <TeamCalendarIntegrations />
