@@ -70,9 +70,11 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
               <ChevronRightIcon className="size-5" aria-hidden="true" />
             </button>
             <div className="flex items-center gap-2">
-              <Button onClick={onAdd}>
-                <PlusIcon className="size-5" aria-hidden="true" />
-              </Button>
+              {onAdd && (
+                <Button onClick={onAdd}>
+                  <PlusIcon className="size-5" aria-hidden="true" />
+                </Button>
+              )}
               {onSwitchView && (
                 <Button onClick={() => onSwitchView("calendar")}>
                   <Trans>Switch to calendar</Trans>

@@ -554,6 +554,7 @@ export const TeamShiftsSchedule = () => {
         </Suspense>
       </Dialog>
       <TeamShiftsCalendar
+        shiftPositionsMap={shiftPositionsMap}
         show={!anyDialogOpen}
         onDayFocus={setFocusedDay}
         focusedDay={focusedDay}

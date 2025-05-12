@@ -9,8 +9,10 @@ import {
   type User,
 } from "./MonthlyCalendarPerMember";
 import { TeamShiftsSummary } from "./TeamShiftsSummary";
+import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 
 export interface TeamShiftsCalendarProps {
+  shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
   show?: boolean;
   onDayFocus?: (day: string) => void;
   focusedDay?: string;
@@ -53,8 +55,6 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
   );
   const [tab, setTab] = useState(tabs[0]);
 
-  console.log("members:", props.members);
-
   return (
     <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
       {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
@@ -68,7 +68,7 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
           onAdd={props.onAdd}
         />
       )}
-      {tab.href === "summary" && <TeamShiftsSummary />}
+      {tab.href === "summary" && <TeamShiftsSummary {...props} />}
     </Tabs>
   );
 };
