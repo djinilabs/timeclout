@@ -8,6 +8,7 @@ import {
   MonthlyCalendarPerMember,
   type User,
 } from "./MonthlyCalendarPerMember";
+import { TeamShiftsSummary } from "./TeamShiftsSummary";
 
 export interface TeamShiftsCalendarProps {
   show?: boolean;
@@ -46,6 +47,7 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
     () => [
       { name: i18n.t("By day"), href: "by-day" },
       { name: i18n.t("By member"), href: "by-member" },
+      { name: i18n.t("Summary"), href: "summary" },
     ],
     []
   );
@@ -66,6 +68,7 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
           onAdd={props.onAdd}
         />
       )}
+      {tab.href === "summary" && <TeamShiftsSummary />}
     </Tabs>
   );
 };
