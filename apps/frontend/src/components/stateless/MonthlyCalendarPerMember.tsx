@@ -5,8 +5,7 @@ import {
   PlusIcon,
 } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { memo, ReactNode, useCallback } from "react";
-import { Link, useParams } from "react-router-dom";
+import { memo, useCallback } from "react";
 import { Trans } from "@lingui/react/macro";
 import { Avatar } from "./Avatar";
 import { months } from "../../utils/months";
@@ -20,41 +19,30 @@ export interface User {
   emailMd5?: string | null;
 }
 
-export interface LeaveRequest {
-  startDate: string;
-  endDate: string;
-  type: string;
-  approved?: boolean | null;
-  reason?: string | null;
-  createdAt: string;
-  createdBy: User;
-  approvedBy?: User[] | null;
-  approvedAt?: string[] | null;
-  beneficiary: User;
-  pk: string;
-  sk: string;
-}
-export interface LeaveDay {
-  type: string;
-  icon?: ReactNode;
-  color?: string;
-  leaveRequest?: LeaveRequest;
-}
-
-export interface MemberSchedule {
-  user: User;
-  leaves: Record<string, LeaveDay>;
-}
-
 export interface MonthlyScheduleProps {
   year: number;
   month: number;
   goTo: (year: number, month: number) => void;
-  schedule?: MemberSchedule[];
+  members: User[];
+  renderMemberDay: (
+    member: User,
+    day: DayDate,
+    calIndex: number
+  ) => React.ReactNode;
+  onAdd?: () => unknown;
+  onSwitchView?: (view: "calendar" | "linear") => void;
 }
 
-export const MonthlyLinearSchedule = memo(
-  ({ year, month, goTo, schedule }: MonthlyScheduleProps) => {
+export const MonthlyCalendarPerMember = memo(
+  ({
+    year,
+    month,
+    goTo,
+    members,
+    renderMemberDay,
+    onAdd,
+    onSwitchView,
+  }: MonthlyScheduleProps) => {
     const handlePrevMonth = useCallback(() => {
       goTo(year, month - 1);
     }, [goTo, year, month]);
@@ -69,11 +57,10 @@ export const MonthlyLinearSchedule = memo(
 
     const yearMonth = `${year}-${month + 1}`;
     const humanYearMonth = `${months()[month]} ${year}`;
-    const { company, unit, team } = useParams();
 
     return (
       <div className="flex flex-col h-[calc(100vh-64px)]">
-        <header className="flex-none flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-white">
+        <header className="no-print flex-none flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-white">
           <h1 className="text-base font-semibold text-gray-900">
             <time dateTime={yearMonth}>{humanYearMonth}</time>
           </h1>
@@ -107,11 +94,16 @@ export const MonthlyLinearSchedule = memo(
                 </span>
                 <ChevronRightIcon className="size-5" aria-hidden="true" />
               </button>
-              <Button
-                to={`/companies/${company}/units/${unit}/teams/${team}/leave-requests/new`}
-              >
-                <PlusIcon className="size-5" aria-hidden="true" />
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button onClick={onAdd}>
+                  <PlusIcon className="size-5" aria-hidden="true" />
+                </Button>
+                {onSwitchView && (
+                  <Button onClick={() => onSwitchView("calendar")}>
+                    <Trans>Switch to calendar</Trans>
+                  </Button>
+                )}
+              </div>
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">
               <MenuButton className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">
@@ -166,74 +158,33 @@ export const MonthlyLinearSchedule = memo(
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {schedule?.map((userSchedule) => (
-                  <tr key={userSchedule.user.pk}>
+                {members?.map((member) => (
+                  <tr key={member.pk}>
                     <th className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 flex items-center gap-2 border-r border-gray-300">
-                      <Avatar {...userSchedule.user} size={30} />
+                      <Avatar {...member} size={30} />
                       <span className="text-sm font-medium text-gray-600">
-                        {userSchedule.user.name}
+                        {member.name}
                       </span>
                     </th>
                     {Array.from(
                       { length: new Date(year, month + 1, 0).getDate() },
                       (_, i) => i + 1
-                    ).map((day) => {
-                      const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                    ).map((dayofTheMonth, dayIndex) => {
+                      const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(dayofTheMonth).padStart(2, "0")}`;
                       const dayDate = new DayDate(date);
-                      const leave = userSchedule.leaves[date];
 
                       return (
                         <td
-                          key={day}
+                          key={date}
                           className={`whitespace-nowrap text-sm text-center border-r border-gray-100 relative group ${
                             dayDate.isWeekend() ? "bg-gray-50" : ""
                           }`}
                         >
                           <span className="absolute top-1 right-1 text-gray-300 text-xs">
-                            {day}
+                            {dayofTheMonth}
                           </span>
 
-                          {!leave?.leaveRequest ? (
-                            <Link
-                              to={`/companies/${company}/units/${unit}/teams/${team}/leave-requests/new?date=${date}&user=${encodeURIComponent(
-                                userSchedule.user.pk
-                              )}`}
-                              className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                            >
-                              <span className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
-                                <span className="text-gray-600">+</span>
-                              </span>
-                            </Link>
-                          ) : null}
-
-                          {leave &&
-                            (leave.leaveRequest ? (
-                              <Link
-                                to={`/${leave.leaveRequest.pk}/leave-requests/${leave.leaveRequest.sk}?callbackUrl=${encodeURIComponent(
-                                  window.location.pathname +
-                                    window.location.search
-                                )}`}
-                                title={leave.leaveRequest.type}
-                                className={`inline-flex items-center rounded-full px-2 py-2 ${
-                                  !leave.leaveRequest.approved && "opacity-50"
-                                }`}
-                                style={{
-                                  backgroundColor: leave.color,
-                                }}
-                              >
-                                {leave.icon}
-                              </Link>
-                            ) : (
-                              <span
-                                title={leave.type}
-                                className="inline-flex items-center rounded-full px-2 py-2"
-                                style={{
-                                  backgroundColor: leave.color,
-                                }}
-                              >
-                                {leave.icon}
-                              </span>
-                            ))}
+                          {renderMemberDay(member, dayDate, dayIndex)}
                         </td>
                       );
                     })}

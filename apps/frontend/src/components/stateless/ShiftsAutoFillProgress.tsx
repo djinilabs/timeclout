@@ -4,7 +4,7 @@ import { Trans } from "@lingui/react/macro";
 import { SchedulerState } from "@/scheduler";
 import { DayDate } from "@/day-date";
 import assignShiftPositionsMutation from "@/graphql-client/mutations/assignShiftPositions.graphql";
-import { MonthCalendar } from "./MonthCalendar";
+import { MonthDailyCalendar } from "./MonthDailyCalendar";
 import {
   useTeamShiftPositionsMap,
   ShiftPositionWithRowSpan,
@@ -261,7 +261,7 @@ export const ShiftsAutoFillProgress = ({
             <>
               {yearMonths.map((yearMonth) => (
                 <div key={`${yearMonth.year}-${yearMonth.month}`}>
-                  <MonthCalendar
+                  <MonthDailyCalendar
                     year={yearMonth.year}
                     month={yearMonth.month - 1}
                     additionalActions={[

@@ -19,7 +19,7 @@ export interface Day {
   isSelected?: boolean;
 }
 
-export interface MonthCalendarProps {
+export interface MonthDailyCalendarProps {
   show?: boolean;
   additionalActions?: Array<
     | {
@@ -44,7 +44,7 @@ export interface MonthCalendarProps {
   onDayFocus?: (day: string) => void;
 }
 
-export const MonthCalendar: FC<MonthCalendarProps> = memo(
+export const MonthDailyCalendar: FC<MonthDailyCalendarProps> = memo(
   ({
     show = true,
     additionalActions,

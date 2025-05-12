@@ -5,8 +5,10 @@ import { Trans } from "@lingui/react/macro";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { getDefined } from "@/utils";
 import { Dialog } from "./stateless/Dialog";
-import { MonthCalendar } from "./stateless/MonthCalendar";
-import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
+import {
+  CreateOrEditScheduleShiftPosition,
+  User,
+} from "./CreateOrEditScheduleShiftPosition";
 import { Suspense } from "./stateless/Suspense";
 import { ShiftPosition } from "./stateless/ShiftPosition";
 import { useTeamShiftsDragAndDrop } from "../hooks/useTeamShiftsDragAndDrop";
@@ -16,9 +18,9 @@ import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
 import { useTeamShiftsFocusNavigation } from "../hooks/useTeamShiftsFocusNavigation";
 import {
   type ShiftPositionWithFake,
+  ShiftPositionWithRowSpan,
   useTeamShiftPositionsMap,
 } from "../hooks/useTeamShiftPositionsMap";
-import { classNames } from "../utils/classNames";
 import {
   Query,
   QueryTeamArgs,
@@ -26,15 +28,18 @@ import {
 } from "../graphql/graphql";
 import { ShiftsAutoFill } from "./ShiftsAutoFill";
 import { useTeamLeaveSchedule } from "../hooks/useTeamLeaveSchedule";
-import { Avatar } from "./stateless/Avatar";
 import { useLocalPreference } from "../hooks/useLocalPreference";
 import { LabeledSwitch } from "./stateless/LabeledSwitch";
 import { toMinutes } from "../utils/toMinutes";
 import { useQuery } from "../hooks/useQuery";
 import { Transition } from "@headlessui/react";
 import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
+import { MemberLeaveInCalendar } from "./stateless/MemberLeaveInCalendar";
+import { classNames } from "../utils/classNames";
+import { TeamShiftsCalendar } from "./stateless/TeamShiftsCalendar";
+import { Day } from "./stateless/MonthDailyCalendar";
 
-export const TeamShiftsCalendar = () => {
+export const TeamShiftsSchedule = () => {
   const { team, company } = useParams();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [autoFillDialogOpen, setAutoFillDialogOpen] = useState(false);
@@ -227,6 +232,246 @@ export const TeamShiftsCalendar = () => {
     );
   }, [maxShiftPositionRowsPerWeekNumber, maxLeaveRowsPerWeekNumber]);
 
+  // render per day
+
+  const renderDay = useCallback(
+    (day: Day, dayIndex: number) => {
+      const shiftPositions = shiftPositionsMap?.[day.date];
+      const leaves = leaveSchedule[day.date];
+      if (!shiftPositions && !leaves) {
+        return null;
+      }
+      const weekNumber = new DayDate(day.date).getWeekNumber();
+      const rowCount: number | undefined = maxRowsPerWeekNumber[weekNumber];
+      const leaveRowCount = maxLeaveRowsPerWeekNumber[weekNumber] ?? 0;
+
+      return (
+        <div
+          key={`day-${day.date}`}
+          className="h-full w-full grid"
+          style={{
+            gridTemplateRows: `repeat(${rowCount ?? (shiftPositions?.length ?? 0) + (leaves?.length ?? 0)}, 1fr)`,
+          }}
+        >
+          {leaves?.map((leave, leaveIndex) => (
+            <Transition show={showLeaveSchedule} appear key={leaveIndex}>
+              <div
+                className={classNames(
+                  "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                  leaveIndex === 0 && "border-t",
+                  leaveIndex === leaveRowCount - 1 && "border-b"
+                )}
+              >
+                <MemberLeaveInCalendar
+                  member={leave.user}
+                  leave={leave}
+                  leaveIndex={leaveIndex}
+                />
+              </div>
+            </Transition>
+          ))}
+          {Array.from({
+            length: leaveRowCount - (leaves?.length ?? 0),
+          }).map((_, leaveIndex) => (
+            <div
+              key={`leave-row-${leaveIndex}`}
+              className="h-full w-full row-span-2"
+            />
+          ))}
+          {shiftPositions?.map((shiftPosition, shiftPositionIndex) => {
+            const hasConflict =
+              shiftPosition.assignedTo != null &&
+              (leaves?.some(
+                (leave) => leave.user.pk === shiftPosition.assignedTo?.pk
+              ) ||
+                shiftPosition.schedules.some((schedule) => {
+                  const startMinutes = toMinutes(
+                    schedule.startHourMinutes as [number, number]
+                  );
+                  const endMinutes = toMinutes(
+                    schedule.endHourMinutes as [number, number]
+                  );
+                  return shiftPositions.some((otherShiftPosition) => {
+                    if (
+                      otherShiftPosition.sk === shiftPosition.sk ||
+                      otherShiftPosition.assignedTo?.pk !==
+                        shiftPosition.assignedTo?.pk
+                    ) {
+                      return false;
+                    }
+                    return otherShiftPosition.schedules.some(
+                      (otherSchedule) => {
+                        const otherStartMinutes = toMinutes(
+                          otherSchedule.startHourMinutes as [number, number]
+                        );
+                        const otherEndMinutes = toMinutes(
+                          otherSchedule.endHourMinutes as [number, number]
+                        );
+                        return (
+                          startMinutes < otherEndMinutes &&
+                          endMinutes > otherStartMinutes
+                        );
+                      }
+                    );
+                  });
+                }));
+
+            return (
+              <div
+                key={`shift-position-${shiftPositionIndex}`}
+                className="row-span-3 transition-all duration-300 ease-in"
+                onClick={(ev) => {
+                  onShiftPositionClick(shiftPosition, ev);
+                  ev.preventDefault();
+                  ev.stopPropagation();
+                }}
+              >
+                <ShiftPosition
+                  lastRow={shiftPositionIndex === shiftPositions.length - 1}
+                  focus={
+                    (focusedShiftPosition &&
+                      focusedShiftPosition == shiftPosition) ||
+                    false
+                  }
+                  setFocusedShiftPosition={(shiftPosition) => {
+                    console.log("new focused shiftPosition", shiftPosition);
+                    setFocusedShiftPosition(shiftPosition);
+                  }}
+                  shiftPosition={shiftPosition}
+                  tabIndex={dayIndex * 100 + shiftPositionIndex}
+                  handleEditShiftPosition={handleEditShiftPosition}
+                  copyShiftPositionToClipboard={copyShiftPositionToClipboard}
+                  hasCopiedShiftPosition={hasCopiedShiftPosition || undefined}
+                  pasteShiftPositionFromClipboard={
+                    pasteShiftPositionFromClipboard
+                  }
+                  deleteShiftPosition={deleteShiftPosition}
+                  conflicts={hasConflict}
+                  isSelected={selectedShiftPositions.includes(shiftPosition)}
+                  showScheduleDetails={showScheduleDetails}
+                />
+              </div>
+            );
+          })}
+        </div>
+      );
+    },
+    [
+      copyShiftPositionToClipboard,
+      deleteShiftPosition,
+      focusedShiftPosition,
+      hasCopiedShiftPosition,
+      leaveSchedule,
+      maxLeaveRowsPerWeekNumber,
+      maxRowsPerWeekNumber,
+      onShiftPositionClick,
+      pasteShiftPositionFromClipboard,
+      selectedShiftPositions,
+      setFocusedShiftPosition,
+      shiftPositionsMap,
+      showLeaveSchedule,
+      showScheduleDetails,
+    ]
+  );
+
+  // render per member and per day
+  const members = useMemo(() => {
+    return Object.values(shiftPositionsMap).reduce((acc, shiftPositions) => {
+      for (const shiftPosition of shiftPositions) {
+        const user = shiftPosition.assignedTo;
+        if (user && !acc.find((m) => m.pk === user.pk)) {
+          acc.push(user);
+        }
+      }
+      return acc;
+    }, [] as User[]);
+  }, [shiftPositionsMap]);
+
+  const memberShiftPositionsMap: Record<
+    string,
+    Record<string, ShiftPositionWithRowSpan[]>
+  > = useMemo(() => {
+    return Object.fromEntries(
+      members.map((member) => [
+        member.pk,
+        Object.values(shiftPositionsMap)
+          .flatMap((shiftPositions) =>
+            shiftPositions.filter(
+              (shiftPosition) => shiftPosition.assignedTo?.pk === member.pk
+            )
+          )
+          .reduce(
+            (acc, shiftPosition) => {
+              const day = shiftPosition.day;
+              if (!acc[day]) {
+                acc[day] = [];
+              }
+              acc[day].push(shiftPosition);
+              return acc;
+            },
+            {} as Record<string, ShiftPositionWithRowSpan[]>
+          ),
+      ])
+    );
+  }, [members, shiftPositionsMap]);
+
+  const renderMemberDay = useCallback(
+    (member: User, day: DayDate) => {
+      const shiftPositions = memberShiftPositionsMap[member.pk];
+      if (!shiftPositions) {
+        return null;
+      }
+      const shiftPositionsForDay = shiftPositions[day.toString()];
+      if (!shiftPositionsForDay) {
+        return null;
+      }
+      return shiftPositionsForDay.map((shiftPosition, shiftPositionIndex) => (
+        <div
+          key={`shift-position-${shiftPositionIndex}`}
+          className="row-span-3 transition-all duration-300 ease-in"
+          onClick={(ev) => {
+            onShiftPositionClick(shiftPosition, ev);
+            ev.preventDefault();
+            ev.stopPropagation();
+          }}
+        >
+          <ShiftPosition
+            lastRow={shiftPositionIndex === shiftPositionsForDay.length - 1}
+            focus={
+              (focusedShiftPosition && focusedShiftPosition == shiftPosition) ||
+              false
+            }
+            setFocusedShiftPosition={(shiftPosition) => {
+              console.log("new focused shiftPosition", shiftPosition);
+              setFocusedShiftPosition(shiftPosition);
+            }}
+            shiftPosition={shiftPosition}
+            handleEditShiftPosition={handleEditShiftPosition}
+            copyShiftPositionToClipboard={copyShiftPositionToClipboard}
+            hasCopiedShiftPosition={hasCopiedShiftPosition || undefined}
+            pasteShiftPositionFromClipboard={pasteShiftPositionFromClipboard}
+            deleteShiftPosition={deleteShiftPosition}
+            conflicts={false}
+            isSelected={selectedShiftPositions.includes(shiftPosition)}
+            showScheduleDetails={showScheduleDetails}
+          />
+        </div>
+      ));
+    },
+    [
+      copyShiftPositionToClipboard,
+      deleteShiftPosition,
+      focusedShiftPosition,
+      hasCopiedShiftPosition,
+      memberShiftPositionsMap,
+      onShiftPositionClick,
+      pasteShiftPositionFromClipboard,
+      selectedShiftPositions,
+      setFocusedShiftPosition,
+      showScheduleDetails,
+    ]
+  );
+
   return (
     <div>
       {fetching ? (
@@ -308,7 +553,7 @@ export const TeamShiftsCalendar = () => {
           />
         </Suspense>
       </Dialog>
-      <MonthCalendar
+      <TeamShiftsCalendar
         show={!anyDialogOpen}
         onDayFocus={setFocusedDay}
         focusedDay={focusedDay}
@@ -375,160 +620,16 @@ export const TeamShiftsCalendar = () => {
           const day = new DayDate(year, month + 1, 1);
           goToMonth(day);
         }}
-        renderDay={(day, dayIndex) => {
-          const shiftPositions = shiftPositionsMap?.[day.date];
-          const leaves = leaveSchedule[day.date];
-          if (!shiftPositions && !leaves) {
-            return null;
-          }
-          const weekNumber = new DayDate(day.date).getWeekNumber();
-          const rowCount: number | undefined = maxRowsPerWeekNumber[weekNumber];
-          const leaveRowCount = maxLeaveRowsPerWeekNumber[weekNumber] ?? 0;
-
-          return (
-            <div
-              key={`day-${day.date}`}
-              className="h-full w-full grid"
-              style={{
-                gridTemplateRows: `repeat(${rowCount ?? (shiftPositions?.length ?? 0) + (leaves?.length ?? 0)}, 1fr)`,
-              }}
-            >
-              {leaves?.map((leave, leaveIndex) => (
-                <Transition show={showLeaveSchedule} appear key={leaveIndex}>
-                  <div
-                    className={classNames(
-                      "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
-                      leaveIndex === 0 && "border-t",
-                      leaveIndex === leaves.length - 1 && "border-b"
-                    )}
-                  >
-                    <div className="flex items-center gap-1">
-                      <div
-                        key={`leave-icon-container-${leaveIndex}`}
-                        className="text-sm flex items-center"
-                      >
-                        <div
-                          key={`leave-icon-${leaveIndex}`}
-                          className="text-sm rounded-full p-1 bg-white"
-                          style={{
-                            backgroundColor: leave.color,
-                          }}
-                          title={leave.type}
-                        >
-                          {leave.icon}
-                        </div>
-                      </div>
-                      <div
-                        key={`leave-avatar-container-${leaveIndex}`}
-                        className="flex items-center -ml-2"
-                      >
-                        <Avatar size={25} {...leave.user} />
-                      </div>
-                      <div
-                        key={`leave-name-${leaveIndex}`}
-                        className="text-tiny truncate text-gray-400"
-                      >
-                        {leave.user.name}
-                      </div>
-                    </div>
-                  </div>
-                </Transition>
-              ))}
-              {Array.from({
-                length: leaveRowCount - (leaves?.length ?? 0),
-              }).map((_, leaveIndex) => (
-                <div
-                  key={`leave-row-${leaveIndex}`}
-                  className="h-full w-full row-span-2"
-                />
-              ))}
-              {shiftPositions?.map((shiftPosition, shiftPositionIndex) => {
-                const hasConflict =
-                  shiftPosition.assignedTo != null &&
-                  (leaves?.some(
-                    (leave) => leave.user.pk === shiftPosition.assignedTo?.pk
-                  ) ||
-                    shiftPosition.schedules.some((schedule) => {
-                      const startMinutes = toMinutes(
-                        schedule.startHourMinutes as [number, number]
-                      );
-                      const endMinutes = toMinutes(
-                        schedule.endHourMinutes as [number, number]
-                      );
-                      return shiftPositions.some((otherShiftPosition) => {
-                        if (
-                          otherShiftPosition.sk === shiftPosition.sk ||
-                          otherShiftPosition.assignedTo?.pk !==
-                            shiftPosition.assignedTo?.pk
-                        ) {
-                          return false;
-                        }
-                        return otherShiftPosition.schedules.some(
-                          (otherSchedule) => {
-                            const otherStartMinutes = toMinutes(
-                              otherSchedule.startHourMinutes as [number, number]
-                            );
-                            const otherEndMinutes = toMinutes(
-                              otherSchedule.endHourMinutes as [number, number]
-                            );
-                            return (
-                              startMinutes < otherEndMinutes &&
-                              endMinutes > otherStartMinutes
-                            );
-                          }
-                        );
-                      });
-                    }));
-
-                return (
-                  <div
-                    key={`shift-position-${shiftPositionIndex}`}
-                    className="row-span-3 transition-all duration-300 ease-in"
-                    onClick={(ev) => {
-                      onShiftPositionClick(shiftPosition, ev);
-                      ev.preventDefault();
-                      ev.stopPropagation();
-                    }}
-                  >
-                    <ShiftPosition
-                      lastRow={shiftPositionIndex === shiftPositions.length - 1}
-                      focus={
-                        (focusedShiftPosition &&
-                          focusedShiftPosition == shiftPosition) ||
-                        false
-                      }
-                      setFocusedShiftPosition={(shiftPosition) => {
-                        console.log("new focused shiftPosition", shiftPosition);
-                        setFocusedShiftPosition(shiftPosition);
-                      }}
-                      shiftPosition={shiftPosition}
-                      tabIndex={dayIndex * 100 + shiftPositionIndex}
-                      handleEditShiftPosition={handleEditShiftPosition}
-                      copyShiftPositionToClipboard={
-                        copyShiftPositionToClipboard
-                      }
-                      hasCopiedShiftPosition={
-                        hasCopiedShiftPosition || undefined
-                      }
-                      pasteShiftPositionFromClipboard={
-                        pasteShiftPositionFromClipboard
-                      }
-                      deleteShiftPosition={deleteShiftPosition}
-                      conflicts={hasConflict}
-                      isSelected={selectedShiftPositions.includes(
-                        shiftPosition
-                      )}
-                      showScheduleDetails={showScheduleDetails}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          );
-        }}
+        renderDay={renderDay}
+        members={members}
+        renderMemberDay={renderMemberDay}
         onCellDrop={onCellDrop}
         onCellDragOver={onCellDragOver}
         onCellDragLeave={onCellDragLeave}
+        onAdd={() => {
+          setEditingShiftPosition(undefined);
+          setCreateDialogOpen(true);
+        }}
       />
     </div>
   );

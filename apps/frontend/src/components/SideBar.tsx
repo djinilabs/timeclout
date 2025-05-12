@@ -105,7 +105,7 @@ const SideBar = ({
 
   return (
     <div
-      className={`flex grow flex-col gap-y-5 overflow-y-auto bg-teal-600 pb-4 relative transition-all duration-300 ${expanded ? "px-6 w-72" : "px-2 w-16"}`}
+      className={`no-print flex grow flex-col gap-y-5 overflow-y-auto bg-teal-600 pb-4 relative transition-all duration-300 ${expanded ? "px-6 w-72" : "px-2 w-16"}`}
     >
       <div className="flex h-16 shrink-0 items-center">
         <a href="https://tt3.app">
