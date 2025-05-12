@@ -1,6 +1,7 @@
-import { memo, ReactNode, useCallback, useMemo } from "react";
+import { memo, ReactNode, useCallback, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MonthlyCalendarPerMember } from "./MonthlyCalendarPerMember";
+import { DayDate } from "@/day-date";
 
 export interface User {
   pk: string;
@@ -46,6 +47,7 @@ export const TeamLeaveSchedule = memo(
   ({ year, month, goTo, schedule = [] }: TeamLeaveScheduleProps) => {
     const { company, unit, team } = useParams();
     const navigate = useNavigate();
+    const [view, setView] = useState<"calendar" | "linear">("linear");
     const leavesPerMember = useMemo(
       () =>
         Object.fromEntries(
@@ -64,69 +66,73 @@ export const TeamLeaveSchedule = memo(
       [leavesPerMember]
     );
 
-    return (
+    const renderMemberDay = useCallback(
+      (member: User, day: DayDate) => {
+        const dayString = day.toString();
+        const leave = leavesPerMember[member.pk]?.leaves[dayString];
+        return (
+          <>
+            {!leave?.leaveRequest ? (
+              <Link
+                to={`/companies/${company}/units/${unit}/teams/${team}/leave-requests/new?date=${dayString}&user=${encodeURIComponent(
+                  member.pk
+                )}`}
+                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <span className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
+                  <span className="text-gray-600">+</span>
+                </span>
+              </Link>
+            ) : null}
+
+            {leave &&
+              (leave.leaveRequest ? (
+                <Link
+                  to={`/${leave.leaveRequest.pk}/leave-requests/${leave.leaveRequest.sk}?callbackUrl=${encodeURIComponent(
+                    window.location.pathname + window.location.search
+                  )}`}
+                  title={leave.leaveRequest.type}
+                  className={`inline-flex items-center rounded-full px-2 py-2 ${
+                    !leave.leaveRequest.approved && "opacity-50"
+                  }`}
+                  style={{
+                    backgroundColor: leave.color,
+                  }}
+                >
+                  {leave.icon}
+                </Link>
+              ) : (
+                <span
+                  title={leave.type}
+                  className="inline-flex items-center rounded-full px-2 py-2"
+                  style={{
+                    backgroundColor: leave.color,
+                  }}
+                >
+                  {leave.icon}
+                </span>
+              ))}
+          </>
+        );
+      },
+      [leavesPerMember, company, unit, team]
+    );
+    return view === "linear" ? (
       <MonthlyCalendarPerMember
         year={year}
         month={month}
         goTo={goTo}
+        onSwitchView={setView}
         onAdd={() => {
           navigate(
             `/companies/${company}/units/${unit}/teams/${team}/leave-requests/new`
           );
         }}
         members={members}
-        renderMemberDay={useCallback(
-          (member, day) => {
-            const dayString = day.toString();
-            const leave = leavesPerMember[member.pk]?.leaves[dayString];
-            return (
-              <>
-                {!leave?.leaveRequest ? (
-                  <Link
-                    to={`/companies/${company}/units/${unit}/teams/${team}/leave-requests/new?date=${dayString}&user=${encodeURIComponent(
-                      member.pk
-                    )}`}
-                    className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <span className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
-                      <span className="text-gray-600">+</span>
-                    </span>
-                  </Link>
-                ) : null}
-
-                {leave &&
-                  (leave.leaveRequest ? (
-                    <Link
-                      to={`/${leave.leaveRequest.pk}/leave-requests/${leave.leaveRequest.sk}?callbackUrl=${encodeURIComponent(
-                        window.location.pathname + window.location.search
-                      )}`}
-                      title={leave.leaveRequest.type}
-                      className={`inline-flex items-center rounded-full px-2 py-2 ${
-                        !leave.leaveRequest.approved && "opacity-50"
-                      }`}
-                      style={{
-                        backgroundColor: leave.color,
-                      }}
-                    >
-                      {leave.icon}
-                    </Link>
-                  ) : (
-                    <span
-                      title={leave.type}
-                      className="inline-flex items-center rounded-full px-2 py-2"
-                      style={{
-                        backgroundColor: leave.color,
-                      }}
-                    >
-                      {leave.icon}
-                    </span>
-                  ))}
-              </>
-            );
-          },
-          [leavesPerMember, company, unit, team]
-        )}
+        renderMemberDay={renderMemberDay}
       />
+    ) : (
+      <>Not yet implemented</>
     );
   }
 );

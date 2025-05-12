@@ -11,6 +11,7 @@ import { Avatar } from "./Avatar";
 import { months } from "../../utils/months";
 import { Button } from "./Button";
 import { DayDate } from "@/day-date";
+import { LabeledSwitch } from "./LabeledSwitch";
 
 export interface User {
   pk: string;
@@ -30,6 +31,7 @@ export interface MonthlyScheduleProps {
     calIndex: number
   ) => React.ReactNode;
   onAdd: () => void;
+  onSwitchView: (view: "calendar" | "linear") => void;
 }
 
 export const MonthlyCalendarPerMember = memo(
@@ -40,6 +42,7 @@ export const MonthlyCalendarPerMember = memo(
     members,
     renderMemberDay,
     onAdd,
+    onSwitchView,
   }: MonthlyScheduleProps) => {
     const handlePrevMonth = useCallback(() => {
       goTo(year, month - 1);
@@ -92,9 +95,18 @@ export const MonthlyCalendarPerMember = memo(
                 </span>
                 <ChevronRightIcon className="size-5" aria-hidden="true" />
               </button>
-              <Button onClick={onAdd}>
-                <PlusIcon className="size-5" aria-hidden="true" />
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button onClick={onAdd}>
+                  <PlusIcon className="size-5" aria-hidden="true" />
+                </Button>
+                <LabeledSwitch
+                  label={<Trans>Switch to calendar</Trans>}
+                  checked
+                  onChange={(checked) => {
+                    if (!checked) onSwitchView("calendar");
+                  }}
+                />
+              </div>
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">
               <MenuButton className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">
