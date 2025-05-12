@@ -1,11 +1,11 @@
 import { Trans } from "@lingui/react/macro";
 import { DayDate } from "@/day-date";
-import { MonthDailyCalendar } from "./MonthDailyCalendar";
+import { Day, MonthDailyCalendar } from "./MonthDailyCalendar";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "./ShiftPosition";
 import { LabeledSwitch } from "./LabeledSwitch";
 import { Avatar } from "./Avatar";
-import { useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { LeaveRenderInfo } from "../../hooks/useTeamLeaveSchedule";
 import { SchedulerState } from "@/scheduler";
@@ -23,66 +23,42 @@ export interface ShiftsAutofillSolutionMonthCalendarProps {
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
 }
 
-export const ShiftsAutofillSolutionMonthCalendar = ({
-  year,
-  month,
-  shiftPositionsMap,
-  showScheduleDetails,
-  setShowScheduleDetails,
-  showLeaveSchedule,
-  setShowLeaveSchedule,
-  assignedShiftPositions,
-  leaveSchedule,
-  progress,
-}: ShiftsAutofillSolutionMonthCalendarProps) => {
-  // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
+export const ShiftsAutofillSolutionMonthCalendar = memo(
+  ({
+    year,
+    month,
+    shiftPositionsMap,
+    showScheduleDetails,
+    setShowScheduleDetails,
+    showLeaveSchedule,
+    setShowLeaveSchedule,
+    assignedShiftPositions,
+    leaveSchedule,
+    progress,
+  }: ShiftsAutofillSolutionMonthCalendarProps) => {
+    // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
 
-  const maxRowsPerWeekNumber = useMemo(() => {
-    const weekNumbers: Array<number> = [];
-    for (const [day, shiftPositions] of Object.entries(
-      shiftPositionsMap
-    ).sort()) {
-      const dayShiftPositionsRows = shiftPositions.reduce(
-        (acc, shiftPosition) => acc + shiftPosition.rowSpan,
-        0
-      );
-      const dayLeaveRows = leaveSchedule?.[day]?.length ?? 0;
-      const week = new DayDate(day).getWeekNumber();
-      weekNumbers[week] = Math.max(
-        weekNumbers[week] ?? 0,
-        dayShiftPositionsRows + dayLeaveRows
-      );
-    }
-    return weekNumbers;
-  }, [leaveSchedule, shiftPositionsMap]);
+    const maxRowsPerWeekNumber = useMemo(() => {
+      const weekNumbers: Array<number> = [];
+      for (const [day, shiftPositions] of Object.entries(
+        shiftPositionsMap
+      ).sort()) {
+        const dayShiftPositionsRows = shiftPositions.reduce(
+          (acc, shiftPosition) => acc + shiftPosition.rowSpan,
+          0
+        );
+        const dayLeaveRows = leaveSchedule?.[day]?.length ?? 0;
+        const week = new DayDate(day).getWeekNumber();
+        weekNumbers[week] = Math.max(
+          weekNumbers[week] ?? 0,
+          dayShiftPositionsRows + dayLeaveRows
+        );
+      }
+      return weekNumbers;
+    }, [leaveSchedule, shiftPositionsMap]);
 
-  return (
-    <MonthDailyCalendar
-      year={year}
-      month={month - 1}
-      additionalActions={[
-        {
-          type: "component",
-          component: (
-            <LabeledSwitch
-              label={<Trans>Show schedule details</Trans>}
-              checked={showScheduleDetails}
-              onChange={setShowScheduleDetails}
-            />
-          ),
-        },
-        {
-          type: "component",
-          component: (
-            <LabeledSwitch
-              label={<Trans>Show leave schedule</Trans>}
-              checked={showLeaveSchedule}
-              onChange={setShowLeaveSchedule}
-            />
-          ),
-        },
-      ]}
-      renderDay={(day) => {
+    const renderDay = useCallback(
+      (day: Day) => {
         const shiftPositions = assignedShiftPositions?.[day.date];
         if (!shiftPositions) {
           return null;
@@ -137,7 +113,44 @@ export const ShiftsAutofillSolutionMonthCalendar = ({
             ))}
           </div>
         );
-      }}
-    />
-  );
-};
+      },
+      [
+        assignedShiftPositions,
+        leaveSchedule,
+        maxRowsPerWeekNumber,
+        progress.problemInSlotIds,
+        showScheduleDetails,
+      ]
+    );
+
+    return (
+      <MonthDailyCalendar
+        year={year}
+        month={month - 1}
+        additionalActions={[
+          {
+            type: "component",
+            component: (
+              <LabeledSwitch
+                label={<Trans>Show schedule details</Trans>}
+                checked={showScheduleDetails}
+                onChange={setShowScheduleDetails}
+              />
+            ),
+          },
+          {
+            type: "component",
+            component: (
+              <LabeledSwitch
+                label={<Trans>Show leave schedule</Trans>}
+                checked={showLeaveSchedule}
+                onChange={setShowLeaveSchedule}
+              />
+            ),
+          },
+        ]}
+        renderDay={renderDay}
+      />
+    );
+  }
+);
