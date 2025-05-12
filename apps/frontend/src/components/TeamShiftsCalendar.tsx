@@ -32,6 +32,7 @@ import { useQuery } from "../hooks/useQuery";
 import { Transition } from "@headlessui/react";
 import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
 import { MemberLeaveInCalendar } from "./stateless/MemberLeaveInCalendar";
+import { classNames } from "../utils/classNames";
 
 export const TeamShiftsCalendar = () => {
   const { team, company } = useParams();
@@ -394,12 +395,19 @@ export const TeamShiftsCalendar = () => {
             >
               {leaves?.map((leave, leaveIndex) => (
                 <Transition show={showLeaveSchedule} appear key={leaveIndex}>
-                  <MemberLeaveInCalendar
-                    member={leave.user}
-                    leave={leave}
-                    leaveIndex={leaveIndex}
-                    leaveRowCount={leaveRowCount}
-                  />
+                  <div
+                    className={classNames(
+                      "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                      leaveIndex === 0 && "border-t",
+                      leaveIndex === leaveRowCount - 1 && "border-b"
+                    )}
+                  >
+                    <MemberLeaveInCalendar
+                      member={leave.user}
+                      leave={leave}
+                      leaveIndex={leaveIndex}
+                    />
+                  </div>
                 </Transition>
               ))}
               {Array.from({

@@ -1,4 +1,4 @@
-import { classNames } from "../../utils/classNames";
+import { forwardRef } from "react";
 import { Avatar } from "./Avatar";
 import { User, type LeaveDay } from "./TeamLeaveSchedule";
 
@@ -6,23 +6,11 @@ export interface MemberLeaveInCalendarProps {
   member: User;
   leave: LeaveDay;
   leaveIndex: number;
-  leaveRowCount: number;
 }
 
-export const MemberLeaveInCalendar = ({
-  member,
-  leave,
-  leaveIndex,
-  leaveRowCount,
-}: MemberLeaveInCalendarProps) => {
-  return (
-    <div
-      className={classNames(
-        "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
-        leaveIndex === 0 && "border-t",
-        leaveIndex === leaveRowCount - 1 && "border-b"
-      )}
-    >
+export const MemberLeaveInCalendar = forwardRef(
+  ({ member, leave, leaveIndex }: MemberLeaveInCalendarProps) => {
+    return (
       <div className="flex items-center gap-1">
         <div
           key={`leave-icon-container-${leaveIndex}`}
@@ -52,6 +40,6 @@ export const MemberLeaveInCalendar = ({
           {member.name}
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
