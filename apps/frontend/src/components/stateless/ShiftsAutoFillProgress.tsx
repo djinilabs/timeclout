@@ -7,6 +7,8 @@ import { ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.gener
 import { getDefined } from "@/utils";
 import { Attention } from "./Attention";
 import { ShiftsAutoFillSolution } from "./ShiftsAutoFillSolution";
+import { VerticalTabs } from "./VerticalTabs";
+import { ColorLabel } from "./ColorLabel";
 
 export interface ShiftsAutoFillProgressProps {
   startDate?: DayDate;
@@ -26,7 +28,6 @@ export const ShiftsAutoFillProgress = ({
   onAssignShiftPositions,
 }: ShiftsAutoFillProgressProps) => {
   const { team, company } = useParams();
-  const topSolution = progress.topSolutions[0];
 
   // problematic slots
   const { computed, problemInSlotIds, discardedReasons } = progress;
@@ -105,17 +106,34 @@ export const ShiftsAutoFillProgress = ({
           </Attention>
         </div>
       )}
-      <ShiftsAutoFillSolution
-        team={getDefined(team)}
-        company={getDefined(company)}
-        startDate={startDate}
-        endDate={endDate}
-        progress={progress}
-        solution={topSolution}
-        shiftPositions={shiftPositions}
-        canAssignShiftPositions={canAssignShiftPositions}
-        onAssignShiftPositions={onAssignShiftPositions}
-      />
+      <div>
+        <div className="flex flex-row justify-between border-b border-gray-200 py-2">
+          <span>
+            <Trans>Solutions</Trans>
+          </span>
+        </div>
+        <VerticalTabs
+          tabs={progress.topSolutions.map((solution, rank) => ({
+            id: solution.id,
+            label: (
+              <ColorLabel randomString={solution.id} label={`#${rank + 1}`} />
+            ),
+            content: (
+              <ShiftsAutoFillSolution
+                team={getDefined(team)}
+                company={getDefined(company)}
+                startDate={startDate}
+                endDate={endDate}
+                progress={progress}
+                solution={solution}
+                shiftPositions={shiftPositions}
+                canAssignShiftPositions={canAssignShiftPositions}
+                onAssignShiftPositions={onAssignShiftPositions}
+              />
+            ),
+          }))}
+        />
+      </div>
     </div>
   );
 };

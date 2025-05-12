@@ -58,6 +58,7 @@ export interface HeuristicScore {
 }
 
 export interface ScoredShiftSchedule {
+  id: string;
   score: number;
   heuristicScores: HeuristicScore[];
   schedule: ShiftSchedule;

@@ -11,6 +11,8 @@ import {
 } from "./types";
 import { sortByScore } from "./utils/sortByScore";
 import { heuristics as realHeuristics } from "./heuristics";
+import { random } from "nanoid";
+import { dequal } from "dequal";
 
 export interface SchedulerSubscriptionOptions {
   interval: number;
@@ -42,6 +44,12 @@ export interface SchedulerOptions {
   }[];
   respectLeaveSchedule: boolean;
 }
+
+const hex = (uint8: Uint8Array) => {
+  return Array.from(uint8)
+    .map((i) => i.toString(16).padStart(2, "0"))
+    .join("");
+};
 
 export class Scheduler {
   private options: SchedulerOptions;
@@ -119,16 +127,19 @@ export class Scheduler {
       }
       this.computed += 1;
       const evalResult = evaluateSchedule(schedule, this.heuristics);
-      this.topSolutions.push({
-        score: evalResult.finalScore,
-        heuristicScores: evalResult.euristicScore,
-        schedule,
-      });
-      this.topSolutions = this.topSolutions
-        .sort(sortByScore)
-        .slice(0, this.options.keepTopSolutionsCount);
+      if (!this.topSolutions.find((s) => dequal(s.schedule, schedule))) {
+        this.topSolutions.push({
+          id: hex(random(20)),
+          score: evalResult.finalScore,
+          heuristicScores: evalResult.euristicScore,
+          schedule,
+        });
+        this.topSolutions = this.topSolutions
+          .sort(sortByScore)
+          .slice(0, this.options.keepTopSolutionsCount);
+      }
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       const reason = `Error: ${(err as Error).message}`;
       this.discardedReasons.set(
         reason,

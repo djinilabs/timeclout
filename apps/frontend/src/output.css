@@ -29,10 +29,12 @@
     --color-teal-100: oklch(0.953 0.051 180.801);
     --color-teal-200: oklch(0.91 0.096 180.426);
     --color-teal-300: oklch(0.855 0.138 181.071);
+    --color-teal-400: oklch(0.777 0.152 181.912);
     --color-teal-500: oklch(0.704 0.14 182.503);
     --color-teal-600: oklch(0.6 0.118 184.704);
     --color-teal-700: oklch(0.511 0.096 186.391);
     --color-teal-800: oklch(0.437 0.078 188.216);
+    --color-cyan-500: oklch(0.715 0.143 215.221);
     --color-blue-50: oklch(0.97 0.014 254.604);
     --color-blue-400: oklch(0.707 0.165 254.624);
     --color-blue-500: oklch(0.623 0.214 259.815);
@@ -78,6 +80,7 @@
     --radius-sm: 0.25rem;
     --radius-md: 0.375rem;
     --radius-lg: 0.5rem;
+    --radius-2xl: 1rem;
     --ease-in: cubic-bezier(0.4, 0, 1, 1);
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
@@ -517,6 +520,9 @@
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
   }
+  .mb-5 {
+    margin-bottom: calc(var(--spacing) * 5);
+  }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
   }
@@ -549,18 +555,6 @@
   }
   .ml-8 {
     margin-left: calc(var(--spacing) * 8);
-  }
-  .ml-10 {
-    margin-left: calc(var(--spacing) * 10);
-  }
-  .ml-12 {
-    margin-left: calc(var(--spacing) * 12);
-  }
-  .ml-20 {
-    margin-left: calc(var(--spacing) * 20);
-  }
-  .ml-40 {
-    margin-left: calc(var(--spacing) * 40);
   }
   .ml-auto {
     margin-left: auto;
@@ -725,6 +719,9 @@
   }
   .w-0 {
     width: calc(var(--spacing) * 0);
+  }
+  .w-2 {
+    width: calc(var(--spacing) * 2);
   }
   .w-4 {
     width: calc(var(--spacing) * 4);
@@ -992,6 +989,13 @@
       margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--tw-space-y-reverse)));
     }
   }
+  .space-y-5 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 5) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 5) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
   .space-y-6 {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 0;
@@ -1128,6 +1132,9 @@
   .overflow-y-auto {
     overflow-y: auto;
   }
+  .rounded-2xl {
+    border-radius: var(--radius-2xl);
+  }
   .rounded-full {
     border-radius: calc(infinity * 1px);
   }
@@ -1157,8 +1164,17 @@
   .rounded-tr-lg {
     border-top-right-radius: var(--radius-lg);
   }
+  .rounded-tr-md {
+    border-top-right-radius: var(--radius-md);
+  }
+  .rounded-br-full {
+    border-bottom-right-radius: calc(infinity * 1px);
+  }
   .rounded-br-lg {
     border-bottom-right-radius: var(--radius-lg);
+  }
+  .rounded-br-md {
+    border-bottom-right-radius: var(--radius-md);
   }
   .rounded-bl-lg {
     border-bottom-left-radius: var(--radius-lg);
@@ -1203,6 +1219,14 @@
     border-left-style: var(--tw-border-style);
     border-left-width: 2px;
   }
+  .border-l-4 {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 4px;
+  }
+  .border-l-8 {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 8px;
+  }
   .border-dashed {
     --tw-border-style: dashed;
     border-style: dashed;
@@ -1215,6 +1239,9 @@
   }
   .border-black\/10 {
     border-color: color-mix(in oklab, var(--color-black) 10%, transparent);
+  }
+  .border-cyan-500 {
+    border-color: var(--color-cyan-500);
   }
   .border-gray-100 {
     border-color: var(--color-gray-100);
@@ -1243,6 +1270,15 @@
   .border-transparent {
     border-color: transparent;
   }
+  .border-y-gray-300 {
+    border-block-color: var(--color-gray-300);
+  }
+  .border-t-cyan-500 {
+    border-top-color: var(--color-cyan-500);
+  }
+  .border-r-gray-300 {
+    border-right-color: var(--color-gray-300);
+  }
   .bg-blue-50 {
     background-color: var(--color-blue-50);
   }
@@ -1263,6 +1299,9 @@
   }
   .bg-gray-300 {
     background-color: var(--color-gray-300);
+  }
+  .bg-gray-400 {
+    background-color: var(--color-gray-400);
   }
   .bg-gray-500 {
     background-color: var(--color-gray-500);
@@ -1323,6 +1362,9 @@
   }
   .bg-teal-300 {
     background-color: var(--color-teal-300);
+  }
+  .bg-teal-400 {
+    background-color: var(--color-teal-400);
   }
   .bg-teal-500 {
     background-color: var(--color-teal-500);
@@ -1449,6 +1491,9 @@
   }
   .p-5 {
     padding: calc(var(--spacing) * 5);
+  }
+  .p-8 {
+    padding: calc(var(--spacing) * 8);
   }
   .px-1 {
     padding-inline: calc(var(--spacing) * 1);

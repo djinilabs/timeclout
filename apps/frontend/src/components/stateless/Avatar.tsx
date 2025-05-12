@@ -21,6 +21,7 @@ const getColorAndBackground = (md5?: string | null) => {
     color,
   };
 };
+
 export interface AvatarProps {
   name?: string;
   email?: string | null;
