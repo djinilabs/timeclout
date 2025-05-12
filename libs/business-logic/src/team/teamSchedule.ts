@@ -47,8 +47,12 @@ export const teamSchedule = async (
     team: getDefined(await entity.get(teamRef)),
     startDate,
     endDate,
-    userSchedules: userSchedules.sort(
-      (a, b) => (b.user?.name && a.user?.name.localeCompare(b.user?.name)) || 0
-    ),
+    userSchedules: userSchedules
+      .filter((userSchedule) => userSchedule.user)
+      .sort((a, b) =>
+        a.user?.name && b.user?.name
+          ? a.user?.name.localeCompare(b.user?.name)
+          : 0
+      ),
   };
 };
