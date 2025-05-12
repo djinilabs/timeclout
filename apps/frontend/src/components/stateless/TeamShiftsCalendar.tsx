@@ -1,5 +1,5 @@
 import { FC, ReactNode, useMemo, useState } from "react";
-import { type Day, MonthCalendar } from "./MonthCalendar";
+import { type Day, MonthDailyCalendar } from "./MonthDailyCalendar";
 import { i18n } from "@lingui/core";
 import { Tabs } from "./Tabs";
 
@@ -39,8 +39,8 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
   const [tab, setTab] = useState(tabs[0]);
   return (
     <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
-      {tab.href === "by-day" && <MonthCalendar {...props} />}
-      {tab.href === "by-member" && <MonthCalendar {...props} />}
+      {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
+      {tab.href === "by-member" && <MonthDailyCalendar {...props} />}
     </Tabs>
   );
 };

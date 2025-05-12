@@ -2,7 +2,7 @@ import { memo, ReactNode, useCallback, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MonthlyCalendarPerMember } from "./MonthlyCalendarPerMember";
 import { DayDate } from "@/day-date";
-import { Day, MonthCalendar } from "./MonthCalendar";
+import { Day, MonthDailyCalendar } from "./MonthDailyCalendar";
 import { MemberLeaveInCalendar } from "./MemberLeaveInCalendar";
 import { i18n } from "@lingui/core";
 import { Button } from "./Button";
@@ -166,7 +166,7 @@ export const TeamLeaveSchedule = memo(
         renderMemberDay={renderMemberDay}
       />
     ) : (
-      <MonthCalendar
+      <MonthDailyCalendar
         year={year}
         month={month}
         goTo={goTo}
