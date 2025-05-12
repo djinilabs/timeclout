@@ -25,6 +25,7 @@ import { toMinutes } from "../../utils/toMinutes";
 
 export interface ShiftPositionProps {
   shiftPosition: ShiftPositionWithRowSpan;
+  hideName?: boolean;
   setFocusedShiftPosition?: (shiftPosition: ShiftPositionType) => void;
   focus?: boolean;
   autoFocus?: boolean;
@@ -46,6 +47,7 @@ const isValidNumber = (value: number | undefined) =>
 export const ShiftPosition = memo(
   ({
     shiftPosition,
+    hideName = false,
     setFocusedShiftPosition,
     focus,
     autoFocus,
@@ -224,12 +226,14 @@ export const ShiftPosition = memo(
                 <Avatar size={25} {...shiftPosition.assignedTo} />
               </div>
             )}
-            <span
-              title={shiftPosition.name ?? ""}
-              className="text-tiny text-gray-400 truncate text-left"
-            >
-              {shiftPosition.name}
-            </span>
+            {!hideName && (
+              <span
+                title={shiftPosition.name ?? ""}
+                className="text-tiny text-gray-400 truncate text-left"
+              >
+                {shiftPosition.name}
+              </span>
+            )}
           </div>
           <Transition show={showScheduleDetails} appear>
             <div className="transition-all duration-300 ease-in data-[closed]:opacity-0">

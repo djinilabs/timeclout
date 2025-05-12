@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { MonthCalendar } from "../MonthCalendar";
+import { MonthDailyCalendar } from "../MonthDailyCalendar";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
 import { BrowserRouter } from "react-router-dom";
@@ -54,13 +54,13 @@ describe("MonthCalendar", () => {
   };
 
   it("renders month and year in header", () => {
-    renderWithI18n(<MonthCalendar {...defaultProps} />);
+    renderWithI18n(<MonthDailyCalendar {...defaultProps} />);
     const headerHeading = screen.getByRole("heading", { name: "March 2024" });
     expect(headerHeading).toBeInTheDocument();
   });
 
   it("renders weekday headers", () => {
-    renderWithI18n(<MonthCalendar {...defaultProps} />);
+    renderWithI18n(<MonthDailyCalendar {...defaultProps} />);
     const weekdays = ["M", "T", "W", "T", "F", "S", "S"];
     weekdays.forEach((day) => {
       const elements = screen.getAllByText(day);
@@ -70,7 +70,7 @@ describe("MonthCalendar", () => {
 
   it("calls goTo when navigation buttons are clicked", () => {
     const goTo = vi.fn();
-    renderWithI18n(<MonthCalendar {...defaultProps} goTo={goTo} />);
+    renderWithI18n(<MonthDailyCalendar {...defaultProps} goTo={goTo} />);
 
     // Previous month
     const prevButton = screen.getByRole("button", { name: /previous month/i });
@@ -100,7 +100,10 @@ describe("MonthCalendar", () => {
     ];
 
     renderWithI18n(
-      <MonthCalendar {...defaultProps} additionalActions={additionalActions} />
+      <MonthDailyCalendar
+        {...defaultProps}
+        additionalActions={additionalActions}
+      />
     );
 
     const button = screen.getByRole("button", { name: "Add Event" });
@@ -111,7 +114,9 @@ describe("MonthCalendar", () => {
 
   it("calls onDayFocus when a day cell receives focus", () => {
     const onDayFocus = vi.fn();
-    renderWithI18n(<MonthCalendar {...defaultProps} onDayFocus={onDayFocus} />);
+    renderWithI18n(
+      <MonthDailyCalendar {...defaultProps} onDayFocus={onDayFocus} />
+    );
 
     // Find first day cell by its content (01)
     const firstDayCell = screen.getByText("01").closest("div[tabindex]");
@@ -124,7 +129,7 @@ describe("MonthCalendar", () => {
   });
 
   it("applies correct styling for current month and other month days", () => {
-    renderWithI18n(<MonthCalendar {...defaultProps} />);
+    renderWithI18n(<MonthDailyCalendar {...defaultProps} />);
 
     // Current month day (March 15)
     const currentMonthDay = screen
@@ -145,7 +150,7 @@ describe("MonthCalendar", () => {
     );
 
     renderWithI18n(
-      <MonthCalendar {...defaultProps} renderDay={customRenderDay} />
+      <MonthDailyCalendar {...defaultProps} renderDay={customRenderDay} />
     );
 
     // Look for a specific day's custom content

@@ -29,8 +29,8 @@ export interface MonthlyScheduleProps {
     day: DayDate,
     calIndex: number
   ) => React.ReactNode;
-  onAdd: () => void;
-  onSwitchView: (view: "calendar" | "linear") => void;
+  onAdd?: () => unknown;
+  onSwitchView?: (view: "calendar" | "linear") => void;
 }
 
 export const MonthlyCalendarPerMember = memo(
@@ -98,9 +98,11 @@ export const MonthlyCalendarPerMember = memo(
                 <Button onClick={onAdd}>
                   <PlusIcon className="size-5" aria-hidden="true" />
                 </Button>
-                <Button onClick={() => onSwitchView("calendar")}>
-                  <Trans>Switch to calendar</Trans>
-                </Button>
+                {onSwitchView && (
+                  <Button onClick={() => onSwitchView("calendar")}>
+                    <Trans>Switch to calendar</Trans>
+                  </Button>
+                )}
               </div>
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">
