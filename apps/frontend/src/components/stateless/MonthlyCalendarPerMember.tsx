@@ -99,13 +99,9 @@ export const MonthlyCalendarPerMember = memo(
                 <Button onClick={onAdd}>
                   <PlusIcon className="size-5" aria-hidden="true" />
                 </Button>
-                <LabeledSwitch
-                  label={<Trans>Switch to calendar</Trans>}
-                  checked
-                  onChange={(checked) => {
-                    if (!checked) onSwitchView("calendar");
-                  }}
-                />
+                <Button onClick={() => onSwitchView("calendar")}>
+                  <Trans>Switch to calendar</Trans>
+                </Button>
               </div>
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">

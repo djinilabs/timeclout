@@ -2,6 +2,10 @@ import { memo, ReactNode, useCallback, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MonthlyCalendarPerMember } from "./MonthlyCalendarPerMember";
 import { DayDate } from "@/day-date";
+import { Day, MonthCalendar } from "./MonthCalendar";
+import { MemberLeaveInCalendar } from "./MemberLeaveInCalendar";
+import { i18n } from "@lingui/core";
+import { Button } from "./Button";
 
 export interface User {
   pk: string;
@@ -58,6 +62,17 @@ export const TeamLeaveSchedule = memo(
         ),
       [schedule]
     );
+
+    const leavesPerDay: Record<string, MemberSchedule[]> = useMemo(() => {
+      const leavesPerDay: Record<string, MemberSchedule[]> = {};
+      schedule.forEach((memberSchedule) => {
+        Object.keys(memberSchedule.leaves).forEach((day) => {
+          leavesPerDay[day] = [...(leavesPerDay[day] || []), memberSchedule];
+        });
+      });
+      return leavesPerDay;
+    }, [schedule]);
+
     const members = useMemo(
       () =>
         Object.values(leavesPerMember).map(
@@ -117,6 +132,26 @@ export const TeamLeaveSchedule = memo(
       },
       [leavesPerMember, company, unit, team]
     );
+
+    const renderDay = useCallback(
+      (day: Day) => {
+        const membersWithLeave = leavesPerDay[day.date];
+        if (!membersWithLeave) return null;
+        return membersWithLeave.map((memberLeaves, index) => {
+          return (
+            <MemberLeaveInCalendar
+              key={memberLeaves.user.pk}
+              member={memberLeaves.user}
+              leave={memberLeaves.leaves[day.date]}
+              leaveIndex={index}
+              leaveRowCount={membersWithLeave.length}
+            />
+          );
+        });
+      },
+      [leavesPerDay]
+    );
+
     return view === "linear" ? (
       <MonthlyCalendarPerMember
         year={year}
@@ -132,7 +167,31 @@ export const TeamLeaveSchedule = memo(
         renderMemberDay={renderMemberDay}
       />
     ) : (
-      <>Not yet implemented</>
+      <MonthCalendar
+        year={year}
+        month={month}
+        goTo={goTo}
+        renderDay={renderDay}
+        additionalActions={[
+          {
+            type: "button",
+            text: i18n.t("Add leave"),
+            onClick: () => {
+              navigate(
+                `/companies/${company}/units/${unit}/teams/${team}/leave-requests/new`
+              );
+            },
+          },
+          {
+            type: "component",
+            component: (
+              <Button onClick={() => setView("linear")}>
+                {i18n.t("Switch to view per member")}
+              </Button>
+            ),
+          },
+        ]}
+      />
     );
   }
 );
