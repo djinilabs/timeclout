@@ -13,7 +13,7 @@ export interface Tab {
 export interface TabsProps {
   tabPropName?: string;
   tabs: Tab[];
-  onChange: (tab: Tab) => void;
+  onChange?: (tab: Tab) => void;
 }
 
 export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
@@ -40,7 +40,7 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
   );
 
   useEffect(() => {
-    onChange(currentTab);
+    onChange?.(currentTab);
   }, [currentTab, onChange]);
 
   const location = useLocation();

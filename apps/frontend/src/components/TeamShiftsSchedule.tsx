@@ -5,7 +5,7 @@ import { Trans } from "@lingui/react/macro";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { getDefined } from "@/utils";
 import { Dialog } from "./stateless/Dialog";
-import { MonthCalendar } from "./stateless/MonthCalendar";
+import { type Day } from "./stateless/MonthCalendar";
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
 import { Suspense } from "./stateless/Suspense";
 import { ShiftPosition } from "./stateless/ShiftPosition";
@@ -33,6 +33,7 @@ import { Transition } from "@headlessui/react";
 import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
 import { MemberLeaveInCalendar } from "./stateless/MemberLeaveInCalendar";
 import { classNames } from "../utils/classNames";
+import { TeamShiftsCalendar } from "./stateless/TeamShiftsCalendar";
 
 export const TeamShiftsSchedule = () => {
   const { team, company } = useParams();
@@ -227,6 +228,146 @@ export const TeamShiftsSchedule = () => {
     );
   }, [maxShiftPositionRowsPerWeekNumber, maxLeaveRowsPerWeekNumber]);
 
+  const renderDay = useCallback(
+    (day: Day, dayIndex: number) => {
+      const shiftPositions = shiftPositionsMap?.[day.date];
+      const leaves = leaveSchedule[day.date];
+      if (!shiftPositions && !leaves) {
+        return null;
+      }
+      const weekNumber = new DayDate(day.date).getWeekNumber();
+      const rowCount: number | undefined = maxRowsPerWeekNumber[weekNumber];
+      const leaveRowCount = maxLeaveRowsPerWeekNumber[weekNumber] ?? 0;
+
+      return (
+        <div
+          key={`day-${day.date}`}
+          className="h-full w-full grid"
+          style={{
+            gridTemplateRows: `repeat(${rowCount ?? (shiftPositions?.length ?? 0) + (leaves?.length ?? 0)}, 1fr)`,
+          }}
+        >
+          {leaves?.map((leave, leaveIndex) => (
+            <Transition show={showLeaveSchedule} appear key={leaveIndex}>
+              <div
+                className={classNames(
+                  "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                  leaveIndex === 0 && "border-t",
+                  leaveIndex === leaveRowCount - 1 && "border-b"
+                )}
+              >
+                <MemberLeaveInCalendar
+                  member={leave.user}
+                  leave={leave}
+                  leaveIndex={leaveIndex}
+                />
+              </div>
+            </Transition>
+          ))}
+          {Array.from({
+            length: leaveRowCount - (leaves?.length ?? 0),
+          }).map((_, leaveIndex) => (
+            <div
+              key={`leave-row-${leaveIndex}`}
+              className="h-full w-full row-span-2"
+            />
+          ))}
+          {shiftPositions?.map((shiftPosition, shiftPositionIndex) => {
+            const hasConflict =
+              shiftPosition.assignedTo != null &&
+              (leaves?.some(
+                (leave) => leave.user.pk === shiftPosition.assignedTo?.pk
+              ) ||
+                shiftPosition.schedules.some((schedule) => {
+                  const startMinutes = toMinutes(
+                    schedule.startHourMinutes as [number, number]
+                  );
+                  const endMinutes = toMinutes(
+                    schedule.endHourMinutes as [number, number]
+                  );
+                  return shiftPositions.some((otherShiftPosition) => {
+                    if (
+                      otherShiftPosition.sk === shiftPosition.sk ||
+                      otherShiftPosition.assignedTo?.pk !==
+                        shiftPosition.assignedTo?.pk
+                    ) {
+                      return false;
+                    }
+                    return otherShiftPosition.schedules.some(
+                      (otherSchedule) => {
+                        const otherStartMinutes = toMinutes(
+                          otherSchedule.startHourMinutes as [number, number]
+                        );
+                        const otherEndMinutes = toMinutes(
+                          otherSchedule.endHourMinutes as [number, number]
+                        );
+                        return (
+                          startMinutes < otherEndMinutes &&
+                          endMinutes > otherStartMinutes
+                        );
+                      }
+                    );
+                  });
+                }));
+
+            return (
+              <div
+                key={`shift-position-${shiftPositionIndex}`}
+                className="row-span-3 transition-all duration-300 ease-in"
+                onClick={(ev) => {
+                  onShiftPositionClick(shiftPosition, ev);
+                  ev.preventDefault();
+                  ev.stopPropagation();
+                }}
+              >
+                <ShiftPosition
+                  lastRow={shiftPositionIndex === shiftPositions.length - 1}
+                  focus={
+                    (focusedShiftPosition &&
+                      focusedShiftPosition == shiftPosition) ||
+                    false
+                  }
+                  setFocusedShiftPosition={(shiftPosition) => {
+                    console.log("new focused shiftPosition", shiftPosition);
+                    setFocusedShiftPosition(shiftPosition);
+                  }}
+                  shiftPosition={shiftPosition}
+                  tabIndex={dayIndex * 100 + shiftPositionIndex}
+                  handleEditShiftPosition={handleEditShiftPosition}
+                  copyShiftPositionToClipboard={copyShiftPositionToClipboard}
+                  hasCopiedShiftPosition={hasCopiedShiftPosition || undefined}
+                  pasteShiftPositionFromClipboard={
+                    pasteShiftPositionFromClipboard
+                  }
+                  deleteShiftPosition={deleteShiftPosition}
+                  conflicts={hasConflict}
+                  isSelected={selectedShiftPositions.includes(shiftPosition)}
+                  showScheduleDetails={showScheduleDetails}
+                />
+              </div>
+            );
+          })}
+        </div>
+      );
+    },
+    [
+      copyShiftPositionToClipboard,
+      deleteShiftPosition,
+      focusedShiftPosition,
+      hasCopiedShiftPosition,
+      leaveSchedule,
+      maxLeaveRowsPerWeekNumber,
+      maxRowsPerWeekNumber,
+      onShiftPositionClick,
+      pasteShiftPositionFromClipboard,
+      selectedShiftPositions,
+      setFocusedShiftPosition,
+      shiftPositionsMap,
+      showLeaveSchedule,
+      showScheduleDetails,
+    ]
+  );
+
   return (
     <div>
       {fetching ? (
@@ -308,7 +449,7 @@ export const TeamShiftsSchedule = () => {
           />
         </Suspense>
       </Dialog>
-      <MonthCalendar
+      <TeamShiftsCalendar
         show={!anyDialogOpen}
         onDayFocus={setFocusedDay}
         focusedDay={focusedDay}
@@ -375,133 +516,7 @@ export const TeamShiftsSchedule = () => {
           const day = new DayDate(year, month + 1, 1);
           goToMonth(day);
         }}
-        renderDay={(day, dayIndex) => {
-          const shiftPositions = shiftPositionsMap?.[day.date];
-          const leaves = leaveSchedule[day.date];
-          if (!shiftPositions && !leaves) {
-            return null;
-          }
-          const weekNumber = new DayDate(day.date).getWeekNumber();
-          const rowCount: number | undefined = maxRowsPerWeekNumber[weekNumber];
-          const leaveRowCount = maxLeaveRowsPerWeekNumber[weekNumber] ?? 0;
-
-          return (
-            <div
-              key={`day-${day.date}`}
-              className="h-full w-full grid"
-              style={{
-                gridTemplateRows: `repeat(${rowCount ?? (shiftPositions?.length ?? 0) + (leaves?.length ?? 0)}, 1fr)`,
-              }}
-            >
-              {leaves?.map((leave, leaveIndex) => (
-                <Transition show={showLeaveSchedule} appear key={leaveIndex}>
-                  <div
-                    className={classNames(
-                      "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
-                      leaveIndex === 0 && "border-t",
-                      leaveIndex === leaveRowCount - 1 && "border-b"
-                    )}
-                  >
-                    <MemberLeaveInCalendar
-                      member={leave.user}
-                      leave={leave}
-                      leaveIndex={leaveIndex}
-                    />
-                  </div>
-                </Transition>
-              ))}
-              {Array.from({
-                length: leaveRowCount - (leaves?.length ?? 0),
-              }).map((_, leaveIndex) => (
-                <div
-                  key={`leave-row-${leaveIndex}`}
-                  className="h-full w-full row-span-2"
-                />
-              ))}
-              {shiftPositions?.map((shiftPosition, shiftPositionIndex) => {
-                const hasConflict =
-                  shiftPosition.assignedTo != null &&
-                  (leaves?.some(
-                    (leave) => leave.user.pk === shiftPosition.assignedTo?.pk
-                  ) ||
-                    shiftPosition.schedules.some((schedule) => {
-                      const startMinutes = toMinutes(
-                        schedule.startHourMinutes as [number, number]
-                      );
-                      const endMinutes = toMinutes(
-                        schedule.endHourMinutes as [number, number]
-                      );
-                      return shiftPositions.some((otherShiftPosition) => {
-                        if (
-                          otherShiftPosition.sk === shiftPosition.sk ||
-                          otherShiftPosition.assignedTo?.pk !==
-                            shiftPosition.assignedTo?.pk
-                        ) {
-                          return false;
-                        }
-                        return otherShiftPosition.schedules.some(
-                          (otherSchedule) => {
-                            const otherStartMinutes = toMinutes(
-                              otherSchedule.startHourMinutes as [number, number]
-                            );
-                            const otherEndMinutes = toMinutes(
-                              otherSchedule.endHourMinutes as [number, number]
-                            );
-                            return (
-                              startMinutes < otherEndMinutes &&
-                              endMinutes > otherStartMinutes
-                            );
-                          }
-                        );
-                      });
-                    }));
-
-                return (
-                  <div
-                    key={`shift-position-${shiftPositionIndex}`}
-                    className="row-span-3 transition-all duration-300 ease-in"
-                    onClick={(ev) => {
-                      onShiftPositionClick(shiftPosition, ev);
-                      ev.preventDefault();
-                      ev.stopPropagation();
-                    }}
-                  >
-                    <ShiftPosition
-                      lastRow={shiftPositionIndex === shiftPositions.length - 1}
-                      focus={
-                        (focusedShiftPosition &&
-                          focusedShiftPosition == shiftPosition) ||
-                        false
-                      }
-                      setFocusedShiftPosition={(shiftPosition) => {
-                        console.log("new focused shiftPosition", shiftPosition);
-                        setFocusedShiftPosition(shiftPosition);
-                      }}
-                      shiftPosition={shiftPosition}
-                      tabIndex={dayIndex * 100 + shiftPositionIndex}
-                      handleEditShiftPosition={handleEditShiftPosition}
-                      copyShiftPositionToClipboard={
-                        copyShiftPositionToClipboard
-                      }
-                      hasCopiedShiftPosition={
-                        hasCopiedShiftPosition || undefined
-                      }
-                      pasteShiftPositionFromClipboard={
-                        pasteShiftPositionFromClipboard
-                      }
-                      deleteShiftPosition={deleteShiftPosition}
-                      conflicts={hasConflict}
-                      isSelected={selectedShiftPositions.includes(
-                        shiftPosition
-                      )}
-                      showScheduleDetails={showScheduleDetails}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          );
-        }}
+        renderDay={renderDay}
         onCellDrop={onCellDrop}
         onCellDragOver={onCellDragOver}
         onCellDragLeave={onCellDragLeave}
