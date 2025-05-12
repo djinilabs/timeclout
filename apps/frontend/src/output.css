@@ -1138,6 +1138,9 @@
   .rounded-tl-lg {
     border-top-left-radius: var(--radius-lg);
   }
+  .rounded-tl-md {
+    border-top-left-radius: var(--radius-md);
+  }
   .rounded-r-md {
     border-top-right-radius: var(--radius-md);
     border-bottom-right-radius: var(--radius-md);
@@ -1157,6 +1160,9 @@
   .rounded-bl-lg {
     border-bottom-left-radius: var(--radius-lg);
   }
+  .rounded-bl-md {
+    border-bottom-left-radius: var(--radius-md);
+  }
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
@@ -1173,13 +1179,29 @@
     border-block-style: var(--tw-border-style);
     border-block-width: 1px;
   }
+  .border-y-1 {
+    border-block-style: var(--tw-border-style);
+    border-block-width: 1px;
+  }
   .border-t {
     border-top-style: var(--tw-border-style);
     border-top-width: 1px;
   }
+  .border-t-0 {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 0px;
+  }
   .border-r {
     border-right-style: var(--tw-border-style);
     border-right-width: 1px;
+  }
+  .border-r-1 {
+    border-right-style: var(--tw-border-style);
+    border-right-width: 1px;
+  }
+  .border-r-2 {
+    border-right-style: var(--tw-border-style);
+    border-right-width: 2px;
   }
   .border-b {
     border-bottom-style: var(--tw-border-style);
@@ -1190,6 +1212,10 @@
     border-bottom-width: 2px;
   }
   .border-l {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 1px;
+  }
+  .border-l-1 {
     border-left-style: var(--tw-border-style);
     border-left-width: 1px;
   }
@@ -1219,6 +1245,15 @@
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
+  .border-gray-400 {
+    border-color: var(--color-gray-400);
+  }
+  .border-gray-500 {
+    border-color: var(--color-gray-500);
+  }
+  .border-gray-600 {
+    border-color: var(--color-gray-600);
+  }
   .border-gray-900 {
     border-color: var(--color-gray-900);
   }
@@ -1242,6 +1277,12 @@
   }
   .border-r-gray-300 {
     border-right-color: var(--color-gray-300);
+  }
+  .border-r-gray-600 {
+    border-right-color: var(--color-gray-600);
+  }
+  .border-l-gray-300 {
+    border-left-color: var(--color-gray-300);
   }
   .bg-blue-50 {
     background-color: var(--color-blue-50);
@@ -1765,6 +1806,12 @@
   .opacity-50 {
     opacity: 50%;
   }
+  .opacity-70 {
+    opacity: 70%;
+  }
+  .opacity-80 {
+    opacity: 80%;
+  }
   .opacity-100 {
     opacity: 100%;
   }
@@ -1924,6 +1971,9 @@
   }
   .outline-gray-300 {
     outline-color: var(--color-gray-300);
+  }
+  .outline-gray-400 {
+    outline-color: var(--color-gray-400);
   }
   .outline-red-300 {
     outline-color: var(--color-red-300);

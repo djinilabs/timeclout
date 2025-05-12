@@ -107,7 +107,7 @@ export const ShiftsAutoFillProgress = ({
         </div>
       )}
       <div>
-        <div className="flex flex-row justify-between border-b border-gray-200 py-2">
+        <div className="flex flex-row justify-between border-b border-gray-400 py-2 rounded-tl-md">
           <span>
             <Trans>Solutions</Trans>
           </span>
@@ -116,7 +116,10 @@ export const ShiftsAutoFillProgress = ({
           tabs={progress.topSolutions.map((solution, rank) => ({
             id: solution.id,
             label: (
-              <ColorLabel randomString={solution.id} label={`#${rank + 1}`} />
+              <ColorLabel
+                randomString={solution.id}
+                label={<span className="text-sm">{`#${rank + 1}`}</span>}
+              />
             ),
             content: (
               <ShiftsAutoFillSolution

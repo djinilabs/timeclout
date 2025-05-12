@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 const getColorAndBackground = (md5?: string | null) => {
   if (!md5) {
     return {
@@ -21,7 +23,7 @@ const getColorAndBackground = (md5?: string | null) => {
 
 export interface ColorLabelProps {
   randomString: string;
-  label: string;
+  label: ReactNode;
   size?: number;
 }
 

@@ -144,11 +144,11 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
   const tabs = useMemo(
     () => [
       {
-        name: "Calendar",
+        name: i18n.t("Calendar"),
         href: "calendar",
       },
       {
-        name: "Stats",
+        name: i18n.t("Stats"),
         href: "stats",
       },
     ],
