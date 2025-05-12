@@ -51,7 +51,7 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
         <select
           defaultValue={currentTab?.name}
           aria-label="Select a tab"
-          className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-teal-600"
+          className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pl-3 pr-8 text-base text-gray-900 outline -outline-offset-1 outline-gray-300 focus:outline focus:-outline-offset-2 focus:outline-teal-600"
           onChange={(e) =>
             onTabChange(tabs.find((tab) => tab.name === e.target.value))
           }
