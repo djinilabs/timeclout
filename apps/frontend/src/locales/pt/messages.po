@@ -14,24 +14,9 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:47
-msgid "By day"
-msgstr "Por dia"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:48
-msgid "By member"
-msgstr "Por membro"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:177
-msgid "Add leave"
-msgstr "Nova ausência"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:188
-msgid "Switch to view per member"
-msgstr "Mudar para vista por membro"
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:52
+msgid "By duration"
+msgstr "Por duração"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
@@ -400,6 +385,26 @@ msgid "Invitation accepted"
 msgstr "Convite aceite"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:50
+msgid "By day"
+msgstr "Por dia"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:51
+msgid "By member"
+msgstr "Por membro"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:177
+msgid "Add leave"
+msgstr "Nova ausência"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:188
+msgid "Switch to view per member"
+msgstr "Mudar para vista por membro"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:105
 msgid "Shift positions assigned successfully"
 msgstr "Posições de turno atribuídas com sucesso"
@@ -420,6 +425,16 @@ msgid "Please select a permission"
 msgstr "Por favor, selecione uma permissão"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:52
+#~ msgid "By length"
+#~ msgstr "Por comprimento"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:52
+#~ msgid "Summary"
+#~ msgstr "Sumário"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/TeamMemberQualifications.tsx:40
 #~ msgid "Qualification added"
 #~ msgstr "Qualificação adicionada"
@@ -429,6 +444,10 @@ msgstr "Por favor, selecione uma permissão"
 #: apps/frontend/src/AppLayout.tsx:92
 #~ msgid "Search"
 #~ msgstr "Pesquisar"
+
+#: apps/frontend/src/components/stateless/TeamShiftsSummary.tsx:109
+msgid "{length}h"
+msgstr "{length}h"
 
 #: apps/frontend/src/components/AcceptInvite.tsx:75
 msgid "Accept Invitation"
@@ -442,7 +461,7 @@ msgstr "Adicionar um gerente"
 msgid "Add a new team member to the team."
 msgstr "Adicionar um novo membro à equipa."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:568
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:569
 msgid "Add position"
 msgstr "Adicionar posição"
 
@@ -518,7 +537,7 @@ msgid "August"
 msgstr "Agosto"
 
 #: apps/frontend/src/components/TeamShiftsSchedule.tsx:521
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:576
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:577
 msgid "Auto fill"
 msgstr "Auto preenchimento"
 
@@ -674,6 +693,7 @@ msgid "Date range"
 msgstr "Intervalo de datas"
 
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:442
+#: apps/frontend/src/components/stateless/TeamShiftsSummary.tsx:101
 msgid "Day"
 msgstr "Dia"
 
@@ -820,8 +840,8 @@ msgid "Get started by creating a new unit for this company."
 msgstr "Comece por criar uma nova unidade para esta empresa."
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:127
-#: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:126
 #: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:201
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:103
 msgid "Go to today"
 msgstr "Ir para hoje"
 
@@ -989,7 +1009,7 @@ msgstr "Maio"
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:73
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:381
-#: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:144
+#: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:57
 msgid "Name"
 msgstr "Nome"
 
@@ -1018,7 +1038,7 @@ msgid "Next month"
 msgstr "Mês seguinte"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:84
-#: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:93
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:68
 msgid "Next year"
 msgstr "Ano seguinte"
 
@@ -1073,8 +1093,8 @@ msgstr "eg"
 #~ msgstr "em"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:102
-#: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:111
 #: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:162
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:88
 msgid "Open menu"
 msgstr "Abrir menu"
 
@@ -1125,7 +1145,7 @@ msgid "Previous month"
 msgstr "Mês anterior"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:66
-#: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:75
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:50
 msgid "Previous year"
 msgstr "Ano anterior"
 
@@ -1360,12 +1380,12 @@ msgstr "Definir as configurações"
 msgid "Show in calendar as"
 msgstr "Mostrar no calendário como"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:594
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:595
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:282
 msgid "Show leave schedule"
 msgstr "Mostrar o calendário de ausências"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:604
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:605
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:272
 msgid "Show schedule details"
 msgstr "Mostrar detalhes"
@@ -1403,7 +1423,7 @@ msgstr "Parar a pesquisa"
 msgid "Submit request for {0} and wait for approval"
 msgstr "Submeter pedido de {0} e aguardar aprovação"
 
-#: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:103
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:80
 msgid "Switch to calendar"
 msgstr "Mudar para calendário"
 
@@ -1467,8 +1487,8 @@ msgid "To create a new unit you just have to fill in the unit name and click on 
 msgstr "Para criar uma nova unidade, basta preencher o nome da unidade e clicar em \"Criar\"."
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:75
-#: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:84
 #: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:122
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:59
 msgid "Today"
 msgstr "Hoje"
 
@@ -1510,7 +1530,7 @@ msgstr "om"
 msgid "Unassign"
 msgstr "Remover atribuição"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:583
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:584
 msgid "Unassign positions"
 msgstr "Remover atribuições de posição"
 

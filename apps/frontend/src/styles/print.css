@@ -44,8 +44,4 @@
     print-color-adjust: exact;
   }
 
-  /* Ensure tables don't break across pages */
-  table {
-    page-break-inside: avoid !important;
-  }
 } 

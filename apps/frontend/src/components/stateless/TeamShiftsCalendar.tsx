@@ -49,7 +49,7 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
     () => [
       { name: i18n.t("By day"), href: "by-day" },
       { name: i18n.t("By member"), href: "by-member" },
-      { name: i18n.t("Summary"), href: "summary" },
+      { name: i18n.t("By duration"), href: "by-duration" },
     ],
     []
   );
@@ -68,7 +68,7 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
           onAdd={props.onAdd}
         />
       )}
-      {tab.href === "summary" && <TeamShiftsSummary {...props} />}
+      {tab.href === "by-duration" && <TeamShiftsSummary {...props} />}
     </Tabs>
   );
 };

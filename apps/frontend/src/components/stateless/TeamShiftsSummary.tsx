@@ -4,6 +4,7 @@ import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { toMinutes } from "../../utils/toMinutes";
 import { Trans } from "@lingui/react/macro";
 import { Avatar } from "./Avatar";
+import { DayDate } from "@/day-date";
 
 export interface TeamShiftsSummaryProps {
   year: number;
@@ -113,9 +114,14 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = ({
         <tbody className="bg-white divide-y divide-gray-200">
           {monthDays.map((dayOfTheMonth) => {
             const day = `${year}-${(month + 1).toString().padStart(2, "0")}-${dayOfTheMonth.toString().padStart(2, "0")}`;
+            const dayDate = new DayDate(day);
             const dayShiftsPerLength = summary.shiftsPerDayPerLength[day];
+            const isWeekend = dayDate.isWeekend();
             return (
-              <tr key={day} className="hover:bg-gray-50">
+              <tr
+                key={day}
+                className={`hover:bg-gray-50 ${isWeekend ? "bg-gray-100" : ""}`}
+              >
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border border-gray-200">
                   {dayOfTheMonth}
                 </td>
@@ -126,14 +132,18 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = ({
                       return (
                         <td
                           colSpan={lengthsMaxPopulation[length]}
-                          className="border border-gray-200"
+                          className={`border border-gray-200 ${
+                            isWeekend ? "bg-gray-100" : ""
+                          }`}
                         ></td>
                       );
                     }
                     return shifts.map((shift) => (
                       <td
                         key={[shift.pk, shift.sk].join("/")}
-                        className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border border-gray-200"
+                        className={`px-6 py-4 whitespace-nowrap text-sm text-gray-500 border border-gray-200 ${
+                          isWeekend ? "bg-gray-100" : ""
+                        }`}
                       >
                         <div className="flex flex-row items-center gap-2">
                           <Avatar size={40} {...shift.assignedTo} />
@@ -153,7 +163,9 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = ({
                       (acc, length) => acc + lengthsMaxPopulation[length],
                       0
                     )}
-                    className="border border-gray-200"
+                    className={`border border-gray-200 ${
+                      isWeekend ? "bg-gray-100" : ""
+                    }`}
                   ></td>
                 )}
               </tr>
