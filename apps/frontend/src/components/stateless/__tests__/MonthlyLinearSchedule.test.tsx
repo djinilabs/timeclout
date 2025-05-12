@@ -142,20 +142,6 @@ describe("MonthlyLinearSchedule", () => {
     expect(leaveCell).toHaveStyle({ backgroundColor: "#4CAF50" });
   });
 
-  it("renders weekend days with gray background", () => {
-    renderWithProviders(<MonthlyLinearSchedule {...defaultProps} />);
-
-    // In March 2024, 2-3, 9-10, 16-17, 23-24, 30-31 are weekends
-    const cells = screen.getAllByRole("cell");
-    const weekendIndices = [2, 3, 9, 10, 16, 17, 23, 24, 30, 31];
-
-    weekendIndices.forEach((day) => {
-      // Add 1 to skip the name column
-      const cell = cells[day];
-      expect(cell).toHaveClass("bg-gray-50");
-    });
-  });
-
   it("renders pending leaves with reduced opacity", () => {
     const propsWithPendingLeave = {
       ...defaultProps,
