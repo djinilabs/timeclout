@@ -102,7 +102,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
             "transition-[padding] duration-300"
           )}
         >
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white shadow-xs sm:gap-x-6">
+          <div className="no-print sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white shadow-xs sm:gap-x-6">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
@@ -143,7 +143,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
 
         {/* Help panel */}
         <div
-          className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${helpPanelOpen ? "translate-x-0" : "translate-x-full"}`}
+          className={`no-print fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${helpPanelOpen ? "translate-x-0" : "translate-x-full"}`}
         >
           <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
             <h2 className="text-lg font-medium text-gray-900">Help</h2>
@@ -169,7 +169,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         <button
           type="button"
           onClick={() => setHelpPanelOpen(!helpPanelOpen)}
-          className="fixed right-4 bottom-4 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500"
+          className="no-print fixed right-4 bottom-4 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500"
         >
           <span className="sr-only">Toggle help panel</span>
           {helpPanelOpen ? (

@@ -12,6 +12,7 @@ import { I18nProvider } from "@lingui/react";
 import { dynamicActivate } from "./i18n";
 import { RequiresSession } from "./components/RequiresSession";
 import { AnalyticsProvider } from "./AnalyticsProvider";
+import "./styles/print.css";
 
 const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
 
