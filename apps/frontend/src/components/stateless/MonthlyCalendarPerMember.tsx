@@ -60,7 +60,7 @@ export const MonthlyCalendarPerMember = memo(
 
     return (
       <div className="flex flex-col h-[calc(100vh-64px)]">
-        <header className="flex-none flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-white">
+        <header className="no-print flex-none flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-white">
           <h1 className="text-base font-semibold text-gray-900">
             <time dateTime={yearMonth}>{humanYearMonth}</time>
           </h1>
