@@ -11,7 +11,6 @@ import { Avatar } from "./Avatar";
 import { months } from "../../utils/months";
 import { Button } from "./Button";
 import { DayDate } from "@/day-date";
-import { LabeledSwitch } from "./LabeledSwitch";
 
 export interface User {
   pk: string;

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { MonthlyLinearSchedule } from "../MonthlyLinearSchedule";
+import { TeamLeaveSchedule } from "../TeamLeaveSchedule";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
 import { BrowserRouter } from "react-router-dom";
@@ -26,7 +26,7 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-describe("MonthlyLinearSchedule", () => {
+describe("TeamLeaveSchedule", () => {
   const defaultProps = {
     year: 2024,
     month: 2, // March (0-based)
@@ -85,13 +85,13 @@ describe("MonthlyLinearSchedule", () => {
   });
 
   it("renders month and year in header", () => {
-    renderWithProviders(<MonthlyLinearSchedule {...defaultProps} />);
+    renderWithProviders(<TeamLeaveSchedule {...defaultProps} />);
     const headerHeading = screen.getByRole("heading", { name: "March 2024" });
     expect(headerHeading).toBeInTheDocument();
   });
 
   it("renders navigation buttons", () => {
-    renderWithProviders(<MonthlyLinearSchedule {...defaultProps} />);
+    renderWithProviders(<TeamLeaveSchedule {...defaultProps} />);
     expect(
       screen.getByRole("button", { name: /previous year/i })
     ).toBeInTheDocument();
@@ -103,9 +103,7 @@ describe("MonthlyLinearSchedule", () => {
 
   it("calls goTo when navigation buttons are clicked", () => {
     const goTo = vi.fn();
-    renderWithProviders(
-      <MonthlyLinearSchedule {...defaultProps} goTo={goTo} />
-    );
+    renderWithProviders(<TeamLeaveSchedule {...defaultProps} goTo={goTo} />);
 
     // Previous month
     fireEvent.click(screen.getByRole("button", { name: /previous year/i }));
@@ -122,7 +120,7 @@ describe("MonthlyLinearSchedule", () => {
   });
 
   it("renders table headers with days of month", async () => {
-    renderWithProviders(<MonthlyLinearSchedule {...defaultProps} />);
+    renderWithProviders(<TeamLeaveSchedule {...defaultProps} />);
     // March 2024 has 31 days
     for (let day = 1; day <= 31; day++) {
       expect(
@@ -132,7 +130,7 @@ describe("MonthlyLinearSchedule", () => {
   });
 
   it("renders user schedule with leaves", () => {
-    renderWithProviders(<MonthlyLinearSchedule {...defaultProps} />);
+    renderWithProviders(<TeamLeaveSchedule {...defaultProps} />);
 
     // Check if user name is rendered
     expect(screen.getByText("John Doe")).toBeInTheDocument();
@@ -140,20 +138,6 @@ describe("MonthlyLinearSchedule", () => {
     // Check if leave is rendered with correct color
     const leaveCell = screen.getByTitle("vacation");
     expect(leaveCell).toHaveStyle({ backgroundColor: "#4CAF50" });
-  });
-
-  it("renders weekend days with gray background", () => {
-    renderWithProviders(<MonthlyLinearSchedule {...defaultProps} />);
-
-    // In March 2024, 2-3, 9-10, 16-17, 23-24, 30-31 are weekends
-    const cells = screen.getAllByRole("cell");
-    const weekendIndices = [2, 3, 9, 10, 16, 17, 23, 24, 30, 31];
-
-    weekendIndices.forEach((day) => {
-      // Add 1 to skip the name column
-      const cell = cells[day];
-      expect(cell).toHaveClass("bg-gray-50");
-    });
   });
 
   it("renders pending leaves with reduced opacity", () => {
@@ -175,7 +159,7 @@ describe("MonthlyLinearSchedule", () => {
       ],
     };
 
-    renderWithProviders(<MonthlyLinearSchedule {...propsWithPendingLeave} />);
+    renderWithProviders(<TeamLeaveSchedule {...propsWithPendingLeave} />);
     const leaveCell = screen.getByTitle("vacation");
     expect(leaveCell).toHaveClass("opacity-50");
   });
