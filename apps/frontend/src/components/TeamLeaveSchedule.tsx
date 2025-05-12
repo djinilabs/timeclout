@@ -15,7 +15,7 @@ import {
   Team,
   TeamScheduleArgs,
 } from "../graphql/graphql";
-import { MonthlyLinearSchedule } from "./stateless/MonthlyLinearSchedule";
+import { TeamLeaveSchedule as TeamLeaveScheduleUI } from "./stateless/TeamLeaveSchedule";
 import { leaveTypeParser } from "@/settings";
 import { leaveTypeColors } from "../settings/leaveTypes";
 import { leaveTypeIcons } from "../settings/leaveTypes";
@@ -99,7 +99,7 @@ export const TeamLeaveSchedule = () => {
   );
 
   return (
-    <MonthlyLinearSchedule
+    <TeamLeaveScheduleUI
       year={date.getYear()}
       month={date.getMonth() - 1}
       goTo={useCallback(
