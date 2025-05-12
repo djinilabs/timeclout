@@ -14,16 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:147
-msgid "Calendar"
-msgstr "Calendar"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:151
-msgid "Stats"
-msgstr "Stats"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Unknown"
@@ -391,16 +381,19 @@ msgstr "Invitation accepted"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:50
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:133
 msgid "By day"
 msgstr "By day"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:51
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:137
 msgid "By member"
 msgstr "By member"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:52
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:141
 msgid "By duration"
 msgstr "By duration"
 
@@ -415,9 +408,19 @@ msgid "Switch to view per member"
 msgstr "Switch to view per member"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:118
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:114
 msgid "Shift positions assigned successfully"
 msgstr "Shift positions assigned successfully"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:122
+msgid "Calendar"
+msgstr "Calendar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:126
+msgid "Stats"
+msgstr "Stats"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:21
@@ -543,7 +546,7 @@ msgstr "Assign the managers for the workers in this unit:"
 msgid "Assigned to"
 msgstr "Assigned to"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:170
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:145
 msgid "Assigning Shift Positions..."
 msgstr "Assigning Shift Positions..."
 
@@ -873,7 +876,7 @@ msgstr "Get started by creating a new unit for this company."
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:127
 #: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:201
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:103
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:107
 msgid "Go to today"
 msgstr "Go to today"
 
@@ -1070,7 +1073,7 @@ msgid "Next month"
 msgstr "Next month"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:84
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:68
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:70
 msgid "Next year"
 msgstr "Next year"
 
@@ -1126,7 +1129,7 @@ msgstr "on"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:102
 #: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:162
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:88
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:92
 msgid "Open menu"
 msgstr "Open menu"
 
@@ -1177,7 +1180,7 @@ msgid "Previous month"
 msgstr "Previous month"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:66
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:50
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:52
 msgid "Previous year"
 msgstr "Previous year"
 
@@ -1413,12 +1416,12 @@ msgid "Show in calendar as"
 msgstr "Show in calendar as"
 
 #: apps/frontend/src/components/TeamShiftsSchedule.tsx:595
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:207
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:245
 msgid "Show leave schedule"
 msgstr "Show leave schedule"
 
 #: apps/frontend/src/components/TeamShiftsSchedule.tsx:605
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:197
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:235
 msgid "Show schedule details"
 msgstr "Show schedule details"
 
@@ -1463,7 +1466,7 @@ msgstr "Stop searching"
 msgid "Submit request for {0} and wait for approval"
 msgstr "Submit request for {0} and wait for approval"
 
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:80
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:84
 msgid "Switch to calendar"
 msgstr "Switch to calendar"
 
@@ -1532,7 +1535,7 @@ msgstr "To create a new unit you just have to fill in the unit name and click on
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:75
 #: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:122
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:59
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:61
 msgid "Today"
 msgstr "Today"
 
@@ -1602,7 +1605,7 @@ msgstr "Use template"
 msgid "Use template?"
 msgstr "Use template?"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:172
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolution.tsx:147
 msgid "Use this solution and assigning these shift Positions"
 msgstr "Use this solution and assigning these shift Positions"
 

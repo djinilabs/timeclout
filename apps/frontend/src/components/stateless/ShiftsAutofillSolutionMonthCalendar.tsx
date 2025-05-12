@@ -5,10 +5,14 @@ import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "./ShiftPosition";
 import { LabeledSwitch } from "./LabeledSwitch";
 import { Avatar } from "./Avatar";
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { LeaveRenderInfo } from "../../hooks/useTeamLeaveSchedule";
 import { SchedulerState } from "@/scheduler";
+import { Tabs } from "./Tabs";
+import { i18n } from "@lingui/core";
+import { MonthlyCalendarPerMember, User } from "./MonthlyCalendarPerMember";
+import { TeamShiftsSummary } from "./TeamShiftsSummary";
 
 export interface ShiftsAutofillSolutionMonthCalendarProps {
   year: number;
@@ -123,34 +127,145 @@ export const ShiftsAutofillSolutionMonthCalendar = memo(
       ]
     );
 
+    const tabs = useMemo(
+      () => [
+        {
+          name: i18n.t("By day"),
+          href: "by-day",
+        },
+        {
+          name: i18n.t("By member"),
+          href: "by-member",
+        },
+        {
+          name: i18n.t("By duration"),
+          href: "by-duration",
+        },
+      ],
+      []
+    );
+
+    // collect all members from assignedShiftPositions
+    const members = useMemo(() => {
+      const members: User[] = [];
+      for (const shiftPositions of Object.values(assignedShiftPositions)) {
+        for (const shiftPosition of shiftPositions) {
+          if (
+            shiftPosition.assignedTo &&
+            !members.find(
+              (member) => member.pk === shiftPosition.assignedTo?.pk
+            )
+          ) {
+            members.push(shiftPosition.assignedTo);
+          }
+        }
+      }
+      return members;
+    }, [assignedShiftPositions]);
+
+    const memberShiftPositionsMap: Record<
+      string,
+      Record<string, ShiftPositionWithRowSpan[]>
+    > = useMemo(() => {
+      return Object.fromEntries(
+        members.map((member) => [
+          member.pk,
+          Object.values(assignedShiftPositions)
+            .flatMap((shiftPositions) =>
+              shiftPositions.filter(
+                (shiftPosition) => shiftPosition.assignedTo?.pk === member.pk
+              )
+            )
+            .reduce(
+              (acc, shiftPosition) => {
+                const day = shiftPosition.day;
+                if (!acc[day]) {
+                  acc[day] = [];
+                }
+                acc[day].push(shiftPosition);
+                return acc;
+              },
+              {} as Record<string, ShiftPositionWithRowSpan[]>
+            ),
+        ])
+      );
+    }, [members, assignedShiftPositions]);
+
+    const renderMemberDay = useCallback(
+      (member: User, day: DayDate) => {
+        const shiftPositions = memberShiftPositionsMap[member.pk];
+        if (!shiftPositions) {
+          return null;
+        }
+        const shiftPositionsForDay = shiftPositions[day.toString()];
+        if (!shiftPositionsForDay) {
+          return null;
+        }
+        return shiftPositionsForDay.map((shiftPosition, shiftPositionIndex) => (
+          <div
+            key={`shift-position-${shiftPositionIndex}`}
+            className="row-span-3 transition-all duration-300 ease-in"
+          >
+            <ShiftPosition
+              lastRow={shiftPositionIndex === shiftPositionsForDay.length - 1}
+              shiftPosition={shiftPosition}
+              conflicts={false}
+              showScheduleDetails={showScheduleDetails}
+            />
+          </div>
+        ));
+      },
+      [memberShiftPositionsMap, showScheduleDetails]
+    );
+
+    const [tab, setTab] = useState(tabs[0]);
+
     return (
-      <MonthDailyCalendar
-        year={year}
-        month={month - 1}
-        additionalActions={[
-          {
-            type: "component",
-            component: (
-              <LabeledSwitch
-                label={<Trans>Show schedule details</Trans>}
-                checked={showScheduleDetails}
-                onChange={setShowScheduleDetails}
-              />
-            ),
-          },
-          {
-            type: "component",
-            component: (
-              <LabeledSwitch
-                label={<Trans>Show leave schedule</Trans>}
-                checked={showLeaveSchedule}
-                onChange={setShowLeaveSchedule}
-              />
-            ),
-          },
-        ]}
-        renderDay={renderDay}
-      />
+      <>
+        <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab} />
+        {tab.href === "by-day" ? (
+          <MonthDailyCalendar
+            year={year}
+            month={month - 1}
+            additionalActions={[
+              {
+                type: "component",
+                component: (
+                  <LabeledSwitch
+                    label={<Trans>Show schedule details</Trans>}
+                    checked={showScheduleDetails}
+                    onChange={setShowScheduleDetails}
+                  />
+                ),
+              },
+              {
+                type: "component",
+                component: (
+                  <LabeledSwitch
+                    label={<Trans>Show leave schedule</Trans>}
+                    checked={showLeaveSchedule}
+                    onChange={setShowLeaveSchedule}
+                  />
+                ),
+              },
+            ]}
+            renderDay={renderDay}
+          />
+        ) : tab.href === "by-member" ? (
+          <MonthlyCalendarPerMember
+            year={year}
+            month={month - 1}
+            members={members}
+            renderMemberDay={renderMemberDay}
+          />
+        ) : (
+          <TeamShiftsSummary
+            year={year}
+            month={month - 1}
+            shiftPositionsMap={assignedShiftPositions}
+          />
+        )}
+      </>
     );
   }
 );

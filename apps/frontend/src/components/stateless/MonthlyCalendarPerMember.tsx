@@ -14,7 +14,7 @@ export interface User {
 export interface MonthlyScheduleProps {
   year: number;
   month: number;
-  goTo: (year: number, month: number) => void;
+  goTo?: (year: number, month: number) => void;
   members: User[];
   renderMemberDay: (
     member: User,

@@ -13,7 +13,7 @@ import { Button } from "./Button";
 export interface CalendarHeaderProps {
   year: number;
   month: number;
-  goTo: (year: number, month: number) => void;
+  goTo?: (year: number, month: number) => void;
   onAdd?: () => unknown;
   onSwitchView?: (view: "calendar" | "linear") => unknown;
 }
@@ -21,15 +21,15 @@ export interface CalendarHeaderProps {
 export const CalendarHeader: FC<CalendarHeaderProps> = memo(
   ({ year, month, goTo, onAdd, onSwitchView }: CalendarHeaderProps) => {
     const handlePrevMonth = useCallback(() => {
-      goTo(year, month - 1);
+      goTo?.(year, month - 1);
     }, [goTo, year, month]);
 
     const handleNextMonth = useCallback(() => {
-      goTo(year, month + 1);
+      goTo?.(year, month + 1);
     }, [goTo, year, month]);
 
     const handleToday = useCallback(() => {
-      goTo(new Date().getFullYear(), new Date().getMonth());
+      goTo?.(new Date().getFullYear(), new Date().getMonth());
     }, [goTo]);
 
     const yearMonth = `${year}-${month + 1}`;
@@ -41,34 +41,38 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
         </h1>
         <div className="flex items-center">
           <div className="relative flex items-center rounded-md bg-white shadow-2xs md:items-stretch">
-            <button
-              type="button"
-              onClick={handlePrevMonth}
-              className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
-            >
-              <span className="sr-only">
-                <Trans>Previous year</Trans>
-              </span>
-              <ChevronLeftIcon className="size-5" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              onClick={handleToday}
-              className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
-            >
-              <Trans>Today</Trans>
-            </button>
-            <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
-            <button
-              type="button"
-              onClick={handleNextMonth}
-              className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50 mr-2"
-            >
-              <span className="sr-only">
-                <Trans>Next year</Trans>
-              </span>
-              <ChevronRightIcon className="size-5" aria-hidden="true" />
-            </button>
+            {goTo && (
+              <>
+                <button
+                  type="button"
+                  onClick={handlePrevMonth}
+                  className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
+                >
+                  <span className="sr-only">
+                    <Trans>Previous year</Trans>
+                  </span>
+                  <ChevronLeftIcon className="size-5" aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleToday}
+                  className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
+                >
+                  <Trans>Today</Trans>
+                </button>
+                <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                <button
+                  type="button"
+                  onClick={handleNextMonth}
+                  className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50 mr-2"
+                >
+                  <span className="sr-only">
+                    <Trans>Next year</Trans>
+                  </span>
+                  <ChevronRightIcon className="size-5" aria-hidden="true" />
+                </button>
+              </>
+            )}
             <div className="flex items-center gap-2">
               {onAdd && (
                 <Button onClick={onAdd}>

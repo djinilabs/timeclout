@@ -9,7 +9,7 @@ import { DayDate } from "@/day-date";
 export interface TeamShiftsSummaryProps {
   year: number;
   month: number;
-  goTo: (year: number, month: number) => void;
+  goTo?: (year: number, month: number) => void;
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
 }
 
