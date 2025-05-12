@@ -144,7 +144,6 @@ export const TeamLeaveSchedule = memo(
               member={memberLeaves.user}
               leave={memberLeaves.leaves[day.date]}
               leaveIndex={index}
-              leaveRowCount={membersWithLeave.length}
             />
           );
         });
