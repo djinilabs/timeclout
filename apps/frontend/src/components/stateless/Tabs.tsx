@@ -1,8 +1,9 @@
 import { FC, PropsWithChildren, useCallback, useEffect, useMemo } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { classNames } from "../../utils/classNames";
 import { Suspense } from "./Suspense";
+import { useSearchParam } from "../../hooks/useSearchParam";
 
 export interface Tab {
   name: string;
@@ -22,18 +23,17 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
   tabPropName = "tab",
   children,
 }) => {
-  const [params, setParams] = useSearchParams();
+  const { current: currentTabName, set, params } = useSearchParam(tabPropName);
 
   const onTabChange = useCallback(
     (tab: Tab | undefined) => {
       if (tab) {
-        setParams({ ...params, [tabPropName]: tab.href });
+        set(tab.href);
       }
     },
-    [params, setParams, tabPropName]
+    [set]
   );
 
-  const currentTabName = params.get(tabPropName);
   const currentTab = useMemo(
     () => tabs.find((tab) => tab.href == currentTabName) ?? tabs[0],
     [tabs, currentTabName]

@@ -78,6 +78,16 @@ const ContextualHelpContent = () => {
             </ul>
           </div>
           <div className="mt-4 pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">Leave Request Features:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• Single day or date range requests</li>
+              <li>• Multiple leave types available</li>
+              <li>• Automatic approval for certain leave types</li>
+              <li>• Manager approval workflow for others</li>
+              <li>• Real-time team calendar updates</li>
+            </ul>
+          </div>
+          <div className="mt-4 pl-4 border-l-2 border-gray-200">
             <h4 className="font-medium">Tips for Success:</h4>
             <ul className="mt-2 space-y-1 text-sm">
               <li>• Submit requests well in advance when possible</li>
@@ -100,6 +110,100 @@ const ContextualHelpContent = () => {
               <li>
                 • You can track the status in your leave requests dashboard
               </li>
+            </ul>
+          </div>
+        </div>
+        <RoleBasedHelp />
+      </div>
+    );
+  }
+
+  // Check if we're editing/creating a shift position
+  if (params.get("team-shift-schedule-dialog") === "create") {
+    return (
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">Editing Shift Position</h3>
+        <div className="space-y-2">
+          <p className="text-sm text-gray-600">
+            Modify an existing shift position in your team's schedule. This
+            allows you to adjust details like timing, assignments, and
+            requirements.
+          </p>
+          <div className="pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">What You Can Edit:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• Position name and color for easy identification</li>
+              <li>• Schedule timing and duration</li>
+              <li>• Required qualifications and skills</li>
+              <li>• Team member assignment</li>
+              <li>• Day and date of the shift</li>
+            </ul>
+          </div>
+          <div className="mt-4 pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">Best Practices:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• Check for scheduling conflicts before saving changes</li>
+              <li>
+                • Ensure assigned team members have required qualifications
+              </li>
+              <li>• Consider team member availability and preferences</li>
+              <li>• Review the impact on team coverage</li>
+              <li>• Update any related shift positions if needed</li>
+            </ul>
+          </div>
+          <div className="mt-4 pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">After Saving:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• Changes are immediately reflected in the team calendar</li>
+              <li>• Assigned team members are notified of updates</li>
+              <li>• The shift position is updated across all views</li>
+              <li>• Any conflicts are highlighted for review</li>
+            </ul>
+          </div>
+        </div>
+        <RoleBasedHelp />
+      </div>
+    );
+  }
+
+  // Check if we're auto-filling shifts
+  if (tab === "shifts-calendar" && params.get("autofill") === "true") {
+    return (
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">Auto-Filling Shifts</h3>
+        <div className="space-y-2">
+          <p className="text-sm text-gray-600">
+            Automatically assign team members to shifts based on your specified
+            rules and preferences. This helps create balanced and fair
+            schedules.
+          </p>
+          <div className="pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">Configuration Options:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• Respect leave schedules and time off</li>
+              <li>• Set maximum intervals between shifts</li>
+              <li>• Define minimum shifts per week</li>
+              <li>• Configure rest period requirements</li>
+              <li>• Balance workload distribution</li>
+            </ul>
+          </div>
+          <div className="mt-4 pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">How It Works:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• System analyzes team member availability</li>
+              <li>• Considers qualifications and preferences</li>
+              <li>• Applies configured rules and constraints</li>
+              <li>• Generates optimal shift assignments</li>
+              <li>• Highlights any conflicts or issues</li>
+            </ul>
+          </div>
+          <div className="mt-4 pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">After Auto-Fill:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• Review generated assignments</li>
+              <li>• Make manual adjustments if needed</li>
+              <li>• Save changes to update the schedule</li>
+              <li>• Team members are notified of new assignments</li>
             </ul>
           </div>
         </div>

@@ -38,15 +38,13 @@ import { MemberLeaveInCalendar } from "./stateless/MemberLeaveInCalendar";
 import { classNames } from "../utils/classNames";
 import { TeamShiftsCalendar } from "./stateless/TeamShiftsCalendar";
 import { Day } from "./stateless/MonthDailyCalendar";
+import { useSearchParam } from "../hooks/useSearchParam";
 
 export const TeamShiftsSchedule = () => {
   const { team, company } = useParams();
-  const [createDialogOpen, setCreateDialogOpen] = useState(false);
-  const [autoFillDialogOpen, setAutoFillDialogOpen] = useState(false);
-  const [unassignDialogOpen, setUnassignDialogOpen] = useState(false);
-
-  const anyDialogOpen =
-    createDialogOpen || autoFillDialogOpen || unassignDialogOpen;
+  const { current: isDialogOpen, set: setIsDialogOpen } = useSearchParam(
+    "team-shift-schedule-dialog"
+  );
 
   const [params, setParams] = useSearchParams();
   const selectedMonth = useMemo(() => {
@@ -90,7 +88,7 @@ export const TeamShiftsSchedule = () => {
     startDay: calendarStartDay,
     endDay: calendarEndDay,
     pollingIntervalMs: 30000,
-    pause: createDialogOpen || autoFillDialogOpen || unassignDialogOpen,
+    pause: !!isDialogOpen,
   });
 
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
@@ -161,10 +159,13 @@ export const TeamShiftsSchedule = () => {
     ShiftPositionType | undefined
   >(undefined);
 
-  const handleEditShiftPosition = (shiftPosition: ShiftPositionWithFake) => {
-    setEditingShiftPosition(shiftPosition.original ?? shiftPosition);
-    setCreateDialogOpen(true);
-  };
+  const handleEditShiftPosition = useCallback(
+    (shiftPosition: ShiftPositionWithFake) => {
+      setEditingShiftPosition(shiftPosition.original ?? shiftPosition);
+      setIsDialogOpen("create");
+    },
+    [setEditingShiftPosition, setIsDialogOpen]
+  );
 
   // team
 
@@ -360,6 +361,7 @@ export const TeamShiftsSchedule = () => {
       copyShiftPositionToClipboard,
       deleteShiftPosition,
       focusedShiftPosition,
+      handleEditShiftPosition,
       hasCopiedShiftPosition,
       leaveSchedule,
       maxLeaveRowsPerWeekNumber,
@@ -462,6 +464,7 @@ export const TeamShiftsSchedule = () => {
       copyShiftPositionToClipboard,
       deleteShiftPosition,
       focusedShiftPosition,
+      handleEditShiftPosition,
       hasCopiedShiftPosition,
       memberShiftPositionsMap,
       onShiftPositionClick,
@@ -484,8 +487,8 @@ export const TeamShiftsSchedule = () => {
         </div>
       ) : (
         <Dialog
-          open={createDialogOpen}
-          onClose={() => setCreateDialogOpen(false)}
+          open={isDialogOpen === "create"}
+          onClose={() => setIsDialogOpen(null)}
           title={
             editingShiftPosition ? (
               <Trans>Edit position</Trans>
@@ -498,16 +501,16 @@ export const TeamShiftsSchedule = () => {
             <CreateOrEditScheduleShiftPosition
               editingShiftPosition={editingShiftPosition}
               day={focusedDay ? new DayDate(focusedDay) : selectedMonth}
-              onCancel={() => setCreateDialogOpen(false)}
+              onCancel={() => setIsDialogOpen(null)}
               onCreate={async (params) => {
                 if (await createShiftPosition(params)) {
-                  setCreateDialogOpen(false);
+                  setIsDialogOpen(null);
                   refetchTeamShiftsQuery();
                 }
               }}
               onUpdate={async (params) => {
                 if (await updateShiftPosition(params)) {
-                  setCreateDialogOpen(false);
+                  setIsDialogOpen(null);
                   refetchTeamShiftsQuery();
                 }
               }}
@@ -516,8 +519,8 @@ export const TeamShiftsSchedule = () => {
         </Dialog>
       )}
       <Dialog
-        open={autoFillDialogOpen}
-        onClose={() => setAutoFillDialogOpen(false)}
+        open={isDialogOpen === "autoFill"}
+        onClose={() => setIsDialogOpen(null)}
         title={<Trans>Auto fill</Trans>}
         className="w-screen min-h-screen"
       >
@@ -533,20 +536,20 @@ export const TeamShiftsSchedule = () => {
               [selectedMonth]
             )}
             onAssignShiftPositions={() => {
-              setAutoFillDialogOpen(false);
+              setIsDialogOpen(null);
             }}
           />
         </Suspense>
       </Dialog>
       <Dialog
-        open={unassignDialogOpen}
-        onClose={() => setUnassignDialogOpen(false)}
+        open={isDialogOpen === "unassign"}
+        onClose={() => setIsDialogOpen(null)}
         title={<Trans>Unassign shift positions</Trans>}
       >
         <Suspense>
           <UnassignShiftPositionsDialog
             team={getDefined(team)}
-            onClose={() => setUnassignDialogOpen(false)}
+            onClose={() => setIsDialogOpen(null)}
             onUnassign={() => {
               refetchTeamShiftsQuery();
             }}
@@ -555,7 +558,7 @@ export const TeamShiftsSchedule = () => {
       </Dialog>
       <TeamShiftsCalendar
         shiftPositionsMap={shiftPositionsMap}
-        show={!anyDialogOpen}
+        show={!isDialogOpen}
         onDayFocus={setFocusedDay}
         focusedDay={focusedDay}
         year={selectedMonth.getYear()}
@@ -569,21 +572,21 @@ export const TeamShiftsSchedule = () => {
                     text: <Trans>Add position</Trans>,
                     onClick: () => {
                       setEditingShiftPosition(undefined);
-                      setCreateDialogOpen(true);
+                      setIsDialogOpen("create");
                     },
                   } as const,
                   {
                     type: "button",
                     text: <Trans>Auto fill</Trans>,
                     onClick: () => {
-                      setAutoFillDialogOpen(true);
+                      setIsDialogOpen("autoFill");
                     },
                   } as const,
                   {
                     type: "button",
                     text: <Trans>Unassign positions</Trans>,
                     onClick: () => {
-                      setUnassignDialogOpen(true);
+                      setIsDialogOpen("unassign");
                     },
                   } as const,
                 ]
@@ -610,6 +613,7 @@ export const TeamShiftsSchedule = () => {
             },
           ],
           [
+            setIsDialogOpen,
             setShowLeaveSchedule,
             setShowScheduleDetails,
             showLeaveSchedule,
@@ -629,7 +633,7 @@ export const TeamShiftsSchedule = () => {
         onCellDragLeave={onCellDragLeave}
         onAdd={() => {
           setEditingShiftPosition(undefined);
-          setCreateDialogOpen(true);
+          setIsDialogOpen("create");
         }}
       />
     </div>
