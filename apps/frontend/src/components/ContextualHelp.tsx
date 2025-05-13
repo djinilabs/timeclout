@@ -1,10 +1,112 @@
 import { ChatBubbleLeftIcon } from "@heroicons/react/20/solid";
 import { useParams, useSearchParams } from "react-router-dom";
+import { Trans } from "@lingui/react/macro";
+
+const RoleBasedHelp = () => {
+  return (
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold">User Roles and Capabilities</h3>
+      <div className="space-y-2">
+        <p className="text-sm text-gray-600">
+          <Trans>
+            The system provides different roles to help manage team operations
+            effectively:
+          </Trans>
+        </p>
+        <div className="pl-4 border-l-2 border-gray-200">
+          <ul className="space-y-4 text-sm">
+            <li>
+              <h4 className="font-medium">Member</h4>
+              <ul className="mt-2 space-y-1 text-gray-600">
+                <li>• View team information and schedules</li>
+                <li>• Submit leave requests</li>
+                <li>• View team calendar and shifts</li>
+                <li>• Access basic team features</li>
+              </ul>
+            </li>
+            <li>
+              <h4 className="font-medium">Admin</h4>
+              <ul className="mt-2 space-y-1 text-gray-600">
+                <li>• All Member capabilities</li>
+                <li>• Manage team members and invitations</li>
+                <li>• Configure team settings</li>
+                <li>• Approve leave requests</li>
+                <li>• Manage shifts and schedules</li>
+              </ul>
+            </li>
+            <li>
+              <h4 className="font-medium">Owner</h4>
+              <ul className="mt-2 space-y-1 text-gray-600">
+                <li>• All Admin capabilities</li>
+                <li>• Manage team permissions</li>
+                <li>• Delete team resources</li>
+                <li>• Transfer ownership</li>
+                <li>• Access advanced settings</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();
   const [params] = useSearchParams();
   const tab = params.get("tab") ?? "";
+  const pathname = window.location.pathname;
+
+  // Check if we're on the new leave request page
+  if (pathname.includes("/leave-requests/new")) {
+    return (
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">Creating a Leave Request</h3>
+        <div className="space-y-2">
+          <p className="text-sm text-gray-600">
+            Submit a new leave request for your team. Follow these steps to
+            ensure your request is processed smoothly.
+          </p>
+          <div className="pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">Steps to Submit:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• Select the type of leave you're requesting</li>
+              <li>• Choose your start and end dates</li>
+              <li>• Add any relevant notes or comments</li>
+              <li>• Review your team's calendar for coverage</li>
+              <li>• Submit your request for approval</li>
+            </ul>
+          </div>
+          <div className="mt-4 pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">Tips for Success:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• Submit requests well in advance when possible</li>
+              <li>• Check your remaining leave balance</li>
+              <li>• Consider team coverage during your absence</li>
+              <li>
+                • Review your team's leave calendar for potential conflicts
+              </li>
+              <li>• Provide clear notes about your absence</li>
+            </ul>
+          </div>
+          <div className="mt-4 pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">What Happens Next:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• Your request will be sent to your team's approvers</li>
+              <li>• You'll receive notifications about the request status</li>
+              <li>
+                • Once approved, the leave will appear on the team calendar
+              </li>
+              <li>
+                • You can track the status in your leave requests dashboard
+              </li>
+            </ul>
+          </div>
+        </div>
+        <RoleBasedHelp />
+      </div>
+    );
+  }
 
   if (!company) {
     return (
@@ -45,6 +147,7 @@ const ContextualHelpContent = () => {
             </ul>
           </div>
         </div>
+        <RoleBasedHelp />
       </div>
     );
   }
@@ -87,6 +190,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -121,6 +225,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -154,6 +259,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -179,6 +285,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -206,6 +313,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -250,6 +358,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -282,6 +391,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -323,6 +433,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -350,6 +461,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -381,6 +493,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -405,6 +518,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 
@@ -429,6 +543,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <RoleBasedHelp />
           </div>
         );
 

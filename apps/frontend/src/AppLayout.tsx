@@ -156,7 +156,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
               <XMarkIcon aria-hidden="true" className="size-6" />
             </button>
           </div>
-          <div className="p-4">
+          <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
             {helpPanelOpen ? (
               <Suspense>
                 <ContextualHelp />
