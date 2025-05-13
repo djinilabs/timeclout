@@ -115,7 +115,7 @@ export const MeEdit = () => {
                       id={field.name}
                       type="text"
                       autoComplete="given-name"
-                      className={`name-input col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline outline-1 -outline-offset-1 focus:outline focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
+                      className={`name-input col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
                         field.state.meta.errors.length > 0
                           ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
                           : ""
