@@ -14,6 +14,243 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:20
+msgid "Welcome to Team Time Table! Let us show you around."
+msgstr "Bem-vindo ao Team Time Table! Deixe-nos mostrar-lhe o sistema."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:25
+#: apps/frontend/src/components/OnboardingTour.tsx:39
+msgid "Here you can see all your companies and their key information."
+msgstr "Aqui pode ver todas as suas empresas e as suas informações principais."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:32
+#: apps/frontend/src/components/OnboardingTour.tsx:46
+msgid "Click here to create a new company."
+msgstr "Clique aqui para criar uma nova empresa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:53
+msgid "Fill in your company details here."
+msgstr "Preencha os detalhes da sua empresa aqui."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:58
+msgid "Enter your company name."
+msgstr "Introduza o nome da sua empresa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:63
+msgid "Click here to create your company."
+msgstr "Clique aqui para criar a sua empresa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:70
+msgid "This is your company dashboard. Here you can see an overview of your company."
+msgstr "Este é o painel da sua empresa. Aqui pode ver uma visão geral da sua empresa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:77
+msgid "Here you can see all the units in your company."
+msgstr "Aqui pode ver todas as unidades da sua empresa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:82
+msgid "Click here to create a new unit."
+msgstr "Clique aqui para criar uma nova unidade."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:87
+msgid "Access company settings and configurations here."
+msgstr "Aceda às configurações da empresa aqui."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:94
+msgid "Fill in your unit details here."
+msgstr "Preencha os detalhes da sua unidade aqui."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:99
+msgid "Enter your unit name."
+msgstr "Introduza o nome da sua unidade."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:104
+msgid "Click here to create your unit."
+msgstr "Clique aqui para criar a sua unidade."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:111
+msgid "This is your unit dashboard. Here you can manage your unit."
+msgstr "Este é o painel da sua unidade. Aqui pode gerir a sua unidade."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:118
+msgid "Here you can see all the teams in this unit."
+msgstr "Aqui pode ver todas as equipas nesta unidade."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:123
+msgid "Click here to create a new team."
+msgstr "Clique aqui para criar uma nova equipa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:128
+msgid "Access unit settings and configurations here."
+msgstr "Aceda às configurações da unidade aqui."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:135
+msgid "Fill in your team details here."
+msgstr "Preencha os detalhes da sua equipa aqui."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:140
+msgid "Enter your team name."
+msgstr "Introduza o nome da sua equipa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:145
+msgid "Click here to create your team."
+msgstr "Clique aqui para criar a sua equipa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:152
+msgid "This is your team dashboard. Here you can manage your team members and their leave requests."
+msgstr "Este é o painel da sua equipa. Aqui pode gerir os membros da sua equipa e os seus pedidos de ausência."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:159
+msgid "Here you can see all the members in this team."
+msgstr "Aqui pode ver todos os membros desta equipa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:164
+msgid "Click here to add a new team member."
+msgstr "Clique aqui para adicionar um novo membro à equipa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:169
+msgid "Invite new members to join your team."
+msgstr "Convide novos membros para se juntarem à sua equipa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:174
+msgid "View and manage team members' leave requests here."
+msgstr "Veja e gere os pedidos de ausência dos membros da equipa aqui."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:181
+msgid "Add a new team member here."
+msgstr "Adicione um novo membro à equipa aqui."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:186
+msgid "Enter the member's email address."
+msgstr "Introduza o endereço de email do membro."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:191
+msgid "Select the member's role in the team."
+msgstr "Selecione o papel do membro na equipa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:196
+msgid "Click here to add the member to your team."
+msgstr "Clique aqui para adicionar o membro à sua equipa."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:203
+msgid "Submit a new leave request here."
+msgstr "Submeta um novo pedido de ausência aqui."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:208
+msgid "Select the type of leave you're requesting."
+msgstr "Selecione o tipo de ausência que está a solicitar."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:213
+msgid "Choose the start and end dates for your leave."
+msgstr "Escolha as datas de início e fim para a sua ausência."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:218
+msgid "Click here to submit your leave request."
+msgstr "Clique aqui para submeter o seu pedido de ausência."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:225
+msgid "Here you can see and manage all pending leave requests."
+msgstr "Aqui pode ver e gerir todos os pedidos de ausência pendentes."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:232
+msgid "Approve or reject leave requests here."
+msgstr "Aprove ou rejeite pedidos de ausência aqui."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:239
+msgid "Update your profile information and preferences here."
+msgstr "Atualize as suas informações de perfil e preferências aqui."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:244
+msgid "Update your professional name."
+msgstr "Atualize o seu nome profissional."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:249
+msgid "Set your location preferences."
+msgstr "Defina as suas preferências de localização."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:365
+msgid "Back"
+msgstr "Voltar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:366
+msgid "Close"
+msgstr "Fechar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:367
+msgid "Done"
+msgstr "Concluído"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:368
+msgid "Next"
+msgstr "Seguinte"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:369
+msgid "Skip"
+msgstr "Saltar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/MeEdit.tsx:183
+msgid "Tour will start on the next page you visit"
+msgstr "O tour começará na próxima página que visitar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/MeEdit.tsx:169
+msgid "Tour Settings"
+msgstr "Configurações do Tour"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/MeEdit.tsx:188
+msgid "Restart Onboarding Tour"
+msgstr "Reiniciar Tour de Introdução"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/MeEdit.tsx:191
+msgid "This will restart the onboarding tour for the next page you visit."
+msgstr "Isto irá reiniciar o tour de introdução para a próxima página que visitar."
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -284,12 +521,12 @@ msgid "Leave Requests"
 msgstr "Pedidos de Ausência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/MeEdit.tsx:55
+#: apps/frontend/src/components/MeEdit.tsx:57
 msgid "Your profile has been updated"
 msgstr "O seu perfil foi atualizado"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/MeEdit.tsx:95
+#: apps/frontend/src/components/MeEdit.tsx:97
 msgid "Professional name is required"
 msgstr "O nome profissional é obrigatório"
 
@@ -500,7 +737,7 @@ msgstr "Adicionar Qualificação"
 msgid "Add qualifications"
 msgstr "Adicionar qualificações"
 
-#: apps/frontend/src/components/MeEdit.tsx:83
+#: apps/frontend/src/components/MeEdit.tsx:85
 msgid "Add your personal information to help us identify you."
 msgstr "Adicione suas informações pessoais para nos ajudar a identificá-lo."
 
@@ -614,7 +851,7 @@ msgstr "Subscrições de calendário"
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:259
 #: apps/frontend/src/components/LeaveRequest.tsx:105
 #: apps/frontend/src/components/InviteToTeam.tsx:118
-#: apps/frontend/src/components/CreateOrEditTeamMember.tsx:256
+#: apps/frontend/src/components/CreateOrEditTeamMember.tsx:259
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:521
 #: apps/frontend/src/components/CompanyYearlyQuota.tsx:195
 #: apps/frontend/src/components/BookCompanyTimeOff.tsx:393
@@ -679,7 +916,7 @@ msgstr "Criar uma nova empresa"
 msgid "Create a new Unit"
 msgstr "Criar uma nova unidade"
 
-#: apps/frontend/src/components/TeamMembers.tsx:43
+#: apps/frontend/src/components/TeamMembers.tsx:44
 msgid "Create member user"
 msgstr "Criar utilizador membro"
 
@@ -695,7 +932,7 @@ msgstr "Criar nova empresa"
 msgid "Create new team"
 msgstr "Criar nova equipa"
 
-#: apps/frontend/src/components/AllCompanyUnits.tsx:75
+#: apps/frontend/src/components/AllCompanyUnits.tsx:78
 msgid "Create new Unit"
 msgstr "Criar nova unidade"
 
@@ -705,7 +942,7 @@ msgstr "Criar membro da equipa"
 
 #: apps/frontend/src/components/AllUserCompanies.tsx:91
 #: apps/frontend/src/components/AllUnitTeams.tsx:115
-#: apps/frontend/src/components/AllCompanyUnits.tsx:99
+#: apps/frontend/src/components/AllCompanyUnits.tsx:102
 #: apps/frontend/src/components/stateless/LeaveRequests.tsx:64
 msgid "Created"
 msgstr "Criado"
@@ -716,7 +953,7 @@ msgstr "Criado a"
 
 #: apps/frontend/src/components/AllUserCompanies.tsx:98
 #: apps/frontend/src/components/AllUnitTeams.tsx:122
-#: apps/frontend/src/components/AllCompanyUnits.tsx:110
+#: apps/frontend/src/components/AllCompanyUnits.tsx:113
 msgid "Created by"
 msgstr "Criado por"
 
@@ -764,11 +1001,11 @@ msgstr "Agendamentos descartados"
 #~ msgid "ed"
 #~ msgstr "Editar"
 
-#: apps/frontend/src/components/TeamMembers.tsx:128
+#: apps/frontend/src/components/TeamMembers.tsx:129
 #: apps/frontend/src/components/CompanyLeaveTypes.tsx:60
 #: apps/frontend/src/components/AllUserCompanies.tsx:129
 #: apps/frontend/src/components/AllUnitTeams.tsx:154
-#: apps/frontend/src/components/AllCompanyUnits.tsx:141
+#: apps/frontend/src/components/AllCompanyUnits.tsx:144
 #: apps/frontend/src/components/stateless/ShiftPosition.tsx:160
 msgid "Edit"
 msgstr "Editar"
@@ -802,7 +1039,7 @@ msgstr "Editar membro da equipa"
 msgid "Edit the leave type \"{0}\""
 msgstr "Editar o tipo de ausência \"{0}\""
 
-#: apps/frontend/src/components/MeEdit.tsx:140
+#: apps/frontend/src/components/MeEdit.tsx:142
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:209
 msgid "Email address"
 msgstr "Endereço de email"
@@ -975,7 +1212,7 @@ msgstr "Convidar"
 msgid "Invite a team member to join your team."
 msgstr "Convidar um membro da equipa para se juntar à sua equipa."
 
-#: apps/frontend/src/components/TeamMembers.tsx:49
+#: apps/frontend/src/components/TeamMembers.tsx:50
 #: apps/frontend/src/components/InviteToTeam.tsx:49
 msgid "Invite to team"
 msgstr "Convidar para equipa"
@@ -988,7 +1225,7 @@ msgstr "Convidado"
 msgid "January"
 msgstr "Janeiro"
 
-#: apps/frontend/src/components/TeamMembers.tsx:102
+#: apps/frontend/src/components/TeamMembers.tsx:103
 msgid "Joined"
 msgstr "Adicionado"
 
@@ -1041,6 +1278,10 @@ msgstr "S"
 #: apps/frontend/src/components/CompanyLeaveTypes.tsx:29
 msgid "Manage the leave types for the workers in this company:"
 msgstr "Gira os tipos de ausência para os funcionários nesta empresa:"
+
+#: apps/frontend/src/components/MeEdit.tsx:172
+msgid "Manage your onboarding tour preferences."
+msgstr ""
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:189
 msgid "Managers only"
@@ -1149,11 +1390,11 @@ msgstr "eg"
 msgid "Open menu"
 msgstr "Abrir menu"
 
-#: apps/frontend/src/components/TeamMembers.tsx:112
+#: apps/frontend/src/components/TeamMembers.tsx:113
 #: apps/frontend/src/components/TeamInvites.tsx:85
 #: apps/frontend/src/components/AllUserCompanies.tsx:113
 #: apps/frontend/src/components/AllUnitTeams.tsx:141
-#: apps/frontend/src/components/AllCompanyUnits.tsx:128
+#: apps/frontend/src/components/AllCompanyUnits.tsx:131
 msgid "Open options"
 msgstr "Abrir opções"
 
@@ -1183,7 +1424,7 @@ msgstr "Pedidos de Ausência Pendentes"
 msgid "Permission"
 msgstr "Permissão"
 
-#: apps/frontend/src/components/MeEdit.tsx:80
+#: apps/frontend/src/components/MeEdit.tsx:82
 msgid "Personal Information"
 msgstr "Informação pessoal"
 
@@ -1200,7 +1441,7 @@ msgstr "Mês anterior"
 msgid "Previous year"
 msgstr "Ano anterior"
 
-#: apps/frontend/src/components/MeEdit.tsx:105
+#: apps/frontend/src/components/MeEdit.tsx:107
 #: apps/frontend/src/components/CreateOrEditTeamMember.tsx:173
 msgid "Professional name"
 msgstr "Nome profissional"
@@ -1218,7 +1459,7 @@ msgstr "Região"
 msgid "Reject leave request"
 msgstr "Rejeitar pedido de ausência"
 
-#: apps/frontend/src/components/TeamMembers.tsx:147
+#: apps/frontend/src/components/TeamMembers.tsx:148
 msgid "Remove from team"
 msgstr "Remover da equipa"
 
@@ -1279,6 +1520,10 @@ msgstr "Reiniciar mês"
 msgid "Respect leave schedule"
 msgstr "Respeitar o calendário de ausências"
 
+#: apps/frontend/src/components/MeEdit.tsx:188
+msgid "Restart Onboarding Tour"
+msgstr "Reiniciar Tour de Introdução"
+
 #: apps/frontend/src/components/TeamInvites.tsx:103
 msgid "Revoke Invitation"
 msgstr "Revogar convite"
@@ -1311,9 +1556,9 @@ msgstr "S"
 msgid "S for Sunday"
 msgstr "D"
 
-#: apps/frontend/src/components/MeEdit.tsx:166
+#: apps/frontend/src/components/MeEdit.tsx:203
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:265
-#: apps/frontend/src/components/CreateOrEditTeamMember.tsx:259
+#: apps/frontend/src/components/CreateOrEditTeamMember.tsx:262
 msgid "Save"
 msgstr "Guardar"
 
@@ -1544,6 +1789,10 @@ msgstr "Eles terão excedido a sua cota em <0>{0} dias</0>."
 #~ msgid "This feature requires proper team setup and configuration. Please ensure all prerequisites are completed before proceeding."
 #~ msgstr "Esta funcionalidade requer uma configuração inicial da equipa. Por favor certifique-se que todos os pré-requisitos estão completos antes de continuar."
 
+#: apps/frontend/src/components/MeEdit.tsx:191
+msgid "This will restart the onboarding tour for the next page you visit."
+msgstr "Isto irá reiniciar o tour de introdução para a próxima página que visitar."
+
 #: apps/frontend/src/components/CompanyWorkSchedule.tsx:159
 #: apps/frontend/src/components/stateless/LeaveRequests.tsx:52
 msgid "to"
@@ -1570,6 +1819,10 @@ msgstr "Hoje"
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:340
 msgid "Total inconvenience: {totalInconvenience}"
 msgstr "Inconveniência total: {totalInconvenience}"
+
+#: apps/frontend/src/components/MeEdit.tsx:169
+msgid "Tour Settings"
+msgstr "Configurações do Tour"
 
 #: apps/frontend/src/components/stateless/LeaveRequest.tsx:91
 msgid "Type"
@@ -1637,7 +1890,7 @@ msgstr "Usar modelo?"
 msgid "Use this solution and assigning these shift Positions"
 msgstr "Usar esta solução e atribuir estes turnos"
 
-#: apps/frontend/src/components/TeamMembers.tsx:141
+#: apps/frontend/src/components/TeamMembers.tsx:142
 msgid "User removed from team"
 msgstr "Utilizador removido da equipa"
 
@@ -1649,7 +1902,7 @@ msgstr "Ver empresa"
 msgid "View team"
 msgstr "Ver equipa"
 
-#: apps/frontend/src/components/AllCompanyUnits.tsx:122
+#: apps/frontend/src/components/AllCompanyUnits.tsx:125
 msgid "View unit"
 msgstr "Ver unidade"
 

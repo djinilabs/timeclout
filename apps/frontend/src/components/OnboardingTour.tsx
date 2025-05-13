@@ -3,6 +3,8 @@ import { useLocation, useMatch } from "react-router-dom";
 import Joyride, { CallBackProps, STATUS } from "react-joyride";
 import { useLingui } from "@lingui/react";
 import { useTour } from "../contexts/TourContext";
+import { i18n } from "@lingui/core";
+import { once } from "@/utils";
 
 interface TourStep {
   target: string;
@@ -12,234 +14,248 @@ interface TourStep {
 }
 
 // Define tour steps for different routes
-const tourSteps: Record<string, TourStep[]> = {
-  "/": [
-    {
-      target: "body",
-      content: "Welcome to Team Time Table! Let us show you around.",
-      placement: "bottom",
-    },
-    {
-      target: ".companies-list",
-      content: "Here you can see all your companies and their key information.",
-      placement: "bottom",
-    },
-    {
-      target: ".new-company-button",
-      content: "Click here to create a new company.",
-      placement: "bottom",
-    },
-  ],
-  "/companies": [
-    {
-      target: ".companies-list",
-      content: "Here you can see all your companies and their key information.",
-      placement: "bottom",
-    },
-    {
-      target: ".new-company-button",
-      content: "Click here to create a new company.",
-      placement: "bottom",
-    },
-  ],
-  "/companies/new": [
-    {
-      target: ".company-form",
-      content: "Fill in your company details here.",
-      placement: "bottom",
-    },
-    {
-      target: ".company-name-input",
-      content: "Enter your company name.",
-      placement: "bottom",
-    },
-    {
-      target: ".company-submit-button",
-      content: "Click here to create your company.",
-      placement: "bottom",
-    },
-  ],
-  "/companies/:company": [
-    {
-      target: ".company-header",
-      content:
-        "This is your company dashboard. Here you can see an overview of your company.",
-      placement: "bottom",
-    },
-    {
-      target: ".units-list",
-      content: "Here you can see all the units in your company.",
-      placement: "bottom",
-    },
-    {
-      target: ".new-unit-button",
-      content: "Click here to create a new unit.",
-      placement: "bottom",
-    },
-    {
-      target: ".company-settings-button",
-      content: "Access company settings and configurations here.",
-      placement: "bottom",
-    },
-  ],
-  "/companies/:company/units/new": [
-    {
-      target: ".unit-form",
-      content: "Fill in your unit details here.",
-      placement: "bottom",
-    },
-    {
-      target: ".unit-name-input",
-      content: "Enter your unit name.",
-      placement: "bottom",
-    },
-    {
-      target: ".unit-submit-button",
-      content: "Click here to create your unit.",
-      placement: "bottom",
-    },
-  ],
-  "/companies/:company/units/:unit": [
-    {
-      target: ".unit-header",
-      content: "This is your unit dashboard. Here you can manage your unit.",
-      placement: "bottom",
-    },
-    {
-      target: ".teams-list",
-      content: "Here you can see all the teams in this unit.",
-      placement: "bottom",
-    },
-    {
-      target: ".new-team-button",
-      content: "Click here to create a new team.",
-      placement: "bottom",
-    },
-    {
-      target: ".unit-settings-button",
-      content: "Access unit settings and configurations here.",
-      placement: "bottom",
-    },
-  ],
-  "/companies/:company/units/:unit/teams/new": [
-    {
-      target: ".team-form",
-      content: "Fill in your team details here.",
-      placement: "bottom",
-    },
-    {
-      target: ".team-name-input",
-      content: "Enter your team name.",
-      placement: "bottom",
-    },
-    {
-      target: ".team-submit-button",
-      content: "Click here to create your team.",
-      placement: "bottom",
-    },
-  ],
-  "/companies/:company/units/:unit/teams/:team": [
-    {
-      target: ".team-header",
-      content:
-        "This is your team dashboard. Here you can manage your team members and their leave requests.",
-      placement: "bottom",
-    },
-    {
-      target: ".team-members-list",
-      content: "Here you can see all the members in this team.",
-      placement: "bottom",
-    },
-    {
-      target: ".new-member-button",
-      content: "Click here to add a new team member.",
-      placement: "bottom",
-    },
-    {
-      target: ".team-invite-button",
-      content: "Invite new members to join your team.",
-      placement: "bottom",
-    },
-    {
-      target: ".leave-requests-section",
-      content: "View and manage team members' leave requests here.",
-      placement: "bottom",
-    },
-  ],
-  "/companies/:company/units/:unit/teams/:team/members/new": [
-    {
-      target: ".member-form",
-      content: "Add a new team member here.",
-      placement: "bottom",
-    },
-    {
-      target: ".member-email-input",
-      content: "Enter the member's email address.",
-      placement: "bottom",
-    },
-    {
-      target: ".member-role-select",
-      content: "Select the member's role in the team.",
-      placement: "bottom",
-    },
-    {
-      target: ".member-submit-button",
-      content: "Click here to add the member to your team.",
-      placement: "bottom",
-    },
-  ],
-  "/companies/:company/units/:unit/teams/:team/leave-requests/new": [
-    {
-      target: ".leave-request-form",
-      content: "Submit a new leave request here.",
-      placement: "bottom",
-    },
-    {
-      target: ".leave-type-select",
-      content: "Select the type of leave you're requesting.",
-      placement: "bottom",
-    },
-    {
-      target: ".leave-date-range",
-      content: "Choose the start and end dates for your leave.",
-      placement: "bottom",
-    },
-    {
-      target: ".leave-submit-button",
-      content: "Click here to submit your leave request.",
-      placement: "bottom",
-    },
-  ],
-  "/leave-requests/pending": [
-    {
-      target: ".pending-requests-list",
-      content: "Here you can see and manage all pending leave requests.",
-      placement: "bottom",
-    },
-    {
-      target: ".request-actions",
-      content: "Approve or reject leave requests here.",
-      placement: "bottom",
-    },
-  ],
-  "/me/edit": [
-    {
-      target: ".profile-settings",
-      content: "Update your profile information and preferences here.",
-      placement: "bottom",
-    },
-    {
-      target: ".name-input",
-      content: "Update your professional name.",
-      placement: "bottom",
-    },
-    {
-      target: ".country-region-select",
-      content: "Set your location preferences.",
-      placement: "bottom",
-    },
-  ],
-};
+const tourSteps = once(
+  (): Record<string, TourStep[]> => ({
+    "/": [
+      {
+        target: "body",
+        content: i18n._("Welcome to Team Time Table! Let us show you around."),
+        placement: "bottom",
+      },
+      {
+        target: ".companies-list",
+        content: i18n._(
+          "Here you can see all your companies and their key information."
+        ),
+        placement: "bottom",
+      },
+      {
+        target: ".new-company-button",
+        content: i18n._("Click here to create a new company."),
+        placement: "bottom",
+      },
+    ],
+    "/companies": [
+      {
+        target: ".companies-list",
+        content: i18n._(
+          "Here you can see all your companies and their key information."
+        ),
+        placement: "bottom",
+      },
+      {
+        target: ".new-company-button",
+        content: i18n._("Click here to create a new company."),
+        placement: "bottom",
+      },
+    ],
+    "/companies/new": [
+      {
+        target: ".company-form",
+        content: i18n._("Fill in your company details here."),
+        placement: "bottom",
+      },
+      {
+        target: ".company-name-input",
+        content: i18n._("Enter your company name."),
+        placement: "bottom",
+      },
+      {
+        target: ".company-submit-button",
+        content: i18n._("Click here to create your company."),
+        placement: "bottom",
+      },
+    ],
+    "/companies/:company": [
+      {
+        target: ".company-header",
+        content: i18n._(
+          "This is your company dashboard. Here you can see an overview of your company."
+        ),
+        placement: "bottom",
+      },
+      {
+        target: ".units-list",
+        content: i18n._("Here you can see all the units in your company."),
+        placement: "bottom",
+      },
+      {
+        target: ".new-unit-button",
+        content: i18n._("Click here to create a new unit."),
+        placement: "bottom",
+      },
+      {
+        target: ".company-settings-button",
+        content: i18n._("Access company settings and configurations here."),
+        placement: "bottom",
+      },
+    ],
+    "/companies/:company/units/new": [
+      {
+        target: ".unit-form",
+        content: i18n._("Fill in your unit details here."),
+        placement: "bottom",
+      },
+      {
+        target: ".unit-name-input",
+        content: i18n._("Enter your unit name."),
+        placement: "bottom",
+      },
+      {
+        target: ".unit-submit-button",
+        content: i18n._("Click here to create your unit."),
+        placement: "bottom",
+      },
+    ],
+    "/companies/:company/units/:unit": [
+      {
+        target: ".unit-header",
+        content: i18n._(
+          "This is your unit dashboard. Here you can manage your unit."
+        ),
+        placement: "bottom",
+      },
+      {
+        target: ".teams-list",
+        content: i18n._("Here you can see all the teams in this unit."),
+        placement: "bottom",
+      },
+      {
+        target: ".new-team-button",
+        content: i18n._("Click here to create a new team."),
+        placement: "bottom",
+      },
+      {
+        target: ".unit-settings-button",
+        content: i18n._("Access unit settings and configurations here."),
+        placement: "bottom",
+      },
+    ],
+    "/companies/:company/units/:unit/teams/new": [
+      {
+        target: ".team-form",
+        content: i18n._("Fill in your team details here."),
+        placement: "bottom",
+      },
+      {
+        target: ".team-name-input",
+        content: i18n._("Enter your team name."),
+        placement: "bottom",
+      },
+      {
+        target: ".team-submit-button",
+        content: i18n._("Click here to create your team."),
+        placement: "bottom",
+      },
+    ],
+    "/companies/:company/units/:unit/teams/:team": [
+      {
+        target: ".team-header",
+        content: i18n._(
+          "This is your team dashboard. Here you can manage your team members and their leave requests."
+        ),
+        placement: "bottom",
+      },
+      {
+        target: ".team-members-list",
+        content: i18n._("Here you can see all the members in this team."),
+        placement: "bottom",
+      },
+      {
+        target: ".new-member-button",
+        content: i18n._("Click here to add a new team member."),
+        placement: "bottom",
+      },
+      {
+        target: ".team-invite-button",
+        content: i18n._("Invite new members to join your team."),
+        placement: "bottom",
+      },
+      {
+        target: ".leave-requests-section",
+        content: i18n._("View and manage team members' leave requests here."),
+        placement: "bottom",
+      },
+    ],
+    "/companies/:company/units/:unit/teams/:team/members/new": [
+      {
+        target: ".member-form",
+        content: i18n._("Add a new team member here."),
+        placement: "bottom",
+      },
+      {
+        target: ".member-email-input",
+        content: i18n._("Enter the member's email address."),
+        placement: "bottom",
+      },
+      {
+        target: ".member-role-select",
+        content: i18n._("Select the member's role in the team."),
+        placement: "bottom",
+      },
+      {
+        target: ".member-submit-button",
+        content: i18n._("Click here to add the member to your team."),
+        placement: "bottom",
+      },
+    ],
+    "/companies/:company/units/:unit/teams/:team/leave-requests/new": [
+      {
+        target: ".leave-request-form",
+        content: i18n._("Submit a new leave request here."),
+        placement: "bottom",
+      },
+      {
+        target: ".leave-type-select",
+        content: i18n._("Select the type of leave you're requesting."),
+        placement: "bottom",
+      },
+      {
+        target: ".leave-date-range",
+        content: i18n._("Choose the start and end dates for your leave."),
+        placement: "bottom",
+      },
+      {
+        target: ".leave-submit-button",
+        content: i18n._("Click here to submit your leave request."),
+        placement: "bottom",
+      },
+    ],
+    "/leave-requests/pending": [
+      {
+        target: ".pending-requests-list",
+        content: i18n._(
+          "Here you can see and manage all pending leave requests."
+        ),
+        placement: "bottom",
+      },
+      {
+        target: ".request-actions",
+        content: i18n._("Approve or reject leave requests here."),
+        placement: "bottom",
+      },
+    ],
+    "/me/edit": [
+      {
+        target: ".profile-settings",
+        content: i18n._(
+          "Update your profile information and preferences here."
+        ),
+        placement: "bottom",
+      },
+      {
+        target: ".name-input",
+        content: i18n._("Update your professional name."),
+        placement: "bottom",
+      },
+      {
+        target: ".country-region-select",
+        content: i18n._("Set your location preferences."),
+        placement: "bottom",
+      },
+    ],
+  })
+);
 
 export function OnboardingTour() {
   const [run, setRun] = useState(false);
@@ -300,7 +316,7 @@ export function OnboardingTour() {
 
   // Determine which route is matched and get corresponding steps
   const steps = useMemo(() => {
-    if (routeMatch) return tourSteps[routeMatch];
+    if (routeMatch) return tourSteps()[routeMatch];
     return [];
   }, [routeMatch]);
 
