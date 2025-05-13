@@ -34,6 +34,7 @@
     --color-teal-700: oklch(0.511 0.096 186.391);
     --color-teal-800: oklch(0.437 0.078 188.216);
     --color-blue-50: oklch(0.97 0.014 254.604);
+    --color-blue-100: oklch(0.932 0.032 255.585);
     --color-blue-400: oklch(0.707 0.165 254.624);
     --color-blue-500: oklch(0.623 0.214 259.815);
     --color-blue-600: oklch(0.546 0.245 262.881);
@@ -2251,6 +2252,13 @@
     &:hover {
       @media (hover: hover) {
         border-color: var(--color-teal-500);
+      }
+    }
+  }
+  .hover\:bg-blue-100 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-blue-100);
       }
     }
   }

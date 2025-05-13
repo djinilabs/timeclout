@@ -38,6 +38,7 @@ export const TeamMembers = () => {
       <div className="flex justify-end gap-x-2">
         <Button
           to={`/companies/${company}/units/${unit}/teams/${teamPk}/members/new`}
+          className="new-team-member-button"
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />{" "}
           <Trans>Create member user</Trans>
@@ -49,7 +50,7 @@ export const TeamMembers = () => {
           <Trans>Invite to team</Trans>
         </Button>
       </div>
-      <ul role="list" className="divide-y divide-gray-100">
+      <ul role="list" className="team-members-list divide-y divide-gray-100">
         {teamMembers.map((person: User) => (
           <li key={person.pk} className="flex justify-between gap-x-6 py-5">
             <div className="grid grid-cols-[1fr_3fr_1fr] items-center w-full gap-x-6">

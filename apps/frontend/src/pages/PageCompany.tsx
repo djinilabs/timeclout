@@ -51,7 +51,7 @@ export const PageCompany: FC = () => {
 
   return (
     <Suspense>
-      <Tabs tabs={tabs} onChange={setTab}>
+      <Tabs tabs={tabs} onChange={setTab} className="company-header">
         {(() => {
           if (tab.href === "units") {
             return <AllCompanyUnits />;

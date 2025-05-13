@@ -37,7 +37,7 @@ const NoUnits = () => {
       <div className="mt-6">
         <button
           type="button"
-          className="inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+          className="new-unit-buttoninline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
           onClick={() => {
             navigate(`/companies/${companyPk}/units/new`);
           }}
@@ -71,7 +71,10 @@ const AllCompanyUnits = () => {
         ) : (
           <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
             <div className="mt-2 ml-auto shrink-0">
-              <Button to={`/${company.pk}/units/new`}>
+              <Button
+                to={`/${company.pk}/units/new`}
+                className="new-unit-button"
+              >
                 <Trans>Create new Unit</Trans>
               </Button>
             </div>
@@ -79,7 +82,7 @@ const AllCompanyUnits = () => {
         )}
       </div>
 
-      <ul>
+      <ul className="units-list">
         {company?.units?.map((unit: Unit) => (
           <li
             key={unit.pk}

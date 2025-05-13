@@ -9,18 +9,21 @@ export interface Tab {
   name: string;
   count?: string;
   href: string;
+  className?: string;
 }
 
 export interface TabsProps {
   tabPropName?: string;
   tabs: Tab[];
   onChange?: (tab: Tab) => void;
+  className?: string;
 }
 
 export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
   tabs,
   onChange,
   tabPropName = "tab",
+  className = "",
   children,
 }) => {
   const { current: currentTabName, set, params } = useSearchParam(tabPropName);
@@ -47,7 +50,7 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:hidden">
+      <div className={`grid grid-cols-1 sm:hidden ${className}`}>
         <select
           defaultValue={currentTab?.name}
           aria-label="Select a tab"

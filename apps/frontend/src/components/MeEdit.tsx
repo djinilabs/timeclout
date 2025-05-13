@@ -17,10 +17,12 @@ import { useMutation } from "../hooks/useMutation";
 import { Button } from "./stateless/Button";
 import { EditCountryAndRegion } from "./stateless/EditCountryAndRegion";
 import { FieldComponent } from "./stateless/types";
+import { useTour } from "../contexts/TourContext";
 
 export const MeEdit = () => {
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });
   const me = result?.data?.me;
+  const { startTour } = useTour();
 
   const [selectedCountryIsoCode, setSelectedCountryIsoCode] = useState<
     string | undefined
@@ -73,7 +75,7 @@ export const MeEdit = () => {
         form.handleSubmit();
       }}
     >
-      <div className="space-y-12">
+      <div className="space-y-12 profile-settings">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
             <h2 className="text-base/7 font-semibold text-gray-900">
@@ -157,6 +159,41 @@ export const MeEdit = () => {
               Field={form.Field as FieldComponent}
               selectedCountryIsoCode={selectedCountryIsoCode}
             />
+          </div>
+        </div>
+
+        {/* Tour Settings Section */}
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+          <div>
+            <h2 className="text-base/7 font-semibold text-gray-900">
+              <Trans>Tour Settings</Trans>
+            </h2>
+            <p className="mt-1 text-sm/6 text-gray-600">
+              <Trans>Manage your onboarding tour preferences.</Trans>
+            </p>
+          </div>
+
+          <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+            <div className="sm:col-span-4">
+              <Button
+                type="button"
+                onClick={() => {
+                  startTour();
+                  toast.success(
+                    i18n.t("Tour will start on the next page you visit")
+                  );
+                }}
+                className="bg-blue-50 text-blue-700 hover:bg-blue-100"
+              >
+                <Trans>Restart Onboarding Tour</Trans>
+              </Button>
+              <p className="mt-2 text-sm text-gray-500">
+                <Trans>
+                  This will restart the onboarding tour for the next page you
+                  visit.
+                </Trans>
+              </p>
+            </div>
           </div>
         </div>
       </div>

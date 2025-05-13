@@ -12,6 +12,8 @@ import { I18nProvider } from "@lingui/react";
 import { dynamicActivate } from "./i18n";
 import { RequiresSession } from "./components/RequiresSession";
 import { AnalyticsProvider } from "./AnalyticsProvider";
+import { OnboardingTour } from "./components/OnboardingTour";
+import { TourProvider } from "./contexts/TourContext";
 import "./styles/print.css";
 
 const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
@@ -46,20 +48,23 @@ const AppComponent: FC = () => {
       <AnalyticsProvider>
         <I18nProvider i18n={i18n}>
           <BrowserRouter>
-            <QueryClientProvider client={queryClient}>
-              <SessionProvider
-                refetchWhenOffline={false}
-                basePath="/api/v1/auth"
-              >
-                <UrqlProvider value={client}>
-                  <RequiresSession>
-                    <Suspense>
-                      <AppRoutes />
-                    </Suspense>
-                  </RequiresSession>
-                </UrqlProvider>
-              </SessionProvider>
-            </QueryClientProvider>
+            <TourProvider>
+              <OnboardingTour />
+              <QueryClientProvider client={queryClient}>
+                <SessionProvider
+                  refetchWhenOffline={false}
+                  basePath="/api/v1/auth"
+                >
+                  <UrqlProvider value={client}>
+                    <RequiresSession>
+                      <Suspense>
+                        <AppRoutes />
+                      </Suspense>
+                    </RequiresSession>
+                  </UrqlProvider>
+                </SessionProvider>
+              </QueryClientProvider>
+            </TourProvider>
           </BrowserRouter>
         </I18nProvider>
       </AnalyticsProvider>

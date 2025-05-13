@@ -45,7 +45,7 @@ export const PageTeam = () => {
   return (
     <Suspense>
       <div>
-        <Tabs tabs={tabs} onChange={setCurrentTab}>
+        <Tabs tabs={tabs} onChange={setCurrentTab} className="team-header">
           {currentTab.href === "members" && <TeamMembers />}
           {currentTab.href === "invitations" && <TeamInvites />}
           {currentTab.href === "leave-schedule" && <TeamLeaveSchedule />}
