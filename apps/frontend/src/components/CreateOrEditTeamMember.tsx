@@ -135,7 +135,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
         form.handleSubmit();
       }}
     >
-      <div className="space-y-12">
+      <div className="member-form space-y-12">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
             <h2 className="text-base/7 font-semibold text-gray-900">
@@ -182,7 +182,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                       type="text"
                       required
                       autoComplete="given-name"
-                      className={`col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline outline-1 -outline-offset-1 focus:outline focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
+                      className={`col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
                         field.state.meta.errors.length > 0
                           ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
                           : ""
@@ -215,7 +215,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                       id={field.name}
                       type="email"
                       autoComplete="email"
-                      className={`col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline outline-1 -outline-offset-1 focus:outline focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
+                      className={`member-email-input col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
                         field.state.meta.errors.length > 0
                           ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
                           : ""
@@ -243,7 +243,10 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
               >
                 <Trans>Permission</Trans>
               </label>
-              <div key="permission" className="w-full sm:max-w-xs">
+              <div
+                key="permission"
+                className="member-role-select w-full sm:max-w-xs"
+              >
                 <PermissionInput Field={form.Field as FieldComponent} />
               </div>
             </div>
@@ -255,7 +258,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
         <Button type="button" cancel onClick={onDone}>
           <Trans>Cancel</Trans>
         </Button>
-        <Button type="submit">
+        <Button type="submit" className="member-submit-button">
           <Trans>Save</Trans>
         </Button>
       </div>

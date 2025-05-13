@@ -129,7 +129,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
         form.handleSubmit();
       }}
     >
-      <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+      <div className="leave-request-form grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
         <p className="mt-1 text-sm/6 text-gray-600 py-5">
           <Trans>Request time off by filling this form:</Trans>
         </p>
@@ -148,7 +148,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                         What type of leave are you planning to take?
                       </Trans>
                     </p>
-                    <div className="mt-6 space-y-3">
+                    <div className="leave-type-select mt-6 space-y-3">
                       {leaveTypes.map((leaveType) => (
                         <div key={leaveType.name} className="flex items-center">
                           <input
@@ -231,7 +231,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
             }}
           />
         </div>
-        <div className="flex py-5 col-span-2">
+        <div className="leave-date-range flex py-5 col-span-2">
           {dateMode == "range" ? (
             <form.Field
               name="dateRange"
@@ -395,7 +395,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
               <button
                 type="submit"
                 disabled={disabled}
-                className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-teal-600 ${
+                className={`leave-submit-button rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-teal-600 ${
                   disabled
                     ? "bg-teal-300 cursor-not-allowed"
                     : "bg-teal-600 hover:bg-teal-500"

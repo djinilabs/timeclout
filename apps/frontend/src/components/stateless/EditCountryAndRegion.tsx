@@ -42,7 +42,7 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
       <Field
         name="country"
         children={(field) => (
-          <div className="sm:col-span-3">
+          <div className="country-region-select sm:col-span-3">
             <label
               htmlFor={field.name}
               className="block text-sm/6 font-medium text-gray-900"

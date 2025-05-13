@@ -42,6 +42,23 @@ const tourSteps: Record<string, TourStep[]> = {
       placement: "bottom",
     },
   ],
+  "/companies/new": [
+    {
+      target: ".company-form",
+      content: "Fill in your company details here.",
+      placement: "bottom",
+    },
+    {
+      target: ".company-name-input",
+      content: "Enter your company name.",
+      placement: "bottom",
+    },
+    {
+      target: ".company-submit-button",
+      content: "Click here to create your company.",
+      placement: "bottom",
+    },
+  ],
   "/companies/:company": [
     {
       target: ".company-header",
@@ -59,6 +76,28 @@ const tourSteps: Record<string, TourStep[]> = {
       content: "Click here to create a new unit.",
       placement: "bottom",
     },
+    {
+      target: ".company-settings-button",
+      content: "Access company settings and configurations here.",
+      placement: "bottom",
+    },
+  ],
+  "/companies/:company/units/new": [
+    {
+      target: ".unit-form",
+      content: "Fill in your unit details here.",
+      placement: "bottom",
+    },
+    {
+      target: ".unit-name-input",
+      content: "Enter your unit name.",
+      placement: "bottom",
+    },
+    {
+      target: ".unit-submit-button",
+      content: "Click here to create your unit.",
+      placement: "bottom",
+    },
   ],
   "/companies/:company/units/:unit": [
     {
@@ -74,6 +113,28 @@ const tourSteps: Record<string, TourStep[]> = {
     {
       target: ".new-team-button",
       content: "Click here to create a new team.",
+      placement: "bottom",
+    },
+    {
+      target: ".unit-settings-button",
+      content: "Access unit settings and configurations here.",
+      placement: "bottom",
+    },
+  ],
+  "/companies/:company/units/:unit/teams/new": [
+    {
+      target: ".team-form",
+      content: "Fill in your team details here.",
+      placement: "bottom",
+    },
+    {
+      target: ".team-name-input",
+      content: "Enter your team name.",
+      placement: "bottom",
+    },
+    {
+      target: ".team-submit-button",
+      content: "Click here to create your team.",
       placement: "bottom",
     },
   ],
@@ -94,11 +155,58 @@ const tourSteps: Record<string, TourStep[]> = {
       content: "Click here to add a new team member.",
       placement: "bottom",
     },
-  ],
-  "/me/edit": [
     {
-      target: ".profile-settings",
-      content: "Update your profile information and preferences here.",
+      target: ".team-invite-button",
+      content: "Invite new members to join your team.",
+      placement: "bottom",
+    },
+    {
+      target: ".leave-requests-section",
+      content: "View and manage team members' leave requests here.",
+      placement: "bottom",
+    },
+  ],
+  "/companies/:company/units/:unit/teams/:team/members/new": [
+    {
+      target: ".member-form",
+      content: "Add a new team member here.",
+      placement: "bottom",
+    },
+    {
+      target: ".member-email-input",
+      content: "Enter the member's email address.",
+      placement: "bottom",
+    },
+    {
+      target: ".member-role-select",
+      content: "Select the member's role in the team.",
+      placement: "bottom",
+    },
+    {
+      target: ".member-submit-button",
+      content: "Click here to add the member to your team.",
+      placement: "bottom",
+    },
+  ],
+  "/companies/:company/units/:unit/teams/:team/leave-requests/new": [
+    {
+      target: ".leave-request-form",
+      content: "Submit a new leave request here.",
+      placement: "bottom",
+    },
+    {
+      target: ".leave-type-select",
+      content: "Select the type of leave you're requesting.",
+      placement: "bottom",
+    },
+    {
+      target: ".leave-date-range",
+      content: "Choose the start and end dates for your leave.",
+      placement: "bottom",
+    },
+    {
+      target: ".leave-submit-button",
+      content: "Click here to submit your leave request.",
       placement: "bottom",
     },
   ],
@@ -106,6 +214,28 @@ const tourSteps: Record<string, TourStep[]> = {
     {
       target: ".pending-requests-list",
       content: "Here you can see and manage all pending leave requests.",
+      placement: "bottom",
+    },
+    {
+      target: ".request-actions",
+      content: "Approve or reject leave requests here.",
+      placement: "bottom",
+    },
+  ],
+  "/me/edit": [
+    {
+      target: ".profile-settings",
+      content: "Update your profile information and preferences here.",
+      placement: "bottom",
+    },
+    {
+      target: ".name-input",
+      content: "Update your professional name.",
+      placement: "bottom",
+    },
+    {
+      target: ".country-region-select",
+      content: "Set your location preferences.",
       placement: "bottom",
     },
   ],

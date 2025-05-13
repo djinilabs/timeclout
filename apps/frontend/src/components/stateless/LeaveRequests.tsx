@@ -16,7 +16,7 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
   showState,
 }) => {
   return (
-    <ul role="list" className="divide-y divide-gray-100">
+    <ul role="list" className="request-actions divide-y divide-gray-100">
       {leaveRequests?.length ? (
         leaveRequests.map((leaveRequest) => {
           const url = `/${leaveRequest.pk}/leave-requests/${leaveRequest.sk}`;

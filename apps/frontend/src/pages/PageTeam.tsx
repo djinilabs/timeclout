@@ -45,7 +45,11 @@ export const PageTeam = () => {
   return (
     <Suspense>
       <div>
-        <Tabs tabs={tabs} onChange={setCurrentTab} className="team-header">
+        <Tabs
+          tabs={tabs}
+          onChange={setCurrentTab}
+          className="team-header team-invite-button leave-requests-section"
+        >
           {currentTab.href === "members" && <TeamMembers />}
           {currentTab.href === "invitations" && <TeamInvites />}
           {currentTab.href === "leave-schedule" && <TeamLeaveSchedule />}
