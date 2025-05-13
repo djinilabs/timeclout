@@ -163,10 +163,148 @@ const RoleBasedHelp = ({ context }: { context?: string }): ReactElement => {
   return getRelevantRoles();
 };
 
+const FeatureDependenciesHelp = ({
+  context,
+}: {
+  context?: string;
+}): ReactElement => {
+  const getDependenciesContent = () => {
+    switch (context) {
+      case "shifts-calendar":
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Required Setup Steps</h3>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600">
+                <Trans>
+                  Before managing shifts, ensure these prerequisites are
+                  completed:
+                </Trans>
+              </p>
+              <div className="pl-4 border-l-2 border-gray-200">
+                <ol className="space-y-4 text-sm">
+                  <li>
+                    <h4 className="font-medium">1. Team Configuration</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Set up team name and basic information</li>
+                      <li>• Configure team working hours and timezone</li>
+                      <li>• Define team member roles and permissions</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h4 className="font-medium">2. Member Management</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Add team members with their contact information</li>
+                      <li>• Assign appropriate roles to team members</li>
+                      <li>• Set up member qualifications and skills</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h4 className="font-medium">3. Leave Types</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Configure available leave types</li>
+                      <li>• Set up leave quotas and policies</li>
+                      <li>• Define leave approval workflows</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h4 className="font-medium">4. Shift Templates</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Create shift position templates</li>
+                      <li>• Define required qualifications</li>
+                      <li>• Set up shift schedules and durations</li>
+                    </ul>
+                  </li>
+                </ol>
+              </div>
+              <div className="mt-4 pl-4 border-l-2 border-gray-200">
+                <h4 className="font-medium">Next Steps:</h4>
+                <ul className="mt-2 space-y-1 text-sm">
+                  <li>• Create individual shift positions</li>
+                  <li>• Assign team members to shifts</li>
+                  <li>• Use auto-fill for optimal scheduling</li>
+                  <li>• Review and publish the schedule</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      case "autoFill":
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Auto-Fill Prerequisites</h3>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600">
+                <Trans>
+                  Before using auto-fill, ensure these requirements are met:
+                </Trans>
+              </p>
+              <div className="pl-4 border-l-2 border-gray-200">
+                <ol className="space-y-4 text-sm">
+                  <li>
+                    <h4 className="font-medium">1. Team Setup</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Team members are added and assigned roles</li>
+                      <li>• Member qualifications are configured</li>
+                      <li>• Working hours and timezone are set</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h4 className="font-medium">2. Leave Schedule</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Leave types are configured</li>
+                      <li>• Approved leave requests are recorded</li>
+                      <li>• Leave quotas are set up</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h4 className="font-medium">3. Shift Positions</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Shift templates are created</li>
+                      <li>• Required qualifications are defined</li>
+                      <li>• Shift schedules are configured</li>
+                    </ul>
+                  </li>
+                </ol>
+              </div>
+              <div className="mt-4 pl-4 border-l-2 border-gray-200">
+                <h4 className="font-medium">Auto-Fill Process:</h4>
+                <ol className="mt-2 space-y-1 text-sm">
+                  <li>1. Select the date range for auto-filling</li>
+                  <li>2. Configure auto-fill parameters</li>
+                  <li>3. Review generated solutions</li>
+                  <li>4. Select and apply the best solution</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Feature Dependencies</h3>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600">
+                <Trans>
+                  This feature requires proper team setup and configuration.
+                  Please ensure all prerequisites are completed before
+                  proceeding.
+                </Trans>
+              </p>
+            </div>
+          </div>
+        );
+    }
+  };
+
+  return getDependenciesContent();
+};
+
 const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();
   const [params] = useSearchParams();
   const tab = params.get("tab") ?? "";
+  const settingsTab = params.get("settingsTab") ?? "";
   const pathname = window.location.pathname;
   const dialog = params.get("team-shift-schedule-dialog");
 
@@ -226,6 +364,7 @@ const ContextualHelpContent = () => {
             </ul>
           </div>
         </div>
+        <FeatureDependenciesHelp context="autoFill" />
         <RoleBasedHelp context="leaveRequest" />
       </div>
     );
@@ -274,6 +413,7 @@ const ContextualHelpContent = () => {
             </ul>
           </div>
         </div>
+        <FeatureDependenciesHelp context="shifts-calendar" />
         <RoleBasedHelp context="create" />
       </div>
     );
@@ -402,6 +542,7 @@ const ContextualHelpContent = () => {
             </ul>
           </div>
         </div>
+        <FeatureDependenciesHelp context="autoFill" />
         <RoleBasedHelp context="autoFill" />
       </div>
     );
@@ -446,6 +587,7 @@ const ContextualHelpContent = () => {
             </ul>
           </div>
         </div>
+        <FeatureDependenciesHelp context="shifts-calendar" />
         <RoleBasedHelp />
       </div>
     );
@@ -489,6 +631,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
@@ -524,6 +667,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
@@ -558,35 +702,162 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
 
       case "settings":
-        return (
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Company Settings</h3>
-            <div className="space-y-2">
-              <p className="text-sm text-gray-600">
-                Configure company-wide leave management settings. Establish the
-                foundation for how leave is handled across your organization.
-              </p>
-              <div className="pl-4 border-l-2 border-gray-200">
-                <ul className="space-y-1 text-sm">
-                  <li>
-                    • Leave policies - Define types of leave and their rules
-                  </li>
-                  <li>• Working hours - Set standard work days and hours</li>
-                  <li>
-                    • Leave Quotas - Set the number of days each employee can
-                    take off and the month for when that quota resets.
-                  </li>
-                </ul>
+        switch (settingsTab) {
+          case "work-schedule":
+            return (
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">
+                  Work Schedule Configuration
+                </h3>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600">
+                    Define the standard working hours and days for your company.
+                    This configuration will be used as the default for all teams
+                    unless overridden at the unit or team level.
+                  </p>
+                  <div className="pl-4 border-l-2 border-gray-200">
+                    <h4 className="font-medium">Configuration Options:</h4>
+                    <ul className="mt-2 space-y-1 text-sm">
+                      <li>
+                        • Working Days - Select which days of the week are
+                        considered working days
+                      </li>
+                      <li>
+                        • Standard Hours - Set the default start and end times
+                        for work days
+                      </li>
+                      <li>
+                        • Break Times - Configure standard break periods during
+                        the work day
+                      </li>
+                      <li>• Time Zone - Set the company's primary time zone</li>
+                      <li>
+                        • Overtime Rules - Define when work hours are considered
+                        overtime
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="mt-4 pl-4 border-l-2 border-gray-200">
+                    <h4 className="font-medium">Best Practices:</h4>
+                    <ul className="mt-2 space-y-1 text-sm">
+                      <li>
+                        • Consider different time zones if your company operates
+                        globally
+                      </li>
+                      <li>• Account for local labor laws and regulations</li>
+                      <li>• Set clear overtime thresholds to manage costs</li>
+                      <li>
+                        • Document any exceptions to standard working hours
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <FeatureDependenciesHelp context="shifts-calendar" />
+                <RoleBasedHelp />
               </div>
-            </div>
-            <RoleBasedHelp />
-          </div>
-        );
+            );
+
+          case "yearly-quota":
+            return (
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">
+                  Yearly Leave Quota Management
+                </h3>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600">
+                    Configure how leave quotas are calculated and reset for your
+                    company. This affects how much time off employees can take
+                    and when their quotas refresh.
+                  </p>
+                  <div className="pl-4 border-l-2 border-gray-200">
+                    <h4 className="font-medium">Quota Settings:</h4>
+                    <ul className="mt-2 space-y-1 text-sm">
+                      <li>
+                        • Reset Period - Choose when quotas reset (calendar
+                        year, fiscal year, or custom date)
+                      </li>
+                      <li>
+                        • Accrual Method - Set how leave is accumulated
+                        (monthly, quarterly, or annually)
+                      </li>
+                      <li>
+                        • Carry-over Rules - Define how unused leave can be
+                        carried to the next period
+                      </li>
+                      <li>
+                        • Maximum Balance - Set caps on how much leave can be
+                        accumulated
+                      </li>
+                      <li>
+                        • Proration Rules - Configure how quotas are calculated
+                        for part-time employees
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="mt-4 pl-4 border-l-2 border-gray-200">
+                    <h4 className="font-medium">Important Considerations:</h4>
+                    <ul className="mt-2 space-y-1 text-sm">
+                      <li>• Ensure compliance with local labor laws</li>
+                      <li>
+                        • Consider company culture and employee expectations
+                      </li>
+                      <li>• Plan for peak vacation periods</li>
+                      <li>• Set clear policies for quota adjustments</li>
+                    </ul>
+                  </div>
+                  <div className="mt-4 pl-4 border-l-2 border-gray-200">
+                    <h4 className="font-medium">Quota Management Tips:</h4>
+                    <ul className="mt-2 space-y-1 text-sm">
+                      <li>
+                        • Monitor usage patterns to optimize quota distribution
+                      </li>
+                      <li>• Set up automated notifications for low balances</li>
+                      <li>• Consider special quotas for long-term employees</li>
+                      <li>• Plan for seasonal variations in leave requests</li>
+                    </ul>
+                  </div>
+                </div>
+                <FeatureDependenciesHelp context="shifts-calendar" />
+                <RoleBasedHelp />
+              </div>
+            );
+
+          default:
+            return (
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Company Settings</h3>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600">
+                    Configure company-wide leave management settings. Establish
+                    the foundation for how leave is handled across your
+                    organization.
+                  </p>
+                  <div className="pl-4 border-l-2 border-gray-200">
+                    <ul className="space-y-1 text-sm">
+                      <li>
+                        • Leave policies - Define types of leave and their rules
+                      </li>
+                      <li>
+                        • Working hours - Set standard work days and hours
+                      </li>
+                      <li>
+                        • Leave Quotas - Set the number of days each employee
+                        can take off and the month for when that quota resets.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <FeatureDependenciesHelp context="shifts-calendar" />
+                <RoleBasedHelp />
+              </div>
+            );
+        }
 
       case "pending-leave-requests":
         return (
@@ -612,6 +883,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
@@ -657,6 +929,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
@@ -690,6 +963,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
@@ -732,6 +1006,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
@@ -760,6 +1035,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
@@ -792,6 +1068,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
@@ -817,6 +1094,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
@@ -842,6 +1120,7 @@ const ContextualHelpContent = () => {
                 </ul>
               </div>
             </div>
+            <FeatureDependenciesHelp context="shifts-calendar" />
             <RoleBasedHelp />
           </div>
         );
