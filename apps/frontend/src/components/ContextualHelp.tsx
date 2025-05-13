@@ -1,5 +1,6 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { getContextualHelp } from "../locales/contextual-help";
+import { Trans } from "@lingui/react/macro";
 
 export const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();
@@ -46,7 +47,9 @@ export const ContextualHelpContent = () => {
 
       {helpContent.features && (
         <div>
-          <h3 className="text-md font-semibold">Key Features</h3>
+          <h3 className="text-md font-semibold">
+            <Trans>Key Features</Trans>
+          </h3>
           <ul className="mt-2 space-y-4">
             {helpContent.features.map((feature, index) => (
               <li key={index}>
@@ -62,7 +65,9 @@ export const ContextualHelpContent = () => {
 
       {helpContent.sections && (
         <div>
-          <h3 className="text-md font-semibold">Additional Information</h3>
+          <h3 className="text-md font-semibold">
+            <Trans>Additional Information</Trans>
+          </h3>
           <div className="mt-2 space-y-4">
             {helpContent.sections.map((section, index) => (
               <div key={index}>

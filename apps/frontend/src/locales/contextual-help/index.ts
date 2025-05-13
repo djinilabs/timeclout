@@ -2,28 +2,28 @@ import { HelpSection } from "./types";
 import { getHelpSection } from "./utils";
 
 // Import all help sections
-import { shiftsCalendarHelp } from "./en/shifts-calendar";
-import { companyDashboardHelp } from "./en/company-dashboard";
-import { unitManagementHelp } from "./en/unit-management";
-import { teamManagementHelp } from "./en/team-management";
-import { memberManagementHelp } from "./en/member-management";
-import { createShiftHelp } from "./en/create-shift";
-import { autoFillHelp } from "./en/auto-fill";
-import { teamLeaveCalendarHelp } from "./en/team-leave-calendar";
-import { newLeaveRequestHelp } from "./en/new-leave-request";
-import { timeOffDashboardHelp } from "./en/time-off-dashboard";
-import { leaveRequestManagementHelp } from "./en/leave-request-management";
-import { workScheduleSettingsHelp } from "./en/work-schedule-settings";
-import { yearlyQuotaSettingsHelp } from "./en/yearly-quota-settings";
-import { companySettingsHelp } from "./en/company-settings";
-import { leaveApprovalDashboardHelp } from "./en/leave-approval-dashboard";
-import { unitSettingsHelp } from "./en/unit-settings";
-import { teamInvitationsHelp } from "./en/team-invitations";
-import { teamSettingsHelp } from "./en/team-settings";
-import { unassignShiftHelp } from "./en/unassign-shift";
-import { qualificationsSettingsHelp } from "./en/qualifications-settings";
-import { schedulePositionTemplatesHelp } from "./en/schedule-position-templates";
-import defaultHelp from "./en/default";
+import { shiftsCalendarHelp } from "./pt/shifts-calendar";
+import { companyDashboardHelp } from "./pt/company-dashboard";
+import { unitManagementHelp } from "./pt/unit-management";
+import { teamManagementHelp } from "./pt/team-management";
+import { memberManagementHelp } from "./pt/member-management";
+import { createShiftHelp } from "./pt/create-shift";
+import { autoFillHelp } from "./pt/auto-fill";
+import { teamLeaveCalendarHelp } from "./pt/team-leave-calendar";
+import { newLeaveRequestHelp } from "./pt/new-leave-request";
+import { timeOffDashboardHelp } from "./pt/time-off-dashboard";
+import { leaveRequestManagementHelp } from "./pt/leave-request-management";
+import { workScheduleSettingsHelp } from "./pt/work-schedule-settings";
+import { yearlyQuotaSettingsHelp } from "./pt/yearly-quota-settings";
+import { companySettingsHelp } from "./pt/company-settings";
+import { leaveApprovalDashboardHelp } from "./pt/leave-approval-dashboard";
+import { unitSettingsHelp } from "./pt/unit-settings";
+import { teamInvitationsHelp } from "./pt/team-invitations";
+import { teamSettingsHelp } from "./pt/team-settings";
+import { unassignShiftHelp } from "./pt/unassign-shift";
+import { qualificationsSettingsHelp } from "./pt/qualifications-settings";
+import { schedulePositionTemplatesHelp } from "./pt/schedule-position-templates";
+import defaultHelp from "./pt/default";
 
 // Map of all help sections
 const helpContent: Record<string, HelpSection> = {
