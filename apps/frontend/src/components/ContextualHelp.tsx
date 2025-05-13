@@ -1,54 +1,166 @@
 import { ChatBubbleLeftIcon } from "@heroicons/react/20/solid";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
+import { ReactElement } from "react";
 
-const RoleBasedHelp = () => {
-  return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold">User Roles and Capabilities</h3>
-      <div className="space-y-2">
-        <p className="text-sm text-gray-600">
-          <Trans>
-            The system provides different roles to help manage team operations
-            effectively:
-          </Trans>
-        </p>
-        <div className="pl-4 border-l-2 border-gray-200">
-          <ul className="space-y-4 text-sm">
-            <li>
-              <h4 className="font-medium">Member</h4>
-              <ul className="mt-2 space-y-1 text-gray-600">
-                <li>• View team information and schedules</li>
-                <li>• Submit leave requests</li>
-                <li>• View team calendar and shifts</li>
-                <li>• Access basic team features</li>
-              </ul>
-            </li>
-            <li>
-              <h4 className="font-medium">Admin</h4>
-              <ul className="mt-2 space-y-1 text-gray-600">
-                <li>• All Member capabilities</li>
-                <li>• Manage team members and invitations</li>
-                <li>• Configure team settings</li>
-                <li>• Approve leave requests</li>
-                <li>• Manage shifts and schedules</li>
-              </ul>
-            </li>
-            <li>
-              <h4 className="font-medium">Owner</h4>
-              <ul className="mt-2 space-y-1 text-gray-600">
-                <li>• All Admin capabilities</li>
-                <li>• Manage team permissions</li>
-                <li>• Delete team resources</li>
-                <li>• Transfer ownership</li>
-                <li>• Access advanced settings</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  );
+const RoleBasedHelp = ({ context }: { context?: string }): ReactElement => {
+  const getRelevantRoles = () => {
+    switch (context) {
+      case "autoFill":
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Required Permissions</h3>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600">
+                <Trans>
+                  The auto-fill feature requires specific permissions to manage
+                  team schedules:
+                </Trans>
+              </p>
+              <div className="pl-4 border-l-2 border-gray-200">
+                <ul className="space-y-4 text-sm">
+                  <li>
+                    <h4 className="font-medium">Team Admin</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Full access to auto-fill functionality</li>
+                      <li>• Can configure all auto-fill parameters</li>
+                      <li>• Can apply generated solutions</li>
+                      <li>• Can reset and restart the process</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h4 className="font-medium">Team Member</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Can view auto-fill solutions</li>
+                      <li>• Can provide feedback on assignments</li>
+                      <li>• Cannot modify or apply solutions</li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      case "create":
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Required Permissions</h3>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600">
+                <Trans>
+                  Creating and editing shift positions requires specific
+                  permissions:
+                </Trans>
+              </p>
+              <div className="pl-4 border-l-2 border-gray-200">
+                <ul className="space-y-4 text-sm">
+                  <li>
+                    <h4 className="font-medium">Team Admin</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Can create new shift positions</li>
+                      <li>• Can edit existing positions</li>
+                      <li>• Can assign team members</li>
+                      <li>• Can modify shift schedules</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h4 className="font-medium">Team Member</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Can view shift positions</li>
+                      <li>• Can see assigned team members</li>
+                      <li>• Cannot modify positions</li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      case "unassign":
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Required Permissions</h3>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600">
+                <Trans>
+                  Unassigning shift positions requires specific permissions:
+                </Trans>
+              </p>
+              <div className="pl-4 border-l-2 border-gray-200">
+                <ul className="space-y-4 text-sm">
+                  <li>
+                    <h4 className="font-medium">Team Admin</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Can unassign team members from shifts</li>
+                      <li>• Can bulk unassign multiple positions</li>
+                      <li>• Can manage team assignments</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h4 className="font-medium">Team Member</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Can view unassigned positions</li>
+                      <li>• Cannot modify assignments</li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">
+              User Roles and Capabilities
+            </h3>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600">
+                <Trans>
+                  The system provides different roles to help manage team
+                  operations effectively:
+                </Trans>
+              </p>
+              <div className="pl-4 border-l-2 border-gray-200">
+                <ul className="space-y-4 text-sm">
+                  <li>
+                    <h4 className="font-medium">Member</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• View team information and schedules</li>
+                      <li>• Submit leave requests</li>
+                      <li>• View team calendar and shifts</li>
+                      <li>• Access basic team features</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h4 className="font-medium">Admin</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• All Member capabilities</li>
+                      <li>• Manage team members and invitations</li>
+                      <li>• Configure team settings</li>
+                      <li>• Approve leave requests</li>
+                      <li>• Manage shifts and schedules</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h4 className="font-medium">Owner</h4>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• All Admin capabilities</li>
+                      <li>• Manage team permissions</li>
+                      <li>• Delete team resources</li>
+                      <li>• Transfer ownership</li>
+                      <li>• Access advanced settings</li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+    }
+  };
+
+  return getRelevantRoles();
 };
 
 const ContextualHelpContent = () => {
@@ -56,6 +168,7 @@ const ContextualHelpContent = () => {
   const [params] = useSearchParams();
   const tab = params.get("tab") ?? "";
   const pathname = window.location.pathname;
+  const dialog = params.get("team-shift-schedule-dialog");
 
   // Check if we're on the new leave request page
   if (pathname.includes("/leave-requests/new")) {
@@ -113,7 +226,7 @@ const ContextualHelpContent = () => {
             </ul>
           </div>
         </div>
-        <RoleBasedHelp />
+        <RoleBasedHelp context="leaveRequest" />
       </div>
     );
   }
@@ -161,53 +274,135 @@ const ContextualHelpContent = () => {
             </ul>
           </div>
         </div>
-        <RoleBasedHelp />
+        <RoleBasedHelp context="create" />
       </div>
     );
   }
 
   // Check if we're auto-filling shifts
-  if (tab === "shifts-calendar" && params.get("autofill") === "true") {
+  if (dialog === "autoFill") {
     return (
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Auto-Filling Shifts</h3>
+        <h3 className="text-lg font-semibold">Auto-Fill Shift Positions</h3>
         <div className="space-y-2">
           <p className="text-sm text-gray-600">
             Automatically assign team members to shifts based on your specified
-            rules and preferences. This helps create balanced and fair
-            schedules.
+            rules and preferences. The system will analyze team member
+            availability, qualifications, and preferences to generate optimal
+            shift assignments.
           </p>
           <div className="pl-4 border-l-2 border-gray-200">
             <h4 className="font-medium">Configuration Options:</h4>
             <ul className="mt-2 space-y-1 text-sm">
-              <li>• Respect leave schedules and time off</li>
-              <li>• Set maximum intervals between shifts</li>
-              <li>• Define minimum shifts per week</li>
-              <li>• Configure rest period requirements</li>
-              <li>• Balance workload distribution</li>
+              <li>
+                • <strong>Date Range</strong> - Select the period for
+                auto-filling shifts
+              </li>
+              <li>
+                • <strong>Worker Inconvenience Equality</strong> - Balance
+                workload distribution among team members
+              </li>
+              <li>
+                • <strong>Worker Slot Equality</strong> - Ensure fair
+                distribution of shift types
+              </li>
+              <li>
+                • <strong>Worker Slot Proximity</strong> - Consider team
+                members' preferred shift times
+              </li>
+              <li>
+                • <strong>Respect Leave Schedule</strong> - Avoid scheduling
+                during approved leave periods
+              </li>
+            </ul>
+          </div>
+          <div className="mt-4 pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">Advanced Settings:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>
+                • <strong>Maximum Interval Between Shifts</strong> - Set minimum
+                rest periods between shifts
+              </li>
+              <li>
+                • <strong>Minimum Shifts Per Week</strong> - Ensure team members
+                get enough work hours
+              </li>
+              <li>
+                • <strong>Rest Period Requirements</strong> - Configure minimum
+                rest time after specific shifts
+              </li>
             </ul>
           </div>
           <div className="mt-4 pl-4 border-l-2 border-gray-200">
             <h4 className="font-medium">How It Works:</h4>
             <ul className="mt-2 space-y-1 text-sm">
-              <li>• System analyzes team member availability</li>
-              <li>• Considers qualifications and preferences</li>
-              <li>• Applies configured rules and constraints</li>
-              <li>• Generates optimal shift assignments</li>
-              <li>• Highlights any conflicts or issues</li>
+              <li>
+                • The system analyzes all available team members and shift
+                positions
+              </li>
+              <li>
+                • It considers leave schedules, qualifications, and preferences
+              </li>
+              <li>• Multiple solutions are generated and ranked by quality</li>
+              <li>
+                • The system maintains the top 10 best solutions for you to
+                compare
+              </li>
+              <li>
+                • You can review and select the solution that best fits your
+                team's needs
+              </li>
+              <li>
+                • Progress is shown in real-time as solutions are generated
+              </li>
+            </ul>
+          </div>
+          <div className="mt-4 pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">Solution Selection:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• The system keeps track of the 10 best solutions found</li>
+              <li>
+                • Solutions are ranked based on your configured preferences
+              </li>
+              <li>• You can compare different solutions side by side</li>
+              <li>• Each solution shows its quality score and key metrics</li>
+              <li>
+                • Choose the solution that best balances your team's needs
+              </li>
             </ul>
           </div>
           <div className="mt-4 pl-4 border-l-2 border-gray-200">
             <h4 className="font-medium">After Auto-Fill:</h4>
             <ul className="mt-2 space-y-1 text-sm">
-              <li>• Review generated assignments</li>
-              <li>• Make manual adjustments if needed</li>
-              <li>• Save changes to update the schedule</li>
-              <li>• Team members are notified of new assignments</li>
+              <li>• Review the generated solutions in the calendar view</li>
+              <li>
+                • Check for any conflicts or issues highlighted in the interface
+              </li>
+              <li>• Make manual adjustments if needed before applying</li>
+              <li>• Apply the solution to update the team schedule</li>
+              <li>• Team members will be notified of their new assignments</li>
+            </ul>
+          </div>
+          <div className="mt-4 pl-4 border-l-2 border-gray-200">
+            <h4 className="font-medium">Tips for Success:</h4>
+            <ul className="mt-2 space-y-1 text-sm">
+              <li>• Start with a clear date range for the auto-fill period</li>
+              <li>
+                • Adjust the balance between equality and preferences based on
+                your team's needs
+              </li>
+              <li>
+                • Consider team members' leave schedules when setting parameters
+              </li>
+              <li>
+                • Take time to compare the different solutions before choosing
+                one
+              </li>
+              <li>• Use the reset button to start over if needed</li>
             </ul>
           </div>
         </div>
-        <RoleBasedHelp />
+        <RoleBasedHelp context="autoFill" />
       </div>
     );
   }

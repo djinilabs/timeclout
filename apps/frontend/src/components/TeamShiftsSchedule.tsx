@@ -39,12 +39,15 @@ import { classNames } from "../utils/classNames";
 import { TeamShiftsCalendar } from "./stateless/TeamShiftsCalendar";
 import { Day } from "./stateless/MonthDailyCalendar";
 import { useSearchParam } from "../hooks/useSearchParam";
+import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import ContextualHelp from "./ContextualHelp";
 
 export const TeamShiftsSchedule = () => {
   const { team, company } = useParams();
   const { current: isDialogOpen, set: setIsDialogOpen } = useSearchParam(
     "team-shift-schedule-dialog"
   );
+  const [helpPanelOpen, setHelpPanelOpen] = useState(false);
 
   const [params, setParams] = useSearchParams();
   const selectedMonth = useMemo(() => {
@@ -172,7 +175,7 @@ export const TeamShiftsSchedule = () => {
   const [queryResponse] = useQuery<{ team: Query["team"] }, QueryTeamArgs>({
     query: teamQuery,
     variables: {
-      teamPk: getDefined(team, "No team provided"),
+      teamPk: getDefined(team),
     },
   });
   const teamResult = queryResponse.data?.team;
@@ -497,25 +500,65 @@ export const TeamShiftsSchedule = () => {
             )
           }
         >
-          <Suspense>
-            <CreateOrEditScheduleShiftPosition
-              editingShiftPosition={editingShiftPosition}
-              day={focusedDay ? new DayDate(focusedDay) : selectedMonth}
-              onCancel={() => setIsDialogOpen(null)}
-              onCreate={async (params) => {
-                if (await createShiftPosition(params)) {
-                  setIsDialogOpen(null);
-                  refetchTeamShiftsQuery();
-                }
-              }}
-              onUpdate={async (params) => {
-                if (await updateShiftPosition(params)) {
-                  setIsDialogOpen(null);
-                  refetchTeamShiftsQuery();
-                }
-              }}
-            />
-          </Suspense>
+          <div className={classNames("relative", helpPanelOpen ? "pr-72" : "")}>
+            <Suspense>
+              <CreateOrEditScheduleShiftPosition
+                editingShiftPosition={editingShiftPosition}
+                day={focusedDay ? new DayDate(focusedDay) : selectedMonth}
+                onCancel={() => setIsDialogOpen(null)}
+                onCreate={async (params) => {
+                  if (await createShiftPosition(params)) {
+                    setIsDialogOpen(null);
+                    refetchTeamShiftsQuery();
+                  }
+                }}
+                onUpdate={async (params) => {
+                  if (await updateShiftPosition(params)) {
+                    setIsDialogOpen(null);
+                    refetchTeamShiftsQuery();
+                  }
+                }}
+              />
+            </Suspense>
+            {/* Help panel for create/edit dialog */}
+            <div
+              className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
+                helpPanelOpen ? "translate-x-0" : "translate-x-full"
+              }`}
+            >
+              <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
+                <h2 className="text-lg font-medium text-gray-900">Help</h2>
+                <button
+                  type="button"
+                  onClick={() => setHelpPanelOpen(false)}
+                  className="-m-2.5 p-2.5 text-gray-700"
+                >
+                  <span className="sr-only">Close help panel</span>
+                  <XMarkIcon aria-hidden="true" className="size-6" />
+                </button>
+              </div>
+              <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
+                {helpPanelOpen ? (
+                  <Suspense>
+                    <ContextualHelp />
+                  </Suspense>
+                ) : null}
+              </div>
+            </div>
+            {/* Toggle help panel button */}
+            <button
+              type="button"
+              onClick={() => setHelpPanelOpen(!helpPanelOpen)}
+              className="fixed right-2 top-12 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500 z-50"
+            >
+              <span className="sr-only">Toggle help panel</span>
+              {helpPanelOpen ? (
+                <XMarkIcon aria-hidden="true" className="size-6" />
+              ) : (
+                <QuestionMarkCircleIcon aria-hidden="true" className="size-6" />
+              )}
+            </button>
+          </div>
         </Dialog>
       )}
       <Dialog
@@ -524,37 +567,117 @@ export const TeamShiftsSchedule = () => {
         title={<Trans>Auto fill</Trans>}
         className="w-screen min-h-screen"
       >
-        <Suspense>
-          <ShiftsAutoFill
-            team={getDefined(team)}
-            startRange={useMemo(
-              () =>
-                new DayDateInterval(
-                  selectedMonth.firstOfMonth(),
-                  selectedMonth.nextMonth(1).previousDay()
-                ),
-              [selectedMonth]
+        <div className={classNames("relative", helpPanelOpen ? "pr-72" : "")}>
+          <Suspense>
+            <ShiftsAutoFill
+              team={getDefined(team)}
+              startRange={useMemo(
+                () =>
+                  new DayDateInterval(
+                    selectedMonth.firstOfMonth(),
+                    selectedMonth.nextMonth(1).previousDay()
+                  ),
+                [selectedMonth]
+              )}
+              onAssignShiftPositions={() => {
+                setIsDialogOpen(null);
+              }}
+            />
+          </Suspense>
+          {/* Help panel for auto fill dialog */}
+          <div
+            className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
+              helpPanelOpen ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
+              <h2 className="text-lg font-medium text-gray-900">Help</h2>
+              <button
+                type="button"
+                onClick={() => setHelpPanelOpen(false)}
+                className="-m-2.5 p-2.5 text-gray-700"
+              >
+                <span className="sr-only">Close help panel</span>
+                <XMarkIcon aria-hidden="true" className="size-6" />
+              </button>
+            </div>
+            <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
+              {helpPanelOpen ? (
+                <Suspense>
+                  <ContextualHelp />
+                </Suspense>
+              ) : null}
+            </div>
+          </div>
+          {/* Toggle help panel button */}
+          <button
+            type="button"
+            onClick={() => setHelpPanelOpen(!helpPanelOpen)}
+            className="fixed right-2 top-12 opacity-50 hover:opacity-100 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500 z-50"
+          >
+            <span className="sr-only">Toggle help panel</span>
+            {helpPanelOpen ? (
+              <XMarkIcon aria-hidden="true" className="size-6" />
+            ) : (
+              <QuestionMarkCircleIcon aria-hidden="true" className="size-6" />
             )}
-            onAssignShiftPositions={() => {
-              setIsDialogOpen(null);
-            }}
-          />
-        </Suspense>
+          </button>
+        </div>
       </Dialog>
       <Dialog
         open={isDialogOpen === "unassign"}
         onClose={() => setIsDialogOpen(null)}
         title={<Trans>Unassign shift positions</Trans>}
       >
-        <Suspense>
-          <UnassignShiftPositionsDialog
-            team={getDefined(team)}
-            onClose={() => setIsDialogOpen(null)}
-            onUnassign={() => {
-              refetchTeamShiftsQuery();
-            }}
-          />
-        </Suspense>
+        <div className={classNames("relative", helpPanelOpen ? "pr-72" : "")}>
+          <Suspense>
+            <UnassignShiftPositionsDialog
+              team={getDefined(team)}
+              onClose={() => setIsDialogOpen(null)}
+              onUnassign={() => {
+                refetchTeamShiftsQuery();
+              }}
+            />
+          </Suspense>
+          {/* Help panel for unassign dialog */}
+          <div
+            className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
+              helpPanelOpen ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
+              <h2 className="text-lg font-medium text-gray-900">Help</h2>
+              <button
+                type="button"
+                onClick={() => setHelpPanelOpen(false)}
+                className="-m-2.5 p-2.5 text-gray-700"
+              >
+                <span className="sr-only">Close help panel</span>
+                <XMarkIcon aria-hidden="true" className="size-6" />
+              </button>
+            </div>
+            <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
+              {helpPanelOpen ? (
+                <Suspense>
+                  <ContextualHelp />
+                </Suspense>
+              ) : null}
+            </div>
+          </div>
+          {/* Toggle help panel button */}
+          <button
+            type="button"
+            onClick={() => setHelpPanelOpen(!helpPanelOpen)}
+            className="fixed right-12 top-4 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500 z-50"
+          >
+            <span className="sr-only">Toggle help panel</span>
+            {helpPanelOpen ? (
+              <XMarkIcon aria-hidden="true" className="size-6" />
+            ) : (
+              <QuestionMarkCircleIcon aria-hidden="true" className="size-6" />
+            )}
+          </button>
+        </div>
       </Dialog>
       <TeamShiftsCalendar
         shiftPositionsMap={shiftPositionsMap}

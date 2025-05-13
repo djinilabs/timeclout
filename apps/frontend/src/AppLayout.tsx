@@ -169,7 +169,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         <button
           type="button"
           onClick={() => setHelpPanelOpen(!helpPanelOpen)}
-          className="no-print fixed right-4 bottom-4 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500"
+          className="no-print fixed opacity-50 hover:opacity-100 right-4 top-18 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500"
         >
           <span className="sr-only">Toggle help panel</span>
           {helpPanelOpen ? (
