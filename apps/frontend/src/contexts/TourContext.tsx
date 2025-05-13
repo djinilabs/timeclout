@@ -1,15 +1,17 @@
-import { createContext, useContext, useState, ReactNode } from "react";
-import { useLocation } from "react-router-dom";
+import { createContext, useState, ReactNode } from "react";
 
-interface TourContextType {
+export interface TourContextType {
   startTour: () => void;
   stopTour: () => void;
   isTourRunning: boolean;
 }
 
-const TourContext = createContext<TourContextType | undefined>(undefined);
+// eslint-disable-next-line react-refresh/only-export-components
+export const TourContext = createContext<TourContextType | undefined>(
+  undefined
+);
 
-export function TourProvider({ children }: { children: ReactNode }) {
+export const TourProvider = ({ children }: { children: ReactNode }) => {
   const [isTourRunning, setIsTourRunning] = useState(false);
 
   const startTour = () => {
@@ -32,12 +34,4 @@ export function TourProvider({ children }: { children: ReactNode }) {
       {children}
     </TourContext.Provider>
   );
-}
-
-export function useTour() {
-  const context = useContext(TourContext);
-  if (context === undefined) {
-    throw new Error("useTour must be used within a TourProvider");
-  }
-  return context;
-}
+};

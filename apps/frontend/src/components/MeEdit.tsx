@@ -17,7 +17,7 @@ import { useMutation } from "../hooks/useMutation";
 import { Button } from "./stateless/Button";
 import { EditCountryAndRegion } from "./stateless/EditCountryAndRegion";
 import { FieldComponent } from "./stateless/types";
-import { useTour } from "../contexts/TourContext";
+import { useTour } from "../hooks/useTour";
 
 export const MeEdit = () => {
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });
