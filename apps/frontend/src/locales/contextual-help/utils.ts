@@ -67,8 +67,9 @@ export const getHelpSection = (
       case "yearly-quota":
         return "yearly-quota-settings";
       case "qualifications":
+        return "qualifications-settings";
       case "schedule-position-templates":
-        return "team-settings";
+        return "schedule-position-templates";
       default:
         break;
     }

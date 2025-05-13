@@ -21,6 +21,8 @@ import { unitSettingsHelp } from "./en/unit-settings";
 import { teamInvitationsHelp } from "./en/team-invitations";
 import { teamSettingsHelp } from "./en/team-settings";
 import { unassignShiftHelp } from "./en/unassign-shift";
+import { qualificationsSettingsHelp } from "./en/qualifications-settings";
+import { schedulePositionTemplatesHelp } from "./en/schedule-position-templates";
 import defaultHelp from "./en/default";
 
 // Map of all help sections
@@ -44,6 +46,8 @@ const helpContent: Record<string, HelpSection> = {
   "team-invitations": teamInvitationsHelp,
   "team-settings": teamSettingsHelp,
   "unassign-shift": unassignShiftHelp,
+  "qualifications-settings": qualificationsSettingsHelp,
+  "schedule-position-templates": schedulePositionTemplatesHelp,
   default: defaultHelp,
 };
 
