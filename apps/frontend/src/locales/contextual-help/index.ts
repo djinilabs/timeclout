@@ -1,4 +1,4 @@
-import { HelpSection } from "./types";
+import { HelpSection, HelpComponentName, LanguageComponentsMap } from "./types";
 import { getHelpSection } from "./utils";
 
 // Import all help sections
@@ -24,6 +24,12 @@ import { unassignShiftHelp } from "./pt/unassign-shift";
 import { qualificationsSettingsHelp } from "./pt/qualifications-settings";
 import { schedulePositionTemplatesHelp } from "./pt/schedule-position-templates";
 import defaultHelp from "./pt/default";
+
+// Import language-specific components
+import { FeatureDependenciesHelp as FeatureDependenciesHelpEn } from "./components/FeatureDependenciesHelp";
+import { RoleBasedHelp as RoleBasedHelpEn } from "./components/RoleBasedHelp";
+import { FeatureDependenciesHelp as FeatureDependenciesHelpPt } from "./components/FeatureDependenciesHelp.pt";
+import { RoleBasedHelp as RoleBasedHelpPt } from "./components/RoleBasedHelp.pt";
 
 // Map of all help sections
 const helpContent: Record<string, HelpSection> = {
@@ -51,6 +57,18 @@ const helpContent: Record<string, HelpSection> = {
   default: defaultHelp,
 };
 
+// Map of language-specific components
+const languageComponents: LanguageComponentsMap = {
+  en: {
+    FeatureDependenciesHelp: FeatureDependenciesHelpEn,
+    RoleBasedHelp: RoleBasedHelpEn,
+  },
+  pt: {
+    FeatureDependenciesHelp: FeatureDependenciesHelpPt,
+    RoleBasedHelp: RoleBasedHelpPt,
+  },
+};
+
 export const getContextualHelp = (
   company?: string,
   unit?: string,
@@ -58,7 +76,8 @@ export const getContextualHelp = (
   tab?: string,
   settingsTab?: string,
   dialog?: string,
-  teamShiftScheduleDialog?: string
+  teamShiftScheduleDialog?: string,
+  language: "en" | "pt" = "en"
 ): HelpSection => {
   console.log("getContextualHelp", {
     company,
@@ -68,6 +87,7 @@ export const getContextualHelp = (
     settingsTab,
     dialog,
     teamShiftScheduleDialog,
+    language,
   });
 
   const section = getHelpSection(
@@ -81,4 +101,11 @@ export const getContextualHelp = (
   );
   console.log("section", section);
   return helpContent[section] || helpContent["default"];
+};
+
+export const getLanguageComponent = (
+  componentName: HelpComponentName,
+  language: "en" | "pt" = "en"
+) => {
+  return languageComponents[language][componentName];
 };

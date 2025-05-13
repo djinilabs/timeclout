@@ -1,7 +1,6 @@
 import { ReactElement } from "react";
-import { Trans } from "@lingui/react/macro";
 
-interface RoleBasedHelpProps {
+export interface RoleBasedHelpProps {
   context?: string;
 }
 
@@ -16,10 +15,8 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions and capabilities in
-                  the shifts calendar:
-                </Trans>
+                Different roles have different permissions and capabilities in
+                the shifts calendar:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ul className="space-y-4 text-sm">
@@ -51,9 +48,7 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions for leave requests:
-                </Trans>
+                Different roles have different permissions for leave requests:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ul className="space-y-4 text-sm">
@@ -84,10 +79,8 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions for managing leave
-                  requests:
-                </Trans>
+                Different roles have different permissions for managing leave
+                requests:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ul className="space-y-4 text-sm">
@@ -119,10 +112,8 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions for work schedule
-                  settings:
-                </Trans>
+                Different roles have different permissions for work schedule
+                settings:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ul className="space-y-4 text-sm">
@@ -153,10 +144,8 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions for yearly quota
-                  settings:
-                </Trans>
+                Different roles have different permissions for yearly quota
+                settings:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ul className="space-y-4 text-sm">
@@ -187,10 +176,7 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions for company
-                  settings:
-                </Trans>
+                Different roles have different permissions for company settings:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ul className="space-y-4 text-sm">
@@ -221,9 +207,7 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions for leave approval:
-                </Trans>
+                Different roles have different permissions for leave approval:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ul className="space-y-4 text-sm">
@@ -254,9 +238,7 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions for unit settings:
-                </Trans>
+                Different roles have different permissions for unit settings:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ul className="space-y-4 text-sm">
@@ -287,10 +269,7 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions for team
-                  invitations:
-                </Trans>
+                Different roles have different permissions for team invitations:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ul className="space-y-4 text-sm">
@@ -321,9 +300,7 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions for team settings:
-                </Trans>
+                Different roles have different permissions for team settings:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ul className="space-y-4 text-sm">
@@ -354,11 +331,9 @@ export const RoleBasedHelp = ({
             <h3 className="text-lg font-semibold">Role-Based Access</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Different roles have different permissions and capabilities.
-                  Please ensure you have the appropriate role to access this
-                  feature.
-                </Trans>
+                Different roles have different permissions and capabilities.
+                Please ensure you have the appropriate role to access this
+                feature.
               </p>
             </div>
           </div>

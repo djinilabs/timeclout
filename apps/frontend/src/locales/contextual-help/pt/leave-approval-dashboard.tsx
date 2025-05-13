@@ -1,6 +1,6 @@
 import { HelpSection } from "../types";
-import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
-import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp.pt";
+import { RoleBasedHelp } from "../components/RoleBasedHelp.pt";
 
 export const leaveApprovalDashboardHelp: HelpSection = {
   title: "Painel de Aprovação de Ausências",

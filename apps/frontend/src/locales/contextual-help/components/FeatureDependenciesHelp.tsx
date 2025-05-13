@@ -1,7 +1,6 @@
 import { ReactElement } from "react";
-import { Trans } from "@lingui/react/macro";
 
-interface FeatureDependenciesHelpProps {
+export interface FeatureDependenciesHelpProps {
   context?: string;
 }
 
@@ -16,10 +15,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Required Setup Steps</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Before managing shifts, ensure these prerequisites are
-                  completed:
-                </Trans>
+                Before managing shifts, ensure these prerequisites are
+                completed:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ol className="space-y-4 text-sm">
@@ -75,10 +72,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Required Setup Steps</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Before submitting a leave request, ensure these prerequisites
-                  are completed:
-                </Trans>
+                Before submitting a leave request, ensure these prerequisites
+                are completed:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ol className="space-y-4 text-sm">
@@ -109,10 +104,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Required Setup Steps</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  To manage leave requests, ensure these prerequisites are
-                  completed:
-                </Trans>
+                To manage leave requests, ensure these prerequisites are
+                completed:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ol className="space-y-4 text-sm">
@@ -143,10 +136,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Required Setup Steps</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Before configuring work schedule settings, ensure these
-                  prerequisites are completed:
-                </Trans>
+                Before configuring work schedule settings, ensure these
+                prerequisites are completed:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ol className="space-y-4 text-sm">
@@ -176,10 +167,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Required Setup Steps</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Before configuring yearly quotas, ensure these prerequisites
-                  are completed:
-                </Trans>
+                Before configuring yearly quotas, ensure these prerequisites are
+                completed:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ol className="space-y-4 text-sm">
@@ -209,10 +198,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Required Setup Steps</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Before configuring company settings, ensure these
-                  prerequisites are completed:
-                </Trans>
+                Before configuring company settings, ensure these prerequisites
+                are completed:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ol className="space-y-4 text-sm">
@@ -241,10 +228,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Required Setup Steps</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Before managing leave approvals, ensure these prerequisites
-                  are completed:
-                </Trans>
+                Before managing leave approvals, ensure these prerequisites are
+                completed:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ol className="space-y-4 text-sm">
@@ -274,10 +259,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Required Setup Steps</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Before configuring unit settings, ensure these prerequisites
-                  are completed:
-                </Trans>
+                Before configuring unit settings, ensure these prerequisites are
+                completed:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ol className="space-y-4 text-sm">
@@ -306,10 +289,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Required Setup Steps</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Before managing team invitations, ensure these prerequisites
-                  are completed:
-                </Trans>
+                Before managing team invitations, ensure these prerequisites are
+                completed:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ol className="space-y-4 text-sm">
@@ -339,10 +320,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Required Setup Steps</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  Before configuring team settings, ensure these prerequisites
-                  are completed:
-                </Trans>
+                Before configuring team settings, ensure these prerequisites are
+                completed:
               </p>
               <div className="pl-4 border-l-2 border-gray-200">
                 <ol className="space-y-4 text-sm">
@@ -372,11 +351,8 @@ export const FeatureDependenciesHelp = ({
             <h3 className="text-lg font-semibold">Feature Dependencies</h3>
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <Trans>
-                  This feature requires proper team setup and configuration.
-                  Please ensure all prerequisites are completed before
-                  proceeding.
-                </Trans>
+                This feature requires proper team setup and configuration.
+                Please ensure all prerequisites are completed before proceeding.
               </p>
             </div>
           </div>

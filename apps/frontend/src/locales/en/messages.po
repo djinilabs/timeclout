@@ -492,7 +492,7 @@ msgstr "Add a manager"
 msgid "Add a new team member to the team."
 msgstr "Add a new team member to the team."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:695
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:693
 msgid "Add position"
 msgstr "Add position"
 
@@ -511,6 +511,10 @@ msgstr "Add qualifications"
 #: apps/frontend/src/components/MeEdit.tsx:83
 msgid "Add your personal information to help us identify you."
 msgstr "Add your personal information to help us identify you."
+
+#: apps/frontend/src/components/ContextualHelp.tsx:69
+msgid "Additional Information"
+msgstr "Additional Information"
 
 #: apps/frontend/src/components/stateless/ShiftAutoFillParams.tsx:288
 msgid "Adjust these parameters to control how the automatic assignment balances different priorities"
@@ -567,8 +571,8 @@ msgstr "Attention needed"
 msgid "August"
 msgstr "August"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:567
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:703
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:559
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:701
 msgid "Auto fill"
 msgstr "Auto fill"
 
@@ -585,12 +589,12 @@ msgstr "Available"
 #~ msgstr "Back to company"
 
 #: apps/frontend/src/components/ContextualHelp.tsx:179
-msgid "Before managing shifts, ensure these prerequisites are completed:"
-msgstr "Before managing shifts, ensure these prerequisites are completed:"
+#~ msgid "Before managing shifts, ensure these prerequisites are completed:"
+#~ msgstr "Before managing shifts, ensure these prerequisites are completed:"
 
 #: apps/frontend/src/components/ContextualHelp.tsx:238
-msgid "Before using auto-fill, ensure these requirements are met:"
-msgstr "Before using auto-fill, ensure these requirements are met:"
+#~ msgid "Before using auto-fill, ensure these requirements are met:"
+#~ msgstr "Before using auto-fill, ensure these requirements are met:"
 
 #: apps/frontend/src/components/stateless/LeaveRequest.tsx:58
 msgid "Beneficiary"
@@ -656,6 +660,10 @@ msgstr "conflict(s) when trying to search for a solution"
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:211
 #~ msgid "conflict(s)s when trying to search for a solution"
 #~ msgstr "conflict(s)s when trying to search for a solution"
+
+#: apps/frontend/src/components/ContextualHelp.tsx:95
+msgid "Contact our customer service team at"
+msgstr "Contact our customer service team at"
 
 #: apps/frontend/src/components/stateless/ShiftPosition.tsx:175
 msgid "Copy"
@@ -729,8 +737,8 @@ msgid "Created By"
 msgstr "Created By"
 
 #: apps/frontend/src/components/ContextualHelp.tsx:50
-msgid "Creating and editing shift positions requires specific permissions:"
-msgstr "Creating and editing shift positions requires specific permissions:"
+#~ msgid "Creating and editing shift positions requires specific permissions:"
+#~ msgstr "Creating and editing shift positions requires specific permissions:"
 
 #: apps/frontend/src/components/UnassignShiftPositionsDialog.tsx:52
 #: apps/frontend/src/components/BookCompanyTimeOff.tsx:251
@@ -769,7 +777,7 @@ msgstr "Discarded Schedules"
 #~ msgstr "ed"
 
 #: apps/frontend/src/components/TeamMembers.tsx:128
-#: apps/frontend/src/components/CompanyLeaveTypes.tsx:61
+#: apps/frontend/src/components/CompanyLeaveTypes.tsx:60
 #: apps/frontend/src/components/AllUserCompanies.tsx:129
 #: apps/frontend/src/components/AllUnitTeams.tsx:154
 #: apps/frontend/src/components/AllCompanyUnits.tsx:141
@@ -1004,6 +1012,10 @@ msgstr "July"
 msgid "June"
 msgstr "June"
 
+#: apps/frontend/src/components/ContextualHelp.tsx:51
+msgid "Key Features"
+msgstr "Key Features"
+
 #: apps/frontend/src/components/stateless/LeaveRequest.tsx:39
 msgid "Leave Request"
 msgstr "Leave Request"
@@ -1038,7 +1050,7 @@ msgstr "M"
 msgid "M for Monday"
 msgstr "M"
 
-#: apps/frontend/src/components/CompanyLeaveTypes.tsx:30
+#: apps/frontend/src/components/CompanyLeaveTypes.tsx:29
 msgid "Manage the leave types for the workers in this company:"
 msgstr "Manage the leave types for the workers in this company:"
 
@@ -1059,6 +1071,10 @@ msgstr "May"
 #: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:57
 msgid "Name"
 msgstr "Name"
+
+#: apps/frontend/src/components/ContextualHelp.tsx:92
+msgid "Need More Help?"
+msgstr "Need More Help?"
 
 #: apps/frontend/src/components/AllUserCompanies.tsx:45
 msgid "New Company"
@@ -1427,12 +1443,12 @@ msgstr "Settings"
 msgid "Show in calendar as"
 msgstr "Show in calendar as"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:721
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:719
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:245
 msgid "Show leave schedule"
 msgstr "Show leave schedule"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:731
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:729
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:235
 msgid "Show schedule details"
 msgstr "Show schedule details"
@@ -1510,12 +1526,12 @@ msgstr "T"
 #~ msgstr "Teams"
 
 #: apps/frontend/src/components/ContextualHelp.tsx:15
-msgid "The auto-fill feature requires specific permissions to manage team schedules:"
-msgstr "The auto-fill feature requires specific permissions to manage team schedules:"
+#~ msgid "The auto-fill feature requires specific permissions to manage team schedules:"
+#~ msgstr "The auto-fill feature requires specific permissions to manage team schedules:"
 
 #: apps/frontend/src/components/ContextualHelp.tsx:119
-msgid "The system provides different roles to help manage team operations effectively:"
-msgstr "The system provides different roles to help manage team operations effectively:"
+#~ msgid "The system provides different roles to help manage team operations effectively:"
+#~ msgstr "The system provides different roles to help manage team operations effectively:"
 
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:82
 msgid "There are"
@@ -1541,8 +1557,8 @@ msgid "They will have exceeded their quota by <0>{0} days</0>."
 msgstr "They will have exceeded their quota by <0>{0} days</0>."
 
 #: apps/frontend/src/components/ContextualHelp.tsx:288
-msgid "This feature requires proper team setup and configuration. Please ensure all prerequisites are completed before proceeding."
-msgstr "This feature requires proper team setup and configuration. Please ensure all prerequisites are completed before proceeding."
+#~ msgid "This feature requires proper team setup and configuration. Please ensure all prerequisites are completed before proceeding."
+#~ msgstr "This feature requires proper team setup and configuration. Please ensure all prerequisites are completed before proceeding."
 
 #: apps/frontend/src/components/CompanyWorkSchedule.tsx:159
 #: apps/frontend/src/components/stateless/LeaveRequests.tsx:52
@@ -1601,17 +1617,17 @@ msgstr "un"
 msgid "Unassign"
 msgstr "Unassign"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:710
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:708
 msgid "Unassign positions"
 msgstr "Unassign positions"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:630
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:625
 msgid "Unassign shift positions"
 msgstr "Unassign shift positions"
 
 #: apps/frontend/src/components/ContextualHelp.tsx:85
-msgid "Unassigning shift positions requires specific permissions:"
-msgstr "Unassigning shift positions requires specific permissions:"
+#~ msgid "Unassigning shift positions requires specific permissions:"
+#~ msgstr "Unassigning shift positions requires specific permissions:"
 
 #: apps/frontend/src/pages/PageNewUnit.tsx:86
 msgid "Unit name"

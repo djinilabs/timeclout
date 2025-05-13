@@ -88,14 +88,16 @@ export const ContextualHelpContent = () => {
       {helpContent.roles && <div className="mt-6">{helpContent.roles}</div>}
 
       <div className="mt-8 border-t border-gray-200 pt-6">
-        <h3 className="text-md font-semibold">Need More Help?</h3>
+        <h3 className="text-md font-semibold">
+          <Trans>Need More Help?</Trans>
+        </h3>
         <p className="mt-2 text-sm text-gray-600">
-          Contact our customer service team at{" "}
+          <Trans>Contact our customer service team at</Trans>{" "}
           <a
-            href="mailto:support@example.com"
+            href="mailto:support@tt3.app"
             className="text-blue-600 hover:text-blue-800"
           >
-            support@example.com
+            support@tt3.app
           </a>
         </p>
       </div>
