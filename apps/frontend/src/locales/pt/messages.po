@@ -484,7 +484,7 @@ msgstr "Adicionar um gerente"
 msgid "Add a new team member to the team."
 msgstr "Adicionar um novo membro à equipa."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:569
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:695
 msgid "Add position"
 msgstr "Adicionar posição"
 
@@ -559,8 +559,8 @@ msgstr "Atenção necessária"
 msgid "August"
 msgstr "Agosto"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:521
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:577
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:567
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:703
 msgid "Auto fill"
 msgstr "Auto preenchimento"
 
@@ -575,6 +575,14 @@ msgstr "Disponível"
 #: apps/frontend/src/components/LeaveRequest.tsx:90
 #~ msgid "Back to company"
 #~ msgstr "Voltar para a empresa"
+
+#: apps/frontend/src/components/ContextualHelp.tsx:179
+msgid "Before managing shifts, ensure these prerequisites are completed:"
+msgstr ""
+
+#: apps/frontend/src/components/ContextualHelp.tsx:238
+msgid "Before using auto-fill, ensure these requirements are met:"
+msgstr ""
 
 #: apps/frontend/src/components/stateless/LeaveRequest.tsx:58
 msgid "Beneficiary"
@@ -708,6 +716,10 @@ msgstr "Criado por"
 msgid "Created By"
 msgstr "Criado por"
 
+#: apps/frontend/src/components/ContextualHelp.tsx:50
+msgid "Creating and editing shift positions requires specific permissions:"
+msgstr ""
+
 #: apps/frontend/src/components/UnassignShiftPositionsDialog.tsx:52
 #: apps/frontend/src/components/BookCompanyTimeOff.tsx:251
 #: apps/frontend/src/components/BookCompanyTimeOff.tsx:329
@@ -761,7 +773,7 @@ msgstr "Editar uma posição no horário da equipa."
 msgid "Edit a team member to the team."
 msgstr "Editar um membro da equipa."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:491
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:497
 msgid "Edit position"
 msgstr "Editar posição de turno"
 
@@ -795,7 +807,7 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:483
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:489
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
@@ -939,7 +951,7 @@ msgstr "Inconveniência: Desvio do esperado"
 msgid "Insert a position into the team schedule."
 msgstr "Inserir uma posição no horário da equipa."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:493
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:499
 msgid "Insert position into the team schedule"
 msgstr "Inserir posição no horário da equipa"
 
@@ -1001,7 +1013,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:479
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:485
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -1403,12 +1415,12 @@ msgstr "Definir as configurações"
 msgid "Show in calendar as"
 msgstr "Mostrar no calendário como"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:595
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:721
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:245
 msgid "Show leave schedule"
 msgstr "Mostrar o calendário de ausências"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:605
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:731
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:235
 msgid "Show schedule details"
 msgstr "Mostrar detalhes"
@@ -1485,6 +1497,14 @@ msgstr "Q"
 #~ msgid "Teams"
 #~ msgstr "Equipas"
 
+#: apps/frontend/src/components/ContextualHelp.tsx:15
+msgid "The auto-fill feature requires specific permissions to manage team schedules:"
+msgstr ""
+
+#: apps/frontend/src/components/ContextualHelp.tsx:119
+msgid "The system provides different roles to help manage team operations effectively:"
+msgstr ""
+
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:82
 msgid "There are"
 msgstr "Existem"
@@ -1503,6 +1523,10 @@ msgstr "Estas ausências deduzirão <0>{0} dias</0> da sua cota "
 #: apps/frontend/src/components/MemberQuotaFulfilment.tsx:84
 msgid "They will have exceeded their quota by <0>{0} days</0>."
 msgstr "Eles terão excedido a sua cota em <0>{0} dias</0>."
+
+#: apps/frontend/src/components/ContextualHelp.tsx:288
+msgid "This feature requires proper team setup and configuration. Please ensure all prerequisites are completed before proceeding."
+msgstr ""
 
 #: apps/frontend/src/components/CompanyWorkSchedule.tsx:159
 #: apps/frontend/src/components/stateless/LeaveRequests.tsx:52
@@ -1561,13 +1585,17 @@ msgstr "om"
 msgid "Unassign"
 msgstr "Remover atribuição"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:584
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:710
 msgid "Unassign positions"
 msgstr "Remover atribuições de posição"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:544
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:630
 msgid "Unassign shift positions"
 msgstr "Remover atribuições de posições de turno"
+
+#: apps/frontend/src/components/ContextualHelp.tsx:85
+msgid "Unassigning shift positions requires specific permissions:"
+msgstr ""
 
 #: apps/frontend/src/pages/PageNewUnit.tsx:86
 msgid "Unit name"

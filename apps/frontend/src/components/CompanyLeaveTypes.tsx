@@ -21,7 +21,6 @@ export const CompanyLeaveTypes = () => {
     },
   });
   const company = companyWithSettingsQueryResponse?.data?.company;
-  console.log("company", company);
   const leaveTypes: LeaveTypes | undefined =
     company?.settings && leaveTypeParser.parse(company.settings);
   return (

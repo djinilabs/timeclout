@@ -159,7 +159,10 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
           <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
             {helpPanelOpen ? (
               <Suspense>
-                <ContextualHelp />
+                <ContextualHelp
+                  isOpen={helpPanelOpen}
+                  setIsOpen={setHelpPanelOpen}
+                />
               </Suspense>
             ) : null}
           </div>
