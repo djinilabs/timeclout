@@ -19,7 +19,7 @@ export const getLeaveRequestsForDateRange = async (
   const expressionAttributeValues: Record<string, unknown> = {
     ":pk": `${companyRef}/${userRef}`,
     ":startDate": startDate.toString(),
-    ":endDate": endDate.toString(),
+    ":endDate": endDate.nextDay().toString(),
   };
   if (approved != null) {
     filterExpression += " AND approved = :approved";

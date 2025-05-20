@@ -14,7 +14,7 @@ export const getLeavesForDateRange = async (
     ExpressionAttributeValues: {
       ":pk": `${companyRef}/${userRef}`,
       ":startDate": startDate.toString(),
-      ":endDate": endDate.toString(),
+      ":endDate": endDate.nextDay().toString(),
     },
   });
 };
