@@ -55,9 +55,11 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
     <div>
       <CalendarHeader {...props} />
       <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
-        {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
-        {tab.href === "by-member" && <MonthlyCalendarPerMember {...props} />}
-        {tab.href === "by-duration" && <TeamShiftsSummary {...props} />}
+        <div className="mt-8">
+          {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
+          {tab.href === "by-member" && <MonthlyCalendarPerMember {...props} />}
+          {tab.href === "by-duration" && <TeamShiftsSummary {...props} />}
+        </div>
       </Tabs>
     </div>
   );
