@@ -1,5 +1,4 @@
 import { DayDate } from "@/day-date";
-
 import { FC, ReactNode, useMemo, useState } from "react";
 import { type Day, MonthDailyCalendar } from "./MonthDailyCalendar";
 import { i18n } from "@lingui/core";
@@ -10,6 +9,7 @@ import {
 } from "./MonthlyCalendarPerMember";
 import { TeamShiftsSummary } from "./TeamShiftsSummary";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
+import { CalendarHeader } from "./CalendarHeader";
 
 export interface TeamShiftsCalendarProps {
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
@@ -19,13 +19,9 @@ export interface TeamShiftsCalendarProps {
   year: number;
   month: number;
   goTo: (year: number, month: number) => void;
-  renderDay: (day: Day, dayIndex: number) => React.ReactNode;
+  renderDay: (day: Day, dayIndex: number) => ReactNode;
   members: User[];
-  renderMemberDay: (
-    member: User,
-    day: DayDate,
-    calIndex: number
-  ) => React.ReactNode;
+  renderMemberDay: (member: User, day: DayDate, calIndex: number) => ReactNode;
   onCellDrop?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
   onCellDragEnter?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
   onCellDragLeave?: (day: string, e: React.DragEvent<HTMLDivElement>) => void;
@@ -56,10 +52,13 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
   const [tab, setTab] = useState(tabs[0]);
 
   return (
-    <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
-      {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
-      {tab.href === "by-member" && <MonthlyCalendarPerMember {...props} />}
-      {tab.href === "by-duration" && <TeamShiftsSummary {...props} />}
-    </Tabs>
+    <div>
+      <CalendarHeader {...props} />
+      <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
+        {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
+        {tab.href === "by-member" && <MonthlyCalendarPerMember {...props} />}
+        {tab.href === "by-duration" && <TeamShiftsSummary {...props} />}
+      </Tabs>
+    </div>
   );
 };

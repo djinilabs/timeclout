@@ -1,8 +1,7 @@
-import { memo } from "react";
+import { FC, memo } from "react";
 import { Trans } from "@lingui/react/macro";
 import { Avatar } from "./Avatar";
 import { DayDate } from "@/day-date";
-import { CalendarHeader } from "./CalendarHeader";
 
 export interface User {
   pk: string;
@@ -25,26 +24,11 @@ export interface MonthlyScheduleProps {
   onSwitchView?: (view: "calendar" | "linear") => unknown;
 }
 
-export const MonthlyCalendarPerMember = memo(
-  ({
-    year,
-    month,
-    goTo,
-    members,
-    renderMemberDay,
-    onAdd,
-    onSwitchView,
-  }: MonthlyScheduleProps) => {
+export const MonthlyCalendarPerMember: FC<MonthlyScheduleProps> = memo(
+  (props) => {
+    const { year, month, members, renderMemberDay } = props;
     return (
       <div className="flex flex-col h-[calc(100vh-64px)]">
-        <CalendarHeader
-          year={year}
-          month={month}
-          goTo={goTo}
-          onAdd={onAdd}
-          onSwitchView={onSwitchView}
-        />
-
         <div className="flex-1 relative">
           <div className="absolute inset-0 overflow-auto">
             <table className="min-w-full divide-y divide-gray-300">

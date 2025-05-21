@@ -1,5 +1,4 @@
 import { FC, useMemo } from "react";
-import { CalendarHeader } from "./CalendarHeader";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { toMinutes } from "../../utils/toMinutes";
 import { Trans } from "@lingui/react/macro";
@@ -20,12 +19,8 @@ interface Summary {
   >;
 }
 
-export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = ({
-  year,
-  month,
-  goTo,
-  shiftPositionsMap: shiftsPerDay,
-}) => {
+export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
+  const { year, month, shiftPositionsMap: shiftsPerDay } = props;
   const summary: Summary = useMemo(() => {
     // here we need to group the shifts by day, and then organize them
     // into columns based on the shift length (in hours)
@@ -93,7 +88,6 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = ({
 
   return (
     <div>
-      <CalendarHeader year={year} month={month} goTo={goTo} />
       <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
         <thead className="bg-gray-50">
           <tr>
