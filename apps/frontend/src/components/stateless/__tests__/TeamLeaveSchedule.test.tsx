@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { TeamLeaveSchedule } from "../TeamLeaveSchedule";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
