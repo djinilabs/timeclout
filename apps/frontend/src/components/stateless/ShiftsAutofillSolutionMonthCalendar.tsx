@@ -263,27 +263,31 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
           monthIsZeroBased={false}
           additionalActions={additionalActions}
         />
-        <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab} />
-        {tab.href === "by-day" ? (
-          <MonthDailyCalendar
-            year={year}
-            month={month - 1}
-            renderDay={renderDay}
-          />
-        ) : tab.href === "by-member" ? (
-          <MonthlyCalendarPerMember
-            year={year}
-            month={month - 1}
-            members={members}
-            renderMemberDay={renderMemberDay}
-          />
-        ) : (
-          <TeamShiftsSummary
-            year={year}
-            month={month - 1}
-            shiftPositionsMap={assignedShiftPositions}
-          />
-        )}
+
+        <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
+          <div className="mt-4">
+            {tab.href === "by-day" ? (
+              <MonthDailyCalendar
+                year={year}
+                month={month - 1}
+                renderDay={renderDay}
+              />
+            ) : tab.href === "by-member" ? (
+              <MonthlyCalendarPerMember
+                year={year}
+                month={month - 1}
+                members={members}
+                renderMemberDay={renderMemberDay}
+              />
+            ) : (
+              <TeamShiftsSummary
+                year={year}
+                month={month - 1}
+                shiftPositionsMap={assignedShiftPositions}
+              />
+            )}
+          </div>
+        </Tabs>
       </div>
     );
   });

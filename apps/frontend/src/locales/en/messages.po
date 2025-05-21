@@ -14,226 +14,14 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:20
-msgid "Welcome to Team Time Table! Let us show you around."
-msgstr "Welcome to Team Time Table! Let us show you around."
+#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:171
+msgid "Switch to view per day"
+msgstr "Switch to view per day"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:25
-#: apps/frontend/src/components/OnboardingTour.tsx:39
-msgid "Here you can see all your companies and their key information."
-msgstr "Here you can see all your companies and their key information."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:32
-#: apps/frontend/src/components/OnboardingTour.tsx:46
-msgid "Click here to create a new company."
-msgstr "Click here to create a new company."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:53
-msgid "Fill in your company details here."
-msgstr "Fill in your company details here."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:58
-msgid "Enter your company name."
-msgstr "Enter your company name."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:63
-msgid "Click here to create your company."
-msgstr "Click here to create your company."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:70
-msgid "This is your company dashboard. Here you can see an overview of your company."
-msgstr "This is your company dashboard. Here you can see an overview of your company."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:77
-msgid "Here you can see all the units in your company."
-msgstr "Here you can see all the units in your company."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:82
-msgid "Click here to create a new unit."
-msgstr "Click here to create a new unit."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:87
-msgid "Access company settings and configurations here."
-msgstr "Access company settings and configurations here."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:94
-msgid "Fill in your unit details here."
-msgstr "Fill in your unit details here."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:99
-msgid "Enter your unit name."
-msgstr "Enter your unit name."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:104
-msgid "Click here to create your unit."
-msgstr "Click here to create your unit."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:111
-msgid "This is your unit dashboard. Here you can manage your unit."
-msgstr "This is your unit dashboard. Here you can manage your unit."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:118
-msgid "Here you can see all the teams in this unit."
-msgstr "Here you can see all the teams in this unit."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:123
-msgid "Click here to create a new team."
-msgstr "Click here to create a new team."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:128
-msgid "Access unit settings and configurations here."
-msgstr "Access unit settings and configurations here."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:135
-msgid "Fill in your team details here."
-msgstr "Fill in your team details here."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:140
-msgid "Enter your team name."
-msgstr "Enter your team name."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:145
-msgid "Click here to create your team."
-msgstr "Click here to create your team."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:152
-msgid "This is your team dashboard. Here you can manage your team members and their leave requests."
-msgstr "This is your team dashboard. Here you can manage your team members and their leave requests."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:159
-msgid "Here you can see all the members in this team."
-msgstr "Here you can see all the members in this team."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:164
-msgid "Click here to add a new team member."
-msgstr "Click here to add a new team member."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:169
-msgid "Invite new members to join your team."
-msgstr "Invite new members to join your team."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:174
-msgid "View and manage team members' leave requests here."
-msgstr "View and manage team members' leave requests here."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:181
-msgid "Add a new team member here."
-msgstr "Add a new team member here."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:186
-msgid "Enter the member's email address."
-msgstr "Enter the member's email address."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:191
-msgid "Select the member's role in the team."
-msgstr "Select the member's role in the team."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:196
-msgid "Click here to add the member to your team."
-msgstr "Click here to add the member to your team."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:203
-msgid "Submit a new leave request here."
-msgstr "Submit a new leave request here."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:208
-msgid "Select the type of leave you're requesting."
-msgstr "Select the type of leave you're requesting."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:213
-msgid "Choose the start and end dates for your leave."
-msgstr "Choose the start and end dates for your leave."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:218
-msgid "Click here to submit your leave request."
-msgstr "Click here to submit your leave request."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:225
-msgid "Here you can see and manage all pending leave requests."
-msgstr "Here you can see and manage all pending leave requests."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:232
-msgid "Approve or reject leave requests here."
-msgstr "Approve or reject leave requests here."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:239
-msgid "Update your profile information and preferences here."
-msgstr "Update your profile information and preferences here."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:244
-msgid "Update your professional name."
-msgstr "Update your professional name."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:249
-msgid "Set your location preferences."
-msgstr "Set your location preferences."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:365
-msgid "Back"
-msgstr "Back"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:366
-msgid "Close"
-msgstr "Close"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:367
-msgid "Done"
-msgstr "Done"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:368
-msgid "Next"
-msgstr "Next"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/OnboardingTour.tsx:369
-msgid "Skip"
-msgstr "Skip"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/MeEdit.tsx:183
-msgid "Tour will start on the next page you visit"
-msgstr "Tour will start on the next page you visit"
+#: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:25
+msgid "Top score"
+msgstr "Top score"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
@@ -506,6 +294,223 @@ msgid "Leave Requests"
 msgstr "Leave Requests"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:22
+msgid "Welcome to Team Time Table! Let us show you around."
+msgstr "Welcome to Team Time Table! Let us show you around."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:27
+#: apps/frontend/src/components/OnboardingTour.tsx:41
+msgid "Here you can see all your companies and their key information."
+msgstr "Here you can see all your companies and their key information."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:34
+#: apps/frontend/src/components/OnboardingTour.tsx:48
+msgid "Click here to create a new company."
+msgstr "Click here to create a new company."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:55
+msgid "Fill in your company details here."
+msgstr "Fill in your company details here."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:60
+msgid "Enter your company name."
+msgstr "Enter your company name."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:65
+msgid "Click here to create your company."
+msgstr "Click here to create your company."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:72
+msgid "This is your company dashboard. Here you can see an overview of your company."
+msgstr "This is your company dashboard. Here you can see an overview of your company."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:79
+msgid "Here you can see all the units in your company."
+msgstr "Here you can see all the units in your company."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:84
+msgid "Click here to create a new unit."
+msgstr "Click here to create a new unit."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:89
+msgid "Access company settings and configurations here."
+msgstr "Access company settings and configurations here."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:96
+msgid "Fill in your unit details here."
+msgstr "Fill in your unit details here."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:101
+msgid "Enter your unit name."
+msgstr "Enter your unit name."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:106
+msgid "Click here to create your unit."
+msgstr "Click here to create your unit."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:113
+msgid "This is your unit dashboard. Here you can manage your unit."
+msgstr "This is your unit dashboard. Here you can manage your unit."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:120
+msgid "Here you can see all the teams in this unit."
+msgstr "Here you can see all the teams in this unit."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:125
+msgid "Click here to create a new team."
+msgstr "Click here to create a new team."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:130
+msgid "Access unit settings and configurations here."
+msgstr "Access unit settings and configurations here."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:137
+msgid "Fill in your team details here."
+msgstr "Fill in your team details here."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:142
+msgid "Enter your team name."
+msgstr "Enter your team name."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:147
+msgid "Click here to create your team."
+msgstr "Click here to create your team."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:154
+msgid "This is your team dashboard. Here you can manage your team members and their leave requests."
+msgstr "This is your team dashboard. Here you can manage your team members and their leave requests."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:161
+msgid "Here you can see all the members in this team."
+msgstr "Here you can see all the members in this team."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:166
+msgid "Click here to add a new team member."
+msgstr "Click here to add a new team member."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:171
+msgid "Invite new members to join your team."
+msgstr "Invite new members to join your team."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:176
+msgid "View and manage team members' leave requests here."
+msgstr "View and manage team members' leave requests here."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:183
+msgid "Add a new team member here."
+msgstr "Add a new team member here."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:188
+msgid "Enter the member's email address."
+msgstr "Enter the member's email address."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:193
+msgid "Select the member's role in the team."
+msgstr "Select the member's role in the team."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:198
+msgid "Click here to add the member to your team."
+msgstr "Click here to add the member to your team."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:205
+msgid "Submit a new leave request here."
+msgstr "Submit a new leave request here."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:210
+msgid "Select the type of leave you're requesting."
+msgstr "Select the type of leave you're requesting."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:215
+msgid "Choose the start and end dates for your leave."
+msgstr "Choose the start and end dates for your leave."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:220
+msgid "Click here to submit your leave request."
+msgstr "Click here to submit your leave request."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:227
+msgid "Here you can see and manage all pending leave requests."
+msgstr "Here you can see and manage all pending leave requests."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:234
+msgid "Approve or reject leave requests here."
+msgstr "Approve or reject leave requests here."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:241
+msgid "Update your profile information and preferences here."
+msgstr "Update your profile information and preferences here."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:248
+msgid "Update your professional name."
+msgstr "Update your professional name."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:253
+msgid "Set your location preferences."
+msgstr "Set your location preferences."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:370
+msgid "Back"
+msgstr "Back"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:371
+msgid "Close"
+msgstr "Close"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:372
+msgid "Done"
+msgstr "Done"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:373
+msgid "Next"
+msgstr "Next"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/OnboardingTour.tsx:374
+msgid "Skip"
+msgstr "Skip"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/MeEdit.tsx:57
 msgid "Your profile has been updated"
 msgstr "Your profile has been updated"
@@ -514,6 +519,11 @@ msgstr "Your profile has been updated"
 #: apps/frontend/src/components/MeEdit.tsx:97
 msgid "Professional name is required"
 msgstr "Professional name is required"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/MeEdit.tsx:183
+msgid "Tour will start on the next page you visit"
+msgstr "Tour will start on the next page you visit"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/LeaveRequest.tsx:55
@@ -602,30 +612,30 @@ msgid "Invitation accepted"
 msgstr "Invitation accepted"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:50
-#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:133
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:46
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:138
 msgid "By day"
 msgstr "By day"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:51
-#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:137
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:47
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:142
 msgid "By member"
 msgstr "By member"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:52
-#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:141
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:48
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:146
 msgid "By duration"
 msgstr "By duration"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:177
+#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:159
 msgid "Add leave"
 msgstr "Add leave"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:188
+#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:175
 msgid "Switch to view per member"
 msgstr "Switch to view per member"
 
@@ -651,6 +661,7 @@ msgstr "Top Score"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:33
+#: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:37
 msgid "This solution score"
 msgstr "This solution score"
 
@@ -694,7 +705,7 @@ msgstr "Please select a permission"
 #~ msgid "{0}"
 #~ msgstr "{0}"
 
-#: apps/frontend/src/components/stateless/TeamShiftsSummary.tsx:109
+#: apps/frontend/src/components/stateless/TeamShiftsSummary.tsx:103
 msgid "{length}h"
 msgstr "{length}h"
 
@@ -714,7 +725,7 @@ msgstr "Add a manager"
 msgid "Add a new team member to the team."
 msgstr "Add a new team member to the team."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:693
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:741
 msgid "Add position"
 msgstr "Add position"
 
@@ -777,7 +788,7 @@ msgid "Assigning Shift Positions..."
 msgstr "Assigning Shift Positions..."
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:251
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:94
 msgid "at for Saturday"
 msgstr "at"
 
@@ -793,8 +804,8 @@ msgstr "Attention needed"
 msgid "August"
 msgstr "August"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:559
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:701
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:607
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:749
 msgid "Auto fill"
 msgstr "Auto fill"
 
@@ -970,7 +981,7 @@ msgid "Date range"
 msgstr "Date range"
 
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:442
-#: apps/frontend/src/components/stateless/TeamShiftsSummary.tsx:101
+#: apps/frontend/src/components/stateless/TeamShiftsSummary.tsx:95
 msgid "Day"
 msgstr "Day"
 
@@ -1015,7 +1026,7 @@ msgstr "Edit a position in the team schedule."
 msgid "Edit a team member to the team."
 msgstr "Edit a team member to the team."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:497
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:545
 msgid "Edit position"
 msgstr "Edit position"
 
@@ -1049,7 +1060,7 @@ msgstr "End"
 msgid "End Date"
 msgstr "End Date"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:489
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:537
 msgid "Error loading calendar data"
 msgstr "Error loading calendar data"
 
@@ -1058,7 +1069,7 @@ msgid "F"
 msgstr "F"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:243
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:86
 msgid "F for Friday"
 msgstr "F"
 
@@ -1117,8 +1128,7 @@ msgid "Get started by creating a new unit for this company."
 msgstr "Get started by creating a new unit for this company."
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:127
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:201
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:107
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:158
 msgid "Go to today"
 msgstr "Go to today"
 
@@ -1151,7 +1161,7 @@ msgid "hours rest"
 msgstr "hours rest"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:239
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:82
 msgid "hu for Thursday"
 msgstr "hu"
 
@@ -1193,7 +1203,7 @@ msgstr "Inconvenience:Deviation from Expected"
 msgid "Insert a position into the team schedule."
 msgstr "Insert a position into the team schedule."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:499
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:547
 msgid "Insert position into the team schedule"
 msgstr "Insert position into the team schedule"
 
@@ -1259,7 +1269,7 @@ msgstr "leaving them with <0>{simulatedDaysLeft} days</0> left."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "leaving you with <0>{simulatedDaysLeft} days</0> left."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:485
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:533
 msgid "Loading calendar..."
 msgstr "Loading calendar..."
 
@@ -1268,7 +1278,7 @@ msgid "M"
 msgstr "M"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:219
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:62
 msgid "M for Monday"
 msgstr "M"
 
@@ -1294,7 +1304,7 @@ msgstr "May"
 
 #: apps/frontend/src/components/LeaveTypeEditor.tsx:73
 #: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:381
-#: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:57
+#: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:38
 msgid "Name"
 msgstr "Name"
 
@@ -1322,12 +1332,11 @@ msgstr "New Unit"
 msgid "next day"
 msgstr "next day"
 
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:135
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:99
 msgid "Next month"
 msgstr "Next month"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:84
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:70
 msgid "Next year"
 msgstr "Next year"
 
@@ -1373,7 +1382,7 @@ msgid "October"
 msgstr "October"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:221
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:64
 msgid "on for Monday"
 msgstr "on"
 
@@ -1382,8 +1391,7 @@ msgstr "on"
 #~ msgstr "on"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:102
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:162
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:92
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:122
 msgid "Open menu"
 msgstr "Open menu"
 
@@ -1429,12 +1437,11 @@ msgstr "Personal Information"
 msgid "Pick a color"
 msgstr "Pick a color"
 
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:112
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:76
 msgid "Previous month"
 msgstr "Previous month"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:66
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:52
 msgid "Previous year"
 msgstr "Previous year"
 
@@ -1526,7 +1533,7 @@ msgid "Revoke Invitation"
 msgstr "Revoke Invitation"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:245
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:88
 msgid "ri for Friday"
 msgstr "ri"
 
@@ -1544,12 +1551,12 @@ msgid "S"
 msgstr "S"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:249
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:92
 msgid "S for Saturday"
 msgstr "S"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:255
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:98
 msgid "S for Sunday"
 msgstr "S"
 
@@ -1673,13 +1680,13 @@ msgstr "Settings"
 msgid "Show in calendar as"
 msgstr "Show in calendar as"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:719
-#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:245
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:767
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:244
 msgid "Show leave schedule"
 msgstr "Show leave schedule"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:729
-#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:235
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:777
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:234
 msgid "Show schedule details"
 msgstr "Show schedule details"
 
@@ -1725,8 +1732,8 @@ msgid "Submit request for {0} and wait for approval"
 msgstr "Submit request for {0} and wait for approval"
 
 #: apps/frontend/src/components/stateless/CalendarHeader.tsx:84
-msgid "Switch to calendar"
-msgstr "Switch to calendar"
+#~ msgid "Switch to calendar"
+#~ msgstr "Switch to calendar"
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:147
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:153
@@ -1734,12 +1741,12 @@ msgid "T"
 msgstr "T"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:225
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:68
 msgid "T for Tuesday"
 msgstr "T"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:237
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:80
 msgid "T for Thursday"
 msgstr "T"
 
@@ -1808,8 +1815,7 @@ msgid "To create a new unit you just have to fill in the unit name and click on 
 msgstr "To create a new unit you just have to fill in the unit name and click on \"Create\"."
 
 #: apps/frontend/src/components/stateless/YearCalendar.tsx:75
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:122
-#: apps/frontend/src/components/stateless/CalendarHeader.tsx:61
+#: apps/frontend/src/components/stateless/CalendarHeader.tsx:86
 msgid "Today"
 msgstr "Today"
 
@@ -1834,7 +1840,7 @@ msgid "Type of Leave"
 msgstr "Type of Leave"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:227
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:70
 msgid "ue for Tuesday"
 msgstr "ue"
 
@@ -1843,7 +1849,7 @@ msgstr "ue"
 #~ msgstr "ue"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:257
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:100
 msgid "un for Sunday"
 msgstr "un"
 
@@ -1855,11 +1861,11 @@ msgstr "un"
 msgid "Unassign"
 msgstr "Unassign"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:708
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:756
 msgid "Unassign positions"
 msgstr "Unassign positions"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:625
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:673
 msgid "Unassign shift positions"
 msgstr "Unassign shift positions"
 
@@ -1916,12 +1922,12 @@ msgid "W"
 msgstr "W"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:231
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:74
 msgid "W for Wednesday"
 msgstr "W"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:233
+#: apps/frontend/src/components/stateless/MonthDailyCalendar.tsx:76
 msgid "ed for Wednesday"
 msgstr "wednesday"
 

@@ -22,7 +22,7 @@ export const ShiftAutoFillSolutionStats = ({
               stat: (
                 <PercentageStatCard
                   key="top-score"
-                  name="Top score"
+                  name={i18n.t("Top score")}
                   value={Math.round(
                     (1 - (progress.topSolutions[0]?.score ?? 0)) * 100
                   )}
@@ -34,7 +34,7 @@ export const ShiftAutoFillSolutionStats = ({
               stat: (
                 <PercentageStatCard
                   key="this-score"
-                  name="This solution score"
+                  name={i18n.t("This solution score")}
                   value={Math.round((1 - (solution?.score ?? 0)) * 100)}
                 />
               ),
