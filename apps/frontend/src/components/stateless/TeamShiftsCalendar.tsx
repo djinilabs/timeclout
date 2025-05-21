@@ -58,16 +58,7 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
   return (
     <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
       {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
-      {tab.href === "by-member" && (
-        <MonthlyCalendarPerMember
-          year={props.year}
-          month={props.month}
-          goTo={props.goTo}
-          members={props.members}
-          renderMemberDay={props.renderMemberDay}
-          onAdd={props.onAdd}
-        />
-      )}
+      {tab.href === "by-member" && <MonthlyCalendarPerMember {...props} />}
       {tab.href === "by-duration" && <TeamShiftsSummary {...props} />}
     </Tabs>
   );
