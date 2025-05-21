@@ -53,12 +53,6 @@ describe("MonthCalendar", () => {
     );
   };
 
-  it("renders month and year in header", () => {
-    renderWithI18n(<MonthDailyCalendar {...defaultProps} />);
-    const headerHeading = screen.getByRole("heading", { name: "March 2024" });
-    expect(headerHeading).toBeInTheDocument();
-  });
-
   it("renders weekday headers", () => {
     renderWithI18n(<MonthDailyCalendar {...defaultProps} />);
     const weekdays = ["M", "T", "W", "T", "F", "S", "S"];

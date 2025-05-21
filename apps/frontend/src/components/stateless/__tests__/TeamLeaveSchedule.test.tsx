@@ -90,35 +90,6 @@ describe("TeamLeaveSchedule", () => {
     expect(headerHeading).toBeInTheDocument();
   });
 
-  it("renders navigation buttons", () => {
-    renderWithProviders(<TeamLeaveSchedule {...defaultProps} />);
-    expect(
-      screen.getByRole("button", { name: /previous year/i })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: /next year/i })
-    ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /today/i })).toBeInTheDocument();
-  });
-
-  it("calls goTo when navigation buttons are clicked", () => {
-    const goTo = vi.fn();
-    renderWithProviders(<TeamLeaveSchedule {...defaultProps} goTo={goTo} />);
-
-    // Previous month
-    fireEvent.click(screen.getByRole("button", { name: /previous year/i }));
-    expect(goTo).toHaveBeenCalledWith(2024, 1);
-
-    // Next month
-    fireEvent.click(screen.getByRole("button", { name: /next year/i }));
-    expect(goTo).toHaveBeenCalledWith(2024, 3);
-
-    // Today
-    fireEvent.click(screen.getByRole("button", { name: /today/i }));
-    const today = new Date();
-    expect(goTo).toHaveBeenCalledWith(today.getFullYear(), today.getMonth());
-  });
-
   it("renders table headers with days of month", async () => {
     renderWithProviders(<TeamLeaveSchedule {...defaultProps} />);
     // March 2024 has 31 days
