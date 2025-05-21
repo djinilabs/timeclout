@@ -13,15 +13,12 @@ export interface User {
 export interface MonthlyScheduleProps {
   year: number;
   month: number;
-  goTo?: (year: number, month: number) => void;
   members: User[];
   renderMemberDay: (
     member: User,
     day: DayDate,
     calIndex: number
   ) => React.ReactNode;
-  onAdd?: () => unknown;
-  onSwitchView?: (view: "calendar" | "linear") => unknown;
 }
 
 export const MonthlyCalendarPerMember: FC<MonthlyScheduleProps> = memo(

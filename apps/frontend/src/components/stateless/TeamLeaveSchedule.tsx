@@ -4,6 +4,9 @@ import { MonthlyCalendarPerMember } from "./MonthlyCalendarPerMember";
 import { DayDate } from "@/day-date";
 import { Day, MonthDailyCalendar } from "./MonthDailyCalendar";
 import { MemberLeaveInCalendar } from "./MemberLeaveInCalendar";
+import { CalendarHeader } from "./CalendarHeader";
+import { Button } from "./Button";
+import { i18n } from "@lingui/core";
 
 export interface User {
   pk: string;
@@ -149,22 +152,53 @@ export const TeamLeaveSchedule = memo(
       [leavesPerDay]
     );
 
-    return view === "linear" ? (
-      <MonthlyCalendarPerMember
-        year={year}
-        month={month}
-        goTo={goTo}
-        onSwitchView={setView}
-        onAdd={() => {
-          navigate(
-            `/companies/${company}/units/${unit}/teams/${team}/leave-requests/new`
-          );
-        }}
-        members={members}
-        renderMemberDay={renderMemberDay}
-      />
-    ) : (
-      <MonthDailyCalendar year={year} month={month} renderDay={renderDay} />
+    const additionalActions = useMemo(
+      () => [
+        {
+          type: "button",
+          text: i18n.t("Add leave"),
+          onClick: () => {
+            navigate(
+              `/companies/${company}/units/${unit}/teams/${team}/leave-requests/new`
+            );
+          },
+        } as const,
+        {
+          type: "component",
+          component:
+            view === "linear" ? (
+              <Button onClick={() => setView("calendar")}>
+                {i18n.t("Switch to view per day")}
+              </Button>
+            ) : (
+              <Button onClick={() => setView("linear")}>
+                {i18n.t("Switch to view per member")}
+              </Button>
+            ),
+        } as const,
+      ],
+      [company, navigate, team, unit, view]
+    );
+
+    return (
+      <div>
+        <CalendarHeader
+          year={year}
+          month={month}
+          goTo={goTo}
+          additionalActions={additionalActions}
+        />
+        {view === "linear" ? (
+          <MonthlyCalendarPerMember
+            year={year}
+            month={month}
+            members={members}
+            renderMemberDay={renderMemberDay}
+          />
+        ) : (
+          <MonthDailyCalendar year={year} month={month} renderDay={renderDay} />
+        )}
+      </div>
     );
   }
 );

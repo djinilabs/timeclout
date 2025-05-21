@@ -3,7 +3,7 @@ import { Day, MonthDailyCalendar } from "./MonthDailyCalendar";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "./ShiftPosition";
 import { Avatar } from "./Avatar";
-import { memo, useCallback, useMemo, useState } from "react";
+import { FC, memo, useCallback, useMemo, useState } from "react";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { LeaveRenderInfo } from "../../hooks/useTeamLeaveSchedule";
 import { SchedulerState } from "@/scheduler";
@@ -11,6 +11,9 @@ import { Tabs } from "./Tabs";
 import { i18n } from "@lingui/core";
 import { MonthlyCalendarPerMember, User } from "./MonthlyCalendarPerMember";
 import { TeamShiftsSummary } from "./TeamShiftsSummary";
+import { CalendarHeader } from "./CalendarHeader";
+import { LabeledSwitch } from "./LabeledSwitch";
+import { Trans } from "@lingui/react/macro";
 
 export interface ShiftsAutofillSolutionMonthCalendarProps {
   year: number;
@@ -18,20 +21,27 @@ export interface ShiftsAutofillSolutionMonthCalendarProps {
   progress: SchedulerState;
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
   showScheduleDetails: boolean;
+  setShowScheduleDetails: (showScheduleDetails: boolean) => void;
+  showLeaveSchedule: boolean;
+  setShowLeaveSchedule: (showLeaveSchedule: boolean) => void;
   assignedShiftPositions: Record<string, ShiftPositionWithRowSpan[]>;
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
 }
 
-export const ShiftsAutofillSolutionMonthCalendar = memo(
-  ({
-    year,
-    month,
-    shiftPositionsMap,
-    showScheduleDetails,
-    assignedShiftPositions,
-    leaveSchedule,
-    progress,
-  }: ShiftsAutofillSolutionMonthCalendarProps) => {
+export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonthCalendarProps> =
+  memo((props) => {
+    const {
+      year,
+      month,
+      shiftPositionsMap,
+      showScheduleDetails,
+      setShowScheduleDetails,
+      showLeaveSchedule,
+      setShowLeaveSchedule,
+      assignedShiftPositions,
+      leaveSchedule,
+      progress,
+    } = props;
     // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
 
     const maxRowsPerWeekNumber = useMemo(() => {
@@ -212,8 +222,40 @@ export const ShiftsAutofillSolutionMonthCalendar = memo(
 
     const [tab, setTab] = useState(tabs[0]);
 
+    const additionalActions = useMemo(
+      () => [
+        {
+          type: "component",
+          component: (
+            <LabeledSwitch
+              label={<Trans>Show schedule details</Trans>}
+              checked={showScheduleDetails}
+              onChange={setShowScheduleDetails}
+            />
+          ),
+        } as const,
+        {
+          type: "component",
+          component: (
+            <LabeledSwitch
+              label={<Trans>Show leave schedule</Trans>}
+              checked={showLeaveSchedule}
+              onChange={setShowLeaveSchedule}
+            />
+          ),
+        } as const,
+      ],
+      [
+        setShowLeaveSchedule,
+        setShowScheduleDetails,
+        showLeaveSchedule,
+        showScheduleDetails,
+      ]
+    );
+
     return (
-      <>
+      <div>
+        <CalendarHeader {...props} additionalActions={additionalActions} />
         <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab} />
         {tab.href === "by-day" ? (
           <MonthDailyCalendar
@@ -235,7 +277,6 @@ export const ShiftsAutofillSolutionMonthCalendar = memo(
             shiftPositionsMap={assignedShiftPositions}
           />
         )}
-      </>
+      </div>
     );
-  }
-);
+  });
