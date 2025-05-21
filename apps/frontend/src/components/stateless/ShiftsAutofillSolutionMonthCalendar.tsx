@@ -14,6 +14,8 @@ import { TeamShiftsSummary } from "./TeamShiftsSummary";
 import { CalendarHeader } from "./CalendarHeader";
 import { LabeledSwitch } from "./LabeledSwitch";
 import { Trans } from "@lingui/react/macro";
+import { Transition } from "@headlessui/react";
+import { MemberLeaveInCalendar } from "./MemberLeaveInCalendar";
 
 export interface ShiftsAutofillSolutionMonthCalendarProps {
   year: number;
@@ -196,31 +198,79 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
       );
     }, [members, assignedShiftPositions]);
 
+    const memberLeaveMap: Record<
+      string,
+      Record<string, LeaveRenderInfo[]>
+    > = useMemo(() => {
+      return Object.fromEntries(
+        members.map((member) => [
+          member.pk,
+          Object.fromEntries(
+            Object.entries(leaveSchedule).map(([day, leaves]) => [
+              day,
+              leaves.filter((leave) => leave.user.pk === member.pk),
+            ])
+          ),
+        ])
+      );
+    }, [leaveSchedule, members]);
+
     const renderMemberDay = useCallback(
       (member: User, day: DayDate) => {
-        const shiftPositions = memberShiftPositionsMap[member.pk];
-        if (!shiftPositions) {
+        const shiftPositionsForDay =
+          memberShiftPositionsMap[member.pk]?.[day.toString()];
+        const leaves = showLeaveSchedule
+          ? memberLeaveMap[member.pk]?.[day.toString()]
+          : undefined;
+        if (!leaves && !shiftPositionsForDay) {
           return null;
         }
-        const shiftPositionsForDay = shiftPositions[day.toString()];
-        if (!shiftPositionsForDay) {
-          return null;
-        }
-        return shiftPositionsForDay.map((shiftPosition, shiftPositionIndex) => (
-          <div
-            key={`shift-position-${shiftPositionIndex}`}
-            className="row-span-3 transition-all duration-300 ease-in"
-          >
-            <ShiftPosition
-              lastRow={shiftPositionIndex === shiftPositionsForDay.length - 1}
-              shiftPosition={shiftPosition}
-              conflicts={false}
-              showScheduleDetails={showScheduleDetails}
-            />
-          </div>
-        ));
+
+        return (
+          <>
+            {leaves?.map((leave, leaveIndex) => (
+              <Transition show={showLeaveSchedule} appear key={leaveIndex}>
+                <div
+                  className={classNames(
+                    "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                    leaveIndex === 0 && "border-t",
+                    leaveIndex === leaves.length - 1 && "border-b"
+                  )}
+                >
+                  <MemberLeaveInCalendar
+                    member={leave.user}
+                    leave={leave}
+                    leaveIndex={leaveIndex}
+                    showName={false}
+                    showAvatar={false}
+                  />
+                </div>
+              </Transition>
+            ))}
+            {shiftPositionsForDay?.map((shiftPosition, shiftPositionIndex) => (
+              <div
+                key={`shift-position-${shiftPositionIndex}`}
+                className="row-span-3 transition-all duration-300 ease-in"
+              >
+                <ShiftPosition
+                  lastRow={
+                    shiftPositionIndex === shiftPositionsForDay.length - 1
+                  }
+                  shiftPosition={shiftPosition}
+                  conflicts={false}
+                  showScheduleDetails={showScheduleDetails}
+                />
+              </div>
+            ))}
+          </>
+        );
       },
-      [memberShiftPositionsMap, showScheduleDetails]
+      [
+        memberLeaveMap,
+        memberShiftPositionsMap,
+        showLeaveSchedule,
+        showScheduleDetails,
+      ]
     );
 
     const [tab, setTab] = useState(tabs[0]);
