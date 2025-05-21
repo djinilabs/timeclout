@@ -42,8 +42,8 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
       leaveSchedule,
       progress,
     } = props;
-    // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
 
+    // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
     const maxRowsPerWeekNumber = useMemo(() => {
       const weekNumbers: Array<number> = [];
       for (const [day, shiftPositions] of Object.entries(
@@ -69,7 +69,9 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
         if (!shiftPositions) {
           return null;
         }
-        const leaves = leaveSchedule?.[day.date];
+        const leaves = showLeaveSchedule
+          ? leaveSchedule?.[day.date]
+          : undefined;
         const rowCount: number | undefined =
           maxRowsPerWeekNumber[new DayDate(day.date).getWeekNumber()];
         return (
@@ -125,6 +127,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
         leaveSchedule,
         maxRowsPerWeekNumber,
         progress.problemInSlotIds,
+        showLeaveSchedule,
         showScheduleDetails,
       ]
     );
@@ -255,7 +258,11 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
 
     return (
       <div>
-        <CalendarHeader {...props} additionalActions={additionalActions} />
+        <CalendarHeader
+          {...props}
+          monthIsZeroBased={false}
+          additionalActions={additionalActions}
+        />
         <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab} />
         {tab.href === "by-day" ? (
           <MonthDailyCalendar

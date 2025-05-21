@@ -12,6 +12,7 @@ import { Button } from "./Button";
 export interface CalendarHeaderProps {
   year: number;
   month: number;
+  monthIsZeroBased?: boolean;
   goTo?: (year: number, month: number) => void;
   additionalActions?: Array<
     | {
@@ -27,7 +28,13 @@ export interface CalendarHeaderProps {
 }
 
 export const CalendarHeader: FC<CalendarHeaderProps> = memo(
-  ({ year, month, goTo, additionalActions }: CalendarHeaderProps) => {
+  ({
+    year,
+    month,
+    monthIsZeroBased = true,
+    goTo,
+    additionalActions,
+  }: CalendarHeaderProps) => {
     const handlePrevMonth = useCallback(() => {
       goTo?.(year, month - 1);
     }, [goTo, year, month]);
@@ -49,8 +56,8 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
           key="calendar-title"
           className="text-base font-semibold text-gray-900"
         >
-          <time dateTime={`${year}-${month + 1}`}>
-            {months()[month]} {year}
+          <time dateTime={`${year}-${monthIsZeroBased ? month + 1 : month}`}>
+            {months()[monthIsZeroBased ? month : month - 1]} {year}
           </time>
         </h1>
         <div key="calendar-controls" className="flex items-center">
