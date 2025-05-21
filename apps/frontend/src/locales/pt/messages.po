@@ -14,16 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:171
-msgid "Switch to view per day"
-msgstr "Mudar para vista por dia"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:25
-msgid "Top score"
-msgstr "Pontuação máxima"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -613,19 +603,19 @@ msgstr "Convite aceite"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:46
-#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:138
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:140
 msgid "By day"
 msgstr "Por dia"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:47
-#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:142
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:144
 msgid "By member"
 msgstr "Por membro"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:48
-#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:146
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:148
 msgid "By duration"
 msgstr "Por duração"
 
@@ -633,6 +623,11 @@ msgstr "Por duração"
 #: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:159
 msgid "Add leave"
 msgstr "Nova ausência"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:171
+msgid "Switch to view per day"
+msgstr "Mudar para vista por dia"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/TeamLeaveSchedule.tsx:175
@@ -658,6 +653,11 @@ msgstr "Estatísticas"
 #: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:21
 msgid "Top Score"
 msgstr "Pontuação mais alta"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:25
+msgid "Top score"
+msgstr "Pontuação máxima"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:33
@@ -732,7 +732,7 @@ msgstr "Adicionar um gerente"
 msgid "Add a new team member to the team."
 msgstr "Adicionar um novo membro à equipa."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:741
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:739
 msgid "Add position"
 msgstr "Adicionar posição"
 
@@ -811,8 +811,8 @@ msgstr "Atenção necessária"
 msgid "August"
 msgstr "Agosto"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:607
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:749
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:605
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:747
 msgid "Auto fill"
 msgstr "Auto preenchimento"
 
@@ -1029,7 +1029,7 @@ msgstr "Editar uma posição no horário da equipa."
 msgid "Edit a team member to the team."
 msgstr "Editar um membro da equipa."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:545
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:543
 msgid "Edit position"
 msgstr "Editar posição de turno"
 
@@ -1063,7 +1063,7 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:537
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:535
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
@@ -1155,7 +1155,7 @@ msgstr "Valores mais altos tentam igualar a distribuição de turnos para cada f
 msgid "Home"
 msgstr "Início"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionTimeDistributionStats.tsx:94
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionTimeDistributionStats.tsx:105
 msgid "Hours between shifts"
 msgstr "Horas entre turnos"
 
@@ -1198,7 +1198,11 @@ msgstr "No Outlook: Definições > Calendário > Adicionar calendário > Subscre
 msgid "Inconvenience"
 msgstr "Inconveniência"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:165
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:98
+msgid "Inconvenience Deviation"
+msgstr "Desvio de Inconveniência"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:170
 msgid "Inconvenience:Deviation from Expected"
 msgstr "Inconveniência: Desvio do esperado"
 
@@ -1206,7 +1210,7 @@ msgstr "Inconveniência: Desvio do esperado"
 msgid "Insert a position into the team schedule."
 msgstr "Inserir uma posição no horário da equipa."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:547
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:545
 msgid "Insert position into the team schedule"
 msgstr "Inserir posição no horário da equipa"
 
@@ -1272,7 +1276,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:533
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:531
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -1376,7 +1380,8 @@ msgstr "Nenhuma unidade"
 msgid "November"
 msgstr "Novembro"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:86
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:78
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:105
 msgid "Number of shifts"
 msgstr "Número de turnos"
 
@@ -1683,13 +1688,13 @@ msgstr "Definir as configurações"
 msgid "Show in calendar as"
 msgstr "Mostrar no calendário como"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:767
-#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:244
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:765
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:294
 msgid "Show leave schedule"
 msgstr "Mostrar o calendário de ausências"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:777
-#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:234
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:775
+#: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:284
 msgid "Show schedule details"
 msgstr "Mostrar detalhes"
 
@@ -1769,9 +1774,21 @@ msgstr "Q"
 #~ msgid "The auto-fill feature requires specific permissions to manage team schedules:"
 #~ msgstr "A funcionalidade de auto'preenchimento necessita de permissões específicas que permitam gerir turnos de equipa"
 
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:101
+msgid "The deviation of the inconvenience from the expected inconvenience."
+msgstr "O desvio da inconveniência esperada"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:81
+msgid "The number of shifts assigned to each worker for each type."
+msgstr "O número de turnos atribuidos a cada membro por tipo de turno"
+
 #: apps/frontend/src/components/ContextualHelp.tsx:119
 #~ msgid "The system provides different roles to help manage team operations effectively:"
 #~ msgstr "O sistema providencia diferentes funções para ajudar a gerir as operações de uma equipa eficientemente:"
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionTimeDistributionStats.tsx:87
+msgid "The time between shifts for each worker. The box plot shows the median, quartiles, and outliers."
+msgstr "O intervalo de tempo entre turnos para cada membro. O diagrama mostra a mediana, quartis e outliers."
 
 #: apps/frontend/src/components/stateless/ShiftsAutoFillProgress.tsx:82
 msgid "There are"
@@ -1799,6 +1816,10 @@ msgstr "Eles terão excedido a sua cota em <0>{0} dias</0>."
 #: apps/frontend/src/components/MeEdit.tsx:191
 msgid "This will restart the onboarding tour for the next page you visit."
 msgstr "Isto irá reiniciar o tour de introdução para a próxima página que visitar."
+
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionTimeDistributionStats.tsx:84
+msgid "Time between shifts"
+msgstr "Tempo entre turnos"
 
 #: apps/frontend/src/components/CompanyWorkSchedule.tsx:159
 #: apps/frontend/src/components/stateless/LeaveRequests.tsx:52
@@ -1860,11 +1881,11 @@ msgstr "om"
 msgid "Unassign"
 msgstr "Remover atribuição"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:756
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:754
 msgid "Unassign positions"
 msgstr "Remover atribuições de posição"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:673
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:671
 msgid "Unassign shift positions"
 msgstr "Remover atribuições de posições de turno"
 
@@ -1938,9 +1959,7 @@ msgstr "Que tipo de ausência está a planear?"
 msgid "Work Days"
 msgstr "Dias de trabalho"
 
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionTimeDistributionStats.tsx:102
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:94
-#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:133
+#: apps/frontend/src/components/stateless/ShiftsAutoFillSolutionTimeDistributionStats.tsx:113
 msgid "Worker"
 msgstr "Trabalhador"
 
