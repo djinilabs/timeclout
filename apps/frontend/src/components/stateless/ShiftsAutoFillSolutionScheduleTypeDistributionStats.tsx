@@ -42,7 +42,16 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
 
     console.log({ workerTypeAssignments });
 
-    const workerStats = Object.values(workerTypeAssignments);
+    const workerStats = Object.values(workerTypeAssignments).map((v) => {
+      if (v == null || typeof v !== "object") {
+        return v;
+      }
+      return Object.fromEntries(
+        Object.entries(v).filter(
+          ([, value]) => typeof value !== "number" || value !== 0
+        )
+      );
+    });
 
     // Collect worker info by id
     const workerById = shiftSchedule.shifts.reduce(
@@ -63,72 +72,89 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats = ({
   }, [shiftSchedule]);
 
   return (
-    <div className="w-full aspect-2/1">
-      <ResponsiveBar
-        data={workerStats as BarDatum[]}
-        keys={typeNames}
-        indexBy="workerName"
-        margin={{ top: 50, right: 130, bottom: 120, left: 60 }}
-        borderRadius={4}
-        layout="vertical"
-        groupMode="stacked"
-        colors={(bar) => {
-          const index = typeNames.indexOf(bar.id as string);
-          const hue = 180; // Teal base hue
-          const saturation = 50;
-          const lightness = 80 - (index * 50) / typeNames.length; // Vary from 80% to 30% lightness
-          return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-        }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: <Trans>Number of shifts</Trans>,
-          legendPosition: "middle",
-          legendOffset: -40,
-        }}
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: <Trans>Worker</Trans>,
-          legendPosition: "middle",
-          legendOffset: 80,
-          renderTick: (tick) => {
-            const worker = workerById[tick.value];
-            if (!worker) {
-              return null;
-            }
-            return (
-              <g transform={`translate(${tick.x},${tick.y + 20})`}>
-                <foreignObject x="-24" y="-12" width="80" height="60">
-                  <div className="flex gap-2 flex-col items-center">
-                    <span className="text-sm text-nowrap">
-                      {getInitials(worker.name)}
-                    </span>
-                  </div>
-                </foreignObject>
-              </g>
-            );
-          },
-        }}
-        legends={[
-          {
-            dataFrom: "keys",
-            anchor: "bottom-right",
-            direction: "column",
-            justify: false,
-            translateX: 120,
-            translateY: 0,
-            itemsSpacing: 2,
-            itemWidth: 100,
-            itemHeight: 20,
-            itemDirection: "left-to-right",
-            itemOpacity: 0.85,
-            symbolSize: 20,
-          },
-        ]}
-      />
+    <div className="w-full">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-lg font-bold">
+          <Trans>Number of shifts</Trans>
+        </h2>
+        <p className="text-sm text-gray-500">
+          <Trans>
+            The number of shifts assigned to each worker for each type.
+          </Trans>
+        </p>
+        <div className="aspect-square w-full">
+          <ResponsiveBar
+            data={workerStats as BarDatum[]}
+            keys={typeNames}
+            indexBy="workerName"
+            margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+            borderRadius={4}
+            layout="horizontal"
+            groupMode="stacked"
+            colors={(bar) => {
+              const index = typeNames.indexOf(bar.id as string);
+              const hue = 180; // Teal base hue
+              const saturation = 50;
+              const lightness = 80 - (index * 50) / typeNames.length; // Vary from 80% to 30% lightness
+              return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            }}
+            axisBottom={{
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: <Trans>Number of shifts</Trans>,
+              legendPosition: "middle",
+            }}
+            axisLeft={{
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              renderTick: (tick) => {
+                const worker = workerById[tick.value];
+                if (!worker) {
+                  return null;
+                }
+                return (
+                  <g transform={`translate(${tick.x - 25},${tick.y})`}>
+                    <foreignObject x="-10" y="-10" width="200" height="60">
+                      <div className="flex gap-2 flex-col">
+                        <span className="text-sm">
+                          {getInitials(worker.name)}
+                        </span>
+                      </div>
+                    </foreignObject>
+                    <text
+                      x="-22"
+                      y="4"
+                      textAnchor="end"
+                      dominantBaseline="middle"
+                      style={{ fill: "rgb(102, 102, 102)", fontSize: "14px" }}
+                    >
+                      {tick.value.name}
+                    </text>
+                  </g>
+                );
+              },
+            }}
+            legends={[
+              {
+                dataFrom: "keys",
+                anchor: "bottom-right",
+                direction: "column",
+                justify: false,
+                translateX: 120,
+                translateY: 0,
+                itemsSpacing: 2,
+                itemWidth: 100,
+                itemHeight: 20,
+                itemDirection: "left-to-right",
+                itemOpacity: 0.85,
+                symbolSize: 20,
+              },
+            ]}
+          />
+        </div>
+      </div>
     </div>
   );
 };

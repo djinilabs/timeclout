@@ -79,45 +79,69 @@ export const ShiftsAutoFillSolutionTimeDistributionStats = ({
   }, [workerTimeIntervals]);
 
   return (
-    <div className="w-full aspect-2/1">
-      <ResponsiveBoxPlot
-        data={boxPlotData}
-        margin={{ top: 50, right: 130, bottom: 120, left: 60 }}
-        minValue="auto"
-        maxValue="auto"
-        colors="#14b8a6"
-        borderRadius={4}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: <Trans>Hours between shifts</Trans>,
-          legendPosition: "middle",
-          legendOffset: -40,
-        }}
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: <Trans>Worker</Trans>,
-          legendPosition: "middle",
-          legendOffset: 80,
-          renderTick: (tick) => {
-            const worker = workerById[tick.value];
-            return (
-              <g transform={`translate(${tick.x},${tick.y + 20})`}>
-                <foreignObject x="-24" y="-12" width="80" height="60">
-                  <div className="flex gap-2 flex-col items-center">
-                    <span className="text-sm text-nowrap">
-                      {getInitials(worker.name)}
-                    </span>
-                  </div>
-                </foreignObject>
-              </g>
-            );
-          },
-        }}
-      />
+    <div className="flex flex-col gap-2 w-full">
+      <h2 className="text-lg font-bold">
+        <Trans>Time between shifts</Trans>
+      </h2>
+      <p className="text-sm text-gray-500">
+        <Trans>
+          The time between shifts for each worker. The box plot shows the
+          median, quartiles, and outliers.
+        </Trans>
+      </p>
+      <div className="aspect-square w-full">
+        <ResponsiveBoxPlot
+          data={boxPlotData}
+          margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
+          minValue="auto"
+          maxValue="auto"
+          colors="#14b8a6"
+          borderRadius={4}
+          layout="horizontal"
+          axisBottom={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: <Trans>Hours between shifts</Trans>,
+            legendPosition: "middle",
+            legendOffset: 40,
+          }}
+          axisLeft={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: <Trans>Worker</Trans>,
+            legendPosition: "middle",
+            legendOffset: 80,
+            renderTick: (tick) => {
+              const worker = workerById[tick.value];
+              if (!worker) {
+                return null;
+              }
+              return (
+                <g transform={`translate(${tick.x - 25},${tick.y})`}>
+                  <foreignObject x="-10" y="-10" width="200" height="60">
+                    <div className="flex gap-2 flex-col">
+                      <span className="text-sm">
+                        {getInitials(worker.name)}
+                      </span>
+                    </div>
+                  </foreignObject>
+                  <text
+                    x="-22"
+                    y="4"
+                    textAnchor="end"
+                    dominantBaseline="middle"
+                    style={{ fill: "rgb(102, 102, 102)", fontSize: "14px" }}
+                  >
+                    {tick.value.name}
+                  </text>
+                </g>
+              );
+            },
+          }}
+        />
+      </div>
     </div>
   );
 };
