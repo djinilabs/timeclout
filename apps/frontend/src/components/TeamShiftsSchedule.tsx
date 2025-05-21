@@ -27,7 +27,10 @@ import {
   ShiftPosition as ShiftPositionType,
 } from "../graphql/graphql";
 import { ShiftsAutoFill } from "./ShiftsAutoFill";
-import { useTeamLeaveSchedule } from "../hooks/useTeamLeaveSchedule";
+import {
+  LeaveRenderInfo,
+  useTeamLeaveSchedule,
+} from "../hooks/useTeamLeaveSchedule";
 import { useLocalPreference } from "../hooks/useLocalPreference";
 import { LabeledSwitch } from "./stateless/LabeledSwitch";
 import { toMinutes } from "../utils/toMinutes";
@@ -241,7 +244,7 @@ export const TeamShiftsSchedule = () => {
   const renderDay = useCallback(
     (day: Day, dayIndex: number) => {
       const shiftPositions = shiftPositionsMap?.[day.date];
-      const leaves = leaveSchedule[day.date];
+      const leaves = showLeaveSchedule ? leaveSchedule[day.date] : undefined;
       if (!shiftPositions && !leaves) {
         return null;
       }
@@ -420,8 +423,28 @@ export const TeamShiftsSchedule = () => {
     );
   }, [members, shiftPositionsMap]);
 
+  const memberLeaveMap: Record<
+    string,
+    Record<string, LeaveRenderInfo[]>
+  > = useMemo(() => {
+    return Object.fromEntries(
+      members.map((member) => [
+        member.pk,
+        Object.fromEntries(
+          Object.entries(leaveSchedule).map(([day, leaves]) => [
+            day,
+            leaves.filter((leave) => leave.user.pk === member.pk),
+          ])
+        ),
+      ])
+    );
+  }, [leaveSchedule, members]);
+
   const renderMemberDay = useCallback(
     (member: User, day: DayDate) => {
+      const leaves = showLeaveSchedule
+        ? memberLeaveMap[member.pk]?.[day.toString()]
+        : undefined;
       const shiftPositions = memberShiftPositionsMap[member.pk];
       if (!shiftPositions) {
         return null;
@@ -431,35 +454,57 @@ export const TeamShiftsSchedule = () => {
         return null;
       }
       return shiftPositionsForDay.map((shiftPosition, shiftPositionIndex) => (
-        <div
-          key={`shift-position-${shiftPositionIndex}`}
-          className="row-span-3 transition-all duration-300 ease-in"
-          onClick={(ev) => {
-            onShiftPositionClick(shiftPosition, ev);
-            ev.preventDefault();
-            ev.stopPropagation();
-          }}
-        >
-          <ShiftPosition
-            lastRow={shiftPositionIndex === shiftPositionsForDay.length - 1}
-            focus={
-              (focusedShiftPosition && focusedShiftPosition == shiftPosition) ||
-              false
-            }
-            setFocusedShiftPosition={(shiftPosition) => {
-              console.log("new focused shiftPosition", shiftPosition);
-              setFocusedShiftPosition(shiftPosition);
+        <div>
+          {leaves?.map((leave, leaveIndex) => (
+            <Transition show={showLeaveSchedule} appear key={leaveIndex}>
+              <div
+                className={classNames(
+                  "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                  leaveIndex === 0 && "border-t",
+                  leaveIndex === leaves.length - 1 && "border-b"
+                )}
+              >
+                <MemberLeaveInCalendar
+                  member={leave.user}
+                  leave={leave}
+                  leaveIndex={leaveIndex}
+                  showName={false}
+                  showAvatar={false}
+                />
+              </div>
+            </Transition>
+          ))}
+          <div
+            key={`shift-position-${shiftPositionIndex}`}
+            className="row-span-3 transition-all duration-300 ease-in"
+            onClick={(ev) => {
+              onShiftPositionClick(shiftPosition, ev);
+              ev.preventDefault();
+              ev.stopPropagation();
             }}
-            shiftPosition={shiftPosition}
-            handleEditShiftPosition={handleEditShiftPosition}
-            copyShiftPositionToClipboard={copyShiftPositionToClipboard}
-            hasCopiedShiftPosition={hasCopiedShiftPosition || undefined}
-            pasteShiftPositionFromClipboard={pasteShiftPositionFromClipboard}
-            deleteShiftPosition={deleteShiftPosition}
-            conflicts={false}
-            isSelected={selectedShiftPositions.includes(shiftPosition)}
-            showScheduleDetails={showScheduleDetails}
-          />
+          >
+            <ShiftPosition
+              lastRow={shiftPositionIndex === shiftPositionsForDay.length - 1}
+              focus={
+                (focusedShiftPosition &&
+                  focusedShiftPosition == shiftPosition) ||
+                false
+              }
+              setFocusedShiftPosition={(shiftPosition) => {
+                console.log("new focused shiftPosition", shiftPosition);
+                setFocusedShiftPosition(shiftPosition);
+              }}
+              shiftPosition={shiftPosition}
+              handleEditShiftPosition={handleEditShiftPosition}
+              copyShiftPositionToClipboard={copyShiftPositionToClipboard}
+              hasCopiedShiftPosition={hasCopiedShiftPosition || undefined}
+              pasteShiftPositionFromClipboard={pasteShiftPositionFromClipboard}
+              deleteShiftPosition={deleteShiftPosition}
+              conflicts={false}
+              isSelected={selectedShiftPositions.includes(shiftPosition)}
+              showScheduleDetails={showScheduleDetails}
+            />
+          </div>
         </div>
       ));
     },
@@ -469,11 +514,13 @@ export const TeamShiftsSchedule = () => {
       focusedShiftPosition,
       handleEditShiftPosition,
       hasCopiedShiftPosition,
+      leaveSchedule,
       memberShiftPositionsMap,
       onShiftPositionClick,
       pasteShiftPositionFromClipboard,
       selectedShiftPositions,
       setFocusedShiftPosition,
+      showLeaveSchedule,
       showScheduleDetails,
     ]
   );

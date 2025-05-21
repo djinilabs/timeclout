@@ -6,10 +6,18 @@ export interface MemberLeaveInCalendarProps {
   member: User;
   leave: LeaveDay;
   leaveIndex: number;
+  showName?: boolean;
+  showAvatar?: boolean;
 }
 
 export const MemberLeaveInCalendar = forwardRef(
-  ({ member, leave, leaveIndex }: MemberLeaveInCalendarProps) => {
+  ({
+    member,
+    leave,
+    leaveIndex,
+    showName = true,
+    showAvatar = true,
+  }: MemberLeaveInCalendarProps) => {
     return (
       <div className="flex items-center gap-1">
         <div
@@ -27,18 +35,22 @@ export const MemberLeaveInCalendar = forwardRef(
             {leave.icon}
           </div>
         </div>
-        <div
-          key={`leave-avatar-container-${leaveIndex}`}
-          className="flex items-center -ml-2"
-        >
-          <Avatar size={25} {...member} />
-        </div>
-        <div
-          key={`leave-name-${leaveIndex}`}
-          className="text-tiny truncate text-gray-400"
-        >
-          {member.name}
-        </div>
+        {showAvatar && (
+          <div
+            key={`leave-avatar-container-${leaveIndex}`}
+            className="flex items-center -ml-2"
+          >
+            <Avatar size={25} {...member} />
+          </div>
+        )}
+        {showName && (
+          <div
+            key={`leave-name-${leaveIndex}`}
+            className="text-tiny truncate text-gray-400"
+          >
+            {member.name}
+          </div>
+        )}
       </div>
     );
   }
