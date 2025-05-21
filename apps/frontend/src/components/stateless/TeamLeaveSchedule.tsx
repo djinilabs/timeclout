@@ -4,8 +4,6 @@ import { MonthlyCalendarPerMember } from "./MonthlyCalendarPerMember";
 import { DayDate } from "@/day-date";
 import { Day, MonthDailyCalendar } from "./MonthDailyCalendar";
 import { MemberLeaveInCalendar } from "./MemberLeaveInCalendar";
-import { i18n } from "@lingui/core";
-import { Button } from "./Button";
 
 export interface User {
   pk: string;
@@ -166,31 +164,7 @@ export const TeamLeaveSchedule = memo(
         renderMemberDay={renderMemberDay}
       />
     ) : (
-      <MonthDailyCalendar
-        year={year}
-        month={month}
-        goTo={goTo}
-        renderDay={renderDay}
-        additionalActions={[
-          {
-            type: "button",
-            text: i18n.t("Add leave"),
-            onClick: () => {
-              navigate(
-                `/companies/${company}/units/${unit}/teams/${team}/leave-requests/new`
-              );
-            },
-          },
-          {
-            type: "component",
-            component: (
-              <Button onClick={() => setView("linear")}>
-                {i18n.t("Switch to view per member")}
-              </Button>
-            ),
-          },
-        ]}
-      />
+      <MonthDailyCalendar year={year} month={month} renderDay={renderDay} />
     );
   }
 );

@@ -167,9 +167,6 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
                     progress={progress}
                     shiftPositionsMap={shiftPositionsMap}
                     showScheduleDetails={showScheduleDetails}
-                    setShowScheduleDetails={setShowScheduleDetails}
-                    showLeaveSchedule={showLeaveSchedule}
-                    setShowLeaveSchedule={setShowLeaveSchedule}
                     assignedShiftPositions={assignedShiftPositions}
                     leaveSchedule={leaveSchedule}
                   />

@@ -68,50 +68,6 @@ describe("MonthCalendar", () => {
     });
   });
 
-  it("calls goTo when navigation buttons are clicked", () => {
-    const goTo = vi.fn();
-    renderWithI18n(<MonthDailyCalendar {...defaultProps} goTo={goTo} />);
-
-    // Previous month
-    const prevButton = screen.getByRole("button", { name: /previous month/i });
-    fireEvent.click(prevButton);
-    expect(goTo).toHaveBeenCalledWith(2024, 1);
-
-    // Next month
-    const nextButton = screen.getByRole("button", { name: /next month/i });
-    fireEvent.click(nextButton);
-    expect(goTo).toHaveBeenCalledWith(2024, 3);
-
-    // Today
-    const todayButton = screen.getByRole("button", { name: /today/i });
-    fireEvent.click(todayButton);
-    const today = new Date();
-    expect(goTo).toHaveBeenCalledWith(today.getFullYear(), today.getMonth());
-  });
-
-  it("renders additional actions in desktop view", () => {
-    const handleClick = vi.fn();
-    const additionalActions = [
-      {
-        type: "button" as const,
-        text: "Add Event",
-        onClick: handleClick,
-      },
-    ];
-
-    renderWithI18n(
-      <MonthDailyCalendar
-        {...defaultProps}
-        additionalActions={additionalActions}
-      />
-    );
-
-    const button = screen.getByRole("button", { name: "Add Event" });
-    expect(button).toBeInTheDocument();
-    fireEvent.click(button);
-    expect(handleClick).toHaveBeenCalled();
-  });
-
   it("calls onDayFocus when a day cell receives focus", () => {
     const onDayFocus = vi.fn();
     renderWithI18n(

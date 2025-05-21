@@ -1,9 +1,7 @@
-import { Trans } from "@lingui/react/macro";
 import { DayDate } from "@/day-date";
 import { Day, MonthDailyCalendar } from "./MonthDailyCalendar";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "./ShiftPosition";
-import { LabeledSwitch } from "./LabeledSwitch";
 import { Avatar } from "./Avatar";
 import { memo, useCallback, useMemo, useState } from "react";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
@@ -20,9 +18,6 @@ export interface ShiftsAutofillSolutionMonthCalendarProps {
   progress: SchedulerState;
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
   showScheduleDetails: boolean;
-  setShowScheduleDetails: (showScheduleDetails: boolean) => void;
-  showLeaveSchedule: boolean;
-  setShowLeaveSchedule: (showLeaveSchedule: boolean) => void;
   assignedShiftPositions: Record<string, ShiftPositionWithRowSpan[]>;
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
 }
@@ -33,9 +28,6 @@ export const ShiftsAutofillSolutionMonthCalendar = memo(
     month,
     shiftPositionsMap,
     showScheduleDetails,
-    setShowScheduleDetails,
-    showLeaveSchedule,
-    setShowLeaveSchedule,
     assignedShiftPositions,
     leaveSchedule,
     progress,
@@ -227,28 +219,6 @@ export const ShiftsAutofillSolutionMonthCalendar = memo(
           <MonthDailyCalendar
             year={year}
             month={month - 1}
-            additionalActions={[
-              {
-                type: "component",
-                component: (
-                  <LabeledSwitch
-                    label={<Trans>Show schedule details</Trans>}
-                    checked={showScheduleDetails}
-                    onChange={setShowScheduleDetails}
-                  />
-                ),
-              },
-              {
-                type: "component",
-                component: (
-                  <LabeledSwitch
-                    label={<Trans>Show leave schedule</Trans>}
-                    checked={showLeaveSchedule}
-                    onChange={setShowLeaveSchedule}
-                  />
-                ),
-              },
-            ]}
             renderDay={renderDay}
           />
         ) : tab.href === "by-member" ? (

@@ -440,6 +440,8 @@ export const TeamShiftsSchedule = () => {
     );
   }, [leaveSchedule, members]);
 
+  console.log("memberLeaveMap", memberLeaveMap);
+
   const renderMemberDay = useCallback(
     (member: User, day: DayDate) => {
       const leaves = showLeaveSchedule
@@ -514,7 +516,7 @@ export const TeamShiftsSchedule = () => {
       focusedShiftPosition,
       handleEditShiftPosition,
       hasCopiedShiftPosition,
-      leaveSchedule,
+      memberLeaveMap,
       memberShiftPositionsMap,
       onShiftPositionClick,
       pasteShiftPositionFromClipboard,
