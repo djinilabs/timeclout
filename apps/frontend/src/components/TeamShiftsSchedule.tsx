@@ -444,18 +444,13 @@ export const TeamShiftsSchedule = () => {
 
   const renderMemberDay = useCallback(
     (member: User, day: DayDate) => {
+      const dayString = day.toString();
       const leaves = showLeaveSchedule
-        ? memberLeaveMap[member.pk]?.[day.toString()]
+        ? memberLeaveMap[member.pk]?.[dayString]
         : undefined;
-      const shiftPositions = memberShiftPositionsMap[member.pk];
-      if (!shiftPositions) {
-        return null;
-      }
-      const shiftPositionsForDay = shiftPositions[day.toString()];
-      if (!shiftPositionsForDay) {
-        return null;
-      }
-      return shiftPositionsForDay.map((shiftPosition, shiftPositionIndex) => (
+      const shiftPositionsForDay =
+        memberShiftPositionsMap[member.pk]?.[dayString];
+      return (
         <div>
           {leaves?.map((leave, leaveIndex) => (
             <Transition show={showLeaveSchedule} appear key={leaveIndex}>
@@ -476,39 +471,43 @@ export const TeamShiftsSchedule = () => {
               </div>
             </Transition>
           ))}
-          <div
-            key={`shift-position-${shiftPositionIndex}`}
-            className="row-span-3 transition-all duration-300 ease-in"
-            onClick={(ev) => {
-              onShiftPositionClick(shiftPosition, ev);
-              ev.preventDefault();
-              ev.stopPropagation();
-            }}
-          >
-            <ShiftPosition
-              lastRow={shiftPositionIndex === shiftPositionsForDay.length - 1}
-              focus={
-                (focusedShiftPosition &&
-                  focusedShiftPosition == shiftPosition) ||
-                false
-              }
-              setFocusedShiftPosition={(shiftPosition) => {
-                console.log("new focused shiftPosition", shiftPosition);
-                setFocusedShiftPosition(shiftPosition);
+          {shiftPositionsForDay?.map((shiftPosition, shiftPositionIndex) => (
+            <div
+              key={`shift-position-${shiftPositionIndex}`}
+              className="row-span-3 transition-all duration-300 ease-in"
+              onClick={(ev) => {
+                onShiftPositionClick(shiftPosition, ev);
+                ev.preventDefault();
+                ev.stopPropagation();
               }}
-              shiftPosition={shiftPosition}
-              handleEditShiftPosition={handleEditShiftPosition}
-              copyShiftPositionToClipboard={copyShiftPositionToClipboard}
-              hasCopiedShiftPosition={hasCopiedShiftPosition || undefined}
-              pasteShiftPositionFromClipboard={pasteShiftPositionFromClipboard}
-              deleteShiftPosition={deleteShiftPosition}
-              conflicts={false}
-              isSelected={selectedShiftPositions.includes(shiftPosition)}
-              showScheduleDetails={showScheduleDetails}
-            />
-          </div>
+            >
+              <ShiftPosition
+                lastRow={shiftPositionIndex === shiftPositionsForDay.length - 1}
+                focus={
+                  (focusedShiftPosition &&
+                    focusedShiftPosition == shiftPosition) ||
+                  false
+                }
+                setFocusedShiftPosition={(shiftPosition) => {
+                  console.log("new focused shiftPosition", shiftPosition);
+                  setFocusedShiftPosition(shiftPosition);
+                }}
+                shiftPosition={shiftPosition}
+                handleEditShiftPosition={handleEditShiftPosition}
+                copyShiftPositionToClipboard={copyShiftPositionToClipboard}
+                hasCopiedShiftPosition={hasCopiedShiftPosition || undefined}
+                pasteShiftPositionFromClipboard={
+                  pasteShiftPositionFromClipboard
+                }
+                deleteShiftPosition={deleteShiftPosition}
+                conflicts={false}
+                isSelected={selectedShiftPositions.includes(shiftPosition)}
+                showScheduleDetails={showScheduleDetails}
+              />
+            </div>
+          ))}
         </div>
-      ));
+      );
     },
     [
       copyShiftPositionToClipboard,
