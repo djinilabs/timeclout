@@ -762,7 +762,7 @@ export const TeamShiftsSchedule = () => {
               type: "component",
               component: (
                 <LabeledSwitch
-                  label={<Trans>Show leave schedule</Trans>}
+                  label={<Trans>Leaves</Trans>}
                   checked={showLeaveSchedule}
                   onChange={setShowLeaveSchedule}
                 />
@@ -772,7 +772,7 @@ export const TeamShiftsSchedule = () => {
               type: "component",
               component: (
                 <LabeledSwitch
-                  label={<Trans>Show schedule details</Trans>}
+                  label={<Trans>Details</Trans>}
                   checked={showScheduleDetails}
                   onChange={setShowScheduleDetails}
                 />

@@ -1004,6 +1004,10 @@ msgstr "Cota anual padrão (dias)"
 msgid "Delete"
 msgstr "Eliminar"
 
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:775
+msgid "Details"
+msgstr "Detalhes"
+
 #: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:94
 msgid "Discarded Schedules"
 msgstr "Agendamentos descartados"
@@ -1267,6 +1271,10 @@ msgstr "Tipo de ausência \"{0}\""
 #: apps/frontend/src/components/LeaveRequest.tsx:91
 msgid "LeaveRequest not found"
 msgstr "Pedido de ausência não encontrado"
+
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:765
+msgid "Leaves"
+msgstr "Ausências"
 
 #: apps/frontend/src/components/MemberQuotaFulfilment.tsx:74
 msgid "leaving them with <0>{simulatedDaysLeft} days</0> left."
@@ -1688,12 +1696,10 @@ msgstr "Definir as configurações"
 msgid "Show in calendar as"
 msgstr "Mostrar no calendário como"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:765
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:294
 msgid "Show leave schedule"
 msgstr "Mostrar o calendário de ausências"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:775
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:284
 msgid "Show schedule details"
 msgstr "Mostrar detalhes"

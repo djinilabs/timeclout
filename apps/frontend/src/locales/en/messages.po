@@ -1001,6 +1001,10 @@ msgstr "Default Yearly Quota (days)"
 msgid "Delete"
 msgstr "Delete"
 
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:775
+msgid "Details"
+msgstr "Details"
+
 #: apps/frontend/src/components/stateless/ShiftAutoFillSolutionStats.tsx:94
 msgid "Discarded Schedules"
 msgstr "Discarded Schedules"
@@ -1264,6 +1268,10 @@ msgstr "Leave Type \"{0}\""
 #: apps/frontend/src/components/LeaveRequest.tsx:91
 msgid "LeaveRequest not found"
 msgstr "LeaveRequest not found"
+
+#: apps/frontend/src/components/TeamShiftsSchedule.tsx:765
+msgid "Leaves"
+msgstr "Leaves"
 
 #: apps/frontend/src/components/MemberQuotaFulfilment.tsx:74
 msgid "leaving them with <0>{simulatedDaysLeft} days</0> left."
@@ -1685,12 +1693,10 @@ msgstr "Settings"
 msgid "Show in calendar as"
 msgstr "Show in calendar as"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:765
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:294
 msgid "Show leave schedule"
 msgstr "Show leave schedule"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:775
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:284
 msgid "Show schedule details"
 msgstr "Show schedule details"
