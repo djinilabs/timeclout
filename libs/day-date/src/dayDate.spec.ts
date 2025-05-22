@@ -65,7 +65,7 @@ describe("DayDate", () => {
     it("gets week day", () => {
       const date = new DayDate(2023, 12, 25); // Monday
       expect(date.getWeekDay()).toBe("monday");
-      expect(date.getWeekDayNumber()).toBe(1);
+      expect(date.getWeekDayNumber()).toBe(0);
     });
 
     it("gets month day number", () => {
@@ -139,12 +139,12 @@ describe("DayDate", () => {
 
     it("gets month back fill", () => {
       const date = new DayDate(2023, 12, 1); // Friday
-      expect(date.fullMonthBackFill().toString()).toBe("2023-11-26");
+      expect(date.fullMonthBackFill().toString()).toBe("2023-11-27");
     });
 
     it("gets month forward fill", () => {
       const date = new DayDate(2024, 12, 30); // Monday
-      expect(date.fullMonthForwardFill().toString()).toBe("2025-01-05");
+      expect(date.fullMonthForwardFill().toString()).toBe("2025-01-06");
     });
   });
 

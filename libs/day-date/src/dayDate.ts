@@ -1,13 +1,13 @@
 import { i18n } from "@lingui/core";
 
 const weekDays = [
-  "sunday",
   "monday",
   "tuesday",
   "wednesday",
   "thursday",
   "friday",
   "saturday",
+  "sunday",
 ] as const;
 
 const monthNames = [
@@ -57,6 +57,7 @@ export class DayDate {
   }
 
   constructor(...args: [number, number, number] | [Date | string]) {
+    console.log("DayDate constructor args", args);
     let numberDate: [number, number, number] | undefined;
     if (args.length === 3) {
       numberDate = args;
@@ -95,7 +96,8 @@ export class DayDate {
   }
 
   getWeekDayNumber() {
-    return this.date.getUTCDay();
+    // 0 = Monday, 6 = Sunday
+    return (this.date.getUTCDay() + 6) % 7;
   }
 
   getWeekNumber() {
@@ -115,12 +117,12 @@ export class DayDate {
   }
 
   getWeekDay() {
-    return weekDays[this.date.getUTCDay()];
+    return weekDays[this.getWeekDayNumber()];
   }
 
   isWeekend() {
     const weekDayNumber = this.getWeekDayNumber();
-    return weekDayNumber === 0 || weekDayNumber === 6;
+    return weekDayNumber === 5 || weekDayNumber === 6;
   }
 
   getMonthDayNumber() {
