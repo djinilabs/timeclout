@@ -446,8 +446,6 @@ export const CreateOrEditScheduleShiftPosition: FC<
                     </p>
                     <DayPicker
                       mode="single"
-                      ISOWeek
-                      timeZone="UTC"
                       required
                       disabled={{
                         before: new Date(),
@@ -466,7 +464,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
                       }}
                       month={field.state.value.firstOfMonth().toDate()}
                       selected={field.state.value.toDate()}
-                      onSelect={(d) =>
+                      onSelectSingle={(d) =>
                         d &&
                         field.handleChange(
                           new DayDate(

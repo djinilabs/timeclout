@@ -1,9 +1,11 @@
 import { i18n } from "@lingui/core";
 import { FC } from "react";
 import {
+  DateRange,
   DayPicker as DayPickerComponent,
   DayPickerProps,
   Mode,
+  TZDate,
   type Locale,
 } from "react-day-picker";
 import { enUS, pt } from "react-day-picker/locale";
@@ -43,11 +45,32 @@ const DayPickerSelectModeChoice: FC<DayPickerSelectModeChoiceProps> = ({
   );
 };
 
-export type OurDayPickerProps = DayPickerProps & {
-  modes?: Mode[];
-  mode: Mode;
-  onChangeMode?: (mode: Mode) => unknown;
+const fixDate = (date: Date): Date => {
+  const isUTCMidnight =
+    date.getUTCHours() === 0 &&
+    date.getUTCMinutes() === 0 &&
+    date.getUTCSeconds() === 0 &&
+    date.getUTCMilliseconds() === 0;
+
+  return isUTCMidnight
+    ? new TZDate(date, "UTC")
+    : new TZDate(
+        Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+        "UTC"
+      );
 };
+
+export type OurDayPickerProps = Omit<
+  DayPickerProps & {
+    modes?: Mode[];
+    mode: Mode;
+    onSelectSingle?: (selected: Date) => unknown;
+    onSelectMultiple?: (selected: Date[]) => unknown;
+    onSelectRange?: (selected: DateRange) => unknown;
+    onChangeMode?: (mode: Mode) => unknown;
+  },
+  "onSelect"
+>;
 
 export const DayPicker: FC<OurDayPickerProps> = ({
   modes,
@@ -59,6 +82,22 @@ export const DayPicker: FC<OurDayPickerProps> = ({
   const dayPickerProps = {
     ...props,
     mode,
+    onSelect: (arg: unknown) => {
+      if (!arg) {
+        return;
+      }
+      if (props.onSelectSingle) {
+        props.onSelectSingle(fixDate(arg as Date));
+      } else if (props.onSelectMultiple) {
+        props.onSelectMultiple((arg as Date[]).map(fixDate));
+      } else if (props.onSelectRange) {
+        const range = arg as DateRange;
+        props.onSelectRange({
+          from: fixDate(range.from as Date),
+          to: range.to ? fixDate(range.to as Date) : undefined,
+        });
+      }
+    },
   } as DayPickerProps;
   return (
     <div>
@@ -72,6 +111,9 @@ export const DayPicker: FC<OurDayPickerProps> = ({
       <DayPickerComponent
         {...dayPickerProps}
         locale={locale}
+        timeZone="UTC"
+        ISOWeek
+        weekStartsOn={1}
         classNames={{
           ...defaultClassNames,
           today: `border-amber-500`, // Add a border to today's date

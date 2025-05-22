@@ -31,7 +31,7 @@ export const minimumShiftsInStandardWorkdayPerWeek: ValidationRule = {
       day = day.nextDay();
     }
     while (day.isBefore(endDay)) {
-      if (day.getWeekDayNumber() === 6) {
+      if (day.getWeekDayNumber() === 5) {
         // saturday we do the check
         for (const worker of workers) {
           const workerShiftCount =
@@ -40,7 +40,7 @@ export const minimumShiftsInStandardWorkdayPerWeek: ValidationRule = {
             return [false];
           }
         }
-      } else if (day.getWeekDayNumber() === 0) {
+      } else if (day.getWeekDayNumber() === 6) {
         // sunday we reset the count
         workersShiftCountOnCurrentWeek.clear();
       } else {

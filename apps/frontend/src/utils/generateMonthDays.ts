@@ -17,7 +17,7 @@ export const generateMonthDays = (
   const firstOfMonth = new DayDate(year, month + 1, 1);
 
   // Get first day of week for current month (0-6)
-  const firstDayOfWeek = (firstOfMonth.getWeekDayNumber() + 6) % 7;
+  const firstDayOfWeek = firstOfMonth.getWeekDayNumber();
 
   // Add days from previous month
   for (let i = firstDayOfWeek; i > 0; i--) {

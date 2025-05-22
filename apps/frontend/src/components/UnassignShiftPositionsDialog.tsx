@@ -53,14 +53,12 @@ export const UnassignShiftPositionsDialog: FC<
         </label>
         <DayPicker
           mode="range"
-          ISOWeek
-          timeZone="UTC"
           required
           selected={{
             from: dateRange.from.toDate(),
             to: dateRange.to.toDate(),
           }}
-          onSelect={(range) => {
+          onSelectRange={(range) => {
             if (range?.from && range?.to) {
               setDateRange({
                 from: new DayDate(range.from),

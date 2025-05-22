@@ -67,8 +67,6 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
           </p>
           <DayPicker
             mode="range"
-            ISOWeek
-            timeZone="UTC"
             numberOfMonths={2}
             defaultMonth={params.startDate?.toDate()}
             required
@@ -76,7 +74,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
               from: params.startDate?.toDate(),
               to: params.endDate?.toDate(),
             }}
-            onSelect={(range) => {
+            onSelectRange={(range) => {
               setPartial({
                 startDate: range?.from ? new DayDate(range.from) : undefined,
                 endDate: range?.to ? new DayDate(range.to) : undefined,

@@ -261,8 +261,6 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                       )}
                     </p>
                     <DayPicker
-                      ISOWeek
-                      timeZone="UTC"
                       required
                       modes={["range", "multiple"]}
                       onChangeMode={(mode) => {
@@ -286,7 +284,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                           new Date().setMonth(new Date().getMonth() + 24)
                         )
                       }
-                      onSelect={(range) =>
+                      onSelectRange={(range) =>
                         field.handleChange([
                           range?.from?.toISOString().split("T")[0] ?? "",
                           range?.to?.toISOString().split("T")[0] ?? "",
@@ -329,8 +327,6 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                       <Trans>Date range</Trans>
                     </label>
                     <DayPicker
-                      ISOWeek
-                      timeZone="UTC"
                       required
                       modes={["range", "multiple"]}
                       onChangeMode={(mode) => {
@@ -351,7 +347,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                           new Date().setMonth(new Date().getMonth() + 24)
                         )
                       }
-                      onSelect={(dates) =>
+                      onSelectMultiple={(dates) =>
                         field.handleChange(
                           dates.map((d) => new DayDate(d).toString())
                         )
