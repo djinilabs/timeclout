@@ -4,7 +4,7 @@ import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { Trans } from "@lingui/react/macro";
 import { useCountries } from "../../hooks/useCountries";
 import { useCountrySubdivisions } from "../../hooks/useCountrySubdivisions";
-import { FieldComponent } from "./types";
+import { FieldComponent } from "../types";
 
 interface EditCountryAndRegionProps {
   Field: FieldComponent;

@@ -12,8 +12,8 @@ import { useQuery } from "../hooks/useQuery";
 import { useMutation } from "../hooks/useMutation";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
 import { TeamMemberQualifications } from "./TeamMemberQualifications";
-import { Button } from "./stateless/Button";
-import { Avatar } from "./stateless/Avatar";
+import { Avatar } from "./particles/Avatar";
+import { Button } from "./particles/Button";
 
 export const TeamMembers = () => {
   const { company, unit, team: teamPk } = useParams();

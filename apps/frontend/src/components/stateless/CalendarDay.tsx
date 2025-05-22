@@ -2,7 +2,7 @@ import { FC, memo, useState } from "react";
 import { classNames } from "../../utils/classNames";
 import { Day, Month } from "../../utils/generateYearMonthsDays";
 import { type LeaveDay } from "./YearCalendar";
-import { Popover } from "./Popover";
+import { Popover } from "../particles/Popover";
 import { LeaveRequest } from "./LeaveRequest";
 
 interface CalendarDayProps {

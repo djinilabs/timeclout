@@ -1,6 +1,6 @@
 import { FC, memo } from "react";
 import { Trans } from "@lingui/react/macro";
-import { TimePicker } from "./TimePicker";
+import { TimePicker } from "../particles/TimePicker";
 import { TimeScheduleVisualizer } from "./TimeScheduleVisualizer";
 
 export interface TimeSchedule {

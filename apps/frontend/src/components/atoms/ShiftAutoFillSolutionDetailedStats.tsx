@@ -1,7 +1,7 @@
 import { ScoredShiftSchedule } from "@/scheduler";
-import { ShiftsAutoFillSolutionInconvenienceDeviationStats } from "./ShiftsAutoFillSolutionInconvenienceDeviationStats";
-import { ShiftsAutoFillSolutionScheduleTypeDistributionStats } from "./ShiftsAutoFillSolutionScheduleTypeDistributionStats";
-import { ShiftsAutoFillSolutionTimeDistributionStats } from "./ShiftsAutoFillSolutionTimeDistributionStats";
+import { ShiftsAutoFillSolutionInconvenienceDeviationStats } from "../particles/ShiftsAutoFillSolutionInconvenienceDeviationStats";
+import { ShiftsAutoFillSolutionScheduleTypeDistributionStats } from "../particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats";
+import { ShiftsAutoFillSolutionTimeDistributionStats } from "../particles/ShiftsAutoFillSolutionTimeDistributionStats";
 export interface ShiftAutoFillSolutionDetailedStatsProps {
   schedule: ScoredShiftSchedule;
 }

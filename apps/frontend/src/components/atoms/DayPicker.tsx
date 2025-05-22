@@ -10,7 +10,7 @@ import {
 } from "react-day-picker";
 import { enUS, pt } from "react-day-picker/locale";
 import defaultClassNames from "react-day-picker/style.module.css";
-import { LabeledSwitch } from "./LabeledSwitch";
+import { LabeledSwitch } from "../particles/LabeledSwitch";
 
 const locales: Record<string, Partial<Locale>> = {
   en: enUS,

@@ -57,7 +57,6 @@ export class DayDate {
   }
 
   constructor(...args: [number, number, number] | [Date | string]) {
-    console.log("DayDate constructor args", args);
     let numberDate: [number, number, number] | undefined;
     if (args.length === 3) {
       numberDate = args;

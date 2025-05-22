@@ -6,6 +6,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import toast from "react-hot-toast";
+import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import { DayDate } from "@/day-date";
 import { leaveTypeParser } from "@/settings";
@@ -31,9 +32,8 @@ import { useQuery } from "../hooks/useQuery";
 import { leaveTypeColors } from "../settings/leaveTypes";
 import { leaveTypeIcons } from "../settings/leaveTypes";
 import { useHolidays } from "../hooks/useHolidays";
-import { Suspense } from "./stateless/Suspense";
+import { Suspense } from "./atoms/Suspense";
 import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
-import { i18n } from "@lingui/core";
 
 const CompanyTimeOff = () => {
   const { company } = useParams();

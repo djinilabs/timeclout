@@ -8,7 +8,7 @@ import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettin
 import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { useMutation } from "../hooks/useMutation";
-import { Button } from "./stateless/Button";
+import { Button } from "./particles/Button";
 import {
   QueryCompanyArgs,
   CompanySettingsArgs,

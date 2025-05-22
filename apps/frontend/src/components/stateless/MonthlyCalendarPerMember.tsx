@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 import { Trans } from "@lingui/react/macro";
-import { Avatar } from "./Avatar";
 import { DayDate } from "@/day-date";
+import { Avatar } from "../particles/Avatar";
 
 export interface User {
   pk: string;

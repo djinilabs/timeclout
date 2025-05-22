@@ -17,11 +17,11 @@ import {
   UserSettingsArgs,
 } from "../graphql/graphql";
 import { useMutation } from "../hooks/useMutation";
-import { Button } from "./stateless/Button";
+import { Button } from "./particles/Button";
 import { EditCountryAndRegion } from "./stateless/EditCountryAndRegion";
 import { useQuery } from "../hooks/useQuery";
 import { PermissionInput } from "./stateless/PermissionInput";
-import { FieldComponent } from "./stateless/types";
+import { FieldComponent } from "./types";
 interface CreateOrEditTeamMemberProps {
   teamPk: string;
   memberPk?: string;

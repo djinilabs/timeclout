@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { i18n } from "@lingui/core";
-import { Tabs } from "./stateless/Tabs";
+import { Tabs } from "./molecules/Tabs";
 import { TeamQualifications } from "./TeamQualifications";
 import { TeamSchedulePositionTemplates } from "./TeamSchedulePositionTemplates";
 

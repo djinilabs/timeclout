@@ -1,12 +1,12 @@
 import { FC, useCallback, useState } from "react";
-import { Trans } from "@lingui/react/macro";
-import { DayDate } from "@/day-date";
-import { Button } from "./stateless/Button";
-import { DayPicker } from "./stateless/DayPicker";
-import { useMutation } from "../hooks/useMutation";
-import unassignShiftPositionsMutation from "@/graphql-client/mutations/unassignShiftPositions.graphql";
 import toast from "react-hot-toast";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { DayDate } from "@/day-date";
+import unassignShiftPositionsMutation from "@/graphql-client/mutations/unassignShiftPositions.graphql";
+import { Button } from "./particles/Button";
+import { DayPicker } from "./atoms/DayPicker";
+import { useMutation } from "../hooks/useMutation";
 
 export interface UnassignShiftPositionsDialogProps {
   team: string;

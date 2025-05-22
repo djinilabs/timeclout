@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
 import createCompanyMutation from "@/graphql-client/mutations/createCompany.graphql";
-import { Button } from "../components/stateless/Button";
+import { Button } from "../components/particles/Button";
 import { useMutation } from "../hooks/useMutation";
 import { Mutation, MutationCreateCompanyArgs } from "../graphql/graphql";
 import { Trans } from "@lingui/react/macro";

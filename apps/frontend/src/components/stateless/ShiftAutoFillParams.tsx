@@ -1,10 +1,10 @@
 import { FC, useCallback } from "react";
 import { DayDate } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
-import { RangeSlider } from "./RangeSlider";
-import { LabeledSwitch } from "./LabeledSwitch";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { DayPicker } from "./DayPicker";
+import { RangeSlider } from "../particles/RangeSlider";
+import { LabeledSwitch } from "../particles/LabeledSwitch";
+import { DayPicker } from "../atoms/DayPicker";
 
 export interface ShiftAutoFillParamValues {
   startDate?: DayDate;

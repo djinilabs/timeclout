@@ -8,9 +8,9 @@ import { useQuery } from "../hooks/useQuery";
 import unitWithMembersAndSettingsQuery from "@/graphql-client/queries/unitWithMembersAndSettingsQuery.graphql";
 import updateUnitSettingsMutation from "@/graphql-client/mutations/updateUnitSettings.graphql";
 import { useMutation } from "../hooks/useMutation";
-import { Avatar } from "./stateless/Avatar";
-import { SelectUser } from "./stateless/SelectUser";
-import { Button } from "./stateless/Button";
+import { Avatar } from "./particles/Avatar";
+import { SelectUser } from "./atoms/SelectUser";
+import { Button } from "./particles/Button";
 import {
   QueryUnitArgs,
   Unit,

@@ -5,10 +5,10 @@ import { SchedulerState } from "@/scheduler";
 import { DayDate } from "@/day-date";
 import { ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
 import { getDefined } from "@/utils";
-import { Attention } from "./Attention";
 import { ShiftsAutoFillSolution } from "./ShiftsAutoFillSolution";
-import { VerticalTabs } from "./VerticalTabs";
-import { ColorLabel } from "./ColorLabel";
+import { Attention } from "../particles/Attention";
+import { VerticalTabs } from "../particles/VerticalTabs";
+import { ColorLabel } from "../particles/ColorLabel";
 
 export interface ShiftsAutoFillProgressProps {
   startDate?: DayDate;

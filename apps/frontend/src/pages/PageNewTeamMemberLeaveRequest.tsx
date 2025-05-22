@@ -1,5 +1,5 @@
 import { CreateTeamMemberLeaveRequest } from "../components/CreateTeamMemberLeaveRequest";
-import { Suspense } from "../components/stateless/Suspense";
+import { Suspense } from "../components/atoms/Suspense";
 
 export const PageNewTeamMemberLeaveRequest = () => {
   return (

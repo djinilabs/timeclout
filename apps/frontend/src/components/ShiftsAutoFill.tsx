@@ -8,16 +8,16 @@ import { DayDate, DayDateInterval } from "@/day-date";
 import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
 import { ShiftsAutoFillParams } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { Button } from "./stateless/Button";
-import { Loading } from "./stateless/Loading";
-import { ShiftsAutoFillProgress } from "./stateless/ShiftsAutoFillProgress";
 import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
+import { useLocalPreference } from "../hooks/useLocalPreference";
 import {
   ShiftAutoFillParams,
   ShiftAutoFillParamValues,
 } from "./stateless/ShiftAutoFillParams";
-import { useLocalPreference } from "../hooks/useLocalPreference";
-import { Suspense } from "./stateless/Suspense";
+import { Suspense } from "./atoms/Suspense";
+import { Button } from "./particles/Button";
+import { Loading } from "./particles/Loading";
+import { ShiftsAutoFillProgress } from "./stateless/ShiftsAutoFillProgress";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;

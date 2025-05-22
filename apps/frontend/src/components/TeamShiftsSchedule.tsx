@@ -2,15 +2,15 @@ import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { DayDate, DayDateInterval } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
+import { Transition } from "@headlessui/react";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { getDefined } from "@/utils";
-import { Dialog } from "./stateless/Dialog";
+import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { Dialog } from "./atoms/Dialog";
 import {
   CreateOrEditScheduleShiftPosition,
   User,
 } from "./CreateOrEditScheduleShiftPosition";
-import { Suspense } from "./stateless/Suspense";
-import { ShiftPosition } from "./stateless/ShiftPosition";
 import { useTeamShiftsDragAndDrop } from "../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../hooks/useTeamShiftsClipboard";
 import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
@@ -32,18 +32,18 @@ import {
   useTeamLeaveSchedule,
 } from "../hooks/useTeamLeaveSchedule";
 import { useLocalPreference } from "../hooks/useLocalPreference";
-import { LabeledSwitch } from "./stateless/LabeledSwitch";
-import { toMinutes } from "../utils/toMinutes";
 import { useQuery } from "../hooks/useQuery";
-import { Transition } from "@headlessui/react";
-import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
-import { MemberLeaveInCalendar } from "./stateless/MemberLeaveInCalendar";
+import { Suspense } from "./atoms/Suspense";
+import { ShiftPosition } from "./atoms/ShiftPosition";
+import { LabeledSwitch } from "./particles/LabeledSwitch";
+import { toMinutes } from "../utils/toMinutes";
 import { classNames } from "../utils/classNames";
-import { TeamShiftsCalendar } from "./stateless/TeamShiftsCalendar";
-import { Day } from "./stateless/MonthDailyCalendar";
 import { useSearchParam } from "../hooks/useSearchParam";
-import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import ContextualHelp from "./ContextualHelp";
+import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
+import { TeamShiftsCalendar } from "./stateless/TeamShiftsCalendar";
+import { MemberLeaveInCalendar } from "./stateless/MemberLeaveInCalendar";
+import { Day } from "./particles/MonthDailyCalendar";
 
 export const TeamShiftsSchedule = () => {
   const { team, company } = useParams();

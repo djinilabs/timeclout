@@ -2,12 +2,12 @@ import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import "react-day-picker/style.css";
+import { Trans } from "@lingui/react/macro";
 import { dequal } from "dequal";
 import { DayDate } from "@/day-date";
 import { getDefined } from "@/utils";
 import { SchedulePositionTemplate } from "@/settings";
-import { Trans } from "@lingui/react/macro";
-import { SelectUser } from "./stateless/SelectUser";
+import { SelectUser } from "./atoms/SelectUser";
 import { useQuery } from "../hooks/useQuery";
 import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
 import {
@@ -21,12 +21,12 @@ import {
 } from "../graphql/graphql";
 import { TimeSchedulesEditor } from "./stateless/TimeSchedulesEditor";
 import { EditQualifications } from "./EditQualifications";
-import { Color, ColorPicker } from "./stateless/ColorPicker";
-import { Button } from "./stateless/Button";
+import { Color, ColorPicker } from "./atoms/ColorPicker";
+import { Button } from "./particles/Button";
 import { useTeamWithSettings } from "../hooks/useTeamWithSettings";
 import { useSaveTeamSettings } from "../hooks/useSaveTeamSettings";
-import { ListBox } from "./stateless/ListBox";
-import { DayPicker } from "./stateless/DayPicker";
+import { ListBox } from "./particles/ListBox";
+import { DayPicker } from "./atoms/DayPicker";
 import { calculateShiftPositionSchedulesTotalInconvenience } from "../utils/calculateShiftPositionSchedulesTotalInconvenience";
 
 export interface CreateOrEditScheduleShiftPositionProps {

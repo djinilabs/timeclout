@@ -5,7 +5,7 @@ import { Trans } from "@lingui/react/macro";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import ReactTimeAgo from "react-time-ago";
 import { useQuery } from "../hooks/useQuery";
-import { Button } from "./stateless/Button";
+import { Button } from "./particles/Button";
 import { Query, Unit } from "../graphql/graphql";
 
 const NoUnits = () => {

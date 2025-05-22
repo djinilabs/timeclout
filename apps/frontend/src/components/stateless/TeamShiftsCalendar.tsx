@@ -1,15 +1,15 @@
 import { DayDate } from "@/day-date";
 import { FC, ReactNode, useMemo, useState } from "react";
-import { type Day, MonthDailyCalendar } from "./MonthDailyCalendar";
+import { type Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
 import { i18n } from "@lingui/core";
-import { Tabs } from "./Tabs";
+import { Tabs } from "../molecules/Tabs";
 import {
   MonthlyCalendarPerMember,
   type User,
 } from "./MonthlyCalendarPerMember";
 import { TeamShiftsSummary } from "./TeamShiftsSummary";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
-import { CalendarHeader } from "./CalendarHeader";
+import { CalendarHeader } from "../atoms/CalendarHeader";
 
 export interface TeamShiftsCalendarProps {
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
