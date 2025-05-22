@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, memo, ReactNode, useEffect, useState } from "react";
 import { classNames } from "../../utils/classNames";
 
 export interface VerticalTabsProps {
@@ -9,7 +9,7 @@ export interface VerticalTabsProps {
   }[];
 }
 
-export const VerticalTabs: FC<VerticalTabsProps> = ({ tabs }) => {
+export const VerticalTabs: FC<VerticalTabsProps> = memo(({ tabs }) => {
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0]?.id ?? "");
 
   useEffect(() => {
@@ -44,4 +44,4 @@ export const VerticalTabs: FC<VerticalTabsProps> = ({ tabs }) => {
       {tabs.find((tab) => tab.id === selectedTab)?.content}
     </div>
   );
-};
+});

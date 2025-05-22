@@ -1,14 +1,11 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
-import type { FC, PropsWithChildren, ReactNode } from "react";
+import { memo, type FC, type PropsWithChildren, type ReactNode } from "react";
 
-export interface AttentionProps {
+export type AttentionProps = PropsWithChildren<{
   title: ReactNode;
-}
+}>;
 
-export const Attention: FC<PropsWithChildren<AttentionProps>> = ({
-  children,
-  title,
-}) => {
+export const Attention: FC<AttentionProps> = memo(({ children, title }) => {
   return (
     <div className="rounded-md bg-yellow-50 p-4">
       <div className="flex">
@@ -25,4 +22,4 @@ export const Attention: FC<PropsWithChildren<AttentionProps>> = ({
       </div>
     </div>
   );
-};
+});

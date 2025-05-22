@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 import { toMinutes } from "../../utils/toMinutes";
 
 export interface TimeSchedule {
@@ -28,8 +28,8 @@ const getPrintableEndHour = (endHour: number) => {
   return endHour === 0 ? 24 : endHour;
 };
 
-export const MiniTimeScheduleVisualizer = memo(
-  ({ schedules }: TimeScheduleVisualizerProps) => {
+export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
+  ({ schedules }) => {
     const {
       howManyDaysPercentage,
       startPercent,

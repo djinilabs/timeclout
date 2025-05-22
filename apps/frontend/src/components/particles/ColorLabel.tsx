@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { FC, memo, ReactNode } from "react";
 
 const getColorAndBackground = (md5?: string | null) => {
   if (!md5) {
@@ -27,33 +27,31 @@ export interface ColorLabelProps {
   size?: number;
 }
 
-export const ColorLabel = ({
-  randomString,
-  label,
-  size = 30,
-}: ColorLabelProps) => {
-  const dimensions = {
-    width: `${size}px`,
-    minWidth: `${size}px`,
-    maxWidth: `${size}px`,
-    height: `${size}px`,
-    minHeight: `${size}px`,
-    maxHeight: `${size}px`,
-  };
+export const ColorLabel: FC<ColorLabelProps> = memo(
+  ({ randomString, label, size = 30 }) => {
+    const dimensions = {
+      width: `${size}px`,
+      minWidth: `${size}px`,
+      maxWidth: `${size}px`,
+      height: `${size}px`,
+      minHeight: `${size}px`,
+      maxHeight: `${size}px`,
+    };
 
-  return (
-    <div
-      className="relative inline-flex"
-      style={{
-        ...getColorAndBackground(randomString),
-        ...dimensions,
-        borderRadius: "50%",
-        alignItems: "center",
-        justifyContent: "center",
-        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.15)",
-      }}
-    >
-      {label}
-    </div>
-  );
-};
+    return (
+      <div
+        className="relative inline-flex"
+        style={{
+          ...getColorAndBackground(randomString),
+          ...dimensions,
+          borderRadius: "50%",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.15)",
+        }}
+      >
+        {label}
+      </div>
+    );
+  }
+);
