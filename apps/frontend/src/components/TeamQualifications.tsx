@@ -18,8 +18,8 @@ import updateTeamSettingsMutation from "@/graphql-client/mutations/updateTeamSet
 import { QueryTeamArgs, Team, TeamSettingsArgs } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
 import { useMutation } from "../hooks/useMutation";
-import { Badge } from "./stateless/Badge";
-import { Button } from "./stateless/Button";
+import { Badge } from "./particles/Badge";
+import { Button } from "./particles/Button";
 
 export const TeamQualifications = () => {
   const { team: teamPk } = useParams();

@@ -13,7 +13,7 @@ import {
   Mutation,
   MutationUpdateCompanySettingsArgs,
 } from "../graphql/graphql";
-import { Button } from "./stateless/Button";
+import { Button } from "./particles/Button";
 import { useMutation } from "../hooks/useMutation";
 import { useForm } from "@tanstack/react-form";
 import { yearlyQuotaParser } from "@/settings";

@@ -4,7 +4,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
 import { BookCompanyTimeOff } from "./BookCompanyTimeOff";
-import { SelectUser } from "./stateless/SelectUser";
+import { SelectUser } from "./atoms/SelectUser";
 import teamWithMemberAndTheirSettingsQuery from "@/graphql-client/queries/teamWithMembersAndTheirSettings.graphql";
 import createLeaveRequestForUserMutation from "@/graphql-client/mutations/createLeaveRequestForUser.graphql";
 import createSingleDayLeaveRequestsForUserMutation from "@/graphql-client/mutations/createSingleDayLeaveRequestsForUser.graphql";

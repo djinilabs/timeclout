@@ -1,9 +1,9 @@
 import { FC, useMemo } from "react";
+import { Trans } from "@lingui/react/macro";
+import { DayDate } from "@/day-date";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { toMinutes } from "../../utils/toMinutes";
-import { Trans } from "@lingui/react/macro";
-import { Avatar } from "./Avatar";
-import { DayDate } from "@/day-date";
+import { Avatar } from "../particles/Avatar";
 
 export interface TeamShiftsSummaryProps {
   year: number;

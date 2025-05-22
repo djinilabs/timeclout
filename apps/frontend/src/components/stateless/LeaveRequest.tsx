@@ -1,7 +1,8 @@
 import { memo } from "react";
 import { Trans } from "@lingui/react/macro";
 import { LeaveRequest as LeaveRequestType } from "../../graphql/graphql";
-import { Avatar } from "./Avatar";
+import { Avatar } from "../particles/Avatar";
+
 export type LeaveRequestProps = Pick<
   LeaveRequestType,
   | "createdBy"

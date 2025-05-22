@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Button } from "../Button";
+import { Button } from "../../particles/Button";
 import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 

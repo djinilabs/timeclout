@@ -1,5 +1,5 @@
 import { FC, memo } from "react";
-import { Badge } from "./Badge";
+import { Badge } from "../particles/Badge";
 import { type ColorName } from "@/settings";
 
 export interface Badge {

@@ -10,17 +10,17 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { colors } from "@/settings";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
-import { Avatar } from "./Avatar";
 import { classNames } from "../../utils/classNames";
 import {
   type TimeSchedule,
   MiniTimeScheduleVisualizer,
-} from "./MiniTimeScheduleVisualizer";
+} from "../particles/MiniTimeScheduleVisualizer";
 import {
   ShiftPositionWithRowSpan,
   type ShiftPositionWithFake,
 } from "../../hooks/useTeamShiftPositionsMap";
-import { Popover } from "./Popover";
+import { Avatar } from "../particles/Avatar";
+import { Popover } from "../particles/Popover";
 import { toMinutes } from "../../utils/toMinutes";
 
 export interface ShiftPositionProps {

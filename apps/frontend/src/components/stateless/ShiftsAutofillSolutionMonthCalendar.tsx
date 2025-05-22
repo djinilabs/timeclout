@@ -1,20 +1,20 @@
-import { DayDate } from "@/day-date";
-import { Day, MonthDailyCalendar } from "./MonthDailyCalendar";
-import { classNames } from "../../utils/classNames";
-import { ShiftPosition } from "./ShiftPosition";
-import { Avatar } from "./Avatar";
 import { FC, memo, useCallback, useMemo, useState } from "react";
+import { DayDate } from "@/day-date";
+import { Transition } from "@headlessui/react";
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { SchedulerState } from "@/scheduler";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { LeaveRenderInfo } from "../../hooks/useTeamLeaveSchedule";
-import { SchedulerState } from "@/scheduler";
-import { Tabs } from "./Tabs";
-import { i18n } from "@lingui/core";
+import { classNames } from "../../utils/classNames";
+import { Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
+import { ShiftPosition } from "../atoms/ShiftPosition";
+import { Avatar } from "../particles/Avatar";
+import { Tabs } from "../molecules/Tabs";
+import { LabeledSwitch } from "../particles/LabeledSwitch";
 import { MonthlyCalendarPerMember, User } from "./MonthlyCalendarPerMember";
 import { TeamShiftsSummary } from "./TeamShiftsSummary";
-import { CalendarHeader } from "./CalendarHeader";
-import { LabeledSwitch } from "./LabeledSwitch";
-import { Trans } from "@lingui/react/macro";
-import { Transition } from "@headlessui/react";
+import { CalendarHeader } from "../atoms/CalendarHeader";
 import { MemberLeaveInCalendar } from "./MemberLeaveInCalendar";
 
 export interface ShiftsAutofillSolutionMonthCalendarProps {

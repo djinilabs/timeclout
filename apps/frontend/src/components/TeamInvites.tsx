@@ -5,12 +5,12 @@ import ReactTimeAgo from "react-time-ago";
 import { Trans } from "@lingui/react/macro";
 import invitationsToTeamQuery from "@/graphql-client/queries/invitationsToTeam.graphql";
 import deleteInvitationMutation from "@/graphql-client/mutations/deleteInvitation.graphql";
-import { Button } from "./stateless/Button";
-import { useQuery } from "../hooks/useQuery";
 import { Invitation, QueryInvitationsToArgs } from "../graphql/graphql";
-import { Avatar } from "./stateless/Avatar";
-import { permissionTypeToString } from "../utils/permissionTypeToString";
+import { useQuery } from "../hooks/useQuery";
 import { useMutation } from "../hooks/useMutation";
+import { permissionTypeToString } from "../utils/permissionTypeToString";
+import { Button } from "./particles/Button";
+import { Avatar } from "./particles/Avatar";
 
 export const TeamInvites = () => {
   const { company, unit, team } = useParams();

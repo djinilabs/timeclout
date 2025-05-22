@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
-import { Tabs } from "../components/stateless/Tabs";
-import { Suspense } from "../components/stateless/Suspense";
+import { Tabs } from "../components/molecules/Tabs";
+import { Suspense } from "../components/atoms/Suspense";
 import { useQuery } from "../hooks/useQuery";
 import { Query, QueryCompanyArgs } from "../graphql/graphql";
 

@@ -1,14 +1,15 @@
 import { useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { i18n } from "@lingui/core";
 import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
 import { getDefined } from "@/utils";
-import { AllUnitTeams } from "../components/AllUnitTeams";
-import { Tabs } from "../components/stateless/Tabs";
-import { UnitSettings } from "../components/UnitSettings";
-import { Suspense } from "../components/stateless/Suspense";
-import { useParams } from "react-router-dom";
-import { useQuery } from "../hooks/useQuery";
 import { Query, QueryUnitArgs } from "../graphql/graphql";
+import { useQuery } from "../hooks/useQuery";
+import { AllUnitTeams } from "../components/AllUnitTeams";
+import { Tabs } from "../components/molecules/Tabs";
+import { UnitSettings } from "../components/UnitSettings";
+import { Suspense } from "../components/atoms/Suspense";
+
 export const PageUnit = () => {
   const { unit: unitPk } = useParams();
   const [queryResponse] = useQuery<{ unit: Query["unit"] }, QueryUnitArgs>({

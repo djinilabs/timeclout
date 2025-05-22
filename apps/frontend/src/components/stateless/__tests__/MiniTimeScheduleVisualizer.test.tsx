@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import {
   MiniTimeScheduleVisualizer,
   type TimeSchedule,
-} from "../MiniTimeScheduleVisualizer";
+} from "../../particles/MiniTimeScheduleVisualizer";
 
 describe("MiniTimeScheduleVisualizer", () => {
   const mockSchedules: TimeSchedule[] = [
@@ -49,7 +49,9 @@ describe("MiniTimeScheduleVisualizer", () => {
     const { container } = render(
       <MiniTimeScheduleVisualizer schedules={mockSchedules} />
     );
-    const scheduleBars = container.querySelectorAll(".absolute.h-full.rounded-sm");
+    const scheduleBars = container.querySelectorAll(
+      ".absolute.h-full.rounded-sm"
+    );
 
     expect(scheduleBars).toHaveLength(2);
 

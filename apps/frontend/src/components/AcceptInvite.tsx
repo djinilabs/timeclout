@@ -7,7 +7,7 @@ import invitationBySecretQuery from "@/graphql-client/queries/invitationBySecret
 import acceptInvitationMutation from "@/graphql-client/mutations/acceptInvitation.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { permissionTypeToString } from "../utils/permissionTypeToString";
-import { Button } from "./stateless/Button";
+import { Button } from "./particles/Button";
 import { useMutation } from "../hooks/useMutation";
 import {
   Mutation,

@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Avatar } from "./Avatar";
+import { Avatar } from "../particles/Avatar";
 import { User, type LeaveDay } from "./TeamLeaveSchedule";
 
 export interface MemberLeaveInCalendarProps {

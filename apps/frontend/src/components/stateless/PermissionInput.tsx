@@ -1,7 +1,7 @@
 import { i18n } from "@lingui/core";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
-import { ListBox } from "./ListBox";
-import { FieldComponent } from "./types";
+import { ListBox } from "../particles/ListBox";
+import { FieldComponent } from "../types";
 
 export interface PermissionInputProps {
   Field: FieldComponent;

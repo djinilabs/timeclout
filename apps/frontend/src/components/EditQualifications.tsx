@@ -3,9 +3,9 @@ import { dequal } from "dequal";
 import { useParams } from "react-router-dom";
 import { Qualifications } from "@/settings";
 import { unique } from "@/utils";
-import { Badges } from "./stateless/Badges";
-import { Badge } from "./stateless/Badge";
-import { Button } from "./stateless/Button";
+import { Badges } from "./atoms/Badges";
+import { Badge } from "./particles/Badge";
+import { Button } from "./particles/Button";
 import { Trans } from "@lingui/react/macro";
 
 export interface EditQualificationsProps {

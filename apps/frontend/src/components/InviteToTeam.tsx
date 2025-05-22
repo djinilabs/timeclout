@@ -7,9 +7,9 @@ import { i18n } from "@lingui/core";
 import inviteToTeamMutation from "@/graphql-client/mutations/inviteToTeam.graphql";
 import { useMutation } from "../hooks/useMutation";
 import { Mutation, MutationCreateInvitationArgs } from "../graphql/graphql";
-import { Button } from "./stateless/Button";
+import { Button } from "./particles/Button";
 import { PermissionInput } from "./stateless/PermissionInput";
-import { FieldComponent } from "./stateless/types";
+import { FieldComponent } from "./types";
 
 export interface InviteToTeamProps {
   teamPk: string;

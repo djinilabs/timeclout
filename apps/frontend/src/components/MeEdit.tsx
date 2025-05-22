@@ -13,11 +13,11 @@ import {
   Query,
 } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { useMutation } from "../hooks/useMutation";
-import { Button } from "./stateless/Button";
-import { EditCountryAndRegion } from "./stateless/EditCountryAndRegion";
-import { FieldComponent } from "./stateless/types";
 import { useTour } from "../hooks/useTour";
+import { useMutation } from "../hooks/useMutation";
+import { Button } from "./particles/Button";
+import { EditCountryAndRegion } from "./stateless/EditCountryAndRegion";
+import { FieldComponent } from "./types";
 
 export const MeEdit = () => {
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });

@@ -7,7 +7,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FC, memo, ReactNode, useCallback } from "react";
 import { Trans } from "@lingui/react/macro";
 import { months } from "../../utils/months";
-import { Button } from "./Button";
+import { Button } from "../particles/Button";
 
 export interface CalendarHeaderProps {
   year: number;

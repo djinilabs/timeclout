@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
-import { Avatar } from "./Avatar";
 import { LeaveRequest } from "../../graphql/graphql";
+import { Avatar } from "../particles/Avatar";
 
 export interface LeaveRequestsProps {
   leaveRequests?: LeaveRequest[];

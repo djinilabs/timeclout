@@ -7,7 +7,7 @@ import {
   ComboboxOptions,
 } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { Avatar } from "./Avatar";
+import { Avatar } from "../particles/Avatar";
 import { i18n } from "@lingui/core";
 
 export interface User {

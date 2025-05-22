@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { LeaveRequest } from "../components/LeaveRequest";
-import { Suspense } from "../components/stateless/Suspense";
+import { Suspense } from "../components/atoms/Suspense";
 export const PageLeaveRequest = () => {
   const [searchParams] = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");

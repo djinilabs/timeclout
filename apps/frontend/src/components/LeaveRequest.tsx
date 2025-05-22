@@ -2,19 +2,19 @@ import { useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 import leaveRequestQuery from "@/graphql-client/queries/leaveRequest.graphql";
 import approveLeaveRequestMutation from "@/graphql-client/mutations/approveLeaveRequest.graphql";
 import rejectLeaveRequestMutation from "@/graphql-client/mutations/rejectLeaveRequest.graphql";
 import deleteLeaveRequestMutation from "@/graphql-client/mutations/deleteLeaveRequest.graphql";
 import { useQuery } from "../hooks/useQuery";
+import { useMutation } from "../hooks/useMutation";
 import {
   LeaveRequest as LeaveRequestType,
   QueryLeaveRequestArgs,
 } from "../graphql/graphql";
-import { LeaveRequest as LeaveRequestComponent } from "../components/stateless/LeaveRequest";
-import { Button } from "../components/stateless/Button";
-import { useMutation } from "../hooks/useMutation";
-import { i18n } from "@lingui/core";
+import { LeaveRequest as LeaveRequestComponent } from "./stateless/LeaveRequest";
+import { Button } from "./particles/Button";
 
 export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
   const navigate = useNavigate();

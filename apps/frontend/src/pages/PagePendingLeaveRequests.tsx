@@ -1,6 +1,6 @@
 import { Trans } from "@lingui/react/macro";
 import { PendingLeaveRequests } from "../components/PendingLeaveRequests";
-import { Suspense } from "../components/stateless/Suspense";
+import { Suspense } from "../components/atoms/Suspense";
 
 const PagePendingLeaveRequests = () => {
   return (

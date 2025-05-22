@@ -6,7 +6,7 @@ import { Trans } from "@lingui/react/macro";
 import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
 import { type Company } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { Button } from "./stateless/Button";
+import { Button } from "./particles/Button";
 
 const NoCompanies = () => {
   const navigate = useNavigate();
