@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { Query, QueryCompanyArgs } from "../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { Query, QueryCompanyArgs } from "../../graphql/graphql";
 
 export const BreadcrumbNav = () => {
   const { company: companyPk, unit: unitPk, team: teamPk } = useParams();

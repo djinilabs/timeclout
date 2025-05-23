@@ -1,6 +1,6 @@
 import { FC, lazy, Suspense } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import { RequiresSession } from "./components/RequiresSession";
+import { RequiresSession } from "./components/molecules/RequiresSession";
 import { RequiresSelfSettings } from "./components/RequiresSelfSettings";
 import { AppLayout } from "./AppLayout";
 
