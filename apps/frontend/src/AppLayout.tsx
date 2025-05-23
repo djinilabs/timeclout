@@ -13,7 +13,9 @@ import { useLocalPreference } from "./hooks/useLocalPreference";
 import { BreadcrumbNav } from "./components/particles/BreadcrumbNav";
 import { classNames } from "./utils/classNames";
 
-const ContextualHelp = lazy(() => import("./components/ContextualHelp"));
+const ContextualHelp = lazy(
+  () => import("./components/molecules/ContextualHelp")
+);
 const SideBar = lazy(() => import("./components/molecules/SideBar"));
 
 export const AppLayout: FC<PropsWithChildren> = ({ children }) => {

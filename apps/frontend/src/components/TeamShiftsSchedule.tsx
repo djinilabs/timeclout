@@ -39,11 +39,11 @@ import { LabeledSwitch } from "./particles/LabeledSwitch";
 import { toMinutes } from "../utils/toMinutes";
 import { classNames } from "../utils/classNames";
 import { useSearchParam } from "../hooks/useSearchParam";
-import ContextualHelp from "./ContextualHelp";
-import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
 import { TeamShiftsCalendar } from "./stateless/TeamShiftsCalendar";
 import { MemberLeaveInCalendar } from "./stateless/MemberLeaveInCalendar";
 import { Day } from "./particles/MonthDailyCalendar";
+import ContextualHelp from "./molecules/ContextualHelp";
+import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
 
 export const TeamShiftsSchedule = () => {
   const { team, company } = useParams();

@@ -1,11 +1,11 @@
 import { FC, memo, useState } from "react";
 import { classNames } from "../../utils/classNames";
 import { Day, Month } from "../../utils/generateYearMonthsDays";
-import { type LeaveDay } from "./YearCalendar";
+import { type LeaveDay } from "../types";
 import { Popover } from "../particles/Popover";
 import { LeaveRequest } from "./LeaveRequest";
 
-interface CalendarDayProps {
+interface TimeOffCalendarDayProps {
   day: Day;
   dayIdx: number;
   month: Month;
@@ -15,7 +15,7 @@ interface CalendarDayProps {
   holiday: string | undefined;
 }
 
-export const CalendarDay: FC<CalendarDayProps> = memo(
+export const TimeOffCalendarDay: FC<TimeOffCalendarDayProps> = memo(
   ({ day, dayIdx, month, isLeave, isHovering, setHoveringDay, holiday }) => {
     const [referenceElement, setReferenceElement] =
       useState<HTMLElement | null>(null);

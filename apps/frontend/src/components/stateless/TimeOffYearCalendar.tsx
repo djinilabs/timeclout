@@ -1,4 +1,4 @@
-import { memo, useMemo, useState, type ReactNode } from "react";
+import { memo, useMemo, useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
   ChevronLeftIcon,
@@ -7,29 +7,8 @@ import {
 } from "@heroicons/react/20/solid";
 import { Trans } from "@lingui/react/macro";
 import { generateYearMonthsDays } from "../../utils/generateYearMonthsDays";
-import { User } from "../../graphql/graphql";
-import { CalendarDay } from "./CalendarDay";
-
-export interface LeaveRequest {
-  startDate: string;
-  endDate: string;
-  type: string;
-  approved?: boolean | null;
-  reason?: string | null;
-  createdAt: string;
-  createdBy: User;
-  approvedBy?: User[] | null;
-  approvedAt?: string[] | null;
-  beneficiary: User;
-  pk: string;
-  sk: string;
-}
-export interface LeaveDay {
-  type: string;
-  icon?: ReactNode;
-  color?: string;
-  leaveRequest?: LeaveRequest;
-}
+import { TimeOffCalendarDay } from "./TimeOffCalendarDay";
+import { LeaveDay } from "../types";
 
 export interface YearCalendarProps {
   year: number;
@@ -39,7 +18,7 @@ export interface YearCalendarProps {
   holidays?: Record<string, string>;
 }
 
-export const YearCalendar = memo(
+export const TimeOffYearCalendar = memo(
   ({
     year,
     goToYear,
@@ -167,7 +146,7 @@ export const YearCalendar = memo(
                     const isLeave = calendarDateMap[day.date];
                     const isHovering = hoveringDay === day.date;
                     return (
-                      <CalendarDay
+                      <TimeOffCalendarDay
                         key={day.date}
                         day={day}
                         dayIdx={dayIdx}

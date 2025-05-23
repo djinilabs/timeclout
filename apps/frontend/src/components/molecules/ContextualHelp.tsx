@@ -1,6 +1,6 @@
 import { useParams, useSearchParams } from "react-router-dom";
-import { getContextualHelp } from "../locales/contextual-help";
 import { Trans } from "@lingui/react/macro";
+import { getContextualHelp } from "../../locales/contextual-help";
 
 export const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();
@@ -10,16 +10,6 @@ export const ContextualHelpContent = () => {
   const dialog = searchParams.get("dialog") || undefined;
   const teamShiftScheduleDialog =
     searchParams.get("team-shift-schedule-dialog") || undefined;
-
-  console.log("ContextualHelpContent params:", {
-    company,
-    unit,
-    team,
-    tab,
-    settingsTab,
-    dialog,
-    teamShiftScheduleDialog,
-  });
 
   const helpContent = getContextualHelp(
     company,

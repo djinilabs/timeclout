@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { YearCalendar } from "../YearCalendar";
+import { TimeOffYearCalendar } from "../TimeOffYearCalendar";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
 import { BrowserRouter } from "react-router-dom";
@@ -14,7 +14,7 @@ class ResizeObserverMock {
 }
 global.ResizeObserver = ResizeObserverMock;
 
-describe("YearCalendar", () => {
+describe("TimeOffYearCalendar", () => {
   const defaultProps = {
     year: 2024,
     goToYear: vi.fn(),
@@ -64,13 +64,13 @@ describe("YearCalendar", () => {
   });
 
   it("renders year in header", () => {
-    renderWithProviders(<YearCalendar {...defaultProps} />);
+    renderWithProviders(<TimeOffYearCalendar {...defaultProps} />);
     const yearElement = screen.getByText("2024");
     expect(yearElement).toBeInTheDocument();
   });
 
   it("renders all months", () => {
-    renderWithProviders(<YearCalendar {...defaultProps} />);
+    renderWithProviders(<TimeOffYearCalendar {...defaultProps} />);
     const months = [
       "January",
       "February",
@@ -92,7 +92,7 @@ describe("YearCalendar", () => {
   });
 
   it("renders weekday headers for each month", () => {
-    renderWithProviders(<YearCalendar {...defaultProps} />);
+    renderWithProviders(<TimeOffYearCalendar {...defaultProps} />);
 
     const months = screen.getAllByRole("heading", { level: 2 });
 
@@ -116,7 +116,7 @@ describe("YearCalendar", () => {
   });
 
   it("renders calendar grid for each month", () => {
-    renderWithProviders(<YearCalendar {...defaultProps} />);
+    renderWithProviders(<TimeOffYearCalendar {...defaultProps} />);
 
     const marchHeading = screen.getByRole("heading", { name: "March" });
     const marchSection = marchHeading.parentElement;
@@ -128,7 +128,7 @@ describe("YearCalendar", () => {
   });
 
   it("handles navigation buttons", () => {
-    renderWithProviders(<YearCalendar {...defaultProps} />);
+    renderWithProviders(<TimeOffYearCalendar {...defaultProps} />);
 
     // Previous year
     const prevButton = screen.getByRole("button", { name: /previous year/i });
@@ -149,7 +149,7 @@ describe("YearCalendar", () => {
   });
 
   it("handles book time off action", () => {
-    renderWithProviders(<YearCalendar {...defaultProps} />);
+    renderWithProviders(<TimeOffYearCalendar {...defaultProps} />);
 
     const bookTimeOffButton = screen.getByRole("button", {
       name: /request time off/i,
@@ -160,7 +160,7 @@ describe("YearCalendar", () => {
 
   it("handles mobile menu", async () => {
     const user = userEvent.setup();
-    renderWithProviders(<YearCalendar {...defaultProps} />);
+    renderWithProviders(<TimeOffYearCalendar {...defaultProps} />);
 
     // Open menu
     const menuButton = screen.getByRole("button", { name: /open menu/i });

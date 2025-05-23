@@ -1,4 +1,5 @@
 import { FC, ReactNode } from "react";
+import { type User } from "../graphql/graphql";
 
 export type FieldValue = {
   name: string;
@@ -19,3 +20,25 @@ export type FieldComponent = FC<{
   };
   children?: (field: FieldValue) => ReactNode;
 }>;
+
+export interface LeaveRequest {
+  startDate: string;
+  endDate: string;
+  type: string;
+  approved?: boolean | null;
+  reason?: string | null;
+  createdAt: string;
+  createdBy: User;
+  approvedBy?: User[] | null;
+  approvedAt?: string[] | null;
+  beneficiary: User;
+  pk: string;
+  sk: string;
+}
+
+export interface LeaveDay {
+  type: string;
+  icon?: ReactNode;
+  color?: string;
+  leaveRequest?: LeaveRequest;
+}
