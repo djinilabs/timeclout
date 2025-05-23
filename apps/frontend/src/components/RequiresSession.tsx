@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Login from "./Login";
 
 export const RequiresSession: FC<PropsWithChildren> = ({ children }) => {
-  const { status } = useSession();
+  const { status } = useSession({ required: false });
   if (status === "unauthenticated") {
     return <Login />;
   }
