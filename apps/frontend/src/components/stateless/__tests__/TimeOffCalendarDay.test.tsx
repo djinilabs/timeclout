@@ -1,12 +1,12 @@
 import { describe, expect, it, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { CalendarDay } from "../CalendarDay";
 import { vi } from "vitest";
-import { type LeaveDay } from "../YearCalendar";
+import { type LeaveDay } from "../../types";
+import { TimeOffCalendarDay } from "../TimeOffCalendarDay";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
 
-describe("CalendarDay", () => {
+describe("TimeOffCalendarDay", () => {
   const mockDay = {
     date: "2024-03-15",
     isCurrentMonth: true,
@@ -59,20 +59,20 @@ describe("CalendarDay", () => {
   });
 
   it("renders a basic calendar day", () => {
-    render(<CalendarDay {...defaultProps} />);
+    render(<TimeOffCalendarDay {...defaultProps} />);
     const dayElement = screen.getByText("🌴");
     expect(dayElement).toBeInTheDocument();
   });
 
   it("applies current month styling", () => {
-    render(<CalendarDay {...defaultProps} />);
+    render(<TimeOffCalendarDay {...defaultProps} />);
     const button = screen.getByRole("button");
     expect(button).toHaveClass("bg-white", "text-gray-900");
   });
 
   it("applies other month styling", () => {
     render(
-      <CalendarDay
+      <TimeOffCalendarDay
         {...defaultProps}
         day={{ ...mockDay, isCurrentMonth: false }}
       />
@@ -83,7 +83,10 @@ describe("CalendarDay", () => {
 
   it("highlights today", () => {
     render(
-      <CalendarDay {...defaultProps} day={{ ...mockDay, isToday: true }} />
+      <TimeOffCalendarDay
+        {...defaultProps}
+        day={{ ...mockDay, isToday: true }}
+      />
     );
     const timeElement = screen.getByText("🌴");
     expect(timeElement).toHaveClass("bg-teal-600", "text-white");
@@ -96,12 +99,12 @@ describe("CalendarDay", () => {
       color: "#ff0000",
       leaveRequest: defaultLeaveRequest,
     };
-    render(<CalendarDay {...defaultProps} isLeave={leaveProps} />);
+    render(<TimeOffCalendarDay {...defaultProps} isLeave={leaveProps} />);
     expect(screen.getByText("🌴")).toBeInTheDocument();
   });
 
   it("shows holiday indicator", () => {
-    render(<CalendarDay {...defaultProps} holiday="New Year's Day" />);
+    render(<TimeOffCalendarDay {...defaultProps} holiday="New Year's Day" />);
     const timeElement = screen.getByRole("time");
     expect(timeElement).toHaveClass("bg-red-500", "text-white");
   });
@@ -115,7 +118,7 @@ describe("CalendarDay", () => {
       leaveRequest: defaultLeaveRequest,
     };
     render(
-      <CalendarDay
+      <TimeOffCalendarDay
         {...defaultProps}
         isLeave={leaveProps}
         setHoveringDay={setHoveringDay}
@@ -135,7 +138,7 @@ describe("CalendarDay", () => {
       leaveRequest: defaultLeaveRequest,
     };
     render(
-      <CalendarDay
+      <TimeOffCalendarDay
         {...defaultProps}
         isLeave={leaveProps}
         setHoveringDay={setHoveringDay}
@@ -158,7 +161,11 @@ describe("CalendarDay", () => {
     document.body.appendChild(popperContainer);
     render(
       <I18nProvider i18n={i18n}>
-        <CalendarDay {...defaultProps} isLeave={leaveProps} isHovering={true} />
+        <TimeOffCalendarDay
+          {...defaultProps}
+          isLeave={leaveProps}
+          isHovering={true}
+        />
       </I18nProvider>
     );
 
@@ -170,7 +177,7 @@ describe("CalendarDay", () => {
   it.skip("shows popover on hover for holiday", () => {
     render(
       <I18nProvider i18n={i18n}>
-        <CalendarDay
+        <TimeOffCalendarDay
           {...defaultProps}
           holiday="Christmas Day"
           isHovering={true}

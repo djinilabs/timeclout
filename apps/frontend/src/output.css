@@ -2220,6 +2220,12 @@
       background-color: var(--color-teal-600);
     }
   }
+  .focus-within\:outline {
+    &:focus-within {
+      outline-style: var(--tw-outline-style);
+      outline-width: 1px;
+    }
+  }
   .focus-within\:outline-2 {
     &:focus-within {
       outline-style: var(--tw-outline-style);
