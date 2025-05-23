@@ -1,5 +1,5 @@
 import { DayDate } from "@/day-date";
-import { FC, ReactNode, useMemo, useState } from "react";
+import { FC, PropsWithChildren, ReactNode, useMemo, useState } from "react";
 import { type Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
 import { i18n } from "@lingui/core";
 import { Tabs } from "../molecules/Tabs";
@@ -40,7 +40,9 @@ export interface TeamShiftsCalendarProps {
   onAdd?: () => unknown;
 }
 
-export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
+export const TeamShiftsCalendar: FC<
+  PropsWithChildren<TeamShiftsCalendarProps>
+> = ({ children, ...props }) => {
   const tabs = useMemo(
     () => [
       { name: i18n.t("By day"), href: "by-day" },
@@ -55,6 +57,7 @@ export const TeamShiftsCalendar: FC<TeamShiftsCalendarProps> = (props) => {
     <div>
       <CalendarHeader {...props} />
       <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
+        {children}
         <div className="mt-8">
           {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
           {tab.href === "by-member" && <MonthlyCalendarPerMember {...props} />}

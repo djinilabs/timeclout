@@ -2,7 +2,7 @@ import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { DayDate, DayDateInterval } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
-import { Transition } from "@headlessui/react";
+import { Transition, TransitionChild } from "@headlessui/react";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { getDefined } from "@/utils";
 import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
@@ -44,6 +44,11 @@ import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
 import { TeamShiftsCalendar } from "./stateless/TeamShiftsCalendar";
 import { MemberLeaveInCalendar } from "./stateless/MemberLeaveInCalendar";
 import { Day } from "./particles/MonthDailyCalendar";
+import { AnalyzeTeamShiftsCalendarMenu } from "./stateless/AnalyzeTeamShiftsCalendarMenu";
+import {
+  AnalyzedShiftPosition,
+  useAnalyzeTeamShiftsCalendar,
+} from "../hooks/useAnalyzeTeamShiftsCalendar";
 
 export const TeamShiftsSchedule = () => {
   const { team, company } = useParams();
@@ -107,11 +112,26 @@ export const TeamShiftsSchedule = () => {
     false
   );
 
-  const { shiftPositionsMap } = useTeamShiftPositionsMap({
-    draggingShiftPosition,
-    shiftPositionsResult,
-    spillTime: showScheduleDetails,
-  });
+  let shiftPositionsMap: Record<string, AnalyzedShiftPosition[]> =
+    useTeamShiftPositionsMap({
+      draggingShiftPosition,
+      shiftPositionsResult,
+      spillTime: showScheduleDetails,
+    }).shiftPositionsMap;
+
+  const [showAnalyzeMenu, setShowAnalyzeMenu] = useLocalPreference(
+    "team-shifts-calendar-show-analyze-menu",
+    false
+  );
+
+  const { analyzedShiftPositionsMap, ...analyzeParams } =
+    useAnalyzeTeamShiftsCalendar({
+      shiftPositionsMap,
+    });
+
+  shiftPositionsMap = showAnalyzeMenu
+    ? analyzedShiftPositionsMap
+    : shiftPositionsMap;
 
   // ------- focus navigation -------
 
@@ -778,11 +798,23 @@ export const TeamShiftsSchedule = () => {
                 />
               ),
             },
+            {
+              type: "component",
+              component: (
+                <LabeledSwitch
+                  label={<Trans>Analyze</Trans>}
+                  checked={showAnalyzeMenu}
+                  onChange={setShowAnalyzeMenu}
+                />
+              ),
+            },
           ],
           [
             setIsDialogOpen,
+            setShowAnalyzeMenu,
             setShowLeaveSchedule,
             setShowScheduleDetails,
+            showAnalyzeMenu,
             showLeaveSchedule,
             showScheduleDetails,
             teamResult?.resourcePermission,
@@ -802,7 +834,15 @@ export const TeamShiftsSchedule = () => {
           setEditingShiftPosition(undefined);
           setIsDialogOpen("create");
         }}
-      />
+      >
+        <Transition show={showAnalyzeMenu} appear>
+          <TransitionChild>
+            <div className="mt-4 transition duration-300 ease-in data-[closed]:opacity-0">
+              <AnalyzeTeamShiftsCalendarMenu {...analyzeParams} />
+            </div>
+          </TransitionChild>
+        </Transition>
+      </TeamShiftsCalendar>
     </div>
   );
 };
