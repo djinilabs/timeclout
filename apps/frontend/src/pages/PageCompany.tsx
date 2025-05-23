@@ -9,7 +9,9 @@ import { useQuery } from "../hooks/useQuery";
 import { Query, QueryCompanyArgs } from "../graphql/graphql";
 
 const PageNotFound = lazy(() => import("./PageNotFound"));
-const AllCompanyUnits = lazy(() => import("../components/AllCompanyUnits"));
+const AllCompanyUnits = lazy(
+  () => import("../components/company/AllCompanyUnits")
+);
 const CompanySettings = lazy(
   () => import("../components/company/CompanySettings")
 );
@@ -17,7 +19,7 @@ const CompanyTimeOff = lazy(
   () => import("../components/company/CompanyTimeOff")
 );
 const PendingCompanyLeaveRequests = lazy(
-  () => import("../components/PendingCompanyLeaveRequests")
+  () => import("../components/company/PendingCompanyLeaveRequests")
 );
 const MyLeaveRequests = lazy(() => import("../components/MyLeaveRequests"));
 

@@ -33,7 +33,7 @@ import { leaveTypeColors } from "../../settings/leaveTypes";
 import { leaveTypeIcons } from "../../settings/leaveTypes";
 import { useHolidays } from "../../hooks/useHolidays";
 import { Suspense } from "../atoms/Suspense";
-import { MyQuotaFulfilment } from "../MyQuotaFulfilment";
+import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
 import { LeaveDay } from "../types";
 
 const CompanyTimeOff = () => {

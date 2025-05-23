@@ -18,7 +18,7 @@ import {
   User,
 } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { MemberQuotaFulfilment } from "./MemberQuotaFulfilment";
+import { MemberQuotaFulfilment } from "./company/MemberQuotaFulfilment";
 import { useMutation } from "../hooks/useMutation";
 import { i18n } from "@lingui/core";
 
