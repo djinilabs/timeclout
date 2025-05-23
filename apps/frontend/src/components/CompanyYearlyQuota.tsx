@@ -101,7 +101,7 @@ export const CompanyYearlyQuota = () => {
                     <select
                       id="resetMonth"
                       name="resetMonth"
-                      className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       onChange={(e) => {
                         field.handleChange(Number(e.target.value));
                       }}
@@ -176,7 +176,7 @@ export const CompanyYearlyQuota = () => {
                       id="defaultQuota"
                       min="0"
                       max="365"
-                      className="ol-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      className="ol-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       value={field.state.value}
                       onChange={(e) => {
                         field.handleChange(Number(e.target.value));
