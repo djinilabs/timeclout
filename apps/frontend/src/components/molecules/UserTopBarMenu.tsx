@@ -6,10 +6,10 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
 import meQuery from "@/graphql-client/queries/me.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { Query } from "../graphql/graphql";
-import { Avatar } from "./particles/Avatar";
-import { Suspense } from "./atoms/Suspense";
+import { useQuery } from "../../hooks/useQuery";
+import { Query } from "../../graphql/graphql";
+import { Avatar } from "../particles/Avatar";
+import { Suspense } from "../atoms/Suspense";
 
 export const LoadingUserTopBarMenu = () => {
   const userNavigation = useMemo(

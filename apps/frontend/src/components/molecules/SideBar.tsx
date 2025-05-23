@@ -10,13 +10,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
+import { Link, useLocation, useParams } from "react-router-dom";
 import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
 import allUnitsQuery from "@/graphql-client/queries/allUnits.graphql";
 import allTeamsQuery from "@/graphql-client/queries/allTeams.graphql";
-import { classNames } from "../utils/classNames";
-import { Link, useLocation, useParams } from "react-router-dom";
-import { Company, Team, Unit } from "../graphql/graphql";
-import { useQuery } from "../hooks/useQuery";
+import { Company, Team, Unit } from "../../graphql/graphql";
+import { classNames } from "../../utils/classNames";
+import { useQuery } from "../../hooks/useQuery";
 
 export interface NavigationItem {
   name: string;

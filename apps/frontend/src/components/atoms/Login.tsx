@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession, signIn } from "next-auth/react";
 import { Trans } from "@lingui/react/macro";
-import { Button } from "../components/particles/Button";
+import { Button } from "../particles/Button";
 
 const Login: FC = () => {
   const { status } = useSession();
