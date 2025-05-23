@@ -6,16 +6,16 @@ import { getDefined } from "@/utils";
 import { worksScheduleParser } from "@/settings";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { useMutation } from "../hooks/useMutation";
-import { Button } from "./particles/Button";
+import { useQuery } from "../../hooks/useQuery";
+import { useMutation } from "../../hooks/useMutation";
+import { Button } from "../particles/Button";
 import {
   QueryCompanyArgs,
   CompanySettingsArgs,
   Query,
   Mutation,
   MutationUpdateCompanySettingsArgs,
-} from "../graphql/graphql";
+} from "../../graphql/graphql";
 import { i18n } from "@lingui/core";
 
 const workDays = [

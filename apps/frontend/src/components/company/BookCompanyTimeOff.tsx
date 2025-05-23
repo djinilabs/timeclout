@@ -9,17 +9,17 @@ import { getDefined } from "@/utils";
 import { leaveTypeParser } from "@/settings";
 import { DayDate } from "@/day-date";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import { Button } from "./particles/Button";
-import { useQuery } from "../hooks/useQuery";
-import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
-import { useHolidays } from "../hooks/useHolidays";
+import { Button } from "../particles/Button";
+import { useQuery } from "../../hooks/useQuery";
+import { leaveTypeColors, leaveTypeIcons } from "../../settings/leaveTypes";
+import { useHolidays } from "../../hooks/useHolidays";
 import {
   CompanySettingsArgs,
   Query,
   QueryCompanyArgs,
-} from "../graphql/graphql";
-import { Suspense } from "./atoms/Suspense";
-import { DayPicker } from "./atoms/DayPicker";
+} from "../../graphql/graphql";
+import { Suspense } from "../atoms/Suspense";
+import { DayPicker } from "../atoms/DayPicker";
 
 export type DateRange = [startDate?: string, endDate?: string];
 

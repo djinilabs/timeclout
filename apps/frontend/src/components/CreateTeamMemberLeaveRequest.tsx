@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
-import { BookCompanyTimeOff } from "./BookCompanyTimeOff";
+import { BookCompanyTimeOff } from "./company/BookCompanyTimeOff";
 import { SelectUser } from "./atoms/SelectUser";
 import teamWithMemberAndTheirSettingsQuery from "@/graphql-client/queries/teamWithMembersAndTheirSettings.graphql";
 import createLeaveRequestForUserMutation from "@/graphql-client/mutations/createLeaveRequestForUser.graphql";

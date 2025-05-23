@@ -10,8 +10,12 @@ import { Query, QueryCompanyArgs } from "../graphql/graphql";
 
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const AllCompanyUnits = lazy(() => import("../components/AllCompanyUnits"));
-const CompanySettings = lazy(() => import("../components/CompanySettings"));
-const CompanyTimeOff = lazy(() => import("../components/CompanyTimeOff"));
+const CompanySettings = lazy(
+  () => import("../components/company/CompanySettings")
+);
+const CompanyTimeOff = lazy(
+  () => import("../components/company/CompanyTimeOff")
+);
 const PendingCompanyLeaveRequests = lazy(
   () => import("../components/PendingCompanyLeaveRequests")
 );
