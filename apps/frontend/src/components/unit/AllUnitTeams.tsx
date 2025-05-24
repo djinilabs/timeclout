@@ -4,8 +4,8 @@ import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
 import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { Query, Team } from "../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { Query, Team } from "../../graphql/graphql";
 
 const NoTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
@@ -36,7 +36,7 @@ const NoTeams = () => {
       <div className="mt-6">
         <button
           type="button"
-          className="new-team-button inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+          className="new-team-button inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
           onClick={() => {
             navigate(`/companies/${companyPk}/units/${unitPk}/teams/new`);
           }}
@@ -78,7 +78,7 @@ export const AllUnitTeams = () => {
                 onClick={() => {
                   navigate(`/companies/${companyPk}/units/${unitPk}/teams/new`);
                 }}
-                className="new-team-button ml-4 mt-2 shrink-0 relative inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+                className="new-team-button ml-4 mt-2 shrink-0 relative inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
               >
                 <Trans>Create new team</Trans>
               </button>

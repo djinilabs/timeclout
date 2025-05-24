@@ -5,9 +5,9 @@ import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
 import { getDefined } from "@/utils";
 import { Query, QueryUnitArgs } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { AllUnitTeams } from "../components/AllUnitTeams";
+import { AllUnitTeams } from "../components/unit/AllUnitTeams";
 import { Tabs } from "../components/molecules/Tabs";
-import { UnitSettings } from "../components/UnitSettings";
+import { UnitSettings } from "../components/unit/UnitSettings";
 import { Suspense } from "../components/atoms/Suspense";
 
 export const PageUnit = () => {

@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
-import { BookCompanyTimeOff } from "./BookCompanyTimeOff";
-import { SelectUser } from "./atoms/SelectUser";
+import { BookCompanyTimeOff } from "../company/BookCompanyTimeOff";
+import { SelectUser } from "../atoms/SelectUser";
 import teamWithMemberAndTheirSettingsQuery from "@/graphql-client/queries/teamWithMembersAndTheirSettings.graphql";
 import createLeaveRequestForUserMutation from "@/graphql-client/mutations/createLeaveRequestForUser.graphql";
 import createSingleDayLeaveRequestsForUserMutation from "@/graphql-client/mutations/createSingleDayLeaveRequestsForUser.graphql";
@@ -16,10 +16,10 @@ import {
   Team,
   TeamSettingsArgs,
   User,
-} from "../graphql/graphql";
-import { useQuery } from "../hooks/useQuery";
-import { MemberQuotaFulfilment } from "./MemberQuotaFulfilment";
-import { useMutation } from "../hooks/useMutation";
+} from "../../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { MemberQuotaFulfilment } from "../company/MemberQuotaFulfilment";
+import { useMutation } from "../../hooks/useMutation";
 import { i18n } from "@lingui/core";
 
 export const CreateTeamMemberLeaveRequest = () => {

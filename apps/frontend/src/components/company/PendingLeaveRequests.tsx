@@ -1,7 +1,7 @@
 import pendingLeaveRequestsQuery from "@/graphql-client/queries/myPendingLeaveRequests.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { Query } from "../graphql/graphql";
-import { LeaveRequests } from "./stateless/LeaveRequests";
+import { useQuery } from "../../hooks/useQuery";
+import { Query } from "../../graphql/graphql";
+import { LeaveRequests } from "../stateless/LeaveRequests";
 
 export interface PendingLeaveRequestsProps {
   companyPk?: string;

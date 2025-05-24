@@ -1,4 +1,4 @@
-import { MeEdit } from "../components/MeEdit";
+import { MeEdit } from "../components/personal/MeEdit";
 
 const PageMeEdit = () => {
   return <MeEdit />;

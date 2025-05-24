@@ -2,8 +2,8 @@ import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { Trans } from "@lingui/react/macro";
 import { leaveTypeParser } from "@/settings";
-import { IconPicker } from "./particles/IconPicker";
-import { ColorPicker } from "./atoms/ColorPicker";
+import { IconPicker } from "../particles/IconPicker";
+import { ColorPicker } from "../atoms/ColorPicker";
 
 export type LeaveTypeEditorProps = {
   settings: unknown;

@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren } from "react";
 import { Navigate } from "react-router-dom";
 import meQuery from "@/graphql-client/queries/me.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { Query, User } from "../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { Query, User } from "../../graphql/graphql";
 
 const isSelfSettingsComplete = (me: User) => {
   return me?.name && me?.email !== me.name;

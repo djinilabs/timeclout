@@ -5,16 +5,16 @@ import { Trans } from "@lingui/react/macro";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
 import { getDefined } from "@/utils";
-import { useQuery } from "../hooks/useQuery";
+import { useQuery } from "../../hooks/useQuery";
 import {
   QueryCompanyArgs,
   CompanySettingsArgs,
   Query,
   Mutation,
   MutationUpdateCompanySettingsArgs,
-} from "../graphql/graphql";
-import { Button } from "./particles/Button";
-import { useMutation } from "../hooks/useMutation";
+} from "../../graphql/graphql";
+import { Button } from "../particles/Button";
+import { useMutation } from "../../hooks/useMutation";
 import { useForm } from "@tanstack/react-form";
 import { yearlyQuotaParser } from "@/settings";
 import { i18n } from "@lingui/core";

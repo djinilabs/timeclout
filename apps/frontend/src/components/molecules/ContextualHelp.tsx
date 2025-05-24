@@ -1,6 +1,6 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
-import { getContextualHelp } from "../../locales/contextual-help";
+import { getContextualHelp } from "../contextual-help";
 
 export const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();

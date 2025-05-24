@@ -1,31 +1,39 @@
+import { FC } from "react";
 import { Trans } from "@lingui/react/macro";
-import myQuotaFulfilmentQuery from "@/graphql-client/queries/myQuotaFulfilment.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { Query, QueryMyQuotaFulfilmentArgs } from "../graphql/graphql";
+import memberQuotaFulfilmentQuery from "@/graphql-client/queries/memberQuotaFulfilment.graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { Query, QueryMemberQuotaFulfilmentArgs } from "../../graphql/graphql";
 
-export interface MyQuotaFulfilmentProps {
+export interface MemberQuotaFulfilmentProps {
   companyPk: string;
+  teamPk: string;
+  userPk: string;
   simulatesLeave: boolean;
   simulatesLeaveType: string;
   startDate: string;
   endDate: string;
 }
 
-export const MyQuotaFulfilment = ({
+export const MemberQuotaFulfilment: FC<MemberQuotaFulfilmentProps> = ({
   companyPk,
+  teamPk,
+  userPk,
   startDate,
   endDate,
   simulatesLeave,
   simulatesLeaveType,
-}: MyQuotaFulfilmentProps) => {
-  const [myQuotaFulfilment] = useQuery<
-    { myQuotaFulfilment: Query["myQuotaFulfilment"] },
-    QueryMyQuotaFulfilmentArgs
+}) => {
+  const [memberQuotaFulfilment] = useQuery<
+    { memberQuotaFulfilment: Query["memberQuotaFulfilment"] },
+    QueryMemberQuotaFulfilmentArgs
   >({
-    query: myQuotaFulfilmentQuery,
+    query: memberQuotaFulfilmentQuery,
     pause: !startDate || !endDate,
+    toastIfError: false,
     variables: {
       companyPk,
+      teamPk,
+      userPk,
       startDate,
       endDate,
       simulatesLeave,
@@ -35,7 +43,7 @@ export const MyQuotaFulfilment = ({
 
   return (
     <ul>
-      {myQuotaFulfilment.data?.myQuotaFulfilment.map((quota) => {
+      {memberQuotaFulfilment.data?.memberQuotaFulfilment.map((quota) => {
         const simulatedDaysLeft =
           quota.quota -
           quota.approvedUsed -
@@ -49,12 +57,12 @@ export const MyQuotaFulfilment = ({
             <span>
               <Trans>
                 For the quota starting at {quota.quotaStartDate} and ending at{" "}
-                {quota.quotaEndDate} you have used{" "}
+                {quota.quotaEndDate} they have used{" "}
                 <b>{quota.approvedUsed} days</b> and have{" "}
                 <b>{quota.pendingApprovalUsed} days</b> pending approval.
               </Trans>
             </span>
-            {simulatesLeave && quota.simulatedUsed && (
+            {simulatesLeave && quota.simulatedUsed ? (
               <>
                 <span>
                   <Trans>
@@ -64,7 +72,7 @@ export const MyQuotaFulfilment = ({
                   {simulatedDaysLeft >= 0 ? (
                     <>
                       <Trans>
-                        leaving you with <b>{simulatedDaysLeft} days</b> left.
+                        leaving them with <b>{simulatedDaysLeft} days</b> left.
                       </Trans>
                     </>
                   ) : (
@@ -73,16 +81,14 @@ export const MyQuotaFulfilment = ({
                 </span>
                 <span>
                   {simulatedDaysLeft < 0 && (
-                    <>
-                      <Trans>
-                        You will have exceeded your quota by{" "}
-                        <b>{-simulatedDaysLeft} days</b>.
-                      </Trans>
-                    </>
+                    <Trans>
+                      They will have exceeded their quota by{" "}
+                      <b>{-simulatedDaysLeft} days</b>.
+                    </Trans>
                   )}
                 </span>
               </>
-            )}
+            ) : null}
           </li>
         );
       })}

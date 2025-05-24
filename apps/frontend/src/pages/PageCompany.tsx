@@ -9,13 +9,21 @@ import { useQuery } from "../hooks/useQuery";
 import { Query, QueryCompanyArgs } from "../graphql/graphql";
 
 const PageNotFound = lazy(() => import("./PageNotFound"));
-const AllCompanyUnits = lazy(() => import("../components/AllCompanyUnits"));
-const CompanySettings = lazy(() => import("../components/CompanySettings"));
-const CompanyTimeOff = lazy(() => import("../components/CompanyTimeOff"));
-const PendingCompanyLeaveRequests = lazy(
-  () => import("../components/PendingCompanyLeaveRequests")
+const AllCompanyUnits = lazy(
+  () => import("../components/company/AllCompanyUnits")
 );
-const MyLeaveRequests = lazy(() => import("../components/MyLeaveRequests"));
+const CompanySettings = lazy(
+  () => import("../components/company/CompanySettings")
+);
+const CompanyTimeOff = lazy(
+  () => import("../components/company/CompanyTimeOff")
+);
+const PendingCompanyLeaveRequests = lazy(
+  () => import("../components/company/PendingCompanyLeaveRequests")
+);
+const MyLeaveRequests = lazy(
+  () => import("../components/personal/MyLeaveRequests")
+);
 
 export const PageCompany: FC = () => {
   const { company: companyPk } = useParams();

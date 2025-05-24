@@ -3,10 +3,10 @@ import { Trans } from "@lingui/react/macro";
 import { LeaveTypes, leaveTypeParser } from "@/settings";
 import { getDefined } from "@/utils";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
-import { CompanySettingsArgs, Query } from "../graphql/graphql";
-import { QueryCompanyArgs } from "../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { leaveTypeColors, leaveTypeIcons } from "../../settings/leaveTypes";
+import { CompanySettingsArgs, Query } from "../../graphql/graphql";
+import { QueryCompanyArgs } from "../../graphql/graphql";
 
 export const CompanyLeaveTypes = () => {
   const { company: companyPk } = useParams();

@@ -14,9 +14,9 @@ import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRe
 import myLeaveCalendarQuery from "@/graphql-client/queries/myLeaveCalendar.graphql";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import mySettingsQuery from "@/graphql-client/queries/mySettings.graphql";
-import { TimeOffYearCalendar } from "./stateless/TimeOffYearCalendar";
+import { TimeOffYearCalendar } from "../stateless/TimeOffYearCalendar";
 import { BookCompanyTimeOff, type TimeOffRequest } from "./BookCompanyTimeOff";
-import { useMutation } from "../hooks/useMutation";
+import { useMutation } from "../../hooks/useMutation";
 import {
   Calendar,
   CompanySettingsArgs,
@@ -27,14 +27,14 @@ import {
   MutationCreateSingleDayLeaveRequestsArgs,
   Query,
   QueryCompanyArgs,
-} from "../graphql/graphql";
-import { useQuery } from "../hooks/useQuery";
-import { leaveTypeColors } from "../settings/leaveTypes";
-import { leaveTypeIcons } from "../settings/leaveTypes";
-import { useHolidays } from "../hooks/useHolidays";
-import { Suspense } from "./atoms/Suspense";
+} from "../../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { leaveTypeColors } from "../../settings/leaveTypes";
+import { leaveTypeIcons } from "../../settings/leaveTypes";
+import { useHolidays } from "../../hooks/useHolidays";
+import { Suspense } from "../atoms/Suspense";
 import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
-import { LeaveDay } from "./types";
+import { LeaveDay } from "../types";
 
 const CompanyTimeOff = () => {
   const { company } = useParams();

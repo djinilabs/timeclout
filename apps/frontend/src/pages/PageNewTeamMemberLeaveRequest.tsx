@@ -1,4 +1,4 @@
-import { CreateTeamMemberLeaveRequest } from "../components/CreateTeamMemberLeaveRequest";
+import { CreateTeamMemberLeaveRequest } from "../components/team/CreateTeamMemberLeaveRequest";
 import { Suspense } from "../components/atoms/Suspense";
 
 export const PageNewTeamMemberLeaveRequest = () => {

@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/react/macro";
-import { PendingLeaveRequests } from "../components/PendingLeaveRequests";
+import { PendingLeaveRequests } from "../components/company/PendingLeaveRequests";
 import { Suspense } from "../components/atoms/Suspense";
 
 const PagePendingLeaveRequests = () => {
