@@ -21,7 +21,9 @@ const CompanyTimeOff = lazy(
 const PendingCompanyLeaveRequests = lazy(
   () => import("../components/company/PendingCompanyLeaveRequests")
 );
-const MyLeaveRequests = lazy(() => import("../components/MyLeaveRequests"));
+const MyLeaveRequests = lazy(
+  () => import("../components/personal/MyLeaveRequests")
+);
 
 export const PageCompany: FC = () => {
   const { company: companyPk } = useParams();

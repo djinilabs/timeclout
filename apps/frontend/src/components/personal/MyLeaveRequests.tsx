@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useQuery } from "../hooks/useQuery";
+import { useQuery } from "../../hooks/useQuery";
 import myLeaveRequestsQuery from "@/graphql-client/queries/myLeaveRequests.graphql";
-import { Query } from "../graphql/graphql";
-import { LeaveRequests } from "./stateless/LeaveRequests";
+import { Query } from "../../graphql/graphql";
+import { LeaveRequests } from "../stateless/LeaveRequests";
 
 const MyLeaveRequests = () => {
   const { company } = useParams();

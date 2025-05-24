@@ -1,19 +1,20 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { getDefined } from "../../../../libs/utils/src";
+import { i18n } from "@lingui/core";
+import { getDefined } from "@/utils";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { LeaveTypeEditor } from "./LeaveTypeEditor";
-import { useMutation } from "../hooks/useMutation";
 import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
-import {
+import { useQuery } from "../../hooks/useQuery";
+import type {
   CompanySettingsArgs,
   Mutation,
   MutationUpdateCompanySettingsArgs,
   Query,
   QueryCompanyArgs,
-} from "../graphql/graphql";
-import { i18n } from "@lingui/core";
+} from "../../graphql/graphql";
+import { useMutation } from "../../hooks/useMutation";
+import { LeaveTypeEditor } from "../molecules/LeaveTypeEditor";
+
 const settingEditor: Record<
   string,
   React.FC<{ settings: unknown; onSubmit: (values: unknown) => void }>

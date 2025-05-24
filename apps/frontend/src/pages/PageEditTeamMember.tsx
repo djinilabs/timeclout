@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { getDefined } from "@/utils";
-import { CreateOrEditTeamMember } from "../components/CreateOrEditTeamMember";
+import { CreateOrEditTeamMember } from "../components/team/CreateOrEditTeamMember";
 import { Suspense } from "../components/atoms/Suspense";
 
 export const PageEditTeamMember = () => {

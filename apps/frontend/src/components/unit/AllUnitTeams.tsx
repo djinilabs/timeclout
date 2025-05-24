@@ -4,8 +4,8 @@ import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
 import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { Query, Team } from "../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { Query, Team } from "../../graphql/graphql";
 
 const NoTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
