@@ -38,8 +38,8 @@ importers:
         specifier: ^2.7.4
         version: 2.9.1(@aws-sdk/client-dynamodb@3.817.0)(@aws-sdk/lib-dynamodb@3.817.0(@aws-sdk/client-dynamodb@3.817.0))
       '@auth/express':
-        specifier: ^0.9.0
-        version: 0.9.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(express@4.21.2)
+        specifier: ^0.10.0
+        version: 0.10.1(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(express@4.21.2)
       '@aws-lite/apigatewaymanagementapi-types':
         specifier: ^0.0.13
         version: 0.0.13
@@ -471,8 +471,8 @@ packages:
       '@aws-sdk/client-dynamodb': ^3.36.1
       '@aws-sdk/lib-dynamodb': ^3.36.1
 
-  '@auth/express@0.9.0':
-    resolution: {integrity: sha512-86ud3XKcSr956giFN0YTdlGwbg9g5rsmUtcekxVZ0hy/M2Wv20bT4SXRj7kSWruGYmFYKlCFJeWarrZIFY5qrA==}
+  '@auth/express@0.10.1':
+    resolution: {integrity: sha512-P+W32En+p85aL0kKO12a+m0uv7j3bCnWkzaD35l+JJT+PSvLI0pndYaUdCxTeW/dcyZhTyHooPesQfAAE1sBjg==}
     peerDependencies:
       express: ^4.18.2 || ^5.0.0
 
@@ -7457,9 +7457,9 @@ snapshots:
       - '@simplewebauthn/server'
       - nodemailer
 
-  '@auth/express@0.9.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(express@4.21.2)':
+  '@auth/express@0.10.1(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(express@4.21.2)':
     dependencies:
-      '@auth/core': 0.38.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)
+      '@auth/core': 0.39.1(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)
       express: 4.21.2
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
