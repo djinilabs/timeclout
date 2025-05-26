@@ -1,15 +1,14 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
-import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import ReactTimeAgo from "react-time-ago";
-import { useQuery } from "../../hooks/useQuery";
+import { type Unit } from "../../graphql/graphql";
 import { Button } from "../particles/Button";
-import { Query, Unit } from "../../graphql/graphql";
+import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 
 const NoUnits = () => {
-  const { company: companyPk } = useParams();
+  const { companyPk } = useEntityNavigationContext();
   const navigate = useNavigate();
   return (
     <div className="text-center">
@@ -51,17 +50,7 @@ const NoUnits = () => {
 };
 
 const AllCompanyUnits = () => {
-  const { company: companyPk } = useParams();
-
-  const [queryResponse] = useQuery<{ company: Query["company"] }>({
-    query: companyQuery,
-    variables: {
-      companyPk,
-    },
-    pollingIntervalMs: 10000,
-  });
-
-  const company = queryResponse.data?.company;
+  const { company } = useEntityNavigationContext();
 
   return (
     <div>
