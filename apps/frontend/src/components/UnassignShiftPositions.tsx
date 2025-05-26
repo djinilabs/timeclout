@@ -8,15 +8,17 @@ import { Button } from "./particles/Button";
 import { DayPicker } from "./atoms/DayPicker";
 import { useMutation } from "../hooks/useMutation";
 
-export interface UnassignShiftPositionsDialogProps {
+export interface UnassignShiftPositionsProps {
   team: string;
   onClose: () => void;
-  onUnassign: () => void;
+  onUnassign?: () => void;
 }
 
-export const UnassignShiftPositionsDialog: FC<
-  UnassignShiftPositionsDialogProps
-> = ({ team, onClose, onUnassign }) => {
+export const UnassignShiftPositions: FC<UnassignShiftPositionsProps> = ({
+  team,
+  onClose,
+  onUnassign,
+}) => {
   const [dateRange, setDateRange] = useState<{
     from: DayDate;
     to: DayDate;
@@ -40,7 +42,7 @@ export const UnassignShiftPositionsDialog: FC<
 
     if (!result.error) {
       toast.success(i18n.t("Shift positions unassigned successfully"));
-      onUnassign();
+      onUnassign?.();
       onClose();
     }
   }, [dateRange, onClose, onUnassign, team, unassignShiftPositions]);
