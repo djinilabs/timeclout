@@ -223,7 +223,7 @@ importers:
     devDependencies:
       '@architect/architect':
         specifier: ^11.1.0
-        version: 11.2.0
+        version: 11.2.2
       '@architect/plugin-typescript':
         specifier: ^2.1.0
         version: 2.1.0
@@ -340,8 +340,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@architect/architect@11.2.0':
-    resolution: {integrity: sha512-sBLZOa6vTG1F0fHULc3CmrK7458aGS0Zxqbt8inB1yVtqiSP2lDM2+Dizgqreh9gI92D8JHc0j1jP6q659ZYAA==}
+  '@architect/architect@11.2.2':
+    resolution: {integrity: sha512-tHwDUqJPI2TN7O3o4nhBb494eZ3GPOdQjBhmIhxLxDIkv1FRB3QIpISs46/oS9rJs308pFL7d7NMvxxKf9m7PA==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -378,8 +378,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  '@architect/inventory@4.0.6':
-    resolution: {integrity: sha512-vCKfoogAQmHPXDgCU76lvHsmmMdMoLDOEi21f6kq31G++lpqhY6+68fsOxnV1iakDY6tXV5YeZ0WGLOBa37/fA==}
+  '@architect/inventory@4.0.9':
+    resolution: {integrity: sha512-u2huwBc3JgiM0bGLPyBy0NjcF2mtnmFWwgFl7+E72jG3BcJl1QwQqXdaHygI2WblsH4BG8C19A47Er9QKOGdiw==}
     engines: {node: '>=16'}
 
   '@architect/logs@5.0.5':
@@ -387,8 +387,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  '@architect/package@9.0.3':
-    resolution: {integrity: sha512-k21bX5xmGfGLr9wPy+TweN8OaMscf4nPYeVotf35rzdhCfnEBax3Tyi3GY8v0WyJ2jgxPzu7CrsgnhG8goIxag==}
+  '@architect/package@9.0.4':
+    resolution: {integrity: sha512-/0jJ6afPypTOSaagWPk+HvGjXuXXIHDcUa1chYtn01x3nVWTH1RkRnLLJZgh6CvsG+vE7jl/u8mcaX522IV7yw==}
     engines: {node: '>=16'}
 
   '@architect/parser@7.0.1':
@@ -7148,14 +7148,14 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@architect/architect@11.2.0':
+  '@architect/architect@11.2.2':
     dependencies:
       '@architect/create': 5.0.3
       '@architect/deploy': 5.0.8
       '@architect/destroy': 4.0.5
       '@architect/env': 4.0.5
       '@architect/hydrate': 4.0.8
-      '@architect/inventory': 4.0.6
+      '@architect/inventory': 4.0.9
       '@architect/logs': 5.0.5
       '@architect/sandbox': 6.0.5(patch_hash=1226dfbd45bad482250582dc4bd351f2abc9d1c5aebcea7f04cf6e48ce92f065)
       '@architect/utils': 4.0.6
@@ -7176,7 +7176,7 @@ snapshots:
 
   '@architect/create@5.0.3':
     dependencies:
-      '@architect/inventory': 4.0.6
+      '@architect/inventory': 4.0.9
       '@architect/utils': 4.0.6
       chalk: 4.1.2
       lambda-runtimes: 2.0.5
@@ -7186,8 +7186,8 @@ snapshots:
     dependencies:
       '@architect/create': 5.0.3
       '@architect/hydrate': 4.0.8
-      '@architect/inventory': 4.0.6
-      '@architect/package': 9.0.3
+      '@architect/inventory': 4.0.9
+      '@architect/package': 9.0.4
       '@architect/utils': 4.0.6
       '@aws-lite/apigatewayv2': 0.0.4
       '@aws-lite/client': 0.21.10
@@ -7211,7 +7211,7 @@ snapshots:
 
   '@architect/destroy@4.0.5':
     dependencies:
-      '@architect/inventory': 4.0.6
+      '@architect/inventory': 4.0.9
       '@architect/utils': 4.0.6
       '@aws-lite/client': 0.21.10
       '@aws-lite/cloudformation': 0.0.5
@@ -7224,7 +7224,7 @@ snapshots:
 
   '@architect/env@4.0.5':
     dependencies:
-      '@architect/inventory': 4.0.6
+      '@architect/inventory': 4.0.9
       '@architect/parser': 7.0.1
       '@architect/utils': 4.0.6
       '@aws-lite/client': 0.21.10
@@ -7254,7 +7254,7 @@ snapshots:
 
   '@architect/hydrate@4.0.8':
     dependencies:
-      '@architect/inventory': 4.0.6
+      '@architect/inventory': 4.0.9
       '@architect/utils': 4.0.6
       acorn-loose: 8.4.0
       chalk: 4.1.2
@@ -7264,7 +7264,7 @@ snapshots:
       run-series: 1.1.9
       symlink-or-copy: 1.3.1
 
-  '@architect/inventory@4.0.6':
+  '@architect/inventory@4.0.9':
     dependencies:
       '@architect/asap': 7.0.10
       '@architect/parser': 7.0.1
@@ -7275,7 +7275,7 @@ snapshots:
 
   '@architect/logs@5.0.5':
     dependencies:
-      '@architect/inventory': 4.0.6
+      '@architect/inventory': 4.0.9
       '@architect/utils': 4.0.6
       '@aws-lite/client': 0.21.10
       '@aws-lite/cloudformation': 0.0.5
@@ -7286,9 +7286,9 @@ snapshots:
       run-waterfall: 1.1.7
       strftime: 0.10.3
 
-  '@architect/package@9.0.3':
+  '@architect/package@9.0.4':
     dependencies:
-      '@architect/inventory': 4.0.6
+      '@architect/inventory': 4.0.9
       '@architect/utils': 4.0.6
 
   '@architect/parser@7.0.1': {}
@@ -7304,7 +7304,7 @@ snapshots:
       '@architect/asap': 7.0.10
       '@architect/create': 5.0.3
       '@architect/hydrate': 4.0.8
-      '@architect/inventory': 4.0.6
+      '@architect/inventory': 4.0.9
       '@architect/utils': 4.0.6
       '@aws-lite/client': 0.21.10
       '@aws-lite/dynamodb': 0.3.9
@@ -11681,7 +11681,7 @@ snapshots:
   abstract-leveldown@6.2.3:
     dependencies:
       buffer: 5.7.1
-      immediate: 3.3.0
+      immediate: 3.2.3
       level-concat-iterator: 2.0.1
       level-supports: 1.0.1
       xtend: 4.0.2
@@ -14830,7 +14830,7 @@ snapshots:
       pupa: 2.1.1
       registry-auth-token: 5.1.0
       registry-url: 5.1.0
-      semver: 7.7.1
+      semver: 7.7.2
       semver-diff: 3.1.1
       xdg-basedir: 4.0.0
     transitivePeerDependencies:
