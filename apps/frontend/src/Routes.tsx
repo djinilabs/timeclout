@@ -1,8 +1,8 @@
 import { FC, lazy, Suspense } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import { RequiresSession } from "./components/molecules/RequiresSession";
 import { RequiresSelfSettings } from "./components/personal/RequiresSelfSettings";
 import { AppLayout } from "./AppLayout";
+import { EntityNavigationContextProvider } from "./contexts/EntityNavigationContext";
 
 const LazyCompanies = lazy(() => import("./routes/Companies"));
 const LazyNewCompany = lazy(() => import("./routes/NewCompany"));
@@ -31,153 +31,73 @@ export const AppRoutes: FC = () => {
     <Routes>
       <Route
         element={
-          <AppLayout>
-            <Suspense>
-              <Outlet />
-            </Suspense>
-          </AppLayout>
+          <EntityNavigationContextProvider>
+            <AppLayout>
+              <Suspense>
+                <Outlet />
+              </Suspense>
+            </AppLayout>
+          </EntityNavigationContextProvider>
         }
       >
         <Route
           path="/"
           element={
-            <RequiresSession>
-              <RequiresSelfSettings>
-                <LazyCompanies />
-              </RequiresSelfSettings>
-            </RequiresSession>
+            <RequiresSelfSettings>
+              <LazyCompanies />
+            </RequiresSelfSettings>
           }
         />
 
         <Route
           path="/companies"
           element={
-            <RequiresSession>
-              <RequiresSelfSettings>
-                <LazyCompanies />
-              </RequiresSelfSettings>
-            </RequiresSession>
+            <RequiresSelfSettings>
+              <LazyCompanies />
+            </RequiresSelfSettings>
           }
         />
-        <Route
-          path="/me/edit"
-          element={
-            <RequiresSession>
-              <LazyPageMeEdit />
-            </RequiresSession>
-          }
-        />
+        <Route path="/me/edit" element={<LazyPageMeEdit />} />
         <Route
           path="/leave-requests/pending"
-          element={
-            <RequiresSession>
-              <LazyPagePendingLeaveRequests />
-            </RequiresSession>
-          }
+          element={<LazyPagePendingLeaveRequests />}
         />
-        <Route
-          path="/invites/accept"
-          element={
-            <RequiresSession>
-              <LazyInviteAccept />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/new"
-          element={
-            <RequiresSession>
-              <LazyNewCompany />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/:company"
-          element={
-            <RequiresSession>
-              <LazyCompany />
-            </RequiresSession>
-          }
-        />
+        <Route path="/invites/accept" element={<LazyInviteAccept />} />
+        <Route path="/companies/new" element={<LazyNewCompany />} />
+        <Route path="/companies/:company" element={<LazyCompany />} />
         <Route
           path="/companies/:company/units/:unit/teams/:team/leave-requests/new"
-          element={
-            <RequiresSession>
-              <LazyNewTeamMemberLeaveRequest />
-            </RequiresSession>
-          }
+          element={<LazyNewTeamMemberLeaveRequest />}
         />
         <Route
           path="/companies/:company/users/:user/leave-requests/:startDate/:endDate/:leaveType"
-          element={
-            <RequiresSession>
-              <LazyLeaveRequest />
-            </RequiresSession>
-          }
+          element={<LazyLeaveRequest />}
         />
         <Route
           path="/companies/:company/settings/:settingName/:settingId"
-          element={
-            <RequiresSession>
-              <LazyCompanySettings />
-            </RequiresSession>
-          }
+          element={<LazyCompanySettings />}
         />
-        <Route
-          path="/companies/:company/units/new"
-          element={
-            <RequiresSession>
-              <LazyNewUnit />
-            </RequiresSession>
-          }
-        />
-        <Route
-          path="/companies/:company/units/:unit"
-          element={
-            <RequiresSession>
-              <LazyUnit />
-            </RequiresSession>
-          }
-        />
+        <Route path="/companies/:company/units/new" element={<LazyNewUnit />} />
         <Route
           path="/companies/:company/units/:unit/teams/new"
-          element={
-            <RequiresSession>
-              <LazyNewTeam />
-            </RequiresSession>
-          }
+          element={<LazyNewTeam />}
         />
+        <Route path="/companies/:company/units/:unit" element={<LazyUnit />} />
         <Route
           path="/companies/:company/units/:unit/teams/:team"
-          element={
-            <RequiresSession>
-              <LazyTeam />
-            </RequiresSession>
-          }
+          element={<LazyTeam />}
         />
         <Route
           path="/companies/:company/units/:unit/teams/:team/invites/new"
-          element={
-            <RequiresSession>
-              <LazyNewTeamInvite />
-            </RequiresSession>
-          }
+          element={<LazyNewTeamInvite />}
         />
         <Route
           path="/companies/:company/units/:unit/teams/:team/members/new"
-          element={
-            <RequiresSession>
-              <LazyNewTeamMember />
-            </RequiresSession>
-          }
+          element={<LazyNewTeamMember />}
         />
         <Route
           path="/companies/:company/units/:unit/teams/:team/users/:member"
-          element={
-            <RequiresSession>
-              <LazyEditTeamMember />
-            </RequiresSession>
-          }
+          element={<LazyEditTeamMember />}
         />
         <Route path="*" element={<LazyPageNotFound />} />
       </Route>

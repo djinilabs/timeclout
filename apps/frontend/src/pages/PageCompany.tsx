@@ -1,12 +1,8 @@
 import { FC, lazy, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
 import { i18n } from "@lingui/core";
-import { getDefined } from "@/utils";
-import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import { Tabs } from "../components/molecules/Tabs";
 import { Suspense } from "../components/atoms/Suspense";
-import { useQuery } from "../hooks/useQuery";
-import { Query, QueryCompanyArgs } from "../graphql/graphql";
+import { useEntityNavigationContext } from "../hooks/useEntityNavigationContext";
 
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const AllCompanyUnits = lazy(
@@ -26,18 +22,8 @@ const MyLeaveRequests = lazy(
 );
 
 export const PageCompany: FC = () => {
-  const { company: companyPk } = useParams();
-  const [queryResponse] = useQuery<
-    { company: Query["company"] },
-    QueryCompanyArgs
-  >({
-    query: companyQuery,
-    variables: {
-      companyPk: getDefined(companyPk, "No company provided"),
-    },
-  });
+  const { company } = useEntityNavigationContext();
 
-  const company = queryResponse.data?.company;
   const tabs = useMemo(
     () => [
       { name: i18n.t("Company Units"), href: "units" },

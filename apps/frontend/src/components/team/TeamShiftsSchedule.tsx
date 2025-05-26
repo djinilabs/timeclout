@@ -1,9 +1,8 @@
 import { MouseEvent, useCallback, useMemo, useState } from "react";
-import { useParams, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import { DayDate, DayDateInterval } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
 import { Transition, TransitionChild } from "@headlessui/react";
-import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { getDefined } from "@/utils";
 import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { Dialog } from "../atoms/Dialog";
@@ -21,18 +20,13 @@ import {
   ShiftPositionWithRowSpan,
   useTeamShiftPositionsMap,
 } from "../../hooks/useTeamShiftPositionsMap";
-import {
-  Query,
-  QueryTeamArgs,
-  ShiftPosition as ShiftPositionType,
-} from "../../graphql/graphql";
+import { ShiftPosition as ShiftPositionType } from "../../graphql/graphql";
 import { ShiftsAutoFill } from "../ShiftsAutoFill";
 import {
   LeaveRenderInfo,
   useTeamLeaveSchedule,
 } from "../../hooks/useTeamLeaveSchedule";
 import { useLocalPreference } from "../../hooks/useLocalPreference";
-import { useQuery } from "../../hooks/useQuery";
 import { Suspense } from "../atoms/Suspense";
 import { ShiftPosition } from "../atoms/ShiftPosition";
 import { LabeledSwitch } from "../particles/LabeledSwitch";
@@ -49,9 +43,10 @@ import {
   useAnalyzeTeamShiftsCalendar,
 } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { AnalyzeTeamShiftsCalendarMenu } from "../stateless/AnalyzeTeamShiftsCalendarMenu";
+import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 
 export const TeamShiftsSchedule = () => {
-  const { team, company } = useParams();
+  const { companyPk, teamPk, team } = useEntityNavigationContext();
   const { current: isDialogOpen, set: setIsDialogOpen } = useSearchParam(
     "team-shift-schedule-dialog"
   );
@@ -95,7 +90,7 @@ export const TeamShiftsSchedule = () => {
     error,
     fetching,
   } = useTeamShiftsQuery({
-    team: getDefined(team),
+    team: getDefined(teamPk),
     startDay: calendarStartDay,
     endDay: calendarEndDay,
     pollingIntervalMs: 30000,
@@ -193,16 +188,6 @@ export const TeamShiftsSchedule = () => {
     [setEditingShiftPosition, setIsDialogOpen]
   );
 
-  // team
-
-  const [queryResponse] = useQuery<{ team: Query["team"] }, QueryTeamArgs>({
-    query: teamQuery,
-    variables: {
-      teamPk: getDefined(team),
-    },
-  });
-  const teamResult = queryResponse.data?.team;
-
   // team leave schedule
 
   const [showLeaveSchedule, setShowLeaveSchedule] = useLocalPreference(
@@ -211,8 +196,8 @@ export const TeamShiftsSchedule = () => {
   );
 
   const { leaveSchedule } = useTeamLeaveSchedule({
-    company: getDefined(company),
-    team: getDefined(team),
+    company: getDefined(companyPk),
+    team: getDefined(teamPk),
     calendarStartDay,
     calendarEndDay,
     pause: !showLeaveSchedule,
@@ -628,7 +613,7 @@ export const TeamShiftsSchedule = () => {
         <div className={classNames("relative", helpPanelOpen ? "pr-72" : "")}>
           <Suspense>
             <ShiftsAutoFill
-              team={getDefined(team)}
+              team={getDefined(teamPk)}
               startRange={useMemo(
                 () =>
                   new DayDateInterval(
@@ -693,7 +678,7 @@ export const TeamShiftsSchedule = () => {
         <div className={classNames("relative", helpPanelOpen ? "pr-72" : "")}>
           <Suspense>
             <UnassignShiftPositionsDialog
-              team={getDefined(team)}
+              team={getDefined(teamPk)}
               onClose={() => setIsDialogOpen(null)}
               onUnassign={() => {
                 refetchTeamShiftsQuery();
@@ -752,7 +737,7 @@ export const TeamShiftsSchedule = () => {
         month={selectedMonth.getMonth() - 1}
         additionalActions={useMemo(
           () => [
-            ...((teamResult?.resourcePermission ?? -1) >= 2 // WRITE
+            ...((team?.resourcePermission ?? -1) >= 2 // WRITE
               ? [
                   {
                     type: "button",
@@ -817,7 +802,7 @@ export const TeamShiftsSchedule = () => {
             showAnalyzeMenu,
             showLeaveSchedule,
             showScheduleDetails,
-            teamResult?.resourcePermission,
+            team?.resourcePermission,
           ]
         )}
         goTo={(year, month) => {
