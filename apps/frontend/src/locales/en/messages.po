@@ -203,57 +203,6 @@ msgid "Shift positions unassigned successfully"
 msgstr "Shift positions unassigned successfully"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamSettings.tsx:10
-msgid "Qualifications"
-msgstr "Qualifications"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamSettings.tsx:12
-msgid "Schedule Position Templates"
-msgstr "Schedule Position Templates"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamSchedulePositionTemplates.tsx:77
-msgid "Team schedule position templates saved"
-msgstr "Team schedule position templates saved"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamSchedulePositionTemplates.tsx:90
-#: apps/frontend/src/components/TeamQualifications.tsx:88
-msgid "Qualification name"
-msgstr "Qualification name"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamQualifications.tsx:75
-msgid "Team qualifications saved"
-msgstr "Team qualifications saved"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamMemberQualifications.tsx:40
-msgid "Qualifications changed"
-msgstr "Qualifications changed"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:8
-msgid "Team shifts calendar"
-msgstr "Team shifts calendar"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:9
-msgid "Team leaves calendar"
-msgstr "Team leaves calendar"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:75
-msgid "Copied!"
-msgstr "Copied!"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:81
-msgid "Copy URL"
-msgstr "Copy URL"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/components/OnboardingTour.tsx:22
 msgid "Welcome to Team Time Table! Let us show you around."
 msgstr "Welcome to Team Time Table! Let us show you around."
@@ -516,6 +465,57 @@ msgid "User removed as manager"
 msgstr "User removed as manager"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamSettings.tsx:10
+msgid "Qualifications"
+msgstr "Qualifications"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamSettings.tsx:12
+msgid "Schedule Position Templates"
+msgstr "Schedule Position Templates"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamSchedulePositionTemplates.tsx:77
+msgid "Team schedule position templates saved"
+msgstr "Team schedule position templates saved"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamSchedulePositionTemplates.tsx:90
+#: apps/frontend/src/components/team/TeamQualifications.tsx:88
+msgid "Qualification name"
+msgstr "Qualification name"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamQualifications.tsx:75
+msgid "Team qualifications saved"
+msgstr "Team qualifications saved"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamMemberQualifications.tsx:40
+msgid "Qualifications changed"
+msgstr "Qualifications changed"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:8
+msgid "Team shifts calendar"
+msgstr "Team shifts calendar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:9
+msgid "Team leaves calendar"
+msgstr "Team leaves calendar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:75
+msgid "Copied!"
+msgstr "Copied!"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:81
+msgid "Copy URL"
+msgstr "Copy URL"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/team/CreateTeamMemberLeaveRequest.tsx:109
 #: apps/frontend/src/components/team/CreateTeamMemberLeaveRequest.tsx:125
 msgid "Leave request created successfully"
@@ -691,19 +691,19 @@ msgstr "Add a manager"
 msgid "Add a new team member to the team."
 msgstr "Add a new team member to the team."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:739
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:739
 msgid "Add position"
 msgstr "Add position"
 
-#: apps/frontend/src/components/EditQualifications.tsx:123
+#: apps/frontend/src/components/team/EditQualifications.tsx:123
 msgid "Add qualification"
 msgstr "Add qualification"
 
-#: apps/frontend/src/components/TeamQualifications.tsx:188
+#: apps/frontend/src/components/team/TeamQualifications.tsx:188
 msgid "Add Qualification"
 msgstr "Add Qualification"
 
-#: apps/frontend/src/components/EditQualifications.tsx:168
+#: apps/frontend/src/components/team/EditQualifications.tsx:168
 msgid "Add qualifications"
 msgstr "Add qualifications"
 
@@ -745,7 +745,7 @@ msgstr "April"
 msgid "Assign the managers for the workers in this unit:"
 msgstr "Assign the managers for the workers in this unit:"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:491
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:491
 msgid "Assigned to"
 msgstr "Assigned to"
 
@@ -766,8 +766,8 @@ msgstr "Attention needed"
 msgid "August"
 msgstr "August"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:605
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:747
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:605
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:747
 msgid "Auto fill"
 msgstr "Auto fill"
 
@@ -787,11 +787,11 @@ msgstr "Book Company Time Off"
 msgid "Busy"
 msgstr "Busy"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:423
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:423
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
 msgstr "By saving this as a template, you can reuse it to create new positions in the future."
 
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:23
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:23
 msgid "Calendar subscriptions:"
 msgstr "Calendar subscriptions:"
 
@@ -800,8 +800,8 @@ msgstr "Calendar subscriptions:"
 #: apps/frontend/src/components/UnassignShiftPositionsDialog.tsx:73
 #: apps/frontend/src/components/LeaveRequest.tsx:105
 #: apps/frontend/src/components/InviteToTeam.tsx:118
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:519
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:259
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:519
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:259
 #: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:195
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:389
@@ -812,7 +812,7 @@ msgstr "Cancel"
 msgid "Click the button below to accept the invitation."
 msgstr "Click the button below to accept the invitation."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:358
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:358
 msgid "Color"
 msgstr "Color"
 
@@ -866,7 +866,7 @@ msgstr "Create a new Company"
 msgid "Create a new Unit"
 msgstr "Create a new Unit"
 
-#: apps/frontend/src/components/TeamMembers.tsx:44
+#: apps/frontend/src/components/team/TeamMembers.tsx:44
 msgid "Create member user"
 msgstr "Create member user"
 
@@ -914,7 +914,7 @@ msgstr "Created By"
 msgid "Date range"
 msgstr "Date range"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:442
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:442
 #: apps/frontend/src/components/stateless/TeamShiftsSummary.tsx:95
 msgid "Day"
 msgstr "Day"
@@ -939,16 +939,16 @@ msgstr "Delete"
 msgid "Discarded Schedules"
 msgstr "Discarded Schedules"
 
-#: apps/frontend/src/components/TeamMembers.tsx:129
 #: apps/frontend/src/components/AllUserCompanies.tsx:129
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:154
+#: apps/frontend/src/components/team/TeamMembers.tsx:129
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:60
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:144
 #: apps/frontend/src/components/atoms/ShiftPosition.tsx:160
 msgid "Edit"
 msgstr "Edit"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:229
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:229
 msgid "Edit a position in the team schedule."
 msgstr "Edit a position in the team schedule."
 
@@ -956,7 +956,7 @@ msgstr "Edit a position in the team schedule."
 msgid "Edit a team member to the team."
 msgstr "Edit a team member to the team."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:543
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:543
 msgid "Edit position"
 msgstr "Edit position"
 
@@ -982,7 +982,7 @@ msgstr "End"
 msgid "End Date"
 msgstr "End Date"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:535
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:535
 msgid "Error loading calendar data"
 msgstr "Error loading calendar data"
 
@@ -1054,7 +1054,7 @@ msgstr "Get started by creating a new unit for this company."
 msgid "Go to today"
 msgstr "Go to today"
 
-#: apps/frontend/src/components/TeamInvites.tsx:33
+#: apps/frontend/src/components/team/TeamInvites.tsx:33
 msgid "Here you can invite users to your team."
 msgstr "Here you can invite users to your team."
 
@@ -1091,15 +1091,15 @@ msgstr "hu"
 msgid "Icon"
 msgstr "Icon"
 
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:40
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:40
 msgid "In Apple Calendar: File > New Calendar Subscription and paste the URL"
 msgstr "In Apple Calendar: File > New Calendar Subscription and paste the URL"
 
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:34
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:34
 msgid "In Google Calendar: Click the + next to \"Other calendars\" > \"From URL\" and paste the URL"
 msgstr "In Google Calendar: Click the + next to \"Other calendars\" > \"From URL\" and paste the URL"
 
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:46
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:46
 msgid "In Outlook: Settings > Calendar > Add calendar > Subscribe from web and paste the URL"
 msgstr "In Outlook: Settings > Calendar > Add calendar > Subscribe from web and paste the URL"
 
@@ -1115,11 +1115,11 @@ msgstr "Inconvenience Deviation"
 msgid "Inconvenience:Deviation from Expected"
 msgstr "Inconvenience:Deviation from Expected"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:231
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:231
 msgid "Insert a position into the team schedule."
 msgstr "Insert a position into the team schedule."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:545
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:545
 msgid "Insert position into the team schedule"
 msgstr "Insert position into the team schedule"
 
@@ -1135,12 +1135,12 @@ msgstr "Invite"
 msgid "Invite a team member to join your team."
 msgstr "Invite a team member to join your team."
 
-#: apps/frontend/src/components/TeamMembers.tsx:50
 #: apps/frontend/src/components/InviteToTeam.tsx:49
+#: apps/frontend/src/components/team/TeamMembers.tsx:50
 msgid "Invite to team"
 msgstr "Invite to team"
 
-#: apps/frontend/src/components/TeamInvites.tsx:78
+#: apps/frontend/src/components/team/TeamInvites.tsx:78
 msgid "Invited"
 msgstr "Invited"
 
@@ -1148,7 +1148,7 @@ msgstr "Invited"
 msgid "January"
 msgstr "January"
 
-#: apps/frontend/src/components/TeamMembers.tsx:103
+#: apps/frontend/src/components/team/TeamMembers.tsx:103
 msgid "Joined"
 msgstr "Joined"
 
@@ -1185,7 +1185,7 @@ msgstr "leaving them with <0>{simulatedDaysLeft} days</0> left."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "leaving you with <0>{simulatedDaysLeft} days</0> left."
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:531
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:531
 msgid "Loading calendar..."
 msgstr "Loading calendar..."
 
@@ -1218,7 +1218,7 @@ msgstr "March"
 msgid "May"
 msgstr "May"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:381
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:381
 #: apps/frontend/src/components/stateless/MonthlyCalendarPerMember.tsx:38
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:73
 msgid "Name"
@@ -1232,7 +1232,7 @@ msgstr "Need More Help?"
 msgid "New Company"
 msgstr "New Company"
 
-#: apps/frontend/src/components/TeamInvites.tsx:40
+#: apps/frontend/src/components/team/TeamInvites.tsx:40
 msgid "New Invitation"
 msgstr "New Invitation"
 
@@ -1260,7 +1260,7 @@ msgstr "Next year"
 msgid "No companies"
 msgstr "No companies"
 
-#: apps/frontend/src/components/TeamInvites.tsx:45
+#: apps/frontend/src/components/team/TeamInvites.tsx:45
 msgid "No invitations found."
 msgstr "No invitations found."
 
@@ -1273,7 +1273,7 @@ msgstr "No location settings found for {0}"
 msgid "No managers assigned"
 msgstr "No managers assigned"
 
-#: apps/frontend/src/components/EditQualifications.tsx:163
+#: apps/frontend/src/components/team/EditQualifications.tsx:163
 msgid "No qualifications available for this team."
 msgstr "No qualifications available for this team."
 
@@ -1308,10 +1308,10 @@ msgstr "on"
 msgid "Open menu"
 msgstr "Open menu"
 
-#: apps/frontend/src/components/TeamMembers.tsx:113
-#: apps/frontend/src/components/TeamInvites.tsx:85
 #: apps/frontend/src/components/AllUserCompanies.tsx:113
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:141
+#: apps/frontend/src/components/team/TeamMembers.tsx:113
+#: apps/frontend/src/components/team/TeamInvites.tsx:85
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:131
 msgid "Open options"
 msgstr "Open options"
@@ -1376,7 +1376,7 @@ msgstr "Region"
 msgid "Reject leave request"
 msgstr "Reject leave request"
 
-#: apps/frontend/src/components/TeamMembers.tsx:148
+#: apps/frontend/src/components/team/TeamMembers.tsx:148
 msgid "Remove from team"
 msgstr "Remove from team"
 
@@ -1384,8 +1384,8 @@ msgstr "Remove from team"
 msgid "Remove leave request"
 msgstr "Remove leave request"
 
-#: apps/frontend/src/components/TeamSchedulePositionTemplates.tsx:165
-#: apps/frontend/src/components/TeamQualifications.tsx:163
+#: apps/frontend/src/components/team/TeamSchedulePositionTemplates.tsx:165
+#: apps/frontend/src/components/team/TeamQualifications.tsx:163
 msgid "Remove Qualification"
 msgstr "Remove Qualification"
 
@@ -1417,7 +1417,7 @@ msgstr "Require a minimum number of shifts in a standard workday for each worker
 msgid "Require minimum rest periods between shifts based on inconvenience scores"
 msgstr "Require minimum rest periods between shifts based on inconvenience scores"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:298
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:298
 msgid "Required qualifications"
 msgstr "Required qualifications"
 
@@ -1441,7 +1441,7 @@ msgstr "Respect leave schedule"
 msgid "Restart Onboarding Tour"
 msgstr "Restart Onboarding Tour"
 
-#: apps/frontend/src/components/TeamInvites.tsx:103
+#: apps/frontend/src/components/team/TeamInvites.tsx:103
 msgid "Revoke Invitation"
 msgstr "Revoke Invitation"
 
@@ -1475,16 +1475,16 @@ msgstr "S"
 msgid "Save"
 msgstr "Save"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:419
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:419
 msgid "Save as template"
 msgstr "Save as template"
 
-#: apps/frontend/src/components/TeamSchedulePositionTemplates.tsx:179
-#: apps/frontend/src/components/TeamQualifications.tsx:200
+#: apps/frontend/src/components/team/TeamSchedulePositionTemplates.tsx:179
+#: apps/frontend/src/components/team/TeamQualifications.tsx:200
 msgid "Save changes"
 msgstr "Save changes"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:525
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:525
 #: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:183
 msgid "Save Changes"
 msgstr "Save Changes"
@@ -1493,11 +1493,11 @@ msgstr "Save Changes"
 msgid "Save Settings"
 msgstr "Save Settings"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:417
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:417
 msgid "Saving..."
 msgstr "Saving..."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:328
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:328
 msgid "Schedule"
 msgstr "Schedule"
 
@@ -1545,15 +1545,15 @@ msgstr "Select User"
 msgid "September"
 msgstr "September"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:361
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:361
 msgid "Set a color to this position"
 msgstr "Set a color to this position"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:384
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:384
 msgid "Set a name to this position"
 msgstr "Set a name to this position"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:445
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:445
 msgid "Set the day for this position."
 msgstr "Set the day for this position."
 
@@ -1561,15 +1561,15 @@ msgstr "Set the day for this position."
 msgid "Set the default number of leave days allocated to each employee per year."
 msgstr "Set the default number of leave days allocated to each employee per year."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:301
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:301
 msgid "Set the qualifications required for this position."
 msgstr "Set the qualifications required for this position."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:331
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:331
 msgid "Set the schedule for this position."
 msgstr "Set the schedule for this position."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:494
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:494
 msgid "Set the user assigned to this position."
 msgstr "Set the user assigned to this position."
 
@@ -1581,12 +1581,12 @@ msgstr "Settings"
 msgid "Show in calendar as"
 msgstr "Show in calendar as"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:765
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:765
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:294
 msgid "Show leave schedule"
 msgstr "Show leave schedule"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:775
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:775
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:284
 msgid "Show schedule details"
 msgstr "Show schedule details"
@@ -1708,7 +1708,7 @@ msgstr "To create a new unit you just have to fill in the unit name and click on
 msgid "Today"
 msgstr "Today"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:340
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:340
 msgid "Total inconvenience: {totalInconvenience}"
 msgstr "Total inconvenience: {totalInconvenience}"
 
@@ -1738,11 +1738,11 @@ msgstr "un"
 msgid "Unassign"
 msgstr "Unassign"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:754
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:754
 msgid "Unassign positions"
 msgstr "Unassign positions"
 
-#: apps/frontend/src/components/TeamShiftsSchedule.tsx:671
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:671
 msgid "Unassign shift positions"
 msgstr "Unassign shift positions"
 
@@ -1750,19 +1750,19 @@ msgstr "Unassign shift positions"
 msgid "Unit name"
 msgstr "Unit name"
 
-#: apps/frontend/src/components/TeamInvites.tsx:74
+#: apps/frontend/src/components/team/TeamInvites.tsx:74
 msgid "Unknown"
 msgstr "Unknown"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:244
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:244
 msgid "Use a template to create this position."
 msgstr "Use a template to create this position."
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:264
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:264
 msgid "Use template"
 msgstr "Use template"
 
-#: apps/frontend/src/components/CreateOrEditScheduleShiftPosition.tsx:241
+#: apps/frontend/src/components/team/CreateOrEditScheduleShiftPosition.tsx:241
 msgid "Use template?"
 msgstr "Use template?"
 
@@ -1770,7 +1770,7 @@ msgstr "Use template?"
 msgid "Use this solution and assigning these shift Positions"
 msgstr "Use this solution and assigning these shift Positions"
 
-#: apps/frontend/src/components/TeamMembers.tsx:142
+#: apps/frontend/src/components/team/TeamMembers.tsx:142
 msgid "User removed from team"
 msgstr "User removed from team"
 
@@ -1828,7 +1828,7 @@ msgstr "Worker Shift Equality"
 msgid "Worker Shift Proximity"
 msgstr "Worker Shift Proximity"
 
-#: apps/frontend/src/components/TeamCalendarIntegrations.tsx:26
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:26
 msgid "You can subscribe to your team's calendar using the URL below. This allows you to see team shifts directly in your calendar app. To subscribe:"
 msgstr "You can subscribe to your team's calendar using the URL below. This allows you to see team shifts directly in your calendar app. To subscribe:"
 
