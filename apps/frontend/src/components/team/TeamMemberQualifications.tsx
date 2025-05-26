@@ -4,10 +4,10 @@ import toast from "react-hot-toast";
 import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import updateTeamMemberQualificationsMutation from "@/graphql-client/mutations/updateTeamMemberQualifications.graphql";
-import { Suspense } from "./atoms/Suspense";
-import { useMutation } from "../hooks/useMutation";
+import { useMutation } from "../../hooks/useMutation";
+import { useTeamWithSettings } from "../../hooks/useTeamWithSettings";
+import { Suspense } from "../atoms/Suspense";
 import { EditQualifications } from "./EditQualifications";
-import { useTeamWithSettings } from "../hooks/useTeamWithSettings";
 
 export interface TeamMemberQualificationsProps {
   qualifications: string[];

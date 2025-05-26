@@ -1,18 +1,18 @@
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { TeamSettings } from "../components/TeamSettings";
 import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { useQuery } from "../hooks/useQuery";
 import { Query, QueryTeamArgs } from "../graphql/graphql";
-import { type Tab, Tabs } from "../components/molecules/Tabs";
-import { TeamMembers } from "../components/TeamMembers";
-import { TeamInvites } from "../components/TeamInvites";
-import { TeamLeaveSchedule } from "../components/TeamLeaveSchedule";
 import { Suspense } from "../components/atoms/Suspense";
-import { TeamShiftsSchedule } from "../components/TeamShiftsSchedule";
-import { TeamCalendarIntegrations } from "../components/TeamCalendarIntegrations";
+import { type Tab, Tabs } from "../components/molecules/Tabs";
+import { TeamSettings } from "../components/team/TeamSettings";
+import { TeamMembers } from "../components/team/TeamMembers";
+import { TeamInvites } from "../components/team/TeamInvites";
+import { TeamLeaveSchedule } from "../components/team/TeamLeaveSchedule";
+import { TeamShiftsSchedule } from "../components/team/TeamShiftsSchedule";
+import { TeamCalendarIntegrations } from "../components/team/TeamCalendarIntegrations";
 
 export const PageTeam = () => {
   const { team: teamPk } = useParams();

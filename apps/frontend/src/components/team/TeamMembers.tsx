@@ -7,13 +7,13 @@ import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
 import teamWithMembersQuery from "@/graphql-client/queries/teamWithMembers.graphql";
 import removeUserFromTeamMutation from "@/graphql-client/mutations/removeUserFromTeam.graphql";
-import { QueryTeamArgs, Team, User } from "../graphql/graphql";
-import { useQuery } from "../hooks/useQuery";
-import { useMutation } from "../hooks/useMutation";
-import { permissionTypeToString } from "../utils/permissionTypeToString";
+import { QueryTeamArgs, Team, User } from "../../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { useMutation } from "../../hooks/useMutation";
+import { permissionTypeToString } from "../../utils/permissionTypeToString";
 import { TeamMemberQualifications } from "./TeamMemberQualifications";
-import { Avatar } from "./particles/Avatar";
-import { Button } from "./particles/Button";
+import { Avatar } from "../particles/Avatar";
+import { Button } from "../particles/Button";
 
 export const TeamMembers = () => {
   const { company, unit, team: teamPk } = useParams();
