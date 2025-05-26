@@ -6,44 +6,44 @@ import { Transition } from "@headlessui/react";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { getDefined } from "@/utils";
 import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import { Dialog } from "./atoms/Dialog";
+import { Dialog } from "../atoms/Dialog";
 import {
   CreateOrEditScheduleShiftPosition,
   User,
 } from "./CreateOrEditScheduleShiftPosition";
-import { useTeamShiftsDragAndDrop } from "../hooks/useTeamShiftsDragAndDrop";
-import { useTeamShiftsClipboard } from "../hooks/useTeamShiftsClipboard";
-import { useTeamShiftActions } from "../hooks/useTeamShiftActions";
-import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
-import { useTeamShiftsFocusNavigation } from "../hooks/useTeamShiftsFocusNavigation";
+import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
+import { useTeamShiftsClipboard } from "../../hooks/useTeamShiftsClipboard";
+import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
+import { useTeamShiftsQuery } from "../../hooks/useTeamShiftsQuery";
+import { useTeamShiftsFocusNavigation } from "../../hooks/useTeamShiftsFocusNavigation";
 import {
   type ShiftPositionWithFake,
   ShiftPositionWithRowSpan,
   useTeamShiftPositionsMap,
-} from "../hooks/useTeamShiftPositionsMap";
+} from "../../hooks/useTeamShiftPositionsMap";
 import {
   Query,
   QueryTeamArgs,
   ShiftPosition as ShiftPositionType,
-} from "../graphql/graphql";
-import { ShiftsAutoFill } from "./ShiftsAutoFill";
+} from "../../graphql/graphql";
+import { ShiftsAutoFill } from "../ShiftsAutoFill";
 import {
   LeaveRenderInfo,
   useTeamLeaveSchedule,
-} from "../hooks/useTeamLeaveSchedule";
-import { useLocalPreference } from "../hooks/useLocalPreference";
-import { useQuery } from "../hooks/useQuery";
-import { Suspense } from "./atoms/Suspense";
-import { ShiftPosition } from "./atoms/ShiftPosition";
-import { LabeledSwitch } from "./particles/LabeledSwitch";
-import { toMinutes } from "../utils/toMinutes";
-import { classNames } from "../utils/classNames";
-import { useSearchParam } from "../hooks/useSearchParam";
-import { TeamShiftsCalendar } from "./stateless/TeamShiftsCalendar";
-import { MemberLeaveInCalendar } from "./stateless/MemberLeaveInCalendar";
-import { Day } from "./particles/MonthDailyCalendar";
-import ContextualHelp from "./molecules/ContextualHelp";
-import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
+} from "../../hooks/useTeamLeaveSchedule";
+import { useLocalPreference } from "../../hooks/useLocalPreference";
+import { useQuery } from "../../hooks/useQuery";
+import { Suspense } from "../atoms/Suspense";
+import { ShiftPosition } from "../atoms/ShiftPosition";
+import { LabeledSwitch } from "../particles/LabeledSwitch";
+import { toMinutes } from "../../utils/toMinutes";
+import { classNames } from "../../utils/classNames";
+import { useSearchParam } from "../../hooks/useSearchParam";
+import { TeamShiftsCalendar } from "../stateless/TeamShiftsCalendar";
+import { MemberLeaveInCalendar } from "../stateless/MemberLeaveInCalendar";
+import { Day } from "../particles/MonthDailyCalendar";
+import ContextualHelp from "../molecules/ContextualHelp";
+import { UnassignShiftPositionsDialog } from "../UnassignShiftPositionsDialog";
 
 export const TeamShiftsSchedule = () => {
   const { team, company } = useParams();

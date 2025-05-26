@@ -4,7 +4,7 @@ import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettin
 import teamScheduleQuery from "@/graphql-client/queries/teamSchedule.graphql";
 import { getDefined } from "@/utils";
 import { DayDate } from "@/day-date";
-import { useQuery } from "../hooks/useQuery";
+import { useQuery } from "../../hooks/useQuery";
 import {
   CompanySettingsArgs,
   Leave,
@@ -14,12 +14,12 @@ import {
   QueryTeamArgs,
   Team,
   TeamScheduleArgs,
-} from "../graphql/graphql";
-import { TeamLeaveSchedule as TeamLeaveScheduleUI } from "./stateless/TeamLeaveSchedule";
+} from "../../graphql/graphql";
+import { TeamLeaveSchedule as TeamLeaveScheduleUI } from "../stateless/TeamLeaveSchedule";
 import { leaveTypeParser } from "@/settings";
-import { leaveTypeColors } from "../settings/leaveTypes";
-import { leaveTypeIcons } from "../settings/leaveTypes";
-import { useLocalPreference } from "../hooks/useLocalPreference";
+import { leaveTypeColors } from "../../settings/leaveTypes";
+import { leaveTypeIcons } from "../../settings/leaveTypes";
+import { useLocalPreference } from "../../hooks/useLocalPreference";
 
 export const TeamLeaveSchedule = () => {
   const { team: teamId, company: companyId } = useParams();

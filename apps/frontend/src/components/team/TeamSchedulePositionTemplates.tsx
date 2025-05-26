@@ -7,21 +7,25 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
-import toast from "react-hot-toast";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import toast from "react-hot-toast";
 import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
-import { Qualifications, qualificationsParser, colorNames } from "@/settings";
+import {
+  colorNames,
+  schedulePositionTemplatesParser,
+  SchedulePositionTemplates,
+} from "@/settings";
 import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
 import updateTeamSettingsMutation from "@/graphql-client/mutations/updateTeamSettings.graphql";
-import { QueryTeamArgs, Team, TeamSettingsArgs } from "../graphql/graphql";
-import { useQuery } from "../hooks/useQuery";
-import { useMutation } from "../hooks/useMutation";
-import { Badge } from "./particles/Badge";
-import { Button } from "./particles/Button";
+import { QueryTeamArgs, Team, TeamSettingsArgs } from "../../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { useMutation } from "../../hooks/useMutation";
+import { Badge } from "../particles/Badge";
+import { Button } from "../particles/Button";
 
-export const TeamQualifications = () => {
+export const TeamSchedulePositionTemplates = () => {
   const { team: teamPk } = useParams();
   const [teamWithMembersAndSettingsQueryResponse] = useQuery<
     { team: Team },
@@ -30,25 +34,20 @@ export const TeamQualifications = () => {
     query: teamWithSettingsQuery,
     variables: {
       teamPk: getDefined(teamPk, "No team provided"),
-      name: "qualifications",
+      name: "schedulePositionTemplates",
     },
   });
   const team = teamWithMembersAndSettingsQueryResponse?.data?.team;
-  const qualifications: Qualifications =
-    team?.settings && qualificationsParser.parse(team.settings);
+  const schedulePositionTemplates: SchedulePositionTemplates =
+    team?.settings && schedulePositionTemplatesParser.parse(team.settings);
 
-  const [localQualifications, setLocalQualifications] =
-    useState<Qualifications>(qualifications || []);
+  const [localSchedulePositionTemplates, setLocalSchedulePositionTemplates] =
+    useState<SchedulePositionTemplates>(schedulePositionTemplates || []);
 
-  const handleAddQualification = () => {
-    setLocalQualifications([
-      ...localQualifications,
-      { name: "", color: "green" },
-    ]);
-  };
-
-  const handleRemoveQualification = (index: number) => {
-    setLocalQualifications(localQualifications.filter((_, i) => i !== index));
+  const handleRemoveSchedulePositionTemplate = (index: number) => {
+    setLocalSchedulePositionTemplates(
+      localSchedulePositionTemplates.filter((_, i) => i !== index)
+    );
   };
 
   const handleUpdateQualification = (
@@ -56,8 +55,8 @@ export const TeamQualifications = () => {
     field: "name" | "color",
     value: string
   ) => {
-    setLocalQualifications(
-      localQualifications.map((qual, i) =>
+    setLocalSchedulePositionTemplates(
+      localSchedulePositionTemplates.map((qual, i) =>
         i === index ? { ...qual, [field]: value } : qual
       )
     );
@@ -66,18 +65,21 @@ export const TeamQualifications = () => {
   const [, updateTeamSettings] = useMutation(updateTeamSettingsMutation);
 
   const handleSaveChanges = async () => {
-    console.log("localQualifications", localQualifications);
+    console.log(
+      "localSchedulePositionTemplates",
+      localSchedulePositionTemplates
+    );
     await updateTeamSettings({
       teamPk: getDefined(teamPk, "No team provided"),
-      name: "qualifications",
-      settings: localQualifications,
+      name: "schedulePositionTemplates",
+      settings: localSchedulePositionTemplates,
     });
-    toast.success(i18n.t("Team qualifications saved"));
+    toast.success(i18n.t("Team schedule position templates saved"));
   };
 
   return (
     <div className="space-y-4 pt-4">
-      {localQualifications.map((qualification, index) => (
+      {localSchedulePositionTemplates.map((qualification, index) => (
         <div key={index} className="flex gap-4 items-center">
           <input
             type="text"
@@ -142,7 +144,7 @@ export const TeamQualifications = () => {
             </div>
           </Combobox>
           <button
-            onClick={() => handleRemoveQualification(index)}
+            onClick={() => handleRemoveSchedulePositionTemplate(index)}
             className="rounded-full bg-teal-600 p-2 text-white hover:bg-teal-700 focus:outline-hidden focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
           >
             <svg
@@ -165,29 +167,6 @@ export const TeamQualifications = () => {
           </button>
         </div>
       ))}
-
-      <button
-        onClick={handleAddQualification}
-        className="rounded-full bg-teal-600 p-2 text-white hover:bg-teal-700 focus:outline-hidden focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-5"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 4.5v15m7.5-7.5h-15"
-          />
-        </svg>
-        <span className="sr-only">
-          <Trans>Add Qualification</Trans>
-        </span>
-      </button>
 
       <div className="relative my-8">
         <div className="absolute inset-0 flex items-center" aria-hidden="true">

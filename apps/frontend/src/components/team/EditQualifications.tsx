@@ -1,12 +1,12 @@
 import { type FC, useCallback, useEffect, useMemo, useState } from "react";
 import { dequal } from "dequal";
 import { useParams } from "react-router-dom";
+import { Trans } from "@lingui/react/macro";
 import { Qualifications } from "@/settings";
 import { unique } from "@/utils";
-import { Badges } from "./atoms/Badges";
-import { Badge } from "./particles/Badge";
-import { Button } from "./particles/Button";
-import { Trans } from "@lingui/react/macro";
+import { Badges } from "../atoms/Badges";
+import { Badge } from "../particles/Badge";
+import { Button } from "../particles/Button";
 
 export interface EditQualificationsProps {
   qualificationSettings: Qualifications;
