@@ -6,7 +6,7 @@ import { Dialog } from "../atoms/Dialog";
 import { Suspense } from "../atoms/Suspense";
 import { classNames } from "../../utils/classNames";
 import ContextualHelp from "../molecules/ContextualHelp";
-import { ShiftsAutoFill } from "../ShiftsAutoFill";
+import { ShiftsAutoFill } from "./ShiftsAutoFill";
 
 export interface ShiftsAutofillDialogProps {
   isDialogOpen: boolean;

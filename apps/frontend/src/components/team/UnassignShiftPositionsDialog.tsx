@@ -4,7 +4,7 @@ import { Dialog } from "../atoms/Dialog";
 import { Suspense } from "../atoms/Suspense";
 import { classNames } from "../../utils/classNames";
 import ContextualHelp from "../molecules/ContextualHelp";
-import { UnassignShiftPositions } from "../UnassignShiftPositions";
+import { UnassignShiftPositions } from "./UnassignShiftPositions";
 
 export interface UnassignShiftPositionsDialogProps {
   isDialogOpen: boolean;
