@@ -321,21 +321,21 @@ export function OnboardingTour() {
   }, [routeMatch]);
 
   // Debug logging
-  console.debug("Tour Debug:", {
-    currentPath: location.pathname,
-    matches: {
-      root: rootMatch,
-      companies: companiesMatch,
-      company: companyMatch,
-      unit: unitMatch,
-      team: teamMatch,
-      meEdit: meEditMatch,
-      pendingRequests: pendingRequestsMatch,
-    },
-    hasSteps: steps.length > 0,
-    isRunning: run,
-    isTourRunning,
-  });
+  // console.debug("Tour Debug:", {
+  //   currentPath: location.pathname,
+  //   matches: {
+  //     root: rootMatch,
+  //     companies: companiesMatch,
+  //     company: companyMatch,
+  //     unit: unitMatch,
+  //     team: teamMatch,
+  //     meEdit: meEditMatch,
+  //     pendingRequests: pendingRequestsMatch,
+  //   },
+  //   hasSteps: steps.length > 0,
+  //   isRunning: run,
+  //   isTourRunning,
+  // });
 
   return (
     <Joyride

@@ -1,38 +1,10 @@
 import { HomeIcon } from "@heroicons/react/20/solid";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
-import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
-import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
-import { useQuery } from "../../hooks/useQuery";
-import { Query, QueryCompanyArgs } from "../../graphql/graphql";
+import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 
 export const BreadcrumbNav = () => {
-  const { company: companyPk, unit: unitPk, team: teamPk } = useParams();
-
-  const [queryResponse] = useQuery<
-    { company: Query["company"] },
-    QueryCompanyArgs
-  >({
-    query: companyQuery,
-    variables: {
-      companyPk: companyPk ?? "",
-    },
-    pause: !companyPk,
-  });
-
-  const company = companyPk ? queryResponse.data?.company : undefined;
-
-  const unit = company?.units?.find((unit) => unit.pk === `units/${unitPk}`);
-
-  const [teamQueryResponse] = useQuery<{ team: Query["team"] }>({
-    query: teamQuery,
-    variables: {
-      teamPk,
-    },
-    pause: !teamPk,
-  });
-
-  const team = teamPk && teamQueryResponse.data?.team;
+  const { company, unit, team } = useEntityNavigationContext();
 
   return (
     <nav aria-label="Breadcrumb" className="flex h-full">

@@ -1,10 +1,5 @@
 import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
 import { i18n } from "@lingui/core";
-import { getDefined } from "@/utils";
-import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { Query, QueryTeamArgs } from "../graphql/graphql";
 import { Suspense } from "../components/atoms/Suspense";
 import { type Tab, Tabs } from "../components/molecules/Tabs";
 import { TeamSettings } from "../components/team/TeamSettings";
@@ -13,16 +8,10 @@ import { TeamInvites } from "../components/team/TeamInvites";
 import { TeamLeaveSchedule } from "../components/team/TeamLeaveSchedule";
 import { TeamShiftsSchedule } from "../components/team/TeamShiftsSchedule";
 import { TeamCalendarIntegrations } from "../components/team/TeamCalendarIntegrations";
+import { useEntityNavigationContext } from "../hooks/useEntityNavigationContext";
 
 export const PageTeam = () => {
-  const { team: teamPk } = useParams();
-  const [queryResponse] = useQuery<{ team: Query["team"] }, QueryTeamArgs>({
-    query: teamQuery,
-    variables: {
-      teamPk: getDefined(teamPk, "No team provided"),
-    },
-  });
-  const team = queryResponse.data?.team;
+  const { team } = useEntityNavigationContext();
   const tabs = useMemo<Tab[]>(
     () => [
       ...((team?.resourcePermission ?? -1) >= 2
