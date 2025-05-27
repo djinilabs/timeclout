@@ -14,9 +14,9 @@ import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRe
 import myLeaveCalendarQuery from "@/graphql-client/queries/myLeaveCalendar.graphql";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import mySettingsQuery from "@/graphql-client/queries/mySettings.graphql";
-import { TimeOffYearCalendar } from "../stateless/TimeOffYearCalendar";
-import { BookCompanyTimeOff, type TimeOffRequest } from "./BookCompanyTimeOff";
 import { useMutation } from "../../hooks/useMutation";
+import { TimeOffYearCalendar } from "./TimeOffYearCalendar";
+import { BookCompanyTimeOff, type TimeOffRequest } from "./BookCompanyTimeOff";
 import {
   Calendar,
   CompanySettingsArgs,

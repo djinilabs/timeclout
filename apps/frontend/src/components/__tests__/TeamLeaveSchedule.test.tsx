@@ -3,7 +3,11 @@ import { render, screen } from "@testing-library/react";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
 import { BrowserRouter } from "react-router-dom";
-import { TeamLeaveSchedule } from "../molecules/TeamLeaveSchedule";
+import {
+  TeamLeaveSchedule,
+  TeamLeaveScheduleProps,
+} from "../molecules/TeamLeaveSchedule";
+import { User } from "../../graphql/graphql";
 
 // Mock ResizeObserver
 class ResizeObserverMock {
@@ -27,7 +31,7 @@ vi.mock("react-router-dom", async () => {
 });
 
 describe("TeamLeaveSchedule", () => {
-  const defaultProps = {
+  const defaultProps: TeamLeaveScheduleProps = {
     year: 2024,
     month: 2, // March (0-based)
     goTo: vi.fn(),
@@ -49,8 +53,8 @@ describe("TeamLeaveSchedule", () => {
               type: "vacation",
               approved: true,
               createdAt: "2024-02-01",
-              createdBy: { pk: "user1", name: "John Doe" },
-              beneficiary: { pk: "user1", name: "John Doe" },
+              createdBy: { pk: "user1", name: "John Doe" } as User,
+              beneficiary: { pk: "user1", name: "John Doe" } as User,
               pk: "leave1",
               sk: "leave1",
             },
@@ -116,12 +120,12 @@ describe("TeamLeaveSchedule", () => {
       ...defaultProps,
       schedule: [
         {
-          ...defaultProps.schedule[0],
+          ...defaultProps.schedule![0],
           leaves: {
             "2024-03-15": {
-              ...defaultProps.schedule[0].leaves["2024-03-15"],
+              ...defaultProps.schedule![0].leaves["2024-03-15"],
               leaveRequest: {
-                ...defaultProps.schedule[0].leaves["2024-03-15"].leaveRequest!,
+                ...defaultProps.schedule![0].leaves["2024-03-15"].leaveRequest!,
                 approved: false,
               },
             },

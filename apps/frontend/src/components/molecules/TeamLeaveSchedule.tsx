@@ -1,4 +1,4 @@
-import { memo, ReactNode, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { i18n } from "@lingui/core";
 import { DayDate } from "@/day-date";
@@ -7,39 +7,8 @@ import { Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
 import { MemberLeaveInCalendar } from "../stateless/MemberLeaveInCalendar";
 import { CalendarHeader } from "../atoms/CalendarHeader";
 import { Button } from "../particles/Button";
-
-export interface User {
-  pk: string;
-  name: string;
-  email?: string | null;
-  emailMd5?: string | null;
-}
-
-export interface LeaveRequest {
-  startDate: string;
-  endDate: string;
-  type: string;
-  approved?: boolean | null;
-  reason?: string | null;
-  createdAt: string;
-  createdBy: User;
-  approvedBy?: User[] | null;
-  approvedAt?: string[] | null;
-  beneficiary: User;
-  pk: string;
-  sk: string;
-}
-export interface LeaveDay {
-  type: string;
-  icon?: ReactNode;
-  color?: string;
-  leaveRequest?: LeaveRequest;
-}
-
-export interface MemberSchedule {
-  user: User;
-  leaves: Record<string, LeaveDay>;
-}
+import { MemberSchedule } from "../types";
+import { User } from "../../graphql/graphql";
 
 export interface TeamLeaveScheduleProps {
   year: number;

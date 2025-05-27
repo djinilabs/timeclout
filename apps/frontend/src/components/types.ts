@@ -48,3 +48,36 @@ export interface TimeSchedule {
   endHourMinutes: [number, number];
   inconveniencePerHour: number;
 }
+
+export interface LeaveRequest {
+  startDate: string;
+  endDate: string;
+  type: string;
+  approved?: boolean | null;
+  reason?: string | null;
+  createdAt: string;
+  createdBy: User;
+  approvedBy?: User[] | null;
+  approvedAt?: string[] | null;
+  beneficiary: User;
+  pk: string;
+  sk: string;
+}
+export interface LeaveDay {
+  type: string;
+  icon?: ReactNode;
+  color?: string;
+  leaveRequest?: LeaveRequest;
+}
+
+export interface PartialUser {
+  pk: string;
+  name: string;
+  email?: string | null;
+  emailMd5?: string | null;
+}
+
+export interface MemberSchedule {
+  user: PartialUser;
+  leaves: Record<string, LeaveDay>;
+}

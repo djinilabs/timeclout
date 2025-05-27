@@ -4,7 +4,7 @@ import { vi } from "vitest";
 import { type LeaveDay } from "../types";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
-import { TimeOffCalendarDay } from "../stateless/TimeOffCalendarDay";
+import { TimeOffCalendarDay } from "../company/TimeOffCalendarDay";
 
 describe("TimeOffCalendarDay", () => {
   const mockDay = {
