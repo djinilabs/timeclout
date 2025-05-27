@@ -4,7 +4,6 @@ import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { Dialog } from "../atoms/Dialog";
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
 import { Suspense } from "../atoms/Suspense";
-import { classNames } from "../../utils/classNames";
 import ContextualHelp from "../molecules/ContextualHelp";
 import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
 import { ShiftPosition } from "../../graphql/graphql";
