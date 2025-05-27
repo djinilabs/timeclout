@@ -25,6 +25,10 @@ import {
 import { useLocalPreference } from "../../hooks/useLocalPreference";
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 import { useSearchParam } from "../../hooks/useSearchParam";
+import {
+  AnalyzedShiftPosition,
+  useAnalyzeTeamShiftsCalendar,
+} from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { toMinutes } from "../../utils/toMinutes";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "../atoms/ShiftPosition";
@@ -33,11 +37,7 @@ import { TeamShiftsCalendar } from "../team-shifts/TeamShiftsCalendar";
 import { MemberLeaveInCalendar } from "../stateless/MemberLeaveInCalendar";
 import { Day } from "../particles/MonthDailyCalendar";
 import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
-import {
-  AnalyzedShiftPosition,
-  useAnalyzeTeamShiftsCalendar,
-} from "../../hooks/useAnalyzeTeamShiftsCalendar";
-import { AnalyzeTeamShiftsCalendarMenu } from "../stateless/AnalyzeTeamShiftsCalendarMenu";
+import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
 import { CreateOrEditScheduleShiftPositionDialog } from "./CreateOrEditScheduleShiftPositionDialog";
 import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
 
