@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
-import { Avatar } from "../../particles/Avatar";
+import { Avatar } from "../particles/Avatar";
 
 describe("Avatar", () => {
   it("renders with minimal props", () => {

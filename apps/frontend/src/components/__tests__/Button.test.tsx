@@ -1,8 +1,7 @@
-import { describe, expect, it, beforeEach } from "vitest";
+import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Button } from "../../particles/Button";
 import { MemoryRouter } from "react-router-dom";
-import { vi } from "vitest";
+import { Button } from "../particles/Button";
 
 // Mock useNavigate
 const mockNavigate = vi.fn();

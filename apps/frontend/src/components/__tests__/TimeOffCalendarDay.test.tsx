@@ -1,10 +1,10 @@
 import { describe, expect, it, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { vi } from "vitest";
-import { type LeaveDay } from "../../types";
-import { TimeOffCalendarDay } from "../TimeOffCalendarDay";
+import { type LeaveDay } from "../types";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
+import { TimeOffCalendarDay } from "../stateless/TimeOffCalendarDay";
 
 describe("TimeOffCalendarDay", () => {
   const mockDay = {

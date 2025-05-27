@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import {
   MiniTimeScheduleVisualizer,
   type TimeSchedule,
-} from "../../particles/MiniTimeScheduleVisualizer";
+} from "../particles/MiniTimeScheduleVisualizer";
 
 describe("MiniTimeScheduleVisualizer", () => {
   const mockSchedules: TimeSchedule[] = [
