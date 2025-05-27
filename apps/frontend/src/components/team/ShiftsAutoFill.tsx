@@ -6,18 +6,18 @@ import { SchedulerWorkerClient } from "@/scheduler-worker";
 import { SchedulerState, RuleName } from "@/scheduler";
 import { DayDate, DayDateInterval } from "@/day-date";
 import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
-import { ShiftsAutoFillParams } from "../graphql/graphql";
-import { useQuery } from "../hooks/useQuery";
-import { useTeamShiftsQuery } from "../hooks/useTeamShiftsQuery";
-import { useLocalPreference } from "../hooks/useLocalPreference";
+import { ShiftsAutoFillParams } from "../../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { useTeamShiftsQuery } from "../../hooks/useTeamShiftsQuery";
+import { useLocalPreference } from "../../hooks/useLocalPreference";
 import {
   ShiftAutoFillParams,
   ShiftAutoFillParamValues,
-} from "./stateless/ShiftAutoFillParams";
-import { Suspense } from "./atoms/Suspense";
-import { Button } from "./particles/Button";
-import { Loading } from "./particles/Loading";
-import { ShiftsAutoFillProgress } from "./stateless/ShiftsAutoFillProgress";
+} from "../stateless/ShiftAutoFillParams";
+import { Suspense } from "../atoms/Suspense";
+import { Button } from "../particles/Button";
+import { Loading } from "../particles/Loading";
+import { ShiftsAutoFillProgress } from "../stateless/ShiftsAutoFillProgress";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;

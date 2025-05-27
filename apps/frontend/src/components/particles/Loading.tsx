@@ -1,5 +1,5 @@
-import { FaSpinner } from "react-icons/fa";
 import { memo } from "react";
+import { FaSpinner } from "react-icons/fa";
 
 export const Loading = memo(() => {
   return (

@@ -1,5 +1,5 @@
 import { i18n } from "@lingui/core";
-import { FC } from "react";
+import { FC, memo } from "react";
 import {
   DateRange,
   DayPicker as DayPickerComponent,
@@ -23,27 +23,25 @@ interface DayPickerSelectModeChoiceProps {
   setMode: (mode: Mode) => unknown;
 }
 
-const DayPickerSelectModeChoice: FC<DayPickerSelectModeChoiceProps> = ({
-  modes,
-  selected,
-  setMode,
-}) => {
-  return (
-    <div className="flex gap-4">
-      {modes.map((mode) => (
-        <LabeledSwitch
-          label={mode}
-          checked={selected === mode}
-          onChange={(checked) => {
-            if (checked) {
-              setMode(mode);
-            }
-          }}
-        />
-      ))}
-    </div>
-  );
-};
+const DayPickerSelectModeChoice: FC<DayPickerSelectModeChoiceProps> = memo(
+  ({ modes, selected, setMode }) => {
+    return (
+      <div className="flex gap-4">
+        {modes.map((mode) => (
+          <LabeledSwitch
+            label={mode}
+            checked={selected === mode}
+            onChange={(checked) => {
+              if (checked) {
+                setMode(mode);
+              }
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+);
 
 const fixDate = (date: Date): Date => {
   const isUTCMidnight =
@@ -72,60 +70,57 @@ export type OurDayPickerProps = Omit<
   "onSelect"
 >;
 
-export const DayPicker: FC<OurDayPickerProps> = ({
-  modes,
-  mode,
-  onChangeMode,
-  ...props
-}) => {
-  const locale = locales[i18n.locale];
-  const dayPickerProps = {
-    ...props,
-    mode,
-    onSelect: (arg: unknown) => {
-      if (!arg) {
-        return;
-      }
-      if (props.onSelectSingle) {
-        props.onSelectSingle(fixDate(arg as Date));
-      } else if (props.onSelectMultiple) {
-        props.onSelectMultiple((arg as Date[]).map(fixDate));
-      } else if (props.onSelectRange) {
-        const range = arg as DateRange;
-        props.onSelectRange({
-          from: fixDate(range.from as Date),
-          to: range.to ? fixDate(range.to as Date) : undefined,
-        });
-      }
-    },
-  } as DayPickerProps;
-  return (
-    <div>
-      {modes && onChangeMode ? (
-        <DayPickerSelectModeChoice
-          modes={modes}
-          selected={mode}
-          setMode={onChangeMode}
+export const DayPicker: FC<OurDayPickerProps> = memo(
+  ({ modes, mode, onChangeMode, ...props }) => {
+    const locale = locales[i18n.locale];
+    const dayPickerProps = {
+      ...props,
+      mode,
+      onSelect: (arg: unknown) => {
+        if (!arg) {
+          return;
+        }
+        if (props.onSelectSingle) {
+          props.onSelectSingle(fixDate(arg as Date));
+        } else if (props.onSelectMultiple) {
+          props.onSelectMultiple((arg as Date[]).map(fixDate));
+        } else if (props.onSelectRange) {
+          const range = arg as DateRange;
+          props.onSelectRange({
+            from: fixDate(range.from as Date),
+            to: range.to ? fixDate(range.to as Date) : undefined,
+          });
+        }
+      },
+    } as DayPickerProps;
+    return (
+      <div>
+        {modes && onChangeMode ? (
+          <DayPickerSelectModeChoice
+            modes={modes}
+            selected={mode}
+            setMode={onChangeMode}
+          />
+        ) : null}
+        <DayPickerComponent
+          {...dayPickerProps}
+          locale={locale}
+          timeZone="UTC"
+          ISOWeek
+          weekStartsOn={1}
+          classNames={{
+            ...defaultClassNames,
+            today: `border-amber-500`, // Add a border to today's date
+            selected: `bg-teal-500 border-teal-500 text-white`, // Highlight the selected day
+            root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
+            chevron: `${defaultClassNames.chevron} fill-amber-500`,
+            range_start: `bg-teal-200 border-teal-200 text-white rounded-l-md`,
+            range_end: `bg-teal-200 border-teal-200 text-white rounded-r-md`,
+            range_middle: `bg-teal-500 border-teal-500 text-white`,
+          }}
+          animate
         />
-      ) : null}
-      <DayPickerComponent
-        {...dayPickerProps}
-        locale={locale}
-        timeZone="UTC"
-        ISOWeek
-        weekStartsOn={1}
-        classNames={{
-          ...defaultClassNames,
-          today: `border-amber-500`, // Add a border to today's date
-          selected: `bg-teal-500 border-teal-500 text-white`, // Highlight the selected day
-          root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
-          chevron: `${defaultClassNames.chevron} fill-amber-500`,
-          range_start: `bg-teal-200 border-teal-200 text-white rounded-l-md`,
-          range_end: `bg-teal-200 border-teal-200 text-white rounded-r-md`,
-          range_middle: `bg-teal-500 border-teal-500 text-white`,
-        }}
-        animate
-      />
-    </div>
-  );
-};
+      </div>
+    );
+  }
+);

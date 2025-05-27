@@ -73,13 +73,13 @@ export const LeaveTypeEditor = ({
                     <Trans>Name</Trans>
                   </label>
                   <div className="mt-2">
-                    <div className="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-teal-600">
+                    <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-teal-600">
                       <input
                         id={field.name}
                         name={field.name}
                         type="text"
                         value={field.state.value}
-                        className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                        className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-0 sm:text-sm/6"
                         onChange={(e) => field.handleChange(e.target.value)}
                       />
                     </div>
@@ -260,7 +260,7 @@ export const LeaveTypeEditor = ({
         </button>
         <button
           type="submit"
-          className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+          className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
         >
           <Trans>Save</Trans>
         </button>

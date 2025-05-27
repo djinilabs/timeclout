@@ -1341,11 +1341,17 @@
   .stroke-gray-600 {
     stroke: var(--color-gray-600);
   }
+  .stroke-gray-600 {
+    stroke: var(--color-gray-600);
+  }
   .stroke-gray-600\/50 {
     stroke: color-mix(in srgb, oklch(44.6% 0.03 256.802) 50%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       stroke: color-mix(in oklab, var(--color-gray-600) 50%, transparent);
     }
+  }
+  .stroke-green-700 {
+    stroke: var(--color-green-700);
   }
   .stroke-green-700 {
     stroke: var(--color-green-700);
@@ -1359,11 +1365,17 @@
   .stroke-indigo-600 {
     stroke: var(--color-indigo-600);
   }
+  .stroke-indigo-600 {
+    stroke: var(--color-indigo-600);
+  }
   .stroke-indigo-600\/50 {
     stroke: color-mix(in srgb, oklch(51.1% 0.262 276.966) 50%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       stroke: color-mix(in oklab, var(--color-indigo-600) 50%, transparent);
     }
+  }
+  .stroke-lime-700 {
+    stroke: var(--color-lime-700);
   }
   .stroke-lime-700 {
     stroke: var(--color-lime-700);
@@ -1377,11 +1389,17 @@
   .stroke-orange-700 {
     stroke: var(--color-orange-700);
   }
+  .stroke-orange-700 {
+    stroke: var(--color-orange-700);
+  }
   .stroke-orange-700\/50 {
     stroke: color-mix(in srgb, oklch(55.3% 0.195 38.402) 50%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       stroke: color-mix(in oklab, var(--color-orange-700) 50%, transparent);
     }
+  }
+  .stroke-pink-700 {
+    stroke: var(--color-pink-700);
   }
   .stroke-pink-700 {
     stroke: var(--color-pink-700);
@@ -1395,11 +1413,17 @@
   .stroke-red-600 {
     stroke: var(--color-red-600);
   }
+  .stroke-red-600 {
+    stroke: var(--color-red-600);
+  }
   .stroke-red-600\/50 {
     stroke: color-mix(in srgb, oklch(57.7% 0.245 27.325) 50%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       stroke: color-mix(in oklab, var(--color-red-600) 50%, transparent);
     }
+  }
+  .stroke-teal-700 {
+    stroke: var(--color-teal-700);
   }
   .stroke-teal-700 {
     stroke: var(--color-teal-700);
@@ -1413,11 +1437,17 @@
   .stroke-violet-600 {
     stroke: var(--color-violet-600);
   }
+  .stroke-violet-600 {
+    stroke: var(--color-violet-600);
+  }
   .stroke-violet-600\/50 {
     stroke: color-mix(in srgb, oklch(54.1% 0.281 293.009) 50%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       stroke: color-mix(in oklab, var(--color-violet-600) 50%, transparent);
     }
+  }
+  .stroke-yellow-700 {
+    stroke: var(--color-yellow-700);
   }
   .stroke-yellow-700 {
     stroke: var(--color-yellow-700);
@@ -1827,6 +1857,9 @@
   .ring-blue-700 {
     --tw-ring-color: var(--color-blue-700);
   }
+  .ring-blue-700 {
+    --tw-ring-color: var(--color-blue-700);
+  }
   .ring-blue-700\/10 {
     --tw-ring-color: color-mix(in srgb, oklch(48.8% 0.243 264.376) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -1854,11 +1887,17 @@
   .ring-gray-900 {
     --tw-ring-color: var(--color-gray-900);
   }
+  .ring-gray-900 {
+    --tw-ring-color: var(--color-gray-900);
+  }
   .ring-gray-900\/5 {
     --tw-ring-color: color-mix(in srgb, oklch(21% 0.034 264.665) 5%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-ring-color: color-mix(in oklab, var(--color-gray-900) 5%, transparent);
     }
+  }
+  .ring-green-600 {
+    --tw-ring-color: var(--color-green-600);
   }
   .ring-green-600 {
     --tw-ring-color: var(--color-green-600);
@@ -1872,11 +1911,17 @@
   .ring-indigo-700 {
     --tw-ring-color: var(--color-indigo-700);
   }
+  .ring-indigo-700 {
+    --tw-ring-color: var(--color-indigo-700);
+  }
   .ring-indigo-700\/10 {
     --tw-ring-color: color-mix(in srgb, oklch(45.7% 0.24 277.023) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-ring-color: color-mix(in oklab, var(--color-indigo-700) 10%, transparent);
     }
+  }
+  .ring-lime-700 {
+    --tw-ring-color: var(--color-lime-700);
   }
   .ring-lime-700 {
     --tw-ring-color: var(--color-lime-700);
@@ -1890,11 +1935,17 @@
   .ring-orange-700 {
     --tw-ring-color: var(--color-orange-700);
   }
+  .ring-orange-700 {
+    --tw-ring-color: var(--color-orange-700);
+  }
   .ring-orange-700\/10 {
     --tw-ring-color: color-mix(in srgb, oklch(55.3% 0.195 38.402) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-ring-color: color-mix(in oklab, var(--color-orange-700) 10%, transparent);
     }
+  }
+  .ring-pink-700 {
+    --tw-ring-color: var(--color-pink-700);
   }
   .ring-pink-700 {
     --tw-ring-color: var(--color-pink-700);
@@ -1908,11 +1959,17 @@
   .ring-purple-700 {
     --tw-ring-color: var(--color-purple-700);
   }
+  .ring-purple-700 {
+    --tw-ring-color: var(--color-purple-700);
+  }
   .ring-purple-700\/10 {
     --tw-ring-color: color-mix(in srgb, oklch(49.6% 0.265 301.924) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-ring-color: color-mix(in oklab, var(--color-purple-700) 10%, transparent);
     }
+  }
+  .ring-red-600 {
+    --tw-ring-color: var(--color-red-600);
   }
   .ring-red-600 {
     --tw-ring-color: var(--color-red-600);
@@ -1926,11 +1983,17 @@
   .ring-teal-700 {
     --tw-ring-color: var(--color-teal-700);
   }
+  .ring-teal-700 {
+    --tw-ring-color: var(--color-teal-700);
+  }
   .ring-teal-700\/10 {
     --tw-ring-color: color-mix(in srgb, oklch(51.1% 0.096 186.391) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-ring-color: color-mix(in oklab, var(--color-teal-700) 10%, transparent);
     }
+  }
+  .ring-yellow-600 {
+    --tw-ring-color: var(--color-yellow-600);
   }
   .ring-yellow-600 {
     --tw-ring-color: var(--color-yellow-600);

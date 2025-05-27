@@ -1,15 +1,10 @@
 import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
-import { DayDate, DayDateInterval } from "@/day-date";
+import { DayDate } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
-import { Transition } from "@headlessui/react";
+import { Transition, TransitionChild } from "@headlessui/react";
 import { getDefined } from "@/utils";
-import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import { Dialog } from "../atoms/Dialog";
-import {
-  CreateOrEditScheduleShiftPosition,
-  User,
-} from "./CreateOrEditScheduleShiftPosition";
+import { User } from "./CreateOrEditScheduleShiftPosition";
 import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../../hooks/useTeamShiftsClipboard";
 import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
@@ -21,13 +16,11 @@ import {
   useTeamShiftPositionsMap,
 } from "../../hooks/useTeamShiftPositionsMap";
 import { ShiftPosition as ShiftPositionType } from "../../graphql/graphql";
-import { ShiftsAutoFill } from "../ShiftsAutoFill";
 import {
   LeaveRenderInfo,
   useTeamLeaveSchedule,
 } from "../../hooks/useTeamLeaveSchedule";
 import { useLocalPreference } from "../../hooks/useLocalPreference";
-import { Suspense } from "../atoms/Suspense";
 import { ShiftPosition } from "../atoms/ShiftPosition";
 import { LabeledSwitch } from "../particles/LabeledSwitch";
 import { toMinutes } from "../../utils/toMinutes";
@@ -36,9 +29,15 @@ import { useSearchParam } from "../../hooks/useSearchParam";
 import { TeamShiftsCalendar } from "../stateless/TeamShiftsCalendar";
 import { MemberLeaveInCalendar } from "../stateless/MemberLeaveInCalendar";
 import { Day } from "../particles/MonthDailyCalendar";
-import ContextualHelp from "../molecules/ContextualHelp";
-import { UnassignShiftPositionsDialog } from "../UnassignShiftPositionsDialog";
+import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
+import {
+  AnalyzedShiftPosition,
+  useAnalyzeTeamShiftsCalendar,
+} from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { AnalyzeTeamShiftsCalendarMenu } from "../stateless/AnalyzeTeamShiftsCalendarMenu";
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
+import { CreateOrEditScheduleShiftPositionDialog } from "./CreateOrEditScheduleShiftPositionDialog";
+import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -102,11 +101,26 @@ export const TeamShiftsSchedule = () => {
     false
   );
 
-  const { shiftPositionsMap } = useTeamShiftPositionsMap({
-    draggingShiftPosition,
-    shiftPositionsResult,
-    spillTime: showScheduleDetails,
-  });
+  let shiftPositionsMap: Record<string, AnalyzedShiftPosition[]> =
+    useTeamShiftPositionsMap({
+      draggingShiftPosition,
+      shiftPositionsResult,
+      spillTime: showScheduleDetails,
+    }).shiftPositionsMap;
+
+  const [showAnalyzeMenu, setShowAnalyzeMenu] = useLocalPreference(
+    "team-shifts-calendar-show-analyze-menu",
+    false
+  );
+
+  const { analyzedShiftPositionsMap, ...analyzeParams } =
+    useAnalyzeTeamShiftsCalendar({
+      shiftPositionsMap,
+    });
+
+  shiftPositionsMap = showAnalyzeMenu
+    ? analyzedShiftPositionsMap
+    : shiftPositionsMap;
 
   // ------- focus navigation -------
 
@@ -152,8 +166,7 @@ export const TeamShiftsSchedule = () => {
     hasCopiedShiftPosition,
   } = useTeamShiftsClipboard(selectedShiftPositions, focusedDay);
 
-  const { createShiftPosition, updateShiftPosition, deleteShiftPosition } =
-    useTeamShiftActions();
+  const { deleteShiftPosition } = useTeamShiftActions();
 
   // editing shift position
   const [editingShiftPosition, setEditingShiftPosition] = useState<
@@ -520,194 +533,43 @@ export const TeamShiftsSchedule = () => {
           <Trans>Error loading calendar data</Trans>
         </div>
       ) : (
-        <Dialog
-          open={isDialogOpen === "create"}
-          onClose={() => setIsDialogOpen(null)}
-          title={
-            editingShiftPosition ? (
-              <Trans>Edit position</Trans>
-            ) : (
-              <Trans>Insert position into the team schedule</Trans>
-            )
+        <CreateOrEditScheduleShiftPositionDialog
+          isDialogOpen={isDialogOpen === "create"}
+          setIsDialogOpen={(isDialogOpen) =>
+            setIsDialogOpen(isDialogOpen ? "create" : null)
           }
-        >
-          <div className={classNames("relative", helpPanelOpen ? "pr-72" : "")}>
-            <Suspense>
-              <CreateOrEditScheduleShiftPosition
-                editingShiftPosition={editingShiftPosition}
-                day={focusedDay ? new DayDate(focusedDay) : selectedMonth}
-                onCancel={() => setIsDialogOpen(null)}
-                onCreate={async (params) => {
-                  if (await createShiftPosition(params)) {
-                    setIsDialogOpen(null);
-                    refetchTeamShiftsQuery();
-                  }
-                }}
-                onUpdate={async (params) => {
-                  if (await updateShiftPosition(params)) {
-                    setIsDialogOpen(null);
-                    refetchTeamShiftsQuery();
-                  }
-                }}
-              />
-            </Suspense>
-            {/* Help panel for create/edit dialog */}
-            <div
-              className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
-                helpPanelOpen ? "translate-x-0" : "translate-x-full"
-              }`}
-            >
-              <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
-                {helpPanelOpen ? (
-                  <Suspense>
-                    <ContextualHelp
-                      isOpen={helpPanelOpen}
-                      setIsOpen={setHelpPanelOpen}
-                    />
-                  </Suspense>
-                ) : null}
-              </div>
-            </div>
-            {/* Toggle help panel button */}
-            <button
-              type="button"
-              onClick={() => setHelpPanelOpen(!helpPanelOpen)}
-              className="fixed right-2 top-12 opacity-50 hover:opacity-100 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500 z-50"
-            >
-              <span className="sr-only">Toggle help panel</span>
-              {helpPanelOpen ? (
-                <XMarkIcon aria-hidden="true" className="size-6" />
-              ) : (
-                <QuestionMarkCircleIcon aria-hidden="true" className="size-6" />
-              )}
-            </button>
-          </div>
-        </Dialog>
+          isHelpPanelOpen={helpPanelOpen}
+          editingShiftPosition={editingShiftPosition}
+          focusedDay={focusedDay ? new DayDate(focusedDay) : undefined}
+          selectedMonth={selectedMonth}
+          setIsHelpPanelOpen={setHelpPanelOpen}
+          helpPanelOpen={helpPanelOpen}
+          setHelpPanelOpen={setHelpPanelOpen}
+        />
       )}
-      <Dialog
-        open={isDialogOpen === "autoFill"}
-        onClose={() => setIsDialogOpen(null)}
-        title={<Trans>Auto fill</Trans>}
-        className="w-screen min-h-screen"
-      >
-        <div className={classNames("relative", helpPanelOpen ? "pr-72" : "")}>
-          <Suspense>
-            <ShiftsAutoFill
-              team={getDefined(teamPk)}
-              startRange={useMemo(
-                () =>
-                  new DayDateInterval(
-                    selectedMonth.firstOfMonth(),
-                    selectedMonth.nextMonth(1).previousDay()
-                  ),
-                [selectedMonth]
-              )}
-              onAssignShiftPositions={() => {
-                setIsDialogOpen(null);
-              }}
-            />
-          </Suspense>
-          {/* Help panel for auto fill dialog */}
-          <div
-            className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
-              helpPanelOpen ? "translate-x-0" : "translate-x-full"
-            }`}
-          >
-            <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900">Help</h2>
-              <button
-                type="button"
-                onClick={() => setHelpPanelOpen(false)}
-                className="-m-2.5 p-2.5 text-gray-700"
-              >
-                <span className="sr-only">Close help panel</span>
-                <XMarkIcon aria-hidden="true" className="size-6" />
-              </button>
-            </div>
-            <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
-              {helpPanelOpen ? (
-                <Suspense>
-                  <ContextualHelp
-                    isOpen={helpPanelOpen}
-                    setIsOpen={setHelpPanelOpen}
-                  />
-                </Suspense>
-              ) : null}
-            </div>
-          </div>
-          {/* Toggle help panel button */}
-          <button
-            type="button"
-            onClick={() => setHelpPanelOpen(!helpPanelOpen)}
-            className="fixed right-2 top-12 opacity-50 hover:opacity-100 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500 z-50"
-          >
-            <span className="sr-only">Toggle help panel</span>
-            {helpPanelOpen ? (
-              <XMarkIcon aria-hidden="true" className="size-6" />
-            ) : (
-              <QuestionMarkCircleIcon aria-hidden="true" className="size-6" />
-            )}
-          </button>
-        </div>
-      </Dialog>
-      <Dialog
-        open={isDialogOpen === "unassign"}
-        onClose={() => setIsDialogOpen(null)}
-        title={<Trans>Unassign shift positions</Trans>}
-      >
-        <div className={classNames("relative", helpPanelOpen ? "pr-72" : "")}>
-          <Suspense>
-            <UnassignShiftPositionsDialog
-              team={getDefined(teamPk)}
-              onClose={() => setIsDialogOpen(null)}
-              onUnassign={() => {
-                refetchTeamShiftsQuery();
-              }}
-            />
-          </Suspense>
-          {/* Help panel for unassign dialog */}
-          <div
-            className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
-              helpPanelOpen ? "translate-x-0" : "translate-x-full"
-            }`}
-          >
-            <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900">Help</h2>
-              <button
-                type="button"
-                onClick={() => setHelpPanelOpen(false)}
-                className="-m-2.5 p-2.5 text-gray-700"
-              >
-                <span className="sr-only">Close help panel</span>
-                <XMarkIcon aria-hidden="true" className="size-6" />
-              </button>
-            </div>
-            <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
-              {helpPanelOpen ? (
-                <Suspense>
-                  <ContextualHelp
-                    isOpen={helpPanelOpen}
-                    setIsOpen={setHelpPanelOpen}
-                  />
-                </Suspense>
-              ) : null}
-            </div>
-          </div>
-          {/* Toggle help panel button */}
-          <button
-            type="button"
-            onClick={() => setHelpPanelOpen(!helpPanelOpen)}
-            className="fixed right-4 top-10 opacity-50 hover:opacity-100 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500 z-50"
-          >
-            <span className="sr-only">Toggle help panel</span>
-            {helpPanelOpen ? (
-              <XMarkIcon aria-hidden="true" className="size-6" />
-            ) : (
-              <QuestionMarkCircleIcon aria-hidden="true" className="size-6" />
-            )}
-          </button>
-        </div>
-      </Dialog>
+      <ShiftsAutofillDialog
+        isDialogOpen={isDialogOpen === "autoFill"}
+        onClose={() => {
+          refetchTeamShiftsQuery();
+          setIsDialogOpen(null);
+        }}
+        helpPanelOpen={helpPanelOpen}
+        setHelpPanelOpen={setHelpPanelOpen}
+        teamPk={getDefined(teamPk)}
+        selectedMonth={selectedMonth}
+      />
+      <UnassignShiftPositionsDialog
+        isDialogOpen={isDialogOpen === "unassign"}
+        onClose={() => {
+          refetchTeamShiftsQuery();
+          setIsDialogOpen(null);
+        }}
+        isHelpPanelOpen={helpPanelOpen}
+        setIsHelpPanelOpen={setHelpPanelOpen}
+        helpPanelOpen={helpPanelOpen}
+        setHelpPanelOpen={setHelpPanelOpen}
+        teamPk={getDefined(teamPk)}
+      />
       <TeamShiftsCalendar
         shiftPositionsMap={shiftPositionsMap}
         show={!isDialogOpen}
@@ -747,7 +609,7 @@ export const TeamShiftsSchedule = () => {
               type: "component",
               component: (
                 <LabeledSwitch
-                  label={<Trans>Show leave schedule</Trans>}
+                  label={<Trans>Leaves</Trans>}
                   checked={showLeaveSchedule}
                   onChange={setShowLeaveSchedule}
                 />
@@ -757,17 +619,29 @@ export const TeamShiftsSchedule = () => {
               type: "component",
               component: (
                 <LabeledSwitch
-                  label={<Trans>Show schedule details</Trans>}
+                  label={<Trans>Details</Trans>}
                   checked={showScheduleDetails}
                   onChange={setShowScheduleDetails}
+                />
+              ),
+            },
+            {
+              type: "component",
+              component: (
+                <LabeledSwitch
+                  label={<Trans>Analyze</Trans>}
+                  checked={showAnalyzeMenu}
+                  onChange={setShowAnalyzeMenu}
                 />
               ),
             },
           ],
           [
             setIsDialogOpen,
+            setShowAnalyzeMenu,
             setShowLeaveSchedule,
             setShowScheduleDetails,
+            showAnalyzeMenu,
             showLeaveSchedule,
             showScheduleDetails,
             team?.resourcePermission,
@@ -787,7 +661,15 @@ export const TeamShiftsSchedule = () => {
           setEditingShiftPosition(undefined);
           setIsDialogOpen("create");
         }}
-      />
+      >
+        <Transition show={showAnalyzeMenu} appear>
+          <TransitionChild>
+            <div className="mt-4 transition duration-300 ease-in data-[closed]:opacity-0">
+              <AnalyzeTeamShiftsCalendarMenu {...analyzeParams} />
+            </div>
+          </TransitionChild>
+        </Transition>
+      </TeamShiftsCalendar>
     </div>
   );
 };

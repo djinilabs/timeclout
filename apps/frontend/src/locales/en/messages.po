@@ -522,19 +522,19 @@ msgid "Leave request created successfully"
 msgstr "Leave request created successfully"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:46
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:48
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:140
 msgid "By day"
 msgstr "By day"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:47
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:49
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:144
 msgid "By member"
 msgstr "By member"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:48
+#: apps/frontend/src/components/stateless/TeamShiftsCalendar.tsx:50
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:148
 msgid "By duration"
 msgstr "By duration"
@@ -691,7 +691,7 @@ msgstr "Add a manager"
 msgid "Add a new team member to the team."
 msgstr "Add a new team member to the team."
 
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:739
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:759
 msgid "Add position"
 msgstr "Add position"
 
@@ -722,6 +722,14 @@ msgstr "Adjust these parameters to control how the automatic assignment balances
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:192
 msgid "All employees"
 msgstr "All employees"
+
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:805
+msgid "Analyze"
+msgstr "Analyze"
+
+#: apps/frontend/src/components/stateless/AnalyzeTeamShiftsCalendarMenu.tsx:16
+msgid "Analyze inconvenience load"
+msgstr "Analyze inconvenience load"
 
 #: apps/frontend/src/components/LeaveRequest.tsx:117
 msgid "Approve leave request"
@@ -766,8 +774,8 @@ msgstr "Attention needed"
 msgid "August"
 msgstr "August"
 
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:605
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:747
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:625
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:767
 msgid "Auto fill"
 msgstr "Auto fill"
 
@@ -935,6 +943,10 @@ msgstr "Default Yearly Quota (days)"
 msgid "Delete"
 msgstr "Delete"
 
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:795
+msgid "Details"
+msgstr "Details"
+
 #: apps/frontend/src/components/molecules/ShiftAutoFillSolutionStats.tsx:94
 msgid "Discarded Schedules"
 msgstr "Discarded Schedules"
@@ -956,7 +968,7 @@ msgstr "Edit a position in the team schedule."
 msgid "Edit a team member to the team."
 msgstr "Edit a team member to the team."
 
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:543
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:563
 msgid "Edit position"
 msgstr "Edit position"
 
@@ -982,7 +994,7 @@ msgstr "End"
 msgid "End Date"
 msgstr "End Date"
 
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:535
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:555
 msgid "Error loading calendar data"
 msgstr "Error loading calendar data"
 
@@ -1074,7 +1086,7 @@ msgstr "Higher values try to equalize the spread of shifts for each worker throu
 msgid "Home"
 msgstr "Home"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:105
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:106
 msgid "Hours between shifts"
 msgstr "Hours between shifts"
 
@@ -1107,11 +1119,11 @@ msgstr "In Outlook: Settings > Calendar > Add calendar > Subscribe from web and 
 msgid "Inconvenience"
 msgstr "Inconvenience"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:98
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:99
 msgid "Inconvenience Deviation"
 msgstr "Inconvenience Deviation"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:170
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:171
 msgid "Inconvenience:Deviation from Expected"
 msgstr "Inconvenience:Deviation from Expected"
 
@@ -1119,7 +1131,7 @@ msgstr "Inconvenience:Deviation from Expected"
 msgid "Insert a position into the team schedule."
 msgstr "Insert a position into the team schedule."
 
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:545
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:565
 msgid "Insert position into the team schedule"
 msgstr "Insert position into the team schedule"
 
@@ -1177,6 +1189,10 @@ msgstr "Leave Type \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "LeaveRequest not found"
 
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:785
+msgid "Leaves"
+msgstr "Leaves"
+
 #: apps/frontend/src/components/company/MemberQuotaFulfilment.tsx:74
 msgid "leaving them with <0>{simulatedDaysLeft} days</0> left."
 msgstr "leaving them with <0>{simulatedDaysLeft} days</0> left."
@@ -1185,7 +1201,7 @@ msgstr "leaving them with <0>{simulatedDaysLeft} days</0> left."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "leaving you with <0>{simulatedDaysLeft} days</0> left."
 
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:531
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:551
 msgid "Loading calendar..."
 msgstr "Loading calendar..."
 
@@ -1289,8 +1305,8 @@ msgstr "No units"
 msgid "November"
 msgstr "November"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:78
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:105
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:79
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:106
 msgid "Number of shifts"
 msgstr "Number of shifts"
 
@@ -1581,12 +1597,10 @@ msgstr "Settings"
 msgid "Show in calendar as"
 msgstr "Show in calendar as"
 
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:765
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:294
 msgid "Show leave schedule"
 msgstr "Show leave schedule"
 
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:775
 #: apps/frontend/src/components/stateless/ShiftsAutofillSolutionMonthCalendar.tsx:284
 msgid "Show schedule details"
 msgstr "Show schedule details"
@@ -1655,15 +1669,15 @@ msgstr "T"
 msgid "T for Thursday"
 msgstr "T"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:101
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:102
 msgid "The deviation of the inconvenience from the expected inconvenience."
 msgstr "The deviation of the inconvenience from the expected inconvenience."
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:81
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:82
 msgid "The number of shifts assigned to each worker for each type."
 msgstr "The number of shifts assigned to each worker for each type."
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:87
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:88
 msgid "The time between shifts for each worker. The box plot shows the median, quartiles, and outliers."
 msgstr "The time between shifts for each worker. The box plot shows the median, quartiles, and outliers."
 
@@ -1686,7 +1700,7 @@ msgstr "They will have exceeded their quota by <0>{0} days</0>."
 msgid "This will restart the onboarding tour for the next page you visit."
 msgstr "This will restart the onboarding tour for the next page you visit."
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:84
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:85
 msgid "Time between shifts"
 msgstr "Time between shifts"
 
@@ -1738,11 +1752,11 @@ msgstr "un"
 msgid "Unassign"
 msgstr "Unassign"
 
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:754
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:774
 msgid "Unassign positions"
 msgstr "Unassign positions"
 
-#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:671
+#: apps/frontend/src/components/team/TeamShiftsSchedule.tsx:691
 msgid "Unassign shift positions"
 msgstr "Unassign shift positions"
 
@@ -1812,7 +1826,7 @@ msgstr "What type of leave are you planning to take?"
 msgid "Work Days"
 msgstr "Work Days"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:113
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:114
 msgid "Worker"
 msgstr "Worker"
 

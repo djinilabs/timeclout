@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { FC, memo } from "react";
 import { getInitials } from "../../utils/getInitials";
 
 const getColorAndBackground = (md5?: string | null) => {
@@ -29,8 +29,8 @@ export interface AvatarProps {
   size?: number;
 }
 
-export const Avatar = memo(
-  ({ name, emailMd5, email, size = 50 }: AvatarProps) => {
+export const Avatar: FC<AvatarProps> = memo(
+  ({ name, emailMd5, email, size = 50 }) => {
     const url = `https://www.gravatar.com/avatar/${emailMd5}?s=${String(
       Math.max(size, 250)
     )}&d=blank`;
