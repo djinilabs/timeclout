@@ -34,7 +34,7 @@ import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "../atoms/ShiftPosition";
 import { LabeledSwitch } from "../particles/LabeledSwitch";
 import { TeamShiftsCalendar } from "../team-shifts/TeamShiftsCalendar";
-import { MemberLeaveInCalendar } from "../stateless/MemberLeaveInCalendar";
+import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
 import { Day } from "../particles/MonthDailyCalendar";
 import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
 import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";

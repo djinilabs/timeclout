@@ -20,7 +20,7 @@ import { useMutation } from "../../hooks/useMutation";
 import { Button } from "../particles/Button";
 import { EditCountryAndRegion } from "../particles/EditCountryAndRegion";
 import { useQuery } from "../../hooks/useQuery";
-import { PermissionInput } from "../stateless/PermissionInput";
+import { PermissionInput } from "../atoms/PermissionInput";
 import { FieldComponent } from "../types";
 interface CreateOrEditTeamMemberProps {
   teamPk: string;

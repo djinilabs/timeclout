@@ -8,7 +8,7 @@ import inviteToTeamMutation from "@/graphql-client/mutations/inviteToTeam.graphq
 import { useMutation } from "../hooks/useMutation";
 import { Mutation, MutationCreateInvitationArgs } from "../graphql/graphql";
 import { Button } from "./particles/Button";
-import { PermissionInput } from "./stateless/PermissionInput";
+import { PermissionInput } from "./atoms/PermissionInput";
 import { FieldComponent } from "./types";
 
 export interface InviteToTeamProps {

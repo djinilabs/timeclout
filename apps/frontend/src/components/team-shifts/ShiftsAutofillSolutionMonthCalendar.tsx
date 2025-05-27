@@ -18,7 +18,7 @@ import {
 } from "../atoms/MonthlyCalendarPerMember";
 import { TeamShiftsSummary } from "./TeamShiftsSummary";
 import { CalendarHeader } from "../atoms/CalendarHeader";
-import { MemberLeaveInCalendar } from "../stateless/MemberLeaveInCalendar";
+import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
 
 export interface ShiftsAutofillSolutionMonthCalendarProps {
   year: number;
