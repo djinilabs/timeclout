@@ -4,7 +4,6 @@ import { DayDate } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
 import { Transition, TransitionChild } from "@headlessui/react";
 import { getDefined } from "@/utils";
-import { User } from "./CreateOrEditScheduleShiftPosition";
 import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../../hooks/useTeamShiftsClipboard";
 import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
@@ -12,21 +11,25 @@ import { useTeamShiftsQuery } from "../../hooks/useTeamShiftsQuery";
 import { useTeamShiftsFocusNavigation } from "../../hooks/useTeamShiftsFocusNavigation";
 import {
   type ShiftPositionWithFake,
-  ShiftPositionWithRowSpan,
+  type ShiftPositionWithRowSpan,
   useTeamShiftPositionsMap,
 } from "../../hooks/useTeamShiftPositionsMap";
-import { ShiftPosition as ShiftPositionType } from "../../graphql/graphql";
+import type {
+  ShiftPosition as ShiftPositionType,
+  User,
+} from "../../graphql/graphql";
 import {
   LeaveRenderInfo,
   useTeamLeaveSchedule,
 } from "../../hooks/useTeamLeaveSchedule";
 import { useLocalPreference } from "../../hooks/useLocalPreference";
-import { ShiftPosition } from "../atoms/ShiftPosition";
-import { LabeledSwitch } from "../particles/LabeledSwitch";
+import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
+import { useSearchParam } from "../../hooks/useSearchParam";
 import { toMinutes } from "../../utils/toMinutes";
 import { classNames } from "../../utils/classNames";
-import { useSearchParam } from "../../hooks/useSearchParam";
-import { TeamShiftsCalendar } from "../stateless/TeamShiftsCalendar";
+import { ShiftPosition } from "../atoms/ShiftPosition";
+import { LabeledSwitch } from "../particles/LabeledSwitch";
+import { TeamShiftsCalendar } from "../team-shifts/TeamShiftsCalendar";
 import { MemberLeaveInCalendar } from "../stateless/MemberLeaveInCalendar";
 import { Day } from "../particles/MonthDailyCalendar";
 import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
@@ -35,7 +38,6 @@ import {
   useAnalyzeTeamShiftsCalendar,
 } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { AnalyzeTeamShiftsCalendarMenu } from "../stateless/AnalyzeTeamShiftsCalendarMenu";
-import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 import { CreateOrEditScheduleShiftPositionDialog } from "./CreateOrEditScheduleShiftPositionDialog";
 import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
 

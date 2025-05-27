@@ -3,7 +3,7 @@ import { classNames } from "../../utils/classNames";
 import { Day, Month } from "../../utils/generateYearMonthsDays";
 import { type LeaveDay } from "../types";
 import { Popover } from "../particles/Popover";
-import { LeaveRequest } from "./LeaveRequest";
+import { LeaveRequest } from "../atoms/LeaveRequest";
 
 interface TimeOffCalendarDayProps {
   day: Day;

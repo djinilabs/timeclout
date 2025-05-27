@@ -18,7 +18,7 @@ import {
 } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
 import { Button } from "../particles/Button";
-import { EditCountryAndRegion } from "../stateless/EditCountryAndRegion";
+import { EditCountryAndRegion } from "../particles/EditCountryAndRegion";
 import { useQuery } from "../../hooks/useQuery";
 import { PermissionInput } from "../stateless/PermissionInput";
 import { FieldComponent } from "../types";

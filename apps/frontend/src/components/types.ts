@@ -42,3 +42,9 @@ export interface LeaveDay {
   color?: string;
   leaveRequest?: LeaveRequest;
 }
+
+export interface TimeSchedule {
+  startHourMinutes: [number, number];
+  endHourMinutes: [number, number];
+  inconveniencePerHour: number;
+}

@@ -10,14 +10,14 @@ import { ShiftsAutoFillParams } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
 import { useTeamShiftsQuery } from "../../hooks/useTeamShiftsQuery";
 import { useLocalPreference } from "../../hooks/useLocalPreference";
-import {
-  ShiftAutoFillParams,
-  ShiftAutoFillParamValues,
-} from "../stateless/ShiftAutoFillParams";
 import { Suspense } from "../atoms/Suspense";
 import { Button } from "../particles/Button";
 import { Loading } from "../particles/Loading";
-import { ShiftsAutoFillProgress } from "../stateless/ShiftsAutoFillProgress";
+import {
+  ShiftAutoFillParams,
+  type ShiftAutoFillParamValues,
+} from "../team-shifts/ShiftAutoFillParams";
+import { ShiftsAutoFillProgress } from "../team-shifts/ShiftsAutoFillProgress";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;

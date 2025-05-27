@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { Avatar } from "../particles/Avatar";
-import { User, type LeaveDay } from "./TeamLeaveSchedule";
+import { User, type LeaveDay } from "../molecules/TeamLeaveSchedule";
 
 export interface MemberLeaveInCalendarProps {
   member: User;

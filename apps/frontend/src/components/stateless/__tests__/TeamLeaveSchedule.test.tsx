@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { TeamLeaveSchedule } from "../TeamLeaveSchedule";
+import { TeamLeaveSchedule } from "../../molecules/TeamLeaveSchedule";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
 import { BrowserRouter } from "react-router-dom";

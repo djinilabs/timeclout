@@ -13,7 +13,7 @@ import {
   LeaveRequest as LeaveRequestType,
   QueryLeaveRequestArgs,
 } from "../graphql/graphql";
-import { LeaveRequest as LeaveRequestComponent } from "./stateless/LeaveRequest";
+import { LeaveRequest as LeaveRequestComponent } from "./atoms/LeaveRequest";
 import { Button } from "./particles/Button";
 
 export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {

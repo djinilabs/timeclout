@@ -16,7 +16,7 @@ import { useQuery } from "../../hooks/useQuery";
 import { useTour } from "../../hooks/useTour";
 import { useMutation } from "../../hooks/useMutation";
 import { Button } from "../particles/Button";
-import { EditCountryAndRegion } from "../stateless/EditCountryAndRegion";
+import { EditCountryAndRegion } from "../particles/EditCountryAndRegion";
 import { FieldComponent } from "../types";
 
 export const MeEdit = () => {

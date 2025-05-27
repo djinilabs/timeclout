@@ -7,7 +7,6 @@ import { dequal } from "dequal";
 import { DayDate } from "@/day-date";
 import { getDefined } from "@/utils";
 import { SchedulePositionTemplate } from "@/settings";
-import { useQuery } from "../../hooks/useQuery";
 import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
 import {
   CreateShiftPositionInput,
@@ -18,16 +17,17 @@ import {
   TeamSettingsArgs,
   UpdateShiftPositionInput,
 } from "../../graphql/graphql";
-import { TimeSchedulesEditor } from "../stateless/TimeSchedulesEditor";
+import { useQuery } from "../../hooks/useQuery";
+import { useTeamWithSettings } from "../../hooks/useTeamWithSettings";
+import { useSaveTeamSettings } from "../../hooks/useSaveTeamSettings";
+import { calculateShiftPositionSchedulesTotalInconvenience } from "../../utils/calculateShiftPositionSchedulesTotalInconvenience";
+import { TimeSchedulesEditor } from "../team-shifts/TimeSchedulesEditor";
 import { EditQualifications } from "./EditQualifications";
 import { SelectUser } from "../atoms/SelectUser";
 import { Color, ColorPicker } from "../atoms/ColorPicker";
 import { Button } from "../particles/Button";
-import { useTeamWithSettings } from "../../hooks/useTeamWithSettings";
-import { useSaveTeamSettings } from "../../hooks/useSaveTeamSettings";
 import { ListBox } from "../particles/ListBox";
 import { DayPicker } from "../atoms/DayPicker";
-import { calculateShiftPositionSchedulesTotalInconvenience } from "../../utils/calculateShiftPositionSchedulesTotalInconvenience";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
