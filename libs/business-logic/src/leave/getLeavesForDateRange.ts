@@ -3,8 +3,8 @@ import { ResourceRef } from "@/utils";
 import { DayDate } from "@/day-date";
 
 export const getLeavesForDateRange = async (
-  companyRef: ResourceRef,
-  userRef: ResourceRef,
+  companyRef: ResourceRef<"companies">,
+  userRef: ResourceRef<"users">,
   startDate: DayDate,
   endDate: DayDate
 ): Promise<LeaveRecord[]> => {
@@ -14,7 +14,7 @@ export const getLeavesForDateRange = async (
     ExpressionAttributeValues: {
       ":pk": `${companyRef}/${userRef}`,
       ":startDate": startDate.toString(),
-      ":endDate": endDate.nextDay().toString(),
+      ":endDate": endDate.toString(),
     },
   });
 };

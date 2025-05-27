@@ -54,7 +54,7 @@ export const createLeaveRequestsForSingleDays = async ({
       if (overlaps) {
         const culprit = leaves.length > 0 ? leaves[0] : leaveRequests[0];
         throw badRequest(
-          `Leave request overlaps with existing ${leaves.length > 0 ? "leave" : "leave request"} of type ${culprit.type}`
+          `Leave request overlaps with existing ${leaves.length > 0 ? "leave" : "leave request"} of type ${culprit.type} for day ${day}`
         );
       }
       return leaveRequestCandidate;
