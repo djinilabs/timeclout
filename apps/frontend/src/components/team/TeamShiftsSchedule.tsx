@@ -2,7 +2,7 @@ import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
-import { Transition, TransitionChild } from "@headlessui/react";
+import { Transition } from "@headlessui/react";
 import { getDefined } from "@/utils";
 import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../../hooks/useTeamShiftsClipboard";
@@ -25,10 +25,7 @@ import {
 import { useLocalPreference } from "../../hooks/useLocalPreference";
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 import { useSearchParam } from "../../hooks/useSearchParam";
-import {
-  AnalyzedShiftPosition,
-  useAnalyzeTeamShiftsCalendar,
-} from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { toMinutes } from "../../utils/toMinutes";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "../atoms/ShiftPosition";
@@ -37,7 +34,6 @@ import { TeamShiftsCalendar } from "../team-shifts/TeamShiftsCalendar";
 import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
 import { Day } from "../particles/MonthDailyCalendar";
 import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
-import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
 import { CreateOrEditScheduleShiftPositionDialog } from "./CreateOrEditScheduleShiftPositionDialog";
 import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
 
@@ -103,26 +99,12 @@ export const TeamShiftsSchedule = () => {
     false
   );
 
-  let shiftPositionsMap: Record<string, AnalyzedShiftPosition[]> =
+  const shiftPositionsMap: Record<string, AnalyzedShiftPosition[]> =
     useTeamShiftPositionsMap({
       draggingShiftPosition,
       shiftPositionsResult,
       spillTime: showScheduleDetails,
     }).shiftPositionsMap;
-
-  const [showAnalyzeMenu, setShowAnalyzeMenu] = useLocalPreference(
-    "team-shifts-calendar-show-analyze-menu",
-    false
-  );
-
-  const { analyzedShiftPositionsMap, ...analyzeParams } =
-    useAnalyzeTeamShiftsCalendar({
-      shiftPositionsMap,
-    });
-
-  shiftPositionsMap = showAnalyzeMenu
-    ? analyzedShiftPositionsMap
-    : shiftPositionsMap;
 
   // ------- focus navigation -------
 
@@ -627,23 +609,11 @@ export const TeamShiftsSchedule = () => {
                 />
               ),
             },
-            {
-              type: "component",
-              component: (
-                <LabeledSwitch
-                  label={<Trans>Analyze</Trans>}
-                  checked={showAnalyzeMenu}
-                  onChange={setShowAnalyzeMenu}
-                />
-              ),
-            },
           ],
           [
             setIsDialogOpen,
-            setShowAnalyzeMenu,
             setShowLeaveSchedule,
             setShowScheduleDetails,
-            showAnalyzeMenu,
             showLeaveSchedule,
             showScheduleDetails,
             team?.resourcePermission,
@@ -663,15 +633,7 @@ export const TeamShiftsSchedule = () => {
           setEditingShiftPosition(undefined);
           setIsDialogOpen("create");
         }}
-      >
-        <Transition show={showAnalyzeMenu} appear>
-          <TransitionChild>
-            <div className="mt-4 transition duration-300 ease-in data-[closed]:opacity-0">
-              <AnalyzeTeamShiftsCalendarMenu {...analyzeParams} />
-            </div>
-          </TransitionChild>
-        </Transition>
-      </TeamShiftsCalendar>
+      />
     </div>
   );
 };
