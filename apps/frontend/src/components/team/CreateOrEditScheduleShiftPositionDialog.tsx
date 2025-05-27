@@ -46,7 +46,7 @@ export const CreateOrEditScheduleShiftPositionDialog = ({
         )
       }
     >
-      <div className={classNames("relative", isHelpPanelOpen ? "pr-72" : "")}>
+      <div className="relative">
         <Suspense>
           <CreateOrEditScheduleShiftPosition
             editingShiftPosition={editingShiftPosition}

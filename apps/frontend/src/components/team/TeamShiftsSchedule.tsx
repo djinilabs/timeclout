@@ -549,8 +549,6 @@ export const TeamShiftsSchedule = () => {
           setIsDialogOpen(null);
         }}
         isHelpPanelOpen={helpPanelOpen}
-        setIsHelpPanelOpen={setHelpPanelOpen}
-        helpPanelOpen={helpPanelOpen}
         setHelpPanelOpen={setHelpPanelOpen}
         teamPk={getDefined(teamPk)}
       />
