@@ -23,6 +23,7 @@ import { Avatar } from "../particles/Avatar";
 import { Popover } from "../particles/Popover";
 import { toMinutes } from "../../utils/toMinutes";
 import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { i18n } from "@lingui/core";
 
 export interface ShiftPositionProps {
   shiftPosition: AnalyzedShiftPosition;
@@ -244,13 +245,13 @@ export const ShiftPosition = memo(
             {shiftPosition.hasLeaveConflict && (
               <ExclamationTriangleIcon
                 className="w-4 h-4 text-red-500 ml-1"
-                title="Leave conflict detected"
+                title={i18n.t("Leave conflict detected")}
               />
             )}
             {shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule && (
               <ExclamationTriangleIcon
                 className="w-4 h-4 text-yellow-500 ml-1"
-                title="Maximum interval between shifts rule violated"
+                title={i18n.t("Maximum interval between shifts rule violated")}
               />
             )}
           </div>
