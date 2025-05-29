@@ -6,8 +6,29 @@ export const useAnalyzeTeamShiftsCalendarParams = (analyze: boolean) => {
     analyze
   );
 
+  const [
+    requireMaximumIntervalBetweenShifts,
+    setRequireMaximumIntervalBetweenShifts,
+  ] = useLocalPreference(
+    "team-shifts-calendar-require-maximum-interval-between-shifts",
+    false
+  );
+
+  const [
+    maximumIntervalBetweenShiftsInDays,
+    setMaximumIntervalBetweenShiftsInDays,
+  ] = useLocalPreference(
+    "team-shifts-calendar-maximum-interval-between-shifts",
+    10
+  );
+
   return {
     analyzeLeaveConflicts: analyze && analyzeLeaveConflicts,
     setAnalyzeLeaveConflicts,
+    requireMaximumIntervalBetweenShifts:
+      analyze && requireMaximumIntervalBetweenShifts,
+    setRequireMaximumIntervalBetweenShifts,
+    maximumIntervalBetweenShiftsInDays,
+    setMaximumIntervalBetweenShiftsInDays,
   };
 };

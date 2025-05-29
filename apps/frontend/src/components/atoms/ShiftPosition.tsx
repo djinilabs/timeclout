@@ -64,7 +64,10 @@ export const ShiftPosition = memo(
     showScheduleDetails,
   }: ShiftPositionProps) => {
     const conflicts =
-      originalConflicts || shiftPosition.hasLeaveConflict || false;
+      originalConflicts ||
+      shiftPosition.hasLeaveConflict ||
+      shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule ||
+      false;
 
     const { schedules } = shiftPosition;
     const startTime = toMinutes(
@@ -242,6 +245,12 @@ export const ShiftPosition = memo(
               <ExclamationTriangleIcon
                 className="w-4 h-4 text-red-500 ml-1"
                 title="Leave conflict detected"
+              />
+            )}
+            {shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule && (
+              <ExclamationTriangleIcon
+                className="w-4 h-4 text-yellow-500 ml-1"
+                title="Maximum interval between shifts rule violated"
               />
             )}
           </div>

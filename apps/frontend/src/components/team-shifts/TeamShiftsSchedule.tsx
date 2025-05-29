@@ -188,16 +188,26 @@ export const TeamShiftsSchedule = () => {
 
   const [analyze, setAnalyze] = useState(false);
 
-  const { analyzeLeaveConflicts, setAnalyzeLeaveConflicts } =
-    useAnalyzeTeamShiftsCalendarParams(analyze);
+  const {
+    analyzeLeaveConflicts,
+    setAnalyzeLeaveConflicts,
+    requireMaximumIntervalBetweenShifts,
+    setRequireMaximumIntervalBetweenShifts,
+    maximumIntervalBetweenShiftsInDays,
+    setMaximumIntervalBetweenShiftsInDays,
+  } = useAnalyzeTeamShiftsCalendarParams(analyze);
 
   const { analyzedShiftPositionsMap } = useAnalyzeTeamShiftsCalendar({
     analyzeLeaveConflicts,
     shiftPositionsMap,
     leaveSchedule,
+    requireMaximumIntervalBetweenShifts,
+    maximumIntervalBetweenShiftsInDays: maximumIntervalBetweenShiftsInDays,
   });
 
   shiftPositionsMap = analyzedShiftPositionsMap;
+
+  // ------- render -------
 
   // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
 
@@ -667,6 +677,18 @@ export const TeamShiftsSchedule = () => {
             <AnalyzeTeamShiftsCalendarMenu
               analyzeLeaveConflicts={analyzeLeaveConflicts}
               setAnalyzeLeaveConflicts={setAnalyzeLeaveConflicts}
+              requireMaximumIntervalBetweenShifts={
+                requireMaximumIntervalBetweenShifts
+              }
+              setRequireMaximumIntervalBetweenShifts={
+                setRequireMaximumIntervalBetweenShifts
+              }
+              maximumIntervalBetweenShiftsInDays={
+                maximumIntervalBetweenShiftsInDays
+              }
+              setMaximumIntervalBetweenShiftsInDays={
+                setMaximumIntervalBetweenShiftsInDays
+              }
             />
           </div>
         </Transition>
