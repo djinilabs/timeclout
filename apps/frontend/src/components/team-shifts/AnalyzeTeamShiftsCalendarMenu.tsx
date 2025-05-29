@@ -13,7 +13,7 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
   return (
     <div>
       <LabeledSwitch
-        label={<Trans>Analyze Leave Conflicts</Trans>}
+        label={<Trans>Show leave conflicts</Trans>}
         checked={analyzeLeaveConflicts}
         onChange={setAnalyzeLeaveConflicts}
       />
