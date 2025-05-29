@@ -6,7 +6,10 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import {
+  EllipsisHorizontalIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { colors } from "@/settings";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
@@ -15,16 +18,14 @@ import {
   type TimeSchedule,
   MiniTimeScheduleVisualizer,
 } from "../particles/MiniTimeScheduleVisualizer";
-import {
-  ShiftPositionWithRowSpan,
-  type ShiftPositionWithFake,
-} from "../../hooks/useTeamShiftPositionsMap";
+import { type ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 import { Avatar } from "../particles/Avatar";
 import { Popover } from "../particles/Popover";
 import { toMinutes } from "../../utils/toMinutes";
+import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 
 export interface ShiftPositionProps {
-  shiftPosition: ShiftPositionWithRowSpan;
+  shiftPosition: AnalyzedShiftPosition;
   hideName?: boolean;
   setFocusedShiftPosition?: (shiftPosition: ShiftPositionType) => void;
   focus?: boolean;
@@ -58,10 +59,13 @@ export const ShiftPosition = memo(
     pasteShiftPositionFromClipboard,
     deleteShiftPosition,
     lastRow,
-    conflicts,
+    conflicts: originalConflicts,
     isSelected,
     showScheduleDetails,
   }: ShiftPositionProps) => {
+    const conflicts =
+      originalConflicts || shiftPosition.hasLeaveConflict || false;
+
     const { schedules } = shiftPosition;
     const startTime = toMinutes(
       schedules[0].startHourMinutes as [number, number]
@@ -233,6 +237,12 @@ export const ShiftPosition = memo(
               >
                 {shiftPosition.name}
               </span>
+            )}
+            {shiftPosition.hasLeaveConflict && (
+              <ExclamationTriangleIcon
+                className="w-4 h-4 text-red-500 ml-1"
+                title="Leave conflict detected"
+              />
             )}
           </div>
           <Transition show={showScheduleDetails} appear>

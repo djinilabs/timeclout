@@ -1,53 +1,73 @@
 import { useMemo } from "react";
-import { useLocalPreference } from "./useLocalPreference";
-import { ShiftPositionWithRowSpan } from "./useTeamShiftPositionsMap";
+import { type ShiftPositionWithRowSpan } from "./useTeamShiftPositionsMap";
+import { type LeaveRenderInfo } from "./useTeamLeaveSchedule";
 
 export type AnalyzedShiftPosition = ShiftPositionWithRowSpan & {
-  inconvenienceLoad?: number;
+  hasLeaveConflict?: boolean;
 };
 
 export interface AnalyzeTeamShiftsCalendarProps {
+  analyzeLeaveConflicts: boolean;
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
+  leaveSchedule: Record<string, LeaveRenderInfo[]>;
 }
 
 export interface AnalyzeTeamShiftsCalendarReturn {
-  analyzeInconvenienceLoad: boolean;
-  setAnalyzeInconvenienceLoad: (analyzeInconvenienceLoad: boolean) => void;
   analyzedShiftPositionsMap: Record<string, AnalyzedShiftPosition[]>;
 }
 
-export const useAnalyzeTeamShiftsCalendar = ({
+// -- Analyze Leave Conflicts --
+
+const doAnalyzeLeaveConflicts = ({
   shiftPositionsMap: originalShiftPositionsMap,
-}: AnalyzeTeamShiftsCalendarProps): AnalyzeTeamShiftsCalendarReturn => {
-  const [analyzeInconvenienceLoad, setAnalyzeInconvenienceLoad] =
-    useLocalPreference(
-      "team-shifts-calendar-show-analyze-inconvenience-load",
-      false
-    );
+  leaveSchedule,
+}: AnalyzeTeamShiftsCalendarProps) => {
+  return Object.fromEntries(
+    Object.entries(originalShiftPositionsMap).map(([day, shiftPositions]) => {
+      const analyzedShiftPositions = shiftPositions.map(
+        (shiftPosition): AnalyzedShiftPosition => {
+          const analyzedShiftPosition: AnalyzedShiftPosition = {
+            ...shiftPosition,
+          };
+
+          // Check if there are any leaves for this day
+          const dayLeaves = leaveSchedule[day] || [];
+
+          // If the shift position is assigned to someone, check if they have a leave
+          if (shiftPosition.assignedTo) {
+            const hasLeaveConflict = dayLeaves.some(
+              (leave) => leave.user.pk === shiftPosition.assignedTo?.pk
+            );
+
+            if (hasLeaveConflict) {
+              analyzedShiftPosition.hasLeaveConflict = true;
+            }
+          }
+
+          return analyzedShiftPosition;
+        }
+      );
+      return [day, analyzedShiftPositions];
+    })
+  );
+};
+
+export const useAnalyzeTeamShiftsCalendar = (
+  props: AnalyzeTeamShiftsCalendarProps
+): AnalyzeTeamShiftsCalendarReturn => {
+  const {
+    analyzeLeaveConflicts,
+    shiftPositionsMap: originalShiftPositionsMap,
+  } = props;
 
   const shiftPositionsMap = useMemo(() => {
-    if (analyzeInconvenienceLoad) {
-      return Object.fromEntries(
-        Object.entries(originalShiftPositionsMap).map(
-          ([day, shiftPositions]) => {
-            return [
-              day,
-              shiftPositions.map((shiftPosition) => {
-                return {
-                  ...shiftPosition,
-                };
-              }),
-            ];
-          }
-        )
-      );
+    if (analyzeLeaveConflicts) {
+      return doAnalyzeLeaveConflicts(props);
     }
     return originalShiftPositionsMap;
-  }, [analyzeInconvenienceLoad, originalShiftPositionsMap]);
+  }, [analyzeLeaveConflicts, originalShiftPositionsMap, props]);
 
   return {
-    analyzeInconvenienceLoad,
-    setAnalyzeInconvenienceLoad,
     analyzedShiftPositionsMap: shiftPositionsMap,
   };
 };

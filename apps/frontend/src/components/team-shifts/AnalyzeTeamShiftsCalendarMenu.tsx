@@ -2,20 +2,20 @@ import { Trans } from "@lingui/react/macro";
 import { LabeledSwitch } from "../particles/LabeledSwitch";
 
 export interface AnalyzeTeamShiftsCalendarMenuProps {
-  analyzeInconvenienceLoad: boolean;
-  setAnalyzeInconvenienceLoad: (analyzeInconvenienceLoad: boolean) => void;
+  analyzeLeaveConflicts: boolean;
+  setAnalyzeLeaveConflicts: (analyzeLeaveConflicts: boolean) => void;
 }
 
 export const AnalyzeTeamShiftsCalendarMenu = ({
-  analyzeInconvenienceLoad,
-  setAnalyzeInconvenienceLoad,
+  analyzeLeaveConflicts,
+  setAnalyzeLeaveConflicts,
 }: AnalyzeTeamShiftsCalendarMenuProps) => {
   return (
     <div>
       <LabeledSwitch
-        label={<Trans>Analyze inconvenience load</Trans>}
-        checked={analyzeInconvenienceLoad}
-        onChange={setAnalyzeInconvenienceLoad}
+        label={<Trans>Analyze Leave Conflicts</Trans>}
+        checked={analyzeLeaveConflicts}
+        onChange={setAnalyzeLeaveConflicts}
       />
     </div>
   );

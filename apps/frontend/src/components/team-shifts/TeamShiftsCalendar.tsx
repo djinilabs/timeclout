@@ -3,16 +3,16 @@ import { FC, PropsWithChildren, ReactNode, useMemo, useState } from "react";
 import { type Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
 import { i18n } from "@lingui/core";
 import { TeamShiftsSummary } from "./TeamShiftsSummary";
-import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { CalendarHeader } from "../atoms/CalendarHeader";
 import { Tabs } from "../molecules/Tabs";
 import {
   MonthlyCalendarPerMember,
   type User,
 } from "../atoms/MonthlyCalendarPerMember";
+import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 
 export interface TeamShiftsCalendarProps {
-  shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
+  shiftPositionsMap: Record<string, AnalyzedShiftPosition[]>;
   show?: boolean;
   onDayFocus?: (day: string) => void;
   focusedDay?: string;
