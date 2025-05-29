@@ -22,7 +22,7 @@ import { useTeamWithSettings } from "../../hooks/useTeamWithSettings";
 import { useSaveTeamSettings } from "../../hooks/useSaveTeamSettings";
 import { calculateShiftPositionSchedulesTotalInconvenience } from "../../utils/calculateShiftPositionSchedulesTotalInconvenience";
 import { TimeSchedulesEditor } from "../team-shifts/TimeSchedulesEditor";
-import { EditQualifications } from "./EditQualifications";
+import { EditQualifications } from "../team/EditQualifications";
 import { SelectUser } from "../atoms/SelectUser";
 import { Color, ColorPicker } from "../atoms/ColorPicker";
 import { Button } from "../particles/Button";
