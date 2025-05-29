@@ -48,6 +48,7 @@
     --color-indigo-700: oklch(45.7% 0.24 277.023);
     --color-violet-600: oklch(54.1% 0.281 293.009);
     --color-purple-50: oklch(97.7% 0.014 308.299);
+    --color-purple-500: oklch(62.7% 0.265 303.9);
     --color-purple-600: oklch(55.8% 0.288 302.321);
     --color-purple-700: oklch(49.6% 0.265 301.924);
     --color-pink-50: oklch(97.1% 0.014 343.198);
@@ -1641,6 +1642,9 @@
   }
   .text-pink-700 {
     color: var(--color-pink-700);
+  }
+  .text-purple-500 {
+    color: var(--color-purple-500);
   }
   .text-purple-700 {
     color: var(--color-purple-700);

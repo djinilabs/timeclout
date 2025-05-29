@@ -202,6 +202,10 @@ export const TeamShiftsSchedule = () => {
     setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
     minimumNumberOfShiftsPerWeekInStandardWorkday,
     setMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    requireMinimumRestSlotsAfterShift,
+    setRequireMinimumRestSlotsAfterShift,
+    minimumRestSlotsAfterShift,
+    setMinimumRestSlotsAfterShift,
   } = useAnalyzeTeamShiftsCalendarParams(analyze);
 
   const { analyzedShiftPositionsMap } = useAnalyzeTeamShiftsCalendar({
@@ -212,6 +216,8 @@ export const TeamShiftsSchedule = () => {
     maximumIntervalBetweenShiftsInDays: maximumIntervalBetweenShiftsInDays,
     requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
     minimumNumberOfShiftsPerWeekInStandardWorkday,
+    requireMinimumRestSlotsAfterShift,
+    minimumRestSlotsAfterShift,
   });
 
   shiftPositionsMap = analyzedShiftPositionsMap;
@@ -711,6 +717,14 @@ export const TeamShiftsSchedule = () => {
               setMinimumNumberOfShiftsPerWeekInStandardWorkday={
                 setMinimumNumberOfShiftsPerWeekInStandardWorkday
               }
+              requireMinimumRestSlotsAfterShift={
+                requireMinimumRestSlotsAfterShift
+              }
+              setRequireMinimumRestSlotsAfterShift={
+                setRequireMinimumRestSlotsAfterShift
+              }
+              minimumRestSlotsAfterShift={minimumRestSlotsAfterShift}
+              setMinimumRestSlotsAfterShift={setMinimumRestSlotsAfterShift}
             />
           </div>
         </Transition>

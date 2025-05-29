@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useLocalPreference } from "./useLocalPreference";
 
 export const useAnalyzeTeamShiftsCalendarParams = (analyze: boolean) => {
@@ -38,6 +39,25 @@ export const useAnalyzeTeamShiftsCalendarParams = (analyze: boolean) => {
     1
   );
 
+  const [
+    requireMinimumRestSlotsAfterShift,
+    setRequireMinimumRestSlotsAfterShift,
+  ] = useLocalPreference(
+    "team-shifts-calendar-require-minimum-rest-slots-after-shift",
+    false
+  );
+
+  const [minimumRestSlotsAfterShift, setMinimumRestSlotsAfterShift] =
+    useLocalPreference<
+      {
+        inconvenienceLessOrEqualThan: number;
+        minimumRestMinutes: number;
+      }[]
+    >(
+      "team-shifts-calendar-minimum-rest-slots-after-shift",
+      useMemo(() => [], [])
+    );
+
   return {
     analyzeLeaveConflicts: analyze && analyzeLeaveConflicts,
     setAnalyzeLeaveConflicts,
@@ -46,9 +66,15 @@ export const useAnalyzeTeamShiftsCalendarParams = (analyze: boolean) => {
     setRequireMaximumIntervalBetweenShifts,
     maximumIntervalBetweenShiftsInDays,
     setMaximumIntervalBetweenShiftsInDays,
-    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday:
+      analyze && requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
     setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
     minimumNumberOfShiftsPerWeekInStandardWorkday,
     setMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    requireMinimumRestSlotsAfterShift:
+      analyze && requireMinimumRestSlotsAfterShift,
+    setRequireMinimumRestSlotsAfterShift,
+    minimumRestSlotsAfterShift: analyze ? minimumRestSlotsAfterShift : [],
+    setMinimumRestSlotsAfterShift,
   };
 };
