@@ -112,9 +112,6 @@ const doAnalyzeMaximumIntervalBetweenShifts = ({
 
               // If the interval exceeds the maximum allowed, mark both shifts
               if (intervalDays > maximumIntervalBetweenShiftsInDays) {
-                console.log(
-                  `Shift position ${shiftPosition.pk} has issue with maximum interval between shifts rule`
-                );
                 analyzedShiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule =
                   true;
               }
