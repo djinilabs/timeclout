@@ -14,14 +14,9 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:248
-msgid "Leave conflict detected"
-msgstr "Detetado conflito com ausência"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:254
-msgid "Maximum interval between shifts rule violated"
-msgstr "Regra de intervalo máximo entre turnos violada"
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:261
+msgid "Minimum number of shifts per week in standard workday rule violated"
+msgstr "Violação da regra de número mínimo de turnos durante a semana de trabalho"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
@@ -676,6 +671,16 @@ msgid "Please provide a reason for your leave request."
 msgstr "Por favor, forneça um motivo para sua solicitação de ausência."
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:249
+msgid "Leave conflict detected"
+msgstr "Detetado conflito com ausência"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:255
+msgid "Maximum interval between shifts rule violated"
+msgstr "Regra de intervalo máximo entre turnos violada"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/SelectUser.tsx:71
 msgid "Unassigned"
 msgstr "Não atribuido"
@@ -701,7 +706,7 @@ msgstr "Adicionar um gerente"
 msgid "Add a new team member to the team."
 msgstr "Adicionar um novo membro à equipa."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:597
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:606
 msgid "Add position"
 msgstr "Adicionar posição"
 
@@ -733,7 +738,7 @@ msgstr "Ajuste estes parâmetros para controlar como a atribuição automática 
 msgid "All employees"
 msgstr "Todos os funcionários"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:643
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:652
 msgid "Analyze"
 msgstr "Analisar"
 
@@ -780,7 +785,7 @@ msgstr "Atenção necessária"
 msgid "August"
 msgstr "Agosto"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:605
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:614
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillDialog.tsx:32
 msgid "Auto fill"
 msgstr "Auto preenchimento"
@@ -854,7 +859,7 @@ msgstr "Conflito(s) enquanto pesquisando por solução"
 msgid "Contact our customer service team at"
 msgstr "Contactar o nosso serviço de apoio ao cliente em"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:183
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:184
 msgid "Copy"
 msgstr "Copiar"
 
@@ -945,11 +950,11 @@ msgstr "Deduz da cota anual"
 msgid "Default Yearly Quota (days)"
 msgstr "Cota anual padrão (dias)"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:218
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:219
 msgid "Delete"
 msgstr "Eliminar"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:633
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:642
 msgid "Details"
 msgstr "Detalhes"
 
@@ -962,7 +967,7 @@ msgstr "Agendamentos descartados"
 #: apps/frontend/src/components/team/TeamMembers.tsx:129
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:60
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:133
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:168
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:169
 msgid "Edit"
 msgstr "Editar"
 
@@ -1000,7 +1005,7 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:546
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:555
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
@@ -1195,7 +1200,7 @@ msgstr "Tipo de ausência \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "Pedido de ausência não encontrado"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:623
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:632
 msgid "Leaves"
 msgstr "Ausências"
 
@@ -1207,7 +1212,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:542
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:551
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -1346,7 +1351,7 @@ msgstr "Abrir menu de utilizador"
 msgid "Out of Office"
 msgstr "Fora de Escritório"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:199
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:200
 msgid "Paste here"
 msgstr "Colar aqui"
 
@@ -1428,11 +1433,12 @@ msgid "require"
 msgstr "requer"
 
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:105
-#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:35
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:47
 msgid "Require a maximum interval between shifts for each worker (in days)"
 msgstr "Requerer um intervalo máximo entre turnos para cada funcionário (em dias)"
 
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:133
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:71
 msgid "Require a minimum number of shifts in a standard workday for each worker each week"
 msgstr "Requerer um mínimo de turnos num dia de trabalho padrão para cada funcionário cada semana"
 
@@ -1604,7 +1610,7 @@ msgstr "Definir as configurações"
 msgid "Show in calendar as"
 msgstr "Mostrar no calendário como"
 
-#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:28
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:40
 msgid "Show leave conflicts"
 msgstr "Mostrar conflitos com as ausências"
 
@@ -1763,7 +1769,7 @@ msgstr "om"
 msgid "Unassign"
 msgstr "Remover atribuição"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:612
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:621
 msgid "Unassign positions"
 msgstr "Remover atribuições de posição"
 
