@@ -68,6 +68,7 @@ export const ShiftPosition = memo(
       originalConflicts ||
       shiftPosition.hasLeaveConflict ||
       shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule ||
+      shiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday ||
       false;
 
     const { schedules } = shiftPosition;
@@ -252,6 +253,14 @@ export const ShiftPosition = memo(
               <ExclamationTriangleIcon
                 className="w-4 h-4 text-yellow-500 ml-1"
                 title={i18n.t("Maximum interval between shifts rule violated")}
+              />
+            )}
+            {shiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday && (
+              <ExclamationTriangleIcon
+                className="w-4 h-4 text-orange-500 ml-1"
+                title={i18n.t(
+                  "Minimum number of shifts per week in standard workday rule violated"
+                )}
               />
             )}
           </div>

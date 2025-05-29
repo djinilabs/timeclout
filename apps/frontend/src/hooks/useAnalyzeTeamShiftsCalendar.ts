@@ -5,6 +5,7 @@ import { type LeaveRenderInfo } from "./useTeamLeaveSchedule";
 export type AnalyzedShiftPosition = ShiftPositionWithRowSpan & {
   hasLeaveConflict?: boolean;
   hasIssueWithMaximumIntervalBetweenShiftsRule?: boolean;
+  hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday?: boolean;
 };
 
 export interface AnalyzeTeamShiftsCalendarProps {
@@ -13,6 +14,8 @@ export interface AnalyzeTeamShiftsCalendarProps {
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
   requireMaximumIntervalBetweenShifts: boolean;
   maximumIntervalBetweenShiftsInDays: number;
+  requireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean;
+  minimumNumberOfShiftsPerWeekInStandardWorkday: number;
 }
 
 export interface AnalyzeTeamShiftsCalendarReturn {
@@ -130,6 +133,90 @@ const doAnalyzeMaximumIntervalBetweenShifts = ({
   );
 };
 
+const doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday = ({
+  shiftPositionsMap: originalShiftPositionsMap,
+  minimumNumberOfShiftsPerWeekInStandardWorkday,
+}: AnalyzeTeamShiftsCalendarProps) => {
+  // Get all days sorted chronologically
+  const days = Object.keys(originalShiftPositionsMap).sort();
+
+  // Create a map to track shifts per week for each worker
+  const shiftsPerWeekByWorker = new Map<
+    string,
+    Map<string, { day: string; shiftPosition: ShiftPositionWithRowSpan }[]>
+  >();
+
+  // First pass: group shifts by week and worker
+  days.forEach((day) => {
+    const shiftPositions = originalShiftPositionsMap[day];
+    const date = new Date(day);
+    const weekStart = new Date(date);
+    weekStart.setDate(date.getDate() - date.getDay()); // Start of week (Sunday)
+    const weekKey = weekStart.toISOString().split("T")[0];
+
+    shiftPositions.forEach((shiftPosition) => {
+      if (shiftPosition.assignedTo) {
+        const workerPk = shiftPosition.assignedTo.pk;
+        if (!shiftsPerWeekByWorker.has(workerPk)) {
+          shiftsPerWeekByWorker.set(workerPk, new Map());
+        }
+        const workerWeeks = shiftsPerWeekByWorker.get(workerPk)!;
+        if (!workerWeeks.has(weekKey)) {
+          workerWeeks.set(weekKey, []);
+        }
+        workerWeeks.get(weekKey)!.push({ day, shiftPosition });
+      }
+    });
+  });
+
+  // Second pass: analyze and mark shifts that don't meet the minimum requirement
+  return Object.fromEntries(
+    days.map((day) => {
+      const shiftPositions = originalShiftPositionsMap[day];
+      const date = new Date(day);
+      const weekStart = new Date(date);
+      weekStart.setDate(date.getDate() - date.getDay());
+      const weekKey = weekStart.toISOString().split("T")[0];
+
+      const analyzedShiftPositions = shiftPositions.map(
+        (shiftPosition): AnalyzedShiftPosition => {
+          const analyzedShiftPosition: AnalyzedShiftPosition = {
+            ...shiftPosition,
+          };
+
+          if (shiftPosition.assignedTo) {
+            const workerPk = shiftPosition.assignedTo.pk;
+            const workerWeeks = shiftsPerWeekByWorker.get(workerPk);
+            if (workerWeeks) {
+              const weekShifts = workerWeeks.get(weekKey);
+              if (weekShifts) {
+                // Count only standard workday shifts (Monday to Friday)
+                const standardWorkdayShifts = weekShifts.filter(({ day }) => {
+                  const shiftDate = new Date(day);
+                  const dayOfWeek = shiftDate.getDay();
+                  return dayOfWeek >= 1 && dayOfWeek <= 5; // Monday to Friday
+                });
+
+                if (
+                  standardWorkdayShifts.length <
+                  minimumNumberOfShiftsPerWeekInStandardWorkday
+                ) {
+                  analyzedShiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday =
+                    true;
+                }
+              }
+            }
+          }
+
+          return analyzedShiftPosition;
+        }
+      );
+
+      return [day, analyzedShiftPositions];
+    })
+  );
+};
+
 export const useAnalyzeTeamShiftsCalendar = (
   props: AnalyzeTeamShiftsCalendarProps
 ): AnalyzeTeamShiftsCalendarReturn => {
@@ -137,6 +224,7 @@ export const useAnalyzeTeamShiftsCalendar = (
     analyzeLeaveConflicts,
     shiftPositionsMap: originalShiftPositionsMap,
     requireMaximumIntervalBetweenShifts,
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
   } = props;
 
   let shiftPositionsMap = originalShiftPositionsMap;
@@ -157,6 +245,20 @@ export const useAnalyzeTeamShiftsCalendar = (
     }
     return shiftPositionsMap;
   }, [requireMaximumIntervalBetweenShifts, shiftPositionsMap, props]);
+
+  shiftPositionsMap = useMemo(() => {
+    if (requireMinimumNumberOfShiftsPerWeekInStandardWorkday) {
+      return doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday({
+        ...props,
+        shiftPositionsMap,
+      });
+    }
+    return shiftPositionsMap;
+  }, [
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    shiftPositionsMap,
+    props,
+  ]);
 
   return {
     analyzedShiftPositionsMap: shiftPositionsMap,

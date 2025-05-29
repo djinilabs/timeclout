@@ -186,7 +186,10 @@ export const TeamShiftsSchedule = () => {
 
   // ------- analyze -------
 
-  const [analyze, setAnalyze] = useState(false);
+  const [analyze, setAnalyze] = useLocalPreference(
+    "team-shifts-calendar-analyze",
+    false
+  );
 
   const {
     analyzeLeaveConflicts,
@@ -195,6 +198,10 @@ export const TeamShiftsSchedule = () => {
     setRequireMaximumIntervalBetweenShifts,
     maximumIntervalBetweenShiftsInDays,
     setMaximumIntervalBetweenShiftsInDays,
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    minimumNumberOfShiftsPerWeekInStandardWorkday,
+    setMinimumNumberOfShiftsPerWeekInStandardWorkday,
   } = useAnalyzeTeamShiftsCalendarParams(analyze);
 
   const { analyzedShiftPositionsMap } = useAnalyzeTeamShiftsCalendar({
@@ -203,6 +210,8 @@ export const TeamShiftsSchedule = () => {
     leaveSchedule,
     requireMaximumIntervalBetweenShifts,
     maximumIntervalBetweenShiftsInDays: maximumIntervalBetweenShiftsInDays,
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    minimumNumberOfShiftsPerWeekInStandardWorkday,
   });
 
   shiftPositionsMap = analyzedShiftPositionsMap;
@@ -649,6 +658,7 @@ export const TeamShiftsSchedule = () => {
           ],
           [
             analyze,
+            setAnalyze,
             setIsDialogOpen,
             setShowLeaveSchedule,
             setShowScheduleDetails,
@@ -688,6 +698,18 @@ export const TeamShiftsSchedule = () => {
               }
               setMaximumIntervalBetweenShiftsInDays={
                 setMaximumIntervalBetweenShiftsInDays
+              }
+              requireMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              minimumNumberOfShiftsPerWeekInStandardWorkday={
+                minimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              setMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                setMinimumNumberOfShiftsPerWeekInStandardWorkday
               }
             />
           </div>

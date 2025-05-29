@@ -12,6 +12,14 @@ export interface AnalyzeTeamShiftsCalendarMenuProps {
   setMaximumIntervalBetweenShiftsInDays: (
     maximumIntervalBetweenShiftsInDays: number
   ) => void;
+  requireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean;
+  setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday: (
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean
+  ) => void;
+  minimumNumberOfShiftsPerWeekInStandardWorkday: number;
+  setMinimumNumberOfShiftsPerWeekInStandardWorkday: (
+    minimumNumberOfShiftsPerWeekInStandardWorkday: number
+  ) => void;
 }
 
 export const AnalyzeTeamShiftsCalendarMenu = ({
@@ -21,6 +29,10 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
   setRequireMaximumIntervalBetweenShifts,
   maximumIntervalBetweenShiftsInDays,
   setMaximumIntervalBetweenShiftsInDays,
+  requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+  setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+  minimumNumberOfShiftsPerWeekInStandardWorkday,
+  setMinimumNumberOfShiftsPerWeekInStandardWorkday,
 }: AnalyzeTeamShiftsCalendarMenuProps) => {
   return (
     <div className="flex flex-col gap-2">
@@ -49,6 +61,32 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
             disabled={!requireMaximumIntervalBetweenShifts}
             onChange={(e) =>
               setMaximumIntervalBetweenShiftsInDays(parseInt(e.target.value))
+            }
+          />
+        )}
+      </div>
+      <div className="flex items-center">
+        <LabeledSwitch
+          label={
+            <Trans>
+              Require a minimum number of shifts in a standard workday for each
+              worker each week
+            </Trans>
+          }
+          checked={requireMinimumNumberOfShiftsPerWeekInStandardWorkday}
+          onChange={setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday}
+        />
+        {requireMinimumNumberOfShiftsPerWeekInStandardWorkday && (
+          <input
+            type="number"
+            value={minimumNumberOfShiftsPerWeekInStandardWorkday}
+            min={1}
+            className="w-16 text-center"
+            disabled={!requireMinimumNumberOfShiftsPerWeekInStandardWorkday}
+            onChange={(e) =>
+              setMinimumNumberOfShiftsPerWeekInStandardWorkday(
+                parseInt(e.target.value)
+              )
             }
           />
         )}

@@ -22,6 +22,22 @@ export const useAnalyzeTeamShiftsCalendarParams = (analyze: boolean) => {
     10
   );
 
+  const [
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+  ] = useLocalPreference(
+    "team-shifts-calendar-require-minimum-number-of-shifts-per-week-in-standard-workday",
+    false
+  );
+
+  const [
+    minimumNumberOfShiftsPerWeekInStandardWorkday,
+    setMinimumNumberOfShiftsPerWeekInStandardWorkday,
+  ] = useLocalPreference(
+    "team-shifts-calendar-minimum-number-of-shifts-per-week-in-standard-workday",
+    1
+  );
+
   return {
     analyzeLeaveConflicts: analyze && analyzeLeaveConflicts,
     setAnalyzeLeaveConflicts,
@@ -30,5 +46,9 @@ export const useAnalyzeTeamShiftsCalendarParams = (analyze: boolean) => {
     setRequireMaximumIntervalBetweenShifts,
     maximumIntervalBetweenShiftsInDays,
     setMaximumIntervalBetweenShiftsInDays,
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    minimumNumberOfShiftsPerWeekInStandardWorkday,
+    setMinimumNumberOfShiftsPerWeekInStandardWorkday,
   };
 };
