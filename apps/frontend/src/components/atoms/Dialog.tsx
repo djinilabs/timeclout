@@ -24,7 +24,7 @@ export const Dialog: FC<PropsWithChildren<DialogProps>> = memo(
         />
 
         <div className="fixed inset-0 w-screen overflow-y-auto z-200">
-          <div className="flex min-w-full min-h-full items-end justify-center sm:p-0">
+          <div className="flex min-w-full min-h-full items-center justify-center p-4 sm:p-0">
             <DialogPanel
               transition
               className={classNames(

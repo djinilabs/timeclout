@@ -2756,6 +2756,11 @@
       height: calc(var(--spacing) * 0);
     }
   }
+  .data-\[closed\]\:max-h-0 {
+    &[data-closed] {
+      max-height: calc(var(--spacing) * 0);
+    }
+  }
   .data-\[closed\]\:opacity-0 {
     &[data-closed] {
       opacity: 0%;

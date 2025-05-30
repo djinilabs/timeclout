@@ -688,8 +688,8 @@ export const TeamShiftsSchedule = () => {
           setIsDialogOpen("create");
         }}
       >
-        <Transition show={analyze} appear>
-          <div className="mt-4 transition-all duration-300 ease-in data-[closed]:opacity-0">
+        <Transition show={analyze && !isDialogOpen} appear>
+          <div className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0">
             <AnalyzeTeamShiftsCalendarMenu
               analyzeLeaveConflicts={analyzeLeaveConflicts}
               setAnalyzeLeaveConflicts={setAnalyzeLeaveConflicts}
