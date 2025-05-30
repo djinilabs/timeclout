@@ -28,7 +28,7 @@ export class SchedulerWorkerClient {
 
   stop() {
     if (!this.worker) {
-      throw new Error("Worker not started");
+      return;
     }
     this.worker.terminate();
     this.worker = undefined;

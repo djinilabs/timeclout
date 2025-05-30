@@ -200,10 +200,6 @@ describe("SchedulerWorkerClient", () => {
     );
   });
 
-  it("should throw when stopping a non-started worker", () => {
-    expect(() => client.stop()).toThrow("Worker not started");
-  });
-
   it(
     "should handle multiple start/stop cycles",
     async () => {
