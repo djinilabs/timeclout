@@ -103,7 +103,6 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
               <Hint
                 key={index}
                 hint={`${String(startHour).padStart(2, "0")}:${String(startMinutes).padStart(2, "0")} - ${String(printableEndHour).padStart(2, "0")}:${String(endMinutes).padStart(2, "0")}`}
-                position="top"
                 className="absolute h-full rounded-sm transition-all duration-300 ease-in"
                 style={{
                   left: `${startPercent}%`,

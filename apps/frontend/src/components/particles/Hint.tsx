@@ -11,7 +11,7 @@ import { createPortal } from "react-dom";
 interface HintProps {
   children?: ReactNode;
   hint: string;
-  position?: "top" | "bottom" | "left" | "right";
+  position?: "top" | "bottom" | "left" | "right" | "auto";
   className?: string;
   style?: React.CSSProperties;
   as?: ElementType;
@@ -20,15 +20,44 @@ interface HintProps {
 export const Hint: React.FC<HintProps> = ({
   children,
   hint,
-  position = "top",
+  position = "auto",
   className = "",
   style = {},
   as: Component = "div",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const [calculatedPosition, setCalculatedPosition] = useState<
+    "top" | "bottom" | "left" | "right"
+  >("top");
   const triggerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+
+  const calculateBestPosition = useCallback(() => {
+    if (!triggerRef.current || !tooltipRef.current) return "top";
+
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+
+    const spaceAbove = triggerRect.top;
+    const spaceBelow = viewportHeight - triggerRect.bottom;
+    const spaceLeft = triggerRect.left;
+    const spaceRight = viewportWidth - triggerRect.right;
+
+    const positions = [
+      { pos: "bottom", space: spaceBelow },
+      { pos: "top", space: spaceAbove },
+      { pos: "right", space: spaceRight },
+      { pos: "left", space: spaceLeft },
+    ];
+
+    // Sort positions by available space, descending
+    positions.sort((a, b) => b.space - a.space);
+
+    // Return the position with the most space
+    return positions[0].pos as "top" | "bottom" | "left" | "right";
+  }, []);
 
   const updatePosition = useCallback(() => {
     if (!triggerRef.current || !tooltipRef.current) return;
@@ -38,8 +67,9 @@ export const Hint: React.FC<HintProps> = ({
 
     let top = 0;
     let left = 0;
+    const actualPosition = position === "auto" ? calculatedPosition : position;
 
-    switch (position) {
+    switch (actualPosition) {
       case "top":
         top = triggerRect.top - tooltipRect.height - 8;
         left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
@@ -59,10 +89,13 @@ export const Hint: React.FC<HintProps> = ({
     }
 
     setTooltipPosition({ top, left });
-  }, [position]);
+  }, [position, calculatedPosition]);
 
   useEffect(() => {
     if (isVisible) {
+      if (position === "auto") {
+        setCalculatedPosition(calculateBestPosition());
+      }
       updatePosition();
       window.addEventListener("scroll", updatePosition, true);
       window.addEventListener("resize", updatePosition);
@@ -71,7 +104,13 @@ export const Hint: React.FC<HintProps> = ({
       window.removeEventListener("scroll", updatePosition, true);
       window.removeEventListener("resize", updatePosition);
     };
-  }, [isVisible, position, updatePosition]);
+  }, [
+    isVisible,
+    position,
+    calculatedPosition,
+    updatePosition,
+    calculateBestPosition,
+  ]);
 
   const tooltip =
     isVisible &&
@@ -94,10 +133,10 @@ export const Hint: React.FC<HintProps> = ({
         <div
           className={`
           absolute w-2 h-2 bg-gray-900 transform rotate-45
-          ${position === "top" ? "bottom-[-4px] left-1/2 -translate-x-1/2" : ""}
-          ${position === "bottom" ? "top-[-4px] left-1/2 -translate-x-1/2" : ""}
-          ${position === "left" ? "right-[-4px] top-1/2 -translate-y-1/2" : ""}
-          ${position === "right" ? "left-[-4px] top-1/2 -translate-y-1/2" : ""}
+          ${calculatedPosition === "top" ? "bottom-[-4px] left-1/2 -translate-x-1/2" : ""}
+          ${calculatedPosition === "bottom" ? "top-[-4px] left-1/2 -translate-x-1/2" : ""}
+          ${calculatedPosition === "left" ? "right-[-4px] top-1/2 -translate-y-1/2" : ""}
+          ${calculatedPosition === "right" ? "left-[-4px] top-1/2 -translate-y-1/2" : ""}
         `}
         />
       </div>,
