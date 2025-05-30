@@ -24,6 +24,7 @@ import { Popover } from "../particles/Popover";
 import { toMinutes } from "../../utils/toMinutes";
 import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { i18n } from "@lingui/core";
+import { Hint } from "../particles/Hint";
 
 export interface ShiftPositionProps {
   shiftPosition: AnalyzedShiftPosition;
@@ -237,38 +238,39 @@ export const ShiftPosition = memo(
               </div>
             )}
             {!hideName && (
-              <span
-                title={shiftPosition.name ?? ""}
-                className="text-tiny text-gray-400 truncate text-left"
-              >
-                {shiftPosition.name}
-              </span>
+              <Hint hint={shiftPosition.name ?? ""}>
+                <span className="text-tiny text-gray-400 truncate text-left">
+                  {shiftPosition.name}
+                </span>
+              </Hint>
             )}
             {shiftPosition.hasLeaveConflict && (
-              <ExclamationTriangleIcon
-                className="w-4 h-4 text-red-500 ml-1"
-                title={i18n.t("Leave conflict detected")}
-              />
+              <Hint hint={i18n.t("Leave conflict detected")}>
+                <ExclamationTriangleIcon className="w-4 h-4 text-red-500 ml-1" />
+              </Hint>
             )}
             {shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule && (
-              <ExclamationTriangleIcon
-                className="w-4 h-4 text-yellow-500 ml-1"
-                title={i18n.t("Maximum interval between shifts rule violated")}
-              />
+              <Hint
+                hint={i18n.t("Maximum interval between shifts rule violated")}
+              >
+                <ExclamationTriangleIcon className="w-4 h-4 text-yellow-500 ml-1" />
+              </Hint>
             )}
             {shiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday && (
-              <ExclamationTriangleIcon
-                className="w-4 h-4 text-orange-500 ml-1"
-                title={i18n.t(
+              <Hint
+                hint={i18n.t(
                   "Minimum number of shifts per week in standard workday rule violated"
                 )}
-              />
+              >
+                <ExclamationTriangleIcon className="w-4 h-4 text-orange-500 ml-1" />
+              </Hint>
             )}
             {shiftPosition.hasIssueWithMinimumRestSlotsAfterShiftRule && (
-              <ExclamationTriangleIcon
-                className="w-4 h-4 text-purple-500 ml-1"
-                title={i18n.t("Minimum rest slots after shift rule violated")}
-              />
+              <Hint
+                hint={i18n.t("Minimum rest slots after shift rule violated")}
+              >
+                <ExclamationTriangleIcon className="w-4 h-4 text-purple-500 ml-1" />
+              </Hint>
             )}
           </div>
           <Transition show={showScheduleDetails} appear>
