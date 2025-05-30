@@ -1,6 +1,7 @@
 import type { Client, ClientOptions } from "urql";
 import { fetchExchange, createClient as urqlCreateClient } from "urql";
-import { cacheExchange, Data, Entity } from "@urql/exchange-graphcache";
+import { offlineExchange, Data, Entity } from "@urql/exchange-graphcache";
+import { makeDefaultStorage } from "@urql/exchange-graphcache/default-storage";
 import merge from "deepmerge";
 import { type Session } from "next-auth";
 
@@ -17,7 +18,8 @@ const defaultClientOpts = (): ClientOptions => ({
   requestPolicy: "cache-and-network",
   suspense: true,
   exchanges: [
-    cacheExchange({
+    offlineExchange({
+      storage: makeDefaultStorage(),
       keys: {
         Company: (c: Data) => c.pk as string,
         User: (u: Data) => u.pk as string,
