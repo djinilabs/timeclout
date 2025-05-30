@@ -4,14 +4,17 @@ import React, {
   useState,
   useEffect,
   useCallback,
+  ElementType,
 } from "react";
 import { createPortal } from "react-dom";
 
 interface HintProps {
-  children: ReactNode;
+  children?: ReactNode;
   hint: string;
   position?: "top" | "bottom" | "left" | "right";
   className?: string;
+  style?: React.CSSProperties;
+  as?: ElementType;
 }
 
 export const Hint: React.FC<HintProps> = ({
@@ -19,6 +22,8 @@ export const Hint: React.FC<HintProps> = ({
   hint,
   position = "top",
   className = "",
+  style = {},
+  as: Component = "div",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
@@ -79,7 +84,6 @@ export const Hint: React.FC<HintProps> = ({
         bg-gray-900 text-white
         text-sm rounded-md
         shadow-lg
-        ${className}
       `}
         style={{
           top: `${tooltipPosition.top}px`,
@@ -101,13 +105,15 @@ export const Hint: React.FC<HintProps> = ({
     );
 
   return (
-    <div
+    <Component
       ref={triggerRef}
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
+      className={className}
+      style={style}
     >
       {children}
       {tooltip}
-    </div>
+    </Component>
   );
 };

@@ -1,5 +1,6 @@
 import { FC, memo, useMemo } from "react";
 import { toMinutes } from "../../utils/toMinutes";
+import { Hint } from "./Hint";
 
 export interface TimeSchedule {
   startHourMinutes: [number, number];
@@ -99,26 +100,41 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
             const printableEndHour = getPrintableEndHour(endHour);
 
             return (
-              <div
+              <Hint
                 key={index}
+                hint={`${String(startHour).padStart(2, "0")}:${String(startMinutes).padStart(2, "0")} - ${String(printableEndHour).padStart(2, "0")}:${String(endMinutes).padStart(2, "0")}`}
+                position="top"
                 className="absolute h-full rounded-sm transition-all duration-300 ease-in"
                 style={{
                   left: `${startPercent}%`,
                   width: `${width}%`,
                   backgroundColor: `rgb(${Math.min(255, schedule.inconveniencePerHour * 100)}, ${Math.max(0, 255 - schedule.inconveniencePerHour * 100)}, 0)`,
                 }}
-                title={`${String(startHour).padStart(2, "0")}:${String(startMinutes).padStart(2, "0")} - ${String(printableEndHour).padStart(2, "0")}:${String(endMinutes).padStart(2, "0")}`}
-              ></div>
+              ></Hint>
             );
           })}
         </div>
         <div className=" col-span-5 grid grid-cols-2">
           <div className="text-tiny text-gray-600 whitespace-nowrap text-right leading-normal">
-            <span className="bg-orange-300 text-white p-1 rounded-sm">
+            <Hint
+              as="span"
+              className="bg-orange-300 text-white p-1 rounded-sm"
+              hint={`${totalInconvenience.toFixed(1).toLocaleString()} inconvenience points`}
+            >
               {totalInconvenience.toFixed(1).toLocaleString()}
-            </span>
+            </Hint>
           </div>
-          <div className="text-tiny text-gray-600 whitespace-nowrap text-right leading-none">
+          <Hint
+            as="span"
+            className="text-tiny text-gray-600 whitespace-nowrap text-right leading-none"
+            hint={`${String(
+              getPrintableEndHour(
+                schedules[schedules.length - 1].endHourMinutes[0]
+              )
+            ).padStart(2, "0")}:${String(
+              schedules[schedules.length - 1].endHourMinutes[1]
+            ).padStart(2, "0")}`}
+          >
             {`${String(
               getPrintableEndHour(
                 schedules[schedules.length - 1].endHourMinutes[0]
@@ -126,7 +142,7 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
             ).padStart(2, "0")}:${String(
               schedules[schedules.length - 1].endHourMinutes[1]
             ).padStart(2, "0")}`}
-          </div>
+          </Hint>
         </div>
       </div>
     );
