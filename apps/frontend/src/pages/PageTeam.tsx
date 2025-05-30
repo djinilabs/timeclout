@@ -6,7 +6,7 @@ import { TeamSettings } from "../components/team/TeamSettings";
 import { TeamMembers } from "../components/team/TeamMembers";
 import { TeamInvites } from "../components/team/TeamInvites";
 import { TeamLeaveSchedule } from "../components/team/TeamLeaveSchedule";
-import { TeamShiftsSchedule } from "../components/team/TeamShiftsSchedule";
+import { TeamShiftsSchedule } from "../components/team-shifts/TeamShiftsSchedule";
 import { TeamCalendarIntegrations } from "../components/team/TeamCalendarIntegrations";
 import { useEntityNavigationContext } from "../hooks/useEntityNavigationContext";
 

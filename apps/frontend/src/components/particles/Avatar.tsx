@@ -1,5 +1,7 @@
 import { FC, memo } from "react";
 import { getInitials } from "../../utils/getInitials";
+import { Hint } from "./Hint";
+import { classNames } from "../../utils/classNames";
 
 const getColorAndBackground = (md5?: string | null) => {
   if (!md5) {
@@ -27,10 +29,11 @@ export interface AvatarProps {
   email?: string | null;
   emailMd5?: string | null;
   size?: number;
+  className?: string;
 }
 
 export const Avatar: FC<AvatarProps> = memo(
-  ({ name, emailMd5, email, size = 50 }) => {
+  ({ name, emailMd5, email, size = 50, className = "" }) => {
     const url = `https://www.gravatar.com/avatar/${emailMd5}?s=${String(
       Math.max(size, 250)
     )}&d=blank`;
@@ -47,41 +50,42 @@ export const Avatar: FC<AvatarProps> = memo(
     };
 
     return (
-      <div
-        title={name ?? email ?? ""}
-        className="relative inline-flex"
-        style={{
-          ...getColorAndBackground(emailMd5),
-          ...dimensions,
-          borderRadius: "50%",
-          alignItems: "center",
-          justifyContent: "center",
-          boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.15)",
-        }}
-      >
+      <Hint hint={name ?? email ?? ""}>
         <div
-          aria-hidden="true"
+          className={classNames("relative inline-flex", className)}
           style={{
-            fontSize: size / (1.4 * Math.max(initials.length, 2)),
-            position: "absolute",
-            fontFamily: "sans-serif",
-            userSelect: "none",
+            ...getColorAndBackground(emailMd5),
+            ...dimensions,
+            borderRadius: "50%",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.15)",
           }}
         >
-          {initials}
+          <div
+            aria-hidden="true"
+            style={{
+              fontSize: size / (1.4 * Math.max(initials.length, 2)),
+              position: "absolute",
+              fontFamily: "sans-serif",
+              userSelect: "none",
+            }}
+          >
+            {initials}
+          </div>
+          <img
+            style={{
+              position: "absolute",
+              ...dimensions,
+              top: 0,
+              left: 0,
+              borderRadius: "50%",
+            }}
+            src={url}
+            alt={`${email ?? ""}’s avatar`}
+          />
         </div>
-        <img
-          style={{
-            position: "absolute",
-            ...dimensions,
-            top: 0,
-            left: 0,
-            borderRadius: "50%",
-          }}
-          src={url}
-          alt={`${email ?? ""}’s avatar`}
-        />
-      </div>
+      </Hint>
     );
   }
 );

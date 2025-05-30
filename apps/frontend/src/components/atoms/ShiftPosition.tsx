@@ -6,7 +6,10 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import {
+  EllipsisHorizontalIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { colors } from "@/settings";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
@@ -15,16 +18,16 @@ import {
   type TimeSchedule,
   MiniTimeScheduleVisualizer,
 } from "../particles/MiniTimeScheduleVisualizer";
-import {
-  ShiftPositionWithRowSpan,
-  type ShiftPositionWithFake,
-} from "../../hooks/useTeamShiftPositionsMap";
+import { type ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 import { Avatar } from "../particles/Avatar";
 import { Popover } from "../particles/Popover";
 import { toMinutes } from "../../utils/toMinutes";
+import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { i18n } from "@lingui/core";
+import { Hint } from "../particles/Hint";
 
 export interface ShiftPositionProps {
-  shiftPosition: ShiftPositionWithRowSpan;
+  shiftPosition: AnalyzedShiftPosition;
   hideName?: boolean;
   setFocusedShiftPosition?: (shiftPosition: ShiftPositionType) => void;
   focus?: boolean;
@@ -58,10 +61,18 @@ export const ShiftPosition = memo(
     pasteShiftPositionFromClipboard,
     deleteShiftPosition,
     lastRow,
-    conflicts,
+    conflicts: originalConflicts,
     isSelected,
     showScheduleDetails,
   }: ShiftPositionProps) => {
+    const conflicts =
+      originalConflicts ||
+      shiftPosition.hasLeaveConflict ||
+      shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule ||
+      shiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday ||
+      shiftPosition.hasIssueWithMinimumRestSlotsAfterShiftRule ||
+      false;
+
     const { schedules } = shiftPosition;
     const startTime = toMinutes(
       schedules[0].startHourMinutes as [number, number]
@@ -227,12 +238,39 @@ export const ShiftPosition = memo(
               </div>
             )}
             {!hideName && (
-              <span
-                title={shiftPosition.name ?? ""}
-                className="text-tiny text-gray-400 truncate text-left"
+              <Hint hint={shiftPosition.name ?? ""}>
+                <span className="text-tiny text-gray-400 truncate text-left">
+                  {shiftPosition.name}
+                </span>
+              </Hint>
+            )}
+            {shiftPosition.hasLeaveConflict && (
+              <Hint hint={i18n.t("Leave conflict detected")}>
+                <ExclamationTriangleIcon className="w-4 h-4 text-red-500 ml-1" />
+              </Hint>
+            )}
+            {shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule && (
+              <Hint
+                hint={i18n.t("Maximum interval between shifts rule violated")}
               >
-                {shiftPosition.name}
-              </span>
+                <ExclamationTriangleIcon className="w-4 h-4 text-yellow-500 ml-1" />
+              </Hint>
+            )}
+            {shiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday && (
+              <Hint
+                hint={i18n.t(
+                  "Minimum number of shifts per week in standard workday rule violated"
+                )}
+              >
+                <ExclamationTriangleIcon className="w-4 h-4 text-orange-500 ml-1" />
+              </Hint>
+            )}
+            {shiftPosition.hasIssueWithMinimumRestSlotsAfterShiftRule && (
+              <Hint
+                hint={i18n.t("Minimum rest slots after shift rule violated")}
+              >
+                <ExclamationTriangleIcon className="w-4 h-4 text-purple-500 ml-1" />
+              </Hint>
             )}
           </div>
           <Transition show={showScheduleDetails} appear>

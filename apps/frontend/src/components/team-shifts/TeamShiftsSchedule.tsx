@@ -25,7 +25,10 @@ import {
 import { useLocalPreference } from "../../hooks/useLocalPreference";
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 import { useSearchParam } from "../../hooks/useSearchParam";
-import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import {
+  AnalyzedShiftPosition,
+  useAnalyzeTeamShiftsCalendar,
+} from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { toMinutes } from "../../utils/toMinutes";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "../atoms/ShiftPosition";
@@ -36,6 +39,8 @@ import { Day } from "../particles/MonthDailyCalendar";
 import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
 import { CreateOrEditScheduleShiftPositionDialog } from "./CreateOrEditScheduleShiftPositionDialog";
 import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
+import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
+import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -99,7 +104,7 @@ export const TeamShiftsSchedule = () => {
     false
   );
 
-  const shiftPositionsMap: Record<string, AnalyzedShiftPosition[]> =
+  let shiftPositionsMap: Record<string, AnalyzedShiftPosition[]> =
     useTeamShiftPositionsMap({
       draggingShiftPosition,
       shiftPositionsResult,
@@ -165,7 +170,7 @@ export const TeamShiftsSchedule = () => {
     [setEditingShiftPosition, setIsDialogOpen]
   );
 
-  // team leave schedule
+  // ------- team leave schedule -------
 
   const [showLeaveSchedule, setShowLeaveSchedule] = useLocalPreference(
     "team-shifts-calendar-show-leave-schedule",
@@ -177,8 +182,47 @@ export const TeamShiftsSchedule = () => {
     team: getDefined(teamPk),
     calendarStartDay,
     calendarEndDay,
-    pause: !showLeaveSchedule,
   });
+
+  // ------- analyze -------
+
+  const [analyze, setAnalyze] = useLocalPreference(
+    "team-shifts-calendar-analyze",
+    false
+  );
+
+  const {
+    analyzeLeaveConflicts,
+    setAnalyzeLeaveConflicts,
+    requireMaximumIntervalBetweenShifts,
+    setRequireMaximumIntervalBetweenShifts,
+    maximumIntervalBetweenShiftsInDays,
+    setMaximumIntervalBetweenShiftsInDays,
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    minimumNumberOfShiftsPerWeekInStandardWorkday,
+    setMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    requireMinimumRestSlotsAfterShift,
+    setRequireMinimumRestSlotsAfterShift,
+    minimumRestSlotsAfterShift,
+    setMinimumRestSlotsAfterShift,
+  } = useAnalyzeTeamShiftsCalendarParams(analyze);
+
+  const { analyzedShiftPositionsMap } = useAnalyzeTeamShiftsCalendar({
+    analyzeLeaveConflicts,
+    shiftPositionsMap,
+    leaveSchedule,
+    requireMaximumIntervalBetweenShifts,
+    maximumIntervalBetweenShiftsInDays: maximumIntervalBetweenShiftsInDays,
+    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+    minimumNumberOfShiftsPerWeekInStandardWorkday,
+    requireMinimumRestSlotsAfterShift,
+    minimumRestSlotsAfterShift,
+  });
+
+  shiftPositionsMap = analyzedShiftPositionsMap;
+
+  // ------- render -------
 
   // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
 
@@ -607,8 +651,20 @@ export const TeamShiftsSchedule = () => {
                 />
               ),
             },
+            {
+              type: "component",
+              component: (
+                <LabeledSwitch
+                  label={<Trans>Analyze</Trans>}
+                  checked={analyze}
+                  onChange={setAnalyze}
+                />
+              ),
+            },
           ],
           [
+            analyze,
+            setAnalyze,
             setIsDialogOpen,
             setShowLeaveSchedule,
             setShowScheduleDetails,
@@ -631,7 +687,48 @@ export const TeamShiftsSchedule = () => {
           setEditingShiftPosition(undefined);
           setIsDialogOpen("create");
         }}
-      />
+      >
+        <Transition show={analyze && !isDialogOpen} appear>
+          <div className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0">
+            <AnalyzeTeamShiftsCalendarMenu
+              analyzeLeaveConflicts={analyzeLeaveConflicts}
+              setAnalyzeLeaveConflicts={setAnalyzeLeaveConflicts}
+              requireMaximumIntervalBetweenShifts={
+                requireMaximumIntervalBetweenShifts
+              }
+              setRequireMaximumIntervalBetweenShifts={
+                setRequireMaximumIntervalBetweenShifts
+              }
+              maximumIntervalBetweenShiftsInDays={
+                maximumIntervalBetweenShiftsInDays
+              }
+              setMaximumIntervalBetweenShiftsInDays={
+                setMaximumIntervalBetweenShiftsInDays
+              }
+              requireMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              minimumNumberOfShiftsPerWeekInStandardWorkday={
+                minimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              setMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                setMinimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              requireMinimumRestSlotsAfterShift={
+                requireMinimumRestSlotsAfterShift
+              }
+              setRequireMinimumRestSlotsAfterShift={
+                setRequireMinimumRestSlotsAfterShift
+              }
+              minimumRestSlotsAfterShift={minimumRestSlotsAfterShift}
+              setMinimumRestSlotsAfterShift={setMinimumRestSlotsAfterShift}
+            />
+          </div>
+        </Transition>
+      </TeamShiftsCalendar>
     </div>
   );
 };
