@@ -3,6 +3,7 @@ import { calculateExpectedTotalInconveniencePerWorker } from "../utils/calculate
 import { calculateSlotInconvenience } from "../utils/calculateSlotInconvenience";
 import { stdDev } from "../utils/standardDeviation";
 import { calculateWorkerUnavailabilityRatio } from "../utils/calculateWorkerUnavailabilityRatio";
+
 export const workerInconvenienceEqualityHeuristic: ShiftScheduleHeuristic = {
   name: "Worker Inconvenience Equality",
   eval: (schedule) => {
