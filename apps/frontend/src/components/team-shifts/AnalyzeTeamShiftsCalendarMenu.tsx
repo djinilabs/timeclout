@@ -190,7 +190,7 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
                         );
                         setMinimumRestSlotsAfterShift(newRules);
                       }}
-                      className="inline-flex items-center justify-center rounded-full w-6 h-6 bg-red-600 hover:bg-red-800 text-white"
+                      className="inline-flex items-center justify-center rounded-full w-6 h-6 bg-red-600 hover:bg-red-800 text-white cursor-pointer"
                     >
                       <MinusIcon className="w-4 h-4" />
                     </button>
@@ -209,7 +209,7 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
                   }}
                   className="text-white"
                 >
-                  <span className="inline-flex items-center justify-center rounded-full w-6 h-6 bg-teal-600 hover:bg-teal-800 leading-none">
+                  <span className="inline-flex items-center justify-center rounded-full w-6 h-6 bg-teal-600 hover:bg-teal-800 leading-none cursor-pointer">
                     <PlusIcon className="w-4 h-4" />
                   </span>
                 </button>
