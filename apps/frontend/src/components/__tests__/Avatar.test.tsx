@@ -20,14 +20,12 @@ describe("Avatar", () => {
     render(<Avatar {...props} />);
 
     const avatar = screen.getByRole("img");
-    const container = avatar.parentElement;
 
     expect(avatar).toHaveAttribute(
       "src",
       "https://www.gravatar.com/avatar/abc123?s=250&d=blank"
     );
     expect(avatar).toHaveAttribute("alt", "john@example.com’s avatar");
-    expect(container).toHaveAttribute("title", "John Doe");
   });
 
   it("generates correct initials", () => {

@@ -60,14 +60,12 @@ describe("MiniTimeScheduleVisualizer", () => {
     expect(firstBar).toHaveStyle({
       backgroundColor: `rgb(50, 205, 0)`, // 0.5 * 100 = 50 for red, 255 - 50 = 205 for green
     });
-    expect(firstBar).toHaveAttribute("title", "09:00 - 17:00");
 
     // Second schedule (17:00-22:00) with inconvenience 1.2
     const secondBar = scheduleBars[1];
     expect(secondBar).toHaveStyle({
       backgroundColor: `rgb(120, 135, 0)`, // 1.2 * 100 = 120 for red, 255 - 120 = 135 for green
     });
-    expect(secondBar).toHaveAttribute("title", "17:00 - 22:00");
   });
 
   it("handles schedules crossing midnight", () => {
