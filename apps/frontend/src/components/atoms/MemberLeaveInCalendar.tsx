@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { Avatar } from "../particles/Avatar";
 import { type PartialUser, type LeaveDay } from "../types";
+import { Hint } from "../particles/Hint";
 
 export interface MemberLeaveInCalendarProps {
   member: PartialUser;
@@ -19,39 +20,46 @@ export const MemberLeaveInCalendar = forwardRef(
     showAvatar = true,
   }: MemberLeaveInCalendarProps) => {
     return (
-      <div className="flex items-center gap-1">
+      <Hint hint={leave.type}>
         <div
-          key={`leave-icon-container-${leaveIndex}`}
-          className="text-sm flex items-center"
+          className="flex items-center justify-center gap-1"
+          style={{
+            marginTop: `${leaveIndex * 1.5}rem`,
+          }}
         >
           <div
-            key={`leave-icon-${leaveIndex}`}
-            className="text-sm rounded-full p-1 bg-white"
-            style={{
-              backgroundColor: leave.color,
-            }}
-            title={leave.type}
+            className="text-sm flex -mt-2"
+            key={`leave-icon-container-${leaveIndex}`}
           >
-            {leave.icon}
+            <div
+              key={`leave-icon-${leaveIndex}`}
+              className="text-sm rounded-full p-1 bg-white"
+              style={{
+                backgroundColor: leave.color,
+              }}
+              title={leave.type}
+            >
+              {leave.icon}
+            </div>
           </div>
+          {showAvatar && (
+            <div
+              key={`leave-avatar-container-${leaveIndex}`}
+              className="flex items-center justify-center -ml-2"
+            >
+              <Avatar size={25} {...member} />
+            </div>
+          )}
+          {showName && (
+            <div
+              key={`leave-name-${leaveIndex}`}
+              className="text-tiny truncate text-gray-400"
+            >
+              {member.name}
+            </div>
+          )}
         </div>
-        {showAvatar && (
-          <div
-            key={`leave-avatar-container-${leaveIndex}`}
-            className="flex items-center -ml-2"
-          >
-            <Avatar size={25} {...member} />
-          </div>
-        )}
-        {showName && (
-          <div
-            key={`leave-name-${leaveIndex}`}
-            className="text-tiny truncate text-gray-400"
-          >
-            {member.name}
-          </div>
-        )}
-      </div>
+      </Hint>
     );
   }
 );

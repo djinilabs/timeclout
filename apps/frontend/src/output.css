@@ -463,6 +463,9 @@
   .my-8 {
     margin-block: calc(var(--spacing) * 8);
   }
+  .-mt-1 {
+    margin-top: calc(var(--spacing) * -1);
+  }
   .-mt-2 {
     margin-top: calc(var(--spacing) * -2);
   }
@@ -1233,6 +1236,9 @@
   }
   .bg-gray-300 {
     background-color: var(--color-gray-300);
+  }
+  .bg-gray-400 {
+    background-color: var(--color-gray-400);
   }
   .bg-gray-500\/75 {
     background-color: color-mix(in srgb, oklch(55.1% 0.027 264.364) 75%, transparent);

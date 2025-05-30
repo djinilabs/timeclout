@@ -105,7 +105,6 @@ export const Hint: React.FC<HintProps> = ({
       ref={triggerRef}
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
-      className="inline-block"
     >
       {children}
       {tooltip}
