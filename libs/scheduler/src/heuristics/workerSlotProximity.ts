@@ -10,9 +10,7 @@ export const calculateExpectedWorkerSlotProximity = (
   return totalShiftCount / totalWorkerCount;
 };
 
-export const calculateWorkerSlotProximityDeviation = (
-  schedule: ShiftSchedule
-) => {
+export const calculateWorkerSlotProximities = (schedule: ShiftSchedule) => {
   const expectedShiftPeriodPerWorker =
     calculateExpectedWorkerSlotProximity(schedule);
 
@@ -32,18 +30,29 @@ export const calculateWorkerSlotProximityDeviation = (
     shifts.sort((a, b) => a.shiftIndex - b.shiftIndex);
   }
 
-  const proximities: number[] = [];
+  const proximities = new Map<string, number>();
 
   // Calculate proximities between consecutive shifts for each worker
-  for (const shifts of workerShifts.values()) {
+  for (const [worker, shifts] of workerShifts.entries()) {
     for (let i = 1; i < shifts.length; i++) {
       const proximityInShiftIndex =
         shifts[i].shiftIndex - shifts[i - 1].shiftIndex;
-      proximities.push(proximityInShiftIndex / expectedShiftPeriodPerWorker);
+      const key = `${worker.pk}-${shifts[i - 1].shiftIndex}-${shifts[i].shiftIndex}`;
+      proximities.set(
+        key,
+        proximityInShiftIndex / expectedShiftPeriodPerWorker
+      );
     }
   }
 
-  return stdDev(1, proximities);
+  return proximities;
+};
+
+export const calculateWorkerSlotProximityDeviation = (
+  schedule: ShiftSchedule
+) => {
+  const proximities = calculateWorkerSlotProximities(schedule);
+  return stdDev(1, Array.from(proximities.values()));
 };
 
 export const workerSlotProximityHeuristic: ShiftScheduleHeuristic = {

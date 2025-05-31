@@ -14,9 +14,7 @@ export const calculateExpectedWorkerInconvenienceEquality = (
   return { expectedTotalInconveniencePerWorker, workerUnavailabilityRatio };
 };
 
-export const calculateWorkerInconvenienceEqualityDeviation = (
-  schedule: ShiftSchedule
-) => {
+export const calculateWorkerInconveniences = (schedule: ShiftSchedule) => {
   const { expectedTotalInconveniencePerWorker, workerUnavailabilityRatio } =
     calculateExpectedWorkerInconvenienceEquality(schedule);
 
@@ -30,19 +28,25 @@ export const calculateWorkerInconvenienceEqualityDeviation = (
     );
   }
 
+  const normalizedWorkerInconveniences = new Map<SlotWorker, number>();
   // equalize inconvenience per worker by calculating and applying the ratio of the worker's unavailability
   // for unavailability ratio we only take into consideration the shifts that the worker is unavailable for work reasons
   for (const [worker, workerInconvenience] of workerInconveniences.entries()) {
     const ratio = workerUnavailabilityRatio(worker);
-    workerInconveniences.set(
+    normalizedWorkerInconveniences.set(
       worker,
       workerInconvenience / ratio / expectedTotalInconveniencePerWorker
     );
   }
 
-  const inconveniences = Array.from(workerInconveniences.values());
+  return normalizedWorkerInconveniences;
+};
 
-  return stdDev(1, inconveniences);
+export const calculateWorkerInconvenienceEqualityDeviation = (
+  schedule: ShiftSchedule
+) => {
+  const inconveniences = calculateWorkerInconveniences(schedule);
+  return stdDev(1, Array.from(inconveniences.values()));
 };
 
 export const workerInconvenienceEqualityHeuristic: ShiftScheduleHeuristic = {

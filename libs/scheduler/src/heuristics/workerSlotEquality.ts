@@ -11,9 +11,7 @@ export const calculateExpectedWorkerSlotEquality = (
   return { expectedMinutesPerWorker, workerUnavailabilityRatio };
 };
 
-export const calculateWorkerSlotEqualityDeviation = (
-  schedule: ShiftSchedule
-) => {
+export const calculateWorkerSlotMinutes = (schedule: ShiftSchedule) => {
   const { expectedMinutesPerWorker, workerUnavailabilityRatio } =
     calculateExpectedWorkerSlotEquality(schedule);
 
@@ -27,14 +25,23 @@ export const calculateWorkerSlotEqualityDeviation = (
     );
   }
 
+  const normalizedWorkerMinutes = new Map<SlotWorker, number>();
   for (const [worker, minutes] of workerMinutes.entries()) {
     const ratio = workerUnavailabilityRatio(worker);
-    workerMinutes.set(worker, minutes / ratio / expectedMinutesPerWorker);
+    normalizedWorkerMinutes.set(
+      worker,
+      minutes / ratio / expectedMinutesPerWorker
+    );
   }
 
-  const minutes = Array.from(workerMinutes.values());
+  return normalizedWorkerMinutes;
+};
 
-  return stdDev(1, minutes);
+export const calculateWorkerSlotEqualityDeviation = (
+  schedule: ShiftSchedule
+) => {
+  const minutes = calculateWorkerSlotMinutes(schedule);
+  return stdDev(1, Array.from(minutes.values()));
 };
 
 export const workerSlotEqualityHeuristic: ShiftScheduleHeuristic = {
