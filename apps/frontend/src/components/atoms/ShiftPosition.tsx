@@ -47,6 +47,42 @@ export interface ShiftPositionProps {
 const isValidNumber = (value: number | undefined) =>
   value && Number.isFinite(value) && !Number.isNaN(value);
 
+// Helper function to get color based on deviation value
+const getDeviationColor = (value: number): string => {
+  // Normalize value between 0 and 1, assuming typical range is 0-100
+  const normalized = Math.min(Math.abs(value) / 1, 1);
+
+  // Interpolate between green (good) and red (bad)
+  const r = Math.round(255 * normalized);
+  const g = Math.round(255 * (1 - normalized));
+  const b = 0;
+
+  return `rgb(${r}, ${g}, ${b})`;
+};
+
+// Component to display deviation value in a circle
+const DeviationCircle = ({
+  value,
+  label,
+}: {
+  value: number;
+  label: string;
+}) => {
+  const color = getDeviationColor(value);
+  const formattedValue = Math.round(value * 100) / 100; // Round to 2 decimal places
+
+  return (
+    <Hint hint={`${label}: ${formattedValue}`}>
+      <div
+        className="flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-medium text-white"
+        style={{ backgroundColor: color }}
+      >
+        {formattedValue}
+      </div>
+    </Hint>
+  );
+};
+
 export const ShiftPosition = memo(
   ({
     shiftPosition,
@@ -271,6 +307,34 @@ export const ShiftPosition = memo(
               >
                 <ExclamationTriangleIcon className="w-4 h-4 text-purple-500 ml-1" />
               </Hint>
+            )}
+            {isValidNumber(
+              shiftPosition.workerInconvenienceEqualityDeviation
+            ) && (
+              <div className="ml-1">
+                <DeviationCircle
+                  value={
+                    shiftPosition.workerInconvenienceEqualityDeviation as number
+                  }
+                  label={i18n.t("Inconvenience Equality Deviation")}
+                />
+              </div>
+            )}
+            {isValidNumber(shiftPosition.workerSlotEqualityDeviation) && (
+              <div className="ml-1">
+                <DeviationCircle
+                  value={shiftPosition.workerSlotEqualityDeviation as number}
+                  label={i18n.t("Slot Equality Deviation")}
+                />
+              </div>
+            )}
+            {isValidNumber(shiftPosition.workerSlotProximityDeviation) && (
+              <div className="ml-1">
+                <DeviationCircle
+                  value={shiftPosition.workerSlotProximityDeviation as number}
+                  label={i18n.t("Slot Proximity Deviation")}
+                />
+              </div>
             )}
           </div>
           <Transition show={showScheduleDetails} appear>

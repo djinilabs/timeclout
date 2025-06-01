@@ -14,15 +14,15 @@ export const calculateWorkerSlotProximities = (schedule: ShiftSchedule) => {
   const expectedShiftPeriodPerWorker =
     calculateExpectedWorkerSlotProximity(schedule);
 
-  const workerShifts: Map<SlotWorker, { shiftIndex: number }[]> = new Map();
+  const workerShifts: Map<string, { shiftIndex: number }[]> = new Map();
 
   // Group shifts by worker and sort by start time
   schedule.shifts.forEach((shift, shiftIndex) => {
-    const shifts = workerShifts.get(shift.assigned) ?? [];
+    const shifts = workerShifts.get(shift.assigned.pk) ?? [];
     shifts.push({
       shiftIndex,
     });
-    workerShifts.set(shift.assigned, shifts);
+    workerShifts.set(shift.assigned.pk, shifts);
   });
 
   // Sort shifts for each worker by start time
@@ -37,7 +37,7 @@ export const calculateWorkerSlotProximities = (schedule: ShiftSchedule) => {
     for (let i = 1; i < shifts.length; i++) {
       const proximityInShiftIndex =
         shifts[i].shiftIndex - shifts[i - 1].shiftIndex;
-      const key = `${worker.pk}-${shifts[i - 1].shiftIndex}-${shifts[i].shiftIndex}`;
+      const key = `${worker}-${shifts[i - 1].shiftIndex}-${shifts[i].shiftIndex}`;
       proximities.set(
         key,
         proximityInShiftIndex / expectedShiftPeriodPerWorker

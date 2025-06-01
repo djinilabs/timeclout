@@ -340,9 +340,9 @@ const doAnalyzeMinimumRestSlotsAfterShift = ({
 
 // --------- Heuristics ---------
 
-const doAnalyzeHeuristics = (
-  shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>
-) => {
+const doAnalyzeHeuristics = ({
+  shiftPositionsMap,
+}: AnalyzeTeamShiftsCalendarProps) => {
   // Get all days sorted chronologically
   const days = Object.keys(shiftPositionsMap).sort();
 
@@ -412,6 +412,8 @@ const doAnalyzeHeuristics = (
   Array.from(workerInconveniences.entries()).forEach(([worker, value]) => {
     workerInconvenienceMap.set(worker.pk, value);
   });
+
+  console.log("workerSlotProximities", workerSlotProximities);
 
   return Object.fromEntries(
     days.map((day) => {
@@ -497,8 +499,8 @@ export const useAnalyzeTeamShiftsCalendar = (
 
   // ------- Heuristics -------
   analyzedShiftPositionsMap = useMemo(
-    () => doAnalyzeHeuristics(props.shiftPositionsMap),
-    [props.shiftPositionsMap]
+    () => doAnalyzeHeuristics(props),
+    [props]
   );
 
   return {
