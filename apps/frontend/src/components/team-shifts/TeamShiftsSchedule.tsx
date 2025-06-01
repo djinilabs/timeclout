@@ -208,17 +208,38 @@ export const TeamShiftsSchedule = () => {
     setMinimumRestSlotsAfterShift,
   } = useAnalyzeTeamShiftsCalendarParams(analyze);
 
-  const { analyzedShiftPositionsMap } = useAnalyzeTeamShiftsCalendar({
-    analyzeLeaveConflicts,
-    shiftPositionsMap,
-    leaveSchedule,
-    requireMaximumIntervalBetweenShifts,
-    maximumIntervalBetweenShiftsInDays: maximumIntervalBetweenShiftsInDays,
-    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-    minimumNumberOfShiftsPerWeekInStandardWorkday,
-    requireMinimumRestSlotsAfterShift,
-    minimumRestSlotsAfterShift,
-  });
+  const { analyzedShiftPositionsMap } = useAnalyzeTeamShiftsCalendar(
+    useMemo(
+      () => ({
+        teamPk: getDefined(teamPk),
+        startDate: calendarStartDay,
+        endDate: calendarEndDay,
+        analyzeLeaveConflicts,
+        shiftPositionsMap,
+        leaveSchedule,
+        requireMaximumIntervalBetweenShifts,
+        maximumIntervalBetweenShiftsInDays: maximumIntervalBetweenShiftsInDays,
+        requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+        minimumNumberOfShiftsPerWeekInStandardWorkday,
+        requireMinimumRestSlotsAfterShift,
+        minimumRestSlotsAfterShift,
+      }),
+      [
+        teamPk,
+        calendarStartDay,
+        calendarEndDay,
+        analyzeLeaveConflicts,
+        shiftPositionsMap,
+        leaveSchedule,
+        requireMaximumIntervalBetweenShifts,
+        maximumIntervalBetweenShiftsInDays,
+        requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+        minimumNumberOfShiftsPerWeekInStandardWorkday,
+        requireMinimumRestSlotsAfterShift,
+        minimumRestSlotsAfterShift,
+      ]
+    )
+  );
 
   shiftPositionsMap = analyzedShiftPositionsMap;
 

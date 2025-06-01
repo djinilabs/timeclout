@@ -1,6 +1,10 @@
 import { useMemo } from "react";
+import { ShiftsAutoFillParams } from "@/business-logic";
+import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
 import { type ShiftPositionWithRowSpan } from "./useTeamShiftPositionsMap";
 import { type LeaveRenderInfo } from "./useTeamLeaveSchedule";
+import { useQuery } from "./useQuery";
+import { DayDate } from "@/day-date";
 
 export type AnalyzedShiftPosition = ShiftPositionWithRowSpan & {
   hasLeaveConflict?: boolean;
@@ -10,6 +14,9 @@ export type AnalyzedShiftPosition = ShiftPositionWithRowSpan & {
 };
 
 export interface AnalyzeTeamShiftsCalendarProps {
+  teamPk: string;
+  startDate: DayDate;
+  endDate: DayDate;
   analyzeLeaveConflicts: boolean;
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
@@ -27,6 +34,8 @@ export interface AnalyzeTeamShiftsCalendarProps {
 export interface AnalyzeTeamShiftsCalendarReturn {
   analyzedShiftPositionsMap: Record<string, AnalyzedShiftPosition[]>;
 }
+
+// --------- Rules ---------
 
 // -- Analyze Leave Conflicts --
 
@@ -319,61 +328,82 @@ const doAnalyzeMinimumRestSlotsAfterShift = ({
   );
 };
 
+// --------- Heuristics ---------
+
+const doAnalyzeHeuristics = (
+  shiftsAutoFillParams: ShiftsAutoFillParams,
+  shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>
+) => {
+  return shiftPositionsMap;
+};
+
+const doAnalyzeRules = (props: AnalyzeTeamShiftsCalendarProps) => {
+  let result = props.shiftPositionsMap;
+
+  if (props.analyzeLeaveConflicts) {
+    result = doAnalyzeLeaveConflicts(props);
+  }
+
+  if (props.requireMaximumIntervalBetweenShifts) {
+    result = doAnalyzeMaximumIntervalBetweenShifts({
+      ...props,
+      shiftPositionsMap: result,
+    });
+  }
+
+  if (props.requireMinimumNumberOfShiftsPerWeekInStandardWorkday) {
+    result = doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday({
+      ...props,
+      shiftPositionsMap: result,
+    });
+  }
+
+  if (props.requireMinimumRestSlotsAfterShift) {
+    result = doAnalyzeMinimumRestSlotsAfterShift({
+      ...props,
+      shiftPositionsMap: result,
+    });
+  }
+
+  return result;
+};
+
 export const useAnalyzeTeamShiftsCalendar = (
   props: AnalyzeTeamShiftsCalendarProps
 ): AnalyzeTeamShiftsCalendarReturn => {
-  const {
-    analyzeLeaveConflicts,
-    shiftPositionsMap: originalShiftPositionsMap,
-    requireMaximumIntervalBetweenShifts,
-    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-    requireMinimumRestSlotsAfterShift,
-  } = props;
+  const { teamPk, startDate, endDate } = props;
 
-  let shiftPositionsMap = originalShiftPositionsMap;
+  // ------- Rules -------
+  const analyzedShiftPositionsMap = useMemo(() => {
+    return doAnalyzeRules(props);
+  }, [props]);
 
-  shiftPositionsMap = useMemo(() => {
-    if (analyzeLeaveConflicts) {
-      return doAnalyzeLeaveConflicts(props);
+  // ------- Heuristics -------
+  const [shiftsAutoFillParamsResponse] = useQuery<{
+    shiftsAutoFillParams: ShiftsAutoFillParams;
+  }>({
+    query: shiftsAutoFillParamsQuery,
+    variables: {
+      input: {
+        team: teamPk,
+        startDay: startDate?.toString() ?? "",
+        endDay: endDate?.nextDay().toString() ?? "",
+      },
+    },
+  });
+
+  const finalShiftPositionsMap = useMemo(() => {
+    if (shiftsAutoFillParamsResponse.data) {
+      return doAnalyzeHeuristics(
+        shiftsAutoFillParamsResponse.data.shiftsAutoFillParams,
+        analyzedShiftPositionsMap
+      );
+    } else {
+      return analyzedShiftPositionsMap;
     }
-    return originalShiftPositionsMap;
-  }, [analyzeLeaveConflicts, originalShiftPositionsMap, props]);
-
-  shiftPositionsMap = useMemo(() => {
-    if (requireMaximumIntervalBetweenShifts) {
-      return doAnalyzeMaximumIntervalBetweenShifts({
-        ...props,
-        shiftPositionsMap,
-      });
-    }
-    return shiftPositionsMap;
-  }, [requireMaximumIntervalBetweenShifts, shiftPositionsMap, props]);
-
-  shiftPositionsMap = useMemo(() => {
-    if (requireMinimumNumberOfShiftsPerWeekInStandardWorkday) {
-      return doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday({
-        ...props,
-        shiftPositionsMap,
-      });
-    }
-    return shiftPositionsMap;
-  }, [
-    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-    shiftPositionsMap,
-    props,
-  ]);
-
-  shiftPositionsMap = useMemo(() => {
-    if (requireMinimumRestSlotsAfterShift) {
-      return doAnalyzeMinimumRestSlotsAfterShift({
-        ...props,
-        shiftPositionsMap,
-      });
-    }
-    return shiftPositionsMap;
-  }, [requireMinimumRestSlotsAfterShift, shiftPositionsMap, props]);
+  }, [shiftsAutoFillParamsResponse.data, analyzedShiftPositionsMap]);
 
   return {
-    analyzedShiftPositionsMap: shiftPositionsMap,
+    analyzedShiftPositionsMap: finalShiftPositionsMap,
   };
 };
