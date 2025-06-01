@@ -1,9 +1,16 @@
 import { useMemo } from "react";
-import { ShiftsAutoFillParams } from "@/business-logic";
-import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
+import {
+  calculateWorkerSlotProximities,
+  calculateWorkerSlotMinutes,
+  calculateWorkerInconveniences,
+  type ShiftSchedule,
+  type SlotShift,
+  type Slot,
+  type SlotWorker,
+} from "@/scheduler";
+
 import { type ShiftPositionWithRowSpan } from "./useTeamShiftPositionsMap";
 import { type LeaveRenderInfo } from "./useTeamLeaveSchedule";
-import { useQuery } from "./useQuery";
 import { DayDate } from "@/day-date";
 
 export type AnalyzedShiftPosition = ShiftPositionWithRowSpan & {
@@ -11,6 +18,9 @@ export type AnalyzedShiftPosition = ShiftPositionWithRowSpan & {
   hasIssueWithMaximumIntervalBetweenShiftsRule?: boolean;
   hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday?: boolean;
   hasIssueWithMinimumRestSlotsAfterShiftRule?: boolean;
+  workerInconvenienceEqualityDeviation?: number;
+  workerSlotEqualityDeviation?: number;
+  workerSlotProximityDeviation?: number;
 };
 
 export interface AnalyzeTeamShiftsCalendarProps {
@@ -331,10 +341,119 @@ const doAnalyzeMinimumRestSlotsAfterShift = ({
 // --------- Heuristics ---------
 
 const doAnalyzeHeuristics = (
-  shiftsAutoFillParams: ShiftsAutoFillParams,
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>
 ) => {
-  return shiftPositionsMap;
+  // Get all days sorted chronologically
+  const days = Object.keys(shiftPositionsMap).sort();
+
+  // Convert shiftPositionsMap to a ShiftSchedule format
+  const schedule: ShiftSchedule = {
+    startDay: days[0],
+    endDay: days[days.length - 1],
+    shifts: days.flatMap((day) =>
+      shiftPositionsMap[day]
+        .filter((position) => position.assignedTo) // Only include shifts with assigned workers
+        .map((position) => {
+          const slot: Slot = {
+            id: position.pk,
+            workHours: position.schedules.map((schedule) => ({
+              start:
+                schedule.startHourMinutes[0] * 60 +
+                schedule.startHourMinutes[1],
+              end: schedule.endHourMinutes[0] * 60 + schedule.endHourMinutes[1],
+              inconvenienceMultiplier: schedule.inconveniencePerHour,
+            })),
+            startsOnDay: day,
+            requiredQualifications: position.requiredSkills,
+            typeName: "regular",
+          };
+
+          const worker: SlotWorker = {
+            pk: position.assignedTo!.pk,
+            name: position.assignedTo!.name || "",
+            email: position.assignedTo!.email || "",
+            emailMd5: position.assignedTo!.emailMd5 || "",
+            qualifications: [], // We don't have access to qualifications in the User type
+            approvedLeaves: [], // We don't have access to approvedLeaves in the User type
+          };
+
+          const slotShift: SlotShift = {
+            slot,
+            assigned: worker,
+          };
+
+          return slotShift;
+        })
+    ),
+  };
+
+  // Calculate all heuristics
+  const workerSlotProximities = calculateWorkerSlotProximities(schedule);
+  const workerSlotMinutes = calculateWorkerSlotMinutes(schedule);
+  const workerInconveniences = calculateWorkerInconveniences(schedule);
+
+  // Pre-process heuristic results into efficient lookup Maps
+  const workerProximityMap = new Map<string, number>();
+  const workerSlotMinutesMap = new Map<string, number>();
+  const workerInconvenienceMap = new Map<string, number>();
+
+  // Process worker slot proximities
+  Array.from(workerSlotProximities.entries()).forEach(([key, value]) => {
+    const workerPk = key.split("-")[0];
+    workerProximityMap.set(workerPk, value);
+  });
+
+  // Process worker slot minutes
+  Array.from(workerSlotMinutes.entries()).forEach(([worker, value]) => {
+    workerSlotMinutesMap.set(worker.pk, value);
+  });
+
+  // Process worker inconveniences
+  Array.from(workerInconveniences.entries()).forEach(([worker, value]) => {
+    workerInconvenienceMap.set(worker.pk, value);
+  });
+
+  return Object.fromEntries(
+    days.map((day) => {
+      const shiftPositions = shiftPositionsMap[day];
+
+      const analyzedShiftPositions = shiftPositions.map(
+        (shiftPosition): AnalyzedShiftPosition => {
+          const analyzedShiftPosition: AnalyzedShiftPosition = {
+            ...shiftPosition,
+          };
+
+          if (shiftPosition.assignedTo) {
+            const workerPk = shiftPosition.assignedTo.pk;
+
+            // O(1) lookups using the pre-processed Maps
+            const proximityDeviation = workerProximityMap.get(workerPk);
+            if (proximityDeviation !== undefined) {
+              analyzedShiftPosition.workerSlotProximityDeviation =
+                proximityDeviation;
+            }
+
+            const slotEqualityDeviation = workerSlotMinutesMap.get(workerPk);
+            if (slotEqualityDeviation !== undefined) {
+              analyzedShiftPosition.workerSlotEqualityDeviation =
+                slotEqualityDeviation;
+            }
+
+            const inconvenienceEqualityDeviation =
+              workerInconvenienceMap.get(workerPk);
+            if (inconvenienceEqualityDeviation !== undefined) {
+              analyzedShiftPosition.workerInconvenienceEqualityDeviation =
+                inconvenienceEqualityDeviation;
+            }
+          }
+
+          return analyzedShiftPosition;
+        }
+      );
+
+      return [day, analyzedShiftPositions];
+    })
+  );
 };
 
 const doAnalyzeRules = (props: AnalyzeTeamShiftsCalendarProps) => {
@@ -371,39 +490,18 @@ const doAnalyzeRules = (props: AnalyzeTeamShiftsCalendarProps) => {
 export const useAnalyzeTeamShiftsCalendar = (
   props: AnalyzeTeamShiftsCalendarProps
 ): AnalyzeTeamShiftsCalendarReturn => {
-  const { teamPk, startDate, endDate } = props;
-
   // ------- Rules -------
-  const analyzedShiftPositionsMap = useMemo(() => {
+  let analyzedShiftPositionsMap = useMemo(() => {
     return doAnalyzeRules(props);
   }, [props]);
 
   // ------- Heuristics -------
-  const [shiftsAutoFillParamsResponse] = useQuery<{
-    shiftsAutoFillParams: ShiftsAutoFillParams;
-  }>({
-    query: shiftsAutoFillParamsQuery,
-    variables: {
-      input: {
-        team: teamPk,
-        startDay: startDate?.toString() ?? "",
-        endDay: endDate?.nextDay().toString() ?? "",
-      },
-    },
-  });
-
-  const finalShiftPositionsMap = useMemo(() => {
-    if (shiftsAutoFillParamsResponse.data) {
-      return doAnalyzeHeuristics(
-        shiftsAutoFillParamsResponse.data.shiftsAutoFillParams,
-        analyzedShiftPositionsMap
-      );
-    } else {
-      return analyzedShiftPositionsMap;
-    }
-  }, [shiftsAutoFillParamsResponse.data, analyzedShiftPositionsMap]);
+  analyzedShiftPositionsMap = useMemo(
+    () => doAnalyzeHeuristics(props.shiftPositionsMap),
+    [props.shiftPositionsMap]
+  );
 
   return {
-    analyzedShiftPositionsMap: finalShiftPositionsMap,
+    analyzedShiftPositionsMap,
   };
 };

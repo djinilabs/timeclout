@@ -7,3 +7,7 @@ export const heuristics = [
   workerSlotProximityHeuristic,
   workerSlotEqualityHeuristic,
 ];
+
+export { calculateWorkerInconveniences } from "./workerInconvenienceEquality";
+export { calculateWorkerSlotMinutes } from "./workerSlotEquality";
+export { calculateWorkerSlotProximities } from "./workerSlotProximity";
