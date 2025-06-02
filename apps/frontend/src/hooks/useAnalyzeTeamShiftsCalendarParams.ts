@@ -96,11 +96,12 @@ export const useAnalyzeTeamShiftsCalendarParams = (analyze: boolean) => {
     setRequireMinimumRestSlotsAfterShift,
     minimumRestSlotsAfterShift: analyze ? minimumRestSlotsAfterShift : [],
     setMinimumRestSlotsAfterShift,
-    analyzeWorkerInconvenienceEquality,
+    analyzeWorkerInconvenienceEquality:
+      analyze && analyzeWorkerInconvenienceEquality,
     setAnalyzeWorkerInconvenienceEquality,
-    analyzeWorkerSlotEquality,
+    analyzeWorkerSlotEquality: analyze && analyzeWorkerSlotEquality,
     setAnalyzeWorkerSlotEquality,
-    analyzeWorkerSlotProximity,
+    analyzeWorkerSlotProximity: analyze && analyzeWorkerSlotProximity,
     setAnalyzeWorkerSlotProximity,
   };
 };
