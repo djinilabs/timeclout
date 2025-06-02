@@ -206,19 +206,52 @@ export const TeamShiftsSchedule = () => {
     setRequireMinimumRestSlotsAfterShift,
     minimumRestSlotsAfterShift,
     setMinimumRestSlotsAfterShift,
+    analyzeWorkerInconvenienceEquality,
+    setAnalyzeWorkerInconvenienceEquality,
+    analyzeWorkerSlotEquality,
+    setAnalyzeWorkerSlotEquality,
+    analyzeWorkerSlotProximity,
+    setAnalyzeWorkerSlotProximity,
   } = useAnalyzeTeamShiftsCalendarParams(analyze);
 
-  const { analyzedShiftPositionsMap } = useAnalyzeTeamShiftsCalendar({
-    analyzeLeaveConflicts,
-    shiftPositionsMap,
-    leaveSchedule,
-    requireMaximumIntervalBetweenShifts,
-    maximumIntervalBetweenShiftsInDays: maximumIntervalBetweenShiftsInDays,
-    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-    minimumNumberOfShiftsPerWeekInStandardWorkday,
-    requireMinimumRestSlotsAfterShift,
-    minimumRestSlotsAfterShift,
-  });
+  const { analyzedShiftPositionsMap } = useAnalyzeTeamShiftsCalendar(
+    useMemo(
+      () => ({
+        teamPk: getDefined(teamPk),
+        startDate: calendarStartDay,
+        endDate: calendarEndDay,
+        analyzeLeaveConflicts,
+        shiftPositionsMap,
+        leaveSchedule,
+        requireMaximumIntervalBetweenShifts,
+        maximumIntervalBetweenShiftsInDays: maximumIntervalBetweenShiftsInDays,
+        requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+        minimumNumberOfShiftsPerWeekInStandardWorkday,
+        requireMinimumRestSlotsAfterShift,
+        minimumRestSlotsAfterShift,
+        analyzeWorkerInconvenienceEquality,
+        analyzeWorkerSlotEquality,
+        analyzeWorkerSlotProximity,
+      }),
+      [
+        teamPk,
+        calendarStartDay,
+        calendarEndDay,
+        analyzeLeaveConflicts,
+        shiftPositionsMap,
+        leaveSchedule,
+        requireMaximumIntervalBetweenShifts,
+        maximumIntervalBetweenShiftsInDays,
+        requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+        minimumNumberOfShiftsPerWeekInStandardWorkday,
+        requireMinimumRestSlotsAfterShift,
+        minimumRestSlotsAfterShift,
+        analyzeWorkerInconvenienceEquality,
+        analyzeWorkerSlotEquality,
+        analyzeWorkerSlotProximity,
+      ]
+    )
+  );
 
   shiftPositionsMap = analyzedShiftPositionsMap;
 
@@ -725,6 +758,16 @@ export const TeamShiftsSchedule = () => {
               }
               minimumRestSlotsAfterShift={minimumRestSlotsAfterShift}
               setMinimumRestSlotsAfterShift={setMinimumRestSlotsAfterShift}
+              analyzeWorkerInconvenienceEquality={
+                analyzeWorkerInconvenienceEquality
+              }
+              setAnalyzeWorkerInconvenienceEquality={
+                setAnalyzeWorkerInconvenienceEquality
+              }
+              analyzeWorkerSlotEquality={analyzeWorkerSlotEquality}
+              setAnalyzeWorkerSlotEquality={setAnalyzeWorkerSlotEquality}
+              analyzeWorkerSlotProximity={analyzeWorkerSlotProximity}
+              setAnalyzeWorkerSlotProximity={setAnalyzeWorkerSlotProximity}
             />
           </div>
         </Transition>

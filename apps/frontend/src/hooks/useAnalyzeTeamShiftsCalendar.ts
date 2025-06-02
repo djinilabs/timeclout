@@ -1,15 +1,32 @@
 import { useMemo } from "react";
+import {
+  calculateWorkerSlotProximities,
+  calculateWorkerSlotMinutes,
+  calculateWorkerInconveniences,
+  type ShiftSchedule,
+  type SlotShift,
+  type Slot,
+  type SlotWorker,
+} from "@/scheduler";
+
 import { type ShiftPositionWithRowSpan } from "./useTeamShiftPositionsMap";
 import { type LeaveRenderInfo } from "./useTeamLeaveSchedule";
+import { DayDate } from "@/day-date";
 
 export type AnalyzedShiftPosition = ShiftPositionWithRowSpan & {
   hasLeaveConflict?: boolean;
   hasIssueWithMaximumIntervalBetweenShiftsRule?: boolean;
   hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday?: boolean;
   hasIssueWithMinimumRestSlotsAfterShiftRule?: boolean;
+  workerInconvenienceEqualityDeviation?: number;
+  workerSlotEqualityDeviation?: number;
+  workerSlotProximityDeviation?: number;
 };
 
 export interface AnalyzeTeamShiftsCalendarProps {
+  teamPk: string;
+  startDate: DayDate;
+  endDate: DayDate;
   analyzeLeaveConflicts: boolean;
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
@@ -22,11 +39,16 @@ export interface AnalyzeTeamShiftsCalendarProps {
     inconvenienceLessOrEqualThan: number;
     minimumRestMinutes: number;
   }[];
+  analyzeWorkerInconvenienceEquality: boolean;
+  analyzeWorkerSlotEquality: boolean;
+  analyzeWorkerSlotProximity: boolean;
 }
 
 export interface AnalyzeTeamShiftsCalendarReturn {
   analyzedShiftPositionsMap: Record<string, AnalyzedShiftPosition[]>;
 }
+
+// --------- Rules ---------
 
 // -- Analyze Leave Conflicts --
 
@@ -319,61 +341,213 @@ const doAnalyzeMinimumRestSlotsAfterShift = ({
   );
 };
 
+// --------- Heuristics ---------
+
+const normalizeValues = <T>(values: [T, number][]): [T, number][] => {
+  // first, calculate the average
+  const average =
+    values.reduce((acc, [, value]) => acc + value, 0) / values.length;
+  // then, calculate the standard deviation
+  const standardDeviation = Math.sqrt(
+    values.reduce((acc, [, value]) => acc + Math.pow(value - average, 2), 0) /
+      values.length
+  );
+  // normalize the values
+  return values.map(([key, value]) => [
+    key,
+    (value - average) / standardDeviation,
+  ]);
+};
+
+const doAnalyzeHeuristics = ({
+  shiftPositionsMap,
+  analyzeWorkerInconvenienceEquality,
+  analyzeWorkerSlotEquality,
+  analyzeWorkerSlotProximity,
+}: AnalyzeTeamShiftsCalendarProps) => {
+  if (
+    !analyzeWorkerInconvenienceEquality &&
+    !analyzeWorkerSlotEquality &&
+    !analyzeWorkerSlotProximity
+  ) {
+    return shiftPositionsMap;
+  }
+
+  // Get all days sorted chronologically
+  const days = Object.keys(shiftPositionsMap).sort();
+
+  // Convert shiftPositionsMap to a ShiftSchedule format
+  const schedule: ShiftSchedule = {
+    startDay: days[0],
+    endDay: days[days.length - 1],
+    shifts: days.flatMap((day) =>
+      shiftPositionsMap[day]
+        .filter((position) => position.assignedTo) // Only include shifts with assigned workers
+        .map((position) => {
+          const slot: Slot = {
+            id: position.pk + "//" + position.sk,
+            workHours: position.schedules.map((schedule) => ({
+              start:
+                schedule.startHourMinutes[0] * 60 +
+                schedule.startHourMinutes[1],
+              end: schedule.endHourMinutes[0] * 60 + schedule.endHourMinutes[1],
+              inconvenienceMultiplier: schedule.inconveniencePerHour,
+            })),
+            startsOnDay: day,
+            requiredQualifications: position.requiredSkills,
+            typeName: "regular",
+          };
+
+          const worker: SlotWorker = {
+            pk: position.assignedTo!.pk,
+            name: position.assignedTo!.name || "",
+            email: position.assignedTo!.email || "",
+            emailMd5: position.assignedTo!.emailMd5 || "",
+            qualifications: [], // We don't have access to qualifications in the User type
+            approvedLeaves: [], // We don't have access to approvedLeaves in the User type
+          };
+
+          const slotShift: SlotShift = {
+            slot,
+            assigned: worker,
+          };
+
+          return slotShift;
+        })
+    ),
+  };
+
+  const workerProximitiesMap = new Map<string, Map<string, number>>();
+  if (analyzeWorkerSlotProximity) {
+    // Process worker slot proximities
+    const workerSlotProximities = calculateWorkerSlotProximities(schedule);
+    normalizeValues(Array.from(workerSlotProximities.entries())).forEach(
+      ([key, value]) => {
+        const [workerPk, slotPk, slotSk] = key.split("//");
+        if (!workerProximitiesMap.has(workerPk)) {
+          workerProximitiesMap.set(workerPk, new Map());
+        }
+        workerProximitiesMap.get(workerPk)!.set(slotPk + "//" + slotSk, value);
+      }
+    );
+  }
+
+  const workerSlotMinutesMap = new Map<string, number>();
+  if (analyzeWorkerSlotEquality) {
+    // Process worker slot minutes
+    const workerSlotMinutes = calculateWorkerSlotMinutes(schedule);
+    normalizeValues(Array.from(workerSlotMinutes.entries())).forEach(
+      ([worker, value]) => {
+        workerSlotMinutesMap.set(worker.pk, value);
+      }
+    );
+  }
+
+  const workerInconvenienceMap = new Map<string, number>();
+  if (analyzeWorkerInconvenienceEquality) {
+    const workerInconveniences = calculateWorkerInconveniences(schedule);
+
+    // Process worker inconveniences
+    normalizeValues(Array.from(workerInconveniences.entries())).forEach(
+      ([worker, value]) => {
+        workerInconvenienceMap.set(worker.pk, value);
+      }
+    );
+  }
+
+  return Object.fromEntries(
+    days.map((day) => {
+      const shiftPositions = shiftPositionsMap[day];
+
+      const analyzedShiftPositions = shiftPositions.map(
+        (shiftPosition): AnalyzedShiftPosition => {
+          const analyzedShiftPosition: AnalyzedShiftPosition = {
+            ...shiftPosition,
+          };
+
+          if (shiftPosition.assignedTo) {
+            const workerPk = shiftPosition.assignedTo.pk;
+
+            // O(1) lookups using the pre-processed Maps
+            const proximityDeviations = workerProximitiesMap.get(workerPk);
+            if (proximityDeviations !== undefined) {
+              const proximityDeviation =
+                proximityDeviations.get(
+                  shiftPosition.pk + "//" + shiftPosition.sk
+                ) ?? undefined;
+              analyzedShiftPosition.workerSlotProximityDeviation =
+                proximityDeviation;
+            }
+
+            const slotEqualityDeviation = workerSlotMinutesMap.get(workerPk);
+            if (slotEqualityDeviation !== undefined) {
+              analyzedShiftPosition.workerSlotEqualityDeviation =
+                slotEqualityDeviation;
+            }
+
+            const inconvenienceEqualityDeviation =
+              workerInconvenienceMap.get(workerPk);
+            if (inconvenienceEqualityDeviation !== undefined) {
+              analyzedShiftPosition.workerInconvenienceEqualityDeviation =
+                inconvenienceEqualityDeviation;
+            }
+          }
+
+          return analyzedShiftPosition;
+        }
+      );
+
+      return [day, analyzedShiftPositions];
+    })
+  );
+};
+
+const doAnalyzeRules = (props: AnalyzeTeamShiftsCalendarProps) => {
+  let result = props.shiftPositionsMap;
+
+  if (props.analyzeLeaveConflicts) {
+    result = doAnalyzeLeaveConflicts(props);
+  }
+
+  if (props.requireMaximumIntervalBetweenShifts) {
+    result = doAnalyzeMaximumIntervalBetweenShifts({
+      ...props,
+      shiftPositionsMap: result,
+    });
+  }
+
+  if (props.requireMinimumNumberOfShiftsPerWeekInStandardWorkday) {
+    result = doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday({
+      ...props,
+      shiftPositionsMap: result,
+    });
+  }
+
+  if (props.requireMinimumRestSlotsAfterShift) {
+    result = doAnalyzeMinimumRestSlotsAfterShift({
+      ...props,
+      shiftPositionsMap: result,
+    });
+  }
+
+  return result;
+};
+
 export const useAnalyzeTeamShiftsCalendar = (
   props: AnalyzeTeamShiftsCalendarProps
 ): AnalyzeTeamShiftsCalendarReturn => {
-  const {
-    analyzeLeaveConflicts,
-    shiftPositionsMap: originalShiftPositionsMap,
-    requireMaximumIntervalBetweenShifts,
-    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-    requireMinimumRestSlotsAfterShift,
-  } = props;
+  // ------- Rules -------
+  let analyzedShiftPositionsMap = useMemo(() => {
+    return doAnalyzeRules(props);
+  }, [props]);
 
-  let shiftPositionsMap = originalShiftPositionsMap;
-
-  shiftPositionsMap = useMemo(() => {
-    if (analyzeLeaveConflicts) {
-      return doAnalyzeLeaveConflicts(props);
-    }
-    return originalShiftPositionsMap;
-  }, [analyzeLeaveConflicts, originalShiftPositionsMap, props]);
-
-  shiftPositionsMap = useMemo(() => {
-    if (requireMaximumIntervalBetweenShifts) {
-      return doAnalyzeMaximumIntervalBetweenShifts({
-        ...props,
-        shiftPositionsMap,
-      });
-    }
-    return shiftPositionsMap;
-  }, [requireMaximumIntervalBetweenShifts, shiftPositionsMap, props]);
-
-  shiftPositionsMap = useMemo(() => {
-    if (requireMinimumNumberOfShiftsPerWeekInStandardWorkday) {
-      return doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday({
-        ...props,
-        shiftPositionsMap,
-      });
-    }
-    return shiftPositionsMap;
-  }, [
-    requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
-    shiftPositionsMap,
-    props,
-  ]);
-
-  shiftPositionsMap = useMemo(() => {
-    if (requireMinimumRestSlotsAfterShift) {
-      return doAnalyzeMinimumRestSlotsAfterShift({
-        ...props,
-        shiftPositionsMap,
-      });
-    }
-    return shiftPositionsMap;
-  }, [requireMinimumRestSlotsAfterShift, shiftPositionsMap, props]);
+  // ------- Heuristics -------
+  analyzedShiftPositionsMap = useMemo(
+    () => doAnalyzeHeuristics(props),
+    [props]
+  );
 
   return {
-    analyzedShiftPositionsMap: shiftPositionsMap,
+    analyzedShiftPositionsMap,
   };
 };

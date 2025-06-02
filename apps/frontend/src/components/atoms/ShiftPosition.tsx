@@ -44,8 +44,62 @@ export interface ShiftPositionProps {
   showScheduleDetails?: boolean;
 }
 
-const isValidNumber = (value: number | undefined) =>
-  value && Number.isFinite(value) && !Number.isNaN(value);
+const isValidNumber = (value: number | undefined): value is number =>
+  value !== undefined && Number.isFinite(value) && !Number.isNaN(value);
+
+const toHex = (n: number) => n.toString(16).padStart(2, "0");
+// Helper function to get color based on deviation value
+const getDeviationColor = (normalized: number | undefined): string => {
+  if (normalized === undefined) return "transparent";
+
+  // Interpolate between green (good) and red (bad)
+  const r = Math.round(255 * normalized);
+  const g = Math.round(255 * (1 - normalized));
+  const b = 0;
+
+  // Convert to hex
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+};
+
+// Helper function to calculate average deviation
+const calculateAverageDeviation = (
+  deviations: (number | undefined)[]
+): number | undefined => {
+  const validDeviations = deviations.filter(
+    (d): d is number =>
+      d !== undefined && !Number.isNaN(d) && Number.isFinite(d)
+  );
+
+  if (validDeviations.length === 0) return undefined;
+
+  const sum = validDeviations.reduce((acc, val) => acc + val, 0);
+  return sum / validDeviations.length;
+};
+
+// Component to display deviation value in a circle
+const DeviationCircle = ({
+  invert,
+  value,
+  label,
+}: {
+  invert?: boolean;
+  value: number;
+  label: string;
+}) => {
+  const color = getDeviationColor(invert ? -value : value);
+  const percentage = Math.round(value * 100); // Convert to percentage and round to nearest integer
+
+  return (
+    <Hint hint={`${label}: ${percentage}%`}>
+      <div
+        className="flex items-center justify-center p-1 min-w-5 h-5 rounded-full text-[10px] font-medium text-white"
+        style={{ backgroundColor: color }}
+      >
+        {percentage}%
+      </div>
+    </Hint>
+  );
+};
 
 export const ShiftPosition = memo(
   ({
@@ -232,46 +286,121 @@ export const ShiftPosition = memo(
               marginLeft: showScheduleDetails ? `${startPercent}%` : undefined,
             }}
           >
-            {shiftPosition.assignedTo && (
-              <div className="mr-1">
-                <Avatar size={25} {...shiftPosition.assignedTo} />
-              </div>
-            )}
-            {!hideName && (
-              <Hint hint={shiftPosition.name ?? ""}>
-                <span className="text-tiny text-gray-400 truncate text-left">
-                  {shiftPosition.name}
-                </span>
-              </Hint>
-            )}
-            {shiftPosition.hasLeaveConflict && (
-              <Hint hint={i18n.t("Leave conflict detected")}>
-                <ExclamationTriangleIcon className="w-4 h-4 text-red-500 ml-1" />
-              </Hint>
-            )}
-            {shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule && (
-              <Hint
-                hint={i18n.t("Maximum interval between shifts rule violated")}
-              >
-                <ExclamationTriangleIcon className="w-4 h-4 text-yellow-500 ml-1" />
-              </Hint>
-            )}
-            {shiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday && (
-              <Hint
-                hint={i18n.t(
-                  "Minimum number of shifts per week in standard workday rule violated"
+            <div className="flex flex-col w-full">
+              <div className="flex items-center">
+                {shiftPosition.assignedTo && (
+                  <div className="mr-1">
+                    <Avatar size={25} {...shiftPosition.assignedTo} />
+                  </div>
                 )}
+                {!hideName && (
+                  <Hint hint={shiftPosition.name ?? ""}>
+                    <span className="text-tiny text-gray-400 truncate text-left">
+                      {shiftPosition.name}
+                    </span>
+                  </Hint>
+                )}
+                {shiftPosition.hasLeaveConflict && (
+                  <Hint hint={i18n.t("Leave conflict detected")}>
+                    <ExclamationTriangleIcon className="w-4 h-4 text-red-500 ml-1" />
+                  </Hint>
+                )}
+                {shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule && (
+                  <Hint
+                    hint={i18n.t(
+                      "Maximum interval between shifts rule violated"
+                    )}
+                  >
+                    <ExclamationTriangleIcon className="w-4 h-4 text-yellow-500 ml-1" />
+                  </Hint>
+                )}
+                {shiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday && (
+                  <Hint
+                    hint={i18n.t(
+                      "Minimum number of shifts per week in standard workday rule violated"
+                    )}
+                  >
+                    <ExclamationTriangleIcon className="w-4 h-4 text-orange-500 ml-1" />
+                  </Hint>
+                )}
+                {shiftPosition.hasIssueWithMinimumRestSlotsAfterShiftRule && (
+                  <Hint
+                    hint={i18n.t(
+                      "Minimum rest slots after shift rule violated"
+                    )}
+                  >
+                    <ExclamationTriangleIcon className="w-4 h-4 text-purple-500 ml-1" />
+                  </Hint>
+                )}
+              </div>
+
+              <Transition
+                show={
+                  isValidNumber(
+                    shiftPosition.workerInconvenienceEqualityDeviation
+                  ) ||
+                  isValidNumber(shiftPosition.workerSlotEqualityDeviation) ||
+                  isValidNumber(shiftPosition.workerSlotProximityDeviation)
+                }
+                appear
               >
-                <ExclamationTriangleIcon className="w-4 h-4 text-orange-500 ml-1" />
-              </Hint>
-            )}
-            {shiftPosition.hasIssueWithMinimumRestSlotsAfterShiftRule && (
-              <Hint
-                hint={i18n.t("Minimum rest slots after shift rule violated")}
-              >
-                <ExclamationTriangleIcon className="w-4 h-4 text-purple-500 ml-1" />
-              </Hint>
-            )}
+                {
+                  <div
+                    className="flex items-center mt-1 p-1 rounded transition-all duration-300 ease-in data-[closed]:opacity-0"
+                    style={{
+                      backgroundColor:
+                        getDeviationColor(
+                          calculateAverageDeviation([
+                            shiftPosition.workerInconvenienceEqualityDeviation,
+                            shiftPosition.workerSlotEqualityDeviation,
+                            shiftPosition.workerSlotProximityDeviation
+                              ? -shiftPosition.workerSlotProximityDeviation
+                              : undefined,
+                          ])
+                        ) + "66", // Adding 22 for 13% opacity
+                    }}
+                  >
+                    {isValidNumber(
+                      shiftPosition.workerInconvenienceEqualityDeviation
+                    ) && (
+                      <div className="mr-1">
+                        <DeviationCircle
+                          value={
+                            shiftPosition.workerInconvenienceEqualityDeviation as number
+                          }
+                          label={i18n.t("Inconvenience Equality Deviation")}
+                        />
+                      </div>
+                    )}
+                    {isValidNumber(
+                      shiftPosition.workerSlotEqualityDeviation
+                    ) && (
+                      <div className="mr-1">
+                        <DeviationCircle
+                          value={
+                            shiftPosition.workerSlotEqualityDeviation as number
+                          }
+                          label={i18n.t("Slot Equality Deviation")}
+                        />
+                      </div>
+                    )}
+                    {isValidNumber(
+                      shiftPosition.workerSlotProximityDeviation
+                    ) && (
+                      <div className="mr-1">
+                        <DeviationCircle
+                          invert
+                          value={
+                            shiftPosition.workerSlotProximityDeviation as number
+                          }
+                          label={i18n.t("Slot Proximity Equality Deviation")}
+                        />
+                      </div>
+                    )}
+                  </div>
+                }
+              </Transition>
+            </div>
           </div>
           <Transition show={showScheduleDetails} appear>
             <div className="transition-all duration-300 ease-in data-[closed]:opacity-0">
