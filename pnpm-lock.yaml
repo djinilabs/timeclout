@@ -6042,8 +6042,8 @@ packages:
   preact@10.24.3:
     resolution: {integrity: sha512-Z2dPnBnMUfyQfSQ+GBdsGa16hz35YmLmtTLhM169uW944hYL6xzTYkJjC07j+Wosz733pMWx0fgON3JNw1jJQA==}
 
-  preact@10.26.6:
-    resolution: {integrity: sha512-5SRRBinwpwkaD+OqlBDeITlRgvd8I8QlxHJw9AxSdMNV6O+LodN9nUyYGpSF7sadHjs6RzeFShMexC6DbtWr9g==}
+  preact@10.26.8:
+    resolution: {integrity: sha512-1nMfdFjucm5hKvq0IClqZwK4FJkGXhRrQstOQ3P4vp8HxKrJEMFcY6RdBRVTdfQS/UlnX6gfbPuTvaqx/bDoeQ==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -14129,7 +14129,7 @@ snapshots:
     dependencies:
       core-js: 3.42.0
       fflate: 0.4.8
-      preact: 10.26.6
+      preact: 10.26.8
       web-vitals: 4.2.4
 
   preact-render-to-string@5.2.3(preact@10.11.3):
@@ -14145,7 +14145,7 @@ snapshots:
 
   preact@10.24.3: {}
 
-  preact@10.26.6: {}
+  preact@10.26.8: {}
 
   prelude-ls@1.2.1: {}
 
