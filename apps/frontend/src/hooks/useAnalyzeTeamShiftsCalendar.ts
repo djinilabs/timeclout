@@ -39,6 +39,9 @@ export interface AnalyzeTeamShiftsCalendarProps {
     inconvenienceLessOrEqualThan: number;
     minimumRestMinutes: number;
   }[];
+  analyzeWorkerInconvenienceEquality: boolean;
+  analyzeWorkerSlotEquality: boolean;
+  analyzeWorkerSlotProximity: boolean;
 }
 
 export interface AnalyzeTeamShiftsCalendarReturn {
@@ -340,9 +343,36 @@ const doAnalyzeMinimumRestSlotsAfterShift = ({
 
 // --------- Heuristics ---------
 
+const normalizeValues = <T>(values: [T, number][]): [T, number][] => {
+  // first, calculate the average
+  const average =
+    values.reduce((acc, [, value]) => acc + value, 0) / values.length;
+  // then, calculate the standard deviation
+  const standardDeviation = Math.sqrt(
+    values.reduce((acc, [, value]) => acc + Math.pow(value - average, 2), 0) /
+      values.length
+  );
+  // normalize the values
+  return values.map(([key, value]) => [
+    key,
+    (value - average) / standardDeviation,
+  ]);
+};
+
 const doAnalyzeHeuristics = ({
   shiftPositionsMap,
+  analyzeWorkerInconvenienceEquality,
+  analyzeWorkerSlotEquality,
+  analyzeWorkerSlotProximity,
 }: AnalyzeTeamShiftsCalendarProps) => {
+  if (
+    !analyzeWorkerInconvenienceEquality &&
+    !analyzeWorkerSlotEquality &&
+    !analyzeWorkerSlotProximity
+  ) {
+    return shiftPositionsMap;
+  }
+
   // Get all days sorted chronologically
   const days = Object.keys(shiftPositionsMap).sort();
 
@@ -355,7 +385,7 @@ const doAnalyzeHeuristics = ({
         .filter((position) => position.assignedTo) // Only include shifts with assigned workers
         .map((position) => {
           const slot: Slot = {
-            id: position.pk,
+            id: position.pk + "//" + position.sk,
             workHours: position.schedules.map((schedule) => ({
               start:
                 schedule.startHourMinutes[0] * 60 +
@@ -387,33 +417,43 @@ const doAnalyzeHeuristics = ({
     ),
   };
 
-  // Calculate all heuristics
-  const workerSlotProximities = calculateWorkerSlotProximities(schedule);
-  const workerSlotMinutes = calculateWorkerSlotMinutes(schedule);
-  const workerInconveniences = calculateWorkerInconveniences(schedule);
+  const workerProximitiesMap = new Map<string, Map<string, number>>();
+  if (analyzeWorkerSlotProximity) {
+    // Process worker slot proximities
+    const workerSlotProximities = calculateWorkerSlotProximities(schedule);
+    normalizeValues(Array.from(workerSlotProximities.entries())).forEach(
+      ([key, value]) => {
+        const [workerPk, slotPk, slotSk] = key.split("//");
+        if (!workerProximitiesMap.has(workerPk)) {
+          workerProximitiesMap.set(workerPk, new Map());
+        }
+        workerProximitiesMap.get(workerPk)!.set(slotPk + "//" + slotSk, value);
+      }
+    );
+  }
 
-  // Pre-process heuristic results into efficient lookup Maps
-  const workerProximityMap = new Map<string, number>();
   const workerSlotMinutesMap = new Map<string, number>();
+  if (analyzeWorkerSlotEquality) {
+    // Process worker slot minutes
+    const workerSlotMinutes = calculateWorkerSlotMinutes(schedule);
+    normalizeValues(Array.from(workerSlotMinutes.entries())).forEach(
+      ([worker, value]) => {
+        workerSlotMinutesMap.set(worker.pk, value);
+      }
+    );
+  }
+
   const workerInconvenienceMap = new Map<string, number>();
+  if (analyzeWorkerInconvenienceEquality) {
+    const workerInconveniences = calculateWorkerInconveniences(schedule);
 
-  // Process worker slot proximities
-  Array.from(workerSlotProximities.entries()).forEach(([key, value]) => {
-    const workerPk = key.split("-")[0];
-    workerProximityMap.set(workerPk, value);
-  });
-
-  // Process worker slot minutes
-  Array.from(workerSlotMinutes.entries()).forEach(([worker, value]) => {
-    workerSlotMinutesMap.set(worker.pk, value);
-  });
-
-  // Process worker inconveniences
-  Array.from(workerInconveniences.entries()).forEach(([worker, value]) => {
-    workerInconvenienceMap.set(worker.pk, value);
-  });
-
-  console.log("workerSlotProximities", workerSlotProximities);
+    // Process worker inconveniences
+    normalizeValues(Array.from(workerInconveniences.entries())).forEach(
+      ([worker, value]) => {
+        workerInconvenienceMap.set(worker.pk, value);
+      }
+    );
+  }
 
   return Object.fromEntries(
     days.map((day) => {
@@ -429,8 +469,12 @@ const doAnalyzeHeuristics = ({
             const workerPk = shiftPosition.assignedTo.pk;
 
             // O(1) lookups using the pre-processed Maps
-            const proximityDeviation = workerProximityMap.get(workerPk);
-            if (proximityDeviation !== undefined) {
+            const proximityDeviations = workerProximitiesMap.get(workerPk);
+            if (proximityDeviations !== undefined) {
+              const proximityDeviation =
+                proximityDeviations.get(
+                  shiftPosition.pk + "//" + shiftPosition.sk
+                ) ?? undefined;
               analyzedShiftPosition.workerSlotProximityDeviation =
                 proximityDeviation;
             }

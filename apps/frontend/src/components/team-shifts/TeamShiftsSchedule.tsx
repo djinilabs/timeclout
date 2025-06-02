@@ -206,6 +206,12 @@ export const TeamShiftsSchedule = () => {
     setRequireMinimumRestSlotsAfterShift,
     minimumRestSlotsAfterShift,
     setMinimumRestSlotsAfterShift,
+    analyzeWorkerInconvenienceEquality,
+    setAnalyzeWorkerInconvenienceEquality,
+    analyzeWorkerSlotEquality,
+    setAnalyzeWorkerSlotEquality,
+    analyzeWorkerSlotProximity,
+    setAnalyzeWorkerSlotProximity,
   } = useAnalyzeTeamShiftsCalendarParams(analyze);
 
   const { analyzedShiftPositionsMap } = useAnalyzeTeamShiftsCalendar(
@@ -223,6 +229,9 @@ export const TeamShiftsSchedule = () => {
         minimumNumberOfShiftsPerWeekInStandardWorkday,
         requireMinimumRestSlotsAfterShift,
         minimumRestSlotsAfterShift,
+        analyzeWorkerInconvenienceEquality,
+        analyzeWorkerSlotEquality,
+        analyzeWorkerSlotProximity,
       }),
       [
         teamPk,
@@ -237,6 +246,9 @@ export const TeamShiftsSchedule = () => {
         minimumNumberOfShiftsPerWeekInStandardWorkday,
         requireMinimumRestSlotsAfterShift,
         minimumRestSlotsAfterShift,
+        analyzeWorkerInconvenienceEquality,
+        analyzeWorkerSlotEquality,
+        analyzeWorkerSlotProximity,
       ]
     )
   );
@@ -746,6 +758,16 @@ export const TeamShiftsSchedule = () => {
               }
               minimumRestSlotsAfterShift={minimumRestSlotsAfterShift}
               setMinimumRestSlotsAfterShift={setMinimumRestSlotsAfterShift}
+              analyzeWorkerInconvenienceEquality={
+                analyzeWorkerInconvenienceEquality
+              }
+              setAnalyzeWorkerInconvenienceEquality={
+                setAnalyzeWorkerInconvenienceEquality
+              }
+              analyzeWorkerSlotEquality={analyzeWorkerSlotEquality}
+              setAnalyzeWorkerSlotEquality={setAnalyzeWorkerSlotEquality}
+              analyzeWorkerSlotProximity={analyzeWorkerSlotProximity}
+              setAnalyzeWorkerSlotProximity={setAnalyzeWorkerSlotProximity}
             />
           </div>
         </Transition>

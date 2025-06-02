@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:270
-msgid "Minimum rest slots after shift rule violated"
-msgstr "Violação da regra de horas de descanso depois de turno"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -671,19 +666,39 @@ msgid "Please provide a reason for your leave request."
 msgstr "Por favor, forneça um motivo para sua solicitação de ausência."
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:250
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:278
+msgid "Inconvenience Equality Deviation"
+msgstr "Desvio da Equalidade de Inconveniência"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:288
+msgid "Slot Equality Deviation"
+msgstr "Desvio da Equalidade de número de Posições atribuidas"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:298
+msgid "Slot Proximity Equality Deviation"
+msgstr "Desvio da Equalidade de Proximidade"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:317
 msgid "Leave conflict detected"
 msgstr "Detetado conflito com ausência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:256
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:323
 msgid "Maximum interval between shifts rule violated"
 msgstr "Regra de intervalo máximo entre turnos violada"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:262
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:332
 msgid "Minimum number of shifts per week in standard workday rule violated"
 msgstr "Violação da regra de número mínimo de turnos durante a semana de trabalho"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:341
+msgid "Minimum rest slots after shift rule violated"
+msgstr "Violação da regra de horas de descanso depois de turno"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/SelectUser.tsx:71
@@ -711,7 +726,7 @@ msgstr "Adicionar um gerente"
 msgid "Add a new team member to the team."
 msgstr "Adicionar um novo membro à equipa."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:612
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:645
 msgid "Add position"
 msgstr "Adicionar posição"
 
@@ -743,9 +758,21 @@ msgstr "Ajuste estes parâmetros para controlar como a atribuição automática 
 msgid "All employees"
 msgstr "Todos os funcionários"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:658
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:691
 msgid "Analyze"
 msgstr "Analisar"
+
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:243
+msgid "Analyze worker inconvenience equality"
+msgstr "Analisar equalidade de inconveniência"
+
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:248
+msgid "Analyze worker slot equality"
+msgstr "Analisar equalidade de número de posições atribuidas"
+
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:253
+msgid "Analyze worker slot proximity"
+msgstr "Analisar proximidade de posições atribuídas"
 
 #: apps/frontend/src/components/LeaveRequest.tsx:117
 msgid "Approve leave request"
@@ -790,7 +817,7 @@ msgstr "Atenção necessária"
 msgid "August"
 msgstr "Agosto"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:620
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:653
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillDialog.tsx:32
 msgid "Auto fill"
 msgstr "Auto preenchimento"
@@ -864,7 +891,7 @@ msgstr "Conflito(s) enquanto pesquisando por solução"
 msgid "Contact our customer service team at"
 msgstr "Contactar o nosso serviço de apoio ao cliente em"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:185
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:219
 msgid "Copy"
 msgstr "Copiar"
 
@@ -955,11 +982,11 @@ msgstr "Deduz da cota anual"
 msgid "Default Yearly Quota (days)"
 msgstr "Cota anual padrão (dias)"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:220
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:254
 msgid "Delete"
 msgstr "Eliminar"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:648
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:681
 msgid "Details"
 msgstr "Detalhes"
 
@@ -972,7 +999,7 @@ msgstr "Agendamentos descartados"
 #: apps/frontend/src/components/team/TeamMembers.tsx:129
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:60
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:133
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:170
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:204
 msgid "Edit"
 msgstr "Editar"
 
@@ -984,7 +1011,7 @@ msgstr "Editar uma posição no horário da equipa."
 msgid "Edit a team member to the team."
 msgstr "Editar um membro da equipa."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPositionDialog.tsx:43
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPositionDialog.tsx:42
 msgid "Edit position"
 msgstr "Editar posição de turno"
 
@@ -1010,7 +1037,7 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:561
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:594
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
@@ -1036,7 +1063,7 @@ msgid "Fine-tune parameters"
 msgstr "Ajustar parâmetros"
 
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:196
-#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:146
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:164
 msgid "For shifts with inconvenience score ≤"
 msgstr "Para turnos com pontuação de inconveniência ≤"
 
@@ -1108,7 +1135,7 @@ msgid "Hours between shifts"
 msgstr "Horas entre turnos"
 
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:240
-#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:183
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:202
 msgid "hours rest"
 msgstr "horas de descanso"
 
@@ -1149,7 +1176,7 @@ msgstr "Inconveniência: Desvio do esperado"
 msgid "Insert a position into the team schedule."
 msgstr "Inserir uma posição no horário da equipa."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPositionDialog.tsx:45
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPositionDialog.tsx:44
 msgid "Insert position into the team schedule"
 msgstr "Inserir posição no horário da equipa"
 
@@ -1207,7 +1234,7 @@ msgstr "Tipo de ausência \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "Pedido de ausência não encontrado"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:638
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:671
 msgid "Leaves"
 msgstr "Ausências"
 
@@ -1219,7 +1246,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:557
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:590
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -1358,7 +1385,7 @@ msgstr "Abrir menu de utilizador"
 msgid "Out of Office"
 msgstr "Fora de Escritório"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:201
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:235
 msgid "Paste here"
 msgstr "Colar aqui"
 
@@ -1436,22 +1463,22 @@ msgid "Request time off by filling this form:"
 msgstr "Pedir ausência preenchendo este formulário:"
 
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:220
-#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:166
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:184
 msgid "require"
 msgstr "requer"
 
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:105
-#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:66
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:82
 msgid "Require a maximum interval between shifts for each worker (in days)"
 msgstr "Requerer um intervalo máximo entre turnos para cada funcionário (em dias)"
 
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:133
-#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:90
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:108
 msgid "Require a minimum number of shifts in a standard workday for each worker each week"
 msgstr "Requerer um mínimo de turnos num dia de trabalho padrão para cada funcionário cada semana"
 
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:168
-#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:118
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:136
 msgid "Require minimum rest periods between shifts based on inconvenience scores"
 msgstr "Requerer um descanso mínimo entre turnos com base na pontuação de inconveniência"
 
@@ -1619,7 +1646,7 @@ msgstr "Definir as configurações"
 msgid "Show in calendar as"
 msgstr "Mostrar no calendário como"
 
-#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:59
+#: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:75
 msgid "Show leave conflicts"
 msgstr "Mostrar conflitos com as ausências"
 
@@ -1778,7 +1805,7 @@ msgstr "om"
 msgid "Unassign"
 msgstr "Remover atribuição"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:627
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:660
 msgid "Unassign positions"
 msgstr "Remover atribuições de posição"
 

@@ -58,6 +58,26 @@ export const useAnalyzeTeamShiftsCalendarParams = (analyze: boolean) => {
       useMemo(() => [], [])
     );
 
+  const [
+    analyzeWorkerInconvenienceEquality,
+    setAnalyzeWorkerInconvenienceEquality,
+  ] = useLocalPreference(
+    "team-shifts-calendar-analyze-worker-inconvenience-equality",
+    false
+  );
+
+  const [analyzeWorkerSlotEquality, setAnalyzeWorkerSlotEquality] =
+    useLocalPreference(
+      "team-shifts-calendar-analyze-worker-slot-equality",
+      false
+    );
+
+  const [analyzeWorkerSlotProximity, setAnalyzeWorkerSlotProximity] =
+    useLocalPreference(
+      "team-shifts-calendar-analyze-worker-slot-proximity",
+      false
+    );
+
   return {
     analyzeLeaveConflicts: analyze && analyzeLeaveConflicts,
     setAnalyzeLeaveConflicts,
@@ -76,5 +96,11 @@ export const useAnalyzeTeamShiftsCalendarParams = (analyze: boolean) => {
     setRequireMinimumRestSlotsAfterShift,
     minimumRestSlotsAfterShift: analyze ? minimumRestSlotsAfterShift : [],
     setMinimumRestSlotsAfterShift,
+    analyzeWorkerInconvenienceEquality,
+    setAnalyzeWorkerInconvenienceEquality,
+    analyzeWorkerSlotEquality,
+    setAnalyzeWorkerSlotEquality,
+    analyzeWorkerSlotProximity,
+    setAnalyzeWorkerSlotProximity,
   };
 };
