@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:298
-msgid "Slot Proximity Equality Deviation"
-msgstr "Slot Proximity Equality Deviation"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Unknown"
@@ -671,34 +666,39 @@ msgid "Please provide a reason for your leave request."
 msgstr "Please provide a reason for your leave request."
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:278
-msgid "Inconvenience Equality Deviation"
-msgstr "Inconvenience Equality Deviation"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:288
-msgid "Slot Equality Deviation"
-msgstr "Slot Equality Deviation"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:317
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:304
 msgid "Leave conflict detected"
 msgstr "Leave conflict detected"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:323
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:310
 msgid "Maximum interval between shifts rule violated"
 msgstr "Maximum interval between shifts rule violated"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:332
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:319
 msgid "Minimum number of shifts per week in standard workday rule violated"
 msgstr "Minimum number of shifts per week in standard workday rule violated"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:341
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:328
 msgid "Minimum rest slots after shift rule violated"
 msgstr "Minimum rest slots after shift rule violated"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:371
+msgid "Inconvenience Equality Deviation"
+msgstr "Inconvenience Equality Deviation"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:383
+msgid "Slot Equality Deviation"
+msgstr "Slot Equality Deviation"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:396
+msgid "Slot Proximity Equality Deviation"
+msgstr "Slot Proximity Equality Deviation"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/SelectUser.tsx:71
@@ -891,7 +891,7 @@ msgstr "conflict(s) when trying to search for a solution"
 msgid "Contact our customer service team at"
 msgstr "Contact our customer service team at"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:219
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:240
 msgid "Copy"
 msgstr "Copy"
 
@@ -982,7 +982,7 @@ msgstr "Deducts from annual allowance"
 msgid "Default Yearly Quota (days)"
 msgstr "Default Yearly Quota (days)"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:254
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:275
 msgid "Delete"
 msgstr "Delete"
 
@@ -999,7 +999,7 @@ msgstr "Discarded Schedules"
 #: apps/frontend/src/components/team/TeamMembers.tsx:129
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:60
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:133
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:204
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:225
 msgid "Edit"
 msgstr "Edit"
 
@@ -1385,7 +1385,7 @@ msgstr "Open user menu"
 msgid "Out of Office"
 msgstr "Out of Office"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:235
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:256
 msgid "Paste here"
 msgstr "Paste here"
 
