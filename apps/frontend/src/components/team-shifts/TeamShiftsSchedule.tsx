@@ -255,8 +255,6 @@ export const TeamShiftsSchedule = () => {
 
   shiftPositionsMap = analyzedShiftPositionsMap;
 
-  console.log("shiftPositionsMap", shiftPositionsMap);
-
   // ------- render -------
 
   // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
@@ -402,7 +400,6 @@ export const TeamShiftsSchedule = () => {
                     false
                   }
                   setFocusedShiftPosition={(shiftPosition) => {
-                    console.log("new focused shiftPosition", shiftPosition);
                     setFocusedShiftPosition(shiftPosition);
                   }}
                   shiftPosition={shiftPosition}
@@ -548,7 +545,6 @@ export const TeamShiftsSchedule = () => {
                   false
                 }
                 setFocusedShiftPosition={(shiftPosition) => {
-                  console.log("new focused shiftPosition", shiftPosition);
                   setFocusedShiftPosition(shiftPosition);
                 }}
                 shiftPosition={shiftPosition}

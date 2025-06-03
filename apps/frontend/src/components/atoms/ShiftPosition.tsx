@@ -166,13 +166,6 @@ export const ShiftPosition = memo(
 
     const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-    if (shiftPosition.assignedTo?.pk === "users/QF2s2s9kYd9GvE3f0anDz") {
-      console.log(
-        "shiftPosition",
-        shiftPosition.workerInconvenienceEqualityDeviation
-      );
-    }
-
     return (
       <>
         {Array.from({ length: rowSpan - 1 }).map((_, index) => (

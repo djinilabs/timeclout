@@ -443,8 +443,6 @@ const doAnalyzeHeuristics = ({
     );
   }
 
-  console.log("workerSlotMinutesMap", workerSlotMinutesMap);
-
   const workerInconvenienceMap = new Map<string, number>();
   if (analyzeWorkerInconvenienceEquality) {
     const workerInconveniences = calculateWorkerInconveniences(schedule);
