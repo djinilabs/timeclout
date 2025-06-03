@@ -365,6 +365,7 @@ const doAnalyzeHeuristics = ({
   analyzeWorkerSlotEquality,
   analyzeWorkerSlotProximity,
 }: AnalyzeTeamShiftsCalendarProps) => {
+  console.log("doAnalyzeHeuristics", shiftPositionsMap);
   if (
     !analyzeWorkerInconvenienceEquality &&
     !analyzeWorkerSlotEquality &&
@@ -449,8 +450,8 @@ const doAnalyzeHeuristics = ({
 
     // Process worker inconveniences
     normalizeValues(Array.from(workerInconveniences.entries())).forEach(
-      ([worker, value]) => {
-        workerInconvenienceMap.set(worker.pk, value);
+      ([workerPk, value]) => {
+        workerInconvenienceMap.set(workerPk, value);
       }
     );
   }

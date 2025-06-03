@@ -27,7 +27,7 @@ export const calculateWorkerSlotMinutes = (schedule: ShiftSchedule) => {
 
   const normalizedWorkerMinutes = new Map<SlotWorker, number>();
   for (const [worker, minutes] of workerMinutes.entries()) {
-    const ratio = workerUnavailabilityRatio(worker);
+    const ratio = workerUnavailabilityRatio(worker.pk);
     normalizedWorkerMinutes.set(
       worker,
       minutes / ratio / expectedMinutesPerWorker
