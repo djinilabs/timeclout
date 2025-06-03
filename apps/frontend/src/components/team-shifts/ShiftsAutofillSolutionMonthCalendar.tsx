@@ -6,6 +6,8 @@ import { Trans } from "@lingui/react/macro";
 import { SchedulerState } from "@/scheduler";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { LeaveRenderInfo } from "../../hooks/useTeamLeaveSchedule";
+import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
 import { classNames } from "../../utils/classNames";
 import { Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
 import { ShiftPosition } from "../atoms/ShiftPosition";
@@ -19,40 +21,92 @@ import {
 import { TeamShiftsSummary } from "./TeamShiftsSummary";
 import { CalendarHeader } from "../atoms/CalendarHeader";
 import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
+import { AnalyzeTeamShiftsCalendarMenu } from "./AnalyzeTeamShiftsCalendarMenu";
 
 export interface ShiftsAutofillSolutionMonthCalendarProps {
+  teamPk: string;
+  startDate: DayDate;
+  endDate: DayDate;
   year: number;
   month: number;
   progress: SchedulerState;
-  shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
   showScheduleDetails: boolean;
   setShowScheduleDetails: (showScheduleDetails: boolean) => void;
   showLeaveSchedule: boolean;
   setShowLeaveSchedule: (showLeaveSchedule: boolean) => void;
   assignedShiftPositions: Record<string, ShiftPositionWithRowSpan[]>;
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
+  analyze: boolean;
+  setAnalyze: (analyze: boolean) => void;
 }
 
 export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonthCalendarProps> =
   memo((props) => {
     const {
+      teamPk,
+      startDate,
+      endDate,
       year,
       month,
-      shiftPositionsMap,
       showScheduleDetails,
       setShowScheduleDetails,
       showLeaveSchedule,
       setShowLeaveSchedule,
-      assignedShiftPositions,
+      analyze,
+      setAnalyze,
       leaveSchedule,
       progress,
     } = props;
+
+    let assignedShiftPositions = props.assignedShiftPositions;
+
+    // analyze
+    const {
+      analyzeLeaveConflicts,
+      setAnalyzeLeaveConflicts,
+      requireMaximumIntervalBetweenShifts,
+      setRequireMaximumIntervalBetweenShifts,
+      maximumIntervalBetweenShiftsInDays,
+      setMaximumIntervalBetweenShiftsInDays,
+      requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+      setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+      minimumNumberOfShiftsPerWeekInStandardWorkday,
+      setMinimumNumberOfShiftsPerWeekInStandardWorkday,
+      requireMinimumRestSlotsAfterShift,
+      setRequireMinimumRestSlotsAfterShift,
+      minimumRestSlotsAfterShift,
+      setMinimumRestSlotsAfterShift,
+      analyzeWorkerInconvenienceEquality,
+      setAnalyzeWorkerInconvenienceEquality,
+      analyzeWorkerSlotEquality,
+      setAnalyzeWorkerSlotEquality,
+      analyzeWorkerSlotProximity,
+      setAnalyzeWorkerSlotProximity,
+    } = useAnalyzeTeamShiftsCalendarParams(analyze);
+
+    assignedShiftPositions = useAnalyzeTeamShiftsCalendar({
+      shiftPositionsMap: assignedShiftPositions,
+      analyzeLeaveConflicts,
+      requireMaximumIntervalBetweenShifts,
+      maximumIntervalBetweenShiftsInDays,
+      requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
+      teamPk,
+      startDate,
+      endDate,
+      leaveSchedule,
+      minimumNumberOfShiftsPerWeekInStandardWorkday,
+      requireMinimumRestSlotsAfterShift,
+      minimumRestSlotsAfterShift,
+      analyzeWorkerInconvenienceEquality,
+      analyzeWorkerSlotEquality,
+      analyzeWorkerSlotProximity,
+    }).analyzedShiftPositionsMap;
 
     // for each week (monday to sunday) we need to calculate the maximum number of positions in each day
     const maxRowsPerWeekNumber = useMemo(() => {
       const weekNumbers: Array<number> = [];
       for (const [day, shiftPositions] of Object.entries(
-        shiftPositionsMap
+        assignedShiftPositions
       ).sort()) {
         const dayShiftPositionsRows = shiftPositions.reduce(
           (acc, shiftPosition) => acc + shiftPosition.rowSpan,
@@ -66,7 +120,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
         );
       }
       return weekNumbers;
-    }, [leaveSchedule, shiftPositionsMap]);
+    }, [leaveSchedule, assignedShiftPositions]);
 
     const renderDay = useCallback(
       (day: Day) => {
@@ -300,8 +354,20 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
             />
           ),
         } as const,
+        {
+          type: "component",
+          component: (
+            <LabeledSwitch
+              label={<Trans>Analyze</Trans>}
+              checked={analyze}
+              onChange={setAnalyze}
+            />
+          ),
+        } as const,
       ],
       [
+        analyze,
+        setAnalyze,
         setShowLeaveSchedule,
         setShowScheduleDetails,
         showLeaveSchedule,
@@ -316,6 +382,57 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
           monthIsZeroBased={false}
           additionalActions={additionalActions}
         />
+
+        <Transition show={analyze} appear>
+          <div className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0">
+            <AnalyzeTeamShiftsCalendarMenu
+              analyzeLeaveConflicts={analyzeLeaveConflicts}
+              setAnalyzeLeaveConflicts={setAnalyzeLeaveConflicts}
+              requireMaximumIntervalBetweenShifts={
+                requireMaximumIntervalBetweenShifts
+              }
+              setRequireMaximumIntervalBetweenShifts={
+                setRequireMaximumIntervalBetweenShifts
+              }
+              maximumIntervalBetweenShiftsInDays={
+                maximumIntervalBetweenShiftsInDays
+              }
+              setMaximumIntervalBetweenShiftsInDays={
+                setMaximumIntervalBetweenShiftsInDays
+              }
+              requireMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              minimumNumberOfShiftsPerWeekInStandardWorkday={
+                minimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              setMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                setMinimumNumberOfShiftsPerWeekInStandardWorkday
+              }
+              requireMinimumRestSlotsAfterShift={
+                requireMinimumRestSlotsAfterShift
+              }
+              setRequireMinimumRestSlotsAfterShift={
+                setRequireMinimumRestSlotsAfterShift
+              }
+              minimumRestSlotsAfterShift={minimumRestSlotsAfterShift}
+              setMinimumRestSlotsAfterShift={setMinimumRestSlotsAfterShift}
+              analyzeWorkerInconvenienceEquality={
+                analyzeWorkerInconvenienceEquality
+              }
+              setAnalyzeWorkerInconvenienceEquality={
+                setAnalyzeWorkerInconvenienceEquality
+              }
+              analyzeWorkerSlotEquality={analyzeWorkerSlotEquality}
+              setAnalyzeWorkerSlotEquality={setAnalyzeWorkerSlotEquality}
+              analyzeWorkerSlotProximity={analyzeWorkerSlotProximity}
+              setAnalyzeWorkerSlotProximity={setAnalyzeWorkerSlotProximity}
+            />
+          </div>
+        </Transition>
 
         <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
           <div className="mt-4">
