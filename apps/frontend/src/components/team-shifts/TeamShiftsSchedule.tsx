@@ -255,6 +255,8 @@ export const TeamShiftsSchedule = () => {
 
   shiftPositionsMap = analyzedShiftPositionsMap;
 
+  console.log("shiftPositionsMap", shiftPositionsMap);
+
   // ------- render -------
 
   // for each week (monday to sunday) we need to calculate the maximum number of positions in each day

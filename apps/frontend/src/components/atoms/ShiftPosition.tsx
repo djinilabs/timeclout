@@ -48,13 +48,15 @@ const isValidNumber = (value: number | undefined): value is number =>
   value !== undefined && Number.isFinite(value) && !Number.isNaN(value);
 
 const toHex = (n: number) => n.toString(16).padStart(2, "0");
+
 // Helper function to get color based on deviation value
 const getDeviationColor = (normalized: number | undefined): string => {
   if (normalized === undefined) return "transparent";
+  const n = Math.min(1, Math.abs(normalized));
 
   // Interpolate between green (good) and red (bad)
-  const r = Math.round(255 * normalized);
-  const g = Math.round(255 * (1 - normalized));
+  const r = Math.round(255 * n);
+  const g = Math.round(255 * (1 - n));
   const b = 0;
 
   // Convert to hex
@@ -78,7 +80,6 @@ const calculateAverageDeviation = (
 
 // Component to display deviation value in a circle
 const DeviationCircle = ({
-  invert,
   value,
   label,
 }: {
@@ -86,8 +87,9 @@ const DeviationCircle = ({
   value: number;
   label: string;
 }) => {
-  const color = getDeviationColor(invert ? -value : value);
-  const percentage = Math.round(value * 100); // Convert to percentage and round to nearest integer
+  const n = Math.abs(value);
+  const color = getDeviationColor(n);
+  const percentage = Math.round(n * 100); // Convert to percentage and round to nearest integer
 
   return (
     <Hint hint={`${label}: ${percentage}%`}>
@@ -163,6 +165,13 @@ export const ShiftPosition = memo(
         : 1;
 
     const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+    if (shiftPosition.assignedTo?.pk === "users/QF2s2s9kYd9GvE3f0anDz") {
+      console.log(
+        "shiftPosition",
+        shiftPosition.workerInconvenienceEqualityDeviation
+      );
+    }
 
     return (
       <>

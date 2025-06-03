@@ -365,7 +365,6 @@ const doAnalyzeHeuristics = ({
   analyzeWorkerSlotEquality,
   analyzeWorkerSlotProximity,
 }: AnalyzeTeamShiftsCalendarProps) => {
-  console.log("doAnalyzeHeuristics", shiftPositionsMap);
   if (
     !analyzeWorkerInconvenienceEquality &&
     !analyzeWorkerSlotEquality &&
@@ -438,11 +437,13 @@ const doAnalyzeHeuristics = ({
     // Process worker slot minutes
     const workerSlotMinutes = calculateWorkerSlotMinutes(schedule);
     normalizeValues(Array.from(workerSlotMinutes.entries())).forEach(
-      ([worker, value]) => {
-        workerSlotMinutesMap.set(worker.pk, value);
+      ([workerPk, value]) => {
+        workerSlotMinutesMap.set(workerPk, value);
       }
     );
   }
+
+  console.log("workerSlotMinutesMap", workerSlotMinutesMap);
 
   const workerInconvenienceMap = new Map<string, number>();
   if (analyzeWorkerInconvenienceEquality) {
