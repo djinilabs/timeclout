@@ -1,4 +1,4 @@
-import { ShiftScheduleHeuristic, SlotWorker, ShiftSchedule } from "../types";
+import type { ShiftScheduleHeuristic, ShiftSchedule } from "../types";
 import { calculateExpectedTotalInconveniencePerWorker } from "../utils/calculateExpectedTotalInconveniencePerWorker";
 import { calculateSlotInconvenience } from "../utils/calculateSlotInconvenience";
 import { stdDev } from "../utils/standardDeviation";
@@ -14,27 +14,33 @@ export const calculateExpectedWorkerInconvenienceEquality = (
   return { expectedTotalInconveniencePerWorker, workerUnavailabilityRatio };
 };
 
-export const calculateWorkerInconveniences = (schedule: ShiftSchedule) => {
+export const calculateWorkerInconveniences = (
+  schedule: ShiftSchedule
+): Map<string, number> => {
   const { expectedTotalInconveniencePerWorker, workerUnavailabilityRatio } =
     calculateExpectedWorkerInconvenienceEquality(schedule);
 
-  const workerInconveniences: Map<SlotWorker, number> = new Map();
+  const workerInconveniences: Map<string, number> = new Map();
 
   for (const shift of schedule.shifts) {
-    const currentInconvenience = workerInconveniences.get(shift.assigned) ?? 0;
+    const currentInconvenience =
+      workerInconveniences.get(shift.assigned.pk) ?? 0;
     workerInconveniences.set(
-      shift.assigned,
+      shift.assigned.pk,
       currentInconvenience + calculateSlotInconvenience(shift.slot)
     );
   }
 
-  const normalizedWorkerInconveniences = new Map<SlotWorker, number>();
+  const normalizedWorkerInconveniences = new Map<string, number>();
   // equalize inconvenience per worker by calculating and applying the ratio of the worker's unavailability
   // for unavailability ratio we only take into consideration the shifts that the worker is unavailable for work reasons
-  for (const [worker, workerInconvenience] of workerInconveniences.entries()) {
-    const ratio = workerUnavailabilityRatio(worker);
+  for (const [
+    workerPk,
+    workerInconvenience,
+  ] of workerInconveniences.entries()) {
+    const ratio = workerUnavailabilityRatio(workerPk);
     normalizedWorkerInconveniences.set(
-      worker,
+      workerPk,
       workerInconvenience / ratio / expectedTotalInconveniencePerWorker
     );
   }

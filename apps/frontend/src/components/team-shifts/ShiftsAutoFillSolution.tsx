@@ -44,10 +44,10 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
 }) => {
   const [showScheduleDetails, setShowScheduleDetails] = useState(false);
 
-  const { shiftPositionsMap } = useTeamShiftPositionsMap({
+  const shiftPositionsMap = useTeamShiftPositionsMap({
     shiftPositionsResult: shiftPositions,
     spillTime: showScheduleDetails,
-  });
+  }).shiftPositionsMap;
 
   // team leave schedule
   const [showLeaveSchedule, setShowLeaveSchedule] = useState(false);
@@ -57,7 +57,6 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
     team: getDefined(team),
     calendarStartDay: startDate ?? DayDate.today(),
     calendarEndDay: endDate ?? DayDate.today(),
-    pause: !showLeaveSchedule,
   });
 
   const yearMonths: Array<{ year: number; month: number }> = useMemo(() => {
@@ -116,6 +115,12 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
     }
   }, [assignShiftPositions, onAssignShiftPositions, team, solution]);
 
+  // analyze
+
+  const [analyze, setAnalyze] = useState(false);
+
+  // tabs
+
   const tabs = useMemo(
     () => [
       {
@@ -162,16 +167,20 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
               {yearMonths.map((yearMonth) => (
                 <div key={`${yearMonth.year}-${yearMonth.month}`}>
                   <ShiftsAutofillSolutionMonthCalendar
+                    teamPk={team}
+                    startDate={getDefined(startDate)}
+                    endDate={getDefined(endDate)}
                     year={yearMonth.year}
                     month={yearMonth.month}
                     progress={progress}
-                    shiftPositionsMap={shiftPositionsMap}
                     showScheduleDetails={showScheduleDetails}
                     setShowScheduleDetails={setShowScheduleDetails}
                     showLeaveSchedule={showLeaveSchedule}
                     setShowLeaveSchedule={setShowLeaveSchedule}
                     assignedShiftPositions={assignedShiftPositions}
                     leaveSchedule={leaveSchedule}
+                    analyze={analyze}
+                    setAnalyze={setAnalyze}
                   />
                 </div>
               ))}

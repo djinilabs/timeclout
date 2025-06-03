@@ -400,7 +400,6 @@ export const TeamShiftsSchedule = () => {
                     false
                   }
                   setFocusedShiftPosition={(shiftPosition) => {
-                    console.log("new focused shiftPosition", shiftPosition);
                     setFocusedShiftPosition(shiftPosition);
                   }}
                   shiftPosition={shiftPosition}
@@ -546,7 +545,6 @@ export const TeamShiftsSchedule = () => {
                   false
                 }
                 setFocusedShiftPosition={(shiftPosition) => {
-                  console.log("new focused shiftPosition", shiftPosition);
                   setFocusedShiftPosition(shiftPosition);
                 }}
                 shiftPosition={shiftPosition}
