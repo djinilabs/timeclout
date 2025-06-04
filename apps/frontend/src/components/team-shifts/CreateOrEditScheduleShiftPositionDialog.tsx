@@ -4,9 +4,9 @@ import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { Dialog } from "../atoms/Dialog";
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
 import { Suspense } from "../atoms/Suspense";
-import ContextualHelp from "../molecules/ContextualHelp";
 import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
 import { ShiftPosition } from "../../graphql/graphql";
+import { HelpPanel } from "../atoms/HelpPanel";
 
 export interface CreateOrEditScheduleShiftPositionDialogProps {
   isDialogOpen: boolean;
@@ -64,22 +64,10 @@ export const CreateOrEditScheduleShiftPositionDialog = ({
           />
         </Suspense>
         {/* Help panel for create/edit dialog */}
-        <div
-          className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
-            isHelpPanelOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-        >
-          <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
-            {isHelpPanelOpen ? (
-              <Suspense>
-                <ContextualHelp
-                  isOpen={isHelpPanelOpen}
-                  setIsOpen={setIsHelpPanelOpen}
-                />
-              </Suspense>
-            ) : null}
-          </div>
-        </div>
+        <HelpPanel
+          isHelpPanelOpen={isHelpPanelOpen}
+          setHelpPanelOpen={setIsHelpPanelOpen}
+        />
         {/* Toggle help panel button */}
         <button
           type="button"

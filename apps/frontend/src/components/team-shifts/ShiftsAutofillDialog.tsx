@@ -5,8 +5,8 @@ import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { Dialog } from "../atoms/Dialog";
 import { Suspense } from "../atoms/Suspense";
 import { classNames } from "../../utils/classNames";
-import ContextualHelp from "../molecules/ContextualHelp";
 import { ShiftsAutoFill } from "./ShiftsAutoFill";
+import { HelpPanel } from "../atoms/HelpPanel";
 
 export interface ShiftsAutofillDialogProps {
   isDialogOpen: boolean;
@@ -50,33 +50,10 @@ export const ShiftsAutofillDialog = ({
           />
         </Suspense>
         {/* Help panel for auto fill dialog */}
-        <div
-          className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
-            helpPanelOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-        >
-          <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Help</h2>
-            <button
-              type="button"
-              onClick={() => setHelpPanelOpen(false)}
-              className="-m-2.5 p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Close help panel</span>
-              <XMarkIcon aria-hidden="true" className="size-6" />
-            </button>
-          </div>
-          <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
-            {helpPanelOpen ? (
-              <Suspense>
-                <ContextualHelp
-                  isOpen={helpPanelOpen}
-                  setIsOpen={setHelpPanelOpen}
-                />
-              </Suspense>
-            ) : null}
-          </div>
-        </div>
+        <HelpPanel
+          isHelpPanelOpen={helpPanelOpen}
+          setHelpPanelOpen={setHelpPanelOpen}
+        />
         {/* Toggle help panel button */}
         <button
           type="button"

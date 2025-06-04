@@ -21,8 +21,6 @@ export const ContextualHelpContent = () => {
     teamShiftScheduleDialog
   );
 
-  console.log("Help content:", helpContent);
-
   if (!helpContent) {
     console.error("No help content found");
     return null;

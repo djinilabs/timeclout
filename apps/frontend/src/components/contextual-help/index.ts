@@ -76,19 +76,18 @@ export const getContextualHelp = (
   tab?: string,
   settingsTab?: string,
   dialog?: string,
-  teamShiftScheduleDialog?: string,
-  language: "en" | "pt" = "en"
+  teamShiftScheduleDialog?: string
 ): HelpSection => {
-  console.log("getContextualHelp", {
-    company,
-    unit,
-    team,
-    tab,
-    settingsTab,
-    dialog,
-    teamShiftScheduleDialog,
-    language,
-  });
+  // console.log("getContextualHelp", {
+  //   company,
+  //   unit,
+  //   team,
+  //   tab,
+  //   settingsTab,
+  //   dialog,
+  //   teamShiftScheduleDialog,
+  //   language,
+  // });
 
   const section = getHelpSection(
     company,

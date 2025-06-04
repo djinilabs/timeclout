@@ -14,6 +14,7 @@ import { AnalyticsProvider } from "./AnalyticsProvider";
 import { RequiresSession } from "./components/molecules/RequiresSession";
 import { OnboardingTour } from "./components/OnboardingTour";
 import { TourProvider } from "./contexts/TourContext";
+import { AppLocalSettingsProvider } from "./contexts/AppLocalSettingsContext";
 import "./styles/print.css";
 
 const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
@@ -49,21 +50,23 @@ const AppComponent: FC = () => {
         <I18nProvider i18n={i18n}>
           <BrowserRouter>
             <TourProvider>
-              <OnboardingTour />
-              <QueryClientProvider client={queryClient}>
-                <SessionProvider
-                  refetchWhenOffline={false}
-                  basePath="/api/v1/auth"
-                >
-                  <UrqlProvider value={client}>
-                    <RequiresSession>
-                      <Suspense>
-                        <AppRoutes />
-                      </Suspense>
-                    </RequiresSession>
-                  </UrqlProvider>
-                </SessionProvider>
-              </QueryClientProvider>
+              <AppLocalSettingsProvider>
+                <OnboardingTour />
+                <QueryClientProvider client={queryClient}>
+                  <SessionProvider
+                    refetchWhenOffline={false}
+                    basePath="/api/v1/auth"
+                  >
+                    <UrqlProvider value={client}>
+                      <RequiresSession>
+                        <Suspense>
+                          <AppRoutes />
+                        </Suspense>
+                      </RequiresSession>
+                    </UrqlProvider>
+                  </SessionProvider>
+                </QueryClientProvider>
+              </AppLocalSettingsProvider>
             </TourProvider>
           </BrowserRouter>
         </I18nProvider>

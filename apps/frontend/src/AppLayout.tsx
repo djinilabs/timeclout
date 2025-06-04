@@ -10,12 +10,12 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
 import { UserTopBarMenu } from "./components/molecules/UserTopBarMenu";
 import { Toaster } from "react-hot-toast";
 import { useLocalPreference } from "./hooks/useLocalPreference";
+import { useWindowSize } from "./hooks/useWindowSize";
 import { BreadcrumbNav } from "./components/particles/BreadcrumbNav";
 import { classNames } from "./utils/classNames";
+import { HelpPanel } from "./components/atoms/HelpPanel";
+import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
 
-const ContextualHelp = lazy(
-  () => import("./components/molecules/ContextualHelp")
-);
 const SideBar = lazy(() => import("./components/molecules/SideBar"));
 
 export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
@@ -24,11 +24,16 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
     "sidebarExpanded",
     true
   );
+  const { width } = useWindowSize();
 
   const [helpPanelOpen, setHelpPanelOpen] = useLocalPreference(
     "helpPanelOpen",
     false
   );
+
+  const {
+    settings: { helpSideBarWidth },
+  } = useAppLocalSettings();
 
   return (
     <>
@@ -97,10 +102,17 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         <div
           className={classNames(
             "flex-1",
-            helpPanelOpen ? "lg:pr-72" : "",
             sidebarExpanded ? "lg:pl-72" : "lg:pl-20",
             "transition-[padding] duration-300"
           )}
+          style={
+            helpPanelOpen
+              ? {
+                  paddingRight:
+                    width >= 1024 ? `${helpSideBarWidth}px` : undefined,
+                }
+              : {}
+          }
         >
           <div className="no-print sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white shadow-xs sm:gap-x-6">
             <button
@@ -142,31 +154,10 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         </div>
 
         {/* Help panel */}
-        <div
-          className={`no-print fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${helpPanelOpen ? "translate-x-0" : "translate-x-full"}`}
-        >
-          <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Help</h2>
-            <button
-              type="button"
-              onClick={() => setHelpPanelOpen(false)}
-              className="-m-2.5 p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Close help panel</span>
-              <XMarkIcon aria-hidden="true" className="size-6" />
-            </button>
-          </div>
-          <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
-            {helpPanelOpen ? (
-              <Suspense>
-                <ContextualHelp
-                  isOpen={helpPanelOpen}
-                  setIsOpen={setHelpPanelOpen}
-                />
-              </Suspense>
-            ) : null}
-          </div>
-        </div>
+        <HelpPanel
+          setHelpPanelOpen={setHelpPanelOpen}
+          isHelpPanelOpen={helpPanelOpen}
+        />
 
         {/* Toggle help panel button */}
         <button

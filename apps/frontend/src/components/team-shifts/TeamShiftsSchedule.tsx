@@ -316,7 +316,9 @@ export const TeamShiftsSchedule = () => {
           key={`day-${day.date}`}
           className="h-full w-full grid"
           style={{
-            gridTemplateRows: `repeat(${rowCount ?? (shiftPositions?.length ?? 0) + (leaves?.length ?? 0)}, 1fr)`,
+            gridTemplateRows: `repeat(${
+              rowCount ?? (shiftPositions?.length ?? 0) + (leaves?.length ?? 0)
+            }, 1fr)`,
           }}
         >
           {leaves?.map((leave, leaveIndex) => (
@@ -466,17 +468,14 @@ export const TeamShiftsSchedule = () => {
               (shiftPosition) => shiftPosition.assignedTo?.pk === member.pk
             )
           )
-          .reduce(
-            (acc, shiftPosition) => {
-              const day = shiftPosition.day;
-              if (!acc[day]) {
-                acc[day] = [];
-              }
-              acc[day].push(shiftPosition);
-              return acc;
-            },
-            {} as Record<string, ShiftPositionWithRowSpan[]>
-          ),
+          .reduce((acc, shiftPosition) => {
+            const day = shiftPosition.day;
+            if (!acc[day]) {
+              acc[day] = [];
+            }
+            acc[day].push(shiftPosition);
+            return acc;
+          }, {} as Record<string, ShiftPositionWithRowSpan[]>),
       ])
     );
   }, [members, shiftPositionsMap]);
@@ -582,7 +581,7 @@ export const TeamShiftsSchedule = () => {
   );
 
   return (
-    <div>
+    <div className="relative">
       {fetching ? (
         <div>
           <Trans>Loading calendar...</Trans>
