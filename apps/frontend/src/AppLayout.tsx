@@ -10,9 +10,11 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
 import { UserTopBarMenu } from "./components/molecules/UserTopBarMenu";
 import { Toaster } from "react-hot-toast";
 import { useLocalPreference } from "./hooks/useLocalPreference";
+import { useWindowSize } from "./hooks/useWindowSize";
 import { BreadcrumbNav } from "./components/particles/BreadcrumbNav";
 import { classNames } from "./utils/classNames";
 import { HelpPanel } from "./components/atoms/HelpPanel";
+import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
 
 const SideBar = lazy(() => import("./components/molecules/SideBar"));
 
@@ -22,11 +24,16 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
     "sidebarExpanded",
     true
   );
+  const { width } = useWindowSize();
 
   const [helpPanelOpen, setHelpPanelOpen] = useLocalPreference(
     "helpPanelOpen",
     false
   );
+
+  const {
+    settings: { helpSideBarWidth },
+  } = useAppLocalSettings();
 
   return (
     <>
@@ -95,10 +102,17 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         <div
           className={classNames(
             "flex-1",
-            helpPanelOpen ? "lg:pr-72" : "",
             sidebarExpanded ? "lg:pl-72" : "lg:pl-20",
             "transition-[padding] duration-300"
           )}
+          style={
+            helpPanelOpen
+              ? {
+                  paddingRight:
+                    width >= 1024 ? `${helpSideBarWidth}px` : undefined,
+                }
+              : {}
+          }
         >
           <div className="no-print sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white shadow-xs sm:gap-x-6">
             <button
