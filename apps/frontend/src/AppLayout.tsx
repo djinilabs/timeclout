@@ -12,6 +12,7 @@ import { Toaster } from "react-hot-toast";
 import { useLocalPreference } from "./hooks/useLocalPreference";
 import { BreadcrumbNav } from "./components/particles/BreadcrumbNav";
 import { classNames } from "./utils/classNames";
+import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
 
 const ContextualHelp = lazy(
   () => import("./components/molecules/ContextualHelp")
@@ -29,6 +30,10 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
     "helpPanelOpen",
     false
   );
+
+  const {
+    settings: { helpSideBarWidth },
+  } = useAppLocalSettings();
 
   return (
     <>
@@ -143,7 +148,16 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
 
         {/* Help panel */}
         <div
-          className={`no-print fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${helpPanelOpen ? "translate-x-0" : "translate-x-full"}`}
+          className={`no-print fixed inset-y-0 right-0 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
+            helpPanelOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+          style={
+            helpPanelOpen
+              ? {
+                  width: `${helpSideBarWidth}px`,
+                }
+              : undefined
+          }
         >
           <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
             <h2 className="text-lg font-medium text-gray-900">Help</h2>

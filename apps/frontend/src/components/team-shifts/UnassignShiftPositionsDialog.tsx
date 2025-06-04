@@ -4,6 +4,7 @@ import { Dialog } from "../atoms/Dialog";
 import { Suspense } from "../atoms/Suspense";
 import ContextualHelp from "../molecules/ContextualHelp";
 import { UnassignShiftPositions } from "./UnassignShiftPositions";
+import { useAppLocalSettings } from "../../contexts/AppLocalSettingsContext";
 
 export interface UnassignShiftPositionsDialogProps {
   isDialogOpen: boolean;
@@ -20,6 +21,10 @@ export const UnassignShiftPositionsDialog = ({
   teamPk,
   setHelpPanelOpen,
 }: UnassignShiftPositionsDialogProps) => {
+  const {
+    settings: { helpSideBarWidth },
+  } = useAppLocalSettings();
+
   return (
     <Dialog
       open={isDialogOpen}
@@ -35,6 +40,13 @@ export const UnassignShiftPositionsDialog = ({
           className={`fixed inset-y-0 right-0 w-72 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
             isHelpPanelOpen ? "translate-x-0" : "translate-x-full"
           }`}
+          style={
+            isHelpPanelOpen
+              ? {
+                  width: `${helpSideBarWidth}px`,
+                }
+              : undefined
+          }
         >
           <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
             <h2 className="text-lg font-medium text-gray-900">Help</h2>
