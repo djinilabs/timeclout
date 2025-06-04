@@ -12,11 +12,8 @@ import { Toaster } from "react-hot-toast";
 import { useLocalPreference } from "./hooks/useLocalPreference";
 import { BreadcrumbNav } from "./components/particles/BreadcrumbNav";
 import { classNames } from "./utils/classNames";
-import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
+import { HelpPanel } from "./components/atoms/HelpPanel";
 
-const ContextualHelp = lazy(
-  () => import("./components/molecules/ContextualHelp")
-);
 const SideBar = lazy(() => import("./components/molecules/SideBar"));
 
 export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
@@ -30,10 +27,6 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
     "helpPanelOpen",
     false
   );
-
-  const {
-    settings: { helpSideBarWidth },
-  } = useAppLocalSettings();
 
   return (
     <>
@@ -147,40 +140,10 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         </div>
 
         {/* Help panel */}
-        <div
-          className={`no-print fixed inset-y-0 right-0 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
-            helpPanelOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-          style={
-            helpPanelOpen
-              ? {
-                  width: `${helpSideBarWidth}px`,
-                }
-              : undefined
-          }
-        >
-          <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Help</h2>
-            <button
-              type="button"
-              onClick={() => setHelpPanelOpen(false)}
-              className="-m-2.5 p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Close help panel</span>
-              <XMarkIcon aria-hidden="true" className="size-6" />
-            </button>
-          </div>
-          <div className="h-[calc(100vh-4rem)] overflow-y-auto p-4">
-            {helpPanelOpen ? (
-              <Suspense>
-                <ContextualHelp
-                  isOpen={helpPanelOpen}
-                  setIsOpen={setHelpPanelOpen}
-                />
-              </Suspense>
-            ) : null}
-          </div>
-        </div>
+        <HelpPanel
+          setHelpPanelOpen={setHelpPanelOpen}
+          isHelpPanelOpen={helpPanelOpen}
+        />
 
         {/* Toggle help panel button */}
         <button
