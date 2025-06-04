@@ -61,7 +61,7 @@ export const AppLocalSettingsProvider = ({
     return () => {
       debouncedSave.cancel();
     };
-  }, [settings]);
+  }, [debouncedSave, settings]);
 
   const setHelpSideBarWidth = (width: number) => {
     setSettings((prev) => ({ ...prev, helpSideBarWidth: width }));
