@@ -119,6 +119,7 @@
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
+    "glob": "^11.0.2",
     "globals": "^16.0.0",
     "jsdom": "^26.0.0",
     "npm-run-all2": "^8.0.0",
@@ -137,6 +138,9 @@
       "@auth/core": "patches/@auth__core.patch",
       "@auth/express": "patches/@auth__express.patch",
       "@architect/sandbox": "patches/@architect__sandbox.patch"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@tailwindcss/oxide"
+    ]
   }
 }
