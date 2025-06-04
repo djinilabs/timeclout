@@ -112,6 +112,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/aws-lambda": "^8.10.147",
     "@types/express": "^5.0.0",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react-swc": "^3.7.2",
