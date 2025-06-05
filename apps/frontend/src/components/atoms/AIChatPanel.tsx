@@ -5,6 +5,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useAIAgentChat } from "../../hooks/useAIAgentChat";
 import { classNames } from "../../utils/classNames";
+import { FaSpinner } from "react-icons/fa";
 
 export const AIChatPanel: FC = () => {
   const [inputValue, setInputValue] = useState("");
@@ -24,8 +25,6 @@ export const AIChatPanel: FC = () => {
   }, [inputValue]);
 
   const { messages, handleUserMessageSubmit } = useAIAgentChat();
-
-  console.log("messages", messages);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -78,11 +77,15 @@ export const AIChatPanel: FC = () => {
                 "max-w-[80%] rounded-lg px-4 py-2",
                 message.isUser && "bg-teal-600 text-white",
                 !message.isError && "bg-gray-100 text-gray-900",
-                message.isError && "bg-red-600 text-white"
+                message.isError && "bg-red-600 text-white",
+                message.isWarning && "bg-yellow-600 text-white"
               )}
             >
               <span className="flex items-center gap-2">
-                {message.isError ? (
+                {message.isLoading ? (
+                  <FaSpinner className="size-4 animate-spin" />
+                ) : null}
+                {message.isError || message.isWarning ? (
                   <ExclamationTriangleIcon className="size-4" />
                 ) : null}
                 <span className="whitespace-pre-wrap">{message.content}</span>

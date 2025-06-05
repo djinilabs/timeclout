@@ -1361,6 +1361,9 @@
   .bg-yellow-50 {
     background-color: var(--color-yellow-50);
   }
+  .bg-yellow-600 {
+    background-color: var(--color-yellow-600);
+  }
   .bg-\[repeating-linear-gradient\(45deg\,transparent\,transparent_10px\,\#ef444422_10px\,\#ef444422_20px\)\] {
     background-image: repeating-linear-gradient(45deg,transparent,transparent 10px,#ef444422 10px,#ef444422 20px);
   }

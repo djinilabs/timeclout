@@ -1,13 +1,15 @@
 import { streamText } from "ai";
 import { chromeai } from "chrome-ai";
-import { useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
+import { UAParser } from "ua-parser-js";
 
 interface Message {
   id: string;
-  content: string;
+  content: ReactNode;
   isUser: boolean;
   isLoading?: boolean;
   isError?: boolean;
+  isWarning?: boolean;
   timestamp: Date;
 }
 
@@ -25,6 +27,53 @@ export const useAIAgentChat = () => {
       }
     });
   }, []);
+
+  const handleError = useCallback(
+    async (error: Error, messageId = crypto.randomUUID()) => {
+      const errorMessage = error.message;
+      console.log("handleError", errorMessage);
+      if (errorMessage.toLowerCase().includes("support")) {
+        const { browser } = UAParser(navigator.userAgent);
+        console.log("browser", browser);
+        // The browser does not support AI
+        // Let's first check if the browser is Chrome version 127 or greater
+        if (browser.name === "Chrome" && (browser.major ?? "0") >= "127") {
+          // The browser is Chrome version 127 or greater
+
+          // Is the LanguageModel object available?
+          if (!("LanguageModel" in window)) {
+            // Let's show a message to the user
+            upsertMessage({
+              id: messageId,
+              content:
+                "Your browser currently does not support AI, but you can start using it if you follow these instructions",
+              isUser: false,
+              isWarning: true,
+              timestamp: new Date(),
+            });
+            return;
+          } else {
+            console.log("LanguageModel object is available");
+            // The LanguageModel object is available
+            // Let's query its availability
+            const availability = await LanguageModel.availability;
+            if (availability === "downloadable") {
+              // The LanguageModel is downloadable
+            }
+          }
+        }
+      }
+
+      upsertMessage({
+        id: messageId,
+        content: "Error: " + error.message,
+        isUser: false,
+        isError: true,
+        timestamp: new Date(),
+      });
+    },
+    [upsertMessage]
+  );
 
   const handleUserMessageSubmit = useCallback(
     async (message: string) => {
@@ -54,14 +103,7 @@ export const useAIAgentChat = () => {
         model,
         prompt: message,
         onError: ({ error }) => {
-          console.error("Error:", error);
-          upsertMessage({
-            id: messageId,
-            content: "Error: " + (error as unknown as Error).message,
-            isUser: false,
-            isError: true,
-            timestamp: new Date(),
-          });
+          handleError(error as Error, messageId);
         },
         onChunk: (chunk) => {
           console.log("Chunk:", chunk);
@@ -88,7 +130,7 @@ export const useAIAgentChat = () => {
 
       console.log("Stream text finished...");
     },
-    [model, upsertMessage]
+    [handleError, model, upsertMessage]
   );
 
   return { messages, handleUserMessageSubmit };
