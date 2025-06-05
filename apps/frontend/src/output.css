@@ -668,8 +668,17 @@
   .max-h-60 {
     max-height: calc(var(--spacing) * 60);
   }
+  .max-h-\[120px\] {
+    max-height: 120px;
+  }
+  .max-h-\[200px\] {
+    max-height: 200px;
+  }
   .min-h-\[8rem\] {
     min-height: 8rem;
+  }
+  .min-h-\[40px\] {
+    min-height: 40px;
   }
   .min-h-full {
     min-height: 100%;
@@ -833,6 +842,9 @@
   }
   .resize {
     resize: both;
+  }
+  .resize-none {
+    resize: none;
   }
   .list-inside {
     list-style-position: inside;
