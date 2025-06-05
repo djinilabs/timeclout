@@ -2,6 +2,7 @@ import { streamText } from "ai";
 import { chromeai } from "chrome-ai";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { UAParser } from "ua-parser-js";
+import { Button } from "../components/particles/Button";
 
 interface Message {
   id: string;
@@ -45,8 +46,33 @@ export const useAIAgentChat = () => {
             // Let's show a message to the user
             upsertMessage({
               id: messageId,
-              content:
-                "Your browser currently does not support AI, but you can start using it if you follow these instructions",
+              content: (
+                <div>
+                  <p>
+                    Your browser currently does not support AI, but you can
+                    start using it if you follow these instructions:
+                  </p>
+                  <ol className="list-decimal space-y-2 mt-2">
+                    <li>
+                      Go to this URL{" "}
+                      <code>chrome://flags/#prompt-api-for-gemini-nano</code>{" "}
+                      <br />
+                      and enable the "Prompt API for Gemini Nano" flag.
+                    </li>
+                    <li>
+                      Go to this URL{" "}
+                      <code>
+                        chrome://flags/#optimization-guide-on-device-model
+                      </code>{" "}
+                      <br />
+                      and enable the "Optimization Guide On-Device Model" flag
+                      <br />
+                      and set it to "Enabled BypassPrefRequirement".
+                    </li>
+                    <li>Restart your browser</li>
+                  </ol>
+                </div>
+              ),
               isUser: false,
               isWarning: true,
               timestamp: new Date(),
@@ -56,9 +82,36 @@ export const useAIAgentChat = () => {
             console.log("LanguageModel object is available");
             // The LanguageModel object is available
             // Let's query its availability
-            const availability = await LanguageModel.availability;
+            const languageModel = window.LanguageModel as
+              | LanguageModel
+              | undefined;
+            if (!languageModel) {
+              return;
+            }
+            const availability = await languageModel.availability();
             if (availability === "downloadable") {
-              // The LanguageModel is downloadable
+              return (
+                <div>
+                  <Button
+                    onClick={() => {
+                      languageModel.create({
+                        monitor(m: LanguageModelMonitor) {
+                          m.addEventListener(
+                            "downloadprogress",
+                            (e: LanguageModelDownloadProgressEvent) => {
+                              console.log(
+                                `Downloaded ${e.loaded} of ${e.total} bytes.`
+                              );
+                            }
+                          );
+                        },
+                      });
+                    }}
+                  >
+                    Download Language Model
+                  </Button>
+                </div>
+              );
             }
           }
         }

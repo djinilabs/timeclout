@@ -75,20 +75,28 @@ export const AIChatPanel: FC = () => {
             <div
               className={classNames(
                 "max-w-[80%] rounded-lg px-4 py-2",
+                !message.isError &&
+                  !message.isWarning &&
+                  "bg-gray-100 text-gray-900",
                 message.isUser && "bg-teal-600 text-white",
-                !message.isError && "bg-gray-100 text-gray-900",
                 message.isError && "bg-red-600 text-white",
                 message.isWarning && "bg-yellow-600 text-white"
               )}
             >
-              <span className="flex items-center gap-2">
+              <span className="flex items-start gap-2">
                 {message.isLoading ? (
-                  <FaSpinner className="size-4 animate-spin" />
+                  <span className="flex items-start">
+                    <FaSpinner className="animate-spin" />
+                  </span>
                 ) : null}
                 {message.isError || message.isWarning ? (
-                  <ExclamationTriangleIcon className="size-4" />
+                  <span className="mt-1">
+                    <ExclamationTriangleIcon className="size-5" />
+                  </span>
                 ) : null}
-                <span className="whitespace-pre-wrap">{message.content}</span>
+                <span className="flex items-start whitespace-pre-wrap">
+                  {message.content}
+                </span>
               </span>
             </div>
           </div>
