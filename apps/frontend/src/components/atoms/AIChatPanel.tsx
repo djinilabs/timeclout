@@ -63,7 +63,7 @@ export const AIChatPanel: FC = () => {
                 message.isUser
                   ? "bg-teal-600 text-white"
                   : "bg-gray-100 text-gray-900"
-              }`}
+              } whitespace-pre-wrap`}
             >
               {message.content}
             </div>
@@ -76,6 +76,7 @@ export const AIChatPanel: FC = () => {
         <div className="flex items-center gap-2">
           <textarea
             ref={textareaRef}
+            autoFocus
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
