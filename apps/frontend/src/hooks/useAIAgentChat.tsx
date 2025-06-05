@@ -1,8 +1,8 @@
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { streamText } from "ai";
 import { chromeai } from "chrome-ai";
-import { ReactNode, useCallback, useMemo, useState } from "react";
 import { UAParser } from "ua-parser-js";
-import { Button } from "../components/particles/Button";
+import { DownloadAILanguageModel } from "../components/atoms/DownloadAILanguageModel";
 
 interface Message {
   id: string;
@@ -81,37 +81,31 @@ export const useAIAgentChat = () => {
           } else {
             console.log("LanguageModel object is available");
             // The LanguageModel object is available
-            // Let's query its availability
             const languageModel = window.LanguageModel as
               | LanguageModel
               | undefined;
-            if (!languageModel) {
-              return;
-            }
-            const availability = await languageModel.availability();
-            if (availability === "downloadable") {
-              return (
-                <div>
-                  <Button
-                    onClick={() => {
-                      languageModel.create({
-                        monitor(m: LanguageModelMonitor) {
-                          m.addEventListener(
-                            "downloadprogress",
-                            (e: LanguageModelDownloadProgressEvent) => {
-                              console.log(
-                                `Downloaded ${e.loaded} of ${e.total} bytes.`
-                              );
-                            }
-                          );
-                        },
-                      });
-                    }}
-                  >
-                    Download Language Model
-                  </Button>
-                </div>
-              );
+            if (languageModel) {
+              // Let's query its availability
+              const availability = await languageModel.availability();
+              console.log("availability", availability);
+              if (availability === "available") {
+                upsertMessage({
+                  id: messageId,
+                  content: (
+                    <div>
+                      <p>
+                        Your browser currently does not support AI, but you can
+                        start using it if you download it:
+                      </p>
+                      <DownloadAILanguageModel />
+                    </div>
+                  ),
+                  isUser: false,
+                  isWarning: true,
+                  timestamp: new Date(),
+                });
+                return;
+              }
             }
           }
         }

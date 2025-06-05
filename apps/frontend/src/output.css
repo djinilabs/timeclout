@@ -1238,6 +1238,9 @@
   .bg-blue-400 {
     background-color: var(--color-blue-400);
   }
+  .bg-blue-600 {
+    background-color: var(--color-blue-600);
+  }
   .bg-current {
     background-color: currentcolor;
   }
@@ -3344,6 +3347,16 @@
   .\32 xl\:grid-cols-4 {
     @media (width >= 96rem) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .dark\:bg-blue-500 {
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-blue-500);
+    }
+  }
+  .dark\:bg-gray-700 {
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-gray-700);
     }
   }
   .forced-colors\:appearance-auto {
