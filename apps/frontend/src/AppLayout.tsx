@@ -169,29 +169,31 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         />
 
         {/* AI Chat panel */}
-        <div
-          className={classNames(
-            "fixed inset-y-0 right-0 z-50 w-full max-w-md transform transition-transform duration-300 ease-in-out lg:translate-x-0",
-            aiChatPanelOpen ? "translate-x-0" : "translate-x-full"
-          )}
-        >
-          <div className="flex h-full flex-col bg-white shadow-xl">
-            <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-              <h2 className="text-lg font-semibold text-gray-900">
-                AI Assistant
-              </h2>
-              <button
-                type="button"
-                onClick={() => setAIChatPanelOpen(false)}
-                className="rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
-              >
-                <span className="sr-only">Close panel</span>
-                <XMarkIcon className="size-6" aria-hidden="true" />
-              </button>
+        {aiChatPanelOpen && (
+          <div
+            className={classNames(
+              "fixed inset-y-0 right-0 z-50 w-full max-w-md transform transition-transform duration-300 ease-in-out lg:translate-x-0",
+              aiChatPanelOpen ? "translate-x-0" : "translate-x-full"
+            )}
+          >
+            <div className="flex h-full flex-col bg-white shadow-xl">
+              <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  AI Assistant
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setAIChatPanelOpen(false)}
+                  className="rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                >
+                  <span className="sr-only">Close panel</span>
+                  <XMarkIcon className="size-6" aria-hidden="true" />
+                </button>
+              </div>
+              <AIChatPanel />
             </div>
-            <AIChatPanel />
           </div>
-        </div>
+        )}
 
         {/* Toggle help panel button */}
         <button
