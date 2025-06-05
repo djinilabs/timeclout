@@ -1,17 +1,15 @@
-import { FC, useState, KeyboardEvent, useRef, useEffect } from "react";
-import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-
-interface Message {
-  id: string;
-  content: string;
-  isUser: boolean;
-  timestamp: Date;
-}
+import { FC, useState, KeyboardEvent, useRef, useEffect, useMemo } from "react";
+import {
+  ExclamationTriangleIcon,
+  PaperAirplaneIcon,
+} from "@heroicons/react/24/solid";
+import { useAIAgentChat } from "../../hooks/useAIAgentChat";
+import { classNames } from "../../utils/classNames";
 
 export const AIChatPanel: FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const adjustTextareaHeight = () => {
     const textarea = textareaRef.current;
@@ -25,19 +23,31 @@ export const AIChatPanel: FC = () => {
     adjustTextareaHeight();
   }, [inputValue]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { messages, handleUserMessageSubmit } = useAIAgentChat();
+
+  console.log("messages", messages);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
-
-    const newMessage: Message = {
-      id: crypto.randomUUID(),
-      content: inputValue,
-      isUser: true,
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, newMessage]);
+    const message = inputValue.trim();
+    if (!message) return;
     setInputValue("");
+    handleUserMessageSubmit(message);
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+      } else {
+        alert("textareaRef.current is null");
+      }
+    }, 0);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -47,10 +57,15 @@ export const AIChatPanel: FC = () => {
     }
   };
 
+  const isLoading = useMemo(
+    () => messages.some((message) => message.isLoading),
+    [messages]
+  );
+
   return (
     <div className="flex h-full flex-col bg-white">
       {/* Messages container */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 pb-24 space-y-4">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -59,20 +74,30 @@ export const AIChatPanel: FC = () => {
             }`}
           >
             <div
-              className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                message.isUser
-                  ? "bg-teal-600 text-white"
-                  : "bg-gray-100 text-gray-900"
-              } whitespace-pre-wrap`}
+              className={classNames(
+                "max-w-[80%] rounded-lg px-4 py-2",
+                message.isUser && "bg-teal-600 text-white",
+                !message.isError && "bg-gray-100 text-gray-900",
+                message.isError && "bg-red-600 text-white"
+              )}
             >
-              {message.content}
+              <span className="flex items-center gap-2">
+                {message.isError ? (
+                  <ExclamationTriangleIcon className="size-4" />
+                ) : null}
+                <span className="whitespace-pre-wrap">{message.content}</span>
+              </span>
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input form */}
-      <form onSubmit={handleSubmit} className="border-t border-gray-200 p-4">
+      <form
+        onSubmit={handleSubmit}
+        className="sticky bottom-0 border-t border-gray-200 p-4 bg-white"
+      >
         <div className="flex items-center gap-2">
           <textarea
             ref={textareaRef}
@@ -83,10 +108,16 @@ export const AIChatPanel: FC = () => {
             placeholder="Type your message... (Shift+Enter for new line)"
             className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600 resize-none min-h-[40px] max-h-[200px] overflow-y-auto"
             rows={1}
+            disabled={isLoading}
           />
           <button
             type="submit"
-            className="rounded-lg bg-teal-600 p-2 text-white hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
+            disabled={isLoading}
+            className={`rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              isLoading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-teal-600 hover:bg-teal-700 focus:ring-teal-600"
+            }`}
           >
             <PaperAirplaneIcon className="size-5" />
           </button>
