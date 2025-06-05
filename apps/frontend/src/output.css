@@ -2707,6 +2707,18 @@
       translate: var(--tw-translate-x) var(--tw-translate-y);
     }
   }
+  .data-closed\:translate-x-0 {
+    &[data-closed] {
+      --tw-translate-x: calc(var(--spacing) * 0);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+  .data-closed\:translate-x-full {
+    &[data-closed] {
+      --tw-translate-x: 100%;
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
   .data-closed\:translate-y-4 {
     &[data-closed] {
       --tw-translate-y: calc(var(--spacing) * 4);
@@ -2858,6 +2870,12 @@
       &[data-leave] {
         opacity: 0%;
       }
+    }
+  }
+  .data-\[closed\]\:translate-x-full {
+    &[data-closed] {
+      --tw-translate-x: 100%;
+      translate: var(--tw-translate-x) var(--tw-translate-y);
     }
   }
   .data-\[closed\]\:opacity-0 {

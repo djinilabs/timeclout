@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
+  Transition,
   TransitionChild,
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -169,11 +170,11 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         />
 
         {/* AI Chat panel */}
-        {aiChatPanelOpen && (
+        <Transition show={aiChatPanelOpen} appear>
           <div
             className={classNames(
-              "fixed inset-y-0 right-0 z-50 w-full max-w-md transform transition-transform duration-300 ease-in-out lg:translate-x-0",
-              aiChatPanelOpen ? "translate-x-0" : "translate-x-full"
+              "fixed inset-y-0 right-0 z-50 w-full max-w-md lg:translate-x-0 transition-all duration-300 ease-in-out",
+              "translate-x-0 data-closed:translate-x-full"
             )}
           >
             <div className="flex h-full flex-col bg-white shadow-xl">
@@ -193,7 +194,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
               <AIChatPanel />
             </div>
           </div>
-        )}
+        </Transition>
 
         {/* Toggle help panel button */}
         <button
