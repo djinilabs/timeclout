@@ -1,8 +1,8 @@
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { streamText } from "ai";
-import { chromeai } from "chrome-ai";
 import { UAParser } from "ua-parser-js";
 import { DownloadAILanguageModel } from "../components/atoms/DownloadAILanguageModel";
+import { ChromeLocalLanguageModel } from "../language-model/ChromeLocalLanguageModel";
 
 interface Message {
   id: string;
@@ -15,7 +15,7 @@ interface Message {
 }
 
 export const useAIAgentChat = () => {
-  const model = useMemo(() => chromeai("text"), []);
+  const model = useMemo(() => new ChromeLocalLanguageModel(), []);
   const [messages, setMessages] = useState<Message[]>([]);
 
   const upsertMessage = useCallback((message: Message) => {
@@ -32,7 +32,7 @@ export const useAIAgentChat = () => {
   const handleError = useCallback(
     async (error: Error, messageId = crypto.randomUUID()) => {
       const errorMessage = error.message;
-      console.log("handleError", errorMessage);
+      console.log("handleError", error);
       if (errorMessage.toLowerCase().includes("support")) {
         const { browser } = UAParser(navigator.userAgent);
         console.log("browser", browser);
