@@ -17,7 +17,7 @@ type LanguageModelAvailability =
   | "unavailable";
 
 type LanguageModelMessage = {
-  role: "system" | "user" | "assistant";
+  role: "system" | "user" | "assistant" | "tool";
   content: Array<{
     type: "text";
     value: string;

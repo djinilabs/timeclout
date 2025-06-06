@@ -68,11 +68,52 @@ const mapAllContent = (content: LanguageModelV1Message["content"]): string => {
 
 const mapMessage = (message: LanguageModelV1Message): string => {
   const content = mapAllContent(message.content);
-  return `${message.role}: ${content}`;
+  switch (message.role) {
+    case "system":
+      return content;
+    case "assistant":
+    case "tool":
+      return `model\n${content}\n`;
+    case "user":
+    default:
+      return `user\n${content}\n`;
+  }
 };
 
 const mapInitialPrompt = (prompt: LanguageModelMessage): string => {
-  return `${prompt.role}: ${prompt.content.map((c) => c.value).join("\n\n")}`;
+  const content = prompt.content.map((c) => c.value).join("\n\n");
+  switch (prompt.role) {
+    case "system":
+      return content;
+    case "assistant":
+    case "tool":
+      return `model\n${content}\n`;
+    case "user":
+    default:
+      return `user\n${content}\n`;
+  }
+};
+
+const formatMessages = (
+  options: LanguageModelV1CallOptions,
+  initialPrompts: LanguageModelMessage[],
+  messages: LanguageModelV1Message[]
+): string => {
+  const formattedMessages = [
+    ...initialPrompts.map(mapInitialPrompt),
+    ...messages.map(mapMessage),
+  ];
+
+  if (options.mode.type === "object-json") {
+    formattedMessages.unshift(
+      mapMessage({
+        role: "system",
+        content: `Throughout our conversation, always start your responses with "{" and end with "}", ensuring the output is a concise JSON object and strictly avoid including any comments, notes, explanations, or examples in your output.\nFor instance, if the JSON schema is {"type":"object","properties":{"someKey":{"type":"string"}},"required":["someKey"],"additionalProperties":false,"$schema":"http://json-schema.org/draft-07/schema#"}, your response should immediately begin with "{" and strictly end with "}", following the format: {"someKey": "someValue"}.\nAdhere to this format for all queries moving forward.`,
+      })
+    );
+  }
+
+  return formattedMessages.join("\n\n");
 };
 
 export class ChromeLocalLanguageModel implements LanguageModelV1 {
@@ -154,12 +195,12 @@ export class ChromeLocalLanguageModel implements LanguageModelV1 {
     }
 
     const session = await this.session;
-    const messages = options.prompt.flatMap(mapMessage);
-    const allMessages = [
-      ...this.initialPrompts.map(mapInitialPrompt),
-      ...messages,
-    ];
-    const promptStream = session.promptStreaming(allMessages.join("\n\n"));
+    const messages = formatMessages(
+      options,
+      this.initialPrompts,
+      options.prompt
+    );
+    const promptStream = session.promptStreaming(messages);
     const transformStream = new StreamAI(options);
     const stream = promptStream.pipeThrough(transformStream);
 
