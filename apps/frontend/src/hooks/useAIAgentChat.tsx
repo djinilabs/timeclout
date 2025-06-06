@@ -1,5 +1,5 @@
-import { ReactNode, useCallback, useMemo, useState } from "react";
-import { streamText } from "ai";
+import { ReactNode, useCallback, useState } from "react";
+import { CoreMessage, streamText } from "ai";
 import { UAParser } from "ua-parser-js";
 import { DownloadAILanguageModel } from "../components/atoms/DownloadAILanguageModel";
 import { ChromeLocalLanguageModel } from "../language-model/ChromeLocalLanguageModel";
@@ -13,6 +13,13 @@ interface Message {
   isWarning?: boolean;
   timestamp: Date;
 }
+
+const messageToAIMessage = (message: Message): CoreMessage => {
+  return {
+    role: message.isUser ? "user" : "assistant",
+    content: message.content?.toString() ?? "",
+  };
+};
 
 export const useAIAgentChat = () => {
   const upsertMessage = useCallback((message: Message) => {
@@ -191,6 +198,8 @@ export const useAIAgentChat = () => {
 
       upsertMessage(userMessage);
 
+      const allMessages = [...messages, userMessage];
+
       const messageId = crypto.randomUUID();
 
       const aiMessage: Message = {
@@ -212,15 +221,9 @@ export const useAIAgentChat = () => {
 
       const result = await streamText({
         model,
-        prompt: message,
+        messages: allMessages.map(messageToAIMessage),
         onError: ({ error }) => {
           handleError(error as Error, messageId);
-        },
-        onChunk: (chunk) => {
-          console.log("Chunk:", chunk);
-        },
-        onFinish: (result) => {
-          console.log("Finish:", result);
         },
       });
 
@@ -230,10 +233,13 @@ export const useAIAgentChat = () => {
 
       console.log("Stream text started...");
 
+      let allTheText = "";
+
       for await (const textPart of textStream) {
+        allTheText += textPart;
         upsertMessage({
           id: messageId,
-          content: textPart,
+          content: allTheText,
           isUser: false,
           timestamp: new Date(),
         });
@@ -241,7 +247,7 @@ export const useAIAgentChat = () => {
 
       console.log("Stream text finished...");
     },
-    [handleError, getModel, upsertMessage]
+    [upsertMessage, messages, getModel, handleError]
   );
 
   return { messages, handleUserMessageSubmit };

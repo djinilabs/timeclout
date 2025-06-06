@@ -43,8 +43,8 @@ interface LanguageModelCreateOptions {
 }
 
 interface LanguageModelSession {
-  promptStreaming(messages: LanguageModelMessage[]): ReadableStream<string>;
-  prompt(messages: LanguageModelMessage[]): Promise<string>;
+  promptStreaming(messages: string): ReadableStream<string>;
+  prompt(messages: string): Promise<string>;
 }
 
 interface LanguageModel {

@@ -48,30 +48,26 @@ const mapContent = (
     | LanguageModelV1RedactedReasoningPart
     | LanguageModelV1ToolCallPart
     | LanguageModelV1ToolResultPart
-): LanguageModelMessage["content"] => {
+): string => {
   if (typeof content === "string") {
-    return [{ type: "text", value: content }];
+    return content;
   }
   if (content.type !== "text") {
     throw new Error(`Unsupported content type: ${content.type}`);
   }
-  return [{ type: "text", value: content.text }];
+  return content.text;
 };
 
-const mapAllContent = (
-  content: LanguageModelV1Message["content"]
-): LanguageModelMessage["content"] => {
+const mapAllContent = (content: LanguageModelV1Message["content"]): string => {
   if (Array.isArray(content)) {
-    return content.flatMap(mapContent);
+    return content.map(mapContent).join("\n\n");
   }
   return mapContent(content);
 };
 
-const mapMessage = (message: LanguageModelV1Message): LanguageModelMessage => {
-  return {
-    role: mapRole(message.role),
-    content: mapAllContent(message.content),
-  };
+const mapMessage = (message: LanguageModelV1Message): string => {
+  const content = mapAllContent(message.content);
+  return `${message.role}: ${content}`;
 };
 
 export class ChromeLocalLanguageModel implements LanguageModelV1 {
@@ -155,7 +151,7 @@ export class ChromeLocalLanguageModel implements LanguageModelV1 {
     const session = await this.session;
     const messages = options.prompt.flatMap(mapMessage);
     console.log("messages", messages);
-    const promptStream = session.promptStreaming(messages);
+    const promptStream = session.promptStreaming(messages.join("\n\n"));
     const transformStream = new StreamAI(options);
     const stream = promptStream.pipeThrough(transformStream);
 
