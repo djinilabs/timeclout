@@ -18,7 +18,7 @@ import { useWindowSize } from "./hooks/useWindowSize";
 import { BreadcrumbNav } from "./components/particles/BreadcrumbNav";
 import { classNames } from "./utils/classNames";
 import { HelpPanel } from "./components/atoms/HelpPanel";
-import { AIChatPanel } from "./components/atoms/AIChatPanel";
+import { AIChatPanel } from "./components/ai/AIChatPanel";
 import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
 
 const SideBar = lazy(() => import("./components/molecules/SideBar"));

@@ -4,7 +4,7 @@ import { UAParser } from "ua-parser-js";
 import { DownloadAILanguageModel } from "../components/atoms/DownloadAILanguageModel";
 import { ChromeLocalLanguageModel } from "../language-model/ChromeLocalLanguageModel";
 
-interface Message {
+export interface AIChatMessage {
   id: string;
   content: ReactNode;
   isUser: boolean;
@@ -14,7 +14,7 @@ interface Message {
   timestamp: Date;
 }
 
-const messageToAIMessage = (message: Message): CoreMessage => {
+const messageToAIMessage = (message: AIChatMessage): CoreMessage => {
   return {
     role: message.isUser ? "user" : "assistant",
     content: message.content?.toString() ?? "",
@@ -22,7 +22,7 @@ const messageToAIMessage = (message: Message): CoreMessage => {
 };
 
 export const useAIAgentChat = () => {
-  const upsertMessage = useCallback((message: Message) => {
+  const upsertMessage = useCallback((message: AIChatMessage) => {
     setMessages((prev) => {
       const containsMessage = prev.some((m) => m.id === message.id);
       if (containsMessage) {
@@ -185,11 +185,11 @@ export const useAIAgentChat = () => {
     },
     [handleError]
   );
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<AIChatMessage[]>([]);
 
   const handleUserMessageSubmit = useCallback(
     async (message: string) => {
-      const userMessage: Message = {
+      const userMessage: AIChatMessage = {
         id: crypto.randomUUID(),
         content: message,
         isUser: true,
@@ -202,7 +202,7 @@ export const useAIAgentChat = () => {
 
       const messageId = crypto.randomUUID();
 
-      const aiMessage: Message = {
+      const aiMessage: AIChatMessage = {
         id: messageId,
         content: "",
         isUser: false,
