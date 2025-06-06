@@ -224,10 +224,7 @@ export const useAIAgentChat = () => {
       };
       upsertMessage(aiMessage);
 
-      console.log("Going to stream text...");
-
       const model = getModel(messageId);
-
       if (!model) {
         return;
       }
@@ -240,12 +237,7 @@ export const useAIAgentChat = () => {
         },
       });
 
-      console.log(result);
-
       const { textStream } = result;
-
-      console.log("Stream text started...");
-
       let allTheText = "";
 
       for await (const textPart of textStream) {
@@ -266,8 +258,6 @@ export const useAIAgentChat = () => {
         isLoading: false,
         timestamp: new Date(),
       });
-
-      console.log("Stream text finished...");
     },
     [upsertMessage, messages, getModel, handleError]
   );

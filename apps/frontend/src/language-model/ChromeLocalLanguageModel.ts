@@ -30,15 +30,6 @@ export interface ChromeAIAssistantCreateOptions {
 
 export type ChromeAIChatSettings = ChromeAIAssistantCreateOptions;
 
-export const mapRole = (
-  role: LanguageModelV1Message["role"]
-): LanguageModelMessage["role"] => {
-  if (role === "tool") {
-    return "user";
-  }
-  return role;
-};
-
 const mapContent = (
   content:
     | string
