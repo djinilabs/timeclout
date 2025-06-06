@@ -25,6 +25,7 @@ export type ChromeAIChatModelId = "text";
 export interface ChromeAIAssistantCreateOptions {
   temperature?: number;
   topK?: number;
+  initialPrompts?: LanguageModelMessage[];
 }
 
 export type ChromeAIChatSettings = ChromeAIAssistantCreateOptions;
@@ -70,6 +71,10 @@ const mapMessage = (message: LanguageModelV1Message): string => {
   return `${message.role}: ${content}`;
 };
 
+const mapInitialPrompt = (prompt: LanguageModelMessage): string => {
+  return `${prompt.role}: ${prompt.content.map((c) => c.value).join("\n\n")}`;
+};
+
 export class ChromeLocalLanguageModel implements LanguageModelV1 {
   specificationVersion = "v1" as const;
   provider = "chrome-local" as const;
@@ -78,11 +83,12 @@ export class ChromeLocalLanguageModel implements LanguageModelV1 {
   supportsImageUrls = false;
   supportsStructuredOutputs = false;
   options: ChromeAIChatSettings;
+  initialPrompts: LanguageModelMessage[];
   session: Promise<LanguageModelSession>;
 
   constructor(
     modelId: ChromeAIChatModelId,
-    options: ChromeAIChatSettings = {}
+    { initialPrompts, ...options }: ChromeAIChatSettings = {}
   ) {
     this.modelId = modelId;
     this.options = options;
@@ -93,6 +99,7 @@ export class ChromeLocalLanguageModel implements LanguageModelV1 {
     if (!languageModel) {
       throw new Error("LanguageModel is not available");
     }
+    this.initialPrompts = initialPrompts ?? [];
     this.session = languageModel.create({
       modelId: this.modelId,
       settings: this.options,
@@ -148,7 +155,11 @@ export class ChromeLocalLanguageModel implements LanguageModelV1 {
 
     const session = await this.session;
     const messages = options.prompt.flatMap(mapMessage);
-    const promptStream = session.promptStreaming(messages.join("\n\n"));
+    const allMessages = [
+      ...this.initialPrompts.map(mapInitialPrompt),
+      ...messages,
+    ];
+    const promptStream = session.promptStreaming(allMessages.join("\n\n"));
     const transformStream = new StreamAI(options);
     const stream = promptStream.pipeThrough(transformStream);
 

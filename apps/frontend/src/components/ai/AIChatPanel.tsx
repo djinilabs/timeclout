@@ -8,7 +8,7 @@ import {
   useCallback,
 } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import { useAIAgentChat } from "../../hooks/useAIAgentChat";
+import { useAIAgentChat } from "./useAIAgentChat";
 import debounce from "lodash.debounce";
 import { AIChatMessagePanel } from "./AIChatMessagePanel";
 

@@ -1,8 +1,8 @@
 import { ReactNode, useCallback, useState } from "react";
 import { CoreMessage, streamText } from "ai";
 import { UAParser } from "ua-parser-js";
-import { DownloadAILanguageModel } from "../components/atoms/DownloadAILanguageModel";
-import { ChromeLocalLanguageModel } from "../language-model/ChromeLocalLanguageModel";
+import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
+import { ChromeLocalLanguageModel } from "../../language-model/ChromeLocalLanguageModel";
 
 export interface AIChatMessage {
   id: string;
@@ -177,7 +177,20 @@ export const useAIAgentChat = () => {
   const getModel = useCallback(
     (forMessageId: string) => {
       try {
-        return new ChromeLocalLanguageModel("text");
+        return new ChromeLocalLanguageModel("text", {
+          initialPrompts: [
+            {
+              role: "system",
+              content: [
+                {
+                  type: "text",
+                  value:
+                    "You are a helpful assistant to the TT3 product (an application to help with team scheduling shifts). You are able to answer questions about the product and help with tasks.",
+                },
+              ],
+            },
+          ],
+        });
       } catch (error) {
         handleError(error as Error, forMessageId);
         return null;

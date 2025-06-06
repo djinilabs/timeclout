@@ -3,7 +3,7 @@ import { classNames } from "../../utils/classNames";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Markdown from "react-markdown";
 import { FC, memo, useCallback, useEffect, useRef } from "react";
-import { AIChatMessage } from "../../hooks/useAIAgentChat";
+import { AIChatMessage } from "./useAIAgentChat";
 
 export const AIChatMessagePanel: FC<{ messages: AIChatMessage[] }> = memo(
   ({ messages }) => {
