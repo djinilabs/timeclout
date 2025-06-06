@@ -2,20 +2,15 @@ import { FaSpinner } from "react-icons/fa";
 import { classNames } from "../../utils/classNames";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Markdown from "react-markdown";
-import { FC, memo, useEffect, useMemo, useRef } from "react";
+import { FC, memo, useCallback, useEffect, useRef } from "react";
 import { AIChatMessage } from "../../hooks/useAIAgentChat";
-import debounce from "lodash.debounce";
 
 export const AIChatMessagePanel: FC<{ messages: AIChatMessage[] }> = memo(
   ({ messages }) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const scrollToBottom = useMemo(
-      () =>
-        debounce(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-        }, 10),
-      []
-    );
+    const scrollToBottom = useCallback(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, []);
 
     useEffect(() => {
       scrollToBottom();
@@ -41,12 +36,12 @@ export const AIChatMessagePanel: FC<{ messages: AIChatMessage[] }> = memo(
                 message.isWarning && "bg-yellow-600 text-white"
               )}
             >
+              {message.isLoading ? (
+                <span>
+                  <FaSpinner className="animate-spin" />
+                </span>
+              ) : null}
               <span className="flex items-start gap-2">
-                {message.isLoading ? (
-                  <span className="flex items-start">
-                    <FaSpinner className="animate-spin" />
-                  </span>
-                ) : null}
                 {message.isError || message.isWarning ? (
                   <span className="mt-1">
                     <ExclamationTriangleIcon className="size-5" />

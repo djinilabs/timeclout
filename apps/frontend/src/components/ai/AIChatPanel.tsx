@@ -1,12 +1,26 @@
-import { FC, useState, KeyboardEvent, useRef, useEffect, useMemo } from "react";
+import {
+  FC,
+  useState,
+  KeyboardEvent,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useAIAgentChat } from "../../hooks/useAIAgentChat";
 import debounce from "lodash.debounce";
 import { AIChatMessagePanel } from "./AIChatMessagePanel";
 
 export const AIChatPanel: FC = () => {
+  const { messages, handleUserMessageSubmit } = useAIAgentChat();
   const [inputValue, setInputValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const isLoading = useMemo(
+    () => messages.some((message) => message.isLoading),
+    [messages]
+  );
 
   const adjustTextareaHeight = useMemo(() => {
     return debounce(() => {
@@ -18,35 +32,47 @@ export const AIChatPanel: FC = () => {
     }, 100);
   }, []);
 
+  const focusOnTextarea = useMemo(() => {
+    return debounce(() => {
+      setTimeout(() => {
+        console.log("focusing on textarea");
+        if (textareaRef.current) {
+          textareaRef.current.focus();
+        }
+      }, 100);
+    }, 100);
+  }, []);
+
   useEffect(() => {
     adjustTextareaHeight();
   }, [inputValue, adjustTextareaHeight]);
 
-  const { messages, handleUserMessageSubmit } = useAIAgentChat();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const message = inputValue.trim();
-    if (!message) return;
-    setInputValue("");
-    handleUserMessageSubmit(message);
-    setTimeout(() => {
-      if (textareaRef.current) {
-        textareaRef.current.focus();
-      }
-    }, 0);
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e);
+  useEffect(() => {
+    if (!isLoading) {
+      focusOnTextarea();
     }
-  };
+  }, [focusOnTextarea, isLoading]);
 
-  const isLoading = useMemo(
-    () => messages.some((message) => message.isLoading),
-    [messages]
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      const message = inputValue.trim();
+      if (!message) return;
+      setInputValue("");
+      handleUserMessageSubmit(message);
+      focusOnTextarea();
+    },
+    [inputValue, handleUserMessageSubmit, focusOnTextarea]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleSubmit(e);
+      }
+    },
+    [handleSubmit]
   );
 
   return (

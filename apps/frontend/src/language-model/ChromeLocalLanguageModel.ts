@@ -146,11 +146,8 @@ export class ChromeLocalLanguageModel implements LanguageModelV1 {
       });
     }
 
-    console.log("prompt", options.prompt);
-
     const session = await this.session;
     const messages = options.prompt.flatMap(mapMessage);
-    console.log("messages", messages);
     const promptStream = session.promptStreaming(messages.join("\n\n"));
     const transformStream = new StreamAI(options);
     const stream = promptStream.pipeThrough(transformStream);

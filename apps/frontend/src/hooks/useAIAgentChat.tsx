@@ -241,9 +241,18 @@ export const useAIAgentChat = () => {
           id: messageId,
           content: allTheText,
           isUser: false,
+          isLoading: true,
           timestamp: new Date(),
         });
       }
+
+      upsertMessage({
+        id: messageId,
+        content: allTheText,
+        isUser: false,
+        isLoading: false,
+        timestamp: new Date(),
+      });
 
       console.log("Stream text finished...");
     },
