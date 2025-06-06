@@ -1,21 +1,115 @@
 import {
   LanguageModelV1,
+  LanguageModelV1CallOptions,
   LanguageModelV1CallWarning,
+  LanguageModelV1FilePart,
   LanguageModelV1FinishReason,
   LanguageModelV1FunctionToolCall,
+  LanguageModelV1ImagePart,
   LanguageModelV1LogProbs,
+  LanguageModelV1Message,
   LanguageModelV1ProviderMetadata,
+  LanguageModelV1ReasoningPart,
+  LanguageModelV1RedactedReasoningPart,
   LanguageModelV1Source,
   LanguageModelV1StreamPart,
+  LanguageModelV1TextPart,
+  LanguageModelV1ToolCallPart,
+  LanguageModelV1ToolResultPart,
+  UnsupportedFunctionalityError,
 } from "@ai-sdk/provider";
+import { StreamAI } from "./StreamAI";
+
+export type ChromeAIChatModelId = "text";
+
+export interface ChromeAIAssistantCreateOptions {
+  temperature?: number;
+  topK?: number;
+}
+
+export type ChromeAIChatSettings = ChromeAIAssistantCreateOptions;
+
+export const mapRole = (
+  role: LanguageModelV1Message["role"]
+): LanguageModelMessage["role"] => {
+  if (role === "tool") {
+    return "user";
+  }
+  return role;
+};
+
+const mapContent = (
+  content:
+    | string
+    | LanguageModelV1TextPart
+    | LanguageModelV1ImagePart
+    | LanguageModelV1FilePart
+    | LanguageModelV1ReasoningPart
+    | LanguageModelV1RedactedReasoningPart
+    | LanguageModelV1ToolCallPart
+    | LanguageModelV1ToolResultPart
+): LanguageModelMessage["content"] => {
+  if (typeof content === "string") {
+    return [{ type: "text", value: content }];
+  }
+  if (content.type !== "text") {
+    throw new Error(`Unsupported content type: ${content.type}`);
+  }
+  return [{ type: "text", value: content.text }];
+};
+
+const mapAllContent = (
+  content: LanguageModelV1Message["content"]
+): LanguageModelMessage["content"] => {
+  if (Array.isArray(content)) {
+    return content.flatMap(mapContent);
+  }
+  return mapContent(content);
+};
+
+const mapMessage = (message: LanguageModelV1Message): LanguageModelMessage => {
+  return {
+    role: mapRole(message.role),
+    content: mapAllContent(message.content),
+  };
+};
 
 export class ChromeLocalLanguageModel implements LanguageModelV1 {
   specificationVersion = "v1" as const;
   provider = "chrome-local" as const;
-  modelId = "chrome-local" as const;
-  defaultObjectGenerationMode = undefined;
+  modelId: ChromeAIChatModelId;
+  defaultObjectGenerationMode = "json" as const;
   supportsImageUrls = false;
   supportsStructuredOutputs = false;
+  options: ChromeAIChatSettings;
+  session: Promise<LanguageModelSession>;
+
+  constructor(
+    modelId: ChromeAIChatModelId,
+    options: ChromeAIChatSettings = {}
+  ) {
+    this.modelId = modelId;
+    this.options = options;
+    const languageModel =
+      "LanguageModel" in window
+        ? (window.LanguageModel as LanguageModel)
+        : undefined;
+    if (!languageModel) {
+      throw new Error("LanguageModel is not available");
+    }
+    this.session = languageModel.create({
+      modelId: this.modelId,
+      settings: this.options,
+      expectedInputs: [
+        {
+          type: "text",
+          languages: ["en"],
+        },
+      ],
+      expectedOutputs: [{ type: "text", languages: ["en"] }],
+    });
+  }
+
   supportsUrl() {
     return false;
   }
@@ -42,13 +136,32 @@ export class ChromeLocalLanguageModel implements LanguageModelV1 {
   }> {
     throw new Error("doGenerate Method not implemented.");
   }
-  doStream(): PromiseLike<{
+
+  async doStream(options: LanguageModelV1CallOptions): Promise<{
     stream: ReadableStream<LanguageModelV1StreamPart>;
     rawCall: { rawPrompt: unknown; rawSettings: Record<string, unknown> };
     rawResponse?: { headers?: Record<string, string> };
     request?: { body?: string };
     warnings?: Array<LanguageModelV1CallWarning>;
   }> {
-    throw new Error("doStream Method not implemented.");
+    if (["regular", "object-json"].indexOf(options.mode.type) < 0) {
+      throw new UnsupportedFunctionalityError({
+        functionality: `${options.mode.type} mode`,
+      });
+    }
+
+    console.log("prompt", options.prompt);
+
+    const session = await this.session;
+    const messages = options.prompt.flatMap(mapMessage);
+    console.log("messages", messages);
+    const promptStream = session.promptStreaming(messages);
+    const transformStream = new StreamAI(options);
+    const stream = promptStream.pipeThrough(transformStream);
+
+    return {
+      stream,
+      rawCall: { rawPrompt: options.prompt, rawSettings: { ...this.options } },
+    };
   }
 }

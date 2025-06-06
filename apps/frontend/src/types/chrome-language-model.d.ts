@@ -10,13 +10,48 @@ interface LanguageModelMonitor {
   ): void;
 }
 
+type LanguageModelAvailability =
+  | "available"
+  | "downloadable"
+  | "downloading"
+  | "unavailable";
+
+type LanguageModelMessage = {
+  role: "system" | "user" | "assistant";
+  content: Array<{
+    type: "text";
+    value: string;
+  }>;
+};
+
 interface LanguageModelCreateOptions {
   monitor?: (monitor: LanguageModelMonitor) => void;
+  modelId?: string;
+  settings?: {
+    temperature?: number;
+    topK?: number;
+  };
+  initialPrompts?: LanguageModelMessage[];
+  expectedInputs?: Array<{
+    type: "text" | "audio";
+    languages: string[];
+  }>;
+  expectedOutputs?: Array<{
+    type: "text";
+    languages: string[];
+  }>;
+}
+
+interface LanguageModelSession {
+  promptStreaming(messages: LanguageModelMessage[]): ReadableStream<string>;
+  prompt(messages: LanguageModelMessage[]): Promise<string>;
 }
 
 interface LanguageModel {
-  availability(): Promise<"available" | "downloadable" | "unavailable">;
-  create(options?: LanguageModelCreateOptions): Promise<void>;
+  availability(
+    options?: LanguageModelCreateOptions
+  ): Promise<LanguageModelAvailability>;
+  create(options?: LanguageModelCreateOptions): Promise<LanguageModelSession>;
 }
 
 declare global {
