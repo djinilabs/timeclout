@@ -15,9 +15,6 @@ interface Message {
 }
 
 export const useAIAgentChat = () => {
-  const model = useMemo(() => new ChromeLocalLanguageModel("text"), []);
-  const [messages, setMessages] = useState<Message[]>([]);
-
   const upsertMessage = useCallback((message: Message) => {
     setMessages((prev) => {
       const containsMessage = prev.some((m) => m.id === message.id);
@@ -33,9 +30,12 @@ export const useAIAgentChat = () => {
     async (error: Error, messageId = crypto.randomUUID()) => {
       const errorMessage = error.message;
       console.log("handleError", error);
-      if (errorMessage.toLowerCase().includes("browser no support")) {
+      const errorMessageLowerCased = errorMessage.toLowerCase();
+      if (
+        errorMessageLowerCased.includes("browser no support") ||
+        errorMessageLowerCased.includes("languagemodel is not available")
+      ) {
         const { browser } = UAParser(navigator.userAgent);
-        console.log("browser", browser);
         // The browser does not support AI
         // Let's first check if the browser is Chrome version 127 or greater
         if (browser.name === "Chrome") {
@@ -53,7 +53,7 @@ export const useAIAgentChat = () => {
                       Your browser currently does not support AI, but you can
                       start using it if you follow these instructions:
                     </p>
-                    <ol className="list-decimal space-y-2 mt-2">
+                    <ol className="list-decimal space-y-2 mt-2 text-sm">
                       <li>
                         Go to this URL{" "}
                         <code>chrome://flags/#prompt-api-for-gemini-nano</code>{" "}
@@ -128,8 +128,31 @@ export const useAIAgentChat = () => {
                 }
               }
             }
-          } else {
           }
+        } else {
+          upsertMessage({
+            id: messageId,
+            content: (
+              <div>
+                <p>
+                  Your browser is not Chrome, so it currently does not support
+                  AI.
+                </p>
+                <ol className="space-y-2 mt-2 text-sm">
+                  <li>
+                    To install Chrome you can download it from{" "}
+                    <a target="_blank" href="https://www.google.com/chrome/">
+                      https://www.google.com/chrome/
+                    </a>
+                  </li>
+                </ol>
+              </div>
+            ),
+            isUser: false,
+            isWarning: true,
+            timestamp: new Date(),
+          });
+          return;
         }
       }
 
@@ -143,6 +166,19 @@ export const useAIAgentChat = () => {
     },
     [upsertMessage]
   );
+
+  const getModel = useCallback(
+    (forMessageId: string) => {
+      try {
+        return new ChromeLocalLanguageModel("text");
+      } catch (error) {
+        handleError(error as Error, forMessageId);
+        return null;
+      }
+    },
+    [handleError]
+  );
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const handleUserMessageSubmit = useCallback(
     async (message: string) => {
@@ -167,6 +203,12 @@ export const useAIAgentChat = () => {
       upsertMessage(aiMessage);
 
       console.log("Going to stream text...");
+
+      const model = getModel(messageId);
+
+      if (!model) {
+        return;
+      }
 
       const result = await streamText({
         model,
@@ -199,7 +241,7 @@ export const useAIAgentChat = () => {
 
       console.log("Stream text finished...");
     },
-    [handleError, model, upsertMessage]
+    [handleError, getModel, upsertMessage]
   );
 
   return { messages, handleUserMessageSubmit };
