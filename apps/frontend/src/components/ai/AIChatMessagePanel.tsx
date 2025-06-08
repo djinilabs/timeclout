@@ -4,6 +4,8 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Markdown from "react-markdown";
 import { FC, memo, useCallback, useEffect, useRef } from "react";
 import { AIChatMessage } from "./useAIAgentChat";
+import TimeAgo from "react-time-ago";
+import { Hint } from "../particles/Hint";
 
 export const AIChatMessagePanel: FC<{ messages: AIChatMessage[] }> = memo(
   ({ messages }) => {
@@ -26,46 +28,58 @@ export const AIChatMessagePanel: FC<{ messages: AIChatMessage[] }> = memo(
               message.isUser ? "justify-end" : "justify-start"
             }`}
           >
-            <div
-              className={classNames(
-                "max-w-[80%] rounded-lg px-4 py-2",
-                !message.isError &&
-                  !message.isWarning &&
-                  "bg-gray-100 text-gray-900",
-                message.isUser && "bg-teal-600 text-white",
-                message.isError && "bg-red-600 text-white",
-                message.isWarning && "bg-yellow-600 text-white"
-              )}
-            >
-              {message.isLoading ? (
-                <span>
-                  <FaSpinner className="animate-spin" />
-                </span>
-              ) : null}
-              <span className="flex items-start gap-2">
-                {message.isError || message.isWarning ? (
-                  <span className="mt-1">
-                    <ExclamationTriangleIcon className="size-5" />
+            <div className="flex flex-col">
+              <div
+                className={classNames(
+                  "text-xs mb-1 w-fit",
+                  message.isUser ? "text-right" : "text-left"
+                )}
+              >
+                <Hint hint={message.timestamp.toLocaleString()}>
+                  <TimeAgo date={message.timestamp} />
+                </Hint>
+              </div>
+              <div
+                className={classNames(
+                  "max-w-[80%] rounded-lg px-4 py-2",
+                  !message.isError &&
+                    !message.isWarning &&
+                    "bg-gray-100 text-gray-900",
+                  message.isUser && "bg-teal-600 text-white",
+                  message.isError && "bg-red-600 text-white",
+                  message.isWarning && "bg-yellow-600 text-white"
+                )}
+              >
+                {message.isLoading ? (
+                  <span>
+                    <FaSpinner className="animate-spin" />
                   </span>
                 ) : null}
-                {typeof message.content === "string" ? (
-                  <div
-                    className={classNames(
-                      "prose prose-sm",
-                      (message.isUser ||
-                        message.isError ||
-                        message.isWarning) &&
-                        "text-white"
-                    )}
-                  >
-                    <Markdown>{message.content}</Markdown>
-                  </div>
-                ) : (
-                  <span className="flex items-start whitespace-pre-wrap text-sm">
-                    {message.content}
-                  </span>
-                )}
-              </span>
+                <span className="flex items-start gap-2">
+                  {message.isError || message.isWarning ? (
+                    <span className="mt-1">
+                      <ExclamationTriangleIcon className="size-5" />
+                    </span>
+                  ) : null}
+                  {typeof message.content === "string" ? (
+                    <div
+                      className={classNames(
+                        "prose prose-sm",
+                        (message.isUser ||
+                          message.isError ||
+                          message.isWarning) &&
+                          "text-white"
+                      )}
+                    >
+                      <Markdown>{message.content}</Markdown>
+                    </div>
+                  ) : (
+                    <span className="flex items-start whitespace-pre-wrap text-sm">
+                      {message.content}
+                    </span>
+                  )}
+                </span>
+              </div>
             </div>
           </div>
         ))}
