@@ -295,11 +295,16 @@ export const TeamShiftsSchedule = () => {
     return maxShiftPositionRowsPerWeekNumber.map(
       (maxShiftPositionRows, week) => {
         return (
-          maxShiftPositionRows * 3 + (maxLeaveRowsPerWeekNumber[week] ?? 0) * 2
+          maxShiftPositionRows +
+          (showLeaveSchedule ? maxLeaveRowsPerWeekNumber[week] ?? 0 : 0)
         );
       }
     );
-  }, [maxShiftPositionRowsPerWeekNumber, maxLeaveRowsPerWeekNumber]);
+  }, [
+    maxShiftPositionRowsPerWeekNumber,
+    showLeaveSchedule,
+    maxLeaveRowsPerWeekNumber,
+  ]);
 
   // render per day
 
@@ -312,7 +317,9 @@ export const TeamShiftsSchedule = () => {
       }
       const weekNumber = new DayDate(day.date).getWeekNumber();
       const rowCount: number | undefined = maxRowsPerWeekNumber[weekNumber];
-      const leaveRowCount = maxLeaveRowsPerWeekNumber[weekNumber] ?? 0;
+      const leaveRowCount = showLeaveSchedule
+        ? maxLeaveRowsPerWeekNumber[weekNumber] ?? 0
+        : 0;
 
       return (
         <div
@@ -328,7 +335,7 @@ export const TeamShiftsSchedule = () => {
             <Transition show={showLeaveSchedule} appear key={leaveIndex}>
               <div
                 className={classNames(
-                  "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                  "p-2 border-gray-100 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
                   leaveIndex === 0 && "border-t",
                   leaveIndex === leaveRowCount - 1 && "border-b"
                 )}
@@ -344,10 +351,7 @@ export const TeamShiftsSchedule = () => {
           {Array.from({
             length: leaveRowCount - (leaves?.length ?? 0),
           }).map((_, leaveIndex) => (
-            <div
-              key={`leave-row-${leaveIndex}`}
-              className="h-full w-full row-span-2"
-            />
+            <div key={`leave-row-${leaveIndex}`} className="h-full w-full" />
           ))}
           {shiftPositions?.map((shiftPosition, shiftPositionIndex) => {
             const hasConflict =
@@ -390,7 +394,7 @@ export const TeamShiftsSchedule = () => {
             return (
               <div
                 key={`shift-position-${shiftPositionIndex}`}
-                className="row-span-3 transition-all duration-300 ease-in"
+                className="transition-all duration-300 ease-in"
                 onClick={(ev) => {
                   onShiftPositionClick(shiftPosition, ev);
                   ev.preventDefault();
@@ -514,10 +518,13 @@ export const TeamShiftsSchedule = () => {
             <Transition show={showLeaveSchedule} appear key={leaveIndex}>
               <div
                 className={classNames(
-                  "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                  "border-gray-100 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
                   leaveIndex === 0 && "border-t",
                   leaveIndex === leaves.length - 1 && "border-b"
                 )}
+                style={{
+                  border: "1px solid red",
+                }}
               >
                 <MemberLeaveInCalendar
                   member={leave.user}
@@ -532,7 +539,7 @@ export const TeamShiftsSchedule = () => {
           {shiftPositionsForDay?.map((shiftPosition, shiftPositionIndex) => (
             <div
               key={`shift-position-${shiftPositionIndex}`}
-              className="row-span-3 transition-all duration-300 ease-in"
+              className="transition-all duration-300 ease-in"
               onClick={(ev) => {
                 onShiftPositionClick(shiftPosition, ev);
                 ev.preventDefault();
