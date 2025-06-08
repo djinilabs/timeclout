@@ -76,7 +76,10 @@ export const TimeOffYearCalendar = memo(
               </button>
             </div>
             <Menu as="div" className="relative ml-6 md:hidden">
-              <MenuButton className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">
+              <MenuButton
+                className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500"
+                aria-label="Open time off actions menu"
+              >
                 <span className="sr-only">
                   <Trans>Open menu</Trans>
                 </span>
@@ -86,12 +89,15 @@ export const TimeOffYearCalendar = memo(
               <MenuItems
                 transition
                 className="absolute right-0 z-10 mt-3 w-36 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden data-closed:scale-95 data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                aria-label="Time off actions menu"
               >
                 <div className="py-1">
                   <MenuItem>
                     <a
                       onClick={bookTimeOff}
                       className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                      role="menuitem"
+                      aria-label="Request time off"
                     >
                       <Trans>Request time off</Trans>
                     </a>
@@ -102,6 +108,8 @@ export const TimeOffYearCalendar = memo(
                     <a
                       onClick={() => goToYear(new Date().getFullYear())}
                       className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                      role="menuitem"
+                      aria-label="Go to today"
                     >
                       <Trans>Go to today</Trans>
                     </a>

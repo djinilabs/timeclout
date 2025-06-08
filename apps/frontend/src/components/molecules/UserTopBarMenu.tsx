@@ -24,7 +24,10 @@ export const LoadingUserTopBarMenu = () => {
   const { data: session } = useSession();
   return (
     <Menu as="div" className="relative">
-      <MenuButton className="flex items-center p-1.5">
+      <MenuButton
+        className="flex items-center p-1.5"
+        aria-label="Open user menu"
+      >
         <span className="sr-only">
           <Trans>Open user menu</Trans>
         </span>
@@ -45,6 +48,7 @@ export const LoadingUserTopBarMenu = () => {
       <MenuItems
         transition
         className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
+        aria-label="User menu options"
       >
         {userNavigation.map((item) => (
           <MenuItem key={item.name}>
@@ -53,6 +57,8 @@ export const LoadingUserTopBarMenu = () => {
                 key={item.name}
                 to={item.href}
                 className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                role="menuitem"
+                aria-label={item.name}
               >
                 {item.name}
               </Link>
@@ -61,6 +67,8 @@ export const LoadingUserTopBarMenu = () => {
                 key={item.name}
                 onClick={item.onClick}
                 className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                role="menuitem"
+                aria-label={item.name}
               >
                 {item.name}
               </a>

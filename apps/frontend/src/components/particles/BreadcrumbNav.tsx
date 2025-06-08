@@ -11,10 +11,15 @@ export const BreadcrumbNav = () => {
       <ol
         role="list"
         className="flex space-x-4 rounded-md bg-white px-6 shadow-sm h-full"
+        aria-label="Breadcrumb navigation"
       >
         <li key="home" className="flex">
           <div className="flex items-center">
-            <Link to="/companies" className="text-gray-400 hover:text-gray-500">
+            <Link
+              to="/companies"
+              className="text-gray-400 hover:text-gray-500"
+              aria-label="Go to home page"
+            >
               <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
               <span className="sr-only">
                 <Trans>Home</Trans>
@@ -38,6 +43,7 @@ export const BreadcrumbNav = () => {
                 <Link
                   to={`/${company.pk}`}
                   className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+                  aria-label={`Go to ${company.name} company`}
                 >
                   {company.name}
                 </Link>
@@ -59,6 +65,7 @@ export const BreadcrumbNav = () => {
                     <Link
                       to={`/${company.pk}/${unit.pk}`}
                       className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+                      aria-label={`Go to ${unit.name} unit`}
                     >
                       {unit.name}
                     </Link>
@@ -79,6 +86,7 @@ export const BreadcrumbNav = () => {
                       <Link
                         to={`/${company.pk}/${unit.pk}/${team.pk}`}
                         className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+                        aria-label={`Go to ${team.name} team`}
                       >
                         {team.name}
                       </Link>

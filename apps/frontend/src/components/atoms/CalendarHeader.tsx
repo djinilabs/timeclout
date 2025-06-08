@@ -105,11 +105,20 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
           <div
             key="desktop-actions"
             className="hidden md:ml-4 md:flex md:items-center"
+            role="toolbar"
+            aria-label="Calendar actions"
           >
             {additionalActions?.map((action, index) => (
               <div key={`desktop-action-${index}`} className="ml-6">
                 {action.type === "button" ? (
-                  <Button onClick={action.onClick}>{action.text}</Button>
+                  <Button
+                    onClick={action.onClick}
+                    aria-label={
+                      typeof action.text === "string" ? action.text : undefined
+                    }
+                  >
+                    {action.text}
+                  </Button>
                 ) : (
                   action.component
                 )}
@@ -117,7 +126,10 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
             ))}
           </div>
           <Menu as="div" key="mobile-menu" className="relative ml-6 md:hidden">
-            <MenuButton className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">
+            <MenuButton
+              className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500"
+              aria-label="Open calendar actions menu"
+            >
               <span className="sr-only">
                 <Trans>Open menu</Trans>
               </span>
@@ -127,6 +139,7 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
             <MenuItems
               transition
               className="absolute right-0 z-10 mt-3 w-36 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden data-closed:scale-95 data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+              aria-label="Calendar actions menu"
             >
               <div key="mobile-actions" className="py-1">
                 {additionalActions?.map((action, index) =>
@@ -139,6 +152,12 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
                       <a
                         onClick={action.onClick}
                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                        role="menuitem"
+                        aria-label={
+                          typeof action.text === "string"
+                            ? action.text
+                            : undefined
+                        }
                       >
                         {action.text}
                       </a>
@@ -154,6 +173,8 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
                         goTo?.(new Date().getFullYear(), new Date().getMonth())
                       }
                       className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                      role="menuitem"
+                      aria-label="Go to today"
                     >
                       <Trans>Go to today</Trans>
                     </a>
