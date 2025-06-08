@@ -295,11 +295,12 @@ export const CreateOrEditScheduleShiftPosition: FC<
                           htmlFor={field.name}
                           className="block text-sm/6 font-medium text-gray-900"
                         >
-                          <Trans>Required qualifications</Trans>
+                          <Trans>Qualifications</Trans>
                         </label>
                         <p className="mt-3 text-sm/6 text-gray-600 mb-2">
                           <Trans>
-                            Set the qualifications required for this position.
+                            Set any of the qualifications that can fill this
+                            position.
                           </Trans>
                         </p>
                         <EditQualifications

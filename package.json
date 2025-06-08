@@ -23,8 +23,8 @@
     "test:frontend": "cd apps/frontend && vitest run",
     "test:libs": "npx vitest run libs",
     "lint": "npx eslint",
-    "i18n:extract": "cd apps/frontend && npx lingui extract --clean",
-    "i18n:compile": "cd apps/frontend && npx lingui compile --namespace es"
+    "i18n:extract": "pnpm lingui extract --clean",
+    "i18n:compile": "pnpm lingui compile --namespace es"
   },
   "keywords": [],
   "author": "",

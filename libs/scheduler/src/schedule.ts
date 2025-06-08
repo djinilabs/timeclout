@@ -41,7 +41,7 @@ export const randomSchedule = ({
     shifts: slots.map((slot): SlotShift => {
       const availableSortedWorkers = workers
         .filter((w) =>
-          slot.requiredQualifications.every((q) => w.qualifications.includes(q))
+          slot.requiredQualifications.some((q) => w.qualifications.includes(q))
         )
         .filter((w) => {
           const [available] = isWorkerAvailableToWork(
