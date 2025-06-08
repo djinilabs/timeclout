@@ -25,6 +25,19 @@ describe("areAllBracesBalanced", () => {
     expect(areAllBracesBalanced('{"key": "value"}}')).toBe(false);
   });
 
+  it("should handle braces that are part of string content", () => {
+    expect(areAllBracesBalanced('{"text": "Hello {world}"}')).toBe(true);
+    expect(areAllBracesBalanced('{"text": "Hello {world}"')).toBe(false);
+    expect(areAllBracesBalanced('{"text": "Hello {world"')).toBe(false);
+    expect(areAllBracesBalanced('{"text": "Hello world}"')).toBe(false);
+    expect(areAllBracesBalanced('{"text": "Hello {world} and {more}"}')).toBe(
+      true
+    );
+    expect(areAllBracesBalanced('{"text": "Hello {world and {more"}')).toBe(
+      true
+    );
+  });
+
   it("should handle incomplete JSON strings", () => {
     expect(areAllBracesBalanced('{"name": "John", "age": 30')).toBe(false);
     expect(areAllBracesBalanced('{"name": "John", "age": 30,')).toBe(false);
