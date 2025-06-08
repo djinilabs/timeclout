@@ -24,7 +24,7 @@ import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
 const SideBar = lazy(() => import("./components/molecules/SideBar"));
 
 export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useLocalPreference(
     "sidebarExpanded",
     true
