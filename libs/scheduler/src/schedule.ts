@@ -39,10 +39,11 @@ export const randomSchedule = ({
     startDay,
     endDay,
     shifts: slots.map((slot): SlotShift => {
-      const availableSortedWorkers = workers
-        .filter((w) =>
+      const workersWithAtLeastOneOfTheRequiredQualifications = workers.filter(
+        (w) =>
           slot.requiredQualifications.some((q) => w.qualifications.includes(q))
-        )
+      );
+      const availableWorkers = workersWithAtLeastOneOfTheRequiredQualifications
         .filter((w) => {
           const [available] = isWorkerAvailableToWork(
             w,
@@ -55,9 +56,9 @@ export const randomSchedule = ({
         })
         .sort(sortByPastWorkLoad);
 
-      if (!slot.assignedWorkerPk && availableSortedWorkers.length < 1) {
+      if (!slot.assignedWorkerPk && availableWorkers.length < 1) {
         throw new Error(
-          `Of ${workers.length} workers, none is available to work on day ${slot.startsOnDay}`
+          `Of ${workers.length} workers, none is available to work on day ${slot.startsOnDay} for shift ${slot.typeName}. For this shift we had ${workersWithAtLeastOneOfTheRequiredQualifications.length} workers with at least one of the required qualifications and ${availableWorkers.length} available.`
         );
       }
 
@@ -68,8 +69,8 @@ export const randomSchedule = ({
           )
         : getDefined(
             selectUniqueRandomWeighted(
-              availableSortedWorkers,
-              decreasingRandomLinearWeights(availableSortedWorkers.length),
+              availableWorkers,
+              decreasingRandomLinearWeights(availableWorkers.length),
               1
             )[0]
           );
