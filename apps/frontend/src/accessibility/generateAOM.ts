@@ -23,13 +23,38 @@ export const generateAccessibilityObjectModel = (
 
     // If this element has a role, include it
     if (role) {
-      return [
-        {
-          role,
-          description,
-          children: children.length > 0 ? children : null,
-        },
-      ];
+      // Collect all aria-* attributes
+      const ariaAttributes: Record<string, string> = {};
+      const ariaPrefix = "aria-";
+      console.log(
+        "Element attributes:",
+        Array.from(element.attributes).map((attr) => ({
+          name: attr.name,
+          value: attr.value,
+        }))
+      );
+
+      for (const attr of element.attributes) {
+        if (attr.name.startsWith(ariaPrefix)) {
+          // Remove 'aria-' prefix and use the rest as the property name
+          const propertyName = attr.name.slice(ariaPrefix.length);
+          const value = element.getAttribute(attr.name);
+          console.log(`Processing ${attr.name}:`, { propertyName, value });
+          if (value !== null) {
+            ariaAttributes[propertyName] = value;
+          }
+        }
+      }
+
+      console.log("Collected aria attributes:", ariaAttributes);
+      const result = {
+        role,
+        description,
+        children: children.length > 0 ? children : null,
+        ...ariaAttributes,
+      };
+      console.log("Final element:", result);
+      return [result];
     }
 
     // If no role, return its children (flatten)

@@ -79,4 +79,34 @@ describe("generateAccessibilityObjectModel", () => {
     expect(aom.root.children?.[1].description).toBe("Described");
     expect(aom.root.children?.[2].description).toBe("TextContent");
   });
+
+  it("should include all aria-* attributes as properties without the aria- prefix", () => {
+    const doc = createTestDocument(`
+      <div role="generic">
+        <button 
+          role="button" 
+          aria-expanded="true"
+          aria-controls="menu"
+          aria-haspopup="true"
+          aria-pressed="false"
+          aria-disabled="true"
+        >
+          Menu Button
+        </button>
+      </div>
+    `);
+    const aom = generateAccessibilityObjectModel(doc);
+    const button = aom.root.children?.[0];
+
+    console.log("Test - Button element:", button);
+
+    expect(button?.expanded).toBe("true");
+    expect(button?.controls).toBe("menu");
+    expect(button?.haspopup).toBe("true");
+    expect(button?.pressed).toBe("false");
+    expect(button?.disabled).toBe("true");
+
+    expect(button?.role).toBe("button");
+    expect(button?.description).toBe("Menu Button");
+  });
 });
