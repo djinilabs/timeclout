@@ -87,7 +87,11 @@ export const UnitManagers = () => {
   );
 
   return (
-    <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+    <div
+      className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3"
+      role="region"
+      aria-label={i18n.t("Unit Managers Section")}
+    >
       <p className="mt-1 text-sm/6 text-gray-600 py-5">
         <Trans>Assign the managers for the workers in this unit:</Trans>
       </p>
@@ -97,16 +101,23 @@ export const UnitManagers = () => {
             <ul
               role="list"
               className="divide-y divide-gray-100 max-w-fit shadow-md p-4"
+              aria-label={i18n.t("List of unit managers")}
             >
               {managers?.map((manager: User) => (
                 <li
                   key={manager.pk}
                   className="flex items-center justify-between gap-x-6 py-2"
+                  role="listitem"
                 >
                   <Avatar {...manager} size={30} />
                   <p className="text-sm text-gray-900">{manager.name}</p>
-                  <Button onClick={() => removeUser(manager)}>
-                    <TrashIcon className="h-4 w-4" />
+                  <Button
+                    onClick={() => removeUser(manager)}
+                    aria-label={i18n.t("Remove {name} as manager", {
+                      name: manager.name,
+                    })}
+                  >
+                    <TrashIcon className="h-4 w-4" aria-hidden="true" />
                   </Button>
                 </li>
               ))}
@@ -122,7 +133,11 @@ export const UnitManagers = () => {
             <p className="text-sm/6 text-gray-600">
               <Trans>Add a manager</Trans>
             </p>
-            <SelectUser users={addableUsers} onChange={addUser} />
+            <SelectUser
+              users={addableUsers}
+              onChange={addUser}
+              aria-label={i18n.t("Select a user to add as manager")}
+            />
           </div>
         )}
       </div>

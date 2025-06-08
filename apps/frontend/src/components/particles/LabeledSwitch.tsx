@@ -19,13 +19,20 @@ export const LabeledSwitch: FC<LabeledSwitchProps> = memo(
             checked={checked}
             onChange={onChange}
             className="group relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 data-checked:bg-teal-600"
+            aria-checked={checked}
+            aria-labelledby={`${id}-label`}
           >
             <span
               aria-hidden="true"
               className="pointer-events-none inline-block size-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out group-data-checked:translate-x-5"
             />
           </Switch>
-          <Label htmlFor={id} as="label" className="ml-3 text-sm">
+          <Label
+            htmlFor={id}
+            as="label"
+            className="ml-3 text-sm"
+            id={`${id}-label`}
+          >
             <span className="font-medium text-gray-900">{label}</span>
           </Label>
         </div>

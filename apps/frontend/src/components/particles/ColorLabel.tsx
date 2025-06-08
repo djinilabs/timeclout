@@ -25,10 +25,11 @@ export interface ColorLabelProps {
   randomString: string;
   label: ReactNode;
   size?: number;
+  ariaLabel?: string;
 }
 
 export const ColorLabel: FC<ColorLabelProps> = memo(
-  ({ randomString, label, size = 30 }) => {
+  ({ randomString, label, size = 30, ariaLabel }) => {
     const dimensions = {
       width: `${size}px`,
       minWidth: `${size}px`,
@@ -38,9 +39,16 @@ export const ColorLabel: FC<ColorLabelProps> = memo(
       maxHeight: `${size}px`,
     };
 
+    const defaultLabel =
+      typeof label === "string"
+        ? `Colored circle representing ${label}`
+        : "Colored circle indicator";
+
     return (
       <div
         className="relative inline-flex"
+        role="img"
+        aria-label={ariaLabel || defaultLabel}
         style={{
           ...getColorAndBackground(randomString),
           ...dimensions,

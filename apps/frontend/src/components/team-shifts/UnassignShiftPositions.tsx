@@ -48,12 +48,23 @@ export const UnassignShiftPositions: FC<UnassignShiftPositionsProps> = ({
   }, [dateRange, onClose, onUnassign, team, unassignShiftPositions]);
 
   return (
-    <div className="space-y-4">
+    <div
+      className="space-y-4"
+      role="dialog"
+      aria-labelledby="unassign-shifts-title"
+    >
+      <h2 id="unassign-shifts-title" className="sr-only">
+        <Trans>Unassign Shift Positions</Trans>
+      </h2>
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          className="block text-sm font-medium text-gray-700"
+          htmlFor="date-range-picker"
+        >
           <Trans>Date range</Trans>
         </label>
         <DayPicker
+          id="date-range-picker"
           mode="range"
           required
           selected={{
@@ -68,13 +79,31 @@ export const UnassignShiftPositions: FC<UnassignShiftPositionsProps> = ({
               });
             }
           }}
+          aria-label={i18n.t(
+            "Select date range for unassigning shift positions"
+          )}
         />
       </div>
-      <div className="flex justify-end space-x-2">
-        <Button onClick={onClose} cancel>
+      <div
+        className="flex justify-end space-x-2"
+        role="toolbar"
+        aria-label={i18n.t("Unassign shift actions")}
+      >
+        <Button
+          onClick={onClose}
+          cancel
+          aria-label={i18n.t("Cancel unassigning shift positions")}
+        >
           <Trans>Cancel</Trans>
         </Button>
-        <Button onClick={handleUnassign} disabled={fetching}>
+        <Button
+          onClick={handleUnassign}
+          disabled={fetching}
+          aria-label={i18n.t(
+            "Unassign shift positions for selected date range"
+          )}
+          aria-busy={fetching}
+        >
           <Trans>Unassign</Trans>
         </Button>
       </div>

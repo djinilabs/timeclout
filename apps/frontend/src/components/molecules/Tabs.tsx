@@ -17,6 +17,7 @@ export interface TabsProps {
   tabs: Tab[];
   onChange?: (tab: Tab) => void;
   className?: string;
+  ariaLabel?: string;
 }
 
 export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
@@ -25,6 +26,7 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
   tabPropName = "tab",
   className = "",
   children,
+  ariaLabel = "Tabs navigation",
 }) => {
   const { current: currentTabName, set, params } = useSearchParam(tabPropName);
 
@@ -50,7 +52,11 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
 
   return (
     <>
-      <div className={`grid grid-cols-1 sm:hidden ${className}`}>
+      <div
+        className={`grid grid-cols-1 sm:hidden ${className}`}
+        role="tablist"
+        aria-label={ariaLabel}
+      >
         <select
           defaultValue={currentTab?.name}
           aria-label="Select a tab"
@@ -58,9 +64,16 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
           onChange={(e) =>
             onTabChange(tabs.find((tab) => tab.name === e.target.value))
           }
+          aria-controls="tab-panel"
         >
           {tabs.map((tab) => (
-            <option key={tab.name}>{tab.name}</option>
+            <option
+              key={tab.name}
+              role="tab"
+              aria-selected={tab.href === currentTab?.href}
+            >
+              {tab.name}
+            </option>
           ))}
         </select>
         <ChevronDownIcon
@@ -70,7 +83,11 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
       </div>
       <div className="hidden sm:block">
         <div className="border-b border-gray-200">
-          <nav aria-label="Tabs" className="-mb-px flex space-x-8">
+          <nav
+            aria-label={ariaLabel}
+            role="tablist"
+            className="-mb-px flex space-x-8"
+          >
             {tabs.map((tab) => (
               <Link
                 key={tab.name}
@@ -81,6 +98,9 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
                     [tabPropName]: tab.href,
                   }).toString(),
                 }}
+                role="tab"
+                aria-selected={tab.href === currentTab?.href}
+                aria-controls="tab-panel"
                 aria-current={
                   tab.href === currentTab?.href ? "page" : undefined
                 }
@@ -100,6 +120,7 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
                         : "bg-gray-100 text-gray-900",
                       "ml-3 hidden rounded-full px-2.5 py-0.5 text-xs font-medium md:inline-block"
                     )}
+                    aria-label={`${tab.count} items`}
                   >
                     {tab.count}
                   </span>
@@ -109,7 +130,9 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
           </nav>
         </div>
       </div>
-      <Suspense>{children}</Suspense>
+      <div id="tab-panel" role="tabpanel" aria-labelledby={currentTab?.name}>
+        <Suspense>{children}</Suspense>
+      </div>
     </>
   );
 };

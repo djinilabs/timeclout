@@ -99,6 +99,8 @@ export const HelpPanel: FC<HelpPanelProps> = ({
         <h2 className="text-lg font-medium text-gray-900">Help</h2>
         <button
           type="button"
+          role="button"
+          aria-label="Close help panel"
           onClick={() => setHelpPanelOpen(false)}
           className="-m-2.5 p-2.5 text-gray-700"
         >

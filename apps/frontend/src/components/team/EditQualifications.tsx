@@ -92,10 +92,15 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
   }, [isMenuOpen]);
 
   return (
-    <span className="flex items-center">
+    <span
+      className="flex items-center"
+      role="group"
+      aria-label="Qualifications editor"
+    >
       <Badges
         badges={badges}
         onRemove={({ name }) => removeQualification(name)}
+        aria-label="Current qualifications"
       />
       {(qualificationSettings?.length ?? 0) > 0 ? (
         <>
@@ -103,6 +108,9 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
             type="button"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="ml-2 inline-flex items-center rounded-full border border-gray-300 bg-white p-1 text-gray-400 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+            aria-expanded={isMenuOpen}
+            aria-haspopup="true"
+            aria-label="Add qualification"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -111,6 +119,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
               strokeWidth={1.5}
               stroke="currentColor"
               className="size-5"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -127,6 +136,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
           <div className="relative">
             <div
               role="menu"
+              aria-label="Available qualifications"
               className={`absolute mt-1 w-fit rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 ${
                 isMenuOpen ? "block" : "hidden"
               } z-300`}
@@ -136,6 +146,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
                   <div
                     key={qualification.name}
                     className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    role="menuitem"
                   >
                     <button
                       type="button"
@@ -145,6 +156,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
                         setIsMenuOpen(false);
                         addQualification(qualification.name);
                       }}
+                      aria-label={`Add ${qualification.name} qualification`}
                     >
                       <Badge
                         name={qualification.name}
@@ -164,6 +176,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
           </p>
           <Button
             to={`/companies/${company}/units/${unit}/teams/${team}?tab=settings&settingsTab=qualifications`}
+            aria-label="Navigate to qualifications settings"
           >
             <Trans>Add qualifications</Trans>
           </Button>

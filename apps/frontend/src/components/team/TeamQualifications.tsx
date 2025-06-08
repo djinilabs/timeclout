@@ -76,9 +76,18 @@ export const TeamQualifications = () => {
   };
 
   return (
-    <div className="space-y-4 pt-4">
+    <div
+      className="space-y-4 pt-4"
+      role="region"
+      aria-label={i18n.t("Team Qualifications")}
+    >
       {localQualifications.map((qualification, index) => (
-        <div key={index} className="flex gap-4 items-center">
+        <div
+          key={index}
+          className="flex gap-4 items-center"
+          role="group"
+          aria-label={i18n.t("Qualification") + " " + (index + 1)}
+        >
           <input
             type="text"
             value={qualification.name}
@@ -87,6 +96,7 @@ export const TeamQualifications = () => {
             }
             placeholder={i18n.t("Qualification name")}
             className="border rounded-sm px-2 py-1"
+            aria-label={i18n.t("Qualification name")}
           />
           <Combobox
             as="div"
@@ -94,6 +104,7 @@ export const TeamQualifications = () => {
             onChange={(color) =>
               color && handleUpdateQualification(index, "color", color)
             }
+            aria-label={i18n.t("Select qualification color")}
           >
             <div className="relative">
               <ComboboxInput
@@ -101,15 +112,22 @@ export const TeamQualifications = () => {
                 displayValue={(color: string) =>
                   color.charAt(0).toUpperCase() + color.slice(1)
                 }
+                aria-label={i18n.t("Select qualification color")}
               />
-              <ComboboxButton className="absolute inset-y-0 right-0 flex items-center px-2 focus:outline-hidden">
+              <ComboboxButton
+                className="absolute inset-y-0 right-0 flex items-center px-2 focus:outline-hidden"
+                aria-label={i18n.t("Open color options")}
+              >
                 <ChevronUpDownIcon
                   className="size-5 text-gray-400"
                   aria-hidden="true"
                 />
               </ComboboxButton>
 
-              <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm">
+              <ComboboxOptions
+                className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm"
+                aria-label={i18n.t("Available colors")}
+              >
                 {colorNames.map((color) => (
                   <ComboboxOption
                     key={color}
@@ -119,7 +137,9 @@ export const TeamQualifications = () => {
                     {({ selected }) => (
                       <>
                         <span
-                          className={`block truncate ${selected ? "font-semibold" : "font-normal"}`}
+                          className={`block truncate ${
+                            selected ? "font-semibold" : "font-normal"
+                          }`}
                         >
                           <Badge
                             name={
@@ -144,6 +164,7 @@ export const TeamQualifications = () => {
           <button
             onClick={() => handleRemoveQualification(index)}
             className="rounded-full bg-teal-600 p-2 text-white hover:bg-teal-700 focus:outline-hidden focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+            aria-label={i18n.t("Remove qualification") + " " + (index + 1)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -152,6 +173,7 @@ export const TeamQualifications = () => {
               strokeWidth={1.5}
               stroke="currentColor"
               className="size-5"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -169,6 +191,7 @@ export const TeamQualifications = () => {
       <button
         onClick={handleAddQualification}
         className="rounded-full bg-teal-600 p-2 text-white hover:bg-teal-700 focus:outline-hidden focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+        aria-label={i18n.t("Add new qualification")}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -177,6 +200,7 @@ export const TeamQualifications = () => {
           strokeWidth={1.5}
           stroke="currentColor"
           className="size-5"
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -189,14 +213,17 @@ export const TeamQualifications = () => {
         </span>
       </button>
 
-      <div className="relative my-8">
+      <div className="relative my-8" role="separator" aria-hidden="true">
         <div className="absolute inset-0 flex items-center" aria-hidden="true">
           <div className="w-full border-t border-gray-300" />
         </div>
       </div>
 
       <div className="flex justify-end pt-4">
-        <Button onClick={handleSaveChanges}>
+        <Button
+          onClick={handleSaveChanges}
+          aria-label={i18n.t("Save qualification changes")}
+        >
           <Trans>Save changes</Trans>
         </Button>
       </div>

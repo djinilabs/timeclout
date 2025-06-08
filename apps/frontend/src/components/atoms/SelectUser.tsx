@@ -45,6 +45,7 @@ export const SelectUser: FC<SelectUserProps> = memo(
           onChange(user);
         }}
         autoFocus={autoFocus}
+        aria-label={i18n.t("Select a user")}
       >
         <div className="relative mt-2">
           <ComboboxInput
@@ -52,8 +53,14 @@ export const SelectUser: FC<SelectUserProps> = memo(
             onChange={(event) => setQuery(event.target.value)}
             onBlur={() => setQuery("")}
             displayValue={(user: User) => user?.name ?? "-"}
+            aria-label={i18n.t("Search users")}
+            aria-expanded={filteredUsers.length > 0}
+            aria-controls="user-listbox"
           />
-          <ComboboxButton className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden">
+          <ComboboxButton
+            className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden"
+            aria-label={i18n.t("Open user selection")}
+          >
             <ChevronUpDownIcon
               className="size-5 text-gray-400"
               aria-hidden="true"
@@ -61,7 +68,11 @@ export const SelectUser: FC<SelectUserProps> = memo(
           </ComboboxButton>
 
           {filteredUsers.length > 0 && (
-            <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm">
+            <ComboboxOptions
+              id="user-listbox"
+              className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm"
+              aria-label={i18n.t("Available users")}
+            >
               {allowEmpty && (
                 <ComboboxOption
                   key="null"
@@ -79,10 +90,13 @@ export const SelectUser: FC<SelectUserProps> = memo(
                 >
                   <div className="flex items-center gap-x-2 group-data-selected:font-semibold">
                     <Avatar {...user} size={20} />
-                    {user.name}
+                    <span>{user.name}</span>
                   </div>
 
-                  <span className="absolute inset-y-0 right-0 hidden items-center pr-4 text-teal-600 group-data-focus:text-white group-data-selected:flex">
+                  <span
+                    className="absolute inset-y-0 right-0 hidden items-center pr-4 text-teal-600 group-data-focus:text-white group-data-selected:flex"
+                    aria-hidden="true"
+                  >
                     <CheckIcon className="size-5" aria-hidden="true" />
                   </span>
                 </ComboboxOption>

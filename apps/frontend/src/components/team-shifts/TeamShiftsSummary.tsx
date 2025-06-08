@@ -40,7 +40,7 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
           toMinutes(
             shift.schedules[shift.schedules.length - 1].endHourMinutes as [
               number,
-              number,
+              number
             ]
           ) -
           toMinutes(shift.schedules[0].startHourMinutes as [number, number]);
@@ -87,11 +87,19 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
   );
 
   return (
-    <div>
-      <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
+    <div role="region" aria-label="Team Shifts Summary">
+      <table
+        className="min-w-full divide-y divide-gray-200 border border-gray-200"
+        role="grid"
+        aria-label="Team shifts by day and shift length"
+      >
         <thead className="bg-gray-50">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border border-gray-200">
+            <th
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border border-gray-200"
+              role="columnheader"
+              scope="col"
+            >
               <Trans>Day</Trans>
             </th>
             {lengths.map((length) => (
@@ -99,6 +107,9 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
                 colSpan={lengthsMaxPopulation[length]}
                 key={length}
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border border-gray-200"
+                role="columnheader"
+                scope="col"
+                aria-label={`${length} hour shifts`}
               >
                 <Trans>{length}h</Trans>
               </th>
@@ -107,7 +118,9 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {monthDays.map((dayOfTheMonth) => {
-            const day = `${year}-${(month + 1).toString().padStart(2, "0")}-${dayOfTheMonth.toString().padStart(2, "0")}`;
+            const day = `${year}-${(month + 1)
+              .toString()
+              .padStart(2, "0")}-${dayOfTheMonth.toString().padStart(2, "0")}`;
             const dayDate = new DayDate(day);
             const dayShiftsPerLength = summary.shiftsPerDayPerLength[day];
             const isWeekend = dayDate.isWeekend();
@@ -115,8 +128,15 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
               <tr
                 key={day}
                 className={`hover:bg-gray-50 ${isWeekend ? "bg-gray-100" : ""}`}
+                role="row"
               >
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border border-gray-200">
+                <td
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border border-gray-200"
+                  role="cell"
+                  aria-label={`Day ${dayOfTheMonth}${
+                    isWeekend ? " (Weekend)" : ""
+                  }`}
+                >
                   {dayOfTheMonth}
                 </td>
                 {dayShiftsPerLength ? (
@@ -129,6 +149,8 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
                           className={`border border-gray-200 ${
                             isWeekend ? "bg-gray-100" : ""
                           }`}
+                          role="cell"
+                          aria-label={`No ${length} hour shifts for day ${dayOfTheMonth}`}
                         ></td>
                       );
                     }
@@ -138,6 +160,10 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
                         className={`px-6 py-4 whitespace-nowrap text-sm text-gray-500 border border-gray-200 ${
                           isWeekend ? "bg-gray-100" : ""
                         }`}
+                        role="cell"
+                        aria-label={`${
+                          shift.assignedTo?.name || "Unassigned"
+                        } - ${shift.name}`}
                       >
                         <div className="flex flex-row items-center gap-2">
                           <Avatar size={40} {...shift.assignedTo} />
@@ -160,6 +186,8 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
                     className={`border border-gray-200 ${
                       isWeekend ? "bg-gray-100" : ""
                     }`}
+                    role="cell"
+                    aria-label={`No shifts for day ${dayOfTheMonth}`}
                   ></td>
                 )}
               </tr>

@@ -11,7 +11,11 @@ import { Button } from "./particles/Button";
 const NoCompanies = () => {
   const navigate = useNavigate();
   return (
-    <div className="text-center">
+    <div
+      className="text-center"
+      role="status"
+      aria-label="No companies section"
+    >
       <svg
         fill="none"
         stroke="currentColor"
@@ -40,6 +44,7 @@ const NoCompanies = () => {
           onClick={() => {
             navigate("/companies/new");
           }}
+          aria-label="Create new company"
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />
           <Trans>New Company</Trans>
@@ -58,7 +63,7 @@ export const AllUserCompanies = () => {
     return <NoCompanies />;
   }
   return (
-    <div>
+    <div role="region" aria-label="Companies list">
       <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
         <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
           <div className="ml-4 mt-2">
@@ -67,31 +72,49 @@ export const AllUserCompanies = () => {
             </h3>
           </div>
           <div className="ml-4 mt-2 shrink-0">
-            <Button to="/companies/new" className="new-company-button">
+            <Button
+              to="/companies/new"
+              className="new-company-button"
+              aria-label="Create new company"
+            >
               <Trans>Create new company</Trans>
             </Button>
           </div>
         </div>
       </div>
-      <ul className="companies-list">
+      <ul className="companies-list" role="list" aria-label="List of companies">
         {allCompanies.data?.companies.map((company: Company) => (
           <>
             <li
               key={company.pk}
               className="flex items-center justify-between gap-x-6 py-5"
+              role="listitem"
             >
               <div className="min-w-0">
                 <div className="flex items-start gap-x-3">
                   <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
-                    <Link to={`/${company.pk}`}>{company.name}</Link>
+                    <Link
+                      to={`/${company.pk}`}
+                      aria-label={`View ${company.name} company details`}
+                    >
+                      {company.name}
+                    </Link>
                   </p>
                 </div>
-                <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
+                <div
+                  className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500"
+                  role="contentinfo"
+                  aria-label={`Company information for ${company.name}`}
+                >
                   <p className="whitespace-nowrap">
                     <Trans>Created</Trans>{" "}
                     <ReactTimeAgo date={new Date(company.createdAt)} />
                   </p>
-                  <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
+                  <svg
+                    viewBox="0 0 2 2"
+                    className="size-0.5 fill-current"
+                    aria-hidden="true"
+                  >
                     <circle r={1} cx={1} cy={1} />
                   </svg>
                   <p className="truncate">
@@ -103,7 +126,7 @@ export const AllUserCompanies = () => {
                 <Link
                   to={`/${company.pk}`}
                   className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
-                  aria-label={`View ${company.name} company`}
+                  aria-label={`View ${company.name} company details`}
                 >
                   <Trans>View company</Trans>
                   <span className="sr-only">, {company.name}</span>
@@ -111,7 +134,7 @@ export const AllUserCompanies = () => {
                 <Menu as="div" className="relative flex-none">
                   <MenuButton
                     className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
-                    aria-label={`Open options for ${company.name}`}
+                    aria-label={`Open options menu for ${company.name}`}
                   >
                     <span className="sr-only">
                       <Trans>Open options</Trans>
@@ -124,14 +147,14 @@ export const AllUserCompanies = () => {
                   <MenuItems
                     transition
                     className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
-                    aria-label={`Options for ${company.name}`}
+                    aria-label={`Options menu for ${company.name}`}
                   >
                     <MenuItem>
                       <Link
                         to={`/${company.pk}`}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
                         role="menuitem"
-                        aria-label={`Edit ${company.name}`}
+                        aria-label={`Edit ${company.name} company`}
                       >
                         <Trans>Edit</Trans>
                         <span className="sr-only">, {company.name}</span>

@@ -7,12 +7,19 @@ export interface IconPickerProps {
 }
 export const IconPicker: FC<IconPickerProps> = memo(({ value, onChange }) => {
   return (
-    <div className="w-full">
+    <div
+      className="w-full"
+      role="radiogroup"
+      aria-label="Leave type icon selection"
+    >
       <div className="grid grid-cols-4 gap-2">
         {Object.entries(leaveTypeIcons).map(([key, icon]) => (
           <button
             key={key}
             type="button"
+            role="radio"
+            aria-checked={value === key}
+            aria-label={`Select ${key} icon`}
             onClick={() => {
               onChange(key as keyof typeof leaveTypeIcons);
             }}

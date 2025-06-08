@@ -26,9 +26,14 @@ interface DayPickerSelectModeChoiceProps {
 const DayPickerSelectModeChoice: FC<DayPickerSelectModeChoiceProps> = memo(
   ({ modes, selected, setMode }) => {
     return (
-      <div className="flex gap-4">
+      <div
+        className="flex gap-4"
+        role="radiogroup"
+        aria-label="Date selection mode"
+      >
         {modes.map((mode) => (
           <LabeledSwitch
+            key={mode}
             label={mode}
             checked={selected === mode}
             onChange={(checked) => {
@@ -36,6 +41,7 @@ const DayPickerSelectModeChoice: FC<DayPickerSelectModeChoiceProps> = memo(
                 setMode(mode);
               }
             }}
+            aria-label={`Select ${mode} mode`}
           />
         ))}
       </div>
@@ -94,7 +100,7 @@ export const DayPicker: FC<OurDayPickerProps> = memo(
       },
     } as DayPickerProps;
     return (
-      <div>
+      <div role="group" aria-label="Date picker">
         {modes && onChangeMode ? (
           <DayPickerSelectModeChoice
             modes={modes}
@@ -118,6 +124,8 @@ export const DayPicker: FC<OurDayPickerProps> = memo(
             range_end: `bg-teal-200 border-teal-200 text-white rounded-r-md`,
             range_middle: `bg-teal-500 border-teal-500 text-white`,
           }}
+          aria-label={`Calendar for ${mode} date selection`}
+          aria-selected={true}
           animate
         />
       </div>

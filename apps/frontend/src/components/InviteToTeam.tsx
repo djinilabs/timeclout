@@ -43,12 +43,20 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
   });
 
   return (
-    <div className="bg-white shadow-sm sm:rounded-lg">
+    <div
+      className="bg-white shadow-sm sm:rounded-lg"
+      role="dialog"
+      aria-labelledby="invite-title"
+      aria-describedby="invite-description"
+    >
       <div className="px-4 py-5 sm:p-6">
-        <h3 className="text-base font-semibold text-gray-900">
+        <h3 id="invite-title" className="text-base font-semibold text-gray-900">
           <Trans>Invite to team</Trans>
         </h3>
-        <div className="mt-2 max-w-xl text-sm text-gray-500">
+        <div
+          id="invite-description"
+          className="mt-2 max-w-xl text-sm text-gray-500"
+        >
           <p>
             <Trans>Invite a team member to join your team.</Trans>
           </p>
@@ -60,6 +68,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
             e.stopPropagation();
             form.handleSubmit();
           }}
+          aria-label={i18n.t("Team invitation form")}
         >
           <div key="email" className="w-full sm:max-w-xs">
             <form.Field
@@ -81,7 +90,14 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       placeholder="name@example.com"
-                      aria-label="Email"
+                      aria-label={i18n.t("Email address")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                       className={`col-start-1 row-start-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:-outline-offset-2 focus:outline-teal-600 sm:text-sm/6 ${
                         field.state.meta.errors.length > 0
                           ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
@@ -95,7 +111,11 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
                       />
                     ) : null}
                     {field.state.meta.errors.length > 0 ? (
-                      <p className="mt-2 text-sm text-red-600">
+                      <p
+                        id={`${field.name}-error`}
+                        className="mt-2 text-sm text-red-600"
+                        role="alert"
+                      >
                         {field.state.meta.errors.join(", ")}
                       </p>
                     ) : null}
@@ -110,11 +130,16 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
           <button
             type="submit"
             disabled={form.state.isSubmitting}
+            aria-label={i18n.t("Send invitation")}
             className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 sm:ml-3 sm:mt-0 sm:w-auto"
           >
             <Trans>Invite</Trans>
           </button>
-          <Button cancel onClick={onDone}>
+          <Button
+            cancel
+            onClick={onDone}
+            aria-label={i18n.t("Cancel invitation")}
+          >
             <Trans>Cancel</Trans>
           </Button>
         </form>

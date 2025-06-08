@@ -63,6 +63,10 @@ export const TeamLeaveSchedule = memo(
                   member.pk
                 )}`}
                 className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                aria-label={i18n.t("Add leave request for {member} on {date}", {
+                  member: member.name,
+                  date: dayString,
+                })}
               >
                 <span className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
                   <span className="text-gray-600">+</span>
@@ -73,7 +77,9 @@ export const TeamLeaveSchedule = memo(
             {leave &&
               (leave.leaveRequest ? (
                 <Link
-                  to={`/${leave.leaveRequest.pk}/leave-requests/${leave.leaveRequest.sk}?callbackUrl=${encodeURIComponent(
+                  to={`/${leave.leaveRequest.pk}/leave-requests/${
+                    leave.leaveRequest.sk
+                  }?callbackUrl=${encodeURIComponent(
                     window.location.pathname + window.location.search
                   )}`}
                   title={leave.leaveRequest.type}
@@ -83,6 +89,14 @@ export const TeamLeaveSchedule = memo(
                   style={{
                     backgroundColor: leave.color,
                   }}
+                  aria-label={i18n.t(
+                    "{type} leave request for {member} on {date}",
+                    {
+                      type: leave.leaveRequest.type,
+                      member: member.name,
+                      date: dayString,
+                    }
+                  )}
                 >
                   {leave.icon}
                 </Link>
@@ -93,6 +107,11 @@ export const TeamLeaveSchedule = memo(
                   style={{
                     backgroundColor: leave.color,
                   }}
+                  aria-label={i18n.t("{type} leave for {member} on {date}", {
+                    type: leave.type,
+                    member: member.name,
+                    date: dayString,
+                  })}
                 >
                   {leave.icon}
                 </span>
@@ -136,11 +155,17 @@ export const TeamLeaveSchedule = memo(
           type: "component",
           component:
             view === "linear" ? (
-              <Button onClick={() => setView("calendar")}>
+              <Button
+                onClick={() => setView("calendar")}
+                aria-label={i18n.t("Switch to daily calendar view")}
+              >
                 {i18n.t("Switch to view per day")}
               </Button>
             ) : (
-              <Button onClick={() => setView("linear")}>
+              <Button
+                onClick={() => setView("linear")}
+                aria-label={i18n.t("Switch to member list view")}
+              >
                 {i18n.t("Switch to view per member")}
               </Button>
             ),
@@ -150,7 +175,13 @@ export const TeamLeaveSchedule = memo(
     );
 
     return (
-      <div>
+      <div
+        role="region"
+        aria-label={i18n.t("Team leave schedule for {month} {year}", {
+          month,
+          year,
+        })}
+      >
         <CalendarHeader
           year={year}
           month={month}

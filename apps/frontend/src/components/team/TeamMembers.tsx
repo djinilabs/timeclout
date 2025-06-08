@@ -34,30 +34,41 @@ export const TeamMembers = () => {
   }
 
   return (
-    <div className="mt-4">
+    <div className="mt-4" role="region" aria-label="Team Members">
       <div className="flex justify-end gap-x-2">
         <Button
           to={`/companies/${company}/units/${unit}/teams/${teamPk}/members/new`}
           className="new-team-member-button"
+          aria-label="Create new team member"
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />{" "}
           <Trans>Create member user</Trans>
         </Button>
         <Button
           to={`/companies/${company}/units/${unit}/teams/${teamPk}/invites/new`}
+          aria-label="Invite new member to team"
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />{" "}
           <Trans>Invite to team</Trans>
         </Button>
       </div>
-      <ul role="list" className="team-members-list divide-y divide-gray-100">
+      <ul
+        role="list"
+        className="team-members-list divide-y divide-gray-100"
+        aria-label="List of team members"
+      >
         {teamMembers.map((person: User) => (
-          <li key={person.pk} className="flex justify-between gap-x-6 py-5">
+          <li
+            key={person.pk}
+            className="flex justify-between gap-x-6 py-5"
+            role="listitem"
+          >
             <div className="grid grid-cols-[1fr_3fr_1fr] items-center w-full gap-x-6">
               <div className="grid grid-cols-[60px_1fr] gap-x-2">
                 <div className="hidden sm:block">
                   <Link
                     to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
+                    aria-label={`View profile of ${person.name}`}
                   >
                     <Avatar {...person} />
                   </Link>
@@ -67,6 +78,7 @@ export const TeamMembers = () => {
                     <Link
                       to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
                       className="hover:underline"
+                      aria-label={`View profile of ${person.name}`}
                     >
                       {person.name}
                     </Link>
@@ -75,6 +87,7 @@ export const TeamMembers = () => {
                     <a
                       href={`mailto:${person.email}`}
                       className="truncate hover:underline"
+                      aria-label={`Send email to ${person.name} at ${person.email}`}
                     >
                       {person.email}
                     </a>
@@ -95,11 +108,17 @@ export const TeamMembers = () => {
 
               <div className="flex gap-x-6 justify-end min-w-[200px] max-w-[260px]">
                 <div className="hidden sm:flex sm:flex-col sm:items-end">
-                  <p className="text-sm/6 text-gray-900">
+                  <p
+                    className="text-sm/6 text-gray-900"
+                    aria-label={`${person.name}'s permission level`}
+                  >
                     {permissionTypeToString(person.resourcePermission)}
                   </p>
                   {person.resourcePermissionGivenAt && (
-                    <p className="mt-1 text-xs/5 text-gray-500">
+                    <p
+                      className="mt-1 text-xs/5 text-gray-500"
+                      aria-label={`${person.name}'s join date`}
+                    >
                       <Trans>Joined</Trans>{" "}
                       <ReactTimeAgo
                         date={new Date(person.resourcePermissionGivenAt)}
@@ -108,7 +127,10 @@ export const TeamMembers = () => {
                   )}
                 </div>
                 <Menu as="div" className="relative flex-none">
-                  <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                  <MenuButton
+                    className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
+                    aria-label={`Open options menu for ${person.name}`}
+                  >
                     <span className="sr-only">
                       <Trans>Open options</Trans>
                     </span>
@@ -120,11 +142,13 @@ export const TeamMembers = () => {
                   <MenuItems
                     transition
                     className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
+                    aria-label={`Options menu for ${person.name}`}
                   >
                     <MenuItem>
                       <Link
                         to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                        aria-label={`Edit ${person.name}'s profile`}
                       >
                         <Trans>Edit</Trans>
                         <span className="sr-only">, {person.name}</span>
@@ -144,6 +168,8 @@ export const TeamMembers = () => {
                           }
                         }}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                        aria-label={`Remove ${person.name} from team`}
+                        role="button"
                       >
                         <Trans>Remove from team</Trans>
                         <span className="sr-only">, {person.name}</span>

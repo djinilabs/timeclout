@@ -49,14 +49,20 @@ export const MonthDailyCalendar: FC<MonthDailyCalendarProps> = memo(
       <div
         key="calendar-container"
         className={classNames("flex h-full flex-col")}
+        role="application"
+        aria-label={`Calendar for ${month}/${year}`}
       >
         <div
           key="calendar-body"
           className="ring-1 shadow-xs ring-black/5 flex flex-auto flex-col rounded-lg overflow-hidden"
+          role="grid"
+          aria-label="Calendar grid"
         >
           <div
             key="weekday-headers"
             className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs/6 font-semibold text-gray-700 flex-none"
+            role="row"
+            aria-label="Weekday headers"
           >
             <div key="monday-header" className="bg-white py-2">
               <Trans id="M for Monday">M</Trans>
@@ -105,6 +111,8 @@ export const MonthDailyCalendar: FC<MonthDailyCalendarProps> = memo(
             <div
               key="days-grid"
               className="divide-y divide-x divide-gray-200 w-full grid grid-cols-7 gap-0"
+              role="grid"
+              aria-label="Calendar days"
             >
               {days.map((day, index) => (
                 <div
@@ -125,6 +133,11 @@ export const MonthDailyCalendar: FC<MonthDailyCalendarProps> = memo(
                     e.preventDefault();
                     onCellDragOver?.(day.date, e);
                   }}
+                  role="gridcell"
+                  aria-current={day.isToday ? "date" : undefined}
+                  aria-label={`${day.date}${day.isToday ? " (Today)" : ""}${
+                    !day.isCurrentMonth ? " (Not in current month)" : ""
+                  }`}
                   className={classNames(
                     day.isCurrentMonth ? "bg-white" : "bg-gray-50",
                     day.isToday && "font-semibold",

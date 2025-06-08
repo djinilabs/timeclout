@@ -32,7 +32,11 @@ const Login: FC = () => {
         <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
           <div className="space-y-6">
             <div>
-              <Button onClick={handleSignIn} className="w-full justify-center">
+              <Button
+                onClick={handleSignIn}
+                className="w-full justify-center"
+                ariaLabel="Sign in to your account"
+              >
                 <Trans>Sign in</Trans>
               </Button>
             </div>

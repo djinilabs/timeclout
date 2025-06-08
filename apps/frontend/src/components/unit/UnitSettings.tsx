@@ -7,7 +7,12 @@ export const UnitSettings = () => {
   const [tab, setTab] = useState(tabs[0]);
   return (
     <div>
-      <Tabs tabs={tabs} onChange={setTab} tabPropName="settingsTab">
+      <Tabs
+        tabs={tabs}
+        onChange={setTab}
+        tabPropName="settingsTab"
+        ariaLabel="Unit settings tabs"
+      >
         {tab.href === "managers" && <UnitManagers />}
       </Tabs>
     </div>

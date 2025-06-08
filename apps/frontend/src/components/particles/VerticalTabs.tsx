@@ -21,12 +21,20 @@ export const VerticalTabs: FC<VerticalTabsProps> = memo(({ tabs }) => {
   const selectedTabIndex = tabs.findIndex((tab) => tab.id === selectedTab);
 
   return (
-    <div className="flex flex-row space-x-4" aria-label="Tabs">
+    <div
+      className="flex flex-row space-x-4"
+      role="tablist"
+      aria-label="Vertical tabs"
+    >
       <nav className="flex flex-col" aria-label="Tab list">
         {tabs.map((tab, index) => (
           <button
             key={tab.id}
             onClick={() => setSelectedTab(tab.id)}
+            role="tab"
+            aria-selected={selectedTab === tab.id}
+            aria-controls={`panel-${tab.id}`}
+            id={`tab-${tab.id}`}
             className={classNames(
               "opacity-70 flex flex-col p-2 border-gray-400 ",
               index === 0 && "border-t-0",
@@ -41,7 +49,14 @@ export const VerticalTabs: FC<VerticalTabsProps> = memo(({ tabs }) => {
           </button>
         ))}
       </nav>
-      {tabs.find((tab) => tab.id === selectedTab)?.content}
+      <div
+        role="tabpanel"
+        id={`panel-${selectedTab}`}
+        aria-labelledby={`tab-${selectedTab}`}
+        className="flex-1"
+      >
+        {tabs.find((tab) => tab.id === selectedTab)?.content}
+      </div>
     </div>
   );
 });

@@ -34,6 +34,8 @@ export const Dialog: FC<PropsWithChildren<DialogProps>> = memo(
             >
               <button
                 onClick={onClose}
+                role="button"
+                aria-label="Close dialog"
                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">Close</span>

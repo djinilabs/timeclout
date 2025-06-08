@@ -5,10 +5,11 @@ import { Placement } from "@popperjs/core";
 export interface PopoverProps extends PropsWithChildren {
   referenceElement: HTMLElement | null;
   placement?: Placement;
+  ariaLabel?: string;
 }
 
 export const Popover: FC<PopoverProps> = memo(
-  ({ children, referenceElement, placement }) => {
+  ({ children, referenceElement, placement, ariaLabel }) => {
     const [popperElement, setPopperElement] = useState<HTMLElement | null>(
       null
     );
@@ -21,8 +22,20 @@ export const Popover: FC<PopoverProps> = memo(
     });
 
     return createPortal(
-      <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-        <div ref={setArrowElement} style={styles.arrow} />
+      <div
+        ref={setPopperElement}
+        style={styles.popper}
+        {...attributes.popper}
+        role="dialog"
+        aria-label={ariaLabel}
+        aria-modal="false"
+      >
+        <div
+          ref={setArrowElement}
+          style={styles.arrow}
+          role="presentation"
+          aria-hidden="true"
+        />
         {children}
       </div>,
       document.getElementById("popper-container")!

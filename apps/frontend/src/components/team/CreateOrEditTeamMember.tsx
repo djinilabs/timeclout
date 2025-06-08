@@ -134,6 +134,9 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
         ev.stopPropagation();
         form.handleSubmit();
       }}
+      aria-label={
+        memberPk ? "Edit Team Member Form" : "Create Team Member Form"
+      }
     >
       <div className="member-form space-y-12">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
@@ -154,7 +157,14 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
             </p>
           </div>
 
-          <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+          <div
+            className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2"
+            role="group"
+            aria-labelledby="member-details"
+          >
+            <div id="member-details" className="sr-only">
+              Member Details
+            </div>
             <form.Field
               name="name"
               validators={{
@@ -182,6 +192,13 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                       type="text"
                       required
                       autoComplete="given-name"
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                       className={`col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
                         field.state.meta.errors.length > 0
                           ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
@@ -189,7 +206,11 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                       }`}
                     />
                     {field.state.meta.errors.length > 0 ? (
-                      <p className="mt-2 text-sm text-red-600">
+                      <p
+                        id={`${field.name}-error`}
+                        className="mt-2 text-sm text-red-600"
+                        role="alert"
+                      >
                         {field.state.meta.errors.join(", ")}
                       </p>
                     ) : null}
@@ -215,6 +236,12 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                       id={field.name}
                       type="email"
                       autoComplete="email"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                       className={`member-email-input col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
                         field.state.meta.errors.length > 0
                           ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
@@ -222,7 +249,11 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                       }`}
                     />
                     {field.state.meta.errors.length > 0 ? (
-                      <p className="mt-2 text-sm text-red-600">
+                      <p
+                        id={`${field.name}-error`}
+                        className="mt-2 text-sm text-red-600"
+                        role="alert"
+                      >
                         {field.state.meta.errors.join(", ")}
                       </p>
                     ) : null}
@@ -246,7 +277,12 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
               <div
                 key="permission"
                 className="member-role-select w-full sm:max-w-xs"
+                role="group"
+                aria-labelledby="permission-label"
               >
+                <div id="permission-label" className="sr-only">
+                  Select permission level
+                </div>
                 <PermissionInput Field={form.Field as FieldComponent} />
               </div>
             </div>
@@ -255,10 +291,21 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <Button type="button" cancel onClick={onDone}>
+        <Button
+          type="button"
+          cancel
+          onClick={onDone}
+          aria-label="Cancel team member changes"
+        >
           <Trans>Cancel</Trans>
         </Button>
-        <Button type="submit" className="member-submit-button">
+        <Button
+          type="submit"
+          className="member-submit-button"
+          aria-label={
+            memberPk ? "Save team member changes" : "Create new team member"
+          }
+        >
           <Trans>Save</Trans>
         </Button>
       </div>
