@@ -21,14 +21,17 @@ export const MemberLeaveInCalendar = forwardRef(
   }: MemberLeaveInCalendarProps) => {
     return (
       <Hint hint={leave.type}>
-        <div
-          className="flex items-center justify-center gap-1"
-          style={{
-            marginTop: `${leaveIndex * 1.5}rem`,
-          }}
-        >
+        <div className="flex items-center justify-start gap-1">
+          {showAvatar && (
+            <div
+              key={`leave-avatar-container-${leaveIndex}`}
+              className="flex items-center justify-center"
+            >
+              <Avatar size={25} {...member} />
+            </div>
+          )}
           <div
-            className="text-sm flex -mt-2"
+            className="text-sm flex -mt-2 -ml-2"
             key={`leave-icon-container-${leaveIndex}`}
           >
             <div
@@ -42,14 +45,6 @@ export const MemberLeaveInCalendar = forwardRef(
               {leave.icon}
             </div>
           </div>
-          {showAvatar && (
-            <div
-              key={`leave-avatar-container-${leaveIndex}`}
-              className="flex items-center justify-center -ml-2"
-            >
-              <Avatar size={25} {...member} />
-            </div>
-          )}
           {showName && (
             <div
               key={`leave-name-${leaveIndex}`}
