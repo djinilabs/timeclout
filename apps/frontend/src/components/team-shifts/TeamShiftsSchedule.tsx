@@ -279,13 +279,16 @@ export const TeamShiftsSchedule = () => {
   }, [shiftPositionsMap]);
 
   const maxLeaveRowsPerWeekNumber = useMemo(() => {
+    if (!showLeaveSchedule) {
+      return [];
+    }
     const weekNumbers: Array<number> = [];
     for (const [day, leaves] of Object.entries(leaveSchedule)) {
       const week = new DayDate(day).getWeekNumber();
       weekNumbers[week] = Math.max(weekNumbers[week] ?? 0, leaves.length);
     }
     return weekNumbers;
-  }, [leaveSchedule]);
+  }, [leaveSchedule, showLeaveSchedule]);
 
   // join the two arrays
   const maxRowsPerWeekNumber = useMemo(() => {
