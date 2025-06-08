@@ -4,6 +4,7 @@ import {
   LanguageModelV1StreamPart,
 } from "@ai-sdk/provider";
 import { nanoid } from "nanoid";
+import { areAllBracesBalanced } from "./areAllBracesBalanced";
 
 export const objectStartSequence = " ```json\n";
 export const objectStopSequence = "\n```";
@@ -50,10 +51,10 @@ export function isToolCall(
     // If JSON parsing fails, check if it looks like an incomplete JSON object
     const trimmed = cleanContent.trim();
 
-    // If it doesn't end with }, it might be incomplete
-    if (!trimmed.endsWith("}")) return undefined;
+    if (!areAllBracesBalanced(trimmed)) {
+      return undefined;
+    }
 
-    // If it has both { and } but isn't valid JSON, it's malformed
     return false;
   }
 }
@@ -75,6 +76,7 @@ export class StreamAI extends TransformStream<
     let transforming = false;
     let toolCall: ToolCall | false | undefined = undefined;
     let enqueuedToolCall = false;
+    let finished = false;
 
     const reset = () => {
       buffer = "";
@@ -89,26 +91,27 @@ export class StreamAI extends TransformStream<
         });
       },
       transform: (_chunk, controller) => {
-        const chunk = cleanChunk(_chunk, buffer); // See: https://github.com/jeasonstudio/chrome-ai/issues/11
-        let bufferPlusChunk = buffer + chunk;
+        let chunk = cleanChunk(_chunk, buffer); // See: https://github.com/jeasonstudio/chrome-ai/issues/11
+        let newBuffer = buffer + chunk;
         if (options.mode.type === "object-json") {
           transforming =
-            bufferPlusChunk.startsWith(objectStartSequence) &&
-            !bufferPlusChunk.endsWith(objectStopSequence);
-          bufferPlusChunk = bufferPlusChunk.replace(
+            newBuffer.startsWith(objectStartSequence) &&
+            !newBuffer.endsWith(objectStopSequence);
+          newBuffer = newBuffer.replace(
             new RegExp("^" + objectStartSequence, "ig"),
             ""
           );
-          bufferPlusChunk = bufferPlusChunk.replace(
+          newBuffer = newBuffer.replace(
             new RegExp(objectStopSequence + "$", "ig"),
             ""
           );
         } else if (toolCall === undefined) {
-          const toolCallResult = isToolCall(bufferPlusChunk);
+          const toolCallResult = isToolCall(newBuffer);
           switch (toolCallResult) {
             case false:
               transforming = true;
               toolCall = false;
+              chunk = newBuffer;
               break;
             case undefined:
               break;
@@ -126,6 +129,12 @@ export class StreamAI extends TransformStream<
                 type: "tool-call",
                 ...toolCall,
               });
+              finished = true;
+              controller.enqueue({
+                type: "finish",
+                finishReason: "stop",
+                usage: { completionTokens: 0, promptTokens: 0 },
+              });
             } else {
               return;
             }
@@ -133,14 +142,17 @@ export class StreamAI extends TransformStream<
             controller.enqueue({ type: "text-delta", textDelta: chunk });
           }
         }
-        buffer = bufferPlusChunk;
+        buffer = newBuffer;
       },
       flush: (controller) => {
-        controller.enqueue({
-          type: "finish",
-          finishReason: "stop",
-          usage: { completionTokens: 0, promptTokens: 0 },
-        });
+        if (!finished) {
+          finished = true;
+          controller.enqueue({
+            type: "finish",
+            finishReason: "stop",
+            usage: { completionTokens: 0, promptTokens: 0 },
+          });
+        }
       },
     });
   }

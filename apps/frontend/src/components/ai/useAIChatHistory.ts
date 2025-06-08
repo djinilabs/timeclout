@@ -76,7 +76,6 @@ export const useAIChatHistory = () => {
         console.error("Error saving message", error);
         toast.error("Error saving message");
       } finally {
-        console.log("saved message", message);
         changedMessages.current = changedMessages.current.filter(
           (m) => m.id !== message.id
         );
@@ -130,6 +129,9 @@ export const useAIChatHistory = () => {
           .map((msg: AIChatMessage) => ({
             ...msg,
             timestamp: new Date(msg.timestamp),
+            isLoading: false,
+            isWarning: msg.isWarning || msg.isLoading,
+            content: msg.isLoading ? "Interrupted" : msg.content,
           }))
           .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
         setMessages(messages);
