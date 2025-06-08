@@ -16,7 +16,6 @@ import {
   LanguageModelV1TextPart,
   LanguageModelV1ToolCallPart,
   LanguageModelV1ToolResultPart,
-  UnsupportedFunctionalityError,
 } from "@ai-sdk/provider";
 import { StreamAI } from "./StreamAI";
 
@@ -44,10 +43,16 @@ const mapContent = (
   if (typeof content === "string") {
     return content;
   }
-  if (content.type !== "text") {
-    throw new Error(`Unsupported content type: ${content.type}`);
+  switch (content.type) {
+    case "text":
+      return content.text;
+    case "tool-call":
+      return `tool-call\n${JSON.stringify(content, null, 2)}\n`;
+    case "tool-result":
+      return `tool-result\n${JSON.stringify(content, null, 2)}\n`;
+    default:
+      throw new Error(`Unsupported content type: ${content.type}`);
   }
-  return content.text;
 };
 
 const mapAllContent = (content: LanguageModelV1Message["content"]): string => {
@@ -63,8 +68,9 @@ const mapMessage = (message: LanguageModelV1Message): string => {
     case "system":
       return content;
     case "assistant":
+      return `assistant\n${content}\n`;
     case "tool":
-      return `model\n${content}\n`;
+      return `tool\n${content}\n`;
     case "user":
     default:
       return `user\n${content}\n`;
@@ -77,8 +83,9 @@ const mapInitialPrompt = (prompt: LanguageModelMessage): string => {
     case "system":
       return content;
     case "assistant":
+      return `assistant\n${content}\n`;
     case "tool":
-      return `model\n${content}\n`;
+      return `tool\n${content}\n`;
     case "user":
     default:
       return `user\n${content}\n`;
@@ -90,21 +97,80 @@ const formatMessages = (
   initialPrompts: LanguageModelMessage[],
   messages: LanguageModelV1Message[]
 ): string => {
-  const formattedMessages = [
-    ...initialPrompts.map(mapInitialPrompt),
-    ...messages.map(mapMessage),
-  ];
+  const additionalSystemPrompts: LanguageModelMessage[] = [];
 
-  if (options.mode.type === "object-json") {
-    formattedMessages.unshift(
-      mapMessage({
+  if (options.responseFormat?.type === "json") {
+    additionalSystemPrompts.push({
+      role: "system",
+      content: [
+        {
+          type: "text",
+          value: `Throughout our conversation, always start your responses with "{" and end with "}", ensuring the output is a concise JSON object and strictly avoid including any comments, notes, explanations, or examples in your output.\nFor instance, if the JSON schema is {"type":"object","properties":{"someKey":{"type":"string"}},"required":["someKey"],"additionalProperties":false,"$schema":"http://json-schema.org/draft-07/schema#"}, your response should immediately begin with "{" and strictly end with "}", following the format: {"someKey": "someValue"}.\nAdhere to this format for all queries moving forward.`,
+        },
+      ],
+    });
+
+    if (options.responseFormat.description) {
+      additionalSystemPrompts.push({
         role: "system",
-        content: `Throughout our conversation, always start your responses with "{" and end with "}", ensuring the output is a concise JSON object and strictly avoid including any comments, notes, explanations, or examples in your output.\nFor instance, if the JSON schema is {"type":"object","properties":{"someKey":{"type":"string"}},"required":["someKey"],"additionalProperties":false,"$schema":"http://json-schema.org/draft-07/schema#"}, your response should immediately begin with "{" and strictly end with "}", following the format: {"someKey": "someValue"}.\nAdhere to this format for all queries moving forward.`,
-      })
-    );
+        content: [
+          {
+            type: "text",
+            value: `Your response should be a JSON object that conforms to the following schema: ${options.responseFormat.description}`,
+          },
+        ],
+      });
+    }
+
+    if (options.responseFormat.schema) {
+      additionalSystemPrompts.push({
+        role: "system",
+        content: [
+          {
+            type: "text",
+            value: `The JSON schema is\n${JSON.stringify(
+              options.responseFormat.schema,
+              null,
+              2
+            )}`,
+          },
+        ],
+      });
+    }
   }
 
-  return formattedMessages.join("\n\n");
+  if (
+    options.mode.type === "regular" &&
+    (options.mode.tools ?? []).length > 0
+  ) {
+    additionalSystemPrompts.push({
+      role: "system",
+      content: [
+        {
+          type: "text",
+          value:
+            'There are some tools available. You can use them by producing JSON like this: {"toolName": "tool_name", "args": {"tool_input_key": "tool_input_value"}}\n\nAvailable tools:',
+        },
+      ],
+    });
+    for (const tool of options.mode.tools!) {
+      additionalSystemPrompts.push({
+        role: "system",
+        content: [
+          {
+            type: "text",
+            value: JSON.stringify(tool, null, 2),
+          },
+        ],
+      });
+    }
+  }
+
+  return [
+    ...initialPrompts.map(mapInitialPrompt),
+    ...additionalSystemPrompts.map(mapInitialPrompt),
+    ...messages.map(mapMessage),
+  ].join("\n\n");
 };
 
 export class ChromeLocalLanguageModel implements LanguageModelV1 {
@@ -179,18 +245,13 @@ export class ChromeLocalLanguageModel implements LanguageModelV1 {
     request?: { body?: string };
     warnings?: Array<LanguageModelV1CallWarning>;
   }> {
-    if (["regular", "object-json"].indexOf(options.mode.type) < 0) {
-      throw new UnsupportedFunctionalityError({
-        functionality: `${options.mode.type} mode`,
-      });
-    }
-
     const session = await this.session;
     const messages = formatMessages(
       options,
       this.initialPrompts,
       options.prompt
     );
+    console.log("messages", messages);
     const promptStream = session.promptStreaming(messages);
     const transformStream = new StreamAI(options);
     const stream = promptStream.pipeThrough(transformStream);

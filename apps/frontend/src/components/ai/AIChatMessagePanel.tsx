@@ -7,6 +7,7 @@ import { AIChatMessage } from "./useAIAgentChat";
 
 export const AIChatMessagePanel: FC<{ messages: AIChatMessage[] }> = memo(
   ({ messages }) => {
+    console.log("AIChatMessagePanel: messages", messages);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const scrollToBottom = useCallback(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -51,7 +52,10 @@ export const AIChatMessagePanel: FC<{ messages: AIChatMessage[] }> = memo(
                   <div
                     className={classNames(
                       "prose prose-sm",
-                      message.isUser && "text-white"
+                      (message.isUser ||
+                        message.isError ||
+                        message.isWarning) &&
+                        "text-white"
                     )}
                   >
                     <Markdown>{message.content}</Markdown>

@@ -35,7 +35,6 @@ export const AIChatPanel: FC = () => {
   const focusOnTextarea = useMemo(() => {
     return debounce(() => {
       setTimeout(() => {
-        console.log("focusing on textarea");
         if (textareaRef.current) {
           textareaRef.current.focus();
         }

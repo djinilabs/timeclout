@@ -3,6 +3,7 @@ import { CoreMessage, streamText } from "ai";
 import { UAParser } from "ua-parser-js";
 import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
 import { ChromeLocalLanguageModel } from "../../language-model/ChromeLocalLanguageModel";
+import { z } from "zod";
 
 export interface AIChatMessage {
   id: string;
@@ -232,12 +233,26 @@ export const useAIAgentChat = () => {
       const result = await streamText({
         model,
         messages: allMessages.map(messageToAIMessage),
+        tools: {
+          get_current_time: {
+            description: "Get the current time",
+            parameters: z.any(),
+            execute: async () => {
+              return {
+                time: new Date().toISOString(),
+              };
+            },
+          },
+        },
+        toolChoice: "auto",
+        maxSteps: 10,
         onError: ({ error }) => {
           handleError(error as Error, messageId);
         },
       });
 
-      const { textStream } = result;
+      console.log("result", result);
+      const { textStream, toolCalls, finishReason, toolResults } = result;
       let allTheText = "";
 
       for await (const textPart of textStream) {
@@ -251,13 +266,32 @@ export const useAIAgentChat = () => {
         });
       }
 
-      upsertMessage({
-        id: messageId,
-        content: allTheText,
-        isUser: false,
-        isLoading: false,
-        timestamp: new Date(),
-      });
+      for (const toolCall of Object.values(await toolCalls)) {
+        console.log("toolCall", toolCall);
+      }
+
+      for (const toolResult of Object.values(await toolResults)) {
+        console.log("toolResult", toolResult);
+      }
+
+      if ((await finishReason) === "error") {
+        handleError(
+          new Error("An error occurred while generating the response"),
+          messageId
+        );
+      }
+
+      console.log("text response:", allTheText);
+
+      if (allTheText) {
+        upsertMessage({
+          id: messageId,
+          content: allTheText,
+          isUser: false,
+          isLoading: false,
+          timestamp: new Date(),
+        });
+      }
     },
     [upsertMessage, messages, getModel, handleError]
   );
