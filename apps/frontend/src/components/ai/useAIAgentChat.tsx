@@ -30,11 +30,25 @@ export interface AIAgentChatResult {
   clearMessages: () => Promise<void>;
 }
 
+const INITIAL_SYSTEM_PROMPT = `
+You are a helpful assistant to the TT3 product (an application to help with team scheduling shifts).
+You are able to answer questions about the product and help with tasks.
+`;
+
 export const useAIAgentChat = (): AIAgentChatResult => {
   const { messages, saveNewMessage, clearMessages } = useAIChatHistory();
 
   const upsertMessage = useCallback(
     (message: AIChatMessage) => {
+      // filter unwanted preambles
+      if (
+        !message.isUser &&
+        message.content &&
+        typeof message.content === "string"
+      ) {
+        message.content = message.content.replace("assistant said:", "");
+        message.content = (message.content as string).replace("assistant:", "");
+      }
       // Save to IndexedDB after state update
       saveNewMessage(message).catch((error) => {
         toast.error("Error saving message to IndexedDB: " + error.message);
@@ -194,8 +208,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
               content: [
                 {
                   type: "text",
-                  value:
-                    "You are a helpful assistant to the TT3 product (an application to help with team scheduling shifts). You are able to answer questions about the product and help with tasks.",
+                  value: INITIAL_SYSTEM_PROMPT,
                 },
               ],
             },
@@ -224,19 +237,18 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       const messageId = crypto.randomUUID();
 
-      const aiMessage: AIChatMessage = {
-        id: messageId,
-        content: "",
-        isUser: false,
-        isLoading: true,
-        timestamp: new Date(),
-      };
-      upsertMessage(aiMessage);
-
       const model = getModel(messageId);
       if (!model) {
         return;
       }
+
+      upsertMessage({
+        id: messageId,
+        content: "Thinking...",
+        isUser: false,
+        isLoading: true,
+        timestamp: new Date(),
+      });
 
       const result = await streamText({
         model,
@@ -287,8 +299,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           messageId
         );
       }
-
-      console.log("text response:", allTheText);
 
       if (allTheText) {
         upsertMessage({

@@ -63,17 +63,20 @@ const mapAllContent = (content: LanguageModelV1Message["content"]): string => {
 };
 
 const mapMessage = (message: LanguageModelV1Message): string => {
+  if (!message.content) {
+    return "";
+  }
   const content = mapAllContent(message.content);
   switch (message.role) {
     case "system":
       return content;
     case "assistant":
-      return `assistant\n${content}\n`;
+      return `assistant said:\n${content}\n`;
     case "tool":
-      return `tool\n${content}\n`;
+      return `tool said:\n${content}\n`;
     case "user":
     default:
-      return `user\n${content}\n`;
+      return `user said:\n${content}\n`;
   }
 };
 

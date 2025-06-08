@@ -9,7 +9,6 @@ import { Hint } from "../particles/Hint";
 
 export const AIChatMessagePanel: FC<{ messages: AIChatMessage[] }> = memo(
   ({ messages }) => {
-    console.log("AIChatMessagePanel: messages", messages);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const scrollToBottom = useCallback(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -31,8 +30,8 @@ export const AIChatMessagePanel: FC<{ messages: AIChatMessage[] }> = memo(
             <div className="flex flex-col">
               <div
                 className={classNames(
-                  "text-xs mb-1 w-fit",
-                  message.isUser ? "text-right" : "text-left"
+                  "text-xs mb-1 w-fit text-gray-500",
+                  message.isUser ? "text-right ml-auto" : "text-left mr-auto"
                 )}
               >
                 <Hint hint={message.timestamp.toLocaleString()}>
@@ -41,11 +40,12 @@ export const AIChatMessagePanel: FC<{ messages: AIChatMessage[] }> = memo(
               </div>
               <div
                 className={classNames(
-                  "max-w-[80%] rounded-lg px-4 py-2",
+                  "max-w-[90%] rounded-lg px-4 py-2",
                   !message.isError &&
                     !message.isWarning &&
                     "bg-gray-100 text-gray-900",
-                  message.isUser && "bg-teal-600 text-white",
+                  message.isUser && "bg-teal-600 text-white ml-auto",
+                  !message.isUser && "mr-auto",
                   message.isError && "bg-red-600 text-white",
                   message.isWarning && "bg-yellow-600 text-white"
                 )}

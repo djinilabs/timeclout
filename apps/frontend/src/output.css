@@ -1124,6 +1124,9 @@
   .mr-16 {
     margin-right: calc(var(--spacing) * 16);
   }
+  .mr-auto {
+    margin-right: auto;
+  }
   .-mb-px {
     margin-bottom: -1px;
   }
@@ -1363,6 +1366,9 @@
   }
   .max-w-\[80\%\] {
     max-width: 80%;
+  }
+  .max-w-\[90\%\] {
+    max-width: 90%;
   }
   .max-w-\[260px\] {
     max-width: 260px;
@@ -2568,6 +2574,9 @@
   }
   .invert {
     --tw-invert: invert(100%);
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
+  .filter {
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
   .transition {
