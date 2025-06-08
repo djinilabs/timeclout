@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 const DB_NAME = "tt3-ai-chat";
 const STORE_NAME = "messages";
 const DB_VERSION = 1;
+const DEBOUNCE_TIME = 500;
 
 export const useAIChatHistory = () => {
   const [messages, setMessages] = useState<AIChatMessage[]>([]);
@@ -84,7 +85,7 @@ export const useAIChatHistory = () => {
   }, [upsertMessageInDb]);
 
   const saveChangedMessagesDebounced = useMemo(
-    () => debounce(saveChangedMessages, 1000),
+    () => debounce(saveChangedMessages, DEBOUNCE_TIME),
     [saveChangedMessages]
   );
 
