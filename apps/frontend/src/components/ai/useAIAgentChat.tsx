@@ -259,7 +259,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         },
       });
 
-      console.log("result", result);
       const { textStream, toolCalls, finishReason, toolResults } = result;
       let allTheText = "";
 
