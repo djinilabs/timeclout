@@ -347,6 +347,9 @@
   .bottom-4 {
     bottom: calc(var(--spacing) * 4);
   }
+  .bottom-32 {
+    bottom: calc(var(--spacing) * 32);
+  }
   .bottom-\[-4px\] {
     bottom: -4px;
   }

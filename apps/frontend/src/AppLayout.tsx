@@ -191,7 +191,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
                   <XMarkIcon className="size-6" aria-hidden="true" />
                 </button>
               </div>
-              <AIChatPanel />
+              <AIChatPanel onClose={() => setAIChatPanelOpen(false)} />
             </div>
           </div>
         </Transition>
@@ -214,7 +214,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
         <button
           type="button"
           onClick={() => setAIChatPanelOpen(!aiChatPanelOpen)}
-          className="no-print fixed opacity-50 hover:opacity-100 right-4 top-32 bg-teal-400 text-white rounded-full p-3 shadow-lg hover:bg-teal-500"
+          className="no-print fixed opacity-50 hover:opacity-100 right-4 bottom-4 bg-teal-400 text-white rounded-full p-3 shadow-lg hover:bg-teal-500"
         >
           <span className="sr-only">Toggle AI chat panel</span>
           {aiChatPanelOpen ? (

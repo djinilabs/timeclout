@@ -12,7 +12,11 @@ import { useAIAgentChat } from "./useAIAgentChat";
 import debounce from "lodash.debounce";
 import { AIChatMessagePanel } from "./AIChatMessagePanel";
 
-export const AIChatPanel: FC = () => {
+export interface AIChatPanelProps {
+  onClose: () => unknown;
+}
+
+export const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
   const { messages, handleUserMessageSubmit } = useAIAgentChat();
   const [inputValue, setInputValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -69,9 +73,12 @@ export const AIChatPanel: FC = () => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         handleSubmit(e);
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
       }
     },
-    [handleSubmit]
+    [handleSubmit, onClose]
   );
 
   return (
