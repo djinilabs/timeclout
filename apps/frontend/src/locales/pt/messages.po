@@ -466,34 +466,34 @@ msgstr "As atribuições das posições de turno foram removidas com sucesso"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:48
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:143
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:197
 msgid "By day"
 msgstr "Por dia"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:49
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:147
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:201
 msgid "By member"
 msgstr "Por membro"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:50
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:151
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:205
 msgid "By duration"
 msgstr "Por duração"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:114
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:113
 msgid "Shift positions assigned successfully"
 msgstr "Posições de turno atribuídas com sucesso"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:122
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:127
 msgid "Calendar"
 msgstr "Calendário"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:126
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:131
 msgid "Stats"
 msgstr "Estatísticas"
 
@@ -666,37 +666,37 @@ msgid "Please provide a reason for your leave request."
 msgstr "Por favor, forneça um motivo para sua solicitação de ausência."
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:304
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:306
 msgid "Leave conflict detected"
 msgstr "Detetado conflito com ausência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:310
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:312
 msgid "Maximum interval between shifts rule violated"
 msgstr "Regra de intervalo máximo entre turnos violada"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:319
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:321
 msgid "Minimum number of shifts per week in standard workday rule violated"
 msgstr "Violação da regra de número mínimo de turnos durante a semana de trabalho"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:328
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:330
 msgid "Minimum rest slots after shift rule violated"
 msgstr "Violação da regra de horas de descanso depois de turno"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:371
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:373
 msgid "Inconvenience Equality Deviation"
 msgstr "Desvio da Igualdade de Inconveniência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:383
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:385
 msgid "Slot Equality Deviation"
 msgstr "Desvio da Igualdade de número de Posições atribuidas"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:396
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:398
 msgid "Slot Proximity Equality Deviation"
 msgstr "Desvio da Igualdade de Proximidade"
 
@@ -726,7 +726,7 @@ msgstr "Adicionar um gerente"
 msgid "Add a new team member to the team."
 msgstr "Adicionar um novo membro à equipa."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:645
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:642
 msgid "Add position"
 msgstr "Adicionar posição"
 
@@ -746,7 +746,7 @@ msgstr "Adicionar qualificações"
 msgid "Add your personal information to help us identify you."
 msgstr "Adicione suas informações pessoais para nos ajudar a identificá-lo."
 
-#: apps/frontend/src/components/molecules/ContextualHelp.tsx:59
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:57
 msgid "Additional Information"
 msgstr "Informação Adicional"
 
@@ -758,7 +758,8 @@ msgstr "Ajuste estes parâmetros para controlar como a atribuição automática 
 msgid "All employees"
 msgstr "Todos os funcionários"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:691
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:688
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:361
 msgid "Analyze"
 msgstr "Analisar"
 
@@ -796,11 +797,11 @@ msgstr "Abril"
 msgid "Assign the managers for the workers in this unit:"
 msgstr "Atribua os gerentes para os trabalhadores nesta unidade:"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:491
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:492
 msgid "Assigned to"
 msgstr "Atribuído a"
 
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:145
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:150
 msgid "Assigning Shift Positions..."
 msgstr "Atribuindo posições de turno..."
 
@@ -817,7 +818,7 @@ msgstr "Atenção necessária"
 msgid "August"
 msgstr "Agosto"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:653
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:650
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillDialog.tsx:32
 msgid "Auto fill"
 msgstr "Auto preenchimento"
@@ -838,7 +839,7 @@ msgstr "Reservar Ausência da Empresa"
 msgid "Busy"
 msgstr "Ocupado"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:423
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:424
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
 msgstr "Guardando como modelo, pode reutilizá-lo para criar novas posições no futuro."
 
@@ -851,7 +852,7 @@ msgstr "Subscrições de calendário"
 #: apps/frontend/src/components/LeaveRequest.tsx:105
 #: apps/frontend/src/components/InviteToTeam.tsx:118
 #: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:75
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:519
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:520
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:259
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:259
 #: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:195
@@ -863,7 +864,7 @@ msgstr "Cancelar"
 msgid "Click the button below to accept the invitation."
 msgstr "Clique no botão abaixo para aceitar o convite."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:358
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:359
 msgid "Color"
 msgstr "Cor"
 
@@ -887,11 +888,11 @@ msgstr "Configure as configurações de cota anual de ausência para os funcion�
 msgid "conflict(s) when trying to search for a solution"
 msgstr "Conflito(s) enquanto pesquisando por solução"
 
-#: apps/frontend/src/components/molecules/ContextualHelp.tsx:85
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:83
 msgid "Contact our customer service team at"
 msgstr "Contactar o nosso serviço de apoio ao cliente em"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:240
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:242
 msgid "Copy"
 msgstr "Copiar"
 
@@ -966,7 +967,7 @@ msgid "Date range"
 msgstr "Intervalo de datas"
 
 #: apps/frontend/src/components/team-shifts/TeamShiftsSummary.tsx:95
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:442
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:443
 msgid "Day"
 msgstr "Dia"
 
@@ -982,11 +983,11 @@ msgstr "Deduz da cota anual"
 msgid "Default Yearly Quota (days)"
 msgstr "Cota anual padrão (dias)"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:275
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:277
 msgid "Delete"
 msgstr "Eliminar"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:681
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:678
 msgid "Details"
 msgstr "Detalhes"
 
@@ -999,7 +1000,7 @@ msgstr "Agendamentos descartados"
 #: apps/frontend/src/components/team/TeamMembers.tsx:129
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:60
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:133
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:225
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:227
 msgid "Edit"
 msgstr "Editar"
 
@@ -1037,7 +1038,7 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:594
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:591
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
@@ -1217,7 +1218,7 @@ msgstr "Julho"
 msgid "June"
 msgstr "Junho"
 
-#: apps/frontend/src/components/molecules/ContextualHelp.tsx:41
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:39
 msgid "Key Features"
 msgstr "Funcionalidades Principais"
 
@@ -1234,7 +1235,7 @@ msgstr "Tipo de ausência \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "Pedido de ausência não encontrado"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:671
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:668
 msgid "Leaves"
 msgstr "Ausências"
 
@@ -1246,7 +1247,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:590
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:587
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -1279,13 +1280,13 @@ msgstr "Março"
 msgid "May"
 msgstr "Maio"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:381
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:382
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:73
 #: apps/frontend/src/components/atoms/MonthlyCalendarPerMember.tsx:38
 msgid "Name"
 msgstr "Nome"
 
-#: apps/frontend/src/components/molecules/ContextualHelp.tsx:82
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:80
 msgid "Need More Help?"
 msgstr "Necessita de ajuda adicional?"
 
@@ -1385,7 +1386,7 @@ msgstr "Abrir menu de utilizador"
 msgid "Out of Office"
 msgstr "Fora de Escritório"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:256
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:258
 msgid "Paste here"
 msgstr "Colar aqui"
 
@@ -1423,6 +1424,10 @@ msgstr "Ano anterior"
 #: apps/frontend/src/components/personal/MeEdit.tsx:107
 msgid "Professional name"
 msgstr "Nome profissional"
+
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:298
+msgid "Qualifications"
+msgstr "Qualificações"
 
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:189
 #: apps/frontend/src/components/atoms/LeaveRequest.tsx:100
@@ -1482,10 +1487,6 @@ msgstr "Requerer um mínimo de turnos num dia de trabalho padrão para cada func
 msgid "Require minimum rest periods between shifts based on inconvenience scores"
 msgstr "Requerer um descanso mínimo entre turnos com base na pontuação de inconveniência"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:298
-msgid "Required qualifications"
-msgstr "Qualificações necessárias"
-
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:246
 msgid "Requires manager approval"
 msgstr "Requer aprovação do gestor"
@@ -1540,7 +1541,7 @@ msgstr "S"
 msgid "Save"
 msgstr "Guardar"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:419
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:420
 msgid "Save as template"
 msgstr "Guardar como modelo"
 
@@ -1549,7 +1550,7 @@ msgstr "Guardar como modelo"
 msgid "Save changes"
 msgstr "Guardar alterações"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:525
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:526
 #: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:183
 msgid "Save Changes"
 msgstr "Guardar alterações"
@@ -1558,11 +1559,11 @@ msgstr "Guardar alterações"
 msgid "Save Settings"
 msgstr "Guardar configurações"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:417
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:418
 msgid "Saving..."
 msgstr "A guardar..."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:328
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:329
 msgid "Schedule"
 msgstr "Horário"
 
@@ -1610,15 +1611,19 @@ msgstr "Selecionar utilizador"
 msgid "September"
 msgstr "Set a color to this position"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:361
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:362
 msgid "Set a color to this position"
 msgstr "Definir uma cor para esta posição"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:384
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:385
 msgid "Set a name to this position"
 msgstr "Definir um nome para esta posição"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:445
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:301
+msgid "Set any of the qualifications that can fill this position."
+msgstr "Definir qualquer das qualificações que podem preencher esta posição."
+
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:446
 msgid "Set the day for this position."
 msgstr "Definir o dia para esta posição."
 
@@ -1626,15 +1631,11 @@ msgstr "Definir o dia para esta posição."
 msgid "Set the default number of leave days allocated to each employee per year."
 msgstr "Definir o número padrão de dias de ausência atribuídos a cada funcionário por ano."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:301
-msgid "Set the qualifications required for this position."
-msgstr "Definir as qualificações necessárias para esta posição."
-
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:331
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:332
 msgid "Set the schedule for this position."
 msgstr "Definir o horário para esta posição."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:494
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:495
 msgid "Set the user assigned to this position."
 msgstr "Definir o utilizador atribuído a esta posição."
 
@@ -1650,11 +1651,11 @@ msgstr "Mostrar no calendário como"
 msgid "Show leave conflicts"
 msgstr "Mostrar conflitos com as ausências"
 
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:297
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:351
 msgid "Show leave schedule"
 msgstr "Mostrar o calendário de ausências"
 
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:287
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:341
 msgid "Show schedule details"
 msgstr "Mostrar detalhes"
 
@@ -1775,7 +1776,7 @@ msgstr "Para criar uma nova unidade, basta preencher o nome da unidade e clicar 
 msgid "Today"
 msgstr "Hoje"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:340
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:341
 msgid "Total inconvenience: {totalInconvenience}"
 msgstr "Inconveniência total: {totalInconvenience}"
 
@@ -1805,7 +1806,7 @@ msgstr "om"
 msgid "Unassign"
 msgstr "Remover atribuição"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:660
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:657
 msgid "Unassign positions"
 msgstr "Remover atribuições de posição"
 
@@ -1833,7 +1834,7 @@ msgstr "Usar modelo"
 msgid "Use template?"
 msgstr "Usar modelo?"
 
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:147
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:152
 msgid "Use this solution and assigning these shift Positions"
 msgstr "Usar esta solução e atribuir estes turnos"
 
