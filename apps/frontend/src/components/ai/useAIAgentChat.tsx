@@ -1,9 +1,11 @@
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useCallback } from "react";
 import { CoreMessage, streamText } from "ai";
 import { UAParser } from "ua-parser-js";
 import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
 import { ChromeLocalLanguageModel } from "../../language-model/ChromeLocalLanguageModel";
 import { z } from "zod";
+import { useAIChatHistory } from "./useAIChatHistory";
+import toast from "react-hot-toast";
 
 export interface AIChatMessage {
   id: string;
@@ -22,17 +24,24 @@ const messageToAIMessage = (message: AIChatMessage): CoreMessage => {
   };
 };
 
-export const useAIAgentChat = () => {
-  const upsertMessage = useCallback((message: AIChatMessage) => {
-    setMessages((prev) => {
-      const containsMessage = prev.some((m) => m.id === message.id);
-      if (containsMessage) {
-        return prev.map((m) => (m.id === message.id ? message : m));
-      } else {
-        return [...prev, message];
-      }
-    });
-  }, []);
+export interface AIAgentChatResult {
+  messages: AIChatMessage[];
+  handleUserMessageSubmit: (message: string) => Promise<void>;
+  clearMessages: () => Promise<void>;
+}
+
+export const useAIAgentChat = (): AIAgentChatResult => {
+  const { messages, saveNewMessage, clearMessages } = useAIChatHistory();
+
+  const upsertMessage = useCallback(
+    (message: AIChatMessage) => {
+      // Save to IndexedDB after state update
+      saveNewMessage(message).catch((error) => {
+        toast.error("Error saving message to IndexedDB: " + error.message);
+      });
+    },
+    [saveNewMessage]
+  );
 
   const handleError = useCallback(
     async (error: Error, messageId = crypto.randomUUID()) => {
@@ -199,7 +208,6 @@ export const useAIAgentChat = () => {
     },
     [handleError]
   );
-  const [messages, setMessages] = useState<AIChatMessage[]>([]);
 
   const handleUserMessageSubmit = useCallback(
     async (message: string) => {
@@ -296,5 +304,5 @@ export const useAIAgentChat = () => {
     [upsertMessage, messages, getModel, handleError]
   );
 
-  return { messages, handleUserMessageSubmit };
+  return { messages, handleUserMessageSubmit, clearMessages };
 };
