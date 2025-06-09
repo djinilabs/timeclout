@@ -286,27 +286,25 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
 
         return (
           <>
-            {showLeaveSchedule
-              ? leaves?.map((leave, leaveIndex) => (
-                  <Transition show={showLeaveSchedule} appear key={leaveIndex}>
-                    <div
-                      className={classNames(
-                        "p-2 border-gray-100 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
-                        leaveIndex === 0 && "border-t",
-                        leaveIndex === leaves.length - 1 && "border-b"
-                      )}
-                    >
-                      <MemberLeaveInCalendar
-                        member={leave.user}
-                        leave={leave}
-                        leaveIndex={leaveIndex}
-                        showName={false}
-                        showAvatar={false}
-                      />
-                    </div>
-                  </Transition>
-                ))
-              : null}
+            {leaves?.map((leave, leaveIndex) => (
+              <Transition show={showLeaveSchedule} appear key={leaveIndex}>
+                <div
+                  className={classNames(
+                    "p-2 border-gray-100 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                    leaveIndex === 0 && "border-t",
+                    leaveIndex === leaves.length - 1 && "border-b"
+                  )}
+                >
+                  <MemberLeaveInCalendar
+                    member={leave.user}
+                    leave={leave}
+                    leaveIndex={leaveIndex}
+                    showName={false}
+                    showAvatar={false}
+                  />
+                </div>
+              </Transition>
+            ))}
             {shiftPositionsForDay?.map((shiftPosition, shiftPositionIndex) => (
               <div
                 key={`shift-position-${shiftPositionIndex}`}
