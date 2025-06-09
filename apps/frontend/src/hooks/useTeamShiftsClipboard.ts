@@ -2,77 +2,82 @@ import { useCallback, useEffect, useState } from "react";
 import { ShiftPosition } from "libs/graphql/src/types.generated";
 import { useTeamShiftActions } from "./useTeamShiftActions";
 import { i18n } from "@lingui/core";
+import { shiftPositionKey } from "../utils/shiftPositionKey";
+
 type ShiftPositionWithFake = ShiftPosition & {
   fake?: boolean;
   fakeFrom?: string;
 };
 
 export const useTeamShiftsClipboard = (
-  selectedShiftPositions: ShiftPositionWithFake[],
+  selectedShiftPositionKeys: string[],
   selectedDay?: string
 ) => {
-  const [copyingShiftPositions, setCopyingShiftPositions] = useState<
-    ShiftPositionWithFake[] | null
+  const [copyingShiftPositionKeys, setCopyingShiftPositionKeys] = useState<
+    string[] | null
   >(null);
-  const [cuttingShiftPositions, setCuttingShiftPositions] = useState<
-    ShiftPositionWithFake[] | null
+  const [cuttingShiftPositionKeys, setCuttingShiftPositionKeys] = useState<
+    string[] | null
   >(null);
   const { copyShiftPosition, deleteShiftPosition } = useTeamShiftActions();
 
   const pasteShiftPositionFromClipboard = useCallback(
     async (day: string) => {
-      if (!copyingShiftPositions && !cuttingShiftPositions) {
+      if (!copyingShiftPositionKeys && !cuttingShiftPositionKeys) {
         return;
       }
-      for (const shiftPosition of copyingShiftPositions ?? []) {
-        copyShiftPosition(shiftPosition.pk, shiftPosition.sk, day);
+      for (const shiftPositionKey of copyingShiftPositionKeys ?? []) {
+        const [pk, sk] = shiftPositionKey.split("//");
+        await copyShiftPosition(pk, sk, day);
       }
-      for (const shiftPosition of cuttingShiftPositions ?? []) {
-        await copyShiftPosition(shiftPosition.pk, shiftPosition.sk, day);
-        await deleteShiftPosition(shiftPosition.pk, shiftPosition.sk);
+      for (const shiftPositionKey of cuttingShiftPositionKeys ?? []) {
+        const [pk, sk] = shiftPositionKey.split("//");
+        await copyShiftPosition(pk, sk, day);
+        await deleteShiftPosition(pk, sk);
       }
     },
     [
       copyShiftPosition,
-      copyingShiftPositions,
-      cuttingShiftPositions,
+      copyingShiftPositionKeys,
+      cuttingShiftPositionKeys,
       deleteShiftPosition,
     ]
   );
 
   const deleteShiftPositionsFromClipboard = useCallback(() => {
-    for (const shiftPosition of selectedShiftPositions) {
-      deleteShiftPosition(shiftPosition.pk, shiftPosition.sk);
+    for (const shiftPositionKey of selectedShiftPositionKeys) {
+      const [pk, sk] = shiftPositionKey.split("//");
+      deleteShiftPosition(pk, sk);
     }
-  }, [deleteShiftPosition, selectedShiftPositions]);
+  }, [deleteShiftPosition, selectedShiftPositionKeys]);
 
   // catch command-c
   useEffect(() => {
     const handleCopy = (e: KeyboardEvent) => {
       if (e.metaKey && e.key === "c") {
-        if (selectedShiftPositions.length) {
-          setCopyingShiftPositions(selectedShiftPositions);
+        if (selectedShiftPositionKeys.length) {
+          setCopyingShiftPositionKeys(selectedShiftPositionKeys);
         }
-        setCuttingShiftPositions([]);
+        setCuttingShiftPositionKeys([]);
       }
     };
     window.addEventListener("keydown", handleCopy);
     return () => window.removeEventListener("keydown", handleCopy);
-  }, [selectedShiftPositions]);
+  }, [selectedShiftPositionKeys]);
 
   // catch command-x
   useEffect(() => {
     const handleCopy = (e: KeyboardEvent) => {
       if (e.metaKey && e.key === "x") {
-        if (selectedShiftPositions.length) {
-          setCuttingShiftPositions(selectedShiftPositions);
-          setCopyingShiftPositions([]);
+        if (selectedShiftPositionKeys.length) {
+          setCuttingShiftPositionKeys(selectedShiftPositionKeys);
+          setCopyingShiftPositionKeys([]);
         }
       }
     };
     window.addEventListener("keydown", handleCopy);
     return () => window.removeEventListener("keydown", handleCopy);
-  }, [selectedShiftPositions]);
+  }, [selectedShiftPositionKeys]);
 
   // catch command-v
   useEffect(() => {
@@ -90,7 +95,7 @@ export const useTeamShiftsClipboard = (
     const handleDelete = async (e: KeyboardEvent) => {
       if (
         (e.key === "Backspace" || e.key === "Delete") &&
-        selectedShiftPositions.length > 0
+        selectedShiftPositionKeys.length > 0
       ) {
         if (
           confirm(
@@ -109,12 +114,12 @@ export const useTeamShiftsClipboard = (
     selectedDay,
     pasteShiftPositionFromClipboard,
     deleteShiftPositionsFromClipboard,
-    selectedShiftPositions.length,
+    selectedShiftPositionKeys.length,
   ]);
 
   const copyShiftPositionToClipboard = useCallback(
     (shiftPosition: ShiftPositionWithFake) => {
-      setCopyingShiftPositions([shiftPosition]);
+      setCopyingShiftPositionKeys([shiftPositionKey(shiftPosition)]);
     },
     []
   );
@@ -123,6 +128,6 @@ export const useTeamShiftsClipboard = (
     copyShiftPositionToClipboard,
     pasteShiftPositionFromClipboard,
     hasCopiedShiftPosition:
-      copyingShiftPositions && copyingShiftPositions?.length > 0,
+      copyingShiftPositionKeys && copyingShiftPositionKeys?.length > 0,
   };
 };

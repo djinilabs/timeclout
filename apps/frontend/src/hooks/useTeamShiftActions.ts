@@ -29,7 +29,6 @@ export const useTeamShiftActions = (): UseTeamShiftActions => {
   return {
     createShiftPosition: useCallback(
       async (input) => {
-        console.log("input:", input);
         const result = await createShiftPosition({ input });
         if (!result.error) {
           toast.success(i18n.t("Shift position created"));
@@ -41,7 +40,6 @@ export const useTeamShiftActions = (): UseTeamShiftActions => {
     ),
     updateShiftPosition: useCallback(
       async (input) => {
-        console.log("input:", input);
         const result = await updateShiftPosition({ input });
         if (!result.error) {
           toast.success(i18n.t("Shift position updated"));

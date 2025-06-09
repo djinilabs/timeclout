@@ -41,6 +41,7 @@ import { CreateOrEditScheduleShiftPositionDialog } from "./CreateOrEditScheduleS
 import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
 import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
 import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
+import { shiftPositionKey } from "../../utils/shiftPositionKey";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -125,26 +126,31 @@ export const TeamShiftsSchedule = () => {
 
   // ------- shift position selection -------
 
-  const [selectedShiftPositions, setSelectedShiftPositions] = useState<
-    ShiftPositionWithFake[]
+  const [selectedShiftPositionKeys, setSelectedShiftPositionKeys] = useState<
+    string[]
   >([]);
+
   const onShiftPositionClick = useCallback(
     (shiftPosition: ShiftPositionWithFake, ev: MouseEvent) => {
       if (ev.shiftKey) {
-        if (selectedShiftPositions.includes(shiftPosition)) {
-          setSelectedShiftPositions((shiftPositions) =>
-            shiftPositions.filter((pos) => pos !== shiftPosition)
+        if (
+          selectedShiftPositionKeys.includes(shiftPositionKey(shiftPosition))
+        ) {
+          setSelectedShiftPositionKeys((selectedShiftPositionKeys) =>
+            selectedShiftPositionKeys.filter(
+              (pos) => pos !== shiftPositionKey(shiftPosition)
+            )
           );
         } else {
-          setSelectedShiftPositions((shiftPositions) =>
-            shiftPositions.concat([shiftPosition])
+          setSelectedShiftPositionKeys((selectedShiftPositionKeys) =>
+            selectedShiftPositionKeys.concat([shiftPositionKey(shiftPosition)])
           );
         }
       } else {
-        setSelectedShiftPositions([shiftPosition]);
+        setSelectedShiftPositionKeys([shiftPositionKey(shiftPosition)]);
       }
     },
-    [selectedShiftPositions]
+    [selectedShiftPositionKeys]
   );
 
   // ------- clipboard -------
@@ -153,7 +159,7 @@ export const TeamShiftsSchedule = () => {
     copyShiftPositionToClipboard,
     pasteShiftPositionFromClipboard,
     hasCopiedShiftPosition,
-  } = useTeamShiftsClipboard(selectedShiftPositions, focusedDay);
+  } = useTeamShiftsClipboard(selectedShiftPositionKeys, focusedDay);
 
   const { deleteShiftPosition } = useTeamShiftActions();
 
@@ -421,7 +427,9 @@ export const TeamShiftsSchedule = () => {
                   }
                   deleteShiftPosition={deleteShiftPosition}
                   conflicts={hasConflict}
-                  isSelected={selectedShiftPositions.includes(shiftPosition)}
+                  isSelected={selectedShiftPositionKeys.includes(
+                    shiftPositionKey(shiftPosition)
+                  )}
                   showScheduleDetails={showScheduleDetails}
                 />
               </div>
@@ -441,7 +449,7 @@ export const TeamShiftsSchedule = () => {
       maxRowsPerWeekNumber,
       onShiftPositionClick,
       pasteShiftPositionFromClipboard,
-      selectedShiftPositions,
+      selectedShiftPositionKeys,
       setFocusedShiftPosition,
       shiftPositionsMap,
       showLeaveSchedule,
@@ -565,7 +573,9 @@ export const TeamShiftsSchedule = () => {
                 }
                 deleteShiftPosition={deleteShiftPosition}
                 conflicts={false}
-                isSelected={selectedShiftPositions.includes(shiftPosition)}
+                isSelected={selectedShiftPositionKeys.includes(
+                  shiftPositionKey(shiftPosition)
+                )}
                 showScheduleDetails={showScheduleDetails}
               />
             </div>
@@ -583,7 +593,7 @@ export const TeamShiftsSchedule = () => {
       memberShiftPositionsMap,
       onShiftPositionClick,
       pasteShiftPositionFromClipboard,
-      selectedShiftPositions,
+      selectedShiftPositionKeys,
       setFocusedShiftPosition,
       showLeaveSchedule,
       showScheduleDetails,

@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import toast from "react-hot-toast";
 import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import teamWithMembersQuery from "@/graphql-client/queries/teamWithMembers.graphql";
 import removeUserFromTeamMutation from "@/graphql-client/mutations/removeUserFromTeam.graphql";
@@ -165,6 +166,15 @@ export const TeamMembers = () => {
                     <MenuItem>
                       <a
                         onClick={async () => {
+                          if (
+                            !confirm(
+                              i18n.t(
+                                "Are you sure you want to remove this user from the team?"
+                              )
+                            )
+                          ) {
+                            return;
+                          }
                           const response = await removeUserFromTeam({
                             teamPk,
                             userPk: person.pk,

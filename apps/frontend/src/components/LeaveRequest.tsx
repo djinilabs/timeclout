@@ -76,6 +76,11 @@ export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
     if (!leaveRequest) {
       return;
     }
+    if (
+      !confirm(i18n.t("Are you sure you want to remove this leave request?"))
+    ) {
+      return;
+    }
     const result = await removeLeaveRequest({
       input: { pk: leaveRequest.pk, sk: leaveRequest.sk },
     });

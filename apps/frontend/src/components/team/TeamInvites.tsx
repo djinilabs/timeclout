@@ -3,6 +3,7 @@ import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 import invitationsToTeamQuery from "@/graphql-client/queries/invitationsToTeam.graphql";
 import deleteInvitationMutation from "@/graphql-client/mutations/deleteInvitation.graphql";
 import { Invitation, QueryInvitationsToArgs } from "../../graphql/graphql";
@@ -104,6 +105,15 @@ export const TeamInvites = () => {
                   <MenuItem>
                     <a
                       onClick={() => {
+                        if (
+                          !confirm(
+                            i18n.t(
+                              "Are you sure you want to revoke this invitation?"
+                            )
+                          )
+                        ) {
+                          return;
+                        }
                         deleteInvitation({
                           pk: invitation.pk,
                           sk: invitation.email,
