@@ -89,12 +89,14 @@ export const AllUserCompanies = () => {
               key={company.pk}
               className="flex items-center justify-between gap-x-6 py-5"
               role="listitem"
+              aria-label={`Company ${company.name}`}
             >
               <div className="min-w-0">
                 <div className="flex items-start gap-x-3">
                   <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
                     <Link
                       to={`/${company.pk}`}
+                      role="link"
                       aria-label={`View ${company.name} company details`}
                     >
                       {company.name}

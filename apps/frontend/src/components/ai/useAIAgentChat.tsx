@@ -1,11 +1,13 @@
 import { ReactNode, useCallback } from "react";
-import { CoreMessage, streamText } from "ai";
+import { CoreMessage, streamText, ToolCall, ToolContent } from "ai";
 import { UAParser } from "ua-parser-js";
 import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
 import { ChromeLocalLanguageModel } from "../../language-model/ChromeLocalLanguageModel";
 import { z } from "zod";
 import { useAIChatHistory } from "./useAIChatHistory";
 import toast from "react-hot-toast";
+import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
+import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 
 export interface AIChatMessage {
   id: string;
@@ -14,14 +16,47 @@ export interface AIChatMessage {
   isLoading?: boolean;
   isError?: boolean;
   isWarning?: boolean;
+  isToolCall?: boolean;
+  isToolResult?: boolean;
+  toolResult?: ToolContent;
+  toolCall?: ToolCall<string, unknown>;
   timestamp: Date;
 }
 
-const messageToAIMessage = (message: AIChatMessage): CoreMessage => {
-  return {
-    role: message.isUser ? "user" : "assistant",
-    content: message.content?.toString() ?? "",
-  };
+const chatMessageRoleToAIMessageRole = (
+  message: AIChatMessage
+): CoreMessage["role"] | undefined => {
+  if (message.isUser) {
+    return "user";
+  }
+  if (message.isToolResult) {
+    return "tool";
+  }
+  if (message.isToolCall) {
+    return undefined;
+  }
+  return "assistant";
+};
+
+const messageToAIMessage = (
+  message: AIChatMessage
+): CoreMessage | undefined => {
+  const role = chatMessageRoleToAIMessageRole(message);
+  if (!role) {
+    return undefined;
+  }
+  if (role === "user" || role === "assistant") {
+    return {
+      role,
+      content: message.content?.toString() ?? "",
+    };
+  }
+  if (role === "tool") {
+    return {
+      role,
+      content: message.toolResult ?? [],
+    };
+  }
 };
 
 export interface AIAgentChatResult {
@@ -252,15 +287,39 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       const result = await streamText({
         model,
-        messages: allMessages.map(messageToAIMessage),
+        messages: allMessages
+          .map(messageToAIMessage)
+          .filter((message): message is CoreMessage => message !== undefined),
         tools: {
-          get_current_time: {
-            description: "Get the current time",
+          describe_app_ui: {
+            description:
+              "Describe the current app UI. When using this tool you will able to answer user queries and navigate the application state.",
             parameters: z.any(),
-            execute: async () => {
-              return {
-                time: new Date().toISOString(),
-              };
+            execute: async () => generateAccessibilityObjectModel(document),
+          },
+          click_element: {
+            description:
+              "Click on the first element that matches the role and description. Can be used to navigate the application state to answer user queries.",
+            parameters: z.object({
+              role: z.string(),
+              description: z.string(),
+            }),
+            execute: async ({ role, description }) => {
+              const aom = generateAccessibilityObjectModel(document, true);
+              const element = findFirstElementInAOM(aom, role, description);
+              if (element) {
+                // click the element
+                if (element.domElement instanceof HTMLElement) {
+                  element.domElement.click();
+                } else {
+                  return {
+                    success: false,
+                    error: "Element is not an HTMLElement",
+                  };
+                }
+                return { success: true };
+              }
+              return { success: false, error: "Element not found" };
             },
           },
         },
@@ -286,11 +345,25 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       }
 
       for (const toolCall of Object.values(await toolCalls)) {
-        console.log("toolCall", toolCall);
+        upsertMessage({
+          id: messageId,
+          content: JSON.stringify(toolCall, null, 2),
+          toolCall: toolCall,
+          isUser: false,
+          isToolCall: true,
+          timestamp: new Date(),
+        });
       }
 
       for (const toolResult of Object.values(await toolResults)) {
-        console.log("toolResult", toolResult);
+        upsertMessage({
+          id: messageId,
+          content: JSON.stringify(toolResult, null, 2),
+          toolResult: [toolResult],
+          isUser: false,
+          isToolResult: true,
+          timestamp: new Date(),
+        });
       }
 
       if ((await finishReason) === "error") {
@@ -309,6 +382,8 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           timestamp: new Date(),
         });
       }
+
+      console.log("finishReason", finishReason);
     },
     [upsertMessage, messages, getModel, handleError]
   );

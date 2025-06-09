@@ -5,7 +5,8 @@ import { AccessibilityObjectModel, AccessibleElement } from "./types";
 
 // Only includes elements that have a role and description
 export const generateAccessibilityObjectModel = (
-  document: Document
+  document: Document,
+  includeDomElement: boolean = false
 ): AccessibilityObjectModel => {
   const traverseElement = (element: Element): AccessibleElement[] => {
     const role = element.getAttribute("role");
@@ -26,34 +27,24 @@ export const generateAccessibilityObjectModel = (
       // Collect all aria-* attributes
       const ariaAttributes: Record<string, string> = {};
       const ariaPrefix = "aria-";
-      console.log(
-        "Element attributes:",
-        Array.from(element.attributes).map((attr) => ({
-          name: attr.name,
-          value: attr.value,
-        }))
-      );
-
       for (const attr of element.attributes) {
         if (attr.name.startsWith(ariaPrefix)) {
           // Remove 'aria-' prefix and use the rest as the property name
           const propertyName = attr.name.slice(ariaPrefix.length);
           const value = element.getAttribute(attr.name);
-          console.log(`Processing ${attr.name}:`, { propertyName, value });
           if (value !== null) {
             ariaAttributes[propertyName] = value;
           }
         }
       }
 
-      console.log("Collected aria attributes:", ariaAttributes);
       const result = {
         role,
         description,
         children: children.length > 0 ? children : null,
         ...ariaAttributes,
+        domElement: includeDomElement ? element : undefined,
       };
-      console.log("Final element:", result);
       return [result];
     }
 
@@ -71,6 +62,7 @@ export const generateAccessibilityObjectModel = (
       role: "root",
       description: "root",
       children: accessibleChildren.length > 0 ? accessibleChildren : null,
+      domElement: includeDomElement ? document.body : undefined,
     };
   }
 
