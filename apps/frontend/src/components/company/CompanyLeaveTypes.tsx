@@ -3,14 +3,23 @@ import { Trans } from "@lingui/react/macro";
 import { LeaveTypes, leaveTypeParser } from "@/settings";
 import { getDefined } from "@/utils";
 import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
 import { useQuery } from "../../hooks/useQuery";
+import { useMutation } from "../../hooks/useMutation";
 import { leaveTypeColors, leaveTypeIcons } from "../../settings/leaveTypes";
-import { CompanySettingsArgs, Query } from "../../graphql/graphql";
+import {
+  CompanySettingsArgs,
+  Mutation,
+  MutationUpdateCompanySettingsArgs,
+  Query,
+} from "../../graphql/graphql";
 import { QueryCompanyArgs } from "../../graphql/graphql";
+import { toast } from "react-hot-toast";
+import { i18n } from "@lingui/core";
 
 export const CompanyLeaveTypes = () => {
   const { company: companyPk } = useParams();
-  const [companyWithSettingsQueryResponse] = useQuery<
+  const [companyWithSettingsQueryResponse, refetch] = useQuery<
     { company: Query["company"] },
     QueryCompanyArgs & CompanySettingsArgs
   >({
@@ -20,9 +29,42 @@ export const CompanyLeaveTypes = () => {
       name: "leaveTypes",
     },
   });
+
+  const [, updateCompanySettings] = useMutation<
+    Mutation["updateCompanySettings"],
+    MutationUpdateCompanySettingsArgs
+  >(updateCompanySettingsMutation);
+
   const company = companyWithSettingsQueryResponse?.data?.company;
   const leaveTypes: LeaveTypes | undefined =
     company?.settings && leaveTypeParser.parse(company.settings);
+
+  const handleDelete = async (leaveTypeName: string) => {
+    if (!leaveTypes) return;
+
+    if (
+      !confirm(
+        i18n.t(
+          "Are you sure you want to delete this leave type? This change is not reversible."
+        )
+      )
+    ) {
+      return;
+    }
+
+    const newLeaveTypes = leaveTypes.filter((lt) => lt.name !== leaveTypeName);
+    const response = await updateCompanySettings({
+      companyPk: getDefined(companyPk),
+      name: "leaveTypes",
+      settings: newLeaveTypes,
+    });
+
+    if (!response.error) {
+      toast.success(i18n.t("Leave type deleted"));
+      refetch();
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
       <p className="mt-1 text-sm/6 text-gray-600 py-5">
@@ -30,6 +72,14 @@ export const CompanyLeaveTypes = () => {
       </p>
       <div className="flex py-5">
         <div>
+          <div className="mb-4">
+            <Link
+              to={`/companies/${companyPk}/settings/leaveTypes/new`}
+              className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            >
+              <Trans>Create New Leave Type</Trans>
+            </Link>
+          </div>
           <ul
             role="list"
             className="divide-y divide-gray-100 max-w-fit shadow-md p-4"
@@ -59,6 +109,12 @@ export const CompanyLeaveTypes = () => {
                   >
                     <Trans>Edit</Trans>
                   </Link>
+                  <button
+                    onClick={() => handleDelete(leaveType.name)}
+                    className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-red-600 shadow-xs ring-1 ring-inset ring-red-300 hover:bg-red-50"
+                  >
+                    <Trans>Delete</Trans>
+                  </button>
                 </div>
               </li>
             ))}

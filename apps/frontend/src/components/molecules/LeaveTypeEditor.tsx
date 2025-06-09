@@ -1,46 +1,63 @@
 import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import { Trans } from "@lingui/react/macro";
-import { leaveTypeParser } from "@/settings";
+import { LeaveType, leaveTypeParser } from "@/settings";
 import { IconPicker } from "../particles/IconPicker";
 import { ColorPicker } from "../atoms/ColorPicker";
 
 export type LeaveTypeEditorProps = {
   settings: unknown;
   onSubmit: (values: unknown) => void;
+  onCancel: () => void;
+  creating?: boolean;
 };
+
+const defaultLeaveType: () => LeaveType = () => ({
+  name: "New Leave Type",
+  icon: "umbrella",
+  color: "blue",
+  showInCalendarAs: "busy",
+  visibleTo: "employees",
+  deductsFromAnnualAllowance: true,
+  needsManagerApproval: true,
+});
 
 export const LeaveTypeEditor = ({
   settings,
   onSubmit,
+  onCancel,
+  creating = false,
 }: LeaveTypeEditorProps) => {
   const leaveTypes = leaveTypeParser.parse(settings);
   const { settingId } = useParams();
-  const leaveType = leaveTypes.find(
-    (leaveType) => leaveType.name === settingId
-  );
+  const leaveType: LeaveType = creating
+    ? defaultLeaveType()
+    : leaveTypes.find((leaveType) => leaveType.name === settingId) ??
+      defaultLeaveType();
 
   const form = useForm({
     defaultValues: {
-      name: leaveType?.name,
-      icon: leaveType?.icon,
-      color: leaveType?.color,
-      showInCalendarAs: leaveType?.showInCalendarAs,
-      visibleTo: leaveType?.visibleTo,
-      deductsFromAnnualAllowance: leaveType?.deductsFromAnnualAllowance,
-      needsManagerApproval: leaveType?.needsManagerApproval,
+      name: leaveType?.name ?? "",
+      icon: leaveType?.icon ?? "calendar",
+      color: leaveType?.color ?? "blue",
+      showInCalendarAs: leaveType?.showInCalendarAs ?? "busy",
+      visibleTo: leaveType?.visibleTo ?? "employees",
+      deductsFromAnnualAllowance: leaveType?.deductsFromAnnualAllowance ?? true,
+      needsManagerApproval: leaveType?.needsManagerApproval ?? true,
     },
     onSubmit: ({ value }) => {
-      const newSettings = leaveTypes.map((leaveType) =>
-        leaveType.name === settingId ? value : leaveType
-      );
-      onSubmit(newSettings);
+      if (creating) {
+        onSubmit([...leaveTypes, value]);
+      } else {
+        const newSettings = leaveTypes.map((leaveType) =>
+          leaveType.name === settingId ? value : leaveType
+        );
+        onSubmit(newSettings);
+      }
     },
   });
 
-  console.log(leaveType);
-
-  if (!leaveType) {
+  if (!creating && !leaveType) {
     return null;
   }
 
@@ -55,10 +72,18 @@ export const LeaveTypeEditor = ({
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base/7 font-semibold text-gray-900">
-            <Trans>Leave Type "{leaveType.name}"</Trans>
+            {creating ? (
+              <Trans>Create New Leave Type</Trans>
+            ) : (
+              <Trans>Leave Type "{leaveType?.name}"</Trans>
+            )}
           </h2>
           <p className="mt-1 text-sm/6 text-gray-600">
-            <Trans>Edit the leave type "{leaveType.name}"</Trans>
+            {creating ? (
+              <Trans>Create a new leave type for your company</Trans>
+            ) : (
+              <Trans>Edit the leave type "{leaveType?.name}"</Trans>
+            )}
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -255,14 +280,18 @@ export const LeaveTypeEditor = ({
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" className="text-sm/6 font-semibold text-gray-900">
+        <button
+          onClick={onCancel}
+          type="button"
+          className="text-sm/6 font-semibold text-gray-900"
+        >
           <Trans>Cancel</Trans>
         </button>
         <button
           type="submit"
           className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
         >
-          <Trans>Save</Trans>
+          {creating ? <Trans>Create</Trans> : <Trans>Save</Trans>}
         </button>
       </div>
     </form>

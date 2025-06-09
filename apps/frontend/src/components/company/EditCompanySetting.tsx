@@ -17,7 +17,11 @@ import { LeaveTypeEditor } from "../molecules/LeaveTypeEditor";
 
 const settingEditor: Record<
   string,
-  React.FC<{ settings: unknown; onSubmit: (values: unknown) => void }>
+  React.FC<{
+    settings: unknown;
+    onSubmit: (values: unknown) => void;
+    onCancel: () => void;
+  }>
 > = {
   leaveTypes: LeaveTypeEditor,
 };
@@ -55,5 +59,13 @@ export const EditCompanySetting = () => {
     }
   };
 
-  return <Editor settings={settings} onSubmit={onSubmit} />;
+  return (
+    <Editor
+      settings={settings}
+      onSubmit={onSubmit}
+      onCancel={() =>
+        navigate(`/companies/${companyPk}?tab=settings&settingsTab=leave-types`)
+      }
+    />
+  );
 };

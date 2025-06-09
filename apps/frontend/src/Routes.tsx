@@ -25,6 +25,7 @@ const LazyEditTeamMember = lazy(() => import("./routes/EditTeamMember"));
 const LazyNewTeamMemberLeaveRequest = lazy(
   () => import("./routes/NewTeamMemberLeaveRequest")
 );
+const LazyCreateLeaveType = lazy(() => import("./routes/CreateLeaveType"));
 
 export const AppRoutes: FC = () => {
   return (
@@ -76,6 +77,10 @@ export const AppRoutes: FC = () => {
         <Route
           path="/companies/:company/settings/:settingName/:settingId"
           element={<LazyCompanySettings />}
+        />
+        <Route
+          path="/companies/:company/settings/leaveTypes/new"
+          element={<LazyCreateLeaveType />}
         />
         <Route path="/companies/:company/units/new" element={<LazyNewUnit />} />
         <Route
