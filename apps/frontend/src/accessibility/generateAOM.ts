@@ -33,7 +33,7 @@ export const generateAccessibilityObjectModel = (
           const propertyName = attr.name.slice(ariaPrefix.length);
           if (propertyName === "hidden") {
             hidden = true;
-            continue;
+            break;
           }
           const value = element.getAttribute(attr.name);
           if (value !== null) {
@@ -50,7 +50,7 @@ export const generateAccessibilityObjectModel = (
         role: role,
         description: description,
         attributes: ariaAttributes,
-        children: children.length > 0 ? children : null,
+        children,
         domElement: includeDomElement ? element : undefined,
       };
       return [result];
