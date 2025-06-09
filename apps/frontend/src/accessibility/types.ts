@@ -1,6 +1,7 @@
-export type AccessibleElement = Record<string, unknown> & {
-  role: string;
-  description: string;
+export type AccessibleElement = {
+  "aria-role": string;
+  "aria-description": string;
+  attributes: Record<string, string>;
   domElement?: Element;
   children: AccessibleElement[] | null;
 };

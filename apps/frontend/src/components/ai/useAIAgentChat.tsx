@@ -4,7 +4,6 @@ import { UAParser } from "ua-parser-js";
 import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
 import { ChromeLocalLanguageModel } from "../../language-model/ChromeLocalLanguageModel";
 import { useAIChatHistory } from "./useAIChatHistory";
-import toast from "react-hot-toast";
 import { tools } from "./tools";
 import { nanoid } from "nanoid";
 import { AIMessage } from "./types";
@@ -17,26 +16,18 @@ export interface AIAgentChatResult {
 
 const INITIAL_SYSTEM_PROMPT = `
 You are a helpful assistant that lives inside the TT3 product (an application to help with team scheduling shifts).
-You can interact with the TT3 product like if you were a user of the application.
+You can interact with the TT3 product like if you were a user of the application. You can look at the UI using the describe_app_ui tool. You can click on elements using the click_element tool and then looking again to the UI to see the changes.
 You should use the tools provided to you to answer questions and help with tasks.
 Don't plan, just act.
 If the user asks you to do something, you should try to use the provided tools.
-To use a tool, you need to provide a JSON object with the tool name and the arguments.
+To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.
 After you have received a tool-result, reply to the user in __plain english__ with your findings.
 `;
 
+const GENERATE_TIMEOUT_MS = 1000 * 60 * 5; // 5 minutes
+
 export const useAIAgentChat = (): AIAgentChatResult => {
   const { messages, saveNewMessage, clearMessages } = useAIChatHistory();
-
-  const upsertMessage = useCallback(
-    async (message: AIMessage) => {
-      // Save to IndexedDB after state update
-      saveNewMessage(message).catch((error) => {
-        toast.error("Error saving message to IndexedDB: " + error.message);
-      });
-    },
-    [saveNewMessage]
-  );
 
   const handleError = useCallback(
     async (error: Error, messageId = crypto.randomUUID()) => {
@@ -57,7 +48,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             // Is the LanguageModel object available?
             if (!("LanguageModel" in window)) {
               // Let's show a message to the user
-              await upsertMessage({
+              await saveNewMessage({
                 id: messageId,
                 message: {
                   role: "assistant",
@@ -95,7 +86,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
               });
               return;
             } else {
-              await upsertMessage({
+              await saveNewMessage({
                 id: messageId,
                 message: {
                   role: "assistant",
@@ -124,7 +115,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                   availability === "downloadable" ||
                   availability === "downloading"
                 ) {
-                  await upsertMessage({
+                  await saveNewMessage({
                     id: messageId,
                     message: {
                       role: "assistant",
@@ -151,7 +142,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             }
           }
         } else {
-          await upsertMessage({
+          await saveNewMessage({
             id: messageId,
             message: {
               role: "assistant",
@@ -180,7 +171,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         }
       }
 
-      await upsertMessage({
+      await saveNewMessage({
         id: messageId,
         message: {
           role: "assistant",
@@ -191,7 +182,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         timestamp: new Date(),
       });
     },
-    [upsertMessage]
+    [saveNewMessage]
   );
 
   const getModel = useCallback(
@@ -230,7 +221,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         },
       };
 
-      await upsertMessage(userMessage);
+      await saveNewMessage(userMessage);
 
       const allMessages = [...messages, userMessage];
 
@@ -241,7 +232,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         return;
       }
 
-      await upsertMessage({
+      await saveNewMessage({
         id: messageId,
         timestamp: new Date(),
         content: "Thinking...",
@@ -254,14 +245,21 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       let result: StreamTextResult<typeof tools, never> | undefined;
 
+      const abortController = new AbortController();
+
+      setTimeout(() => {
+        abortController.abort("Timeout");
+      }, GENERATE_TIMEOUT_MS);
+
       try {
         result = await streamText({
           model,
-          maxSteps: 10,
+          maxSteps: 5,
           messages: allMessages.map((message) => message.message),
           tools,
           toolChoice: "auto",
           toolCallStreaming: true,
+          abortSignal: abortController.signal,
           onError: ({ error }) => {
             handleError(error as Error, messageId);
           },
@@ -282,7 +280,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       for await (const textPart of textStream) {
         allTheText += textPart;
-        await upsertMessage({
+        await saveNewMessage({
           id: messageId,
           timestamp: new Date(),
           content: allTheText,
@@ -295,7 +293,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       }
 
       for (const toolCall of Object.values(await toolCalls)) {
-        await upsertMessage({
+        await saveNewMessage({
           id: messageId,
           timestamp: new Date(),
           content: JSON.stringify(toolCall, null, 2),
@@ -307,7 +305,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       }
 
       for (const toolResult of Object.values(await toolResults)) {
-        await upsertMessage({
+        await saveNewMessage({
           id: messageId,
           timestamp: new Date(),
           content: JSON.stringify(toolResult, null, 2),
@@ -319,7 +317,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       }
 
       if (allTheText) {
-        await upsertMessage({
+        await saveNewMessage({
           id: messageId,
           timestamp: new Date(),
           content: allTheText,
@@ -339,7 +337,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       }
       console.log("finishReason", finishReason);
     },
-    [upsertMessage, messages, getModel, handleError]
+    [saveNewMessage, messages, getModel, handleError]
   );
 
   return { messages, handleUserMessageSubmit, clearMessages };

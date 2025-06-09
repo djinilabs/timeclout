@@ -68,7 +68,7 @@ export const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
       const message = inputValue.trim();
       if (!message) return;
       setInputValue("");
-      handleUserMessageSubmit(message);
+      await handleUserMessageSubmit(message);
       focusOnTextarea();
     },
     [inputValue, handleUserMessageSubmit, focusOnTextarea]

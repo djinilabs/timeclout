@@ -1,7 +1,8 @@
+import { type ToolSet } from "ai";
 import z from "zod";
 import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
 import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
-import { ToolSet } from "ai";
+import { printAOM } from "../../accessibility/printAOM";
 
 export const tools: ToolSet = {
   describe_app_ui: {
@@ -10,20 +11,20 @@ export const tools: ToolSet = {
     parameters: z.any(),
     execute: async () => {
       const aom = generateAccessibilityObjectModel(document);
-      return {
-        success: true,
-        data: aom,
-      };
+      return printAOM(aom);
     },
   },
   click_element: {
     description:
-      "Click on the first element that matches the role and description that you got from the describe_app_ui tool. Can be used to navigate the application state to answer user queries.",
+      'Click on the first element that matches the role and the description (or label) for that element that you got from the describe_app_ui tool. Can be used to navigate the application state to answer user queries. The element needs the "clickable" attribute to be "true".',
     parameters: z.object({
-      role: z.string(),
-      description: z.string(),
+      "element-role": z.string(),
+      "element-description": z.string(),
     }),
-    execute: async ({ role, description }) => {
+    execute: async ({
+      "element-role": role,
+      "element-description": description,
+    }) => {
       const aom = generateAccessibilityObjectModel(document, true);
       const element = findFirstElementInAOM(aom, role, description);
       if (element) {
@@ -38,7 +39,10 @@ export const tools: ToolSet = {
         }
         return { success: true };
       }
-      return { success: false, error: "Element not found" };
+      return {
+        success: false,
+        error: `Element with the following role and description not found: role: ${role}, description: ${description}`,
+      };
     },
   },
 };

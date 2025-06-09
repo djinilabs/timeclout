@@ -5,7 +5,7 @@ const findFirstElement = (
   role: string,
   description: string
 ): AccessibleElement | undefined => {
-  if (root.role === role && root.description === description) {
+  if (root["aria-role"] === role && root["aria-description"] === description) {
     return root;
   }
   return root.children?.find((child) =>

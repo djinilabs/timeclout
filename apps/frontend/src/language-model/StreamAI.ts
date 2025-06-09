@@ -35,10 +35,6 @@ export function isToolCall(
 
   // Fail fast if content doesn't start with {
   if (!cleanContent.startsWith("{")) {
-    console.log(
-      "not a tool call because it doesn't start with {",
-      cleanContent
-    );
     return false;
   }
 
@@ -56,10 +52,6 @@ export function isToolCall(
   } catch {
     // If JSON parsing fails, check if it looks like an incomplete JSON object
     if (!areAllBracesBalanced(cleanContent)) {
-      console.log(
-        "not a tool call because it's not a complete JSON object",
-        cleanContent
-      );
       return undefined;
     }
 
@@ -118,7 +110,6 @@ export class StreamAI extends TransformStream<
           );
         } else if (toolCall === undefined) {
           const toolCallResult = isToolCall(newBuffer);
-          console.log("isToolCall?", toolCallResult);
           switch (toolCallResult) {
             case false:
               transforming = true;
@@ -142,15 +133,8 @@ export class StreamAI extends TransformStream<
                 type: "tool-call",
                 ...toolCall,
               });
-              finished = true;
-              controller.enqueue({
-                type: "finish",
-                finishReason: "stop",
-                usage: { completionTokens: 0, promptTokens: 0 },
-              });
-            } else {
-              return;
             }
+            return;
           } else {
             controller.enqueue({ type: "text-delta", textDelta: chunk });
           }

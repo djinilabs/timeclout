@@ -47,9 +47,9 @@ export const generateAccessibilityObjectModel = (
       }
 
       const result = {
-        role,
-        description,
-        ...ariaAttributes,
+        "aria-role": role,
+        "aria-description": description,
+        attributes: ariaAttributes,
         children: children.length > 0 ? children : null,
         domElement: includeDomElement ? element : undefined,
       };
@@ -67,8 +67,9 @@ export const generateAccessibilityObjectModel = (
     rootElement = accessibleChildren[0];
   } else {
     rootElement = {
-      role: "root",
-      description: "root",
+      "aria-role": "root",
+      "aria-description": "root",
+      attributes: {},
       children: accessibleChildren.length > 0 ? accessibleChildren : null,
       domElement: includeDomElement ? document.body : undefined,
     };

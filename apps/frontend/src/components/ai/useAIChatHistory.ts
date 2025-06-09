@@ -37,6 +37,8 @@ export const useAIChatHistory = () => {
   const upsertMessageInDb = useMemo(
     () =>
       async (message: AIMessage): Promise<void> => {
+        console.log("saving new message:", message);
+
         const db = await dbPromise;
         const transaction = db.transaction([STORE_NAME], "readwrite");
         const store = transaction.objectStore(STORE_NAME);
@@ -89,7 +91,7 @@ export const useAIChatHistory = () => {
   );
 
   const upsertMessage = useCallback(
-    async (message: AIMessage): Promise<void> => {
+    (message: AIMessage): void => {
       // add or update the message in the changedMessages list
       const existingMessageIndex = changedMessages.current.findIndex(
         (m) => m.id === message.id
@@ -104,8 +106,7 @@ export const useAIChatHistory = () => {
     [saveChangedMessagesDebounced]
   );
 
-  const saveNewMessage = async (message: AIMessage): Promise<void> => {
-    console.log("saving new message:", message);
+  const saveNewMessage = (message: AIMessage): void => {
     setMessages((prev) => {
       const exists = prev.some((m) => m.id === message.id);
       if (exists) {
@@ -115,7 +116,7 @@ export const useAIChatHistory = () => {
       }
     });
 
-    await upsertMessage(message);
+    upsertMessage(message);
   };
 
   const loadMessages = useCallback(async (): Promise<void> => {

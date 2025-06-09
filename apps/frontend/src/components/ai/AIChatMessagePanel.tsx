@@ -64,7 +64,11 @@ export const AIChatMessagePanel: FC<{ messages: AIMessage[] }> = memo(
                       <ExclamationTriangleIcon className="size-5" />
                     </span>
                   ) : null}
-                  {typeof message.content === "string" ? (
+                  {message.message.role === "tool" ? (
+                    <span className="inline-block bg-black text-white rounded px-2 py-1 text-xs font-semibold">
+                      tool&nbsp;call
+                    </span>
+                  ) : typeof message.content === "string" ? (
                     <div
                       className={classNames(
                         "prose prose-sm",
