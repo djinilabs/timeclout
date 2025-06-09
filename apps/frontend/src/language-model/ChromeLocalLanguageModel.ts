@@ -47,9 +47,9 @@ const mapContent = (
     case "text":
       return content.text;
     case "tool-call":
-      return `tool-call\n${JSON.stringify(content, null, 2)}\n`;
+      return JSON.stringify(content, null, 2);
     case "tool-result":
-      return `tool-result\n${JSON.stringify(content, null, 2)}\n`;
+      return JSON.stringify(content, null, 2);
     default:
       throw new Error(`Unsupported content type: ${content.type}`);
   }
@@ -73,7 +73,7 @@ const mapMessage = (message: LanguageModelV1Message): string => {
     case "assistant":
       return `you said:\n${content}\n`;
     case "tool":
-      return `tool said:\n${content}\n`;
+      return `tool responded:\n${content}\n`;
     case "user":
     default:
       return `user said:\n${content}\n`;

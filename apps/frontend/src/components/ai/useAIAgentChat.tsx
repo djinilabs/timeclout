@@ -29,7 +29,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   const { messages, saveNewMessage, clearMessages } = useAIChatHistory();
 
   const upsertMessage = useCallback(
-    (message: AIMessage) => {
+    async (message: AIMessage) => {
       // Save to IndexedDB after state update
       saveNewMessage(message).catch((error) => {
         toast.error("Error saving message to IndexedDB: " + error.message);
@@ -57,7 +57,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             // Is the LanguageModel object available?
             if (!("LanguageModel" in window)) {
               // Let's show a message to the user
-              upsertMessage({
+              await upsertMessage({
                 id: messageId,
                 message: {
                   role: "assistant",
@@ -95,7 +95,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
               });
               return;
             } else {
-              upsertMessage({
+              await upsertMessage({
                 id: messageId,
                 message: {
                   role: "assistant",
@@ -124,7 +124,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                   availability === "downloadable" ||
                   availability === "downloading"
                 ) {
-                  upsertMessage({
+                  await upsertMessage({
                     id: messageId,
                     message: {
                       role: "assistant",
@@ -151,7 +151,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             }
           }
         } else {
-          upsertMessage({
+          await upsertMessage({
             id: messageId,
             message: {
               role: "assistant",
@@ -180,7 +180,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         }
       }
 
-      upsertMessage({
+      await upsertMessage({
         id: messageId,
         message: {
           role: "assistant",
@@ -230,7 +230,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         },
       };
 
-      upsertMessage(userMessage);
+      await upsertMessage(userMessage);
 
       const allMessages = [...messages, userMessage];
 
@@ -241,7 +241,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         return;
       }
 
-      upsertMessage({
+      await upsertMessage({
         id: messageId,
         timestamp: new Date(),
         content: "Thinking...",
@@ -261,12 +261,13 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           messages: allMessages.map((message) => message.message),
           tools,
           toolChoice: "auto",
+          toolCallStreaming: true,
           onError: ({ error }) => {
             handleError(error as Error, messageId);
           },
         });
       } catch (error) {
-        handleError(error as Error, messageId);
+        await handleError(error as Error, messageId);
         return;
       }
 
@@ -281,7 +282,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       for await (const textPart of textStream) {
         allTheText += textPart;
-        upsertMessage({
+        await upsertMessage({
           id: messageId,
           timestamp: new Date(),
           content: allTheText,
@@ -294,7 +295,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       }
 
       for (const toolCall of Object.values(await toolCalls)) {
-        upsertMessage({
+        await upsertMessage({
           id: messageId,
           timestamp: new Date(),
           content: JSON.stringify(toolCall, null, 2),
@@ -306,7 +307,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       }
 
       for (const toolResult of Object.values(await toolResults)) {
-        upsertMessage({
+        await upsertMessage({
           id: messageId,
           timestamp: new Date(),
           content: JSON.stringify(toolResult, null, 2),
@@ -318,7 +319,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       }
 
       if (allTheText) {
-        upsertMessage({
+        await upsertMessage({
           id: messageId,
           timestamp: new Date(),
           content: allTheText,
@@ -331,7 +332,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       }
 
       if ((await finishReason) === "error") {
-        handleError(
+        await handleError(
           new Error("An error occurred while generating the response"),
           messageId
         );

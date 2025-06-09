@@ -49,8 +49,8 @@ export const generateAccessibilityObjectModel = (
       const result = {
         role,
         description,
-        children: children.length > 0 ? children : null,
         ...ariaAttributes,
+        children: children.length > 0 ? children : null,
         domElement: includeDomElement ? element : undefined,
       };
       return [result];
