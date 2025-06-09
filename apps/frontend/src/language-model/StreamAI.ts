@@ -25,7 +25,7 @@ export function isToolCall(
   const content = bufferedContent.trim();
 
   // Check if content starts with code block markers
-  const codeBlockStart = content.match(/^```(?:json|js)?\s*/i);
+  const codeBlockStart = content.match(/^```(\S*)?\s*/i);
   const cleanContent = (
     codeBlockStart ? content.slice(codeBlockStart[0].length) : content
   ).trim();

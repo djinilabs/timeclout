@@ -22,6 +22,7 @@ Don't plan, just act.
 If the user asks you to do something, you should try to use the provided tools.
 To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.
 After you have received a tool-result, reply to the user in __plain english__ with your findings.
+If a tool-result is not successful, you should try to use the tools again.
 `;
 
 const GENERATE_TIMEOUT_MS = 1000 * 60 * 5; // 5 minutes
@@ -254,7 +255,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       try {
         result = await streamText({
           model,
-          maxSteps: 5,
+          maxSteps: 10,
           messages: allMessages.map((message) => message.message),
           tools,
           toolChoice: "auto",

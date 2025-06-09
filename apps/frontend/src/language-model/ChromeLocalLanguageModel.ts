@@ -152,7 +152,7 @@ const formatMessages = (
         {
           type: "text",
           value:
-            'There are some tools available. You can use them by producing JSON like this: {"toolName": "tool_name", "args": {"tool_input_key": "tool_input_value"}}.\n\nAvailable tools:',
+            'There are some tools available. You can use them by producing JSON like this: {"toolName": "tool_name", "args": {"tool_input_key": "tool_input_value"}}.\n\nNo comments, just JSON.Available tools:',
         },
       ],
     });
