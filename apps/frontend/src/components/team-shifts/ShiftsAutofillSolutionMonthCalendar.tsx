@@ -112,7 +112,9 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
           (acc, shiftPosition) => acc + shiftPosition.rowSpan,
           0
         );
-        const dayLeaveRows = leaveSchedule?.[day]?.length ?? 0;
+        const dayLeaveRows = showLeaveSchedule
+          ? leaveSchedule?.[day]?.length ?? 0
+          : 0;
         const week = new DayDate(day).getWeekNumber();
         weekNumbers[week] = Math.max(
           weekNumbers[week] ?? 0,
@@ -120,7 +122,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
         );
       }
       return weekNumbers;
-    }, [leaveSchedule, assignedShiftPositions]);
+    }, [assignedShiftPositions, showLeaveSchedule, leaveSchedule]);
 
     const renderDay = useCallback(
       (day: Day) => {
@@ -137,7 +139,9 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
           <div
             className={classNames("h-full w-full grid")}
             style={{
-              gridTemplateRows: `repeat(${rowCount ?? shiftPositions.length}, 1fr)`,
+              gridTemplateRows: `repeat(${
+                rowCount ?? shiftPositions.length
+              }, 1fr)`,
             }}
           >
             {leaves?.map((leave, leaveIndex) => (
@@ -240,17 +244,14 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
                 (shiftPosition) => shiftPosition.assignedTo?.pk === member.pk
               )
             )
-            .reduce(
-              (acc, shiftPosition) => {
-                const day = shiftPosition.day;
-                if (!acc[day]) {
-                  acc[day] = [];
-                }
-                acc[day].push(shiftPosition);
-                return acc;
-              },
-              {} as Record<string, ShiftPositionWithRowSpan[]>
-            ),
+            .reduce((acc, shiftPosition) => {
+              const day = shiftPosition.day;
+              if (!acc[day]) {
+                acc[day] = [];
+              }
+              acc[day].push(shiftPosition);
+              return acc;
+            }, {} as Record<string, ShiftPositionWithRowSpan[]>),
         ])
       );
     }, [members, assignedShiftPositions]);
@@ -285,29 +286,31 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
 
         return (
           <>
-            {leaves?.map((leave, leaveIndex) => (
-              <Transition show={showLeaveSchedule} appear key={leaveIndex}>
-                <div
-                  className={classNames(
-                    "p-2 border-gray-100 row-span-2 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
-                    leaveIndex === 0 && "border-t",
-                    leaveIndex === leaves.length - 1 && "border-b"
-                  )}
-                >
-                  <MemberLeaveInCalendar
-                    member={leave.user}
-                    leave={leave}
-                    leaveIndex={leaveIndex}
-                    showName={false}
-                    showAvatar={false}
-                  />
-                </div>
-              </Transition>
-            ))}
+            {showLeaveSchedule
+              ? leaves?.map((leave, leaveIndex) => (
+                  <Transition show={showLeaveSchedule} appear key={leaveIndex}>
+                    <div
+                      className={classNames(
+                        "p-2 border-gray-100 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                        leaveIndex === 0 && "border-t",
+                        leaveIndex === leaves.length - 1 && "border-b"
+                      )}
+                    >
+                      <MemberLeaveInCalendar
+                        member={leave.user}
+                        leave={leave}
+                        leaveIndex={leaveIndex}
+                        showName={false}
+                        showAvatar={false}
+                      />
+                    </div>
+                  </Transition>
+                ))
+              : null}
             {shiftPositionsForDay?.map((shiftPosition, shiftPositionIndex) => (
               <div
                 key={`shift-position-${shiftPositionIndex}`}
-                className="row-span-3 transition-all duration-300 ease-in"
+                className="transition-all duration-300 ease-in"
               >
                 <ShiftPosition
                   lastRow={
