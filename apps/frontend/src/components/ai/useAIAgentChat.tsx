@@ -1,103 +1,35 @@
-import { ReactNode, useCallback } from "react";
-import {
-  CoreMessage,
-  streamText,
-  StreamTextResult,
-  ToolCall,
-  ToolContent,
-} from "ai";
+import { useCallback } from "react";
+import { streamText, StreamTextResult } from "ai";
 import { UAParser } from "ua-parser-js";
 import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
 import { ChromeLocalLanguageModel } from "../../language-model/ChromeLocalLanguageModel";
 import { useAIChatHistory } from "./useAIChatHistory";
 import toast from "react-hot-toast";
 import { tools } from "./tools";
-
-// Base message type that extends CoreMessage
-type BaseMessage = Omit<CoreMessage, "content"> & {
-  id: string;
-  timestamp: Date;
-  isLoading?: boolean;
-  isError?: boolean;
-  isWarning?: boolean;
-  isToolCall?: boolean;
-  isToolResult?: boolean;
-  toolResult?: ToolContent;
-  toolCall?: ToolCall<string, unknown>;
-};
-
-// Message with string content (for AI SDK)
-export type AIMessage = BaseMessage & {
-  content: string;
-};
-
-// Message with React content (for UI)
-export type ReactMessage = BaseMessage & {
-  content: ReactNode;
-};
-
-// Union type for all possible message types
-export type ExtendedCoreMessage = AIMessage | ReactMessage;
-
-const chatMessageRoleToAIMessageRole = (
-  message: ExtendedCoreMessage
-): CoreMessage["role"] | undefined => {
-  if (message.role === "user") {
-    return "user";
-  }
-  if (message.isToolResult) {
-    return "tool";
-  }
-  return "assistant";
-};
-
-const messageToAIMessage = (
-  message: ExtendedCoreMessage
-): CoreMessage | undefined => {
-  const role = chatMessageRoleToAIMessageRole(message);
-  if (!role) {
-    return undefined;
-  }
-  if (role === "user" || role === "assistant") {
-    // Convert ReactNode to string if needed
-    const content =
-      typeof message.content === "string"
-        ? message.content
-        : message.content?.toString() ?? "";
-    return {
-      role,
-      content,
-    };
-  }
-  if (role === "tool") {
-    return {
-      role,
-      content: message.toolResult ?? [],
-    };
-  }
-};
+import { nanoid } from "nanoid";
+import { AIMessage } from "./types";
 
 export interface AIAgentChatResult {
-  messages: ExtendedCoreMessage[];
+  messages: AIMessage[];
   handleUserMessageSubmit: (message: string) => Promise<void>;
   clearMessages: () => Promise<void>;
 }
 
 const INITIAL_SYSTEM_PROMPT = `
-You are a helpful assistant to the TT3 product (an application to help with team scheduling shifts).
-You are able to answer questions about the product and help with tasks.
+You are a helpful assistant that lives inside the TT3 product (an application to help with team scheduling shifts).
+You can interact with the TT3 product like if you were a user of the application.
 You should use the tools provided to you to answer questions and help with tasks.
-If the user asks you to do something, you should use the tools provided to you to do it.
+Don't plan, just act.
+If the user asks you to do something, you should try to use the provided tools.
 To use a tool, you need to provide a JSON object with the tool name and the arguments.
-After you have received a tool-result, reply to the user in text with your findings.
-You should always reply to the user in text, not JSON.
+After you have received a tool-result, reply to the user in __plain english__ with your findings.
 `;
 
 export const useAIAgentChat = (): AIAgentChatResult => {
   const { messages, saveNewMessage, clearMessages } = useAIChatHistory();
 
   const upsertMessage = useCallback(
-    (message: ExtendedCoreMessage) => {
+    (message: AIMessage) => {
       // Save to IndexedDB after state update
       saveNewMessage(message).catch((error) => {
         toast.error("Error saving message to IndexedDB: " + error.message);
@@ -127,7 +59,10 @@ export const useAIAgentChat = (): AIAgentChatResult => {
               // Let's show a message to the user
               upsertMessage({
                 id: messageId,
-                role: "assistant",
+                message: {
+                  role: "assistant",
+                  content: "Thinking...",
+                },
                 content: (
                   <div>
                     <p>
@@ -157,12 +92,15 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                 ),
                 isWarning: true,
                 timestamp: new Date(),
-              } as ReactMessage);
+              });
               return;
             } else {
               upsertMessage({
                 id: messageId,
-                role: "assistant",
+                message: {
+                  role: "assistant",
+                  content: "Thinking...",
+                },
                 content: (
                   <p>
                     Even though your browser is Chrome, it currently does not
@@ -172,7 +110,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                 ),
                 isWarning: true,
                 timestamp: new Date(),
-              } as ReactMessage);
+              });
               console.log("LanguageModel object is available");
               // The LanguageModel object is available
               const languageModel = window.LanguageModel as
@@ -188,7 +126,10 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                 ) {
                   upsertMessage({
                     id: messageId,
-                    role: "assistant",
+                    message: {
+                      role: "assistant",
+                      content: "Thinking...",
+                    },
                     content: (
                       <div>
                         <p>
@@ -203,7 +144,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                     ),
                     isWarning: true,
                     timestamp: new Date(),
-                  } as ReactMessage);
+                  });
                   return;
                 }
               }
@@ -212,7 +153,10 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         } else {
           upsertMessage({
             id: messageId,
-            role: "assistant",
+            message: {
+              role: "assistant",
+              content: "Thinking...",
+            },
             content: (
               <div>
                 <p>
@@ -231,18 +175,21 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             ),
             isWarning: true,
             timestamp: new Date(),
-          } as ReactMessage);
+          });
           return;
         }
       }
 
       upsertMessage({
         id: messageId,
-        role: "assistant",
+        message: {
+          role: "assistant",
+          content: "Error: " + error.message,
+        },
         content: "Error: " + error.message,
         isError: true,
         timestamp: new Date(),
-      } as AIMessage);
+      });
     },
     [upsertMessage]
   );
@@ -274,10 +221,13 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   const handleUserMessageSubmit = useCallback(
     async (message: string) => {
       const userMessage: AIMessage = {
-        id: crypto.randomUUID(),
-        role: "user",
+        id: nanoid(),
         content: message,
         timestamp: new Date(),
+        message: {
+          role: "user",
+          content: message,
+        },
       };
 
       upsertMessage(userMessage);
@@ -293,11 +243,14 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       upsertMessage({
         id: messageId,
-        role: "assistant",
+        timestamp: new Date(),
         content: "Thinking...",
         isLoading: true,
-        timestamp: new Date(),
-      } as AIMessage);
+        message: {
+          role: "assistant",
+          content: "Thinking...",
+        },
+      });
 
       let result: StreamTextResult<typeof tools, never> | undefined;
 
@@ -305,9 +258,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         result = await streamText({
           model,
           maxSteps: 10,
-          messages: allMessages
-            .map(messageToAIMessage)
-            .filter((message): message is CoreMessage => message !== undefined),
+          messages: allMessages.map((message) => message.message),
           tools,
           toolChoice: "auto",
           onError: ({ error }) => {
@@ -318,6 +269,8 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         handleError(error as Error, messageId);
         return;
       }
+
+      console.log("result", result);
 
       if (!result) {
         return;
@@ -330,33 +283,51 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         allTheText += textPart;
         upsertMessage({
           id: messageId,
-          role: "assistant",
+          timestamp: new Date(),
           content: allTheText,
           isLoading: true,
-          timestamp: new Date(),
-        } as AIMessage);
+          message: {
+            role: "assistant",
+            content: allTheText,
+          },
+        });
       }
 
       for (const toolCall of Object.values(await toolCalls)) {
         upsertMessage({
           id: messageId,
-          role: "assistant",
-          content: JSON.stringify(toolCall, null, 2),
-          toolCall: toolCall,
-          isToolCall: true,
           timestamp: new Date(),
-        } as AIMessage);
+          content: JSON.stringify(toolCall, null, 2),
+          message: {
+            role: "assistant",
+            content: JSON.stringify(toolCall, null, 2),
+          },
+        });
       }
 
       for (const toolResult of Object.values(await toolResults)) {
         upsertMessage({
           id: messageId,
-          role: "assistant",
-          content: JSON.stringify(toolResult, null, 2),
-          toolResult: [toolResult],
-          isToolResult: true,
           timestamp: new Date(),
-        } as AIMessage);
+          content: JSON.stringify(toolResult, null, 2),
+          message: {
+            role: "tool",
+            content: [toolResult],
+          },
+        });
+      }
+
+      if (allTheText) {
+        upsertMessage({
+          id: messageId,
+          timestamp: new Date(),
+          content: allTheText,
+          isLoading: false,
+          message: {
+            role: "assistant",
+            content: allTheText,
+          },
+        });
       }
 
       if ((await finishReason) === "error") {
@@ -365,17 +336,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           messageId
         );
       }
-
-      if (allTheText) {
-        upsertMessage({
-          id: messageId,
-          role: "assistant",
-          content: allTheText,
-          isLoading: false,
-          timestamp: new Date(),
-        } as AIMessage);
-      }
-
       console.log("finishReason", finishReason);
     },
     [upsertMessage, messages, getModel, handleError]

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ExtendedCoreMessage } from "./useAIAgentChat";
 import debounce from "lodash.debounce";
 import { toast } from "react-hot-toast";
+import { type AIMessage, isAiMessageValid } from "./types";
 
 const DB_NAME = "tt3-ai-chat";
 const STORE_NAME = "messages";
@@ -9,7 +9,7 @@ const DB_VERSION = 1;
 const DEBOUNCE_TIME = 500;
 
 export const useAIChatHistory = () => {
-  const [messages, setMessages] = useState<ExtendedCoreMessage[]>([]);
+  const [messages, setMessages] = useState<AIMessage[]>([]);
 
   const dbPromise: Promise<IDBDatabase> = useMemo(() => {
     return new Promise((resolve, reject) => {
@@ -36,7 +36,7 @@ export const useAIChatHistory = () => {
 
   const upsertMessageInDb = useMemo(
     () =>
-      async (message: ExtendedCoreMessage): Promise<void> => {
+      async (message: AIMessage): Promise<void> => {
         const db = await dbPromise;
         const transaction = db.transaction([STORE_NAME], "readwrite");
         const store = transaction.objectStore(STORE_NAME);
@@ -66,7 +66,7 @@ export const useAIChatHistory = () => {
     [dbPromise]
   );
 
-  const changedMessages = useRef<Array<ExtendedCoreMessage>>([]);
+  const changedMessages = useRef<Array<AIMessage>>([]);
 
   const saveChangedMessages = useCallback(async (): Promise<void> => {
     for (const message of changedMessages.current) {
@@ -89,7 +89,7 @@ export const useAIChatHistory = () => {
   );
 
   const upsertMessage = useCallback(
-    async (message: ExtendedCoreMessage): Promise<void> => {
+    async (message: AIMessage): Promise<void> => {
       // add or update the message in the changedMessages list
       const existingMessageIndex = changedMessages.current.findIndex(
         (m) => m.id === message.id
@@ -104,9 +104,7 @@ export const useAIChatHistory = () => {
     [saveChangedMessagesDebounced]
   );
 
-  const saveNewMessage = async (
-    message: ExtendedCoreMessage
-  ): Promise<void> => {
+  const saveNewMessage = async (message: AIMessage): Promise<void> => {
     console.log("saving new message:", message);
     setMessages((prev) => {
       const exists = prev.some((m) => m.id === message.id);
@@ -129,7 +127,8 @@ export const useAIChatHistory = () => {
 
       request.onsuccess = () => {
         const messages = request.result
-          .map((msg: ExtendedCoreMessage) => ({
+          .filter(isAiMessageValid)
+          .map((msg: AIMessage) => ({
             ...msg,
             timestamp: new Date(msg.timestamp),
             isLoading: false,

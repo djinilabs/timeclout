@@ -6,7 +6,7 @@ import { ToolSet } from "ai";
 export const tools: ToolSet = {
   describe_app_ui: {
     description:
-      "Describes the current app UI. Use this to answer user queries and read the application state.",
+      "Describes the current app UI. Use this to answer user queries and read the application state, like the list of companies, units or teams. You can also use this to read the item being displayed on the page.",
     parameters: z.any(),
     execute: async () => {
       const aom = generateAccessibilityObjectModel(document);

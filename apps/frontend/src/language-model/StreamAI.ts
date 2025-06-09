@@ -99,6 +99,9 @@ export class StreamAI extends TransformStream<
         });
       },
       transform: (_chunk, controller) => {
+        if (finished) {
+          return;
+        }
         let chunk = cleanChunk(_chunk, buffer); // See: https://github.com/jeasonstudio/chrome-ai/issues/11
         let newBuffer = buffer + chunk;
         if (options.mode.type === "object-json") {
@@ -134,6 +137,7 @@ export class StreamAI extends TransformStream<
           if (toolCall) {
             if (!enqueuedToolCall) {
               enqueuedToolCall = true;
+              console.log("enqueueing tool call", toolCall);
               controller.enqueue({
                 type: "tool-call",
                 ...toolCall,

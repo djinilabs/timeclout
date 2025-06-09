@@ -3,11 +3,11 @@ import { classNames } from "../../utils/classNames";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Markdown from "react-markdown";
 import { FC, memo, useCallback, useEffect, useRef } from "react";
-import { ExtendedCoreMessage } from "./useAIAgentChat";
+import { type AIMessage } from "./types";
 import TimeAgo from "react-time-ago";
 import { Hint } from "../particles/Hint";
 
-export const AIChatMessagePanel: FC<{ messages: ExtendedCoreMessage[] }> = memo(
+export const AIChatMessagePanel: FC<{ messages: AIMessage[] }> = memo(
   ({ messages }) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const scrollToBottom = useCallback(() => {
@@ -24,14 +24,14 @@ export const AIChatMessagePanel: FC<{ messages: ExtendedCoreMessage[] }> = memo(
           <div
             key={message.id}
             className={`flex ${
-              message.role === "user" ? "justify-end" : "justify-start"
+              message.message.role === "user" ? "justify-end" : "justify-start"
             }`}
           >
             <div className="flex flex-col">
               <div
                 className={classNames(
                   "text-xs mb-1 w-fit text-gray-500",
-                  message.role === "user"
+                  message.message.role === "user"
                     ? "text-right ml-auto"
                     : "text-left mr-auto"
                 )}
@@ -46,8 +46,9 @@ export const AIChatMessagePanel: FC<{ messages: ExtendedCoreMessage[] }> = memo(
                   !message.isError &&
                     !message.isWarning &&
                     "bg-gray-100 text-gray-900",
-                  message.role === "user" && "bg-teal-600 text-white ml-auto",
-                  message.role !== "user" && "mr-auto",
+                  message.message.role === "user" &&
+                    "bg-teal-600 text-white ml-auto",
+                  message.message.role !== "user" && "mr-auto",
                   message.isError && "bg-red-600 text-white",
                   message.isWarning && "bg-yellow-600 text-white"
                 )}
@@ -67,7 +68,7 @@ export const AIChatMessagePanel: FC<{ messages: ExtendedCoreMessage[] }> = memo(
                     <div
                       className={classNames(
                         "prose prose-sm",
-                        (message.role === "user" ||
+                        (message.message.role === "user" ||
                           message.isError ||
                           message.isWarning) &&
                           "text-white"
