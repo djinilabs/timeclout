@@ -4,25 +4,11 @@ import { generateAccessibilityObjectModel } from "../../accessibility/generateAO
 import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 import { printAOM } from "../../accessibility/printAOM";
 
-// const mouseClickEvents = ["mousedown", "click", "mouseup"];
-// const simulateMouseClick = (element: HTMLElement) => {
-//   mouseClickEvents.forEach((mouseEventType) =>
-//     element.dispatchEvent(
-//       new MouseEvent(mouseEventType, {
-//         view: window,
-//         bubbles: true,
-//         cancelable: true,
-//         buttons: 1,
-//       })
-//     )
-//   );
-// };
-
 export const tools: ToolSet = {
   describe_app_ui: {
     description:
       "Describes the current app UI. Use this to answer user queries and read the application state, like the list of companies, units or teams. You can also use this to read the item being displayed on the page.",
-    parameters: z.any(),
+    parameters: z.object({}),
     execute: async () => {
       console.log("tool call: describe_app_ui");
       const aom = generateAccessibilityObjectModel(document);

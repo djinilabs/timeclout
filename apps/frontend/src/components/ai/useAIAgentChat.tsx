@@ -27,6 +27,8 @@ If a tool-result is not successful, you should try to use the tools again.
 
 const GENERATE_TIMEOUT_MS = 1000 * 60 * 5; // 5 minutes
 
+const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
+
 const google = createGoogleGenerativeAI({
   apiKey: "AIzaSyCYl7jq5nVl9nOyXLhVUcyePygyqfFu6is",
 });
@@ -193,7 +195,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   const getModel = useCallback(
     (forMessageId: string) => {
       try {
-        return google("gemini-2.5-flash-preview-05-20");
+        return google(MODEL_NAME);
       } catch (error) {
         handleError(error as Error, forMessageId);
         return null;

@@ -37,7 +37,9 @@ export const generateAccessibilityObjectModel = (
           }
           const value = element.getAttribute(attr.name);
           if (value !== null) {
-            ariaAttributes[propertyName] = value;
+            if (propertyName !== "label" || value !== description) {
+              ariaAttributes[propertyName] = value;
+            }
           }
         }
       }
