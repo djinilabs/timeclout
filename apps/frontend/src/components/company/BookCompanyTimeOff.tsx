@@ -128,6 +128,8 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
         e.stopPropagation();
         form.handleSubmit();
       }}
+      role="form"
+      aria-label={i18n.t("Book company time off form")}
     >
       <div className="leave-request-form grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
         <p className="mt-1 text-sm/6 text-gray-600 py-5">
@@ -158,6 +160,11 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                             checked={field.state.value === leaveType.name}
                             onChange={() => field.handleChange(leaveType.name)}
                             className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-teal-600 checked:bg-teal-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden"
+                            role="radio"
+                            aria-label={leaveType.name}
+                            aria-required="true"
+                            aria-checked={field.state.value === leaveType.name}
+                            aria-disabled={form.state.isSubmitting}
                           />
                           <label
                             htmlFor={leaveType.name}
@@ -199,6 +206,15 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                       id={field.name}
                       rows={4}
                       className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      role="textbox"
+                      aria-label={i18n.t("Reason for leave")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                     />
                   </div>
                 );

@@ -22,6 +22,7 @@ import { EditCountryAndRegion } from "../particles/EditCountryAndRegion";
 import { useQuery } from "../../hooks/useQuery";
 import { PermissionInput } from "../atoms/PermissionInput";
 import { FieldComponent } from "../types";
+import { i18n } from "@lingui/core";
 interface CreateOrEditTeamMemberProps {
   teamPk: string;
   memberPk?: string;
@@ -134,6 +135,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
         ev.stopPropagation();
         form.handleSubmit();
       }}
+      role="form"
       aria-label={
         memberPk ? "Edit Team Member Form" : "Create Team Member Form"
       }
@@ -192,6 +194,8 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                       type="text"
                       required
                       autoComplete="given-name"
+                      role="textbox"
+                      aria-label={i18n.t("Professional name")}
                       aria-required="true"
                       aria-invalid={field.state.meta.errors.length > 0}
                       aria-describedby={
@@ -242,6 +246,9 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                           ? `${field.name}-error`
                           : undefined
                       }
+                      role="textbox"
+                      aria-label={i18n.t("Email address")}
+                      aria-required="true"
                       className={`member-email-input col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
                         field.state.meta.errors.length > 0
                           ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
@@ -295,15 +302,17 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
           type="button"
           cancel
           onClick={onDone}
-          aria-label="Cancel team member changes"
+          ariaLabel={i18n.t("Cancel team member changes")}
         >
           <Trans>Cancel</Trans>
         </Button>
         <Button
           type="submit"
           className="member-submit-button"
-          aria-label={
-            memberPk ? "Save team member changes" : "Create new team member"
+          ariaLabel={
+            memberPk
+              ? i18n.t("Save team member changes")
+              : i18n.t("Create new team member")
           }
         >
           <Trans>Save</Trans>

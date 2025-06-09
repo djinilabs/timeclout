@@ -50,6 +50,8 @@ export const PageNewUnit = () => {
         e.stopPropagation();
         form.handleSubmit();
       }}
+      role="form"
+      aria-label="Create a new unit"
     >
       <div className="unit-form space-y-12">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
@@ -99,6 +101,15 @@ export const PageNewUnit = () => {
                               ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
                               : ""
                           }`}
+                          role="textbox"
+                          aria-label="Unit name"
+                          aria-required="true"
+                          aria-invalid={field.state.meta.errors.length > 0}
+                          aria-describedby={
+                            field.state.meta.errors.length > 0
+                              ? `${field.name}-error`
+                              : undefined
+                          }
                         />
                         {field.state.meta.errors.length > 0 ? (
                           <ExclamationCircleIcon
@@ -126,6 +137,9 @@ export const PageNewUnit = () => {
           onClick={() => navigate("/")}
           type="button"
           className="text-sm/6 font-semibold text-gray-900"
+          aria-label={i18n.t("Cancel")}
+          aria-clickable
+          role="button"
         >
           <Trans>Cancel</Trans>
         </button>
@@ -133,8 +147,11 @@ export const PageNewUnit = () => {
           type="submit"
           disabled={form.state.isSubmitting}
           className="unit-submit-button rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+          aria-label={i18n.t("Create unit")}
+          aria-clickable
+          role="button"
         >
-          <Trans>Create</Trans>
+          <Trans>Create unit</Trans>
         </button>
       </div>
     </form>

@@ -55,6 +55,7 @@ export const ListBox: FC<ListBoxProps> = memo(
                 value={option}
                 className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-focus:bg-teal-600 data-focus:text-white data-focus:outline-hidden"
                 aria-selected={option.key === selected}
+                aria-label={option.value}
               >
                 <span className="block truncate font-normal group-data-selected:font-semibold">
                   {option.value}

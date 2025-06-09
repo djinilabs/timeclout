@@ -113,6 +113,8 @@ export const CompanyWorkSchedule = () => {
             e.stopPropagation();
             form.handleSubmit();
           }}
+          role="form"
+          aria-label={i18n.t("Company work schedule form")}
         >
           <div className="space-y-6">
             <div>
@@ -137,6 +139,11 @@ export const CompanyWorkSchedule = () => {
                                 })
                               }
                               className="h-4 w-4 rounded-sm border-gray-300"
+                              role="checkbox"
+                              aria-label={day}
+                              aria-required="true"
+                              aria-checked={field.state.value.isWorkDay}
+                              aria-disabled={form.state.isSubmitting}
                             />
                             <span className="ml-3 text-sm capitalize">
                               {day}
@@ -154,6 +161,17 @@ export const CompanyWorkSchedule = () => {
                                   })
                                 }
                                 className="rounded-sm border-gray-300 text-sm"
+                                role="textbox"
+                                aria-label={i18n.t("Start time")}
+                                aria-required="true"
+                                aria-invalid={
+                                  field.state.meta.errors.length > 0
+                                }
+                                aria-describedby={
+                                  field.state.meta.errors.length > 0
+                                    ? `${field.name}-error`
+                                    : undefined
+                                }
                               />
                               <span className="text-sm text-gray-500">
                                 <Trans>to</Trans>
@@ -168,6 +186,12 @@ export const CompanyWorkSchedule = () => {
                                   })
                                 }
                                 className="rounded-sm border-gray-300 text-sm"
+                                role="textbox"
+                                aria-label={i18n.t("End time")}
+                                aria-required="true"
+                                aria-invalid={
+                                  field.state.meta.errors.length > 0
+                                }
                               />
                             </div>
                           )}
@@ -179,7 +203,7 @@ export const CompanyWorkSchedule = () => {
               </div>
             </div>
 
-            <Button type="submit">
+            <Button type="submit" ariaLabel={i18n.t("Save changes")}>
               <Trans>Save Changes</Trans>
             </Button>
           </div>

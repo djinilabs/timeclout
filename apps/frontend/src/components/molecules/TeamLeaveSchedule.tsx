@@ -63,12 +63,6 @@ export const TeamLeaveSchedule = memo(
                   member.pk
                 )}`}
                 className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                aria-label={i18n.t("Add leave request for {member} on {date}", {
-                  member: member.name,
-                  date: dayString,
-                })}
-                aria-clickable
-                role="link"
               >
                 <span className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
                   <span className="text-gray-600">+</span>

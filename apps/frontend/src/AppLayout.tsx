@@ -119,7 +119,12 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
             helpPanelOpen || aiChatPanelOpen
               ? {
                   paddingRight:
-                    width >= 1024 ? `${helpSideBarWidth}px` : undefined,
+                    width >= 1024
+                      ? `${
+                          (helpPanelOpen ? helpSideBarWidth : 0) +
+                          (aiChatPanelOpen ? 450 : 0)
+                        }px`
+                      : undefined,
                 }
               : {}
           }

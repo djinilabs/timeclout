@@ -221,6 +221,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
           ev.preventDefault();
           form.handleSubmit();
         }}
+        role="form"
         aria-label={
           editingShiftPosition
             ? "Edit schedule position form"
@@ -267,6 +268,9 @@ export const CreateOrEditScheduleShiftPosition: FC<
                               setUsingTemplate(true);
                             }
                           }}
+                          role="radio"
+                          aria-checked={usingTemplate}
+                          aria-label="Use template"
                           aria-labelledby="template-legend"
                         />
                         <label

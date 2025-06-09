@@ -68,6 +68,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
             e.stopPropagation();
             form.handleSubmit();
           }}
+          role="form"
           aria-label={i18n.t("Team invitation form")}
         >
           <div key="email" className="w-full sm:max-w-xs">
@@ -90,6 +91,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       placeholder="name@example.com"
+                      role="textbox"
                       aria-label={i18n.t("Email address")}
                       aria-required="true"
                       aria-invalid={field.state.meta.errors.length > 0}
@@ -131,6 +133,8 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
             type="submit"
             disabled={form.state.isSubmitting}
             aria-label={i18n.t("Send invitation")}
+            aria-clickable
+            role="button"
             className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 sm:ml-3 sm:mt-0 sm:w-auto"
           >
             <Trans>Invite</Trans>
@@ -138,7 +142,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
           <Button
             cancel
             onClick={onDone}
-            aria-label={i18n.t("Cancel invitation")}
+            ariaLabel={i18n.t("Cancel invitation")}
           >
             <Trans>Cancel</Trans>
           </Button>

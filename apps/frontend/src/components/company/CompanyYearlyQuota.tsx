@@ -79,6 +79,8 @@ export const CompanyYearlyQuota = () => {
             e.stopPropagation();
             form.handleSubmit();
           }}
+          role="form"
+          aria-label={i18n.t("Company yearly quota form")}
         >
           <div>
             <form.Field
@@ -106,6 +108,15 @@ export const CompanyYearlyQuota = () => {
                         field.handleChange(Number(e.target.value));
                       }}
                       value={field.state.value}
+                      role="combobox"
+                      aria-label={i18n.t("Reset month")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                     >
                       <option value={1}>
                         <Trans>January</Trans>
@@ -181,6 +192,15 @@ export const CompanyYearlyQuota = () => {
                       onChange={(e) => {
                         field.handleChange(Number(e.target.value));
                       }}
+                      role="textbox"
+                      aria-label={i18n.t("Default yearly quota")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                     />
                   </div>
                 </div>

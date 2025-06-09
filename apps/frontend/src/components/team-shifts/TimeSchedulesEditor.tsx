@@ -101,6 +101,7 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
                       Number(ev.target.value)
                     )
                   }
+                  role="spinbutton"
                   aria-label={`Inconvenience per hour for schedule ${
                     index + 1
                   }`}
@@ -116,6 +117,8 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
                     onChange(ensureTimeContinuity(newSchedules));
                   }}
                   aria-label={`Remove schedule ${index + 1}`}
+                  aria-clickable
+                  role="button"
                 >
                   <svg
                     className="h-5 w-5"
@@ -148,6 +151,8 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
             onChange(ensureTimeContinuity([...schedules, newSchedule]));
           }}
           aria-label="Add new time schedule"
+          aria-clickable
+          role="button"
         >
           <svg
             className="h-5 w-5"

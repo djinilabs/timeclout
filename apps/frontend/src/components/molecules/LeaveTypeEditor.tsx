@@ -4,6 +4,7 @@ import { Trans } from "@lingui/react/macro";
 import { leaveTypeParser } from "@/settings";
 import { IconPicker } from "../particles/IconPicker";
 import { ColorPicker } from "../atoms/ColorPicker";
+import { i18n } from "@lingui/core";
 
 export type LeaveTypeEditorProps = {
   settings: unknown;
@@ -51,6 +52,8 @@ export const LeaveTypeEditor = ({
         e.stopPropagation();
         form.handleSubmit();
       }}
+      role="form"
+      aria-label={i18n.t("Leave type editor form")}
     >
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
@@ -81,6 +84,15 @@ export const LeaveTypeEditor = ({
                         value={field.state.value}
                         className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-0 sm:text-sm/6"
                         onChange={(e) => field.handleChange(e.target.value)}
+                        role="textbox"
+                        aria-label={i18n.t("Leave type name")}
+                        aria-required="true"
+                        aria-invalid={field.state.meta.errors.length > 0}
+                        aria-describedby={
+                          field.state.meta.errors.length > 0
+                            ? `${field.name}-error`
+                            : undefined
+                        }
                       />
                     </div>
                   </div>
@@ -148,14 +160,35 @@ export const LeaveTypeEditor = ({
                         )
                       }
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm/6"
+                      role="combobox"
+                      aria-label={i18n.t("Show in calendar as")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                     >
-                      <option value="busy">
+                      <option
+                        role="option"
+                        aria-label={i18n.t("Busy")}
+                        value="busy"
+                      >
                         <Trans>Busy</Trans>
                       </option>
-                      <option value="available">
+                      <option
+                        role="option"
+                        aria-label={i18n.t("Available")}
+                        value="available"
+                      >
                         <Trans>Available</Trans>
                       </option>
-                      <option value="ooo">
+                      <option
+                        role="option"
+                        aria-label={i18n.t("Out of Office")}
+                        value="ooo"
+                      >
                         <Trans>Out of Office</Trans>
                       </option>
                     </select>
@@ -184,11 +217,28 @@ export const LeaveTypeEditor = ({
                         )
                       }
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm/6"
+                      role="combobox"
+                      aria-label={i18n.t("Visible to")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                     >
-                      <option value="managers">
+                      <option
+                        role="option"
+                        aria-label={i18n.t("Managers only")}
+                        value="managers"
+                      >
                         <Trans>Managers only</Trans>
                       </option>
-                      <option value="employees">
+                      <option
+                        role="option"
+                        aria-label={i18n.t("All employees")}
+                        value="employees"
+                      >
                         <Trans>All employees</Trans>
                       </option>
                     </select>
@@ -209,6 +259,15 @@ export const LeaveTypeEditor = ({
                         checked={field.state.value}
                         onChange={(e) => field.handleChange(e.target.checked)}
                         className="h-4 w-4 rounded-sm border-gray-300 text-teal-600 focus:ring-teal-600"
+                        role="checkbox"
+                        aria-label={i18n.t("Requires manager approval")}
+                        aria-required="true"
+                        aria-invalid={field.state.meta.errors.length > 0}
+                        aria-describedby={
+                          field.state.meta.errors.length > 0
+                            ? `${field.name}-error`
+                            : undefined
+                        }
                       />
                     </div>
                     <div className="ml-3 text-sm leading-6">
@@ -236,6 +295,16 @@ export const LeaveTypeEditor = ({
                         checked={field.state.value}
                         onChange={(e) => field.handleChange(e.target.checked)}
                         className="h-4 w-4 rounded-sm border-gray-300 text-teal-600 focus:ring-teal-600"
+                        role="checkbox"
+                        aria-checked={field.state.value}
+                        aria-label={i18n.t("Requires manager approval")}
+                        aria-required="true"
+                        aria-invalid={field.state.meta.errors.length > 0}
+                        aria-describedby={
+                          field.state.meta.errors.length > 0
+                            ? `${field.name}-error`
+                            : undefined
+                        }
                       />
                     </div>
                     <div className="ml-3 text-sm leading-6">
@@ -255,12 +324,21 @@ export const LeaveTypeEditor = ({
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" className="text-sm/6 font-semibold text-gray-900">
+        <button
+          type="button"
+          className="text-sm/6 font-semibold text-gray-900"
+          aria-label={i18n.t("Cancel")}
+          aria-clickable
+          role="button"
+        >
           <Trans>Cancel</Trans>
         </button>
         <button
           type="submit"
           className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+          aria-label={i18n.t("Save")}
+          aria-clickable
+          role="button"
         >
           <Trans>Save</Trans>
         </button>
