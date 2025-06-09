@@ -71,7 +71,7 @@ const mapMessage = (message: LanguageModelV1Message): string => {
     case "system":
       return content;
     case "assistant":
-      return `assistant said:\n${content}\n`;
+      return `you said:\n${content}\n`;
     case "tool":
       return `tool said:\n${content}\n`;
     case "user":

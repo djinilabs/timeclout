@@ -1,18 +1,22 @@
 import { ReactNode, useCallback } from "react";
-import { CoreMessage, streamText, ToolCall, ToolContent } from "ai";
+import {
+  CoreMessage,
+  streamText,
+  StreamTextResult,
+  ToolCall,
+  ToolContent,
+} from "ai";
 import { UAParser } from "ua-parser-js";
 import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
 import { ChromeLocalLanguageModel } from "../../language-model/ChromeLocalLanguageModel";
-import { z } from "zod";
 import { useAIChatHistory } from "./useAIChatHistory";
 import toast from "react-hot-toast";
-import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
-import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
+import { tools } from "./tools";
 
-export interface AIChatMessage {
+// Base message type that extends CoreMessage
+type BaseMessage = Omit<CoreMessage, "content"> & {
   id: string;
-  content: ReactNode;
-  isUser: boolean;
+  timestamp: Date;
   isLoading?: boolean;
   isError?: boolean;
   isWarning?: boolean;
@@ -20,35 +24,49 @@ export interface AIChatMessage {
   isToolResult?: boolean;
   toolResult?: ToolContent;
   toolCall?: ToolCall<string, unknown>;
-  timestamp: Date;
-}
+};
+
+// Message with string content (for AI SDK)
+export type AIMessage = BaseMessage & {
+  content: string;
+};
+
+// Message with React content (for UI)
+export type ReactMessage = BaseMessage & {
+  content: ReactNode;
+};
+
+// Union type for all possible message types
+export type ExtendedCoreMessage = AIMessage | ReactMessage;
 
 const chatMessageRoleToAIMessageRole = (
-  message: AIChatMessage
+  message: ExtendedCoreMessage
 ): CoreMessage["role"] | undefined => {
-  if (message.isUser) {
+  if (message.role === "user") {
     return "user";
   }
   if (message.isToolResult) {
     return "tool";
   }
-  if (message.isToolCall) {
-    return undefined;
-  }
   return "assistant";
 };
 
 const messageToAIMessage = (
-  message: AIChatMessage
+  message: ExtendedCoreMessage
 ): CoreMessage | undefined => {
   const role = chatMessageRoleToAIMessageRole(message);
   if (!role) {
     return undefined;
   }
   if (role === "user" || role === "assistant") {
+    // Convert ReactNode to string if needed
+    const content =
+      typeof message.content === "string"
+        ? message.content
+        : message.content?.toString() ?? "";
     return {
       role,
-      content: message.content?.toString() ?? "",
+      content,
     };
   }
   if (role === "tool") {
@@ -60,7 +78,7 @@ const messageToAIMessage = (
 };
 
 export interface AIAgentChatResult {
-  messages: AIChatMessage[];
+  messages: ExtendedCoreMessage[];
   handleUserMessageSubmit: (message: string) => Promise<void>;
   clearMessages: () => Promise<void>;
 }
@@ -68,22 +86,18 @@ export interface AIAgentChatResult {
 const INITIAL_SYSTEM_PROMPT = `
 You are a helpful assistant to the TT3 product (an application to help with team scheduling shifts).
 You are able to answer questions about the product and help with tasks.
+You should use the tools provided to you to answer questions and help with tasks.
+If the user asks you to do something, you should use the tools provided to you to do it.
+To use a tool, you need to provide a JSON object with the tool name and the arguments.
+After you have received a tool-result, reply to the user in text with your findings.
+You should always reply to the user in text, not JSON.
 `;
 
 export const useAIAgentChat = (): AIAgentChatResult => {
   const { messages, saveNewMessage, clearMessages } = useAIChatHistory();
 
   const upsertMessage = useCallback(
-    (message: AIChatMessage) => {
-      // filter unwanted preambles
-      if (
-        !message.isUser &&
-        message.content &&
-        typeof message.content === "string"
-      ) {
-        message.content = message.content.replace("assistant said:", "");
-        message.content = (message.content as string).replace("assistant:", "");
-      }
+    (message: ExtendedCoreMessage) => {
       // Save to IndexedDB after state update
       saveNewMessage(message).catch((error) => {
         toast.error("Error saving message to IndexedDB: " + error.message);
@@ -113,6 +127,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
               // Let's show a message to the user
               upsertMessage({
                 id: messageId,
+                role: "assistant",
                 content: (
                   <div>
                     <p>
@@ -140,14 +155,14 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                     </ol>
                   </div>
                 ),
-                isUser: false,
                 isWarning: true,
                 timestamp: new Date(),
-              });
+              } as ReactMessage);
               return;
             } else {
               upsertMessage({
                 id: messageId,
+                role: "assistant",
                 content: (
                   <p>
                     Even though your browser is Chrome, it currently does not
@@ -155,10 +170,9 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                     Chrome 127 or greater.
                   </p>
                 ),
-                isUser: false,
                 isWarning: true,
                 timestamp: new Date(),
-              });
+              } as ReactMessage);
               console.log("LanguageModel object is available");
               // The LanguageModel object is available
               const languageModel = window.LanguageModel as
@@ -174,6 +188,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                 ) {
                   upsertMessage({
                     id: messageId,
+                    role: "assistant",
                     content: (
                       <div>
                         <p>
@@ -186,10 +201,9 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                         <DownloadAILanguageModel />
                       </div>
                     ),
-                    isUser: false,
                     isWarning: true,
                     timestamp: new Date(),
-                  });
+                  } as ReactMessage);
                   return;
                 }
               }
@@ -198,6 +212,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         } else {
           upsertMessage({
             id: messageId,
+            role: "assistant",
             content: (
               <div>
                 <p>
@@ -214,21 +229,20 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                 </ol>
               </div>
             ),
-            isUser: false,
             isWarning: true,
             timestamp: new Date(),
-          });
+          } as ReactMessage);
           return;
         }
       }
 
       upsertMessage({
         id: messageId,
+        role: "assistant",
         content: "Error: " + error.message,
-        isUser: false,
         isError: true,
         timestamp: new Date(),
-      });
+      } as AIMessage);
     },
     [upsertMessage]
   );
@@ -259,10 +273,10 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
   const handleUserMessageSubmit = useCallback(
     async (message: string) => {
-      const userMessage: AIChatMessage = {
+      const userMessage: AIMessage = {
         id: crypto.randomUUID(),
+        role: "user",
         content: message,
-        isUser: true,
         timestamp: new Date(),
       };
 
@@ -279,56 +293,35 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       upsertMessage({
         id: messageId,
+        role: "assistant",
         content: "Thinking...",
-        isUser: false,
         isLoading: true,
         timestamp: new Date(),
-      });
+      } as AIMessage);
 
-      const result = await streamText({
-        model,
-        messages: allMessages
-          .map(messageToAIMessage)
-          .filter((message): message is CoreMessage => message !== undefined),
-        tools: {
-          describe_app_ui: {
-            description:
-              "Describe the current app UI. When using this tool you will able to answer user queries and navigate the application state.",
-            parameters: z.any(),
-            execute: async () => generateAccessibilityObjectModel(document),
+      let result: StreamTextResult<typeof tools, never> | undefined;
+
+      try {
+        result = await streamText({
+          model,
+          maxSteps: 10,
+          messages: allMessages
+            .map(messageToAIMessage)
+            .filter((message): message is CoreMessage => message !== undefined),
+          tools,
+          toolChoice: "auto",
+          onError: ({ error }) => {
+            handleError(error as Error, messageId);
           },
-          click_element: {
-            description:
-              "Click on the first element that matches the role and description. Can be used to navigate the application state to answer user queries.",
-            parameters: z.object({
-              role: z.string(),
-              description: z.string(),
-            }),
-            execute: async ({ role, description }) => {
-              const aom = generateAccessibilityObjectModel(document, true);
-              const element = findFirstElementInAOM(aom, role, description);
-              if (element) {
-                // click the element
-                if (element.domElement instanceof HTMLElement) {
-                  element.domElement.click();
-                } else {
-                  return {
-                    success: false,
-                    error: "Element is not an HTMLElement",
-                  };
-                }
-                return { success: true };
-              }
-              return { success: false, error: "Element not found" };
-            },
-          },
-        },
-        toolChoice: "auto",
-        maxSteps: 10,
-        onError: ({ error }) => {
-          handleError(error as Error, messageId);
-        },
-      });
+        });
+      } catch (error) {
+        handleError(error as Error, messageId);
+        return;
+      }
+
+      if (!result) {
+        return;
+      }
 
       const { textStream, toolCalls, finishReason, toolResults } = result;
       let allTheText = "";
@@ -337,33 +330,33 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         allTheText += textPart;
         upsertMessage({
           id: messageId,
+          role: "assistant",
           content: allTheText,
-          isUser: false,
           isLoading: true,
           timestamp: new Date(),
-        });
+        } as AIMessage);
       }
 
       for (const toolCall of Object.values(await toolCalls)) {
         upsertMessage({
           id: messageId,
+          role: "assistant",
           content: JSON.stringify(toolCall, null, 2),
           toolCall: toolCall,
-          isUser: false,
           isToolCall: true,
           timestamp: new Date(),
-        });
+        } as AIMessage);
       }
 
       for (const toolResult of Object.values(await toolResults)) {
         upsertMessage({
           id: messageId,
+          role: "assistant",
           content: JSON.stringify(toolResult, null, 2),
           toolResult: [toolResult],
-          isUser: false,
           isToolResult: true,
           timestamp: new Date(),
-        });
+        } as AIMessage);
       }
 
       if ((await finishReason) === "error") {
@@ -376,11 +369,11 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       if (allTheText) {
         upsertMessage({
           id: messageId,
+          role: "assistant",
           content: allTheText,
-          isUser: false,
           isLoading: false,
           timestamp: new Date(),
-        });
+        } as AIMessage);
       }
 
       console.log("finishReason", finishReason);

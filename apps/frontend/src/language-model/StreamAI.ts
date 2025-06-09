@@ -26,15 +26,21 @@ export function isToolCall(
 
   // Check if content starts with code block markers
   const codeBlockStart = content.match(/^```(?:json|js)?\s*/i);
-  const cleanContent = codeBlockStart
-    ? content.slice(codeBlockStart[0].length)
-    : content;
+  const cleanContent = (
+    codeBlockStart ? content.slice(codeBlockStart[0].length) : content
+  ).trim();
 
   // If content is empty after removing markers, we're still undecided
   if (!cleanContent) return undefined;
 
   // Fail fast if content doesn't start with {
-  if (!cleanContent.trim().startsWith("{")) return false;
+  if (!cleanContent.startsWith("{")) {
+    console.log(
+      "not a tool call because it doesn't start with {",
+      cleanContent
+    );
+    return false;
+  }
 
   // Check if we have a complete JSON object
   try {
@@ -49,9 +55,11 @@ export function isToolCall(
     }
   } catch {
     // If JSON parsing fails, check if it looks like an incomplete JSON object
-    const trimmed = cleanContent.trim();
-
-    if (!areAllBracesBalanced(trimmed)) {
+    if (!areAllBracesBalanced(cleanContent)) {
+      console.log(
+        "not a tool call because it's not a complete JSON object",
+        cleanContent
+      );
       return undefined;
     }
 
@@ -107,6 +115,7 @@ export class StreamAI extends TransformStream<
           );
         } else if (toolCall === undefined) {
           const toolCallResult = isToolCall(newBuffer);
+          console.log("isToolCall?", toolCallResult);
           switch (toolCallResult) {
             case false:
               transforming = true;

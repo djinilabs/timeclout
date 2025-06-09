@@ -13,7 +13,6 @@ export const generateAccessibilityObjectModel = (
     const description =
       element.getAttribute("aria-label") ||
       element.getAttribute("aria-description") ||
-      element.textContent?.trim() ||
       "";
 
     // Process children first
@@ -22,20 +21,29 @@ export const generateAccessibilityObjectModel = (
       children.push(...traverseElement(child));
     }
 
-    // If this element has a role, include it
-    if (role) {
+    // If this element has a role and a description, include it
+    if (role && description) {
       // Collect all aria-* attributes
       const ariaAttributes: Record<string, string> = {};
       const ariaPrefix = "aria-";
+      let hidden = false;
       for (const attr of element.attributes) {
         if (attr.name.startsWith(ariaPrefix)) {
           // Remove 'aria-' prefix and use the rest as the property name
           const propertyName = attr.name.slice(ariaPrefix.length);
+          if (propertyName === "hidden") {
+            hidden = true;
+            continue;
+          }
           const value = element.getAttribute(attr.name);
           if (value !== null) {
             ariaAttributes[propertyName] = value;
           }
         }
+      }
+
+      if (hidden) {
+        return [];
       }
 
       const result = {

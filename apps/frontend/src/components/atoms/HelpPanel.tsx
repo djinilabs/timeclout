@@ -101,6 +101,7 @@ export const HelpPanel: FC<HelpPanelProps> = ({
           type="button"
           role="button"
           aria-label="Close help panel"
+          aria-hidden
           onClick={() => setHelpPanelOpen(false)}
           className="-m-2.5 p-2.5 text-gray-700"
         >
