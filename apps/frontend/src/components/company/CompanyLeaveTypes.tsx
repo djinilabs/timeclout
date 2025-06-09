@@ -56,6 +56,9 @@ export const CompanyLeaveTypes = () => {
                   <Link
                     to={`/companies/${companyPk}/settings/leaveTypes/${leaveType.name}`}
                     className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    aria-clickable
+                    role="link"
+                    aria-label={`Edit ${leaveType.name} leave type`}
                   >
                     <Trans>Edit</Trans>
                   </Link>

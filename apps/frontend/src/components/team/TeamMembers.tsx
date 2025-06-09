@@ -69,6 +69,8 @@ export const TeamMembers = () => {
                   <Link
                     to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
                     aria-label={`View profile of ${person.name}`}
+                    aria-clickable
+                    role="link"
                   >
                     <Avatar {...person} />
                   </Link>
@@ -79,6 +81,8 @@ export const TeamMembers = () => {
                       to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
                       className="hover:underline"
                       aria-label={`View profile of ${person.name}`}
+                      aria-clickable
+                      role="link"
                     >
                       {person.name}
                     </Link>
@@ -88,6 +92,8 @@ export const TeamMembers = () => {
                       href={`mailto:${person.email}`}
                       className="truncate hover:underline"
                       aria-label={`Send email to ${person.name} at ${person.email}`}
+                      aria-clickable
+                      role="link"
                     >
                       {person.email}
                     </a>
@@ -149,6 +155,8 @@ export const TeamMembers = () => {
                         to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
                         aria-label={`Edit ${person.name}'s profile`}
+                        aria-clickable
+                        role="link"
                       >
                         <Trans>Edit</Trans>
                         <span className="sr-only">, {person.name}</span>

@@ -109,6 +109,8 @@ export const AllUnitTeams = () => {
                     to={`/companies/${companyPk}/units/${unitPk}/${team.pk}`}
                     className="hover:underline"
                     aria-label={`View ${team.name} team details`}
+                    aria-clickable
+                    role="link"
                   >
                     {team.name}
                   </Link>
@@ -140,6 +142,8 @@ export const AllUnitTeams = () => {
                 to={`/companies/${companyPk}/${unit.pk}/${team.pk}`}
                 className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                 aria-label={`View ${team.name} team`}
+                aria-clickable
+                role="link"
               >
                 <Trans>View team</Trans>
                 <span className="sr-only">, {team.name}</span>
@@ -163,8 +167,9 @@ export const AllUnitTeams = () => {
                     <Link
                       to={`/companies/${companyPk}/${unit.pk}/${team.pk}`}
                       className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
-                      role="menuitem"
                       aria-label={`Edit ${team.name} team`}
+                      aria-clickable
+                      role="link"
                     >
                       <Trans>Edit</Trans>
                       <span className="sr-only">, {team.name}</span>

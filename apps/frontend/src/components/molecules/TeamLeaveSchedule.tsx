@@ -67,6 +67,8 @@ export const TeamLeaveSchedule = memo(
                   member: member.name,
                   date: dayString,
                 })}
+                aria-clickable
+                role="link"
               >
                 <span className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
                   <span className="text-gray-600">+</span>
@@ -77,6 +79,16 @@ export const TeamLeaveSchedule = memo(
             {leave &&
               (leave.leaveRequest ? (
                 <Link
+                  aria-clickable
+                  role="link"
+                  aria-label={i18n.t(
+                    "View {type} leave request for {member} on {date}",
+                    {
+                      type: leave.leaveRequest.type,
+                      member: member.name,
+                      date: dayString,
+                    }
+                  )}
                   to={`/${leave.leaveRequest.pk}/leave-requests/${
                     leave.leaveRequest.sk
                   }?callbackUrl=${encodeURIComponent(
@@ -89,14 +101,6 @@ export const TeamLeaveSchedule = memo(
                   style={{
                     backgroundColor: leave.color,
                   }}
-                  aria-label={i18n.t(
-                    "{type} leave request for {member} on {date}",
-                    {
-                      type: leave.leaveRequest.type,
-                      member: member.name,
-                      date: dayString,
-                    }
-                  )}
                 >
                   {leave.icon}
                 </Link>

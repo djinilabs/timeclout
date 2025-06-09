@@ -18,7 +18,7 @@ export const tools: ToolSet = {
   },
   click_element: {
     description:
-      "Click on the first element that matches the role and description. Can be used to navigate the application state to answer user queries.",
+      "Click on the first element that matches the role and description that you got from the describe_app_ui tool. Can be used to navigate the application state to answer user queries.",
     parameters: z.object({
       role: z.string(),
       description: z.string(),

@@ -104,6 +104,8 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
                 aria-current={
                   tab.href === currentTab?.href ? "page" : undefined
                 }
+                aria-clickable
+                aria-label={tab.name}
                 className={classNames(
                   tab.href === currentTab?.href
                     ? "border-teal-500 text-teal-600"

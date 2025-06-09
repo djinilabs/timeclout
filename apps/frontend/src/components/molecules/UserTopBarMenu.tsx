@@ -57,8 +57,9 @@ export const LoadingUserTopBarMenu = () => {
                 key={item.name}
                 to={item.href}
                 className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
-                role="menuitem"
                 aria-label={item.name}
+                aria-clickable
+                role="link"
               >
                 {item.name}
               </Link>

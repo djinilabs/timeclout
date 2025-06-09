@@ -152,6 +152,8 @@ const SideBar = ({
                       location.pathname === item.href ? "page" : undefined
                     }
                     aria-label={item.name}
+                    aria-clickable
+                    role="link"
                   >
                     <item.icon
                       aria-hidden="true"
@@ -183,6 +185,8 @@ const SideBar = ({
               title={!expanded ? "Settings" : undefined}
               onClick={onSelect}
               aria-label="Settings"
+              aria-clickable
+              role="link"
             >
               <Cog6ToothIcon
                 aria-hidden="true"

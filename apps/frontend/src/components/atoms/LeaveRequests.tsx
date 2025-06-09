@@ -45,7 +45,14 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
               <div className="flex shrink-0 items-center gap-x-4">
                 <div className="hidden sm:flex sm:flex-col sm:items-end">
                   <p className="text-sm/6 text-gray-900">
-                    <Link to={url}>{leaveRequest.type}</Link>
+                    <Link
+                      aria-clickable
+                      role="link"
+                      aria-label={`View ${leaveRequest.type} leave request`}
+                      to={url}
+                    >
+                      {leaveRequest.type}
+                    </Link>
                   </p>
                   <p className="mt-1 text-xs/5 text-gray-500">
                     <Trans>From</Trans> {leaveRequest.startDate}{" "}
@@ -65,7 +72,12 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
                     <ReactTimeAgo date={new Date(leaveRequest.createdAt)} />
                   </p>
                 </div>
-                <Link to={url}>
+                <Link
+                  aria-clickable
+                  role="link"
+                  aria-label={`View ${leaveRequest.type} leave request`}
+                  to={url}
+                >
                   <ChevronRightIcon
                     aria-hidden="true"
                     className="size-5 flex-none text-gray-400"

@@ -80,7 +80,14 @@ const AllCompanyUnits = () => {
             <div key="unit-name" className="min-w-0">
               <div key="unit-name-header" className="flex items-start gap-x-3">
                 <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
-                  <Link to={`/${company.pk}/${unit.pk}`}>{unit.name}</Link>
+                  <Link
+                    aria-clickable
+                    role="link"
+                    aria-label={`View ${unit.name} unit`}
+                    to={`/${company.pk}/${unit.pk}`}
+                  >
+                    {unit.name}
+                  </Link>
                 </p>
               </div>
               <div
@@ -111,6 +118,7 @@ const AllCompanyUnits = () => {
                 to={`/${company.pk}/${unit.pk}`}
                 className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                 aria-label={`View ${unit.name} unit`}
+                aria-clickable
               >
                 <Trans>View unit</Trans>
                 <span className="sr-only">, {unit.name}</span>
@@ -136,6 +144,7 @@ const AllCompanyUnits = () => {
                       className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
                       role="menuitem"
                       aria-label={`Edit ${unit.name}`}
+                      aria-clickable
                     >
                       <Trans>Edit</Trans>
                       <span className="sr-only">, {unit.name}</span>

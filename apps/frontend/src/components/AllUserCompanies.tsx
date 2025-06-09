@@ -98,6 +98,7 @@ export const AllUserCompanies = () => {
                       to={`/${company.pk}`}
                       role="link"
                       aria-label={`View ${company.name} company details`}
+                      aria-clickable
                     >
                       {company.name}
                     </Link>
@@ -129,6 +130,7 @@ export const AllUserCompanies = () => {
                   to={`/${company.pk}`}
                   className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                   aria-label={`View ${company.name} company details`}
+                  aria-clickable
                 >
                   <Trans>View company</Trans>
                   <span className="sr-only">, {company.name}</span>
@@ -157,6 +159,7 @@ export const AllUserCompanies = () => {
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
                         role="menuitem"
                         aria-label={`Edit ${company.name} company`}
+                        aria-clickable
                       >
                         <Trans>Edit</Trans>
                         <span className="sr-only">, {company.name}</span>

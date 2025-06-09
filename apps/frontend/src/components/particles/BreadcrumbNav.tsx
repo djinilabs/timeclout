@@ -19,6 +19,8 @@ export const BreadcrumbNav = () => {
               to="/companies"
               className="text-gray-400 hover:text-gray-500"
               aria-label="Go to home page"
+              aria-clickable
+              role="link"
             >
               <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
               <span className="sr-only">
@@ -44,6 +46,8 @@ export const BreadcrumbNav = () => {
                   to={`/${company.pk}`}
                   className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
                   aria-label={`Go to ${company.name} company`}
+                  aria-clickable
+                  role="link"
                 >
                   {company.name}
                 </Link>
@@ -66,6 +70,8 @@ export const BreadcrumbNav = () => {
                       to={`/${company.pk}/${unit.pk}`}
                       className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
                       aria-label={`Go to ${unit.name} unit`}
+                      aria-clickable
+                      role="link"
                     >
                       {unit.name}
                     </Link>
@@ -87,6 +93,8 @@ export const BreadcrumbNav = () => {
                         to={`/${company.pk}/${unit.pk}/${team.pk}`}
                         className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
                         aria-label={`Go to ${team.name} team`}
+                        aria-clickable
+                        role="link"
                       >
                         {team.name}
                       </Link>
