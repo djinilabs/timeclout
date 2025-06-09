@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { streamText, StreamTextResult } from "ai";
 import { UAParser } from "ua-parser-js";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
-import { ChromeLocalLanguageModel } from "../../language-model/ChromeLocalLanguageModel";
 import { useAIChatHistory } from "./useAIChatHistory";
 import { tools } from "./tools";
 import { nanoid } from "nanoid";
@@ -26,6 +26,10 @@ If a tool-result is not successful, you should try to use the tools again.
 `;
 
 const GENERATE_TIMEOUT_MS = 1000 * 60 * 5; // 5 minutes
+
+const google = createGoogleGenerativeAI({
+  apiKey: "AIzaSyCYl7jq5nVl9nOyXLhVUcyePygyqfFu6is",
+});
 
 export const useAIAgentChat = (): AIAgentChatResult => {
   const { messages, saveNewMessage, clearMessages } = useAIChatHistory();
@@ -189,19 +193,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   const getModel = useCallback(
     (forMessageId: string) => {
       try {
-        return new ChromeLocalLanguageModel("text", {
-          initialPrompts: [
-            {
-              role: "system",
-              content: [
-                {
-                  type: "text",
-                  value: INITIAL_SYSTEM_PROMPT,
-                },
-              ],
-            },
-          ],
-        });
+        return google("gemini-2.5-flash-preview-05-20");
       } catch (error) {
         handleError(error as Error, forMessageId);
         return null;
@@ -224,7 +216,19 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       await saveNewMessage(userMessage);
 
-      const allMessages = [...messages, userMessage];
+      const allMessages: AIMessage[] = [
+        {
+          id: nanoid(),
+          timestamp: new Date(),
+          content: <></>,
+          message: {
+            role: "system",
+            content: INITIAL_SYSTEM_PROMPT,
+          },
+        },
+        ...messages,
+        userMessage,
+      ];
 
       const messageId = crypto.randomUUID();
 
@@ -254,6 +258,11 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       try {
         result = await streamText({
+          providerOptions: {
+            google: {
+              apiKey: "AIzaSyCYl7jq5nVl9nOyXLhVUcyePygyqfFu6is",
+            },
+          },
           model,
           maxSteps: 10,
           messages: allMessages.map((message) => message.message),

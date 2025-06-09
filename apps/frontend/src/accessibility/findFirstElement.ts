@@ -5,12 +5,22 @@ const findFirstElement = (
   role: string,
   description: string
 ): AccessibleElement | undefined => {
-  if (root["aria-role"] === role && root["aria-description"] === description) {
+  if (root.role === role && root.description === description) {
     return root;
   }
-  return root.children?.find((child) =>
-    findFirstElement(child, role, description)
-  );
+
+  if (!root.children) {
+    return undefined;
+  }
+
+  for (const child of root.children) {
+    const found = findFirstElement(child, role, description);
+    if (found) {
+      return found;
+    }
+  }
+
+  return undefined;
 };
 
 export const findFirstElementInAOM = (

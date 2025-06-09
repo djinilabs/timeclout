@@ -100,11 +100,11 @@ describe("generateAccessibilityObjectModel", () => {
 
     console.log("Test - Button element:", button);
 
-    expect(button?.expanded).toBe("true");
-    expect(button?.controls).toBe("menu");
-    expect(button?.haspopup).toBe("true");
-    expect(button?.pressed).toBe("false");
-    expect(button?.disabled).toBe("true");
+    expect(button?.attributes["aria-expanded"]).toBe("true");
+    expect(button?.attributes["aria-controls"]).toBe("menu");
+    expect(button?.attributes["aria-haspopup"]).toBe("true");
+    expect(button?.attributes["aria-pressed"]).toBe("false");
+    expect(button?.attributes["aria-disabled"]).toBe("true");
 
     expect(button?.role).toBe("button");
     expect(button?.description).toBe("Menu Button");

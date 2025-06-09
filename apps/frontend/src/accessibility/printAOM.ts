@@ -11,15 +11,24 @@ export const printAccessibleElement = (
   indent: number
 ): string => {
   const indentString = " ".repeat(indent);
-  let result = `${indentString}<${element["aria-role"]} description="${
-    element["aria-description"]
-  }" ${printAttributes(element.attributes)}>\n`;
+  let result = `${indentString}<${element.role} description="${
+    element.description
+  }" ${printAttributes(element.attributes)}`;
+  let closed = false;
+  if (!element.children || element.children.length === 0) {
+    closed = true;
+    result += `/>\n`;
+  } else {
+    result += `>\n`;
+  }
   if (element.children) {
     for (const child of element.children) {
       result += printAccessibleElement(child, indent + 2);
     }
   }
-  result += `${indentString}</${element["aria-role"]}>\n`;
+  if (!closed) {
+    result += `${indentString}</${element.role}>\n`;
+  }
   return result;
 };
 
