@@ -16,7 +16,7 @@ msgstr ""
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/company/CreateLeaveType.tsx:51
 msgid "Leave type created"
-msgstr "Tipe de ausência criado"
+msgstr "Tipo de ausência criado"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:47
