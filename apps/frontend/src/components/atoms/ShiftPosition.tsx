@@ -197,7 +197,9 @@ export const ShiftPosition = memo(
               ? `${colors[shiftPosition.color]}${isSelected ? "88" : "22"}`
               : undefined,
             border: shiftPosition.color
-              ? `${focus ? "2" : "1"}px solid ${colors[shiftPosition.color]}${focus || isSelected ? "ff" : "22"}`
+              ? `${focus ? "2" : "1"}px solid ${colors[shiftPosition.color]}${
+                  focus || isSelected ? "ff" : "22"
+                }`
               : undefined,
             borderBottom:
               focus || lastRow ? undefined : `1px solid rgb(243 244 246)`,
