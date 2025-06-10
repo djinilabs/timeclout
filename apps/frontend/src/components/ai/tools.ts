@@ -4,7 +4,7 @@ import { generateAccessibilityObjectModel } from "../../accessibility/generateAO
 import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 import { printAOM } from "../../accessibility/printAOM";
 
-export const tools: ToolSet = {
+export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
   describe_app_ui: {
     description:
       "Describes the current app UI. Use this to answer user queries and read the application state, like the list of companies, units or teams. You can also use this to read the item being displayed on the page.",
@@ -45,6 +45,7 @@ export const tools: ToolSet = {
         if (element.domElement instanceof HTMLElement) {
           console.log("Clicking element", element.domElement);
           element.domElement.click();
+          await debounceActivity();
         } else {
           console.log("Element is not an HTMLElement", element);
           return {
@@ -67,4 +68,4 @@ export const tools: ToolSet = {
       };
     },
   },
-};
+});

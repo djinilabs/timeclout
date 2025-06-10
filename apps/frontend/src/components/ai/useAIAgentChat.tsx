@@ -1,12 +1,12 @@
 import { useCallback } from "react";
-import { streamText, StreamTextResult } from "ai";
+import { streamText, StreamTextResult, ToolSet } from "ai";
 import { UAParser } from "ua-parser-js";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
 import { useAIChatHistory } from "./useAIChatHistory";
-import { tools } from "./tools";
 import { nanoid } from "nanoid";
 import { AIMessage } from "./types";
+import { useAITools } from "./useAITools";
 
 export interface AIAgentChatResult {
   messages: AIMessage[];
@@ -35,6 +35,8 @@ const google = createGoogleGenerativeAI({
 
 export const useAIAgentChat = (): AIAgentChatResult => {
   const { messages, saveNewMessage, clearMessages } = useAIChatHistory();
+
+  const tools = useAITools();
 
   const handleError = useCallback(
     async (error: Error, messageId = crypto.randomUUID()) => {
@@ -250,7 +252,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         },
       });
 
-      let result: StreamTextResult<typeof tools, never> | undefined;
+      let result: StreamTextResult<ToolSet, never> | undefined;
 
       const abortController = new AbortController();
 
@@ -266,7 +268,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             },
           },
           model,
-          maxSteps: 10,
+          maxSteps: 20,
           messages: allMessages.map((message) => message.message),
           tools,
           toolChoice: "auto",
@@ -349,7 +351,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       }
       console.log("finishReason", finishReason);
     },
-    [saveNewMessage, messages, getModel, handleError]
+    [saveNewMessage, messages, getModel, tools, handleError]
   );
 
   return { messages, handleUserMessageSubmit, clearMessages };
