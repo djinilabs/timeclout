@@ -44,7 +44,6 @@
     --color-blue-700: oklch(48.8% 0.243 264.376);
     --color-blue-800: oklch(42.4% 0.199 265.638);
     --color-indigo-50: oklch(96.2% 0.018 272.314);
-    --color-indigo-500: oklch(58.5% 0.233 277.117);
     --color-indigo-600: oklch(51.1% 0.262 276.966);
     --color-indigo-700: oklch(45.7% 0.24 277.023);
     --color-violet-600: oklch(54.1% 0.281 293.009);
@@ -1253,9 +1252,6 @@
   .bg-indigo-50 {
     background-color: var(--color-indigo-50);
   }
-  .bg-indigo-600 {
-    background-color: var(--color-indigo-600);
-  }
   .bg-lime-50 {
     background-color: var(--color-lime-50);
   }
@@ -1587,10 +1583,6 @@
   .leading-6 {
     --tw-leading: calc(var(--spacing) * 6);
     line-height: calc(var(--spacing) * 6);
-  }
-  .leading-7 {
-    --tw-leading: calc(var(--spacing) * 7);
-    line-height: calc(var(--spacing) * 7);
   }
   .leading-none {
     --tw-leading: 1;
@@ -2290,13 +2282,6 @@
       }
     }
   }
-  .hover\:bg-indigo-500 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-indigo-500);
-      }
-    }
-  }
   .hover\:bg-indigo-600\/20 {
     &:hover {
       @media (hover: hover) {
@@ -2440,13 +2425,6 @@
       }
     }
   }
-  .hover\:text-red-500 {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-red-500);
-      }
-    }
-  }
   .hover\:text-teal-600 {
     &:hover {
       @media (hover: hover) {
@@ -2499,11 +2477,6 @@
     &:focus {
       --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
       box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-    }
-  }
-  .focus\:ring-indigo-600 {
-    &:focus {
-      --tw-ring-color: var(--color-indigo-600);
     }
   }
   .focus\:ring-teal-500 {
@@ -3053,12 +3026,6 @@
   .sm\:text-sm {
     @media (width >= 40rem) {
       font-size: var(--text-sm);
-    }
-  }
-  .sm\:leading-6 {
-    @media (width >= 40rem) {
-      --tw-leading: calc(var(--spacing) * 6);
-      line-height: calc(var(--spacing) * 6);
     }
   }
   .sm\:data-closed\:translate-y-0 {
