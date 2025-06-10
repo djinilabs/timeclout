@@ -1,4 +1,4 @@
-import type { Client, ClientOptions } from "urql";
+import type { Client, ClientOptions, Exchange } from "urql";
 import { fetchExchange, createClient as urqlCreateClient } from "urql";
 import { offlineExchange, Data, Entity } from "@urql/exchange-graphcache";
 import { makeDefaultStorage } from "@urql/exchange-graphcache/default-storage";
@@ -9,7 +9,13 @@ type WithSession = {
   session: Session;
 };
 
-const defaultClientOpts = (): ClientOptions => ({
+export interface AdditionalClientOptions {
+  additionalExchanges?: Exchange[];
+}
+
+const defaultClientOpts = ({
+  additionalExchanges = [],
+}: AdditionalClientOptions = {}): ClientOptions => ({
   url: new URL(`/graphql`, window.location.origin).toString(),
   fetchOptions: {
     credentials: "same-origin",
@@ -47,13 +53,17 @@ const defaultClientOpts = (): ClientOptions => ({
         },
       },
     }),
+    ...additionalExchanges,
     fetchExchange,
   ],
 });
 
-export const clientOptions = (options: Partial<ClientOptions>): ClientOptions =>
-  merge(defaultClientOpts(), options);
+export const clientOptions = ({
+  additionalExchanges,
+  ...options
+}: Partial<ClientOptions & AdditionalClientOptions>): ClientOptions =>
+  merge(defaultClientOpts({ additionalExchanges }), options);
 
 export const createClient = (
-  options: Partial<ClientOptions & WithSession> = {}
+  options: Partial<ClientOptions & WithSession & AdditionalClientOptions> = {}
 ): Client => urqlCreateClient(clientOptions(options));

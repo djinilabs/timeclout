@@ -20,6 +20,7 @@ import { classNames } from "./utils/classNames";
 import { HelpPanel } from "./components/atoms/HelpPanel";
 import { AIChatPanel } from "./components/ai/AIChatPanel";
 import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
+import { FetchActivityIndicator } from "./components/atoms/FetchActivityIndicator";
 
 const SideBar = lazy(() => import("./components/molecules/SideBar"));
 
@@ -48,6 +49,7 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Toaster />
+      <FetchActivityIndicator />
       <div className="flex h-screen">
         <Dialog
           open={sidebarOpen}

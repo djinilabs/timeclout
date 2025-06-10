@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
+import { useFetchActivity } from "./useFetchActivity";
 
 const countrySubdivisionsRemoteResponseSchema = z.array(
   z.object({
@@ -13,14 +14,18 @@ const countrySubdivisionsRemoteResponseSchema = z.array(
   })
 );
 
+export type Fetch = typeof fetch;
+
 export interface GetCountrySubdivisionsProps {
   countryIsoCode?: string;
   languageIsoCode: "EN"; // only English is supported for now
+  fetch: Fetch;
 }
 
 const getCountrySubdivisions = async ({
   countryIsoCode,
   languageIsoCode,
+  fetch,
 }: GetCountrySubdivisionsProps) => {
   if (!countryIsoCode) {
     return [];
@@ -41,13 +46,15 @@ const getCountrySubdivisions = async ({
 };
 
 export const useCountrySubdivisions = (props: GetCountrySubdivisionsProps) => {
+  const { monitorFetch } = useFetchActivity();
   const { data, error } = useQuery({
     queryKey: [
       "countrySubdivisions",
       props.countryIsoCode,
       props.languageIsoCode,
     ],
-    queryFn: () => getCountrySubdivisions(props),
+    queryFn: () =>
+      getCountrySubdivisions({ ...props, fetch: monitorFetch.fetch }),
     enabled: props.countryIsoCode != null,
   });
   return { data, error };

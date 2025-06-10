@@ -5,17 +5,17 @@ import { SessionProvider } from "next-auth/react";
 import { ErrorBoundary, init as initSentry, withProfiler } from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppRoutes } from "./Routes";
-import { createClient } from "./graphql/graphql-client";
+import { createClient as createGraphqlClient } from "./graphql/graphql-client";
 import { Suspense } from "./components/atoms/Suspense";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { dynamicActivate } from "./i18n";
 import { AnalyticsProvider } from "./AnalyticsProvider";
 import { RequiresSession } from "./components/molecules/RequiresSession";
-import { OnboardingTour } from "./components/OnboardingTour";
-import { TourProvider } from "./contexts/TourContext";
 import { AppLocalSettingsProvider } from "./contexts/AppLocalSettingsContext";
 import "./styles/print.css";
+import { monitorActivityFetch } from "./utils/monitorActivityFetch";
+import { FetchActivityProvider } from "./providers/FetchActivityProvider";
 
 const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
 
@@ -28,7 +28,14 @@ if (SENTRY_DSN) {
 }
 
 const AppComponent: FC = () => {
-  const client = useMemo(() => createClient(), []);
+  const monitorFetch = useMemo(() => monitorActivityFetch(), []);
+  const graphqlClient = useMemo(
+    () =>
+      createGraphqlClient({
+        fetch: monitorFetch.fetch,
+      }),
+    [monitorFetch]
+  );
   const queryClient = useMemo(() => new QueryClient(), []);
 
   useEffect(() => {
@@ -49,25 +56,24 @@ const AppComponent: FC = () => {
       <AnalyticsProvider>
         <I18nProvider i18n={i18n}>
           <BrowserRouter>
-            <TourProvider>
-              <AppLocalSettingsProvider>
-                <OnboardingTour />
-                <QueryClientProvider client={queryClient}>
-                  <SessionProvider
-                    refetchWhenOffline={false}
-                    basePath="/api/v1/auth"
-                  >
-                    <UrqlProvider value={client}>
+            <AppLocalSettingsProvider>
+              <QueryClientProvider client={queryClient}>
+                <SessionProvider
+                  refetchWhenOffline={false}
+                  basePath="/api/v1/auth"
+                >
+                  <UrqlProvider value={graphqlClient}>
+                    <FetchActivityProvider monitorFetch={monitorFetch}>
                       <RequiresSession>
                         <Suspense>
                           <AppRoutes />
                         </Suspense>
                       </RequiresSession>
-                    </UrqlProvider>
-                  </SessionProvider>
-                </QueryClientProvider>
-              </AppLocalSettingsProvider>
-            </TourProvider>
+                    </FetchActivityProvider>
+                  </UrqlProvider>
+                </SessionProvider>
+              </QueryClientProvider>
+            </AppLocalSettingsProvider>
           </BrowserRouter>
         </I18nProvider>
       </AnalyticsProvider>

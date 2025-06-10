@@ -13,7 +13,7 @@ import {
   Query,
 } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
-import { useTour } from "../../hooks/useTour";
+// import { useTour } from "../../hooks/useTour";
 import { useMutation } from "../../hooks/useMutation";
 import { Button } from "../particles/Button";
 import { EditCountryAndRegion } from "../particles/EditCountryAndRegion";
@@ -22,7 +22,7 @@ import { FieldComponent } from "../types";
 export const MeEdit = () => {
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });
   const me = result?.data?.me;
-  const { startTour } = useTour();
+  // const { startTour } = useTour();
 
   const [selectedCountryIsoCode, setSelectedCountryIsoCode] = useState<
     string | undefined
@@ -183,7 +183,7 @@ export const MeEdit = () => {
         </div>
 
         {/* Tour Settings Section */}
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+        {/* <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
             <h2 className="text-base/7 font-semibold text-gray-900">
               <Trans>Tour Settings</Trans>
@@ -215,7 +215,7 @@ export const MeEdit = () => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">

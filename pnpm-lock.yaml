@@ -226,6 +226,9 @@ importers:
       react-time-ago:
         specifier: ^7.3.3
         version: 7.3.3(javascript-time-ago@2.5.11)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
       tailwindcss:
         specifier: ^4.0.14
         version: 4.1.8
