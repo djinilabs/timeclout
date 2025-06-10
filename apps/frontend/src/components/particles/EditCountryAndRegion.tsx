@@ -5,6 +5,7 @@ import { Trans } from "@lingui/react/macro";
 import { useCountries } from "../../hooks/useCountries";
 import { useCountrySubdivisions } from "../../hooks/useCountrySubdivisions";
 import { FieldComponent } from "../types";
+import { useFetchActivity } from "../../hooks/useFetchActivity";
 
 interface EditCountryAndRegionProps {
   Field: FieldComponent;
@@ -25,10 +26,13 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
     }
   }, [countriesError]);
 
+  const { monitorFetch } = useFetchActivity();
+
   const { data: countrySubdivisions, error: countrySubdivisionsError } =
     useCountrySubdivisions({
       countryIsoCode: selectedCountryIsoCode,
       languageIsoCode: "EN",
+      fetch: monitorFetch.fetch,
     });
 
   useEffect(() => {

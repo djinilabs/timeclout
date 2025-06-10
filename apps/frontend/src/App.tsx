@@ -5,7 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { ErrorBoundary, init as initSentry, withProfiler } from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppRoutes } from "./Routes";
-import { createClient } from "./graphql/graphql-client";
+import { createClient as createGraphqlClient } from "./graphql/graphql-client";
 import { Suspense } from "./components/atoms/Suspense";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
@@ -14,6 +14,8 @@ import { AnalyticsProvider } from "./AnalyticsProvider";
 import { RequiresSession } from "./components/molecules/RequiresSession";
 import { AppLocalSettingsProvider } from "./contexts/AppLocalSettingsContext";
 import "./styles/print.css";
+import { monitorActivityFetch } from "./utils/monitorActivityFetch";
+import { FetchActivityProvider } from "./providers/FetchActivityProvider";
 
 const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
 
@@ -26,7 +28,14 @@ if (SENTRY_DSN) {
 }
 
 const AppComponent: FC = () => {
-  const graphqlClient = useMemo(() => createClient(), []);
+  const monitorFetch = useMemo(() => monitorActivityFetch(), []);
+  const graphqlClient = useMemo(
+    () =>
+      createGraphqlClient({
+        fetch: monitorFetch.fetch,
+      }),
+    [monitorFetch]
+  );
   const queryClient = useMemo(() => new QueryClient(), []);
 
   useEffect(() => {
@@ -54,11 +63,13 @@ const AppComponent: FC = () => {
                   basePath="/api/v1/auth"
                 >
                   <UrqlProvider value={graphqlClient}>
-                    <RequiresSession>
-                      <Suspense>
-                        <AppRoutes />
-                      </Suspense>
-                    </RequiresSession>
+                    <FetchActivityProvider monitorFetch={monitorFetch}>
+                      <RequiresSession>
+                        <Suspense>
+                          <AppRoutes />
+                        </Suspense>
+                      </RequiresSession>
+                    </FetchActivityProvider>
                   </UrqlProvider>
                 </SessionProvider>
               </QueryClientProvider>
