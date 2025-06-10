@@ -256,7 +256,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       const abortController = new AbortController();
 
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         abortController.abort("Timeout");
       }, GENERATE_TIMEOUT_MS);
 
@@ -277,9 +277,13 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           onError: ({ error }) => {
             handleError(error as Error, messageId);
           },
+          onFinish: async () => {
+            clearTimeout(timeout);
+          },
         });
       } catch (error) {
         await handleError(error as Error, messageId);
+        clearTimeout(timeout);
         return;
       }
 
@@ -349,7 +353,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           messageId
         );
       }
-      console.log("finishReason", finishReason);
     },
     [saveNewMessage, messages, getModel, tools, handleError]
   );
