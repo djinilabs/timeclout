@@ -27,7 +27,6 @@ export const ConfirmDialogProvider: FC<{ children: ReactNode }> = ({
 
   const showConfirmDialog = useCallback(
     (props: Omit<ConfirmDialogContextType, "open">): Promise<boolean> => {
-      console.log("showConfirmDialog", props);
       return new Promise((resolve) => {
         if (open) {
           resolve(false);
