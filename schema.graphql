@@ -250,6 +250,7 @@ type Query {
   company(companyPk: String!): Company!
   invitation(secret: String!): Invitation!
   invitationsTo(toEntityPk: String!): [Invitation!]!
+  latestAppVersion: String!
   leaveRequest(pk: String!, sk: String!): LeaveRequest!
   me: User
   memberQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!, teamPk: String!, userPk: String!): [QuotaFulfilment!]!

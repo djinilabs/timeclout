@@ -32,7 +32,6 @@ export const HelpPanel: FC<HelpPanelProps> = ({
 
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
-      console.log("Mouse down event triggered");
       e.preventDefault(); // Prevent text selection during drag
       setIsResizing(true);
       startXRef.current = e.clientX;
@@ -44,11 +43,6 @@ export const HelpPanel: FC<HelpPanelProps> = ({
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
       if (!isResizing) return;
-      console.log("Mouse move event triggered", {
-        isResizing,
-        clientX: e.clientX,
-      });
-
       const deltaX = startXRef.current - e.clientX;
       const newWidth = Math.max(
         288,
@@ -60,12 +54,10 @@ export const HelpPanel: FC<HelpPanelProps> = ({
   );
 
   const handleMouseUp = useCallback(() => {
-    console.log("Mouse up event triggered");
     setIsResizing(false);
   }, []);
 
   useEffect(() => {
-    console.log("Effect triggered, isResizing:", isResizing);
     if (isResizing) {
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", handleMouseUp);

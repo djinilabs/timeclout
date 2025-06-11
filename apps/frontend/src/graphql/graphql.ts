@@ -1,5 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+import { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
+
 /* eslint-disable */
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -14,7 +14,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
 };
 export type MakeEmpty<
   T extends { [key: string]: unknown },
-  K extends keyof T,
+  K extends keyof T
 > = { [_ in K]?: never };
 export type Incremental<T> =
   | T
@@ -463,6 +463,7 @@ export type Query = {
   company: Company;
   invitation: Invitation;
   invitationsTo: Array<Invitation>;
+  latestAppVersion: Scalars["String"]["output"];
   leaveRequest: LeaveRequest;
   me?: Maybe<User>;
   memberQuotaFulfilment: Array<QuotaFulfilment>;

@@ -976,7 +976,7 @@ msgstr "Criar nova unidade"
 msgid "Create Team Member"
 msgstr "Criar membro da equipa"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:91
+#: apps/frontend/src/components/AllUserCompanies.tsx:90
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:115
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:91
 #: apps/frontend/src/components/atoms/LeaveRequests.tsx:64
@@ -987,7 +987,7 @@ msgstr "Criado"
 msgid "Created At"
 msgstr "Criado a"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:98
+#: apps/frontend/src/components/AllUserCompanies.tsx:97
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:122
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:102
 msgid "Created by"
@@ -1034,7 +1034,7 @@ msgstr "Detalhes"
 msgid "Discarded Schedules"
 msgstr "Agendamentos descartados"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:129
+#: apps/frontend/src/components/AllUserCompanies.tsx:125
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:154
 #: apps/frontend/src/components/team/TeamMembers.tsx:132
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:123
@@ -1187,6 +1187,10 @@ msgstr "ui"
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:124
 msgid "Icon"
 msgstr "Ícone"
+
+#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:31
+msgid "Ignore for now"
+msgstr "Ignorar por agora"
 
 #: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:40
 msgid "In Apple Calendar: File > New Calendar Subscription and paste the URL"
@@ -1405,7 +1409,7 @@ msgstr "eg"
 msgid "Open menu"
 msgstr "Abrir menu"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:113
+#: apps/frontend/src/components/AllUserCompanies.tsx:112
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:141
 #: apps/frontend/src/components/team/TeamMembers.tsx:116
 #: apps/frontend/src/components/team/TeamInvites.tsx:88
@@ -1758,6 +1762,10 @@ msgstr "T"
 msgid "The deviation of the inconvenience from the expected inconvenience."
 msgstr "O desvio da inconveniência esperada"
 
+#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:19
+msgid "The most recent version of the app is available. Please update to the most recent version."
+msgstr "Está disponível tem uma nova versão desta aplicação. Por favor atualize para a versão mais recente."
+
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:82
 msgid "The number of shifts assigned to each worker for each type."
 msgstr "O número de turnos atribuidos a cada membro por tipo de turno"
@@ -1845,6 +1853,10 @@ msgstr "Nome da unidade"
 msgid "Unknown"
 msgstr "Desconhecido"
 
+#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:27
+msgid "Update now"
+msgstr "Atualizar agora"
+
 #: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:244
 msgid "Use a template to create this position."
 msgstr "Usar um modelo para criar esta posição."
@@ -1865,7 +1877,7 @@ msgstr "Usar esta solução e atribuir estes turnos"
 msgid "User removed from team"
 msgstr "Utilizador removido da equipa"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:107
+#: apps/frontend/src/components/AllUserCompanies.tsx:106
 msgid "View company"
 msgstr "Ver empresa"
 

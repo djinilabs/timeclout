@@ -1,4 +1,4 @@
-import { FC, ReactNode, useCallback, useState } from "react";
+import { FC, ReactNode, useCallback, useRef, useState } from "react";
 import {
   ConfirmDialogContext,
   type ConfirmDialogContextType,
@@ -8,47 +8,55 @@ import { ConfirmDialog } from "../components/molecules/ConfirmDialog";
 export const ConfirmDialogProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [state, setState] = useState<ConfirmDialogContextType>({
-    open: false,
-  });
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState<ReactNode>();
+  const [confirmText, setConfirmText] = useState<ReactNode>();
+  const [cancelText, setCancelText] = useState<ReactNode>();
+
+  const resolveRef = useRef<((value: boolean) => void) | null>(null);
+
+  const onConfirm = useCallback(() => {
+    setOpen(false);
+    resolveRef.current?.(true);
+  }, []);
+
+  const onCancel = useCallback(() => {
+    setOpen(false);
+    resolveRef.current?.(false);
+  }, []);
 
   const showConfirmDialog = useCallback(
     (props: Omit<ConfirmDialogContextType, "open">): Promise<boolean> => {
       return new Promise((resolve) => {
-        setState({
-          ...props,
-          open: true,
-          onConfirm: () => {
-            props.onConfirm?.();
-            setState((prev) => ({ ...prev, open: false }));
-            resolve(true);
-          },
-          onCancel: () => {
-            props.onCancel?.();
-            setState((prev) => ({ ...prev, open: false }));
-            resolve(false);
-          },
-        });
+        if (open) {
+          resolve(false);
+          return;
+        }
+        setOpen(true);
+        resolveRef.current = resolve;
+        setText(props.text);
+        setConfirmText(props.confirmText);
+        setCancelText(props.cancelText);
       });
     },
-    []
+    [open]
   );
 
   const handleClose = useCallback(() => {
-    setState((prev) => ({ ...prev, open: false }));
+    setOpen(false);
   }, []);
 
   return (
-    <ConfirmDialogContext.Provider value={{ ...state, showConfirmDialog }}>
+    <ConfirmDialogContext.Provider value={{ showConfirmDialog, open }}>
       {children}
       <ConfirmDialog
-        open={state.open}
+        open={open}
         onClose={handleClose}
-        onConfirm={state.onConfirm ?? (() => {})}
-        onCancel={state.onCancel ?? (() => {})}
-        text={state.text}
-        confirmText={state.confirmText}
-        cancelText={state.cancelText}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        text={text}
+        confirmText={confirmText}
+        cancelText={cancelText}
       />
     </ConfirmDialogContext.Provider>
   );

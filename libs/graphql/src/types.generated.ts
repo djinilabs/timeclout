@@ -489,6 +489,7 @@ export type Query = {
   company: Company;
   invitation: Invitation;
   invitationsTo: Array<Invitation>;
+  latestAppVersion: Scalars['String']['output'];
   leaveRequest: LeaveRequest;
   me?: Maybe<User>;
   memberQuotaFulfilment: Array<QuotaFulfilment>;
@@ -1141,6 +1142,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   company?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<QuerycompanyArgs, 'companyPk'>>;
   invitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<QueryinvitationArgs, 'secret'>>;
   invitationsTo?: Resolver<Array<ResolversTypes['Invitation']>, ParentType, ContextType, RequireFields<QueryinvitationsToArgs, 'toEntityPk'>>;
+  latestAppVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   leaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<QueryleaveRequestArgs, 'pk' | 'sk'>>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   memberQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymemberQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate' | 'teamPk' | 'userPk'>>;
