@@ -52,7 +52,7 @@
     "noUnusedLocals": true,
     "noErrorTruncation": true,
   },
-  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.graphqls", "./**/*.graphql"],
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.graphqls", "./**/*.graphql", "./**/package.json"],
   "compileOnSave": true,
   "exclude": ["node_modules", "dist", ".pnpm", "graphql.ts"]
 }
