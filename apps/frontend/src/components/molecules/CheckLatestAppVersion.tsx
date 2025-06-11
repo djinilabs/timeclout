@@ -31,15 +31,6 @@ export const CheckLatestAppVersion = () => {
     return <Trans>Ignore for now</Trans>;
   }, []);
 
-  const onConfirm = useCallback(() => {
-    console.log("CheckLatestAppVersion: onConfirm");
-    window.location.reload();
-  }, []);
-
-  const onCancel = useCallback(() => {
-    console.log("CheckLatestAppVersion: onCancel");
-  }, []);
-
   useEffect(() => {
     (async () => {
       if (data?.latestAppVersion !== version && !alreadyShown.current) {
@@ -60,8 +51,6 @@ export const CheckLatestAppVersion = () => {
     cancelText,
     confirmText,
     data?.latestAppVersion,
-    onCancel,
-    onConfirm,
     showConfirmDialog,
     text,
   ]);
