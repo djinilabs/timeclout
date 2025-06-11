@@ -55,7 +55,7 @@
     "@nivo/bar": "^0.88.0",
     "@nivo/boxplot": "^0.88.0",
     "@popperjs/core": "^2.11.8",
-    "@react-email/components": "0.0.41",
+    "@react-email/components": "0.0.42",
     "@react-email/text": "^0.1.0",
     "@sentry/aws-serverless": "^9.5.0",
     "@sentry/node": "^9.0.0",
