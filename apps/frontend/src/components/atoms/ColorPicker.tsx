@@ -2,6 +2,7 @@ import { FC, memo } from "react";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { classNames } from "../../utils/classNames";
 import { leaveTypeColors } from "../../settings/leaveTypes";
+import { i18n } from "@lingui/core";
 
 export type Color = keyof typeof leaveTypeColors;
 
@@ -14,12 +15,13 @@ export const ColorPicker: FC<{
       value={value}
       onChange={onChange}
       className="mt-6 flex items-center space-x-3"
+      aria-label={i18n.t("Select a color")}
     >
       {Object.entries(leaveTypeColors).map(([key, color]) => (
         <Radio
           key={key}
           value={key}
-          aria-label={key}
+          aria-label={i18n.t("Select {color} color", { color: key })}
           className={classNames(
             "relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-current focus:outline-hidden data-checked:ring-2 data-focus:data-checked:ring-3 data-focus:data-checked:ring-offset-1"
           )}

@@ -113,10 +113,14 @@ export const TeamQualifications = () => {
                   color.charAt(0).toUpperCase() + color.slice(1)
                 }
                 aria-label={i18n.t("Select qualification color")}
+                aria-expanded={open}
+                aria-controls="color-options"
+                aria-autocomplete="list"
               />
               <ComboboxButton
                 className="absolute inset-y-0 right-0 flex items-center px-2 focus:outline-hidden"
                 aria-label={i18n.t("Open color options")}
+                aria-expanded={open}
               >
                 <ChevronUpDownIcon
                   className="size-5 text-gray-400"

@@ -64,6 +64,13 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
                 className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 role="combobox"
                 aria-label={i18n.t("Select a country")}
+                aria-required="true"
+                aria-invalid={field.state.meta.errors.length > 0}
+                aria-describedby={
+                  field.state.meta.errors.length > 0
+                    ? `${field.name}-error`
+                    : undefined
+                }
               >
                 <option value="">
                   <Trans>Select a country</Trans>
@@ -110,6 +117,13 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
                   className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   role="combobox"
                   aria-label={i18n.t("Select a region")}
+                  aria-required="true"
+                  aria-invalid={field.state.meta.errors.length > 0}
+                  aria-describedby={
+                    field.state.meta.errors.length > 0
+                      ? `${field.name}-error`
+                      : undefined
+                  }
                 >
                   <option value="">
                     <Trans>Select a region</Trans>

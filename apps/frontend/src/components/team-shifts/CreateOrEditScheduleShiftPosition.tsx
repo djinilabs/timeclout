@@ -28,6 +28,7 @@ import { Color, ColorPicker } from "../atoms/ColorPicker";
 import { Button } from "../particles/Button";
 import { ListBox } from "../particles/ListBox";
 import { DayPicker } from "../atoms/DayPicker";
+import { i18n } from "@lingui/core";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
@@ -270,7 +271,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
                           }}
                           role="radio"
                           aria-checked={usingTemplate}
-                          aria-label="Use template"
+                          aria-label={i18n.t("Use template for position")}
                           aria-labelledby="template-legend"
                         />
                         <label

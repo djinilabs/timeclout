@@ -162,7 +162,9 @@ export const CompanyWorkSchedule = () => {
                                 }
                                 className="rounded-sm border-gray-300 text-sm"
                                 role="textbox"
-                                aria-label={i18n.t("Start time")}
+                                aria-label={i18n.t("Start time for {day}", {
+                                  day,
+                                })}
                                 aria-required="true"
                                 aria-invalid={
                                   field.state.meta.errors.length > 0
