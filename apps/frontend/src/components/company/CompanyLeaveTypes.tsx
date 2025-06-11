@@ -16,6 +16,8 @@ import {
 import { QueryCompanyArgs } from "../../graphql/graphql";
 import { toast } from "react-hot-toast";
 import { i18n } from "@lingui/core";
+import { useCallback, useMemo } from "react";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 
 export const CompanyLeaveTypes = () => {
   const { company: companyPk } = useParams();
@@ -35,35 +37,46 @@ export const CompanyLeaveTypes = () => {
     MutationUpdateCompanySettingsArgs
   >(updateCompanySettingsMutation);
 
-  const company = companyWithSettingsQueryResponse?.data?.company;
-  const leaveTypes: LeaveTypes | undefined =
-    company?.settings && leaveTypeParser.parse(company.settings);
+  const leaveTypes: LeaveTypes | undefined = useMemo(() => {
+    const company = companyWithSettingsQueryResponse?.data?.company;
+    return company?.settings && leaveTypeParser.parse(company.settings);
+  }, [companyWithSettingsQueryResponse]);
 
-  const handleDelete = async (leaveTypeName: string) => {
-    if (!leaveTypes) return;
+  const { showConfirmDialog } = useConfirmDialog();
 
-    if (
-      !confirm(
-        i18n.t(
-          "Are you sure you want to delete this leave type? This change is not reversible."
-        )
-      )
-    ) {
-      return;
-    }
+  const handleDelete = useCallback(
+    async (leaveTypeName: string) => {
+      if (!leaveTypes) return;
 
-    const newLeaveTypes = leaveTypes.filter((lt) => lt.name !== leaveTypeName);
-    const response = await updateCompanySettings({
-      companyPk: getDefined(companyPk),
-      name: "leaveTypes",
-      settings: newLeaveTypes,
-    });
+      if (
+        !(await showConfirmDialog({
+          text: (
+            <Trans>
+              Are you sure you want to delete this leave type? This change is
+              not reversible.
+            </Trans>
+          ),
+        }))
+      ) {
+        return;
+      }
 
-    if (!response.error) {
-      toast.success(i18n.t("Leave type deleted"));
-      refetch();
-    }
-  };
+      const newLeaveTypes = leaveTypes.filter(
+        (lt) => lt.name !== leaveTypeName
+      );
+      const response = await updateCompanySettings({
+        companyPk: getDefined(companyPk),
+        name: "leaveTypes",
+        settings: newLeaveTypes,
+      });
+
+      if (!response.error) {
+        toast.success(i18n.t("Leave type deleted"));
+        refetch();
+      }
+    },
+    [leaveTypes, showConfirmDialog, updateCompanySettings, companyPk, refetch]
+  );
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">

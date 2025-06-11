@@ -7,6 +7,7 @@ import unassignShiftPositionsMutation from "@/graphql-client/mutations/unassignS
 import { Button } from "../particles/Button";
 import { DayPicker } from "../atoms/DayPicker";
 import { useMutation } from "../../hooks/useMutation";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 
 export interface UnassignShiftPositionsProps {
   team: string;
@@ -31,7 +32,20 @@ export const UnassignShiftPositions: FC<UnassignShiftPositionsProps> = ({
     unassignShiftPositionsMutation
   );
 
+  const { showConfirmDialog } = useConfirmDialog();
+
   const handleUnassign = useCallback(async () => {
+    if (
+      !(await showConfirmDialog({
+        text: (
+          <Trans>
+            Are you sure you want to unassign these shift positions?
+          </Trans>
+        ),
+      }))
+    ) {
+      return;
+    }
     const result = await unassignShiftPositions({
       input: {
         team,
@@ -45,7 +59,14 @@ export const UnassignShiftPositions: FC<UnassignShiftPositionsProps> = ({
       onUnassign?.();
       onClose();
     }
-  }, [dateRange, onClose, onUnassign, team, unassignShiftPositions]);
+  }, [
+    dateRange,
+    onClose,
+    onUnassign,
+    team,
+    unassignShiftPositions,
+    showConfirmDialog,
+  ]);
 
   return (
     <div className="space-y-4">

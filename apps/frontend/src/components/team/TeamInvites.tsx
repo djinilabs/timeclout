@@ -3,15 +3,15 @@ import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import { Trans } from "@lingui/react/macro";
-import { i18n } from "@lingui/core";
 import invitationsToTeamQuery from "@/graphql-client/queries/invitationsToTeam.graphql";
 import deleteInvitationMutation from "@/graphql-client/mutations/deleteInvitation.graphql";
 import { Invitation, QueryInvitationsToArgs } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
 import { useMutation } from "../../hooks/useMutation";
-import { permissionTypeToString } from "../../utils/permissionTypeToString";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { Button } from "../particles/Button";
 import { Avatar } from "../particles/Avatar";
+import { permissionTypeToString } from "../../utils/permissionTypeToString";
 
 export const TeamInvites = () => {
   const { company, unit, team } = useParams();
@@ -27,6 +27,8 @@ export const TeamInvites = () => {
   });
 
   const [, deleteInvitation] = useMutation(deleteInvitationMutation);
+
+  const { showConfirmDialog } = useConfirmDialog();
 
   return (
     <div className="mt-4">
@@ -93,13 +95,15 @@ export const TeamInvites = () => {
                 >
                   <MenuItem>
                     <a
-                      onClick={() => {
+                      onClick={async () => {
                         if (
-                          !confirm(
-                            i18n.t(
-                              "Are you sure you want to revoke this invitation?"
-                            )
-                          )
+                          !(await showConfirmDialog({
+                            text: (
+                              <Trans>
+                                Are you sure you want to revoke this invitation?
+                              </Trans>
+                            ),
+                          }))
                         ) {
                           return;
                         }

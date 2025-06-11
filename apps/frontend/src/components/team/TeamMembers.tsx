@@ -4,13 +4,13 @@ import { Link, useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import toast from "react-hot-toast";
 import { Trans } from "@lingui/react/macro";
-import { i18n } from "@lingui/core";
 import { getDefined } from "@/utils";
 import teamWithMembersQuery from "@/graphql-client/queries/teamWithMembers.graphql";
 import removeUserFromTeamMutation from "@/graphql-client/mutations/removeUserFromTeam.graphql";
 import { QueryTeamArgs, Team, User } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
 import { useMutation } from "../../hooks/useMutation";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { permissionTypeToString } from "../../utils/permissionTypeToString";
 import { TeamMemberQualifications } from "./TeamMemberQualifications";
 import { Avatar } from "../particles/Avatar";
@@ -29,6 +29,8 @@ export const TeamMembers = () => {
   const teamMembers = queryResponse.data?.team?.members;
 
   const [, removeUserFromTeam] = useMutation(removeUserFromTeamMutation);
+
+  const { showConfirmDialog } = useConfirmDialog();
 
   if (!teamMembers) {
     return null;
@@ -135,11 +137,14 @@ export const TeamMembers = () => {
                       <a
                         onClick={async () => {
                           if (
-                            !confirm(
-                              i18n.t(
-                                "Are you sure you want to remove this user from the team?"
-                              )
-                            )
+                            !(await showConfirmDialog({
+                              text: (
+                                <Trans>
+                                  Are you sure you want to remove this user from
+                                  the team?
+                                </Trans>
+                              ),
+                            }))
                           ) {
                             return;
                           }

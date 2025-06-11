@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { ShiftPosition } from "libs/graphql/src/types.generated";
 import { useTeamShiftActions } from "./useTeamShiftActions";
-import { i18n } from "@lingui/core";
 import { shiftPositionKey } from "../utils/shiftPositionKey";
+import { useConfirmDialog } from "./useConfirmDialog";
+import { Trans } from "@lingui/react/macro";
 
 type ShiftPositionWithFake = ShiftPosition & {
   fake?: boolean;
@@ -13,6 +14,8 @@ export const useTeamShiftsClipboard = (
   selectedShiftPositionKeys: string[],
   selectedDay?: string
 ) => {
+  const { showConfirmDialog } = useConfirmDialog();
+
   const [copyingShiftPositionKeys, setCopyingShiftPositionKeys] = useState<
     string[] | null
   >(null);
@@ -90,24 +93,35 @@ export const useTeamShiftsClipboard = (
     return () => window.removeEventListener("keydown", handlePaste);
   }, [selectedDay, pasteShiftPositionFromClipboard]);
 
-  // catch delete
-  useEffect(() => {
-    const handleDelete = async (e: KeyboardEvent) => {
+  const handleDelete = useCallback(
+    async (e: KeyboardEvent) => {
       if (
         (e.key === "Backspace" || e.key === "Delete") &&
         selectedShiftPositionKeys.length > 0
       ) {
         if (
-          confirm(
-            i18n.t(
-              "Are you sure you want to delete the selected shift positions?"
-            )
-          )
+          !(await showConfirmDialog({
+            text: (
+              <Trans>
+                Are you sure you want to delete the selected shift positions?
+              </Trans>
+            ),
+          }))
         ) {
-          deleteShiftPositionsFromClipboard();
+          return;
         }
+        deleteShiftPositionsFromClipboard();
       }
-    };
+    },
+    [
+      selectedShiftPositionKeys,
+      showConfirmDialog,
+      deleteShiftPositionsFromClipboard,
+    ]
+  );
+
+  // catch delete
+  useEffect(() => {
     window.addEventListener("keydown", handleDelete);
     return () => window.removeEventListener("keydown", handleDelete);
   }, [
@@ -115,6 +129,7 @@ export const useTeamShiftsClipboard = (
     pasteShiftPositionFromClipboard,
     deleteShiftPositionsFromClipboard,
     selectedShiftPositionKeys.length,
+    handleDelete,
   ]);
 
   const copyShiftPositionToClipboard = useCallback(

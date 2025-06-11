@@ -15,9 +15,11 @@ import {
 } from "../graphql/graphql";
 import { LeaveRequest as LeaveRequestComponent } from "./atoms/LeaveRequest";
 import { Button } from "./particles/Button";
+import { useConfirmDialog } from "../hooks/useConfirmDialog";
 
 export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
   const navigate = useNavigate();
+  const { showConfirmDialog } = useConfirmDialog();
 
   const { company, user, startDate, endDate, leaveType } = useParams();
   const backTo = useMemo(() => {
@@ -77,7 +79,11 @@ export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
       return;
     }
     if (
-      !confirm(i18n.t("Are you sure you want to remove this leave request?"))
+      !(await showConfirmDialog({
+        text: (
+          <Trans>Are you sure you want to remove this leave request?</Trans>
+        ),
+      }))
     ) {
       return;
     }
@@ -88,7 +94,7 @@ export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
       toast.success(i18n.t("Leave request removed"));
       navigate(backTo);
     }
-  }, [leaveRequest, navigate, removeLeaveRequest, backTo]);
+  }, [leaveRequest, showConfirmDialog, removeLeaveRequest, navigate, backTo]);
 
   if (!leaveRequest) {
     return (
