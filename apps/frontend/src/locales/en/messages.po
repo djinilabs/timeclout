@@ -455,7 +455,7 @@ msgid "User removed as manager"
 msgstr "User removed as manager"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:44
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:58
 msgid "Shift positions unassigned successfully"
 msgstr "Shift positions unassigned successfully"
 
@@ -478,17 +478,17 @@ msgid "By duration"
 msgstr "By duration"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:113
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:125
 msgid "Shift positions assigned successfully"
 msgstr "Shift positions assigned successfully"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:127
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:145
 msgid "Calendar"
 msgstr "Calendar"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:131
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:149
 msgid "Stats"
 msgstr "Stats"
 
@@ -793,6 +793,10 @@ msgstr "Approved By"
 msgid "April"
 msgstr "April"
 
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:105
+msgid "Are you sure you want to assign these shift positions?"
+msgstr "Are you sure you want to assign these shift positions?"
+
 #: apps/frontend/src/hooks/useTeamShiftsClipboard.tsx:105
 msgid "Are you sure you want to delete the selected shift positions?"
 msgstr "Are you sure you want to delete the selected shift positions?"
@@ -805,13 +809,17 @@ msgstr "Are you sure you want to delete this leave type? This change is not reve
 msgid "Are you sure you want to remove this leave request?"
 msgstr "Are you sure you want to remove this leave request?"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:143
+#: apps/frontend/src/components/team/TeamMembers.tsx:142
 msgid "Are you sure you want to remove this user from the team?"
 msgstr "Are you sure you want to remove this user from the team?"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:103
+#: apps/frontend/src/components/team/TeamInvites.tsx:102
 msgid "Are you sure you want to revoke this invitation?"
 msgstr "Are you sure you want to revoke this invitation?"
+
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:41
+msgid "Are you sure you want to unassign these shift positions?"
+msgstr "Are you sure you want to unassign these shift positions?"
 
 #: apps/frontend/src/components/unit/UnitManagers.tsx:92
 msgid "Assign the managers for the workers in this unit:"
@@ -821,7 +829,7 @@ msgstr "Assign the managers for the workers in this unit:"
 msgid "Assigned to"
 msgstr "Assigned to"
 
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:150
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:168
 msgid "Assigning Shift Positions..."
 msgstr "Assigning Shift Positions..."
 
@@ -871,7 +879,7 @@ msgstr "Calendar subscriptions:"
 #: apps/frontend/src/pages/PageNewCompany.tsx:124
 #: apps/frontend/src/components/LeaveRequest.tsx:116
 #: apps/frontend/src/components/InviteToTeam.tsx:118
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:75
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:96
 #: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:520
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:259
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:288
@@ -943,7 +951,7 @@ msgstr "Create a new leave type for your company"
 msgid "Create a new Unit"
 msgstr "Create a new Unit"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:48
+#: apps/frontend/src/components/team/TeamMembers.tsx:47
 msgid "Create member user"
 msgstr "Create member user"
 
@@ -989,7 +997,7 @@ msgstr "Created by"
 msgid "Created By"
 msgstr "Created By"
 
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:54
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:75
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:60
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:251
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:327
@@ -1028,7 +1036,7 @@ msgstr "Discarded Schedules"
 
 #: apps/frontend/src/components/AllUserCompanies.tsx:129
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:154
-#: apps/frontend/src/components/team/TeamMembers.tsx:133
+#: apps/frontend/src/components/team/TeamMembers.tsx:132
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:123
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:133
 #: apps/frontend/src/components/atoms/ShiftPosition.tsx:229
@@ -1142,7 +1150,7 @@ msgstr "Get started by creating a new unit for this company."
 msgid "Go to today"
 msgstr "Go to today"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:37
+#: apps/frontend/src/components/team/TeamInvites.tsx:36
 msgid "Here you can invite users to your team."
 msgstr "Here you can invite users to your team."
 
@@ -1225,11 +1233,11 @@ msgid "Invite a team member to join your team."
 msgstr "Invite a team member to join your team."
 
 #: apps/frontend/src/components/InviteToTeam.tsx:49
-#: apps/frontend/src/components/team/TeamMembers.tsx:54
+#: apps/frontend/src/components/team/TeamMembers.tsx:53
 msgid "Invite to team"
 msgstr "Invite to team"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:82
+#: apps/frontend/src/components/team/TeamInvites.tsx:81
 msgid "Invited"
 msgstr "Invited"
 
@@ -1237,7 +1245,7 @@ msgstr "Invited"
 msgid "January"
 msgstr "January"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:107
+#: apps/frontend/src/components/team/TeamMembers.tsx:106
 msgid "Joined"
 msgstr "Joined"
 
@@ -1321,7 +1329,7 @@ msgstr "Need More Help?"
 msgid "New Company"
 msgstr "New Company"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:44
+#: apps/frontend/src/components/team/TeamInvites.tsx:43
 msgid "New Invitation"
 msgstr "New Invitation"
 
@@ -1349,7 +1357,7 @@ msgstr "Next year"
 msgid "No companies"
 msgstr "No companies"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:49
+#: apps/frontend/src/components/team/TeamInvites.tsx:48
 msgid "No invitations found."
 msgstr "No invitations found."
 
@@ -1399,8 +1407,8 @@ msgstr "Open menu"
 
 #: apps/frontend/src/components/AllUserCompanies.tsx:113
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:141
-#: apps/frontend/src/components/team/TeamMembers.tsx:117
-#: apps/frontend/src/components/team/TeamInvites.tsx:89
+#: apps/frontend/src/components/team/TeamMembers.tsx:116
+#: apps/frontend/src/components/team/TeamInvites.tsx:88
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:120
 msgid "Open options"
 msgstr "Open options"
@@ -1469,7 +1477,7 @@ msgstr "Region"
 msgid "Reject leave request"
 msgstr "Reject leave request"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:164
+#: apps/frontend/src/components/team/TeamMembers.tsx:163
 msgid "Remove from team"
 msgstr "Remove from team"
 
@@ -1530,7 +1538,7 @@ msgstr "Reset Month"
 msgid "Respect leave schedule"
 msgstr "Respect leave schedule"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:118
+#: apps/frontend/src/components/team/TeamInvites.tsx:117
 msgid "Revoke Invitation"
 msgstr "Revoke Invitation"
 
@@ -1817,7 +1825,7 @@ msgstr "ue"
 msgid "un for Sunday"
 msgstr "un"
 
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:78
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:99
 msgid "Unassign"
 msgstr "Unassign"
 
@@ -1833,7 +1841,7 @@ msgstr "Unassign shift positions"
 msgid "Unit name"
 msgstr "Unit name"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:78
+#: apps/frontend/src/components/team/TeamInvites.tsx:77
 msgid "Unknown"
 msgstr "Unknown"
 
@@ -1849,11 +1857,11 @@ msgstr "Use template"
 msgid "Use template?"
 msgstr "Use template?"
 
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:152
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:170
 msgid "Use this solution and assigning these shift Positions"
 msgstr "Use this solution and assigning these shift Positions"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:158
+#: apps/frontend/src/components/team/TeamMembers.tsx:157
 msgid "User removed from team"
 msgstr "User removed from team"
 
