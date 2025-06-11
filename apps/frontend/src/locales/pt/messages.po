@@ -14,21 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/LeaveRequest.tsx:80
-msgid "Are you sure you want to remove this leave request?"
-msgstr "Tem a certeza de que quer remover este pedido de ausência?"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team/TeamMembers.tsx:171
-msgid "Are you sure you want to remove this user from the team?"
-msgstr "Tem a certeza de que deseja remover este utilizador da equipa?"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team/TeamInvites.tsx:110
-msgid "Are you sure you want to revoke this invitation?"
-msgstr "Tem a certeza de que deseja remover este convite?"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -53,61 +38,73 @@ msgstr "Proprietário"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:5
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:123
 msgid "January"
 msgstr "Janeiro"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:6
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:130
 msgid "February"
 msgstr "Fevereiro"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:7
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:137
 msgid "March"
 msgstr "Março"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:8
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:144
 msgid "April"
 msgstr "Abril"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:9
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:151
 msgid "May"
 msgstr "Maio"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:10
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:158
 msgid "June"
 msgstr "Junho"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:11
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:165
 msgid "July"
 msgstr "Julho"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:12
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:172
 msgid "August"
 msgstr "Agosto"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:13
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:179
 msgid "September"
 msgstr "Setembro"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:14
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:186
 msgid "October"
 msgstr "Outubro"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:15
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:193
 msgid "November"
 msgstr "Novembro"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/months.ts:16
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:200
 msgid "December"
 msgstr "Dezembro"
 
@@ -471,6 +468,11 @@ msgid "Leave request approved"
 msgstr "Pedido de ausência aprovado"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/LeaveRequest.tsx:80
+msgid "Are you sure you want to remove this leave request?"
+msgstr "Tem a certeza de que quer remover este pedido de ausência?"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/LeaveRequest.tsx:88
 msgid "Leave request removed"
 msgstr "Pedido de ausência removido"
@@ -648,6 +650,11 @@ msgid "Stats"
 msgstr "Estatísticas"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:274
+msgid "Use template for position"
+msgstr "Usar template para esta posição"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/team/TeamSettings.tsx:10
 msgid "Qualifications"
 msgstr "Qualificações"
@@ -688,7 +695,7 @@ msgstr "Seleccionar cor"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team/TeamSchedulePositionTemplates.tsx:121
-#: apps/frontend/src/components/team/TeamQualifications.tsx:119
+#: apps/frontend/src/components/team/TeamQualifications.tsx:122
 msgid "Open color options"
 msgstr "Abrir opções de cor"
 
@@ -699,7 +706,7 @@ msgstr "Opções de cor"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team/TeamSchedulePositionTemplates.tsx:169
-#: apps/frontend/src/components/team/TeamQualifications.tsx:167
+#: apps/frontend/src/components/team/TeamQualifications.tsx:171
 msgid "Remove qualification"
 msgstr "Remover qualificação"
 
@@ -730,24 +737,34 @@ msgid "Select qualification color"
 msgstr "Seleccione a cor da qualificação"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team/TeamQualifications.tsx:129
+#: apps/frontend/src/components/team/TeamQualifications.tsx:133
 msgid "Available colors"
 msgstr "Cores disponíveis"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team/TeamQualifications.tsx:194
+#: apps/frontend/src/components/team/TeamQualifications.tsx:198
 msgid "Add new qualification"
 msgstr "Adicionar nova qualificação"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team/TeamQualifications.tsx:225
+#: apps/frontend/src/components/team/TeamQualifications.tsx:229
 msgid "Save qualification changes"
 msgstr "Gravar alterações na qualificação"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamMembers.tsx:171
+msgid "Are you sure you want to remove this user from the team?"
+msgstr "Tem a certeza de que deseja remover este utilizador da equipa?"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team/TeamMemberQualifications.tsx:40
 msgid "Qualifications changed"
 msgstr "Qualificações alteradas"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamInvites.tsx:110
+msgid "Are you sure you want to revoke this invitation?"
+msgstr "Tem a certeza de que deseja remover este convite?"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:9
@@ -817,9 +834,14 @@ msgid "Professional name is required"
 msgstr "O nome profissional é obrigatório"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/personal/MeEdit.tsx:203
-msgid "Tour will start on the next page you visit"
-msgstr "O tour começará na próxima página que visitar"
+#: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:66
+msgid "Select a country"
+msgstr "Seleccionar um país"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:119
+msgid "Select a region"
+msgstr "Seleccionar uma região"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/molecules/UserTopBarMenu.tsx:17
@@ -979,7 +1001,7 @@ msgid "Reset month"
 msgstr "Mês de reinício"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:196
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:244
 msgid "Default yearly quota"
 msgstr "Quota anual por omissão"
 
@@ -995,16 +1017,16 @@ msgstr "Formulário de horário de trabalho"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:165
-msgid "Start time"
-msgstr "Hora de início"
+msgid "Start time for {day}"
+msgstr "Hora de início para {day}"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:190
+#: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:192
 msgid "End time"
 msgstr "Hora de fim"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:206
+#: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:208
 msgid "Save changes"
 msgstr "Gravar alterações"
 
@@ -1152,6 +1174,16 @@ msgstr "Não atribuido"
 msgid "Please select a permission"
 msgstr "Por favor, selecione uma permissão"
 
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ColorPicker.tsx:18
+msgid "Select a color"
+msgstr "Seleccione uma cor"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/ColorPicker.tsx:24
+msgid "Select {color} color"
+msgstr "Seleccionar cor {color}"
+
 #: apps/frontend/src/components/team-shifts/TeamShiftsSummary.tsx:114
 msgid "{length}h"
 msgstr "{length}h"
@@ -1176,7 +1208,7 @@ msgstr "Adicionar posição"
 msgid "Add qualification"
 msgstr "Adicionar qualificação"
 
-#: apps/frontend/src/components/team/TeamQualifications.tsx:212
+#: apps/frontend/src/components/team/TeamQualifications.tsx:216
 msgid "Add Qualification"
 msgstr "Adicionar Qualificação"
 
@@ -1231,7 +1263,7 @@ msgstr "Aprovado"
 msgid "Approved By"
 msgstr "Aprovado por"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:131
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:147
 msgid "April"
 msgstr "Abril"
 
@@ -1239,7 +1271,7 @@ msgstr "Abril"
 msgid "Assign the managers for the workers in this unit:"
 msgstr "Atribua os gerentes para os trabalhadores nesta unidade:"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:524
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:525
 msgid "Assigned to"
 msgstr "Atribuído a"
 
@@ -1256,7 +1288,7 @@ msgstr "áb"
 msgid "Attention needed"
 msgstr "Atenção necessária"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:143
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:175
 msgid "August"
 msgstr "Agosto"
 
@@ -1281,7 +1313,7 @@ msgstr "Reservar Ausência da Empresa"
 msgid "Busy"
 msgstr "Ocupado"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:456
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:457
 msgid "By saving this as a template, you can reuse it to create new positions in the future."
 msgstr "Guardando como modelo, pode reutilizá-lo para criar novas posições no futuro."
 
@@ -1294,10 +1326,10 @@ msgstr "Subscrições de calendário"
 #: apps/frontend/src/components/LeaveRequest.tsx:111
 #: apps/frontend/src/components/InviteToTeam.tsx:147
 #: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:97
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:553
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:554
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:307
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:360
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:215
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:263
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:405
 msgid "Cancel"
 msgstr "Cancelar"
@@ -1306,7 +1338,7 @@ msgstr "Cancelar"
 msgid "Click the button below to accept the invitation."
 msgstr "Clique no botão abaixo para aceitar o convite."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:376
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:377
 msgid "Color"
 msgstr "Cor"
 
@@ -1338,7 +1370,7 @@ msgstr "Contactar o nosso serviço de apoio ao cliente em"
 msgid "Copy"
 msgstr "Copiar"
 
-#: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:50
+#: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:55
 msgid "Country"
 msgstr "País"
 
@@ -1426,11 +1458,11 @@ msgid "Date range"
 msgstr "Intervalo de datas"
 
 #: apps/frontend/src/components/team-shifts/TeamShiftsSummary.tsx:103
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:475
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:476
 msgid "Day"
 msgstr "Dia"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:155
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:203
 msgid "December"
 msgstr "Dezembro"
 
@@ -1438,7 +1470,7 @@ msgstr "Dezembro"
 msgid "Deducts from annual allowance"
 msgstr "Deduz da cota anual"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:175
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:223
 msgid "Default Yearly Quota (days)"
 msgstr "Cota anual padrão (dias)"
 
@@ -1464,7 +1496,7 @@ msgstr "Agendamentos descartados"
 msgid "Edit"
 msgstr "Editar"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:235
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:236
 msgid "Edit a position in the team schedule."
 msgstr "Editar uma posição no horário da equipa."
 
@@ -1511,7 +1543,7 @@ msgstr "S"
 msgid "F"
 msgstr "F"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:125
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:133
 msgid "February"
 msgstr "Fevereiro"
 
@@ -1633,7 +1665,7 @@ msgstr "Desvio de Inconveniência"
 msgid "Inconvenience:Deviation from Expected"
 msgstr "Inconveniência: Desvio do esperado"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:237
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:238
 msgid "Insert a position into the team schedule."
 msgstr "Inserir uma posição no horário da equipa."
 
@@ -1662,7 +1694,7 @@ msgstr "Convidar para equipa"
 msgid "Invited"
 msgstr "Convidado"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:122
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:126
 msgid "January"
 msgstr "Janeiro"
 
@@ -1670,11 +1702,11 @@ msgstr "Janeiro"
 msgid "Joined"
 msgstr "Adicionado"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:140
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:168
 msgid "July"
 msgstr "Julho"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:137
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:161
 msgid "June"
 msgstr "Junho"
 
@@ -1724,23 +1756,19 @@ msgstr "M"
 msgid "Manage the leave types for the workers in this company:"
 msgstr "Gira os tipos de ausência para os funcionários nesta empresa:"
 
-#: apps/frontend/src/components/personal/MeEdit.tsx:192
-msgid "Manage your onboarding tour preferences."
-msgstr "Gira as suas preferências da apresentação de introdução"
-
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:260
 msgid "Managers only"
 msgstr "Apenas gestores"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:128
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:140
 msgid "March"
 msgstr "Março"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:134
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:154
 msgid "May"
 msgstr "Maio"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:399
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:400
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:101
 #: apps/frontend/src/components/atoms/MonthlyCalendarPerMember.tsx:38
 msgid "Name"
@@ -1807,7 +1835,7 @@ msgstr "Nenhuma equipa"
 msgid "No units"
 msgstr "Nenhuma unidade"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:152
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:196
 msgid "November"
 msgstr "Novembro"
 
@@ -1816,7 +1844,7 @@ msgstr "Novembro"
 msgid "Number of shifts"
 msgstr "Número de turnos"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:149
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:189
 msgid "October"
 msgstr "Outubro"
 
@@ -1885,7 +1913,7 @@ msgstr "Ano anterior"
 msgid "Professional name"
 msgstr "Nome profissional"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:315
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:316
 msgid "Qualifications"
 msgstr "Qualificações"
 
@@ -1894,7 +1922,7 @@ msgstr "Qualificações"
 msgid "Reason"
 msgstr "Motivo"
 
-#: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:88
+#: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:107
 msgid "Region"
 msgstr "Região"
 
@@ -1911,7 +1939,7 @@ msgid "Remove leave request"
 msgstr "Remover pedido de ausência"
 
 #: apps/frontend/src/components/team/TeamSchedulePositionTemplates.tsx:187
-#: apps/frontend/src/components/team/TeamQualifications.tsx:185
+#: apps/frontend/src/components/team/TeamQualifications.tsx:189
 msgid "Remove Qualification"
 msgstr "Remover qualificação"
 
@@ -1963,10 +1991,6 @@ msgstr "Reiniciar mês"
 msgid "Respect leave schedule"
 msgstr "Respeitar o calendário de ausências"
 
-#: apps/frontend/src/components/personal/MeEdit.tsx:208
-msgid "Restart Onboarding Tour"
-msgstr "Reiniciar Tour de Introdução"
-
 #: apps/frontend/src/components/team/TeamInvites.tsx:125
 msgid "Revoke Invitation"
 msgstr "Revogar convite"
@@ -2001,37 +2025,37 @@ msgstr "S"
 msgid "Save"
 msgstr "Guardar"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:452
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:453
 msgid "Save as template"
 msgstr "Guardar como modelo"
 
 #: apps/frontend/src/components/team/TeamSchedulePositionTemplates.tsx:204
-#: apps/frontend/src/components/team/TeamQualifications.tsx:227
+#: apps/frontend/src/components/team/TeamQualifications.tsx:231
 msgid "Save changes"
 msgstr "Guardar alterações"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:560
-#: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:207
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:561
+#: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:209
 msgid "Save Changes"
 msgstr "Guardar alterações"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:218
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:266
 msgid "Save Settings"
 msgstr "Guardar configurações"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:450
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:451
 msgid "Saving..."
 msgstr "A guardar..."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:346
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:347
 msgid "Schedule"
 msgstr "Horário"
 
-#: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:62
+#: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:76
 msgid "Select a country"
 msgstr "Selecionar um país"
 
-#: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:101
+#: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:129
 msgid "Select a region"
 msgstr "Selecionar uma região"
 
@@ -2067,35 +2091,35 @@ msgstr "Selecionar o utilizador para o qual deseja pedir ausência."
 msgid "Select User"
 msgstr "Selecionar utilizador"
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:146
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:182
 msgid "September"
 msgstr "Set a color to this position"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:379
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:380
 msgid "Set a color to this position"
 msgstr "Definir uma cor para esta posição"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:402
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:403
 msgid "Set a name to this position"
 msgstr "Definir um nome para esta posição"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:318
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:319
 msgid "Set any of the qualifications that can fill this position."
 msgstr "Definir qualquer das qualificações que podem preencher esta posição."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:478
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:479
 msgid "Set the day for this position."
 msgstr "Definir o dia para esta posição."
 
-#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:178
+#: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:226
 msgid "Set the default number of leave days allocated to each employee per year."
 msgstr "Definir o número padrão de dias de ausência atribuídos a cada funcionário por ano."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:349
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:350
 msgid "Set the schedule for this position."
 msgstr "Definir o horário para esta posição."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:527
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:528
 msgid "Set the user assigned to this position."
 msgstr "Definir o utilizador atribuído a esta posição."
 
@@ -2210,15 +2234,11 @@ msgstr "Estas ausências deduzirão <0>{0} dias</0> da sua cota "
 msgid "They will have exceeded their quota by <0>{0} days</0>."
 msgstr "Eles terão excedido a sua cota em <0>{0} dias</0>."
 
-#: apps/frontend/src/components/personal/MeEdit.tsx:211
-msgid "This will restart the onboarding tour for the next page you visit."
-msgstr "Isto irá reiniciar o tour de introdução para a próxima página que visitar."
-
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:85
 msgid "Time between shifts"
 msgstr "Tempo entre turnos"
 
-#: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:177
+#: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:179
 #: apps/frontend/src/components/atoms/LeaveRequests.tsx:59
 msgid "to"
 msgstr "para"
@@ -2236,13 +2256,9 @@ msgstr "Para criar uma nova unidade, basta preencher o nome da unidade e clicar 
 msgid "Today"
 msgstr "Hoje"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:358
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:359
 msgid "Total inconvenience: {totalInconvenience}"
 msgstr "Inconveniência total: {totalInconvenience}"
-
-#: apps/frontend/src/components/personal/MeEdit.tsx:189
-msgid "Tour Settings"
-msgstr "Configurações do Tour"
 
 #: apps/frontend/src/components/atoms/LeaveRequest.tsx:92
 msgid "Type"
@@ -2286,15 +2302,15 @@ msgstr "Nome da unidade"
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:256
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:257
 msgid "Use a template to create this position."
 msgstr "Usar um modelo para criar esta posição."
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:280
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:281
 msgid "Use template"
 msgstr "Usar modelo"
 
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:250
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:251
 msgid "Use template?"
 msgstr "Usar modelo?"
 
