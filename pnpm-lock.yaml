@@ -123,7 +123,7 @@ importers:
         version: 1.12.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@tanstack/react-query':
         specifier: ^5.64.1
-        version: 5.80.3(react@19.1.0)
+        version: 5.80.6(react@19.1.0)
       '@types/node':
         specifier: ^22.10.2
         version: 22.15.31
@@ -3424,8 +3424,8 @@ packages:
   '@tanstack/form-core@1.12.1':
     resolution: {integrity: sha512-cCR3udteesUakO0K7T+2GkL8F2HKp7+khJmdLbebz63XbKCuHqSuEtC+bz4cw+Ad6eZxV2hvTkmZxdn39F8XUw==}
 
-  '@tanstack/query-core@5.80.2':
-    resolution: {integrity: sha512-g2Es97uwFk7omkWiH9JmtLWSA8lTUFVseIyzqbjqJEEx7qN+Hg6jbBdDvelqtakamppaJtGORQ64hEJ5S6ojSg==}
+  '@tanstack/query-core@5.80.6':
+    resolution: {integrity: sha512-nl7YxT/TAU+VTf+e2zTkObGTyY8YZBMnbgeA1ee66lIVqzKlYursAII6z5t0e6rXgwUMJSV4dshBTNacNpZHbQ==}
 
   '@tanstack/react-form@1.12.1':
     resolution: {integrity: sha512-wcxqqM9mKcjy4ePUQNYZDpuK1dicGHGYbM21UujKNGY2maYk7eXPmZ2xeCYAOEl2rpCjgOf2MZHlfi3Exlaocg==}
@@ -3439,8 +3439,8 @@ packages:
       vinxi:
         optional: true
 
-  '@tanstack/react-query@5.80.3':
-    resolution: {integrity: sha512-psqr/QRzYfqJvgD8F2teMO6mL4hN4gzkOra9BlPplNhwByviZIhHUrWTXQEMmUdPWHNkGjA1SP6xG2+brhmIoQ==}
+  '@tanstack/react-query@5.80.6':
+    resolution: {integrity: sha512-izX+5CnkpON3NQGcEm3/d7LfFQNo9ZpFtX2QsINgCYK9LT2VCIdi8D3bMaMSNhrAJCznRoAkFic76uvLroALBw==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -11443,7 +11443,7 @@ snapshots:
     dependencies:
       '@tanstack/store': 0.7.1
 
-  '@tanstack/query-core@5.80.2': {}
+  '@tanstack/query-core@5.80.6': {}
 
   '@tanstack/react-form@1.12.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
@@ -11455,9 +11455,9 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@tanstack/react-query@5.80.3(react@19.1.0)':
+  '@tanstack/react-query@5.80.6(react@19.1.0)':
     dependencies:
-      '@tanstack/query-core': 5.80.2
+      '@tanstack/query-core': 5.80.6
       react: 19.1.0
 
   '@tanstack/react-store@0.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
