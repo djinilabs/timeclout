@@ -72,23 +72,31 @@ export const TeamMembers = () => {
                     aria-label={`View profile of ${person.name}`}
                     aria-clickable
                     role="link"
+                    aria-describedby={`member-${person.pk}-name`}
                   >
                     <Avatar {...person} />
                   </Link>
                 </div>
                 <div>
-                  <p className="text-sm/6 font-semibold text-gray-900">
+                  <p
+                    className="text-sm/6 font-semibold text-gray-900"
+                    id={`member-${person.pk}-name`}
+                  >
                     <Link
                       to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
                       className="hover:underline"
                       aria-label={`View profile of ${person.name}`}
                       aria-clickable
                       role="link"
+                      aria-describedby={`member-${person.pk}-email`}
                     >
                       {person.name}
                     </Link>
                   </p>
-                  <p className="mt-1 flex text-xs/5 text-gray-500">
+                  <p
+                    className="mt-1 flex text-xs/5 text-gray-500"
+                    id={`member-${person.pk}-email`}
+                  >
                     <a
                       href={`mailto:${person.email}`}
                       className="truncate hover:underline"
@@ -158,9 +166,15 @@ export const TeamMembers = () => {
                         aria-label={`Edit ${person.name}'s profile`}
                         aria-clickable
                         role="link"
+                        aria-describedby={`edit-${person.pk}-description`}
                       >
                         <Trans>Edit</Trans>
-                        <span className="sr-only">, {person.name}</span>
+                        <span
+                          className="sr-only"
+                          id={`edit-${person.pk}-description`}
+                        >
+                          , {person.name}
+                        </span>
                       </Link>
                     </MenuItem>
                     <MenuItem>

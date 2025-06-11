@@ -36,8 +36,18 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
                     <a
                       href={`mailto:${leaveRequest.beneficiary.email}`}
                       className="relative truncate hover:underline"
+                      aria-label={`Send email to ${leaveRequest.beneficiary.name} at ${leaveRequest.beneficiary.email}`}
+                      aria-clickable
+                      role="link"
+                      aria-describedby={`email-${leaveRequest.pk}-description`}
                     >
                       {leaveRequest.beneficiary.email}
+                      <span
+                        className="sr-only"
+                        id={`email-${leaveRequest.pk}-description`}
+                      >
+                        <Trans>Email address</Trans>
+                      </span>
                     </a>
                   </p>
                 </div>
@@ -50,8 +60,15 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
                       role="link"
                       aria-label={`View ${leaveRequest.type} leave request`}
                       to={url}
+                      aria-describedby={`leave-type-${leaveRequest.pk}-description`}
                     >
                       {leaveRequest.type}
+                      <span
+                        className="sr-only"
+                        id={`leave-type-${leaveRequest.pk}-description`}
+                      >
+                        <Trans>Leave request type</Trans>
+                      </span>
                     </Link>
                   </p>
                   <p className="mt-1 text-xs/5 text-gray-500">
@@ -77,11 +94,18 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
                   role="link"
                   aria-label={`View ${leaveRequest.type} leave request`}
                   to={url}
+                  aria-describedby={`view-details-${leaveRequest.pk}-description`}
                 >
                   <ChevronRightIcon
                     aria-hidden="true"
                     className="size-5 flex-none text-gray-400"
                   />
+                  <span
+                    className="sr-only"
+                    id={`view-details-${leaveRequest.pk}-description`}
+                  >
+                    <Trans>View leave request details</Trans>
+                  </span>
                 </Link>
               </div>
             </li>

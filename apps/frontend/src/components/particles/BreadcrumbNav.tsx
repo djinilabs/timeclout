@@ -21,9 +21,10 @@ export const BreadcrumbNav = () => {
               aria-label="Go to home page"
               aria-clickable
               role="link"
+              aria-describedby="home-description"
             >
               <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
-              <span className="sr-only">
+              <span className="sr-only" id="home-description">
                 <Trans>Home</Trans>
               </span>
             </Link>
@@ -48,8 +49,15 @@ export const BreadcrumbNav = () => {
                   aria-label={`Go to ${company.name} company`}
                   aria-clickable
                   role="link"
+                  aria-describedby={`company-${company.pk}-description`}
                 >
                   {company.name}
+                  <span
+                    className="sr-only"
+                    id={`company-${company.pk}-description`}
+                  >
+                    <Trans>Company</Trans>
+                  </span>
                 </Link>
               </div>
             </li>
@@ -72,8 +80,15 @@ export const BreadcrumbNav = () => {
                       aria-label={`Go to ${unit.name} unit`}
                       aria-clickable
                       role="link"
+                      aria-describedby={`unit-${unit.pk}-description`}
                     >
                       {unit.name}
+                      <span
+                        className="sr-only"
+                        id={`unit-${unit.pk}-description`}
+                      >
+                        <Trans>Unit</Trans>
+                      </span>
                     </Link>
                   </div>
                 </li>
@@ -95,8 +110,15 @@ export const BreadcrumbNav = () => {
                         aria-label={`Go to ${team.name} team`}
                         aria-clickable
                         role="link"
+                        aria-describedby={`team-${team.pk}-description`}
                       >
                         {team.name}
+                        <span
+                          className="sr-only"
+                          id={`team-${team.pk}-description`}
+                        >
+                          <Trans>Team</Trans>
+                        </span>
                       </Link>
                     </div>
                   </li>

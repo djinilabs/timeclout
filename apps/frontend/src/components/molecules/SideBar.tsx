@@ -110,13 +110,20 @@ const SideBar = ({
       }`}
     >
       <div className="flex h-16 shrink-0 items-center">
-        <a href="https://tt3.app" aria-label="Team Time Table Home">
+        <a
+          href="https://tt3.app"
+          aria-label="Team Time Table Home"
+          aria-clickable
+          role="link"
+          aria-describedby="tt3-logo-description"
+        >
           <img
             alt="Team Time Table"
             src="/images/tt3-logo.svg"
             className={`h-20 w-auto mt-2 transition-opacity duration-300 ${
               expanded ? "opacity-100" : "opacity-0"
             }`}
+            id="tt3-logo-description"
           />
         </a>
       </div>
@@ -154,6 +161,9 @@ const SideBar = ({
                     aria-label={item.name}
                     aria-clickable
                     role="link"
+                    aria-describedby={`nav-${item.name
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}-description`}
                   >
                     <item.icon
                       aria-hidden="true"
@@ -165,6 +175,9 @@ const SideBar = ({
                       )}
                     />
                     <span
+                      id={`nav-${item.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}-description`}
                       className={`transition-opacity duration-300 ${
                         expanded
                           ? "opacity-100"
@@ -187,12 +200,14 @@ const SideBar = ({
               aria-label="Settings"
               aria-clickable
               role="link"
+              aria-describedby="settings-description"
             >
               <Cog6ToothIcon
                 aria-hidden="true"
                 className="size-6 shrink-0 text-teal-200 group-hover:text-white"
               />
               <span
+                id="settings-description"
                 className={`transition-opacity duration-300 ${
                   expanded ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
                 }`}
