@@ -1,9 +1,11 @@
-import { FC, lazy, Suspense } from "react";
+import { FC, lazy } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import { RequiresSelfSettings } from "./components/personal/RequiresSelfSettings";
 import { AppLayout } from "./AppLayout";
 import { EntityNavigationContextProvider } from "./contexts/EntityNavigationContext";
 import { ConfirmDialogProvider } from "./providers/ConfirmDialogProvider";
+import { CheckLatestAppVersion } from "./components/molecules/CheckLatestAppVersion";
+import { Suspense } from "./components/atoms/Suspense";
 
 const LazyCompanies = lazy(() => import("./routes/Companies"));
 const LazyNewCompany = lazy(() => import("./routes/NewCompany"));
@@ -31,6 +33,9 @@ const LazyCreateLeaveType = lazy(() => import("./routes/CreateLeaveType"));
 export const AppRoutes: FC = () => {
   return (
     <ConfirmDialogProvider>
+      <Suspense fallback={null}>
+        <CheckLatestAppVersion />
+      </Suspense>
       <Routes>
         <Route
           element={

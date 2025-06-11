@@ -75,66 +75,61 @@ export const AllUserCompanies = () => {
       </div>
       <ul className="companies-list">
         {allCompanies.data?.companies.map((company: Company) => (
-          <>
-            <li
-              key={company.pk}
-              className="flex items-center justify-between gap-x-6 py-5"
-            >
-              <div className="min-w-0">
-                <div className="flex items-start gap-x-3">
-                  <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
-                    <Link to={`/${company.pk}`}>{company.name}</Link>
-                  </p>
-                </div>
-                <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
-                  <p className="whitespace-nowrap">
-                    <Trans>Created</Trans>{" "}
-                    <ReactTimeAgo date={new Date(company.createdAt)} />
-                  </p>
-                  <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
-                    <circle r={1} cx={1} cy={1} />
-                  </svg>
-                  <p className="truncate">
-                    <Trans>Created by</Trans> {company.createdBy.name}
-                  </p>
-                </div>
+          <li
+            key={company.pk}
+            className="flex items-center justify-between gap-x-6 py-5"
+          >
+            <div className="min-w-0">
+              <div className="flex items-start gap-x-3">
+                <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
+                  <Link to={`/${company.pk}`}>{company.name}</Link>
+                </p>
               </div>
-              <div className="flex flex-none items-center gap-x-4">
-                <Link
-                  to={`/${company.pk}`}
-                  className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+              <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
+                <p className="whitespace-nowrap">
+                  <Trans>Created</Trans>{" "}
+                  <ReactTimeAgo date={new Date(company.createdAt)} />
+                </p>
+                <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
+                  <circle r={1} cx={1} cy={1} />
+                </svg>
+                <p className="truncate">
+                  <Trans>Created by</Trans> {company.createdBy.name}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-none items-center gap-x-4">
+              <Link
+                to={`/${company.pk}`}
+                className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+              >
+                <Trans>View company</Trans>
+                <span className="sr-only">, {company.name}</span>
+              </Link>
+              <Menu as="div" className="relative flex-none">
+                <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                  <span className="sr-only">
+                    <Trans>Open options</Trans>
+                  </span>
+                  <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
+                </MenuButton>
+                <MenuItems
+                  transition
+                  className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
                 >
-                  <Trans>View company</Trans>
-                  <span className="sr-only">, {company.name}</span>
-                </Link>
-                <Menu as="div" className="relative flex-none">
-                  <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                    <span className="sr-only">
-                      <Trans>Open options</Trans>
-                    </span>
-                    <EllipsisVerticalIcon
-                      aria-hidden="true"
-                      className="size-5"
-                    />
-                  </MenuButton>
-                  <MenuItems
-                    transition
-                    className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
-                  >
-                    <MenuItem>
-                      <Link
-                        to={`/${company.pk}`}
-                        className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
-                      >
-                        <Trans>Edit</Trans>
-                        <span className="sr-only">, {company.name}</span>
-                      </Link>
-                    </MenuItem>
-                  </MenuItems>
-                </Menu>
-              </div>
-            </li>
-          </>
+                  <MenuItem>
+                    <Link
+                      to={`/${company.pk}`}
+                      className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                    >
+                      <Trans>Edit</Trans>
+                      <span className="sr-only">, {company.name}</span>
+                    </Link>
+                  </MenuItem>
+                </MenuItems>
+              </Menu>
+            </div>
+          </li>
         ))}
       </ul>
     </div>

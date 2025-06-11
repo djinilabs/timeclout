@@ -4,7 +4,7 @@ import { AnyVariables, useQuery as urqlUseQuery, UseQueryArgs } from "urql";
 
 type ExtendedUseQueryProps<
   TData = unknown,
-  TVariables extends AnyVariables = AnyVariables,
+  TVariables extends AnyVariables = AnyVariables
 > = UseQueryArgs<TVariables, TData> & {
   pollingIntervalMs?: number;
   toastIfError?: boolean;
@@ -12,7 +12,7 @@ type ExtendedUseQueryProps<
 
 export const useQuery = <
   TData = unknown,
-  TVariables extends AnyVariables = AnyVariables,
+  TVariables extends AnyVariables = AnyVariables
 >({
   pollingIntervalMs,
   toastIfError = true,

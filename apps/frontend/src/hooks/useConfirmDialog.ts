@@ -8,5 +8,6 @@ export const useConfirmDialog = () => {
       "useConfirmDialog must be used within a ConfirmDialogProvider"
     );
   }
+  console.log("useConfirmDialog", context);
   return context;
 };
