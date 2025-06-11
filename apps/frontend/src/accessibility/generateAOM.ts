@@ -9,7 +9,12 @@ export const generateAccessibilityObjectModel = (
   includeDomElement: boolean = false
 ): AccessibilityObjectModel => {
   const traverseElement = (element: Element): AccessibleElement[] => {
-    const role = element.getAttribute("role");
+    let role = element.getAttribute("role");
+    // if it has not role and the element is a button, assign it a role of button
+    if (!role && element.tagName === "BUTTON") {
+      role = "button";
+    }
+
     const description =
       element.getAttribute("aria-label") ||
       element.getAttribute("aria-description") ||

@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useMemo, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import {
   Combobox,
   ComboboxButton,
@@ -69,13 +69,12 @@ export const SelectUser: FC<SelectUserProps> = memo(
             onChange={(event) => setQuery(event.target.value)}
             onBlur={() => setQuery("")}
             autoFocus={autoFocus}
-            displayValue={(user: User) => user?.name ?? ""}
+            displayValue={(user?: User) => user?.name ?? ""}
             aria-label={i18n.t("Assigned user")}
-            aria-expanded={filteredUsers.length > 0}
             aria-controls="user-listbox"
           />
           <ComboboxButton
-            className=" flex items-center rounded-r-md px-2 focus:outline-hidden"
+            className="flex items-center rounded-r-md px-2 focus:outline-hidden"
             aria-label={i18n.t("Open user selection")}
             aria-controls="user-listbox"
             aria-clickable
@@ -88,6 +87,7 @@ export const SelectUser: FC<SelectUserProps> = memo(
 
           {filteredUsers.length > 0 && (
             <ComboboxOptions
+              portal={false}
               id="user-listbox"
               anchor="bottom start"
               transition
