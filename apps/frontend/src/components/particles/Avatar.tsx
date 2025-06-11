@@ -70,6 +70,8 @@ export const Avatar: FC<AvatarProps> = memo(
               fontFamily: "sans-serif",
               userSelect: "none",
             }}
+            role="avatar"
+            aria-label={name ?? email ?? initials}
           >
             {initials}
           </div>
