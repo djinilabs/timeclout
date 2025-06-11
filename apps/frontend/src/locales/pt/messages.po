@@ -1152,7 +1152,7 @@ msgstr "Seleccionar um membro"
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/SelectUser.tsx:56
 msgid "Search users"
-msgstr "Pesquisae membros"
+msgstr "Pesquisar membros"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/SelectUser.tsx:62

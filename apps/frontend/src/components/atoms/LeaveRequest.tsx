@@ -206,6 +206,7 @@ export const LeaveRequest: React.FC<LeaveRequestProps> = memo(
                           key={user.email}
                           className="gap-2 mb-2"
                           role="listitem"
+                          aria-label={`${user.name} approved this leave request`}
                         >
                           <Avatar {...user} size={30} />
                           <p>{user.name}</p>

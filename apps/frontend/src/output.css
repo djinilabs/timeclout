@@ -1508,6 +1508,9 @@
   .items-start {
     align-items: flex-start;
   }
+  .items-stretch {
+    align-items: stretch;
+  }
   .justify-between {
     justify-content: space-between;
   }
@@ -2625,6 +2628,10 @@
     --tw-ease: linear;
     transition-timing-function: linear;
   }
+  .ease-out {
+    --tw-ease: var(--ease-out);
+    transition-timing-function: var(--ease-out);
+  }
   .select-none {
     -webkit-user-select: none;
     user-select: none;
@@ -2850,6 +2857,11 @@
   .checked\:bg-teal-600 {
     &:checked {
       background-color: var(--color-teal-600);
+    }
+  }
+  .empty\:invisible {
+    &:empty {
+      visibility: hidden;
     }
   }
   .focus-within\:outline-2 {

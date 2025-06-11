@@ -68,4 +68,78 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
       };
     },
   },
+  fill_form_element: {
+    description:
+      "Fill in a form element (textarea, input, select, radio, checkbox) with a value. Use this to interact with form elements in the UI. The element needs to be found by its role and description.",
+    parameters: z.object({
+      "element-role": z.string(),
+      "element-description": z.string(),
+      value: z.string(),
+    }),
+    execute: async ({
+      "element-role": role,
+      "element-description": description,
+      value,
+    }) => {
+      console.log("tool call: fill_form_element", role, description, value);
+      const aom = generateAccessibilityObjectModel(document, true);
+      const element = findFirstElementInAOM(aom, role, description);
+
+      if (!element) {
+        console.log(
+          "Element with the following role and description not found: role: ",
+          role,
+          "description: ",
+          description
+        );
+        return {
+          success: false,
+          error: `Element with the following role and description not found: role: ${role}, description: ${description}`,
+        };
+      }
+
+      if (!element.domElement) {
+        return {
+          success: false,
+          error: "Element has no DOM element",
+        };
+      }
+
+      const domElement = element.domElement as HTMLElement;
+
+      try {
+        // Handle different types of form elements
+        if (domElement instanceof HTMLInputElement) {
+          if (domElement.type === "checkbox") {
+            domElement.checked = value.toLowerCase() === "true";
+          } else if (domElement.type === "radio") {
+            domElement.checked = true;
+          } else {
+            domElement.value = value;
+          }
+        } else if (domElement instanceof HTMLTextAreaElement) {
+          domElement.value = value;
+        } else if (domElement instanceof HTMLSelectElement) {
+          domElement.value = value;
+        } else {
+          return {
+            success: false,
+            error: "Element is not a form input element",
+          };
+        }
+
+        // Trigger input event to ensure React/other frameworks detect the change
+        domElement.dispatchEvent(new Event("input", { bubbles: true }));
+        await debounceActivity();
+
+        return { success: true };
+      } catch (error) {
+        console.error("Error filling form element:", error);
+        return {
+          success: false,
+          error: `Error filling form element: ${error}`,
+        };
+      }
+    },
+  },
 });
