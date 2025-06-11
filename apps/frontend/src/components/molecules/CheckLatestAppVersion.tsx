@@ -3,7 +3,7 @@ import { useQuery } from "../../hooks/useQuery";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { Trans } from "@lingui/react/macro";
 import { version } from "../../../../../package.json";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 export const CheckLatestAppVersion = () => {
   console.log("CheckLatestAppVersion");
@@ -42,7 +42,6 @@ export const CheckLatestAppVersion = () => {
             cancelText,
           })
         ) {
-          console.log("CheckLatestAppVersion: onConfirm");
           window.location.reload();
         }
       }
