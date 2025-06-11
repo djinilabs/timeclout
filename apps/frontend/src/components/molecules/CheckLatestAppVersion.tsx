@@ -33,7 +33,12 @@ export const CheckLatestAppVersion = () => {
 
   useEffect(() => {
     (async () => {
-      if (data?.latestAppVersion !== version && !alreadyShown.current) {
+      if (
+        data &&
+        data.latestAppVersion &&
+        data.latestAppVersion !== version &&
+        !alreadyShown.current
+      ) {
         alreadyShown.current = true;
         if (
           await showConfirmDialog({
@@ -49,6 +54,7 @@ export const CheckLatestAppVersion = () => {
   }, [
     cancelText,
     confirmText,
+    data,
     data?.latestAppVersion,
     showConfirmDialog,
     text,
