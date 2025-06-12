@@ -35,7 +35,7 @@ const Login: FC = () => {
               <Button
                 onClick={handleSignIn}
                 className="w-full justify-center"
-                ariaLabel="Sign in to your account"
+                aria-label="Sign in to your account"
               >
                 <Trans>Sign in</Trans>
               </Button>

@@ -18,6 +18,7 @@ export interface CalendarHeaderProps {
     | {
         type: "button";
         text: ReactNode;
+        label?: string;
         onClick: () => void;
       }
     | {
@@ -127,7 +128,17 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
             {additionalActions?.map((action, index) => (
               <div key={`desktop-action-${index}`} className="ml-6">
                 {action.type === "button" ? (
-                  <Button onClick={action.onClick}>{action.text}</Button>
+                  <Button
+                    aria-label={
+                      action.label ??
+                      (typeof action.text === "string"
+                        ? action.text
+                        : undefined)
+                    }
+                    onClick={action.onClick}
+                  >
+                    {action.text}
+                  </Button>
                 ) : (
                   action.component
                 )}

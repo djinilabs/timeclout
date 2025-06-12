@@ -205,7 +205,7 @@ export const CompanyWorkSchedule = () => {
               </div>
             </div>
 
-            <Button type="submit" ariaLabel={i18n.t("Save changes")}>
+            <Button type="submit" aria-label={i18n.t("Save changes")}>
               <Trans>Save Changes</Trans>
             </Button>
           </div>

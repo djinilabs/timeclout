@@ -7,10 +7,11 @@ export interface LabeledSwitchProps {
   label: ReactNode;
   checked: boolean;
   onChange: (checked: boolean) => void;
+  "aria-label"?: string;
 }
 
 export const LabeledSwitch: FC<LabeledSwitchProps> = memo(
-  ({ id, label, checked, onChange }) => {
+  ({ id, label, checked, onChange, "aria-label": ariaLabel }) => {
     return (
       <Field className="flex items-center">
         <div className="flex items-center">
@@ -21,6 +22,7 @@ export const LabeledSwitch: FC<LabeledSwitchProps> = memo(
             className="group relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 data-checked:bg-teal-600"
             aria-checked={checked}
             aria-labelledby={`${id}-label`}
+            aria-label={ariaLabel}
           >
             <span
               aria-hidden="true"

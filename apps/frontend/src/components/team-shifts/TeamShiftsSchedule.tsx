@@ -46,6 +46,7 @@ import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
 import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
 import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
 import { shiftPositionKey } from "../../utils/shiftPositionKey";
+import { i18n } from "@lingui/core";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -612,6 +613,7 @@ export const TeamShiftsSchedule = () => {
               {
                 type: "button",
                 text: <Trans>Add position</Trans>,
+                label: i18n.t("Add new shift position"),
                 onClick: () => {
                   setEditingShiftPosition(undefined);
                   setIsDialogOpen("create");
@@ -621,6 +623,7 @@ export const TeamShiftsSchedule = () => {
               {
                 type: "button",
                 text: <Trans>Auto fill</Trans>,
+                label: i18n.t("Auto fill shift positions"),
                 onClick: () => {
                   setIsDialogOpen("autoFill");
                 },

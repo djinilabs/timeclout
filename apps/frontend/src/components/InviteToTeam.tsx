@@ -142,7 +142,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
           <Button
             cancel
             onClick={onDone}
-            ariaLabel={i18n.t("Cancel invitation")}
+            aria-label={i18n.t("Cancel invitation")}
           >
             <Trans>Cancel</Trans>
           </Button>

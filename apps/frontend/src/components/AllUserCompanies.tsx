@@ -75,7 +75,7 @@ export const AllUserCompanies = () => {
             <Button
               to="/companies/new"
               className="new-company-button"
-              ariaLabel="Create new company"
+              aria-label="Create new company"
             >
               <Trans>Create new company</Trans>
             </Button>

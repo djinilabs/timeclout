@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useEffect, useRef } from "react";
+import { FC, memo, useCallback, useEffect, useMemo, useRef } from "react";
 import { i18n } from "@lingui/core";
 import { useSession } from "next-auth/react";
 
@@ -18,7 +18,7 @@ export interface SelectUserProps {
 }
 
 export const SelectUser: FC<SelectUserProps> = memo(
-  ({ onChange, users, user: selectedUser = null, autoFocus }) => {
+  ({ onChange, users: _users, user: selectedUser = null, autoFocus }) => {
     const { data: session } = useSession();
 
     const isMe = useCallback(
@@ -39,6 +39,10 @@ export const SelectUser: FC<SelectUserProps> = memo(
         }
       }, 100);
     }, [autoFocus]);
+
+    const users = useMemo(() => {
+      return _users.sort((a, b) => a.name.localeCompare(b.name));
+    }, [_users]);
 
     const onSelectedValueChange = useCallback(
       (event: React.ChangeEvent<HTMLSelectElement>) => {

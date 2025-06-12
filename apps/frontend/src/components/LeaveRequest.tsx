@@ -112,14 +112,14 @@ export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
           <Button
             cancel
             onClick={() => navigate(callbackUrl ?? `/companies/${company}`)}
-            ariaLabel="Cancel and return to previous page"
+            aria-label="Cancel and return to previous page"
           >
             <Trans>Cancel</Trans>
           </Button>
           {leaveRequest.approved ? (
             <Button
               onClick={onRemoveLeaveRequest}
-              ariaLabel="Remove approved leave request"
+              aria-label="Remove approved leave request"
             >
               <Trans>Remove leave request</Trans>
             </Button>
@@ -128,13 +128,13 @@ export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
               <Button
                 cancel
                 onClick={onRejectLeaveRequest}
-                ariaLabel="Reject leave request"
+                aria-label="Reject leave request"
               >
                 <Trans>Reject leave request</Trans>
               </Button>
               <Button
                 onClick={onApproveLeaveRequest}
-                ariaLabel="Approve leave request"
+                aria-label="Approve leave request"
               >
                 <Trans>Approve leave request</Trans>
               </Button>

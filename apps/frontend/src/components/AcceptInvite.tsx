@@ -84,7 +84,7 @@ export const AcceptInvite: FC = () => {
           <Button
             disabled={fetching}
             onClick={handleAcceptInvitation}
-            ariaLabel={
+            aria-label={
               i18n.t("Accept invitation to join") +
               " " +
               invitation.toEntity.name

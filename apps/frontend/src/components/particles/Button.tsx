@@ -8,11 +8,11 @@ export interface ButtonProps {
   disabled?: boolean;
   type?: "button" | "submit";
   className?: string;
-  ariaLabel?: string;
+  "aria-label"?: string;
 }
 
 const CancelButton: FC<PropsWithChildren<ButtonProps>> = memo(
-  ({ onClick, children, ariaLabel, disabled }) => {
+  ({ onClick, children, "aria-label": ariaLabel, disabled }) => {
     // For cancel buttons, we want to be explicit about the action
     const label =
       ariaLabel ||
@@ -41,7 +41,7 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = memo(
     disabled,
     type = "button",
     className = "",
-    ariaLabel,
+    "aria-label": ariaLabel,
   }) => {
     const navigate = useNavigate();
     const onClick = useCallback(() => {
@@ -51,13 +51,6 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = memo(
         _onClick();
       }
     }, [to, _onClick, navigate]);
-
-    // Require ariaLabel if there's no visible text content
-    if (!ariaLabel && !children) {
-      console.warn(
-        "Button component requires either children or ariaLabel prop for accessibility"
-      );
-    }
 
     // Generate appropriate label based on context
     const label =
@@ -79,7 +72,7 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = memo(
       return (
         <CancelButton
           onClick={onClick}
-          ariaLabel={ariaLabel}
+          aria-label={ariaLabel}
           disabled={disabled}
         >
           {children}
