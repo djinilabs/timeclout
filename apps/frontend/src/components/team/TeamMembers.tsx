@@ -63,6 +63,7 @@ export const TeamMembers = () => {
             key={person.pk}
             className="flex justify-between gap-x-6 py-5"
             role="listitem"
+            aria-label={person.name}
           >
             <div className="grid grid-cols-[1fr_3fr_1fr] items-center w-full gap-x-6">
               <div className="grid grid-cols-[60px_1fr] gap-x-2">
