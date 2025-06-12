@@ -4,6 +4,7 @@ import { DayDate } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
 import { Transition } from "@headlessui/react";
 import { getDefined } from "@/utils";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../../hooks/useTeamShiftsClipboard";
 import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
@@ -599,6 +600,15 @@ export const TeamShiftsSchedule = () => {
       showScheduleDetails,
     ]
   );
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <ExclamationTriangleIcon className="size-10 text-red-500" />
+        <Trans>Error loading calendar data</Trans>
+      </div>
+    );
+  }
 
   return (
     <div className="relative">
