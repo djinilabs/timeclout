@@ -1,7 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { streamText, StreamTextResult, ToolSet } from "ai";
 import { UAParser } from "ua-parser-js";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { useLingui } from "@lingui/react";
 import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
 import { useAIChatHistory } from "./useAIChatHistory";
 import { nanoid } from "nanoid";
@@ -15,20 +16,6 @@ export interface AIAgentChatResult {
   clearMessages: () => Promise<void>;
 }
 
-const INITIAL_SYSTEM_PROMPT = `
-You are a helpful assistant that lives inside the TT3 product (an application to help with team scheduling shifts).
-You can interact with the TT3 product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.
-You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.
-To select a combo box you need to open it first, then select the option you want.
-You can fill text fields using the fill_form_element tool.
-You should use the tools provided to you to answer questions and help with tasks.
-Don't plan, just act.
-If the user asks you to do something, you should try to use the provided tools.
-To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.
-After you have received a tool-result, reply to the user in __plain english__ with your findings.
-If a tool-result is not successful, you should try to use the tools again.
-`;
-
 const GENERATE_TIMEOUT_MS = 1000 * 60 * 5; // 5 minutes
 
 const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
@@ -38,12 +25,74 @@ const google = createGoogleGenerativeAI({
 });
 
 export const useAIAgentChat = (): AIAgentChatResult => {
-  const { messages, saveNewMessage, clearMessages } = useAIChatHistory();
+  const {
+    messages: loadedMessages,
+    saveNewMessage,
+    clearMessages,
+    loading,
+  } = useAIChatHistory();
+
+  const usedLanguageRef = useRef<string | undefined>(undefined);
+
+  const { i18n } = useLingui();
+  const initialSystemPrompt = useMemo(
+    () =>
+      i18n.t(`You are a helpful assistant that lives inside the TT3 product (an application to help with team scheduling shifts).
+  You can interact with the TT3 product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.
+  You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.
+  You can fill text fields using the fill_form_element tool.
+  You should use the tools provided to you to answer questions and help with tasks.
+  Don't plan, just act.
+  If the user asks you to do something, you should try to use the provided tools.
+  To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.
+  After you have received a tool-result, reply to the user in __plain english__ with your findings.
+  If a tool-result is not successful, you should try to use the tools again.
+  `),
+    [i18n]
+  );
+
+  const GREETING_MESSAGE = useMemo(
+    () => i18n.t("Hello, I'm your TT3 AI assistant. How can I help you today?"),
+    [i18n]
+  );
+
+  const messages: AIMessage[] = useMemo(() => {
+    usedLanguageRef.current = i18n.locale;
+    return loading
+      ? [...loadedMessages]
+      : loadedMessages.length === 0
+      ? [
+          {
+            id: nanoid(),
+            timestamp: new Date(),
+            message: {
+              role: "assistant",
+              content: GREETING_MESSAGE,
+            },
+            content: GREETING_MESSAGE,
+          },
+          ...loadedMessages,
+        ]
+      : loadedMessages;
+  }, [GREETING_MESSAGE, i18n.locale, loadedMessages, loading]);
+
+  useEffect(() => {
+    if (usedLanguageRef.current !== i18n.locale) {
+      if (loadedMessages.length > 0) {
+        const greetingMessage = loadedMessages[0];
+        if (greetingMessage.message.content !== GREETING_MESSAGE) {
+          greetingMessage.message.content = GREETING_MESSAGE;
+          greetingMessage.content = GREETING_MESSAGE;
+        }
+      }
+      usedLanguageRef.current = i18n.locale;
+    }
+  }, [loadedMessages, i18n.locale, GREETING_MESSAGE]);
 
   const tools = useAITools();
 
   const handleError = useCallback(
-    async (error: Error, messageId = crypto.randomUUID()) => {
+    async (error: Error, messageId = nanoid()) => {
       const errorMessage = error.message;
       console.log("handleError", error);
       const errorMessageLowerCased = errorMessage.toLowerCase();
@@ -233,14 +282,14 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           content: <></>,
           message: {
             role: "system",
-            content: INITIAL_SYSTEM_PROMPT,
+            content: initialSystemPrompt,
           },
         },
         ...messages,
         userMessage,
       ];
 
-      const messageId = crypto.randomUUID();
+      const messageId = nanoid();
 
       const model = getModel(messageId);
       if (!model) {
@@ -268,11 +317,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       try {
         result = await streamText({
-          providerOptions: {
-            google: {
-              apiKey: "AIzaSyCYl7jq5nVl9nOyXLhVUcyePygyqfFu6is",
-            },
-          },
           model,
           maxSteps: 20,
           messages: allMessages.map((message) => message.message),
@@ -292,8 +336,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         clearTimeout(timeout);
         return;
       }
-
-      console.log("result", result);
 
       if (!result) {
         return;
@@ -360,7 +402,14 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         );
       }
     },
-    [saveNewMessage, messages, getModel, tools, handleError]
+    [
+      saveNewMessage,
+      initialSystemPrompt,
+      messages,
+      getModel,
+      tools,
+      handleError,
+    ]
   );
 
   return { messages, handleUserMessageSubmit, clearMessages };

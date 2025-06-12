@@ -1,4 +1,5 @@
 import { ToolSet } from "ai";
+import { nanoid } from "nanoid";
 import { useEffect } from "react";
 export const useTestToolExecutionFromConsole = (tools: ToolSet) => {
   useEffect(() => {
@@ -30,7 +31,7 @@ export const useTestToolExecutionFromConsole = (tools: ToolSet) => {
         return;
       }
       const result = await tool.execute(args as unknown, {
-        toolCallId: crypto.randomUUID(),
+        toolCallId: nanoid(),
         messages: [],
         abortSignal: new AbortController().signal,
       });

@@ -37,8 +37,6 @@ export const useAIChatHistory = () => {
   const upsertMessageInDb = useMemo(
     () =>
       async (message: AIMessage): Promise<void> => {
-        console.log("saving new message:", message);
-
         const db = await dbPromise;
         const transaction = db.transaction([STORE_NAME], "readwrite");
         const store = transaction.objectStore(STORE_NAME);
@@ -119,6 +117,8 @@ export const useAIChatHistory = () => {
     upsertMessage(message);
   };
 
+  const [loading, setLoading] = useState(false);
+
   const loadMessages = useCallback(async (): Promise<void> => {
     const db = await dbPromise;
     return new Promise<void>((resolve, reject) => {
@@ -137,7 +137,6 @@ export const useAIChatHistory = () => {
             content: msg.isLoading ? "Interrupted" : msg.content,
           }))
           .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
-        console.log("loaded messages:", messages);
         setMessages(messages);
         resolve();
       };
@@ -160,15 +159,21 @@ export const useAIChatHistory = () => {
   }, [dbPromise]);
 
   useEffect(() => {
-    loadMessages().catch((error) => {
-      console.error("Error loading messages", error);
-      toast.error("Error loading messages");
-    });
+    setLoading(true);
+    loadMessages()
+      .catch((error) => {
+        console.error("Error loading messages", error);
+        toast.error("Error loading messages");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [loadMessages]);
 
   return {
-    messages,
+    messages: [...messages],
     saveNewMessage,
     clearMessages,
+    loading,
   };
 };
