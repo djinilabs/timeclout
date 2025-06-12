@@ -14,6 +14,24 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/Avatar.tsx:55
+msgid "Member {name}"
+msgstr "Membro {name}"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:102
+#: apps/frontend/src/components/atoms/MemberLeaveInCalendar.tsx:25
+msgid "{type} leave for {member}"
+msgstr "Ausência do tipo {type} para o membro {member}"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/SelectUser.tsx:65
+#: apps/frontend/src/components/atoms/SelectUser.tsx:70
+#: apps/frontend/src/components/atoms/SelectUser.tsx:72
+msgid "Please select a user"
+msgstr "Por favor seleccione um membro"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -752,7 +770,7 @@ msgid "Save qualification changes"
 msgstr "Gravar alterações na qualificação"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team/TeamMembers.tsx:171
+#: apps/frontend/src/components/team/TeamMembers.tsx:186
 msgid "Are you sure you want to remove this user from the team?"
 msgstr "Tem a certeza de que deseja remover este utilizador da equipa?"
 
@@ -854,42 +872,42 @@ msgid "Sign out"
 msgstr "Sair"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:78
+#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:80
 msgid "View {type} leave request for {member} on {date}"
 msgstr "Ver ausência do tipo {type} para {member} na data {date}"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:108
+#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:117
 msgid "{type} leave for {member} on {date}"
 msgstr "Ausência do tipo {type} para {member} na data {date}"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:145
+#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:154
 msgid "Add leave"
 msgstr "Nova ausência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:158
+#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:167
 msgid "Switch to daily calendar view"
 msgstr "Mudar para vista de calendário por dia"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:160
+#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:169
 msgid "Switch to view per day"
 msgstr "Mudar para vista por dia"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:165
+#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:174
 msgid "Switch to member list view"
 msgstr "Mudar para vista por membro"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:167
+#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:176
 msgid "Switch to view per member"
 msgstr "Mudar para vista por membro"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:178
+#: apps/frontend/src/components/molecules/TeamLeaveSchedule.tsx:187
 msgid "Team leave schedule for {month} {year}"
 msgstr "Calendário de ausências da equipa para {month} de {year}"
 
@@ -1145,31 +1163,6 @@ msgid "Slot Proximity Equality Deviation"
 msgstr "Desvio da Igualdade de Proximidade"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/SelectUser.tsx:48
-msgid "Select a user"
-msgstr "Seleccionar um membro"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/SelectUser.tsx:56
-msgid "Search users"
-msgstr "Pesquisar membros"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/SelectUser.tsx:62
-msgid "Open user selection"
-msgstr "Abrir selecção de membro"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/SelectUser.tsx:74
-msgid "Available users"
-msgstr "Membros disponíveis"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/SelectUser.tsx:82
-msgid "Unassigned"
-msgstr "Não atribuido"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/PermissionInput.tsx:18
 msgid "Please select a permission"
 msgstr "Por favor, selecione uma permissão"
@@ -1253,13 +1246,13 @@ msgstr "Analisar proximidade de posições atribuídas"
 msgid "Approve leave request"
 msgstr "Aprovar solicitação de ausência"
 
-#: apps/frontend/src/components/atoms/LeaveRequests.tsx:64
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:39
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:111
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:81
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:49
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:185
 msgid "Approved"
 msgstr "Aprovado"
 
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:118
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:195
 msgid "Approved By"
 msgstr "Aprovado por"
 
@@ -1301,7 +1294,7 @@ msgstr "Auto preenchimento"
 msgid "Available"
 msgstr "Disponível"
 
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:59
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:79
 msgid "Beneficiary"
 msgstr "Beneficiário"
 
@@ -1345,6 +1338,10 @@ msgstr "Cor"
 #: apps/frontend/src/components/AllUserCompanies.tsx:71
 msgid "Companies"
 msgstr "Empresas"
+
+#: apps/frontend/src/components/particles/BreadcrumbNav.tsx:59
+msgid "Company"
+msgstr "Empresa"
 
 #: apps/frontend/src/pages/PageNewCompany.tsx:86
 msgid "Company name"
@@ -1432,11 +1429,11 @@ msgstr "Criar unidade"
 #: apps/frontend/src/components/AllUserCompanies.tsx:113
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:121
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:98
-#: apps/frontend/src/components/atoms/LeaveRequests.tsx:71
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:88
 msgid "Created"
 msgstr "Criado"
 
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:68
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:95
 msgid "Created At"
 msgstr "Criado a"
 
@@ -1446,7 +1443,7 @@ msgstr "Criado a"
 msgid "Created by"
 msgstr "Criado por"
 
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:50
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:63
 msgid "Created By"
 msgstr "Criado por"
 
@@ -1489,7 +1486,7 @@ msgstr "Agendamentos descartados"
 
 #: apps/frontend/src/components/AllUserCompanies.tsx:164
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:174
-#: apps/frontend/src/components/team/TeamMembers.tsx:162
+#: apps/frontend/src/components/team/TeamMembers.tsx:172
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:113
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:149
 #: apps/frontend/src/components/atoms/ShiftPosition.tsx:238
@@ -1519,6 +1516,7 @@ msgstr "Editar o tipo de ausência \"{0}\""
 
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:234
 #: apps/frontend/src/components/personal/MeEdit.tsx:153
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:49
 msgid "Email address"
 msgstr "Endereço de email"
 
@@ -1526,7 +1524,7 @@ msgstr "Endereço de email"
 msgid "End"
 msgstr "Fim"
 
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:84
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:129
 msgid "End Date"
 msgstr "Data de fim"
 
@@ -1539,7 +1537,7 @@ msgstr "Erro ao carregar dados do calendário"
 msgid "F for Friday"
 msgstr "S"
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:143
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:145
 msgid "F"
 msgstr "F"
 
@@ -1576,7 +1574,7 @@ msgstr "Para a cota que começa em {0} e termina em {1}, usaram <0>{2} dias</0> 
 msgid "For the quota starting at {0} and ending at {1} you have used <0>{2} days</0> and have <1>{3} days</1> pending approval."
 msgstr "Para a cota que começa em {0} e termina em {1}, usou <0>{2} dias</0> e tem <1>{3} dias</1> pendentes de aprovação."
 
-#: apps/frontend/src/components/atoms/LeaveRequests.tsx:58
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:75
 msgid "From"
 msgstr "De"
 
@@ -1598,8 +1596,8 @@ msgstr "Comece por criar uma nova equipa para esta unidade."
 msgid "Get started by creating a new unit for this company."
 msgstr "Comece por criar uma nova unidade para esta empresa."
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:114
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:192
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:116
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:191
 msgid "Go to today"
 msgstr "Ir para hoje"
 
@@ -1619,7 +1617,7 @@ msgstr "Valores mais altos garantem que os funcionários recebem níveis semelha
 msgid "Higher values try to equalize the spread of shifts for each worker through time"
 msgstr "Valores mais altos tentam igualar a distribuição de turnos para cada funcionário ao longo do tempo"
 
-#: apps/frontend/src/components/particles/BreadcrumbNav.tsx:27
+#: apps/frontend/src/components/particles/BreadcrumbNav.tsx:28
 msgid "Home"
 msgstr "Início"
 
@@ -1698,7 +1696,7 @@ msgstr "Convidado"
 msgid "January"
 msgstr "Janeiro"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:129
+#: apps/frontend/src/components/team/TeamMembers.tsx:138
 msgid "Joined"
 msgstr "Adicionado"
 
@@ -1714,9 +1712,13 @@ msgstr "Junho"
 msgid "Key Features"
 msgstr "Funcionalidades Principais"
 
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:40
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:50
 msgid "Leave Request"
 msgstr "Pedido de ausência"
+
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:70
+msgid "Leave request type"
+msgstr "Tipo do pedido de ausência"
 
 #. placeholder {0}: leaveType?.name
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:81
@@ -1748,7 +1750,7 @@ msgstr "A carregar calendário..."
 msgid "M for Monday"
 msgstr "S"
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:131
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:133
 msgid "M"
 msgstr "M"
 
@@ -1798,11 +1800,11 @@ msgstr "Nova unidade"
 msgid "next day"
 msgstr "dia seguinte"
 
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:116
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:115
 msgid "Next month"
 msgstr "Mês seguinte"
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:63
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:65
 msgid "Next year"
 msgstr "Ano seguinte"
 
@@ -1853,14 +1855,14 @@ msgstr "Outubro"
 msgid "on for Monday"
 msgstr "eg"
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:84
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:146
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:86
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:145
 msgid "Open menu"
 msgstr "Abrir menu"
 
 #: apps/frontend/src/components/AllUserCompanies.tsx:144
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:157
-#: apps/frontend/src/components/team/TeamMembers.tsx:142
+#: apps/frontend/src/components/team/TeamMembers.tsx:151
 #: apps/frontend/src/components/team/TeamInvites.tsx:96
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:132
 msgid "Open options"
@@ -1878,9 +1880,9 @@ msgstr "Fora de Escritório"
 msgid "Paste here"
 msgstr "Colar aqui"
 
-#: apps/frontend/src/components/atoms/LeaveRequests.tsx:66
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:39
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:111
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:83
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:49
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:185
 msgid "Pending"
 msgstr "Pendente"
 
@@ -1900,11 +1902,11 @@ msgstr "Informação pessoal"
 msgid "Pick a color"
 msgstr "Escolher uma cor"
 
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:87
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:86
 msgid "Previous month"
 msgstr "Mês anterior"
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:45
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:47
 msgid "Previous year"
 msgstr "Ano anterior"
 
@@ -1918,7 +1920,7 @@ msgid "Qualifications"
 msgstr "Qualificações"
 
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:196
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:100
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:161
 msgid "Reason"
 msgstr "Motivo"
 
@@ -1930,7 +1932,7 @@ msgstr "Região"
 msgid "Reject leave request"
 msgstr "Rejeitar pedido de ausência"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:192
+#: apps/frontend/src/components/team/TeamMembers.tsx:207
 msgid "Remove from team"
 msgstr "Remover da equipa"
 
@@ -1943,11 +1945,11 @@ msgstr "Remover pedido de ausência"
 msgid "Remove Qualification"
 msgstr "Remover qualificação"
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:102
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:104
 msgid "Request time off"
 msgstr "Pedir ausência"
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:75
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:77
 msgid "Request Time Off"
 msgstr "Pedir ausência"
 
@@ -2014,8 +2016,8 @@ msgstr "S"
 msgid "S for Sunday"
 msgstr "D"
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:146
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:149
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:148
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:151
 msgid "S"
 msgstr "S"
 
@@ -2123,7 +2125,7 @@ msgstr "Definir o horário para esta posição."
 msgid "Set the user assigned to this position."
 msgstr "Definir o utilizador atribuído a esta posição."
 
-#: apps/frontend/src/components/molecules/SideBar.tsx:200
+#: apps/frontend/src/components/molecules/SideBar.tsx:215
 msgid "Settings"
 msgstr "Definir as configurações"
 
@@ -2167,7 +2169,7 @@ msgstr "Algumas soluções foram descartadas por causa dos seguintes motivos:"
 msgid "Start"
 msgstr "Iniciar"
 
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:76
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:112
 msgid "Start Date"
 msgstr "Data de início"
 
@@ -2179,7 +2181,7 @@ msgstr "Iniciar a pesquisa pela melhor solução"
 msgid "starting on day"
 msgstr "começando no dia"
 
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:108
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:176
 msgid "Status"
 msgstr "Estado"
 
@@ -2202,10 +2204,14 @@ msgstr "T"
 msgid "T for Thursday"
 msgstr "Q"
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:134
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:140
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:136
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:142
 msgid "T"
 msgstr "T"
+
+#: apps/frontend/src/components/particles/BreadcrumbNav.tsx:120
+msgid "Team"
+msgstr "Equipa"
 
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:102
 msgid "The deviation of the inconvenience from the expected inconvenience."
@@ -2239,7 +2245,7 @@ msgid "Time between shifts"
 msgstr "Tempo entre turnos"
 
 #: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:179
-#: apps/frontend/src/components/atoms/LeaveRequests.tsx:59
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:76
 msgid "to"
 msgstr "para"
 
@@ -2251,8 +2257,8 @@ msgstr "Para criar uma nova empresa, basta preencher o nome da empresa e clicar 
 msgid "To create a new unit you just have to fill in the unit name and click on \"Create\"."
 msgstr "Para criar uma nova unidade, basta preencher o nome da unidade e clicar em \"Criar\"."
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:54
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:100
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:56
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:99
 msgid "Today"
 msgstr "Hoje"
 
@@ -2260,7 +2266,7 @@ msgstr "Hoje"
 msgid "Total inconvenience: {totalInconvenience}"
 msgstr "Inconveniência total: {totalInconvenience}"
 
-#: apps/frontend/src/components/atoms/LeaveRequest.tsx:92
+#: apps/frontend/src/components/atoms/LeaveRequest.tsx:146
 msgid "Type"
 msgstr "Tipo"
 
@@ -2294,6 +2300,10 @@ msgstr "Remover atribuições de posições de turno"
 msgid "Unassign Shift Positions"
 msgstr "Remover atribuição de posições de turno"
 
+#: apps/frontend/src/components/particles/BreadcrumbNav.tsx:90
+msgid "Unit"
+msgstr "Unidade"
+
 #: apps/frontend/src/pages/PageNewUnit.tsx:88
 msgid "Unit name"
 msgstr "Nome da unidade"
@@ -2318,13 +2328,17 @@ msgstr "Usar modelo?"
 msgid "Use this solution and assigning these shift Positions"
 msgstr "Usar esta solução e atribuir estes turnos"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:184
+#: apps/frontend/src/components/team/TeamMembers.tsx:199
 msgid "User removed from team"
 msgstr "Utilizador removido da equipa"
 
 #: apps/frontend/src/components/AllUserCompanies.tsx:135
 msgid "View company"
 msgstr "Ver empresa"
+
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:107
+msgid "View leave request details"
+msgstr "Ver detalhes do pedido de ausência"
 
 #: apps/frontend/src/components/unit/AllUnitTeams.tsx:148
 msgid "View team"
@@ -2343,7 +2357,7 @@ msgstr "Visível para"
 msgid "W for Wednesday"
 msgstr "Q"
 
-#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:137
+#: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:139
 msgid "W"
 msgstr "W"
 
@@ -2390,7 +2404,7 @@ msgstr "Foi convidado"
 msgid "You have been invited to join \"<0>{0}</0>\" with permission level \"{1}\"."
 msgstr "Foi convidado para se juntar a \"<0>{0}</0>\" com nível de permissão \"{1}\"."
 
-#: apps/frontend/src/components/atoms/LeaveRequests.tsx:95
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:119
 msgid "You have no pending leave requests"
 msgstr "Não tem pedidos de ausência pendentes"
 
