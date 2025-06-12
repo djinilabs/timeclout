@@ -18,6 +18,7 @@ import { Tabs } from "../molecules/Tabs";
 import { ShiftAutoFillSolutionStats } from "../molecules/ShiftAutoFillSolutionStats";
 import { ShiftAutoFillSolutionDetailedStats } from "../atoms/ShiftAutoFillSolutionDetailedStats";
 import { ShiftsAutofillSolutionMonthCalendar } from "./ShiftsAutofillSolutionMonthCalendar";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 
 export interface ShiftsAutoFillSolutionProps {
   team: string;
@@ -95,7 +96,18 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
   const [{ fetching: fetchingAssignShiftPositions }, assignShiftPositions] =
     useMutation(assignShiftPositionsMutation);
 
+  const { showConfirmDialog } = useConfirmDialog();
+
   const handleAssignShiftPositions = useCallback(async () => {
+    if (
+      !(await showConfirmDialog({
+        text: (
+          <Trans>Are you sure you want to assign these shift positions?</Trans>
+        ),
+      }))
+    ) {
+      return;
+    }
     const schedule = solution?.schedule;
     if (!schedule) {
       return;
@@ -113,7 +125,13 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
       toast.success(i18n.t("Shift positions assigned successfully"));
       onAssignShiftPositions();
     }
-  }, [assignShiftPositions, onAssignShiftPositions, team, solution]);
+  }, [
+    showConfirmDialog,
+    solution?.schedule,
+    assignShiftPositions,
+    team,
+    onAssignShiftPositions,
+  ]);
 
   // analyze
 

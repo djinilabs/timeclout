@@ -4,6 +4,7 @@ import { DayDate } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
 import { Transition } from "@headlessui/react";
 import { getDefined } from "@/utils";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../../hooks/useTeamShiftsClipboard";
 import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
@@ -33,7 +34,10 @@ import { toMinutes } from "../../utils/toMinutes";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "../atoms/ShiftPosition";
 import { LabeledSwitch } from "../particles/LabeledSwitch";
-import { TeamShiftsCalendar } from "../team-shifts/TeamShiftsCalendar";
+import {
+  TeamShiftsCalendar,
+  TeamShiftsCalendarProps,
+} from "../team-shifts/TeamShiftsCalendar";
 import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
 import { Day } from "../particles/MonthDailyCalendar";
 import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
@@ -600,6 +604,93 @@ export const TeamShiftsSchedule = () => {
     ]
   );
 
+  const additionalActions: TeamShiftsCalendarProps["additionalActions"] =
+    useMemo(
+      () => [
+        ...((team?.resourcePermission ?? -1) >= 2 // WRITE
+          ? [
+              {
+                type: "button",
+                text: <Trans>Add position</Trans>,
+                onClick: () => {
+                  setEditingShiftPosition(undefined);
+                  setIsDialogOpen("create");
+                },
+                "aria-label": "Add new shift position",
+              } as const,
+              {
+                type: "button",
+                text: <Trans>Auto fill</Trans>,
+                onClick: () => {
+                  setIsDialogOpen("autoFill");
+                },
+                "aria-label": "Auto fill shift positions",
+              } as const,
+              {
+                type: "button",
+                text: <Trans>Unassign positions</Trans>,
+                onClick: () => {
+                  setIsDialogOpen("unassign");
+                },
+                "aria-label": "Unassign shift positions",
+              } as const,
+            ]
+          : []),
+        {
+          type: "component",
+          component: (
+            <LabeledSwitch
+              label={<Trans>Leaves</Trans>}
+              checked={showLeaveSchedule}
+              onChange={setShowLeaveSchedule}
+              aria-label="Toggle leave schedule visibility"
+            />
+          ),
+        },
+        {
+          type: "component",
+          component: (
+            <LabeledSwitch
+              label={<Trans>Details</Trans>}
+              checked={showScheduleDetails}
+              onChange={setShowScheduleDetails}
+              aria-label="Toggle schedule details visibility"
+            />
+          ),
+        },
+        {
+          type: "component",
+          component: (
+            <LabeledSwitch
+              label={<Trans>Analyze</Trans>}
+              checked={analyze}
+              onChange={setAnalyze}
+              aria-label="Toggle schedule analysis"
+            />
+          ),
+        },
+      ],
+      [
+        analyze,
+        setAnalyze,
+        setIsDialogOpen,
+        setShowLeaveSchedule,
+        setShowScheduleDetails,
+        showLeaveSchedule,
+        showScheduleDetails,
+        team?.resourcePermission,
+      ]
+    );
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <ExclamationTriangleIcon className="size-10 text-red-500" />
+        <Trans>Error loading calendar data. Please refresh to try again.</Trans>
+      </div>
+    );
+  }
+
   return (
     <div className="relative" role="region" aria-label="Team Shifts Schedule">
       {fetching ? (
@@ -653,82 +744,7 @@ export const TeamShiftsSchedule = () => {
         focusedDay={focusedDay}
         year={selectedMonth.getYear()}
         month={selectedMonth.getMonth() - 1}
-        additionalActions={useMemo(
-          () => [
-            ...((team?.resourcePermission ?? -1) >= 2 // WRITE
-              ? [
-                  {
-                    type: "button",
-                    text: <Trans>Add position</Trans>,
-                    onClick: () => {
-                      setEditingShiftPosition(undefined);
-                      setIsDialogOpen("create");
-                    },
-                    "aria-label": "Add new shift position",
-                  } as const,
-                  {
-                    type: "button",
-                    text: <Trans>Auto fill</Trans>,
-                    onClick: () => {
-                      setIsDialogOpen("autoFill");
-                    },
-                    "aria-label": "Auto fill shift positions",
-                  } as const,
-                  {
-                    type: "button",
-                    text: <Trans>Unassign positions</Trans>,
-                    onClick: () => {
-                      setIsDialogOpen("unassign");
-                    },
-                    "aria-label": "Unassign shift positions",
-                  } as const,
-                ]
-              : []),
-            {
-              type: "component",
-              component: (
-                <LabeledSwitch
-                  label={<Trans>Leaves</Trans>}
-                  checked={showLeaveSchedule}
-                  onChange={setShowLeaveSchedule}
-                  aria-label="Toggle leave schedule visibility"
-                />
-              ),
-            },
-            {
-              type: "component",
-              component: (
-                <LabeledSwitch
-                  label={<Trans>Details</Trans>}
-                  checked={showScheduleDetails}
-                  onChange={setShowScheduleDetails}
-                  aria-label="Toggle schedule details visibility"
-                />
-              ),
-            },
-            {
-              type: "component",
-              component: (
-                <LabeledSwitch
-                  label={<Trans>Analyze</Trans>}
-                  checked={analyze}
-                  onChange={setAnalyze}
-                  aria-label="Toggle schedule analysis"
-                />
-              ),
-            },
-          ],
-          [
-            analyze,
-            setAnalyze,
-            setIsDialogOpen,
-            setShowLeaveSchedule,
-            setShowScheduleDetails,
-            showLeaveSchedule,
-            showScheduleDetails,
-            team?.resourcePermission,
-          ]
-        )}
+        additionalActions={additionalActions}
         goTo={(year, month) => {
           const day = new DayDate(year, month + 1, 1);
           goToMonth(day);

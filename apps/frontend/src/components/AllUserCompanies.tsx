@@ -84,92 +84,87 @@ export const AllUserCompanies = () => {
       </div>
       <ul className="companies-list" role="list" aria-label="List of companies">
         {allCompanies.data?.companies.map((company: Company) => (
-          <>
-            <li
-              key={company.pk}
-              className="flex items-center justify-between gap-x-6 py-5"
-              role="listitem"
-              aria-label={`Company ${company.name}`}
-            >
-              <div className="min-w-0">
-                <div className="flex items-start gap-x-3">
-                  <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
+          <li
+            key={company.pk}
+            className="flex items-center justify-between gap-x-6 py-5"
+            role="listitem"
+            aria-label={`Company ${company.name}`}
+          >
+            <div className="min-w-0">
+              <div className="flex items-start gap-x-3">
+                <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
+                  <Link
+                    to={`/${company.pk}`}
+                    role="link"
+                    aria-label={`View ${company.name} company details`}
+                    aria-clickable
+                  >
+                    {company.name}
+                  </Link>
+                </p>
+              </div>
+              <div
+                className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500"
+                role="contentinfo"
+                aria-label={`Company information for ${company.name}`}
+              >
+                <p className="whitespace-nowrap">
+                  <Trans>Created</Trans>{" "}
+                  <ReactTimeAgo date={new Date(company.createdAt)} />
+                </p>
+                <svg
+                  viewBox="0 0 2 2"
+                  className="size-0.5 fill-current"
+                  aria-hidden="true"
+                >
+                  <circle r={1} cx={1} cy={1} />
+                </svg>
+                <p className="truncate">
+                  <Trans>Created by</Trans> {company.createdBy.name}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-none items-center gap-x-4">
+              <Link
+                to={`/${company.pk}`}
+                className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+                aria-label={`View ${company.name} company details`}
+                aria-clickable
+              >
+                <Trans>View company</Trans>
+                <span className="sr-only">, {company.name}</span>
+              </Link>
+              <Menu as="div" className="relative flex-none">
+                <MenuButton
+                  className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
+                  aria-label={`Open options menu for ${company.name}`}
+                >
+                  <span className="sr-only">
+                    <Trans>Open options</Trans>
+                  </span>
+                  <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
+                </MenuButton>
+                <MenuItems
+                  transition
+                  className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
+                  aria-label={`Options menu for ${company.name}`}
+                >
+                  <MenuItem>
                     <Link
                       to={`/${company.pk}`}
-                      role="link"
-                      aria-label={`View ${company.name} company details`}
+                      className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                      role="menuitem"
+                      aria-label={`Edit ${company.name} company`}
                       aria-clickable
                     >
-                      {company.name}
+                      <Trans>Edit</Trans>
+                      <span className="sr-only">, {company.name}</span>
                     </Link>
-                  </p>
-                </div>
-                <div
-                  className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500"
-                  role="contentinfo"
-                  aria-label={`Company information for ${company.name}`}
-                >
-                  <p className="whitespace-nowrap">
-                    <Trans>Created</Trans>{" "}
-                    <ReactTimeAgo date={new Date(company.createdAt)} />
-                  </p>
-                  <svg
-                    viewBox="0 0 2 2"
-                    className="size-0.5 fill-current"
-                    aria-hidden="true"
-                  >
-                    <circle r={1} cx={1} cy={1} />
-                  </svg>
-                  <p className="truncate">
-                    <Trans>Created by</Trans> {company.createdBy.name}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-none items-center gap-x-4">
-                <Link
-                  to={`/${company.pk}`}
-                  className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
-                  aria-label={`View ${company.name} company details`}
-                  aria-clickable
-                >
-                  <Trans>View company</Trans>
-                  <span className="sr-only">, {company.name}</span>
-                </Link>
-                <Menu as="div" className="relative flex-none">
-                  <MenuButton
-                    className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
-                    aria-label={`Open options menu for ${company.name}`}
-                  >
-                    <span className="sr-only">
-                      <Trans>Open options</Trans>
-                    </span>
-                    <EllipsisVerticalIcon
-                      aria-hidden="true"
-                      className="size-5"
-                    />
-                  </MenuButton>
-                  <MenuItems
-                    transition
-                    className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
-                    aria-label={`Options menu for ${company.name}`}
-                  >
-                    <MenuItem>
-                      <Link
-                        to={`/${company.pk}`}
-                        className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
-                        role="menuitem"
-                        aria-label={`Edit ${company.name} company`}
-                        aria-clickable
-                      >
-                        <Trans>Edit</Trans>
-                        <span className="sr-only">, {company.name}</span>
-                      </Link>
-                    </MenuItem>
-                  </MenuItems>
-                </Menu>
-              </div>
-            </li>
-          </>
+                  </MenuItem>
+                </MenuItems>
+              </Menu>
+            </div>
+          </li>
         ))}
       </ul>
     </div>

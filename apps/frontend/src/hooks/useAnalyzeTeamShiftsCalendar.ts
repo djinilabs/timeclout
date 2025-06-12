@@ -503,34 +503,34 @@ const doAnalyzeHeuristics = ({
 };
 
 const doAnalyzeRules = (props: AnalyzeTeamShiftsCalendarProps) => {
-  let result = props.shiftPositionsMap;
+  let { shiftPositionsMap } = props;
 
   if (props.analyzeLeaveConflicts) {
-    result = doAnalyzeLeaveConflicts(props);
+    shiftPositionsMap = doAnalyzeLeaveConflicts(props);
   }
 
   if (props.requireMaximumIntervalBetweenShifts) {
-    result = doAnalyzeMaximumIntervalBetweenShifts({
+    shiftPositionsMap = doAnalyzeMaximumIntervalBetweenShifts({
       ...props,
-      shiftPositionsMap: result,
+      shiftPositionsMap,
     });
   }
 
   if (props.requireMinimumNumberOfShiftsPerWeekInStandardWorkday) {
-    result = doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday({
+    shiftPositionsMap = doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday({
       ...props,
-      shiftPositionsMap: result,
+      shiftPositionsMap,
     });
   }
 
   if (props.requireMinimumRestSlotsAfterShift) {
-    result = doAnalyzeMinimumRestSlotsAfterShift({
+    shiftPositionsMap = doAnalyzeMinimumRestSlotsAfterShift({
       ...props,
-      shiftPositionsMap: result,
+      shiftPositionsMap,
     });
   }
 
-  return result;
+  return shiftPositionsMap;
 };
 
 export const useAnalyzeTeamShiftsCalendar = (
@@ -543,8 +543,12 @@ export const useAnalyzeTeamShiftsCalendar = (
 
   // ------- Heuristics -------
   analyzedShiftPositionsMap = useMemo(
-    () => doAnalyzeHeuristics(props),
-    [props]
+    () =>
+      doAnalyzeHeuristics({
+        ...props,
+        shiftPositionsMap: analyzedShiftPositionsMap,
+      }),
+    [analyzedShiftPositionsMap, props]
   );
 
   return {
