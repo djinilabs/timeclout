@@ -6,7 +6,6 @@ import { version } from "../../../../../package.json";
 import { useEffect, useMemo, useRef } from "react";
 
 export const CheckLatestAppVersion = () => {
-  console.log("CheckLatestAppVersion");
   const [{ data }] = useQuery<{ latestAppVersion: string }>({
     query: latestAppVersionQuery,
     pollingIntervalMs: 1000 * 60 * 5, // 5 minutes
