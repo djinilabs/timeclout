@@ -48,5 +48,5 @@ export const useTestToolExecutionFromConsole = (tools: ToolSet) => {
         }
       ).run_tool = previousRunTool;
     };
-  }, []);
+  }, [tools]);
 };
