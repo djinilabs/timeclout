@@ -377,7 +377,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
     );
 
     return (
-      <div>
+      <div role="region" aria-label={i18n.t("Team shifts calendar")}>
         <CalendarHeader
           {...props}
           monthIsZeroBased={false}
@@ -385,7 +385,11 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
         />
 
         <Transition show={analyze} appear>
-          <div className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0">
+          <div
+            className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0"
+            role="region"
+            aria-label={i18n.t("Analysis settings")}
+          >
             <AnalyzeTeamShiftsCalendarMenu
               analyzeLeaveConflicts={analyzeLeaveConflicts}
               setAnalyzeLeaveConflicts={setAnalyzeLeaveConflicts}
@@ -435,13 +439,19 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
           </div>
         </Transition>
 
-        <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
+        <Tabs
+          tabs={tabs}
+          tabPropName="shiftsCalendarTab"
+          onChange={setTab}
+          aria-label={i18n.t("Calendar view options")}
+        >
           <div className="mt-4">
             {tab.href === "by-day" ? (
               <MonthDailyCalendar
                 year={year}
                 month={month - 1}
                 renderDay={renderDay}
+                aria-label={i18n.t("Calendar view by day")}
               />
             ) : tab.href === "by-member" ? (
               <MonthlyCalendarPerMember
@@ -449,12 +459,14 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
                 month={month - 1}
                 members={members}
                 renderMemberDay={renderMemberDay}
+                aria-label={i18n.t("Calendar view by member")}
               />
             ) : (
               <TeamShiftsSummary
                 year={year}
                 month={month - 1}
                 shiftPositionsMap={assignedShiftPositions}
+                aria-label={i18n.t("Team shifts summary")}
               />
             )}
           </div>

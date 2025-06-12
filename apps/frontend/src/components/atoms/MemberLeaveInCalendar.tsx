@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import { Avatar } from "../particles/Avatar";
 import { type PartialUser, type LeaveDay } from "../types";
 import { Hint } from "../particles/Hint";
+import { i18n } from "@lingui/core";
 
 export interface MemberLeaveInCalendarProps {
   member: PartialUser;
@@ -20,7 +21,12 @@ export const MemberLeaveInCalendar = forwardRef(
     showAvatar = true,
   }: MemberLeaveInCalendarProps) => {
     return (
-      <Hint hint={leave.type}>
+      <Hint
+        hint={i18n.t("{type} leave for {member}", {
+          type: leave.type,
+          member: member.name,
+        })}
+      >
         <div className="flex items-center justify-start gap-1">
           {showAvatar && (
             <div

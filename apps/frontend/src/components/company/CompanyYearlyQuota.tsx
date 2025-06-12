@@ -79,6 +79,8 @@ export const CompanyYearlyQuota = () => {
             e.stopPropagation();
             form.handleSubmit();
           }}
+          role="form"
+          aria-label={i18n.t("Company yearly quota form")}
         >
           <div>
             <form.Field
@@ -106,41 +108,98 @@ export const CompanyYearlyQuota = () => {
                         field.handleChange(Number(e.target.value));
                       }}
                       value={field.state.value}
+                      role="select"
+                      aria-label={i18n.t("Reset month")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                     >
-                      <option value={1}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("January")}
+                        value={1}
+                      >
                         <Trans>January</Trans>
                       </option>
-                      <option value={2}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("February")}
+                        value={2}
+                      >
                         <Trans>February</Trans>
                       </option>
-                      <option value={3}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("March")}
+                        value={3}
+                      >
                         <Trans>March</Trans>
                       </option>
-                      <option value={4}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("April")}
+                        value={4}
+                      >
                         <Trans>April</Trans>
                       </option>
-                      <option value={5}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("May")}
+                        value={5}
+                      >
                         <Trans>May</Trans>
                       </option>
-                      <option value={6}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("June")}
+                        value={6}
+                      >
                         <Trans>June</Trans>
                       </option>
-                      <option value={7}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("July")}
+                        value={7}
+                      >
                         <Trans>July</Trans>
                       </option>
-                      <option value={8}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("August")}
+                        value={8}
+                      >
                         <Trans>August</Trans>
                       </option>
-                      <option value={9}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("September")}
+                        value={9}
+                      >
                         <Trans>September</Trans>
                       </option>
-                      <option value={10}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("October")}
+                        value={10}
+                      >
                         <Trans>October</Trans>
                       </option>
-                      <option value={11}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("November")}
+                        value={11}
+                      >
                         <Trans>November</Trans>
                       </option>
-                      <option value={12}>
+                      <option
+                        role="option"
+                        aria-label={i18n.t("December")}
+                        value={12}
+                      >
                         <Trans>December</Trans>
                       </option>
                     </select>
@@ -181,6 +240,15 @@ export const CompanyYearlyQuota = () => {
                       onChange={(e) => {
                         field.handleChange(Number(e.target.value));
                       }}
+                      role="textbox"
+                      aria-label={i18n.t("Default yearly quota")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                     />
                   </div>
                 </div>

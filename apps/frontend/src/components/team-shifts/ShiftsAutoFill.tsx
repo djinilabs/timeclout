@@ -233,7 +233,11 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
   return (
     <>
       <Transition show={!isAutoFillRunning && !progress} appear>
-        <div className="transition duration-300 ease-in data-closed:opacity-0 'data-enter:duration-100 data-enter:data-closed:-translate-x-full data-leave:duration-300 data-leave:data-closed:-translate-x-full">
+        <div
+          className="transition duration-300 ease-in data-closed:opacity-0 'data-enter:duration-100 data-enter:data-closed:-translate-x-full data-leave:duration-300 data-leave:data-closed:-translate-x-full"
+          role="region"
+          aria-label="Shift auto-fill parameters"
+        >
           <ShiftAutoFillParams
             {...shiftAutoFillParams}
             startDate={startDate}
@@ -242,7 +246,11 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           />
         </div>
       </Transition>
-      <div className="mt-5 flex items-center">
+      <div
+        className="mt-5 flex items-center"
+        role="toolbar"
+        aria-label="Shift auto-fill controls"
+      >
         {(isAutoFillRunning || !progress) && (
           <>
             <Button
@@ -250,6 +258,11 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
               onClick={() => {
                 setIsAutoFillRunning(!isAutoFillRunning);
               }}
+              aria-label={
+                isAutoFillRunning
+                  ? "Stop searching for solutions"
+                  : "Start searching for the best solution"
+              }
             >
               {isAutoFillRunning ? (
                 <Trans>Stop searching</Trans>
@@ -261,7 +274,10 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           </>
         )}
         {!isAutoFillRunning && progress && (
-          <Button onClick={() => setProgress(undefined)}>
+          <Button
+            onClick={() => setProgress(undefined)}
+            aria-label="Reset auto-fill progress"
+          >
             <Trans>Reset</Trans>
           </Button>
         )}

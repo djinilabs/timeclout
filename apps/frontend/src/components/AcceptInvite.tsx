@@ -46,19 +46,29 @@ export const AcceptInvite: FC = () => {
   };
   if (!invitation) {
     return (
-      <div>
+      <div role="alert" aria-live="polite">
         <Trans>Invitation not found</Trans>
       </div>
     );
   }
 
   return (
-    <div className="bg-white shadow-sm sm:rounded-lg">
+    <div
+      className="bg-white shadow-sm sm:rounded-lg"
+      role="region"
+      aria-label={i18n.t("Invitation details")}
+    >
       <div className="px-4 py-5 sm:p-6">
-        <h3 className="text-base font-semibold text-gray-900">
+        <h3
+          className="text-base font-semibold text-gray-900"
+          id="invitation-title"
+        >
           <Trans>You have been invited</Trans>
         </h3>
-        <div className="mt-2 max-w-xl text-sm text-gray-500">
+        <div
+          className="mt-2 max-w-xl text-sm text-gray-500"
+          aria-labelledby="invitation-title"
+        >
           <p>
             <Trans>
               You have been invited to join &quot;
@@ -71,7 +81,15 @@ export const AcceptInvite: FC = () => {
           </p>
         </div>
         <div className="mt-5">
-          <Button disabled={fetching} onClick={handleAcceptInvitation}>
+          <Button
+            disabled={fetching}
+            onClick={handleAcceptInvitation}
+            aria-label={
+              i18n.t("Accept invitation to join") +
+              " " +
+              invitation.toEntity.name
+            }
+          >
             <Trans>Accept Invitation</Trans>
           </Button>
         </div>

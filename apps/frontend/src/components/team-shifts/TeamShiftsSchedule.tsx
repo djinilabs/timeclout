@@ -46,6 +46,7 @@ import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
 import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
 import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
 import { shiftPositionKey } from "../../utils/shiftPositionKey";
+import { i18n } from "@lingui/core";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -612,24 +613,30 @@ export const TeamShiftsSchedule = () => {
               {
                 type: "button",
                 text: <Trans>Add position</Trans>,
+                label: i18n.t("Add new shift position"),
                 onClick: () => {
                   setEditingShiftPosition(undefined);
                   setIsDialogOpen("create");
                 },
+                "aria-label": "Add new shift position",
               } as const,
               {
                 type: "button",
                 text: <Trans>Auto fill</Trans>,
+                label: i18n.t("Auto fill shift positions"),
                 onClick: () => {
                   setIsDialogOpen("autoFill");
                 },
+                "aria-label": "Auto fill shift positions",
               } as const,
               {
                 type: "button",
                 text: <Trans>Unassign positions</Trans>,
+                label: i18n.t("Unassign shift positions"),
                 onClick: () => {
                   setIsDialogOpen("unassign");
                 },
+                "aria-label": "Unassign shift positions",
               } as const,
             ]
           : []),
@@ -640,6 +647,7 @@ export const TeamShiftsSchedule = () => {
               label={<Trans>Leaves</Trans>}
               checked={showLeaveSchedule}
               onChange={setShowLeaveSchedule}
+              aria-label="Toggle leave schedule visibility"
             />
           ),
         },
@@ -650,6 +658,7 @@ export const TeamShiftsSchedule = () => {
               label={<Trans>Details</Trans>}
               checked={showScheduleDetails}
               onChange={setShowScheduleDetails}
+              aria-label="Toggle schedule details visibility"
             />
           ),
         },
@@ -660,6 +669,7 @@ export const TeamShiftsSchedule = () => {
               label={<Trans>Analyze</Trans>}
               checked={analyze}
               onChange={setAnalyze}
+              aria-label="Toggle schedule analysis"
             />
           ),
         },
@@ -686,13 +696,13 @@ export const TeamShiftsSchedule = () => {
   }
 
   return (
-    <div className="relative">
+    <div className="relative" role="region" aria-label="Team Shifts Schedule">
       {fetching ? (
-        <div>
+        <div role="status" aria-live="polite">
           <Trans>Loading calendar...</Trans>
         </div>
       ) : error ? (
-        <div>
+        <div role="alert" aria-live="assertive">
           <Trans>Error loading calendar data</Trans>
         </div>
       ) : (
@@ -755,7 +765,11 @@ export const TeamShiftsSchedule = () => {
         }}
       >
         <Transition show={analyze && !isDialogOpen} appear>
-          <div className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0">
+          <div
+            className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0"
+            role="region"
+            aria-label="Schedule Analysis Options"
+          >
             <AnalyzeTeamShiftsCalendarMenu
               analyzeLeaveConflicts={analyzeLeaveConflicts}
               setAnalyzeLeaveConflicts={setAnalyzeLeaveConflicts}

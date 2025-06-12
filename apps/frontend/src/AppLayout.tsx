@@ -3,10 +3,14 @@ import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
+  Transition,
   TransitionChild,
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
+import {
+  QuestionMarkCircleIcon,
+  ChatBubbleLeftRightIcon,
+} from "@heroicons/react/20/solid";
 import { UserTopBarMenu } from "./components/molecules/UserTopBarMenu";
 import { Toaster } from "react-hot-toast";
 import { useLocalPreference } from "./hooks/useLocalPreference";
@@ -17,10 +21,11 @@ import { HelpPanel } from "./components/atoms/HelpPanel";
 import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
 import { FetchActivityIndicator } from "./components/atoms/FetchActivityIndicator";
 
+const AIChatPanel = lazy(() => import("./components/ai/AIChatPanel"));
 const SideBar = lazy(() => import("./components/molecules/SideBar"));
 
 export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useLocalPreference(
     "sidebarExpanded",
     true
@@ -29,6 +34,11 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
 
   const [helpPanelOpen, setHelpPanelOpen] = useLocalPreference(
     "helpPanelOpen",
+    false
+  );
+
+  const [aiChatPanelOpen, setAIChatPanelOpen] = useLocalPreference(
+    "aiChatPanelOpen",
     false
   );
 
@@ -108,10 +118,15 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
             "transition-[padding] duration-300"
           )}
           style={
-            helpPanelOpen
+            helpPanelOpen || aiChatPanelOpen
               ? {
                   paddingRight:
-                    width >= 1024 ? `${helpSideBarWidth}px` : undefined,
+                    width >= 1024
+                      ? `${
+                          (helpPanelOpen ? helpSideBarWidth : 0) +
+                          (aiChatPanelOpen ? 450 : 0)
+                        }px`
+                      : undefined,
                 }
               : {}
           }
@@ -161,6 +176,20 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
           isHelpPanelOpen={helpPanelOpen}
         />
 
+        {/* AI Chat panel */}
+        <Transition show={aiChatPanelOpen} appear>
+          <div
+            className={classNames(
+              "fixed inset-y-0 right-0 z-50 w-full max-w-md lg:translate-x-0 transition-all duration-300 ease-in-out",
+              "translate-x-0 data-closed:translate-x-full"
+            )}
+          >
+            <Suspense>
+              <AIChatPanel onClose={() => setAIChatPanelOpen(false)} />
+            </Suspense>
+          </div>
+        </Transition>
+
         {/* Toggle help panel button */}
         <button
           type="button"
@@ -172,6 +201,20 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
             <XMarkIcon aria-hidden="true" className="size-6" />
           ) : (
             <QuestionMarkCircleIcon aria-hidden="true" className="size-6" />
+          )}
+        </button>
+
+        {/* Toggle AI chat panel button */}
+        <button
+          type="button"
+          onClick={() => setAIChatPanelOpen(!aiChatPanelOpen)}
+          className="no-print fixed opacity-50 hover:opacity-100 right-4 bottom-4 bg-teal-400 text-white rounded-full p-3 shadow-lg hover:bg-teal-500"
+        >
+          <span className="sr-only">Toggle AI chat panel</span>
+          {aiChatPanelOpen ? (
+            <XMarkIcon aria-hidden="true" className="size-6" />
+          ) : (
+            <ChatBubbleLeftRightIcon aria-hidden="true" className="size-6" />
           )}
         </button>
       </div>

@@ -56,7 +56,12 @@ export const TeamShiftsCalendar: FC<
   return (
     <div>
       <CalendarHeader {...props} />
-      <Tabs tabs={tabs} tabPropName="shiftsCalendarTab" onChange={setTab}>
+      <Tabs
+        tabs={tabs}
+        tabPropName="shiftsCalendarTab"
+        onChange={setTab}
+        aria-label={i18n.t("Calendar view options")}
+      >
         {children}
         <div className="mt-8">
           {tab.href === "by-day" && <MonthDailyCalendar {...props} />}

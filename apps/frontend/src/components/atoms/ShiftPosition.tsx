@@ -177,12 +177,19 @@ export const ShiftPosition = memo(
           autoFocus={autoFocus}
           tabIndex={tabIndex}
           draggable
+          role="button"
+          aria-label={`${shiftPosition.name || "Shift"} on ${
+            shiftPosition.day
+          }`}
+          aria-grabbed="false"
           onDragStart={(e) => {
             e.dataTransfer.setData(shiftPosition.sk, "");
             e.dataTransfer.dropEffect = "move";
+            e.currentTarget.setAttribute("aria-grabbed", "true");
           }}
           onDragEnd={(e) => {
             e.dataTransfer.clearData();
+            e.currentTarget.setAttribute("aria-grabbed", "false");
           }}
           className={classNames(
             "rounded-sm group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full",
@@ -212,6 +219,7 @@ export const ShiftPosition = memo(
             <MenuButton
               ref={menuButtonRef}
               className="cursor-pointer hover:bg-gray-200 hover:bg-opacity-10 rounded-sm"
+              aria-label={i18n.t("Shift options menu")}
             >
               <EllipsisHorizontalIcon className="w-4 h-4" />
             </MenuButton>
@@ -225,6 +233,7 @@ export const ShiftPosition = memo(
                         active ? "bg-gray-100" : "",
                         "block w-full text-left px-4 py-2 text-sm text-gray-700"
                       )}
+                      aria-label={i18n.t("Edit shift")}
                     >
                       <Trans>Edit</Trans>
                     </button>
@@ -240,6 +249,7 @@ export const ShiftPosition = memo(
                         active ? "bg-gray-100" : "",
                         "block w-full text-left px-4 py-2 text-sm text-gray-700"
                       )}
+                      aria-label={i18n.t("Copy shift")}
                     >
                       <Trans>Copy</Trans>
                     </button>
@@ -256,6 +266,7 @@ export const ShiftPosition = memo(
                           active ? "bg-gray-100" : "",
                           "block w-full text-left px-4 py-2 text-sm text-gray-700"
                         )}
+                        aria-label={i18n.t("Paste shift here")}
                       >
                         <Trans>Paste here</Trans>
                       </button>
@@ -275,6 +286,7 @@ export const ShiftPosition = memo(
                         active ? "bg-gray-100" : "",
                         "block w-full text-left px-4 py-2 text-sm text-gray-700"
                       )}
+                      aria-label={i18n.t("Delete shift")}
                     >
                       <Trans>Delete</Trans>
                     </button>
@@ -306,7 +318,11 @@ export const ShiftPosition = memo(
                 )}
                 {shiftPosition.hasLeaveConflict && (
                   <Hint hint={i18n.t("Leave conflict detected")}>
-                    <ExclamationTriangleIcon className="w-4 h-4 text-red-500 ml-1" />
+                    <ExclamationTriangleIcon
+                      className="w-4 h-4 text-red-500 ml-1"
+                      aria-label={i18n.t("Leave conflict detected")}
+                      role="img"
+                    />
                   </Hint>
                 )}
                 {shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule && (
@@ -315,7 +331,13 @@ export const ShiftPosition = memo(
                       "Maximum interval between shifts rule violated"
                     )}
                   >
-                    <ExclamationTriangleIcon className="w-4 h-4 text-yellow-500 ml-1" />
+                    <ExclamationTriangleIcon
+                      className="w-4 h-4 text-yellow-500 ml-1"
+                      aria-label={i18n.t(
+                        "Maximum interval between shifts rule violated"
+                      )}
+                      role="img"
+                    />
                   </Hint>
                 )}
                 {shiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday && (
@@ -324,7 +346,13 @@ export const ShiftPosition = memo(
                       "Minimum number of shifts per week in standard workday rule violated"
                     )}
                   >
-                    <ExclamationTriangleIcon className="w-4 h-4 text-orange-500 ml-1" />
+                    <ExclamationTriangleIcon
+                      className="w-4 h-4 text-orange-500 ml-1"
+                      aria-label={i18n.t(
+                        "Minimum number of shifts per week in standard workday rule violated"
+                      )}
+                      role="img"
+                    />
                   </Hint>
                 )}
                 {shiftPosition.hasIssueWithMinimumRestSlotsAfterShiftRule && (
@@ -333,7 +361,13 @@ export const ShiftPosition = memo(
                       "Minimum rest slots after shift rule violated"
                     )}
                   >
-                    <ExclamationTriangleIcon className="w-4 h-4 text-purple-500 ml-1" />
+                    <ExclamationTriangleIcon
+                      className="w-4 h-4 text-purple-500 ml-1"
+                      aria-label={i18n.t(
+                        "Minimum rest slots after shift rule violated"
+                      )}
+                      role="img"
+                    />
                   </Hint>
                 )}
               </div>

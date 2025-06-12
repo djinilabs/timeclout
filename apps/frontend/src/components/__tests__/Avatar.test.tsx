@@ -1,9 +1,21 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import { Avatar } from "../particles/Avatar";
+import { i18n } from "@lingui/core";
 
 describe("Avatar", () => {
+  beforeAll(() => {
+    i18n.load({
+      en: {
+        messages: {
+          "’s avatar": { message: "’s avatar" },
+        },
+      },
+    });
+    i18n.activate("en");
+  });
+
   it("renders with minimal props", () => {
     render(<Avatar />);
     const avatar = screen.getByRole("img");

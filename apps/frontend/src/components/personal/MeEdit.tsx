@@ -74,6 +74,8 @@ export const MeEdit = () => {
         ev.stopPropagation();
         form.handleSubmit();
       }}
+      role="form"
+      aria-label={i18n.t("Personal information form")}
     >
       <div className="space-y-12 profile-settings">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
@@ -120,6 +122,15 @@ export const MeEdit = () => {
                           ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
                           : ""
                       }`}
+                      role="textbox"
+                      aria-label={i18n.t("Professional name")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                     />
                     {field.state.meta.errors.length > 0 ? (
                       <p className="mt-2 text-sm text-red-600">
@@ -149,6 +160,15 @@ export const MeEdit = () => {
                       type="email"
                       autoComplete="email"
                       className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      role="textbox"
+                      aria-label={i18n.t("Email address")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
                     />
                   </div>
                 </div>

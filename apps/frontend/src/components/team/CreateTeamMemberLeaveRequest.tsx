@@ -62,16 +62,33 @@ export const CreateTeamMemberLeaveRequest = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="space-y-6">
-      <h3 className="text-lg font-medium leading-6 text-gray-900">
+    <div
+      className="space-y-6"
+      role="region"
+      aria-label={i18n.t("Book Company Time Off")}
+    >
+      <h3
+        className="text-lg font-medium leading-6 text-gray-900"
+        id="time-off-heading"
+      >
         <Trans>Book Company Time Off</Trans>
       </h3>
-      <div className="py-5 grid grid-cols-3">
+      <div
+        className="py-5 grid grid-cols-3"
+        role="group"
+        aria-labelledby="time-off-heading"
+      >
         <div>
-          <legend className="text-sm/6 font-semibold text-gray-900">
+          <legend
+            className="text-sm/6 font-semibold text-gray-900"
+            id="user-selection-label"
+          >
             <Trans>Select User</Trans>
           </legend>
-          <p className="mt-1 text-sm/6 text-gray-600">
+          <p
+            className="mt-1 text-sm/6 text-gray-600"
+            id="user-selection-description"
+          >
             <Trans>Select the user you want to request time off for.</Trans>
           </p>
         </div>
@@ -81,6 +98,8 @@ export const CreateTeamMemberLeaveRequest = () => {
             onChange={setSelectedUser}
             users={users}
             autoFocus
+            aria-labelledby="user-selection-label"
+            aria-describedby="user-selection-description"
           />
         </div>
       </div>
@@ -151,11 +170,14 @@ export const CreateTeamMemberLeaveRequest = () => {
               endDate={endDate}
               simulatesLeave={simulatesLeave}
               simulatesLeaveType={simulatesLeaveType}
+              aria-label={i18n.t("Leave quota fulfillment for {name}", {
+                name: selectedUser?.name,
+              })}
             />
           )}
         />
       ) : (
-        <p>
+        <p role="alert" aria-live="polite">
           {selectedUser ? (
             <Trans>No location settings found for {selectedUser?.name}</Trans>
           ) : (

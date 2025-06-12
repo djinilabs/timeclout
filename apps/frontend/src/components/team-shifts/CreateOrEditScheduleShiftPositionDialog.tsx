@@ -44,8 +44,11 @@ export const CreateOrEditScheduleShiftPositionDialog = ({
           <Trans>Insert position into the team schedule</Trans>
         )
       }
+      aria-label={
+        editingShiftPosition ? "Edit position dialog" : "Insert position dialog"
+      }
     >
-      <div className="relative">
+      <div className="relative" role="region" aria-label="Position form">
         <Suspense>
           <CreateOrEditScheduleShiftPosition
             editingShiftPosition={editingShiftPosition}
@@ -67,14 +70,20 @@ export const CreateOrEditScheduleShiftPositionDialog = ({
         <HelpPanel
           isHelpPanelOpen={isHelpPanelOpen}
           setHelpPanelOpen={setIsHelpPanelOpen}
+          aria-label="Position creation help"
         />
         {/* Toggle help panel button */}
         <button
           type="button"
           onClick={() => setHelpPanelOpen(!helpPanelOpen)}
           className="fixed right-2 top-12 opacity-50 hover:opacity-100 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500 z-50"
+          aria-expanded={helpPanelOpen}
+          aria-controls="help-panel"
+          aria-label={helpPanelOpen ? "Close help panel" : "Open help panel"}
         >
-          <span className="sr-only">Toggle help panel</span>
+          <span className="sr-only">
+            {helpPanelOpen ? "Close help panel" : "Open help panel"}
+          </span>
           {helpPanelOpen ? (
             <XMarkIcon aria-hidden="true" className="size-6" />
           ) : (

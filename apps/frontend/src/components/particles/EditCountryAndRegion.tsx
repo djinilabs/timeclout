@@ -6,6 +6,7 @@ import { useCountries } from "../../hooks/useCountries";
 import { useCountrySubdivisions } from "../../hooks/useCountrySubdivisions";
 import { FieldComponent } from "../types";
 import { useFetchActivity } from "../../hooks/useFetchActivity";
+import { i18n } from "@lingui/core";
 
 interface EditCountryAndRegionProps {
   Field: FieldComponent;
@@ -61,12 +62,26 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
                   field.handleChange(ev.target.value);
                 }}
                 className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                role="select"
+                aria-label={i18n.t("Select a country")}
+                aria-required="true"
+                aria-invalid={field.state.meta.errors.length > 0}
+                aria-describedby={
+                  field.state.meta.errors.length > 0
+                    ? `${field.name}-error`
+                    : undefined
+                }
               >
                 <option value="">
                   <Trans>Select a country</Trans>
                 </option>
                 {countries?.map((country) => (
-                  <option key={country.isoCode} value={country.isoCode}>
+                  <option
+                    key={country.isoCode}
+                    value={country.isoCode}
+                    role="option"
+                    aria-label={country.name}
+                  >
                     {country.name}
                   </option>
                 ))}
@@ -100,6 +115,15 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
                     field.handleChange(ev.target.value);
                   }}
                   className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  role="select"
+                  aria-label={i18n.t("Select a region")}
+                  aria-required="true"
+                  aria-invalid={field.state.meta.errors.length > 0}
+                  aria-describedby={
+                    field.state.meta.errors.length > 0
+                      ? `${field.name}-error`
+                      : undefined
+                  }
                 >
                   <option value="">
                     <Trans>Select a region</Trans>
@@ -108,6 +132,8 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
                     <option
                       key={subdivision.isoCode}
                       value={subdivision.isoCode}
+                      role="option"
+                      aria-label={subdivision.name}
                     >
                       {subdivision.name}
                     </option>

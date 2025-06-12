@@ -42,7 +42,7 @@ export const TimePicker: FC<TimePickerProps> = memo(
       : value;
 
     return (
-      <div className="flex items-center">
+      <div className="flex items-center" role="group" aria-label="Time picker">
         <div className="relative">
           <input
             type="time"
@@ -50,6 +50,7 @@ export const TimePicker: FC<TimePickerProps> = memo(
             className="h-9"
             value={encodeTime(displayValue)}
             min={min ? encodeTime(min) : undefined}
+            aria-label="Select time"
             onChange={(ev) => {
               const newTime = parseTime(ev.target.value);
               const adjustedTime: [number, number] = isNextDay
@@ -66,7 +67,10 @@ export const TimePicker: FC<TimePickerProps> = memo(
             }}
           />
           {isNextDay && (
-            <span className="-right-14 top-1/2 -translate-y-1/2 text-xs text-gray-500">
+            <span
+              className="-right-14 top-1/2 -translate-y-1/2 text-xs text-gray-500"
+              aria-label="Time is for next day"
+            >
               <Trans>next day</Trans>
             </span>
           )}
@@ -74,6 +78,7 @@ export const TimePicker: FC<TimePickerProps> = memo(
         <button
           type="button"
           className="h-9 px-1 text-gray-400 hover:text-gray-500"
+          aria-label="Increase time by 15 minutes"
           onClick={() => {
             const newTime = parseTime(
               changeTime(encodeTime(displayValue), "increase")
@@ -91,7 +96,12 @@ export const TimePicker: FC<TimePickerProps> = memo(
             onChange(adjustedTime);
           }}
         >
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <svg
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
             <path
               fillRule="evenodd"
               d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z"
@@ -102,6 +112,7 @@ export const TimePicker: FC<TimePickerProps> = memo(
         <button
           type="button"
           className="h-9 px-1 text-gray-400 hover:text-gray-500"
+          aria-label="Decrease time by 15 minutes"
           onClick={() => {
             const newTime = parseTime(
               changeTime(encodeTime(displayValue), "decrease")
@@ -119,7 +130,12 @@ export const TimePicker: FC<TimePickerProps> = memo(
             onChange(adjustedTime);
           }}
         >
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <svg
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
             <path
               fillRule="evenodd"
               d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"

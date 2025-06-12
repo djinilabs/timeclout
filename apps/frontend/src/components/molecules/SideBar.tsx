@@ -105,21 +105,36 @@ const SideBar = ({
 
   return (
     <div
-      className={`no-print flex grow flex-col gap-y-5 overflow-y-auto bg-teal-600 pb-4 relative transition-all duration-300 ${expanded ? "px-6 w-72" : "px-2 w-16"}`}
+      className={`no-print flex grow flex-col gap-y-5 overflow-y-auto bg-teal-600 pb-4 relative transition-all duration-300 ${
+        expanded ? "px-6 w-72" : "px-2 w-16"
+      }`}
     >
       <div className="flex h-16 shrink-0 items-center">
-        <a href="https://tt3.app">
+        <a
+          href="https://tt3.app"
+          aria-label="Team Time Table Home"
+          aria-clickable
+          role="link"
+          aria-describedby="tt3-logo-description"
+        >
           <img
             alt="Team Time Table"
             src="/images/tt3-logo.svg"
-            className={`h-20 w-auto mt-2 transition-opacity duration-300 ${expanded ? "opacity-100" : "opacity-0"}`}
+            className={`h-20 w-auto mt-2 transition-opacity duration-300 ${
+              expanded ? "opacity-100" : "opacity-0"
+            }`}
+            id="tt3-logo-description"
           />
         </a>
       </div>
-      <nav className="flex flex-1 flex-col">
+      <nav className="flex flex-1 flex-col" aria-label="Main navigation">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
           <li>
-            <ul role="list" className="-mx-2 space-y-1">
+            <ul
+              role="list"
+              className="-mx-2 space-y-1"
+              aria-label="Navigation items"
+            >
               {navigation.map((item) => (
                 <li
                   key={item.name}
@@ -140,6 +155,15 @@ const SideBar = ({
                     )}
                     title={!expanded ? item.name : undefined}
                     onClick={onSelect}
+                    aria-current={
+                      location.pathname === item.href ? "page" : undefined
+                    }
+                    aria-label={item.name}
+                    aria-clickable
+                    role="link"
+                    aria-describedby={`nav-${item.name
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}-description`}
                   >
                     <item.icon
                       aria-hidden="true"
@@ -151,7 +175,14 @@ const SideBar = ({
                       )}
                     />
                     <span
-                      className={`transition-opacity duration-300 ${expanded ? "opacity-100" : "opacity-0 w-0 overflow-hidden"}`}
+                      id={`nav-${item.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}-description`}
+                      className={`transition-opacity duration-300 ${
+                        expanded
+                          ? "opacity-100"
+                          : "opacity-0 w-0 overflow-hidden"
+                      }`}
                     >
                       {item.name}
                     </span>
@@ -166,13 +197,20 @@ const SideBar = ({
               className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-teal-200 hover:bg-teal-700 hover:text-white animate duration-200"
               title={!expanded ? "Settings" : undefined}
               onClick={onSelect}
+              aria-label="Settings"
+              aria-clickable
+              role="link"
+              aria-describedby="settings-description"
             >
               <Cog6ToothIcon
                 aria-hidden="true"
                 className="size-6 shrink-0 text-teal-200 group-hover:text-white"
               />
               <span
-                className={`transition-opacity duration-300 ${expanded ? "opacity-100" : "opacity-0 w-0 overflow-hidden"}`}
+                id="settings-description"
+                className={`transition-opacity duration-300 ${
+                  expanded ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
+                }`}
               >
                 <Trans>Settings</Trans>
               </span>
@@ -185,9 +223,14 @@ const SideBar = ({
           onClick={() => setExpanded(!expanded)}
           className="absolute bottom-4 right-3 bg-teal-700 text-white rounded-full p-1.5 hover:bg-teal-800 transition-colors"
           title={expanded ? "Collapse sidebar" : "Expand sidebar"}
+          aria-label={expanded ? "Collapse sidebar" : "Expand sidebar"}
+          aria-expanded={expanded}
         >
           <ChevronLeftIcon
-            className={`size-4 transition-transform duration-500 ${expanded ? "" : "rotate-180"}`}
+            className={`size-4 transition-transform duration-500 ${
+              expanded ? "" : "rotate-180"
+            }`}
+            aria-hidden="true"
           />
         </button>
       )}

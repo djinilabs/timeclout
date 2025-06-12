@@ -33,7 +33,7 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
         | "startHourMinutes"
         | "endHourMinutes"
         | "inconveniencePerHour",
-      TValue extends TimeSchedule[TLabel],
+      TValue extends TimeSchedule[TLabel]
     >(
       index: number,
       field: TLabel,
@@ -45,11 +45,16 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
     };
 
     return (
-      <div>
+      <div role="region" aria-label="Time Schedules Editor">
         <TimeScheduleVisualizer schedules={schedules} />
         {schedules.map((schedule, index) => {
           return (
-            <div className="grid grid-cols-7 gap-4 w-full" key={index}>
+            <div
+              className="grid grid-cols-7 gap-4 w-full"
+              key={index}
+              role="group"
+              aria-label={`Time Schedule ${index + 1}`}
+            >
               <div className="flex items-center gap-2 col-span-2">
                 <label className="text-sm text-gray-600">
                   <Trans>Start</Trans>
@@ -75,10 +80,14 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
               </div>
 
               <div className="flex items-center gap-2 col-span-2">
-                <label className="text-sm text-gray-600">
+                <label
+                  className="text-sm text-gray-600"
+                  htmlFor={`inconvenience-${index}`}
+                >
                   <Trans>Inconvenience</Trans>
                 </label>
                 <input
+                  id={`inconvenience-${index}`}
                   type="number"
                   className="w-12"
                   value={schedule.inconveniencePerHour}
@@ -92,6 +101,10 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
                       Number(ev.target.value)
                     )
                   }
+                  role="spinbutton"
+                  aria-label={`Inconvenience per hour for schedule ${
+                    index + 1
+                  }`}
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -103,11 +116,15 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
                     newSchedules.splice(index, 1);
                     onChange(ensureTimeContinuity(newSchedules));
                   }}
+                  aria-label={`Remove schedule ${index + 1}`}
+                  aria-clickable
+                  role="button"
                 >
                   <svg
                     className="h-5 w-5"
                     viewBox="0 0 20 20"
                     fill="currentColor"
+                    aria-hidden="true"
                   >
                     <path d="M6.75 9.25a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" />
                   </svg>
@@ -133,8 +150,16 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
             };
             onChange(ensureTimeContinuity([...schedules, newSchedule]));
           }}
+          aria-label="Add new time schedule"
+          aria-clickable
+          role="button"
         >
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <svg
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
             <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
           </svg>
         </button>

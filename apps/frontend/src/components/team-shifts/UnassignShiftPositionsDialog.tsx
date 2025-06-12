@@ -25,8 +25,13 @@ export const UnassignShiftPositionsDialog = ({
       open={isDialogOpen}
       onClose={() => onClose()}
       title={<Trans>Unassign shift positions</Trans>}
+      aria-label="Unassign shift positions dialog"
     >
-      <div className="relative">
+      <div
+        className="relative"
+        role="region"
+        aria-label="Unassign shift positions content"
+      >
         <Suspense>
           <UnassignShiftPositions team={teamPk} onClose={() => onClose()} />
         </Suspense>
@@ -40,8 +45,13 @@ export const UnassignShiftPositionsDialog = ({
           type="button"
           onClick={() => setHelpPanelOpen(!isHelpPanelOpen)}
           className="fixed right-4 top-10 opacity-50 hover:opacity-100 bg-blue-400 text-white rounded-full p-3 shadow-lg hover:bg-blue-500 z-50"
+          aria-expanded={isHelpPanelOpen}
+          aria-controls="help-panel"
+          aria-label={isHelpPanelOpen ? "Close help panel" : "Open help panel"}
         >
-          <span className="sr-only">Toggle help panel</span>
+          <span className="sr-only">
+            {isHelpPanelOpen ? "Close help panel" : "Open help panel"}
+          </span>
           {isHelpPanelOpen ? (
             <XMarkIcon aria-hidden="true" className="size-6" />
           ) : (

@@ -80,7 +80,14 @@ const AllCompanyUnits = () => {
             <div key="unit-name" className="min-w-0">
               <div key="unit-name-header" className="flex items-start gap-x-3">
                 <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
-                  <Link to={`/${company.pk}/${unit.pk}`}>{unit.name}</Link>
+                  <Link
+                    aria-clickable
+                    role="link"
+                    aria-label={`View ${unit.name} unit`}
+                    to={`/${company.pk}/${unit.pk}`}
+                  >
+                    {unit.name}
+                  </Link>
                 </p>
               </div>
               <div
@@ -110,12 +117,17 @@ const AllCompanyUnits = () => {
               <Link
                 to={`/${company.pk}/${unit.pk}`}
                 className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+                aria-label={`View ${unit.name} unit`}
+                aria-clickable
               >
                 <Trans>View unit</Trans>
                 <span className="sr-only">, {unit.name}</span>
               </Link>
               <Menu as="div" className="relative flex-none">
-                <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                <MenuButton
+                  className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
+                  aria-label={`Open options for ${unit.name}`}
+                >
                   <span className="sr-only">
                     <Trans>Open options</Trans>
                   </span>
@@ -124,11 +136,15 @@ const AllCompanyUnits = () => {
                 <MenuItems
                   transition
                   className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
+                  aria-label={`Options for ${unit.name}`}
                 >
                   <MenuItem>
                     <Link
                       to={`/${company.pk}/${unit.pk}`}
                       className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                      role="menuitem"
+                      aria-label={`Edit ${unit.name}`}
+                      aria-clickable
                     >
                       <Trans>Edit</Trans>
                       <span className="sr-only">, {unit.name}</span>

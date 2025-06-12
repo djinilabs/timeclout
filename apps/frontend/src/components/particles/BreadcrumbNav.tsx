@@ -11,12 +11,20 @@ export const BreadcrumbNav = () => {
       <ol
         role="list"
         className="flex space-x-4 rounded-md bg-white px-6 shadow-sm h-full"
+        aria-label="Breadcrumb navigation"
       >
         <li key="home" className="flex">
           <div className="flex items-center">
-            <Link to="/companies" className="text-gray-400 hover:text-gray-500">
+            <Link
+              to="/companies"
+              className="text-gray-400 hover:text-gray-500"
+              aria-label="Go to home page"
+              aria-clickable
+              role="link"
+              aria-describedby="home-description"
+            >
               <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
-              <span className="sr-only">
+              <span className="sr-only" id="home-description">
                 <Trans>Home</Trans>
               </span>
             </Link>
@@ -38,8 +46,18 @@ export const BreadcrumbNav = () => {
                 <Link
                   to={`/${company.pk}`}
                   className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+                  aria-label={`Go to ${company.name} company`}
+                  aria-clickable
+                  role="link"
+                  aria-describedby={`company-${company.pk}-description`}
                 >
                   {company.name}
+                  <span
+                    className="sr-only"
+                    id={`company-${company.pk}-description`}
+                  >
+                    <Trans>Company</Trans>
+                  </span>
                 </Link>
               </div>
             </li>
@@ -59,8 +77,18 @@ export const BreadcrumbNav = () => {
                     <Link
                       to={`/${company.pk}/${unit.pk}`}
                       className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+                      aria-label={`Go to ${unit.name} unit`}
+                      aria-clickable
+                      role="link"
+                      aria-describedby={`unit-${unit.pk}-description`}
                     >
                       {unit.name}
+                      <span
+                        className="sr-only"
+                        id={`unit-${unit.pk}-description`}
+                      >
+                        <Trans>Unit</Trans>
+                      </span>
                     </Link>
                   </div>
                 </li>
@@ -79,8 +107,18 @@ export const BreadcrumbNav = () => {
                       <Link
                         to={`/${company.pk}/${unit.pk}/${team.pk}`}
                         className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+                        aria-label={`Go to ${team.name} team`}
+                        aria-clickable
+                        role="link"
+                        aria-describedby={`team-${team.pk}-description`}
                       >
                         {team.name}
+                        <span
+                          className="sr-only"
+                          id={`team-${team.pk}-description`}
+                        >
+                          <Trans>Team</Trans>
+                        </span>
                       </Link>
                     </div>
                   </li>

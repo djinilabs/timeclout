@@ -31,28 +31,34 @@ export const TeamInvites = () => {
   const { showConfirmDialog } = useConfirmDialog();
 
   return (
-    <div className="mt-4">
+    <div className="mt-4" role="region" aria-label="Team Invitations">
       <p className="text-sm/6 text-gray-500">
         <Trans>Here you can invite users to your team.</Trans>
       </p>
       <div className="flex justify-end">
         <Button
           to={`/companies/${company}/units/${unit}/teams/${team}/invites/new`}
+          aria-label="Create new team invitation"
         >
           <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />{" "}
           <Trans>New Invitation</Trans>
         </Button>
       </div>
       {allInvitations?.data?.invitationsTo?.length === 0 && (
-        <p className="text-sm/6 text-gray-500">
+        <p className="text-sm/6 text-gray-500" role="status">
           <Trans>No invitations found.</Trans>
         </p>
       )}
-      <ul role="list" className="divide-y divide-gray-100">
+      <ul
+        role="list"
+        className="divide-y divide-gray-100"
+        aria-label="List of team invitations"
+      >
         {allInvitations?.data?.invitationsTo?.map((invitation: Invitation) => (
           <li
             key={invitation.email}
             className="flex justify-between gap-x-6 py-5"
+            role="listitem"
           >
             <div className="flex min-w-0 gap-x-4">
               <Avatar email={invitation.email} emailMd5={invitation.emailMd5} />
@@ -64,6 +70,7 @@ export const TeamInvites = () => {
                   <a
                     href={`mailto:${invitation.email}`}
                     className="truncate hover:underline"
+                    aria-label={`Send email to ${invitation.email}`}
                   >
                     {invitation.email}
                   </a>
@@ -83,7 +90,10 @@ export const TeamInvites = () => {
                 </p>
               </div>
               <Menu as="div" className="relative flex-none">
-                <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                <MenuButton
+                  className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
+                  aria-label={`Options for invitation to ${invitation.email}`}
+                >
                   <span className="sr-only">
                     <Trans>Open options</Trans>
                   </span>
@@ -92,6 +102,7 @@ export const TeamInvites = () => {
                 <MenuItems
                   transition
                   className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
+                  aria-label="Invitation options"
                 >
                   <MenuItem>
                     <a
@@ -113,6 +124,7 @@ export const TeamInvites = () => {
                         });
                       }}
                       className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                      aria-label={`Revoke invitation for ${invitation.email}`}
                     >
                       <Trans>Revoke Invitation</Trans>
                       <span className="sr-only">, {invitation.email}</span>

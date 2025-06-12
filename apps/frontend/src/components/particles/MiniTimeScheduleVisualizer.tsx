@@ -73,16 +73,28 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
       <div
         className="items-center grid grid-cols-5"
         style={{ width: `${howManyDaysPercentage}%` }}
+        role="region"
+        aria-label="Time schedule visualization"
       >
         <div
           className="transition-all duration-300 ease-in text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap leading-none"
           style={{ marginLeft: `${startPercent}%` }}
-        >
-          {`${String(schedules[0].startHourMinutes[0]).padStart(2, "0")}:${String(
+          aria-label={`Schedule starts at ${String(
+            schedules[0].startHourMinutes[0]
+          ).padStart(2, "0")}:${String(
             schedules[0].startHourMinutes[1]
           ).padStart(2, "0")}`}
+        >
+          {`${String(schedules[0].startHourMinutes[0]).padStart(
+            2,
+            "0"
+          )}:${String(schedules[0].startHourMinutes[1]).padStart(2, "0")}`}
         </div>
-        <div className="relative h-1 rounded-sm col-span-5">
+        <div
+          className="relative h-1 rounded-sm col-span-5"
+          role="list"
+          aria-label="Time schedule segments"
+        >
           {schedules.map((schedule, index) => {
             const startHour = schedule.startHourMinutes[0];
             const startMinutes = schedule.startHourMinutes[1];
@@ -102,13 +114,33 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
             return (
               <Hint
                 key={index}
-                hint={`${String(startHour).padStart(2, "0")}:${String(startMinutes).padStart(2, "0")} - ${String(printableEndHour).padStart(2, "0")}:${String(endMinutes).padStart(2, "0")}`}
+                hint={`${String(startHour).padStart(2, "0")}:${String(
+                  startMinutes
+                ).padStart(2, "0")} - ${String(printableEndHour).padStart(
+                  2,
+                  "0"
+                )}:${String(endMinutes).padStart(2, "0")}`}
                 className="absolute h-full rounded-sm transition-all duration-300 ease-in"
                 style={{
                   left: `${startPercent}%`,
                   width: `${width}%`,
-                  backgroundColor: `rgb(${Math.min(255, schedule.inconveniencePerHour * 100)}, ${Math.max(0, 255 - schedule.inconveniencePerHour * 100)}, 0)`,
+                  backgroundColor: `rgb(${Math.min(
+                    255,
+                    schedule.inconveniencePerHour * 100
+                  )}, ${Math.max(
+                    0,
+                    255 - schedule.inconveniencePerHour * 100
+                  )}, 0)`,
                 }}
+                aria-label={`Time segment from ${String(startHour).padStart(
+                  2,
+                  "0"
+                )}:${String(startMinutes).padStart(2, "0")} to ${String(
+                  printableEndHour
+                ).padStart(2, "0")}:${String(endMinutes).padStart(
+                  2,
+                  "0"
+                )} with inconvenience level ${schedule.inconveniencePerHour}`}
               ></Hint>
             );
           })}
@@ -118,7 +150,12 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
             <Hint
               as="span"
               className="bg-orange-300 text-white p-1 rounded-sm"
-              hint={`${totalInconvenience.toFixed(1).toLocaleString()} inconvenience points`}
+              hint={`${totalInconvenience
+                .toFixed(1)
+                .toLocaleString()} inconvenience points`}
+              aria-label={`Total inconvenience: ${totalInconvenience
+                .toFixed(1)
+                .toLocaleString()} points`}
             >
               {totalInconvenience.toFixed(1).toLocaleString()}
             </Hint>
@@ -127,6 +164,13 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
             as="span"
             className="text-tiny text-gray-600 whitespace-nowrap text-right leading-none"
             hint={`${String(
+              getPrintableEndHour(
+                schedules[schedules.length - 1].endHourMinutes[0]
+              )
+            ).padStart(2, "0")}:${String(
+              schedules[schedules.length - 1].endHourMinutes[1]
+            ).padStart(2, "0")}`}
+            aria-label={`Schedule ends at ${String(
               getPrintableEndHour(
                 schedules[schedules.length - 1].endHourMinutes[0]
               )

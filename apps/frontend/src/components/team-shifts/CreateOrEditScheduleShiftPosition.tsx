@@ -28,6 +28,7 @@ import { Color, ColorPicker } from "../atoms/ColorPicker";
 import { Button } from "../particles/Button";
 import { ListBox } from "../particles/ListBox";
 import { DayPicker } from "../atoms/DayPicker";
+import { i18n } from "@lingui/core";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
@@ -221,10 +222,16 @@ export const CreateOrEditScheduleShiftPosition: FC<
           ev.preventDefault();
           form.handleSubmit();
         }}
+        role="form"
+        aria-label={
+          editingShiftPosition
+            ? "Edit schedule position form"
+            : "Create schedule position form"
+        }
       >
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
-            <p className="mt-1 text-sm/6 text-gray-600">
+            <p className="mt-1 text-sm/6 text-gray-600" role="doc-subtitle">
               {editingShiftPosition ? (
                 <Trans>Edit a position in the team schedule.</Trans>
               ) : (
@@ -237,10 +244,16 @@ export const CreateOrEditScheduleShiftPosition: FC<
                 schedulePositionTemplates &&
                 schedulePositionTemplates.length > 0 && (
                   <fieldset>
-                    <legend className="text-sm/6 font-semibold text-gray-900">
+                    <legend
+                      className="text-sm/6 font-semibold text-gray-900"
+                      id="template-legend"
+                    >
                       <Trans>Use template?</Trans>
                     </legend>
-                    <p className="mt-1 text-sm/6 text-gray-600">
+                    <p
+                      className="mt-1 text-sm/6 text-gray-600"
+                      aria-labelledby="template-legend"
+                    >
                       <Trans>Use a template to create this position.</Trans>
                     </p>
                     <div className="mt-6 space-y-6">
@@ -256,6 +269,10 @@ export const CreateOrEditScheduleShiftPosition: FC<
                               setUsingTemplate(true);
                             }
                           }}
+                          role="radio"
+                          aria-checked={usingTemplate}
+                          aria-label={i18n.t("Use template for position")}
+                          aria-labelledby="template-legend"
                         />
                         <label
                           htmlFor="select"
@@ -281,6 +298,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
                     onChange={(option) => {
                       setUsingWhichTemplate(option as string);
                     }}
+                    aria-label="Select a template"
                   />
                 </div>
               )}
@@ -393,7 +411,22 @@ export const CreateOrEditScheduleShiftPosition: FC<
                           }`}
                           value={field.state.value}
                           onChange={(e) => field.handleChange(e.target.value)}
+                          aria-invalid={field.state.meta.errors.length > 0}
+                          aria-describedby={
+                            field.state.meta.errors.length > 0
+                              ? `${field.name}-error`
+                              : undefined
+                          }
                         />
+                        {field.state.meta.errors.length > 0 && (
+                          <div
+                            id={`${field.name}-error`}
+                            className="text-red-600 text-sm mt-1"
+                            role="alert"
+                          >
+                            {field.state.meta.errors.join(", ")}
+                          </div>
+                        )}
                       </div>
                     </>
                   )}
@@ -516,12 +549,14 @@ export const CreateOrEditScheduleShiftPosition: FC<
             type="button"
             className="text-sm/6 font-semibold text-gray-900"
             onClick={onCancel}
+            aria-label="Cancel changes"
           >
             <Trans>Cancel</Trans>
           </button>
           <button
             type="submit"
             className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-2xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+            aria-label="Save changes to schedule position"
           >
             <Trans>Save Changes</Trans>
           </button>
