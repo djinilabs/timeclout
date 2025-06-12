@@ -680,7 +680,7 @@ export const TeamShiftsSchedule = () => {
     return (
       <div className="flex flex-col items-center justify-center h-full">
         <ExclamationTriangleIcon className="size-10 text-red-500" />
-        <Trans>Error loading calendar data</Trans>
+        <Trans>Error loading calendar data. Please refresh to try again.</Trans>
       </div>
     );
   }

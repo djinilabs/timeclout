@@ -726,7 +726,7 @@ msgstr "Add a manager"
 msgid "Add a new team member to the team."
 msgstr "Add a new team member to the team."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:662
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:614
 msgid "Add position"
 msgstr "Add position"
 
@@ -758,7 +758,7 @@ msgstr "Adjust these parameters to control how the automatic assignment balances
 msgid "All employees"
 msgstr "All employees"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:708
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:660
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:362
 msgid "Analyze"
 msgstr "Analyze"
@@ -846,7 +846,7 @@ msgstr "Attention needed"
 msgid "August"
 msgstr "August"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:670
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:622
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillDialog.tsx:32
 msgid "Auto fill"
 msgstr "Auto fill"
@@ -1026,7 +1026,7 @@ msgstr "Default Yearly Quota (days)"
 msgid "Delete"
 msgstr "Delete"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:698
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:650
 msgid "Details"
 msgstr "Details"
 
@@ -1077,9 +1077,13 @@ msgstr "End"
 msgid "End Date"
 msgstr "End Date"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:611
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:696
 msgid "Error loading calendar data"
 msgstr "Error loading calendar data"
+
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:683
+msgid "Error loading calendar data. Please refresh to try again."
+msgstr "Error loading calendar data. Please refresh to try again."
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/particles/MonthDailyCalendar.tsx:86
@@ -1278,7 +1282,7 @@ msgstr "Leave Type \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "LeaveRequest not found"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:688
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:640
 msgid "Leaves"
 msgstr "Leaves"
 
@@ -1290,7 +1294,7 @@ msgstr "leaving them with <0>{simulatedDaysLeft} days</0> left."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "leaving you with <0>{simulatedDaysLeft} days</0> left."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:607
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:692
 msgid "Loading calendar..."
 msgstr "Loading calendar..."
 
@@ -1837,7 +1841,7 @@ msgstr "un"
 msgid "Unassign"
 msgstr "Unassign"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:677
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:629
 msgid "Unassign positions"
 msgstr "Unassign positions"
 

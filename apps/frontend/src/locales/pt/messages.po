@@ -726,7 +726,7 @@ msgstr "Adicionar um gerente"
 msgid "Add a new team member to the team."
 msgstr "Adicionar um novo membro à equipa."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:662
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:614
 msgid "Add position"
 msgstr "Adicionar posição"
 
@@ -758,7 +758,7 @@ msgstr "Ajuste estes parâmetros para controlar como a atribuição automática 
 msgid "All employees"
 msgstr "Todos os funcionários"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:708
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:660
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:362
 msgid "Analyze"
 msgstr "Analisar"
@@ -846,7 +846,7 @@ msgstr "Atenção necessária"
 msgid "August"
 msgstr "Agosto"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:670
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:622
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillDialog.tsx:32
 msgid "Auto fill"
 msgstr "Auto preenchimento"
@@ -1026,7 +1026,7 @@ msgstr "Cota anual padrão (dias)"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:698
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:650
 msgid "Details"
 msgstr "Detalhes"
 
@@ -1077,9 +1077,13 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:611
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:696
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
+
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:683
+msgid "Error loading calendar data. Please refresh to try again."
+msgstr "Erro a carregar dados do calendário. Por favor refresque para tentar outra vez."
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/particles/MonthDailyCalendar.tsx:86
@@ -1278,7 +1282,7 @@ msgstr "Tipo de ausência \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "Pedido de ausência não encontrado"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:688
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:640
 msgid "Leaves"
 msgstr "Ausências"
 
@@ -1290,7 +1294,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:607
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:692
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -1837,7 +1841,7 @@ msgstr "om"
 msgid "Unassign"
 msgstr "Remover atribuição"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:677
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:629
 msgid "Unassign positions"
 msgstr "Remover atribuições de posição"
 
