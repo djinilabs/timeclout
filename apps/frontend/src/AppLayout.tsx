@@ -18,10 +18,10 @@ import { useWindowSize } from "./hooks/useWindowSize";
 import { BreadcrumbNav } from "./components/particles/BreadcrumbNav";
 import { classNames } from "./utils/classNames";
 import { HelpPanel } from "./components/atoms/HelpPanel";
-import { AIChatPanel } from "./components/ai/AIChatPanel";
 import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
 import { FetchActivityIndicator } from "./components/atoms/FetchActivityIndicator";
 
+const AIChatPanel = lazy(() => import("./components/ai/AIChatPanel"));
 const SideBar = lazy(() => import("./components/molecules/SideBar"));
 
 export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
@@ -184,7 +184,9 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
               "translate-x-0 data-closed:translate-x-full"
             )}
           >
-            <AIChatPanel onClose={() => setAIChatPanelOpen(false)} />
+            <Suspense>
+              <AIChatPanel onClose={() => setAIChatPanelOpen(false)} />
+            </Suspense>
           </div>
         </Transition>
 

@@ -21,7 +21,7 @@ export interface AIChatPanelProps {
   onClose: () => unknown;
 }
 
-export const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
+const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
   const { messages, handleUserMessageSubmit, clearMessages } = useAIAgentChat();
 
   const [inputValue, setInputValue] = useState("");
@@ -152,3 +152,5 @@ export const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
     </div>
   );
 };
+
+export default AIChatPanel;
