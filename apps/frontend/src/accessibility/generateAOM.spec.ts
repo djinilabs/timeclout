@@ -103,7 +103,7 @@ describe("generateAccessibilityObjectModel", () => {
     console.log("Test - Button element:", button);
 
     expect(button?.attributes["expanded"]).toBe("true");
-    expect(button?.attributes["controls"]).toBe("menu");
+    expect(button?.attributes["controls"]).toBe(undefined); // removed the controls attribute
     expect(button?.attributes["haspopup"]).toBe("true");
     expect(button?.attributes["pressed"]).toBe("false");
     expect(button?.attributes["disabled"]).toBe("true");

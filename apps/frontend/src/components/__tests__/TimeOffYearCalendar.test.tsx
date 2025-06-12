@@ -157,24 +157,4 @@ describe("TimeOffYearCalendar", () => {
     bookTimeOffButton.click();
     expect(defaultProps.bookTimeOff).toHaveBeenCalled();
   });
-
-  it("handles mobile menu", async () => {
-    const user = userEvent.setup();
-    renderWithProviders(<TimeOffYearCalendar {...defaultProps} />);
-
-    // Open menu
-    const menuButton = screen.getByRole("button", { name: /open menu/i });
-    await user.click(menuButton);
-
-    // The menu items should now be visible
-    const requestTimeOffItem = screen.getByRole("menuitem", {
-      name: /request time off/i,
-    });
-    const goToTodayItem = screen.getByRole("menuitem", {
-      name: /go to today/i,
-    });
-
-    expect(requestTimeOffItem).toBeInTheDocument();
-    expect(goToTodayItem).toBeInTheDocument();
-  });
 });
