@@ -11,6 +11,7 @@ import { createPortal } from "react-dom";
 interface HintProps {
   children?: ReactNode;
   hint: string;
+  role?: string;
   position?: "top" | "bottom" | "left" | "right" | "auto";
   className?: string;
   style?: React.CSSProperties;
@@ -20,6 +21,7 @@ interface HintProps {
 export const Hint: React.FC<HintProps> = ({
   children,
   hint,
+  role = "hint",
   position = "auto",
   className = "",
   style = {},
@@ -166,7 +168,7 @@ export const Hint: React.FC<HintProps> = ({
       onMouseLeave={() => setIsVisible(false)}
       className={className}
       style={style}
-      role="hint"
+      role={role}
       aria-label={hint}
     >
       {children}

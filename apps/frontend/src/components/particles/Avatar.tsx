@@ -2,6 +2,7 @@ import { FC, memo } from "react";
 import { getInitials } from "../../utils/getInitials";
 import { Hint } from "./Hint";
 import { classNames } from "../../utils/classNames";
+import { i18n } from "@lingui/core";
 
 const getColorAndBackground = (md5?: string | null) => {
   if (!md5) {
@@ -50,7 +51,10 @@ export const Avatar: FC<AvatarProps> = memo(
     };
 
     return (
-      <Hint hint={name ?? email ?? ""}>
+      <Hint
+        hint={i18n.t("Member {name}", { name: name ?? email ?? "" })}
+        role="avatar"
+      >
         <div
           className={classNames("relative inline-flex", className)}
           style={{
