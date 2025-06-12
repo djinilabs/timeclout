@@ -1,7 +1,6 @@
 import { FC, memo, useCallback, useEffect, useRef } from "react";
 import { i18n } from "@lingui/core";
 import { useSession } from "next-auth/react";
-import { classNames } from "../../utils/classNames";
 
 export interface User {
   pk: string;

@@ -3,6 +3,15 @@ import z from "zod";
 import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
 import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 import { printAOM } from "../../accessibility/printAOM";
+import { AccessibleElement } from "../../accessibility/types";
+
+const clickableRoles = ["button", "link", "checkbox", "radio", "combobox"];
+
+const isElementClickable = (element: AccessibleElement) => {
+  return (
+    !!element.attributes.clickable || clickableRoles.includes(element.role)
+  );
+};
 
 export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
   describe_app_ui: {
@@ -31,7 +40,7 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
       const element = findFirstElementInAOM(aom, role, description);
       if (element) {
         console.log("Element found", element);
-        if (!element.attributes.clickable) {
+        if (!isElementClickable(element)) {
           console.log("Element is not clickable", element);
           return {
             success: false,

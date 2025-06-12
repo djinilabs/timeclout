@@ -16,6 +16,7 @@ export const generateAccessibilityObjectModel = (
     const description =
       element.getAttribute("aria-label") ||
       element.getAttribute("aria-description") ||
+      element.getAttribute("value") ||
       "";
 
     // Process children first
