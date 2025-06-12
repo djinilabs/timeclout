@@ -71,6 +71,7 @@ export const PageNewCompany = () => {
                   name="company-name"
                   validators={{
                     onChange: ({ value }) => {
+                      console.log("onChange", value);
                       if (!value) {
                         return i18n.t("Company name is required");
                       }

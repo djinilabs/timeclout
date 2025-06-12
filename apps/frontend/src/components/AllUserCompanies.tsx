@@ -75,7 +75,7 @@ export const AllUserCompanies = () => {
             <Button
               to="/companies/new"
               className="new-company-button"
-              aria-label="Create new company"
+              ariaLabel="Create new company"
             >
               <Trans>Create new company</Trans>
             </Button>
@@ -136,7 +136,6 @@ export const AllUserCompanies = () => {
               </Link>
               <Menu as="div" className="relative flex-none">
                 <MenuButton
-                  id="abc"
                   className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
                   aria-label={`Open options menu for ${company.name}`}
                 >

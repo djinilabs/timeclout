@@ -72,7 +72,7 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = memo(
           }
           return children;
         }
-        return "Button";
+        return undefined;
       })();
 
     if (cancel) {

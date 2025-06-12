@@ -4,13 +4,33 @@ import { generateAccessibilityObjectModel } from "../../accessibility/generateAO
 import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 import { printAOM } from "../../accessibility/printAOM";
 import { AccessibleElement } from "../../accessibility/types";
+import { timeout } from "@/utils";
 
 const clickableRoles = ["button", "link", "checkbox", "radio", "combobox"];
-
 const isElementClickable = (element: AccessibleElement) => {
   return (
     !!element.attributes.clickable || clickableRoles.includes(element.role)
   );
+};
+
+const simulateClick = (element: AccessibleElement) => {
+  if (element.domElement instanceof HTMLElement) {
+    element.domElement.click();
+  }
+};
+
+const simulateTyping = (
+  element: HTMLInputElement | HTMLTextAreaElement,
+  text: string
+) => {
+  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+    (element instanceof HTMLInputElement
+      ? HTMLInputElement
+      : HTMLTextAreaElement
+    ).prototype,
+    "value"
+  )?.set;
+  nativeInputValueSetter?.call(element, text);
 };
 
 export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
@@ -52,7 +72,7 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
 
         if (element.domElement instanceof HTMLElement) {
           console.log("Clicking element", element.domElement);
-          element.domElement.click();
+          simulateClick(element);
           await debounceActivity();
         } else {
           console.log("Element is not an HTMLElement", element);
@@ -131,7 +151,7 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
           } else if (domElement.type === "radio") {
             domElement.checked = true;
           } else {
-            domElement.value = value;
+            simulateTyping(domElement, value);
           }
         } else if (domElement instanceof HTMLTextAreaElement) {
           domElement.value = value;
@@ -144,6 +164,8 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
             error: "Element is not a form input element",
           };
         }
+
+        await timeout(100);
 
         // Trigger input event to ensure React/other frameworks detect the change
         document.dispatchEvent(new Event("change", { bubbles: true }));
