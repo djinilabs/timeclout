@@ -7,6 +7,7 @@ import { useAIChatHistory } from "./useAIChatHistory";
 import { nanoid } from "nanoid";
 import { AIMessage } from "./types";
 import { useAITools } from "./useAITools";
+import { useTestToolExecutionFromConsole } from "./useTestToolExecutionFromConsole";
 
 export interface AIAgentChatResult {
   messages: AIMessage[];
@@ -16,7 +17,10 @@ export interface AIAgentChatResult {
 
 const INITIAL_SYSTEM_PROMPT = `
 You are a helpful assistant that lives inside the TT3 product (an application to help with team scheduling shifts).
-You can interact with the TT3 product like if you were a user of the application. You can look at the UI using the describe_app_ui tool. You can click on elements using the click_element tool and then looking again to the UI to see the changes.
+You can interact with the TT3 product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.
+You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.
+To select a combo box you need to open it first, then select the option you want.
+You can fill text fields using the fill_form_element tool.
 You should use the tools provided to you to answer questions and help with tasks.
 Don't plan, just act.
 If the user asks you to do something, you should try to use the provided tools.
@@ -193,6 +197,8 @@ export const useAIAgentChat = (): AIAgentChatResult => {
     },
     [saveNewMessage]
   );
+
+  useTestToolExecutionFromConsole(tools);
 
   const getModel = useCallback(
     (forMessageId: string) => {

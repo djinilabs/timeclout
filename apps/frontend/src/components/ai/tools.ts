@@ -12,9 +12,7 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
     execute: async () => {
       console.log("tool call: describe_app_ui");
       const aom = generateAccessibilityObjectModel(document);
-      const printedAOM = printAOM(aom);
-      console.log("printedAOM", printedAOM);
-      return printedAOM;
+      return printAOM(aom);
     },
   },
   click_element: {
@@ -41,7 +39,8 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
               "Element is not clickable. Perhaps try clicking on a sub-element of this element.",
           };
         }
-        // click the element
+        //  ------------- click the element -------------
+
         if (element.domElement instanceof HTMLElement) {
           console.log("Clicking element", element.domElement);
           element.domElement.click();
@@ -108,8 +107,16 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
       const domElement = element.domElement as HTMLElement;
 
       try {
+        domElement.focus();
         // Handle different types of form elements
         if (domElement instanceof HTMLInputElement) {
+          // if the role is "combobox", open it first, and then click the matching element
+          if (element.role === "combobox") {
+            console.log("Element is a combobox, opening it");
+            domElement.click();
+            await debounceActivity();
+          }
+
           if (domElement.type === "checkbox") {
             domElement.checked = value.toLowerCase() === "true";
           } else if (domElement.type === "radio") {
@@ -120,6 +127,7 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
         } else if (domElement instanceof HTMLTextAreaElement) {
           domElement.value = value;
         } else if (domElement instanceof HTMLSelectElement) {
+          console.log("Element is a select element, setting value to", value);
           domElement.value = value;
         } else {
           return {
@@ -129,6 +137,9 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
         }
 
         // Trigger input event to ensure React/other frameworks detect the change
+        document.dispatchEvent(new Event("change", { bubbles: true }));
+        document.dispatchEvent(new Event("input", { bubbles: true }));
+        domElement.dispatchEvent(new Event("change", { bubbles: true }));
         domElement.dispatchEvent(new Event("input", { bubbles: true }));
         await debounceActivity();
 

@@ -3,17 +3,15 @@
 
 import { AccessibilityObjectModel, AccessibleElement } from "./types";
 
+const relevantNonARIAAttributes = new Set(["name", "value"]);
+
 // Only includes elements that have a role and description
 export const generateAccessibilityObjectModel = (
   document: Document,
   includeDomElement: boolean = false
 ): AccessibilityObjectModel => {
   const traverseElement = (element: Element): AccessibleElement[] => {
-    let role = element.getAttribute("role");
-    // if it has not role and the element is a button, assign it a role of button
-    if (!role && element.tagName === "BUTTON") {
-      role = "button";
-    }
+    const role = element.getAttribute("role") || element.tagName.toLowerCase();
 
     const description =
       element.getAttribute("aria-label") ||
@@ -45,6 +43,11 @@ export const generateAccessibilityObjectModel = (
             if (propertyName !== "label" || value !== description) {
               ariaAttributes[propertyName] = value;
             }
+          }
+        } else if (relevantNonARIAAttributes.has(attr.name)) {
+          const value = element.getAttribute(attr.name);
+          if (value !== null) {
+            ariaAttributes[attr.name] = value;
           }
         }
       }

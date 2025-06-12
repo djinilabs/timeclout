@@ -185,7 +185,7 @@ export const LeaveTypeEditor = ({
                         )
                       }
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm/6"
-                      role="combobox"
+                      role="select"
                       aria-label={i18n.t("Show in calendar as")}
                       aria-required="true"
                       aria-invalid={field.state.meta.errors.length > 0}
@@ -242,7 +242,7 @@ export const LeaveTypeEditor = ({
                         )
                       }
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm/6"
-                      role="combobox"
+                      role="select"
                       aria-label={i18n.t("Visible to")}
                       aria-required="true"
                       aria-invalid={field.state.meta.errors.length > 0}

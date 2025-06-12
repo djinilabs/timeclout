@@ -108,7 +108,7 @@ export const CompanyYearlyQuota = () => {
                         field.handleChange(Number(e.target.value));
                       }}
                       value={field.state.value}
-                      role="combobox"
+                      role="select"
                       aria-label={i18n.t("Reset month")}
                       aria-required="true"
                       aria-invalid={field.state.meta.errors.length > 0}
