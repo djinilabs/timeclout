@@ -14,6 +14,21 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:616
+msgid "Add new shift position"
+msgstr "Add new shift position"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:626
+msgid "Auto fill shift positions"
+msgstr "Auto fill shift positions"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:635
+msgid "Unassign shift positions"
+msgstr "Unassign shift positions"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Unknown"
@@ -171,17 +186,17 @@ msgid "Create a new Company"
 msgstr "Create a new Company"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageNewCompany.tsx:75
+#: apps/frontend/src/pages/PageNewCompany.tsx:76
 msgid "Company name is required"
 msgstr "Company name is required"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageNewCompany.tsx:103
+#: apps/frontend/src/pages/PageNewCompany.tsx:104
 msgid "Company name"
 msgstr "Company name"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageNewCompany.tsx:141
+#: apps/frontend/src/pages/PageNewCompany.tsx:142
 msgid "Create company"
 msgstr "Create company"
 
@@ -1131,9 +1146,9 @@ msgid "Slot Proximity Equality Deviation"
 msgstr "Slot Proximity Equality Deviation"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/SelectUser.tsx:65
-#: apps/frontend/src/components/atoms/SelectUser.tsx:70
-#: apps/frontend/src/components/atoms/SelectUser.tsx:72
+#: apps/frontend/src/components/atoms/SelectUser.tsx:69
+#: apps/frontend/src/components/atoms/SelectUser.tsx:74
+#: apps/frontend/src/components/atoms/SelectUser.tsx:76
 msgid "Please select a user"
 msgstr "Please select a user"
 
@@ -1168,7 +1183,7 @@ msgstr "Add a manager"
 msgid "Add a new team member to the team."
 msgstr "Add a new team member to the team."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:614
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:615
 msgid "Add position"
 msgstr "Add position"
 
@@ -1200,7 +1215,7 @@ msgstr "Adjust these parameters to control how the automatic assignment balances
 msgid "All employees"
 msgstr "All employees"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:665
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:669
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:362
 msgid "Analyze"
 msgstr "Analyze"
@@ -1288,7 +1303,7 @@ msgstr "Attention needed"
 msgid "August"
 msgstr "August"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:623
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:625
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillDialog.tsx:32
 msgid "Auto fill"
 msgstr "Auto fill"
@@ -1318,7 +1333,7 @@ msgid "Calendar subscriptions:"
 msgstr "Calendar subscriptions:"
 
 #: apps/frontend/src/pages/PageNewUnit.tsx:144
-#: apps/frontend/src/pages/PageNewCompany.tsx:135
+#: apps/frontend/src/pages/PageNewCompany.tsx:136
 #: apps/frontend/src/components/LeaveRequest.tsx:117
 #: apps/frontend/src/components/InviteToTeam.tsx:147
 #: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:118
@@ -1346,7 +1361,7 @@ msgstr "Companies"
 msgid "Company"
 msgstr "Company"
 
-#: apps/frontend/src/pages/PageNewCompany.tsx:86
+#: apps/frontend/src/pages/PageNewCompany.tsx:87
 msgid "Company name"
 msgstr "Company name"
 
@@ -1374,7 +1389,7 @@ msgstr "Copy"
 msgid "Country"
 msgstr "Country"
 
-#: apps/frontend/src/pages/PageNewCompany.tsx:145
+#: apps/frontend/src/pages/PageNewCompany.tsx:146
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:369
 msgid "Create"
 msgstr "Create"
@@ -1479,7 +1494,7 @@ msgstr "Default Yearly Quota (days)"
 msgid "Delete"
 msgstr "Delete"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:654
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:658
 msgid "Details"
 msgstr "Details"
 
@@ -1531,11 +1546,11 @@ msgstr "End"
 msgid "End Date"
 msgstr "End Date"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:702
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:706
 msgid "Error loading calendar data"
 msgstr "Error loading calendar data"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:689
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:693
 msgid "Error loading calendar data. Please refresh to try again."
 msgstr "Error loading calendar data. Please refresh to try again."
 
@@ -1604,7 +1619,7 @@ msgid "Get started by creating a new unit for this company."
 msgstr "Get started by creating a new unit for this company."
 
 #: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:116
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:191
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:202
 msgid "Go to today"
 msgstr "Go to today"
 
@@ -1646,7 +1661,7 @@ msgstr "hu"
 msgid "Icon"
 msgstr "Icon"
 
-#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:31
+#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:30
 msgid "Ignore for now"
 msgstr "Ignore for now"
 
@@ -1740,7 +1755,7 @@ msgstr "Leave Type \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "LeaveRequest not found"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:643
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:647
 msgid "Leaves"
 msgstr "Leaves"
 
@@ -1752,7 +1767,7 @@ msgstr "leaving them with <0>{simulatedDaysLeft} days</0> left."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "leaving you with <0>{simulatedDaysLeft} days</0> left."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:698
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:702
 msgid "Loading calendar..."
 msgstr "Loading calendar..."
 
@@ -1811,7 +1826,7 @@ msgstr "New Unit"
 msgid "next day"
 msgstr "next day"
 
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:115
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:116
 msgid "Next month"
 msgstr "Next month"
 
@@ -1867,7 +1882,7 @@ msgid "on for Monday"
 msgstr "on"
 
 #: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:86
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:145
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:156
 msgid "Open menu"
 msgstr "Open menu"
 
@@ -1913,7 +1928,7 @@ msgstr "Personal Information"
 msgid "Pick a color"
 msgstr "Pick a color"
 
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:86
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:87
 msgid "Previous month"
 msgstr "Previous month"
 
@@ -2228,7 +2243,7 @@ msgstr "Team"
 msgid "The deviation of the inconvenience from the expected inconvenience."
 msgstr "The deviation of the inconvenience from the expected inconvenience."
 
-#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:19
+#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:18
 msgid "The most recent version of the app is available. Please update to the most recent version."
 msgstr "The most recent version of the app is available. Please update to the most recent version."
 
@@ -2273,7 +2288,7 @@ msgid "To create a new unit you just have to fill in the unit name and click on 
 msgstr "To create a new unit you just have to fill in the unit name and click on \"Create\"."
 
 #: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:56
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:99
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:100
 msgid "Today"
 msgstr "Today"
 
@@ -2303,7 +2318,7 @@ msgstr "un"
 msgid "Unassign"
 msgstr "Unassign"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:631
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:634
 msgid "Unassign positions"
 msgstr "Unassign positions"
 
@@ -2327,7 +2342,7 @@ msgstr "Unit name"
 msgid "Unknown"
 msgstr "Unknown"
 
-#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:27
+#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:26
 msgid "Update now"
 msgstr "Update now"
 

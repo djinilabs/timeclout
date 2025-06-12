@@ -632,6 +632,7 @@ export const TeamShiftsSchedule = () => {
               {
                 type: "button",
                 text: <Trans>Unassign positions</Trans>,
+                label: i18n.t("Unassign shift positions"),
                 onClick: () => {
                   setIsDialogOpen("unassign");
                 },

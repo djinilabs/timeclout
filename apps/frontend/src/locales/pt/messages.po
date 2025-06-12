@@ -14,6 +14,21 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:616
+msgid "Add new shift position"
+msgstr "Adicionar nova posição de turno"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:626
+msgid "Auto fill shift positions"
+msgstr "Auto-preencher posições de turno"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:635
+msgid "Unassign shift positions"
+msgstr "Remover atribuições de posição de turno"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -171,17 +186,17 @@ msgid "Create a new Company"
 msgstr "Criar nova empresa"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageNewCompany.tsx:75
+#: apps/frontend/src/pages/PageNewCompany.tsx:76
 msgid "Company name is required"
 msgstr "O nome da empresa é obrigatório"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageNewCompany.tsx:103
+#: apps/frontend/src/pages/PageNewCompany.tsx:104
 msgid "Company name"
 msgstr "Nome da empresa"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageNewCompany.tsx:141
+#: apps/frontend/src/pages/PageNewCompany.tsx:142
 msgid "Create company"
 msgstr "Criar empresa"
 
@@ -1131,9 +1146,9 @@ msgid "Slot Proximity Equality Deviation"
 msgstr "Desvio da Igualdade de Proximidade"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/SelectUser.tsx:65
-#: apps/frontend/src/components/atoms/SelectUser.tsx:70
-#: apps/frontend/src/components/atoms/SelectUser.tsx:72
+#: apps/frontend/src/components/atoms/SelectUser.tsx:69
+#: apps/frontend/src/components/atoms/SelectUser.tsx:74
+#: apps/frontend/src/components/atoms/SelectUser.tsx:76
 msgid "Please select a user"
 msgstr "Por favor seleccione um membro"
 
@@ -1168,7 +1183,7 @@ msgstr "Adicionar um gerente"
 msgid "Add a new team member to the team."
 msgstr "Adicionar um novo membro à equipa."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:614
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:615
 msgid "Add position"
 msgstr "Adicionar posição"
 
@@ -1200,7 +1215,7 @@ msgstr "Ajuste estes parâmetros para controlar como a atribuição automática 
 msgid "All employees"
 msgstr "Todos os funcionários"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:665
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:669
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:362
 msgid "Analyze"
 msgstr "Analisar"
@@ -1288,7 +1303,7 @@ msgstr "Atenção necessária"
 msgid "August"
 msgstr "Agosto"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:623
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:625
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillDialog.tsx:32
 msgid "Auto fill"
 msgstr "Auto preenchimento"
@@ -1318,7 +1333,7 @@ msgid "Calendar subscriptions:"
 msgstr "Subscrições de calendário"
 
 #: apps/frontend/src/pages/PageNewUnit.tsx:144
-#: apps/frontend/src/pages/PageNewCompany.tsx:135
+#: apps/frontend/src/pages/PageNewCompany.tsx:136
 #: apps/frontend/src/components/LeaveRequest.tsx:117
 #: apps/frontend/src/components/InviteToTeam.tsx:147
 #: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:118
@@ -1346,7 +1361,7 @@ msgstr "Empresas"
 msgid "Company"
 msgstr "Empresa"
 
-#: apps/frontend/src/pages/PageNewCompany.tsx:86
+#: apps/frontend/src/pages/PageNewCompany.tsx:87
 msgid "Company name"
 msgstr "Nome da empresa"
 
@@ -1374,7 +1389,7 @@ msgstr "Copiar"
 msgid "Country"
 msgstr "País"
 
-#: apps/frontend/src/pages/PageNewCompany.tsx:145
+#: apps/frontend/src/pages/PageNewCompany.tsx:146
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:369
 msgid "Create"
 msgstr "Criar"
@@ -1479,7 +1494,7 @@ msgstr "Cota anual padrão (dias)"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:654
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:658
 msgid "Details"
 msgstr "Detalhes"
 
@@ -1531,11 +1546,11 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:702
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:706
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:689
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:693
 msgid "Error loading calendar data. Please refresh to try again."
 msgstr "Erro a carregar dados do calendário. Por favor refresque para tentar outra vez."
 
@@ -1604,7 +1619,7 @@ msgid "Get started by creating a new unit for this company."
 msgstr "Comece por criar uma nova unidade para esta empresa."
 
 #: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:116
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:191
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:202
 msgid "Go to today"
 msgstr "Ir para hoje"
 
@@ -1646,7 +1661,7 @@ msgstr "ui"
 msgid "Icon"
 msgstr "Ícone"
 
-#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:31
+#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:30
 msgid "Ignore for now"
 msgstr "Ignorar por agora"
 
@@ -1740,7 +1755,7 @@ msgstr "Tipo de ausência \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "Pedido de ausência não encontrado"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:643
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:647
 msgid "Leaves"
 msgstr "Ausências"
 
@@ -1752,7 +1767,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:698
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:702
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -1811,7 +1826,7 @@ msgstr "Nova unidade"
 msgid "next day"
 msgstr "dia seguinte"
 
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:115
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:116
 msgid "Next month"
 msgstr "Mês seguinte"
 
@@ -1867,7 +1882,7 @@ msgid "on for Monday"
 msgstr "eg"
 
 #: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:86
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:145
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:156
 msgid "Open menu"
 msgstr "Abrir menu"
 
@@ -1913,7 +1928,7 @@ msgstr "Informação pessoal"
 msgid "Pick a color"
 msgstr "Escolher uma cor"
 
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:86
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:87
 msgid "Previous month"
 msgstr "Mês anterior"
 
@@ -2228,7 +2243,7 @@ msgstr "Equipa"
 msgid "The deviation of the inconvenience from the expected inconvenience."
 msgstr "O desvio da inconveniência esperada"
 
-#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:19
+#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:18
 msgid "The most recent version of the app is available. Please update to the most recent version."
 msgstr "Está disponível tem uma nova versão desta aplicação. Por favor atualize para a versão mais recente."
 
@@ -2273,7 +2288,7 @@ msgid "To create a new unit you just have to fill in the unit name and click on 
 msgstr "Para criar uma nova unidade, basta preencher o nome da unidade e clicar em \"Criar\"."
 
 #: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:56
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:99
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:100
 msgid "Today"
 msgstr "Hoje"
 
@@ -2303,7 +2318,7 @@ msgstr "om"
 msgid "Unassign"
 msgstr "Remover atribuição"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:631
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:634
 msgid "Unassign positions"
 msgstr "Remover atribuições de posição"
 
@@ -2327,7 +2342,7 @@ msgstr "Nome da unidade"
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:27
+#: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:26
 msgid "Update now"
 msgstr "Atualizar agora"
 
