@@ -601,6 +601,77 @@ export const TeamShiftsSchedule = () => {
     ]
   );
 
+  const additionalActions = useMemo(
+    () => [
+      ...((team?.resourcePermission ?? -1) >= 2 // WRITE
+        ? [
+            {
+              type: "button",
+              text: <Trans>Add position</Trans>,
+              onClick: () => {
+                setEditingShiftPosition(undefined);
+                setIsDialogOpen("create");
+              },
+            } as const,
+            {
+              type: "button",
+              text: <Trans>Auto fill</Trans>,
+              onClick: () => {
+                setIsDialogOpen("autoFill");
+              },
+            } as const,
+            {
+              type: "button",
+              text: <Trans>Unassign positions</Trans>,
+              onClick: () => {
+                setIsDialogOpen("unassign");
+              },
+            } as const,
+          ]
+        : []),
+      {
+        type: "component",
+        component: (
+          <LabeledSwitch
+            label={<Trans>Leaves</Trans>}
+            checked={showLeaveSchedule}
+            onChange={setShowLeaveSchedule}
+          />
+        ),
+      },
+      {
+        type: "component",
+        component: (
+          <LabeledSwitch
+            label={<Trans>Details</Trans>}
+            checked={showScheduleDetails}
+            onChange={setShowScheduleDetails}
+          />
+        ),
+      },
+      {
+        type: "component",
+        component: (
+          <LabeledSwitch
+            label={<Trans>Analyze</Trans>}
+            checked={analyze}
+            onChange={setAnalyze}
+          />
+        ),
+      },
+    ],
+    [
+      analyze,
+      setAnalyze,
+      setIsDialogOpen,
+      setShowLeaveSchedule,
+      setShowScheduleDetails,
+      showLeaveSchedule,
+      showScheduleDetails,
+      team?.resourcePermission,
+    ]
+  );
+
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
@@ -663,76 +734,7 @@ export const TeamShiftsSchedule = () => {
         focusedDay={focusedDay}
         year={selectedMonth.getYear()}
         month={selectedMonth.getMonth() - 1}
-        additionalActions={useMemo(
-          () => [
-            ...((team?.resourcePermission ?? -1) >= 2 // WRITE
-              ? [
-                  {
-                    type: "button",
-                    text: <Trans>Add position</Trans>,
-                    onClick: () => {
-                      setEditingShiftPosition(undefined);
-                      setIsDialogOpen("create");
-                    },
-                  } as const,
-                  {
-                    type: "button",
-                    text: <Trans>Auto fill</Trans>,
-                    onClick: () => {
-                      setIsDialogOpen("autoFill");
-                    },
-                  } as const,
-                  {
-                    type: "button",
-                    text: <Trans>Unassign positions</Trans>,
-                    onClick: () => {
-                      setIsDialogOpen("unassign");
-                    },
-                  } as const,
-                ]
-              : []),
-            {
-              type: "component",
-              component: (
-                <LabeledSwitch
-                  label={<Trans>Leaves</Trans>}
-                  checked={showLeaveSchedule}
-                  onChange={setShowLeaveSchedule}
-                />
-              ),
-            },
-            {
-              type: "component",
-              component: (
-                <LabeledSwitch
-                  label={<Trans>Details</Trans>}
-                  checked={showScheduleDetails}
-                  onChange={setShowScheduleDetails}
-                />
-              ),
-            },
-            {
-              type: "component",
-              component: (
-                <LabeledSwitch
-                  label={<Trans>Analyze</Trans>}
-                  checked={analyze}
-                  onChange={setAnalyze}
-                />
-              ),
-            },
-          ],
-          [
-            analyze,
-            setAnalyze,
-            setIsDialogOpen,
-            setShowLeaveSchedule,
-            setShowScheduleDetails,
-            showLeaveSchedule,
-            showScheduleDetails,
-            team?.resourcePermission,
-          ]
-        )}
+        additionalActions={additionalActions}
         goTo={(year, month) => {
           const day = new DayDate(year, month + 1, 1);
           goToMonth(day);
