@@ -61,7 +61,6 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
           className="text-base font-semibold text-gray-900"
         >
           <time
-            role="time"
             aria-description={humanMonth}
             dateTime={`${year}-${monthIsZeroBased ? month + 1 : month}`}
           >

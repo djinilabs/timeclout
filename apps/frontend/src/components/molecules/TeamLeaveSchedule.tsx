@@ -10,6 +10,7 @@ import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
 import { CalendarHeader } from "../atoms/CalendarHeader";
 import { Button } from "../particles/Button";
 import { months } from "../../utils/months";
+import { Hint } from "../particles/Hint";
 
 export interface TeamLeaveScheduleProps {
   year: number;
@@ -97,7 +98,14 @@ export const TeamLeaveSchedule = memo(
                     backgroundColor: leave.color,
                   }}
                 >
-                  {leave.icon}
+                  <Hint
+                    hint={i18n.t("{type} leave for {member}", {
+                      type: leave.type,
+                      member: member.name,
+                    })}
+                  >
+                    {leave.icon}
+                  </Hint>
                 </Link>
               ) : (
                 <span

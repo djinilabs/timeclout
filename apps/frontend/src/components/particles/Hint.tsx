@@ -133,10 +133,26 @@ export const Hint: React.FC<HintProps> = ({
         <div
           className={`
           absolute w-2 h-2 bg-gray-900 transform rotate-45
-          ${calculatedPosition === "top" ? "bottom-[-4px] left-1/2 -translate-x-1/2" : ""}
-          ${calculatedPosition === "bottom" ? "top-[-4px] left-1/2 -translate-x-1/2" : ""}
-          ${calculatedPosition === "left" ? "right-[-4px] top-1/2 -translate-y-1/2" : ""}
-          ${calculatedPosition === "right" ? "left-[-4px] top-1/2 -translate-y-1/2" : ""}
+          ${
+            calculatedPosition === "top"
+              ? "bottom-[-4px] left-1/2 -translate-x-1/2"
+              : ""
+          }
+          ${
+            calculatedPosition === "bottom"
+              ? "top-[-4px] left-1/2 -translate-x-1/2"
+              : ""
+          }
+          ${
+            calculatedPosition === "left"
+              ? "right-[-4px] top-1/2 -translate-y-1/2"
+              : ""
+          }
+          ${
+            calculatedPosition === "right"
+              ? "left-[-4px] top-1/2 -translate-y-1/2"
+              : ""
+          }
         `}
         />
       </div>,
@@ -150,6 +166,8 @@ export const Hint: React.FC<HintProps> = ({
       onMouseLeave={() => setIsVisible(false)}
       className={className}
       style={style}
+      role="hint"
+      aria-label={hint}
     >
       {children}
       {tooltip}

@@ -150,6 +150,7 @@ export const MonthDailyCalendar: FC<MonthDailyCalendarProps> = memo(
                   )}
                 >
                   <time
+                    aria-label={day.date}
                     key={`time-${day.date}`}
                     dateTime={day.date}
                     className="ml-auto pr-2 font-extrabold"

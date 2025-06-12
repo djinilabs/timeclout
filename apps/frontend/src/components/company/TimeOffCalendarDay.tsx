@@ -46,14 +46,15 @@ export const TimeOffCalendarDay: FC<TimeOffCalendarDayProps> = memo(
       >
         <time
           dateTime={day.date}
+          aria-label={day.date}
           className={classNames(
             day.isToday ? "bg-teal-600 font-semibold text-white" : "",
             "mx-auto flex size-7 items-center justify-center rounded-full",
             isLeave && !isLeave?.leaveRequest?.approved
               ? "opacity-50"
               : holiday
-                ? "bg-red-500 text-white"
-                : ""
+              ? "bg-red-500 text-white"
+              : ""
           )}
           style={
             isLeave
