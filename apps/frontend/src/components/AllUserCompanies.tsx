@@ -88,7 +88,7 @@ export const AllUserCompanies = () => {
             key={company.pk}
             className="flex items-center justify-between gap-x-6 py-5"
             role="listitem"
-            aria-label={`Company ${company.name}`}
+            aria-label={company.name}
           >
             <div className="min-w-0">
               <div className="flex items-start gap-x-3">
@@ -136,6 +136,7 @@ export const AllUserCompanies = () => {
               </Link>
               <Menu as="div" className="relative flex-none">
                 <MenuButton
+                  id="abc"
                   className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
                   aria-label={`Open options menu for ${company.name}`}
                 >

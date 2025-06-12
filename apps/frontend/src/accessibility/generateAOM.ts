@@ -4,6 +4,7 @@
 import { AccessibilityObjectModel, AccessibleElement } from "./types";
 
 const relevantNonARIAAttributes = new Set(["name", "value"]);
+const avoidAriaAttributes = new Set(["labelledby", "describedby", "controls"]);
 
 // Only includes elements that have a role and description
 export const generateAccessibilityObjectModel = (
@@ -40,7 +41,7 @@ export const generateAccessibilityObjectModel = (
             break;
           }
           const value = element.getAttribute(attr.name);
-          if (value !== null) {
+          if (value && !avoidAriaAttributes.has(propertyName)) {
             if (propertyName !== "label" || value !== description) {
               ariaAttributes[propertyName] = value;
             }
