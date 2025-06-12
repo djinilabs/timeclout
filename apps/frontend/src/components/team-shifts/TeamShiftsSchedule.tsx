@@ -34,7 +34,10 @@ import { toMinutes } from "../../utils/toMinutes";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "../atoms/ShiftPosition";
 import { LabeledSwitch } from "../particles/LabeledSwitch";
-import { TeamShiftsCalendar } from "../team-shifts/TeamShiftsCalendar";
+import {
+  TeamShiftsCalendar,
+  TeamShiftsCalendarProps,
+} from "../team-shifts/TeamShiftsCalendar";
 import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
 import { Day } from "../particles/MonthDailyCalendar";
 import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
@@ -601,76 +604,77 @@ export const TeamShiftsSchedule = () => {
     ]
   );
 
-  const additionalActions = useMemo(
-    () => [
-      ...((team?.resourcePermission ?? -1) >= 2 // WRITE
-        ? [
-            {
-              type: "button",
-              text: <Trans>Add position</Trans>,
-              onClick: () => {
-                setEditingShiftPosition(undefined);
-                setIsDialogOpen("create");
-              },
-            } as const,
-            {
-              type: "button",
-              text: <Trans>Auto fill</Trans>,
-              onClick: () => {
-                setIsDialogOpen("autoFill");
-              },
-            } as const,
-            {
-              type: "button",
-              text: <Trans>Unassign positions</Trans>,
-              onClick: () => {
-                setIsDialogOpen("unassign");
-              },
-            } as const,
-          ]
-        : []),
-      {
-        type: "component",
-        component: (
-          <LabeledSwitch
-            label={<Trans>Leaves</Trans>}
-            checked={showLeaveSchedule}
-            onChange={setShowLeaveSchedule}
-          />
-        ),
-      },
-      {
-        type: "component",
-        component: (
-          <LabeledSwitch
-            label={<Trans>Details</Trans>}
-            checked={showScheduleDetails}
-            onChange={setShowScheduleDetails}
-          />
-        ),
-      },
-      {
-        type: "component",
-        component: (
-          <LabeledSwitch
-            label={<Trans>Analyze</Trans>}
-            checked={analyze}
-            onChange={setAnalyze}
-          />
-        ),
-      },
-    ],
-    [
-      analyze,
-      setAnalyze,
-      setIsDialogOpen,
-      setShowLeaveSchedule,
-      setShowScheduleDetails,
-      showLeaveSchedule,
-      showScheduleDetails,
-      team?.resourcePermission,
-    ]
-  );
+  const additionalActions: TeamShiftsCalendarProps["additionalActions"] =
+    useMemo(
+      () => [
+        ...((team?.resourcePermission ?? -1) >= 2 // WRITE
+          ? [
+              {
+                type: "button",
+                text: <Trans>Add position</Trans>,
+                onClick: () => {
+                  setEditingShiftPosition(undefined);
+                  setIsDialogOpen("create");
+                },
+              } as const,
+              {
+                type: "button",
+                text: <Trans>Auto fill</Trans>,
+                onClick: () => {
+                  setIsDialogOpen("autoFill");
+                },
+              } as const,
+              {
+                type: "button",
+                text: <Trans>Unassign positions</Trans>,
+                onClick: () => {
+                  setIsDialogOpen("unassign");
+                },
+              } as const,
+            ]
+          : []),
+        {
+          type: "component",
+          component: (
+            <LabeledSwitch
+              label={<Trans>Leaves</Trans>}
+              checked={showLeaveSchedule}
+              onChange={setShowLeaveSchedule}
+            />
+          ),
+        },
+        {
+          type: "component",
+          component: (
+            <LabeledSwitch
+              label={<Trans>Details</Trans>}
+              checked={showScheduleDetails}
+              onChange={setShowScheduleDetails}
+            />
+          ),
+        },
+        {
+          type: "component",
+          component: (
+            <LabeledSwitch
+              label={<Trans>Analyze</Trans>}
+              checked={analyze}
+              onChange={setAnalyze}
+            />
+          ),
+        },
+      ],
+      [
+        analyze,
+        setAnalyze,
+        setIsDialogOpen,
+        setShowLeaveSchedule,
+        setShowScheduleDetails,
+        showLeaveSchedule,
+        showScheduleDetails,
+        team?.resourcePermission,
+      ]
+    );
 
   if (error) {
     return (
