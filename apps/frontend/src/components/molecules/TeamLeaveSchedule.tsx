@@ -9,6 +9,7 @@ import { Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
 import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
 import { CalendarHeader } from "../atoms/CalendarHeader";
 import { Button } from "../particles/Button";
+import { months } from "../../utils/months";
 
 export interface TeamLeaveScheduleProps {
   year: number;
@@ -176,7 +177,7 @@ export const TeamLeaveSchedule = memo(
       <div
         role="region"
         aria-label={i18n.t("Team leave schedule for {month} {year}", {
-          month,
+          month: months()[month],
           year,
         })}
       >
