@@ -145,7 +145,12 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
               </div>
             ))}
           </div>
-          <Menu as="div" key="mobile-menu" className="relative ml-6 md:hidden">
+          <Menu
+            as="div"
+            key="mobile-menu"
+            className="relative ml-6 md:hidden"
+            aria-hidden="true"
+          >
             <MenuButton
               className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500"
               aria-label="Open calendar actions menu"

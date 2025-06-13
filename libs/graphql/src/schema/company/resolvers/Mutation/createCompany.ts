@@ -6,7 +6,9 @@ import type { Company, MutationResolvers } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
 import { defaultLeaveTypes } from "./defaultLeaveTypes";
 
-export const createCompany: NonNullable<MutationResolvers['createCompany']> = async (_parent, arg, ctx) => {
+export const createCompany: NonNullable<
+  MutationResolvers["createCompany"]
+> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const userPk = resourceRef(
     "users",

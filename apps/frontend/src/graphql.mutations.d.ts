@@ -116,6 +116,15 @@ declare module '@/graphql-client/mutations/createUnit.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/deleteCompany.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const deleteCompany: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/deleteInvitation.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

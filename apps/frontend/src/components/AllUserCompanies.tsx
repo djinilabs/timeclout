@@ -4,9 +4,15 @@ import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
 import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
+import deleteCompanyMutation from "@/graphql-client/mutations/deleteCompany.graphql";
 import { type Company } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
 import { Button } from "./particles/Button";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { useConfirmDialog } from "../hooks/useConfirmDialog";
+import { i18n } from "@lingui/core";
+import { useMutation } from "../hooks/useMutation";
+import toast from "react-hot-toast";
 
 const NoCompanies = () => {
   const navigate = useNavigate();
@@ -59,6 +65,11 @@ export const AllUserCompanies = () => {
     query: allCompaniesQuery,
     pollingIntervalMs: 10000,
   });
+
+  const [, deleteCompany] = useMutation(deleteCompanyMutation);
+
+  const { showConfirmDialog } = useConfirmDialog();
+
   if (!allCompanies.data?.companies?.length) {
     return <NoCompanies />;
   }
@@ -152,14 +163,46 @@ export const AllUserCompanies = () => {
                   <MenuItem>
                     <Link
                       to={`/${company.pk}`}
-                      className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                      className="flex items-center gap-x-2 px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
                       role="menuitem"
                       aria-label={`Edit ${company.name} company`}
                       aria-clickable
                     >
+                      <PencilIcon className="size-4" />
                       <Trans>Edit</Trans>
                       <span className="sr-only">, {company.name}</span>
                     </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        if (
+                          await showConfirmDialog({
+                            text: i18n.t(
+                              "Are you sure you want to remove this company?"
+                            ),
+                            confirmText: i18n.t("Remove"),
+                            cancelText: i18n.t("Cancel"),
+                          })
+                        ) {
+                          const result = await deleteCompany({
+                            pk: company.pk,
+                          });
+                          if (!result.error) {
+                            toast.success(
+                              i18n.t("Company removed successfully")
+                            );
+                          }
+                        }
+                      }}
+                      className="flex items-center gap-x-2 px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden w-full"
+                      aria-label={`Remove ${company.name} company`}
+                    >
+                      <TrashIcon className="size-4" />
+                      <Trans>Remove</Trans>
+                      <span className="sr-only">, {company.name}</span>
+                    </button>
                   </MenuItem>
                 </MenuItems>
               </Menu>

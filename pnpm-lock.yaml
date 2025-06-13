@@ -136,9 +136,6 @@ importers:
       '@types/node':
         specifier: ^22.10.2
         version: 22.15.31
-      '@urql/devtools':
-        specifier: ^2.0.3
-        version: 2.0.3(@urql/core@5.1.0(graphql@16.11.0))(graphql@16.11.0)
       '@urql/exchange-graphcache':
         specifier: ^7.2.1
         version: 7.2.3(@urql/core@5.1.0(graphql@16.11.0))(graphql@16.11.0)
@@ -2689,12 +2686,6 @@ packages:
     peerDependencies:
       react: ^18.0 || ^19.0 || ^19.0.0-rc
 
-  '@react-email/text@0.1.4':
-    resolution: {integrity: sha512-cMNE02y8172DocpNGh97uV5HSTawaS4CKG/zOku8Pu+m6ehBKbAjgtQZDIxhgstw8+TWraFB8ltS1DPjfG8nLA==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      react: ^18.0 || ^19.0 || ^19.0.0-rc
-
   '@react-email/text@0.1.5':
     resolution: {integrity: sha512-o5PNHFSE085VMXayxH+SJ1LSOtGsTv+RpNKnTiJDrJUwoBu77G3PlKOsZZQHCNyD28WsQpl9v2WcJLbQudqwPg==}
     engines: {node: '>=18.0.0'}
@@ -3801,12 +3792,6 @@ packages:
 
   '@urql/core@5.1.0':
     resolution: {integrity: sha512-yC3sw8yqjbX45GbXxfiBY8GLYCiyW/hLBbQF9l3TJrv4ro00Y0ChkKaD9I2KntRxAVm9IYBqh0awX8fwWAe/Yw==}
-
-  '@urql/devtools@2.0.3':
-    resolution: {integrity: sha512-TktPLiBS9LcBPHD6qcnb8wqOVcg3Bx0iCtvQ80uPpfofwwBGJmqnQTjUdEFU6kwaLOFZULQ9+Uo4831G823mQw==}
-    peerDependencies:
-      '@urql/core': '>= 1.14.0'
-      graphql: '>= 0.11.0'
 
   '@urql/exchange-graphcache@7.2.3':
     resolution: {integrity: sha512-ClxbxlONfcGZOgZQxUIJ2hvy82mwuljQLVd957TgpSDzSCMLWCklWFubnSC5YFvQLR1kZJW+sbhWKd4ZpndF9w==}
@@ -7493,9 +7478,6 @@ packages:
     resolution: {integrity: sha512-NsmoXalsWVDMGupxZ5R08ka9flZjjiLvHVAWYOKtiKM8ujtZWr9cRffak+uSE48+Ob8ObalXpwyeUiyDD6QFgg==}
     engines: {node: '>=8'}
 
-  wonka@6.3.4:
-    resolution: {integrity: sha512-CjpbqNtBGNAeyNS/9W6q3kSkKE52+FjIj7AkFlLr11s/VWGUu6a2CdYSdGxocIhIVjaW/zchesBQUKPVU69Cqg==}
-
   wonka@6.3.5:
     resolution: {integrity: sha512-SSil+ecw6B4/Dm7Pf2sAshKQ5hWFvfyGlfPbEd6A14dOH6VDjrmbY86u6nZvy9omGwwIPFR8V41+of1EezgoUw==}
 
@@ -10917,10 +10899,6 @@ snapshots:
     dependencies:
       react: 19.1.0
 
-  '@react-email/text@0.1.4(react@19.1.0)':
-    dependencies:
-      react: 19.1.0
-
   '@react-email/text@0.1.5(react@19.1.0)':
     dependencies:
       react: 19.1.0
@@ -12269,12 +12247,6 @@ snapshots:
       wonka: 6.3.5
     transitivePeerDependencies:
       - graphql
-
-  '@urql/devtools@2.0.3(@urql/core@5.1.0(graphql@16.11.0))(graphql@16.11.0)':
-    dependencies:
-      '@urql/core': 5.1.0(graphql@16.11.0)
-      graphql: 16.11.0
-      wonka: 6.3.4
 
   '@urql/exchange-graphcache@7.2.3(@urql/core@5.1.0(graphql@16.11.0))(graphql@16.11.0)':
     dependencies:
@@ -16259,8 +16231,6 @@ snapshots:
   widest-line@3.1.0:
     dependencies:
       string-width: 4.2.3
-
-  wonka@6.3.4: {}
 
   wonka@6.3.5: {}
 

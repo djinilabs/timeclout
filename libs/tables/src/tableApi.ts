@@ -26,7 +26,7 @@ const parsingItem =
 export const tableApi = <
   TTableName extends TableName,
   TTableSchema extends TableSchemas[TTableName] = TableSchemas[TTableName],
-  TTableRecord extends z.infer<TTableSchema> = z.infer<TTableSchema>,
+  TTableRecord extends z.infer<TTableSchema> = z.infer<TTableSchema>
 >(
   tableName: TTableName,
   lowLevelTable: ArcTable<{ pk: string; sk?: string }>,
@@ -55,6 +55,7 @@ export const tableApi = <
     },
     deleteAll: async (pk: string) => {
       try {
+        console.debug("deleteAll:Going to get all items", tableName, { pk });
         const items = (
           await lowLevelTable.query({
             KeyConditionExpression: "pk = :pk",
@@ -62,7 +63,15 @@ export const tableApi = <
           })
         ).Items;
 
-        await Promise.all(items.map((item) => lowLevelTable.delete(item)));
+        console.debug("deleteAll:Got all items", tableName, { pk }, items);
+
+        await Promise.all(
+          items.map((item) =>
+            item.sk
+              ? lowLevelTable.delete({ pk: item.pk, sk: item.sk })
+              : lowLevelTable.delete({ pk: item.pk })
+          )
+        );
       } catch (err) {
         console.error("Error deleting all items", tableName, pk, err);
         throw err;
