@@ -17,6 +17,7 @@ import allTeamsQuery from "@/graphql-client/queries/allTeams.graphql";
 import { Company, Team, Unit } from "../../graphql/graphql";
 import { classNames } from "../../utils/classNames";
 import { useQuery } from "../../hooks/useQuery";
+import { version } from "../../../../../package.json";
 
 export interface NavigationItem {
   name: string;
@@ -215,6 +216,12 @@ const SideBar = ({
                 <Trans>Settings</Trans>
               </span>
             </Link>
+          </li>
+          <li className="text-xs text-teal-200">
+            <p>
+              &copy; {new Date().getFullYear()} Team Time Table
+              <br />v{version}
+            </p>
           </li>
         </ul>
       </nav>
