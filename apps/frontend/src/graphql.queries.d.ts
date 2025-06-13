@@ -152,6 +152,15 @@ declare module '@/graphql-client/queries/deleteShiftPosition.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/deleteUnit.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const deleteUnit: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/inviteToTeam.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

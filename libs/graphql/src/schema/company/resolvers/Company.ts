@@ -1,4 +1,4 @@
-import { database } from "@/tables";
+import { database, EntityRecord } from "@/tables";
 import { getUserAuthorizationLevelForResource } from "@/business-logic";
 import { resourceRef } from "@/utils";
 import { CompanyResolvers, Unit, User } from "../../../types.generated";
@@ -20,12 +20,14 @@ export const Company: CompanyResolvers = {
       parent.updatedBy as unknown as string
     ) as unknown as Promise<User>;
   },
-  units: async (_parent, _args, ctx) => {
+  units: async (parent, _args, ctx) => {
     const { entity } = await database();
     const permissions = await getAuthorized(ctx, "units");
-    return entity.batchGet(permissions.map((p) => p.pk)) as unknown as Promise<
-      Unit[]
-    >;
+    return (
+      await (entity.batchGet(
+        permissions.map((p) => p.pk)
+      ) as unknown as Promise<Unit[]>)
+    ).filter((u) => (u as unknown as EntityRecord).parentPk === parent.pk);
   },
   settings: async (parent, args) => {
     const { entity_settings } = await database();

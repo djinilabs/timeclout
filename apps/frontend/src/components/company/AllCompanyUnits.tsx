@@ -1,11 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
-import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import {
+  PlusIcon,
+  EllipsisVerticalIcon,
+  PencilIcon,
+  TrashIcon,
+} from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
 import ReactTimeAgo from "react-time-ago";
+import deleteUnitMutation from "@/graphql-client/mutations/deleteUnit.graphql";
 import { type Unit } from "../../graphql/graphql";
 import { Button } from "../particles/Button";
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
+import { useMutation } from "../../hooks/useMutation";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import { i18n } from "@lingui/core";
+import { toast } from "react-hot-toast";
 
 const NoUnits = () => {
   const { companyPk } = useEntityNavigationContext();
@@ -50,7 +60,9 @@ const NoUnits = () => {
 };
 
 const AllCompanyUnits = () => {
-  const { company } = useEntityNavigationContext();
+  const { company, refresh } = useEntityNavigationContext();
+  const { showConfirmDialog } = useConfirmDialog();
+  const [, deleteUnit] = useMutation(deleteUnitMutation);
 
   return (
     <div>
@@ -141,14 +153,47 @@ const AllCompanyUnits = () => {
                   <MenuItem>
                     <Link
                       to={`/${company.pk}/${unit.pk}`}
-                      className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                      className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2"
                       role="menuitem"
                       aria-label={`Edit ${unit.name}`}
                       aria-clickable
                     >
+                      <PencilIcon className="size-4" />
                       <Trans>Edit</Trans>
                       <span className="sr-only">, {unit.name}</span>
                     </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <button
+                      type="button"
+                      className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2 w-full"
+                      role="menuitem"
+                      aria-label={`Remove ${unit.name} unit`}
+                      aria-clickable
+                      onClick={async () => {
+                        if (
+                          await showConfirmDialog({
+                            text: i18n.t(
+                              "Are you sure you want to delete this unit?"
+                            ),
+                            confirmText: i18n.t("Delete unit"),
+                            cancelText: i18n.t("Cancel"),
+                          })
+                        ) {
+                          const result = await deleteUnit({
+                            pk: unit.pk,
+                          });
+                          if (!result.error) {
+                            toast.success(i18n.t("Unit deleted successfully"));
+                            refresh();
+                          }
+                        }
+                      }}
+                    >
+                      <TrashIcon className="size-4" />
+                      <Trans>Delete</Trans>
+                      <span className="sr-only">, {unit.name}</span>
+                    </button>
                   </MenuItem>
                 </MenuItems>
               </Menu>

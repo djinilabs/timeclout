@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useMemo } from "react";
+import { createContext, ReactNode, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
 import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
@@ -18,6 +18,7 @@ export interface EntityNavigationContextType {
   unit: Unit | undefined;
   teamPk: string | undefined;
   team: Team | undefined;
+  refresh: () => void;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -32,7 +33,7 @@ export const EntityNavigationContextProvider = ({
 }) => {
   const { company: companyPk, unit: unitPk, team: teamPk } = useParams();
 
-  const [queryResponse] = useQuery<
+  const [queryResponse, refetchCompany] = useQuery<
     { company: Query["company"] },
     QueryCompanyArgs
   >({
@@ -47,7 +48,7 @@ export const EntityNavigationContextProvider = ({
 
   const unit = company?.units?.find((unit) => unit.pk === `units/${unitPk}`);
 
-  const [teamQueryResponse] = useQuery<{ team: Query["team"] }>({
+  const [teamQueryResponse, refetchTeam] = useQuery<{ team: Query["team"] }>({
     query: teamQuery,
     variables: {
       teamPk,
@@ -57,11 +58,16 @@ export const EntityNavigationContextProvider = ({
 
   const team = teamPk ? teamQueryResponse.data?.team : undefined;
 
+  const refresh = useCallback(() => {
+    refetchCompany();
+    refetchTeam();
+  }, [refetchCompany, refetchTeam]);
+
   return (
     <EntityNavigationContext.Provider
       value={useMemo(
-        () => ({ companyPk, company, unitPk, unit, teamPk, team }),
-        [companyPk, company, unitPk, unit, teamPk, team]
+        () => ({ companyPk, company, unitPk, unit, teamPk, team, refresh }),
+        [companyPk, company, unitPk, unit, teamPk, team, refresh]
       )}
     >
       {children}

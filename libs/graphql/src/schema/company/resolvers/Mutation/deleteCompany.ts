@@ -5,9 +5,7 @@ import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { PERMISSION_LEVELS } from "@/tables";
 import { badData, notFound } from "@hapi/boom";
 
-export const deleteCompany: NonNullable<
-  MutationResolvers["deleteCompany"]
-> = async (_parent, arg, _ctx) => {
+export const deleteCompany: NonNullable<MutationResolvers['deleteCompany']> = async (_parent, arg, _ctx) => {
   const companyRef = resourceRef("companies", arg.pk);
   await ensureAuthorized(_ctx, companyRef, PERMISSION_LEVELS.OWNER);
   const { entity, permission } = await database();
