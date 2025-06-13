@@ -14,33 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/ai/useAIAgentChat.tsx:40
-msgid ""
-"You are a helpful assistant that lives inside the TT3 product (an application to help with team scheduling shifts).\n"
-"  You can interact with the TT3 product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.\n"
-"  You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.\n"
-"  You can fill text fields using the fill_form_element tool.\n"
-"  You should use the tools provided to you to answer questions and help with tasks.\n"
-"  Don't plan, just act.\n"
-"  If the user asks you to do something, you should try to use the provided tools.\n"
-"  To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.\n"
-"  After you have received a tool-result, reply to the user in __plain english__ with your findings.\n"
-"  If a tool-result is not successful, you should try to use the tools again.\n"
-"  "
-msgstr ""
-"You are a helpful assistant that lives inside the TT3 product (an application to help with team scheduling shifts).\n"
-"  You can interact with the TT3 product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.\n"
-"  You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.\n"
-"  You can fill text fields using the fill_form_element tool.\n"
-"  You should use the tools provided to you to answer questions and help with tasks.\n"
-"  Don't plan, just act.\n"
-"  If the user asks you to do something, you should try to use the provided tools.\n"
-"  To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.\n"
-"  After you have received a tool-result, reply to the user in __plain english__ with your findings.\n"
-"  If a tool-result is not successful, you should try to use the tools again.\n"
-"  "
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Unknown"
@@ -178,7 +151,10 @@ msgstr "Unit name is required"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/pages/PageNewUnit.tsx:140
+#: apps/frontend/src/components/AllUserCompanies.tsx:186
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:207
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:355
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:185
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -532,6 +508,21 @@ msgid "Cancel invitation"
 msgstr "Cancel invitation"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/AllUserCompanies.tsx:182
+msgid "Are you sure you want to remove this company?"
+msgstr "Are you sure you want to remove this company?"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/AllUserCompanies.tsx:185
+msgid "Remove"
+msgstr "Remove"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/AllUserCompanies.tsx:194
+msgid "Company removed successfully"
+msgstr "Company removed successfully"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/AcceptInvite.tsx:43
 msgid "Invitation accepted"
 msgstr "Invitation accepted"
@@ -575,6 +566,21 @@ msgstr "Remove {name} as manager"
 #: apps/frontend/src/components/unit/UnitManagers.tsx:139
 msgid "Select a user to add as manager"
 msgstr "Select a user to add as manager"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:203
+msgid "Are you sure you want to remove this team?"
+msgstr "Are you sure you want to remove this team?"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:206
+msgid "Remove team"
+msgstr "Remove team"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:214
+msgid "Team removed successfully"
+msgstr "Team removed successfully"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:58
@@ -1109,6 +1115,21 @@ msgid "Reason for leave"
 msgstr "Reason for leave"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:181
+msgid "Are you sure you want to delete this unit?"
+msgstr "Are you sure you want to delete this unit?"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:184
+msgid "Delete unit"
+msgstr "Delete unit"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:192
+msgid "Unit deleted successfully"
+msgstr "Unit deleted successfully"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/ShiftPosition.tsx:222
 msgid "Shift options menu"
 msgstr "Shift options menu"
@@ -1193,6 +1214,33 @@ msgstr "Select a color"
 #: apps/frontend/src/components/atoms/ColorPicker.tsx:24
 msgid "Select {color} color"
 msgstr "Select {color} color"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/ai/useAIAgentChat.tsx:40
+msgid ""
+"You are a helpful assistant that lives inside the TT3 product (an application to help with team scheduling shifts).\n"
+"  You can interact with the TT3 product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.\n"
+"  You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.\n"
+"  You can fill text fields using the fill_form_element tool.\n"
+"  You should use the tools provided to you to answer questions and help with tasks.\n"
+"  Don't plan, just act.\n"
+"  If the user asks you to do something, you should try to use the provided tools.\n"
+"  To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.\n"
+"  After you have received a tool-result, reply to the user in __plain english__ with your findings.\n"
+"  If a tool-result is not successful, you should try to use the tools again.\n"
+"  "
+msgstr ""
+"You are a helpful assistant that lives inside the TT3 product (an application to help with team scheduling shifts).\n"
+"  You can interact with the TT3 product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.\n"
+"  You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.\n"
+"  You can fill text fields using the fill_form_element tool.\n"
+"  You should use the tools provided to you to answer questions and help with tasks.\n"
+"  Don't plan, just act.\n"
+"  If the user asks you to do something, you should try to use the provided tools.\n"
+"  To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.\n"
+"  After you have received a tool-result, reply to the user in __plain english__ with your findings.\n"
+"  If a tool-result is not successful, you should try to use the tools again.\n"
+"  "
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/ai/useAIAgentChat.tsx:55
@@ -1298,11 +1346,11 @@ msgstr "Are you sure you want to delete this leave type? This change is not reve
 msgid "Are you sure you want to remove this leave request?"
 msgstr "Are you sure you want to remove this leave request?"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:189
+#: apps/frontend/src/components/team/TeamMembers.tsx:198
 msgid "Are you sure you want to remove this user from the team?"
 msgstr "Are you sure you want to remove this user from the team?"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:113
+#: apps/frontend/src/components/team/TeamInvites.tsx:115
 msgid "Are you sure you want to revoke this invitation?"
 msgstr "Are you sure you want to revoke this invitation?"
 
@@ -1385,7 +1433,7 @@ msgstr "Click the button below to accept the invitation."
 msgid "Color"
 msgstr "Color"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:71
+#: apps/frontend/src/components/AllUserCompanies.tsx:82
 msgid "Companies"
 msgstr "Companies"
 
@@ -1443,11 +1491,11 @@ msgstr "Create a new leave type for your company"
 msgid "Create a new Unit"
 msgstr "Create a new Unit"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:48
+#: apps/frontend/src/components/team/TeamMembers.tsx:54
 msgid "Create member user"
 msgstr "Create member user"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:80
+#: apps/frontend/src/components/AllUserCompanies.tsx:91
 msgid "Create new company"
 msgstr "Create new company"
 
@@ -1456,11 +1504,11 @@ msgstr "Create new company"
 msgid "Create New Leave Type"
 msgstr "Create New Leave Type"
 
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:85
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:98
 msgid "Create new team"
 msgstr "Create new team"
 
-#: apps/frontend/src/components/company/AllCompanyUnits.tsx:67
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:80
 msgid "Create new Unit"
 msgstr "Create new Unit"
 
@@ -1476,10 +1524,10 @@ msgstr "Create Team Member"
 msgid "Create unit"
 msgstr "Create unit"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:112
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:121
-#: apps/frontend/src/components/company/AllCompanyUnits.tsx:98
-#: apps/frontend/src/components/atoms/LeaveRequests.tsx:88
+#: apps/frontend/src/components/AllUserCompanies.tsx:123
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:135
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:115
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:89
 msgid "Created"
 msgstr "Created"
 
@@ -1487,9 +1535,9 @@ msgstr "Created"
 msgid "Created At"
 msgstr "Created At"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:123
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:132
-#: apps/frontend/src/components/company/AllCompanyUnits.tsx:109
+#: apps/frontend/src/components/AllUserCompanies.tsx:134
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:147
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:126
 msgid "Created by"
 msgstr "Created by"
 
@@ -1522,6 +1570,7 @@ msgid "Default Yearly Quota (days)"
 msgstr "Default Yearly Quota (days)"
 
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:132
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:199
 #: apps/frontend/src/components/atoms/ShiftPosition.tsx:291
 msgid "Delete"
 msgstr "Delete"
@@ -1534,11 +1583,11 @@ msgstr "Details"
 msgid "Discarded Schedules"
 msgstr "Discarded Schedules"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:160
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:174
-#: apps/frontend/src/components/team/TeamMembers.tsx:174
+#: apps/frontend/src/components/AllUserCompanies.tsx:172
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:190
+#: apps/frontend/src/components/team/TeamMembers.tsx:182
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:126
-#: apps/frontend/src/components/company/AllCompanyUnits.tsx:149
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:167
 #: apps/frontend/src/components/atoms/ShiftPosition.tsx:238
 msgid "Edit"
 msgstr "Edit"
@@ -1638,24 +1687,24 @@ msgstr "From"
 msgid "From {0} to {1}"
 msgstr "From {0} to {1}"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:38
+#: apps/frontend/src/components/AllUserCompanies.tsx:44
 msgid "Get started by creating a new company."
 msgstr "Get started by creating a new company."
 
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:34
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:45
 msgid "Get started by creating a new team for this unit."
 msgstr "Get started by creating a new team for this unit."
 
-#: apps/frontend/src/components/company/AllCompanyUnits.tsx:34
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:45
 msgid "Get started by creating a new unit for this company."
 msgstr "Get started by creating a new unit for this company."
 
 #: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:116
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:202
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:207
 msgid "Go to today"
 msgstr "Go to today"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:36
+#: apps/frontend/src/components/team/TeamInvites.tsx:37
 msgid "Here you can invite users to your team."
 msgstr "Here you can invite users to your team."
 
@@ -1742,11 +1791,11 @@ msgid "Invite a team member to join your team."
 msgstr "Invite a team member to join your team."
 
 #: apps/frontend/src/components/InviteToTeam.tsx:54
-#: apps/frontend/src/components/team/TeamMembers.tsx:55
+#: apps/frontend/src/components/team/TeamMembers.tsx:61
 msgid "Invite to team"
 msgstr "Invite to team"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:88
+#: apps/frontend/src/components/team/TeamInvites.tsx:90
 msgid "Invited"
 msgstr "Invited"
 
@@ -1754,7 +1803,7 @@ msgstr "Invited"
 msgid "January"
 msgstr "January"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:140
+#: apps/frontend/src/components/team/TeamMembers.tsx:147
 msgid "Joined"
 msgstr "Joined"
 
@@ -1838,19 +1887,19 @@ msgstr "Name"
 msgid "Need More Help?"
 msgstr "Need More Help?"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:50
+#: apps/frontend/src/components/AllUserCompanies.tsx:56
 msgid "New Company"
 msgstr "New Company"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:44
+#: apps/frontend/src/components/team/TeamInvites.tsx:45
 msgid "New Invitation"
 msgstr "New Invitation"
 
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:46
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:57
 msgid "New Team"
 msgstr "New Team"
 
-#: apps/frontend/src/components/company/AllCompanyUnits.tsx:45
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:56
 msgid "New Unit"
 msgstr "New Unit"
 
@@ -1866,11 +1915,11 @@ msgstr "Next month"
 msgid "Next year"
 msgstr "Next year"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:35
+#: apps/frontend/src/components/AllUserCompanies.tsx:41
 msgid "No companies"
 msgstr "No companies"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:49
+#: apps/frontend/src/components/team/TeamInvites.tsx:50
 msgid "No invitations found."
 msgstr "No invitations found."
 
@@ -1887,11 +1936,11 @@ msgstr "No managers assigned"
 msgid "No qualifications available for this team."
 msgstr "No qualifications available for this team."
 
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:31
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:42
 msgid "No teams"
 msgstr "No teams"
 
-#: apps/frontend/src/components/company/AllCompanyUnits.tsx:31
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:42
 msgid "No units"
 msgstr "No units"
 
@@ -1914,15 +1963,15 @@ msgid "on for Monday"
 msgstr "on"
 
 #: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:86
-#: apps/frontend/src/components/atoms/CalendarHeader.tsx:156
+#: apps/frontend/src/components/atoms/CalendarHeader.tsx:161
 msgid "Open menu"
 msgstr "Open menu"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:143
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:157
-#: apps/frontend/src/components/team/TeamMembers.tsx:153
-#: apps/frontend/src/components/team/TeamInvites.tsx:98
-#: apps/frontend/src/components/company/AllCompanyUnits.tsx:132
+#: apps/frontend/src/components/AllUserCompanies.tsx:154
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:172
+#: apps/frontend/src/components/team/TeamMembers.tsx:160
+#: apps/frontend/src/components/team/TeamInvites.tsx:100
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:149
 msgid "Open options"
 msgstr "Open options"
 
@@ -1990,7 +2039,12 @@ msgstr "Region"
 msgid "Reject leave request"
 msgstr "Reject leave request"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:212
+#: apps/frontend/src/components/AllUserCompanies.tsx:203
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:221
+msgid "Remove"
+msgstr "Remove"
+
+#: apps/frontend/src/components/team/TeamMembers.tsx:223
 msgid "Remove from team"
 msgstr "Remove from team"
 
@@ -2051,7 +2105,7 @@ msgstr "Reset Month"
 msgid "Respect leave schedule"
 msgstr "Respect leave schedule"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:129
+#: apps/frontend/src/components/team/TeamInvites.tsx:131
 msgid "Revoke Invitation"
 msgstr "Revoke Invitation"
 
@@ -2370,7 +2424,7 @@ msgstr "Unit"
 msgid "Unit name"
 msgstr "Unit name"
 
-#: apps/frontend/src/components/team/TeamInvites.tsx:84
+#: apps/frontend/src/components/team/TeamInvites.tsx:85
 msgid "Unknown"
 msgstr "Unknown"
 
@@ -2394,23 +2448,23 @@ msgstr "Use template?"
 msgid "Use this solution and assigning these shift Positions"
 msgstr "Use this solution and assigning these shift Positions"
 
-#: apps/frontend/src/components/team/TeamMembers.tsx:204
+#: apps/frontend/src/components/team/TeamMembers.tsx:213
 msgid "User removed from team"
 msgstr "User removed from team"
 
-#: apps/frontend/src/components/AllUserCompanies.tsx:134
+#: apps/frontend/src/components/AllUserCompanies.tsx:145
 msgid "View company"
 msgstr "View company"
 
-#: apps/frontend/src/components/atoms/LeaveRequests.tsx:107
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:108
 msgid "View leave request details"
 msgstr "View leave request details"
 
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:148
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:163
 msgid "View team"
 msgstr "View team"
 
-#: apps/frontend/src/components/company/AllCompanyUnits.tsx:123
+#: apps/frontend/src/components/company/AllCompanyUnits.tsx:140
 msgid "View unit"
 msgstr "View unit"
 
@@ -2470,7 +2524,7 @@ msgstr "You have been invited"
 msgid "You have been invited to join \"<0>{0}</0>\" with permission level \"{1}\"."
 msgstr "You have been invited to join \"<0>{0}</0>\" with permission level \"{1}\"."
 
-#: apps/frontend/src/components/atoms/LeaveRequests.tsx:119
+#: apps/frontend/src/components/atoms/LeaveRequests.tsx:120
 msgid "You have no pending leave requests"
 msgstr "You have no pending leave requests"
 
