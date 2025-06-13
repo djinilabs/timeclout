@@ -1,5 +1,11 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
+import {
+  ClockIcon,
+  EllipsisVerticalIcon,
+  PencilIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@heroicons/react/20/solid";
 import { Link, useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import toast from "react-hot-toast";
@@ -134,9 +140,10 @@ export const TeamMembers = () => {
                   </p>
                   {person.resourcePermissionGivenAt && (
                     <p
-                      className="mt-1 text-xs/5 text-gray-500"
+                      className="mt-1 text-xs/5 text-gray-500 flex items-center gap-x-1"
                       aria-label={`${person.name}'s join date`}
                     >
+                      <ClockIcon className="size-4" />
                       <Trans>Joined</Trans>{" "}
                       <ReactTimeAgo
                         date={new Date(person.resourcePermissionGivenAt)}
@@ -159,18 +166,19 @@ export const TeamMembers = () => {
                   </MenuButton>
                   <MenuItems
                     transition
-                    className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
+                    className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
                     aria-label={`Options menu for ${person.name}`}
                   >
                     <MenuItem>
                       <Link
                         to={`/companies/${company}/units/${unit}/teams/${teamPk}/${person.pk}`}
-                        className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                        className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2"
                         aria-label={`Edit ${person.name}'s profile`}
                         aria-clickable
                         role="link"
                         aria-describedby={`edit-${person.pk}-description`}
                       >
+                        <PencilIcon className="size-4" />
                         <Trans>Edit</Trans>
                         <span
                           className="sr-only"
@@ -181,7 +189,8 @@ export const TeamMembers = () => {
                       </Link>
                     </MenuItem>
                     <MenuItem>
-                      <a
+                      <button
+                        type="button"
                         onClick={async () => {
                           if (
                             !(await showConfirmDialog({
@@ -205,13 +214,15 @@ export const TeamMembers = () => {
                             );
                           }
                         }}
-                        className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                        className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2 w-full cursor-pointer whitespace-nowrap"
                         aria-label={`Remove ${person.name} from team`}
+                        aria-clickable
                         role="button"
                       >
+                        <TrashIcon className="size-4" />
                         <Trans>Remove from team</Trans>
                         <span className="sr-only">, {person.name}</span>
-                      </a>
+                      </button>
                     </MenuItem>
                   </MenuItems>
                 </Menu>

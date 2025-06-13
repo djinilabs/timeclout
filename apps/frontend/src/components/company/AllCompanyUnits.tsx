@@ -4,6 +4,7 @@ import {
   EllipsisVerticalIcon,
   PencilIcon,
   TrashIcon,
+  ClockIcon,
 } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
@@ -106,7 +107,11 @@ const AllCompanyUnits = () => {
                 key="unit-name-footer"
                 className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500"
               >
-                <p key="unit-name-footer-created" className="whitespace-nowrap">
+                <p
+                  key="unit-name-footer-created"
+                  className="whitespace-nowrap flex items-center gap-x-1"
+                >
+                  <ClockIcon className="size-4" />
                   <Trans>Created</Trans>{" "}
                   <ReactTimeAgo date={new Date(unit.createdAt)} />
                 </p>

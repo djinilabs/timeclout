@@ -12,6 +12,7 @@ import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { Button } from "../particles/Button";
 import { Avatar } from "../particles/Avatar";
 import { permissionTypeToString } from "../../utils/permissionTypeToString";
+import { ClockIcon } from "@heroicons/react/24/outline";
 
 export const TeamInvites = () => {
   const { company, unit, team } = useParams();
@@ -84,7 +85,8 @@ export const TeamInvites = () => {
                     <Trans>Unknown</Trans>
                   )}
                 </p>
-                <p className="mt-1 text-xs/5 text-gray-500">
+                <p className="mt-1 text-xs/5 text-gray-500 flex items-center gap-x-1">
+                  <ClockIcon className="size-4" />
                   <Trans>Invited</Trans>{" "}
                   <ReactTimeAgo date={new Date(invitation.createdAt)} />
                 </p>

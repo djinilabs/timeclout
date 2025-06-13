@@ -5,6 +5,7 @@ import {
   EllipsisVerticalIcon,
   PencilIcon,
   TrashIcon,
+  ClockIcon,
 } from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
@@ -129,7 +130,8 @@ export const AllUnitTeams = () => {
                 </p>
               </div>
               <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
-                <p className="whitespace-nowrap">
+                <p className="whitespace-nowrap flex items-center gap-x-1">
+                  <ClockIcon className="size-4" />
                   <Trans>Created</Trans>{" "}
                   <ReactTimeAgo date={new Date(team.createdAt)} />
                 </p>
@@ -140,7 +142,8 @@ export const AllUnitTeams = () => {
                 >
                   <circle r={1} cx={1} cy={1} />
                 </svg>
-                <p className="truncate">
+                <p className="truncate flex items-center gap-x-1">
+                  <PencilIcon className="size-4" />
                   <Trans>Created by</Trans> {team.createdBy.name}
                 </p>
               </div>

@@ -1587,6 +1587,9 @@
   .gap-x-0\.5 {
     column-gap: calc(var(--spacing) * 0.5);
   }
+  .gap-x-1 {
+    column-gap: calc(var(--spacing) * 1);
+  }
   .gap-x-2 {
     column-gap: calc(var(--spacing) * 2);
   }

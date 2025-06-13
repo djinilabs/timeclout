@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import { ChevronRightIcon, ClockIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { LeaveRequest } from "../../graphql/graphql";
 import { Avatar } from "../particles/Avatar";
@@ -84,7 +84,8 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
                       )}
                     </p>
                   )}
-                  <p className="mt-1 text-xs/5 text-gray-500">
+                  <p className="mt-1 text-xs/5 text-gray-500 flex items-center gap-x-1">
+                    <ClockIcon className="size-4" />
                     <Trans>Created</Trans>{" "}
                     <ReactTimeAgo date={new Date(leaveRequest.createdAt)} />
                   </p>
