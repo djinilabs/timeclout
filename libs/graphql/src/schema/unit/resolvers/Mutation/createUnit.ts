@@ -6,7 +6,7 @@ import { giveAuthorization } from "@/business-logic";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
 
-export const createUnit: NonNullable<MutationResolvers["createUnit"]> = async (
+export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
   _parent,
   arg,
   ctx

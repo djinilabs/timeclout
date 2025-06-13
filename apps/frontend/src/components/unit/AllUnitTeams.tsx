@@ -1,11 +1,21 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
-import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import {
+  PlusIcon,
+  EllipsisVerticalIcon,
+  PencilIcon,
+  TrashIcon,
+} from "@heroicons/react/20/solid";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
 import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
+import deleteTeamMutation from "@/graphql-client/mutations/deleteTeam.graphql";
 import { useQuery } from "../../hooks/useQuery";
 import { Query, Team } from "../../graphql/graphql";
+import { i18n } from "@lingui/core";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import { useMutation } from "../../hooks/useMutation";
+import toast from "react-hot-toast";
 
 const NoTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
@@ -52,8 +62,10 @@ const NoTeams = () => {
 
 export const AllUnitTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
+  const { showConfirmDialog } = useConfirmDialog();
+  const navigate = useNavigate();
 
-  const [queryResponse] = useQuery<{ unit: Query["unit"] }>({
+  const [queryResponse, refetchUnit] = useQuery<{ unit: Query["unit"] }>({
     query: unitQuery,
     variables: {
       unitPk,
@@ -63,7 +75,7 @@ export const AllUnitTeams = () => {
 
   const unit = queryResponse.data?.unit;
 
-  const navigate = useNavigate();
+  const [, deleteTeam] = useMutation(deleteTeamMutation);
 
   return (
     <div role="region" aria-label="Unit teams list">
@@ -166,14 +178,46 @@ export const AllUnitTeams = () => {
                   <MenuItem>
                     <Link
                       to={`/companies/${companyPk}/${unit.pk}/${team.pk}`}
-                      className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                      className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2"
                       aria-label={`Edit ${team.name} team`}
                       aria-clickable
                       role="link"
                     >
+                      <PencilIcon className="size-4" />
                       <Trans>Edit</Trans>
                       <span className="sr-only">, {team.name}</span>
                     </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <button
+                      type="button"
+                      className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2 w-full"
+                      aria-label={`Remove ${team.name} team`}
+                      aria-clickable
+                      onClick={async () => {
+                        if (
+                          await showConfirmDialog({
+                            text: i18n.t(
+                              "Are you sure you want to remove this team?"
+                            ),
+                            confirmText: i18n.t("Remove team"),
+                            cancelText: i18n.t("Cancel"),
+                          })
+                        ) {
+                          const result = await deleteTeam({
+                            pk: team.pk,
+                          });
+                          if (!result.error) {
+                            toast.success(i18n.t("Team removed successfully"));
+                            refetchUnit();
+                          }
+                        }
+                      }}
+                    >
+                      <TrashIcon className="size-4" />
+                      <Trans>Remove</Trans>
+                      <span className="sr-only">, {team.name}</span>
+                    </button>
                   </MenuItem>
                 </MenuItems>
               </Menu>

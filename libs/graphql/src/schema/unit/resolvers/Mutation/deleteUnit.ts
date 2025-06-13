@@ -1,11 +1,11 @@
-import { notFound } from "@hapi/boom";
+import { badData, notFound } from "@hapi/boom";
 import { PERMISSION_LEVELS } from "@/tables";
 import { database } from "@/tables";
 import { resourceRef } from "@/utils";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
 
-export const deleteUnit: NonNullable<MutationResolvers["deleteUnit"]> = async (
+export const deleteUnit: NonNullable<MutationResolvers['deleteUnit']> = async (
   _parent,
   _arg,
   _ctx
@@ -17,6 +17,18 @@ export const deleteUnit: NonNullable<MutationResolvers["deleteUnit"]> = async (
   const unit = await entity.get(unitPk);
   if (!unit) {
     throw notFound("Unit with pk ${_arg.pk} not found");
+  }
+
+  // make sure no teams are in this unit
+  const teams = await entity.query({
+    IndexName: "byParentPk",
+    KeyConditionExpression: "parentPk = :parentPk",
+    ExpressionAttributeValues: {
+      ":parentPk": unitPk,
+    },
+  });
+  if (teams.length > 0) {
+    throw badData("Unit has teams, cannot delete");
   }
 
   await entity.delete(unitPk);
