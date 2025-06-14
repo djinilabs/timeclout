@@ -45,7 +45,9 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   Don't plan, just act.
   If the user asks you to do something, you should try to use the provided tools.
   After you have received a tool-result, reply to the user in __plain english__ with your findings.
-  If a tool-result is not successful, you should try to use the tools again.
+  If a tool result is an error, you should try to use the tools again.
+  If the tool does not get you the data you need, try navigating to another page.
+  If that does not work, just say you don't have enough data.
   `),
     [i18n]
   );
