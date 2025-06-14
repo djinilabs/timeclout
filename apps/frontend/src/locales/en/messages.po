@@ -933,12 +933,12 @@ msgid "Team leave schedule for {month} {year}"
 msgstr "Team leave schedule for {month} {year}"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/molecules/SideBar.tsx:80
+#: apps/frontend/src/components/molecules/SideBar.tsx:81
 msgid "Home"
 msgstr "Home"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/molecules/SideBar.tsx:97
+#: apps/frontend/src/components/molecules/SideBar.tsx:98
 msgid "Leave Requests"
 msgstr "Leave Requests"
 
@@ -1225,7 +1225,6 @@ msgid ""
 "  You should use the tools provided to you to answer questions and help with tasks.\n"
 "  Don't plan, just act.\n"
 "  If the user asks you to do something, you should try to use the provided tools.\n"
-"  To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.\n"
 "  After you have received a tool-result, reply to the user in __plain english__ with your findings.\n"
 "  If a tool-result is not successful, you should try to use the tools again.\n"
 "  "
@@ -1237,13 +1236,12 @@ msgstr ""
 "  You should use the tools provided to you to answer questions and help with tasks.\n"
 "  Don't plan, just act.\n"
 "  If the user asks you to do something, you should try to use the provided tools.\n"
-"  To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.\n"
 "  After you have received a tool-result, reply to the user in __plain english__ with your findings.\n"
 "  If a tool-result is not successful, you should try to use the tools again.\n"
 "  "
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/ai/useAIAgentChat.tsx:55
+#: apps/frontend/src/components/ai/useAIAgentChat.tsx:54
 msgid "Hello, I'm your TT3 AI assistant. How can I help you today?"
 msgstr "Hello, I'm your TT3 AI assistant. How can I help you today?"
 
@@ -2237,7 +2235,7 @@ msgstr "Set the schedule for this position."
 msgid "Set the user assigned to this position."
 msgstr "Set the user assigned to this position."
 
-#: apps/frontend/src/components/molecules/SideBar.tsx:215
+#: apps/frontend/src/components/molecules/SideBar.tsx:216
 msgid "Settings"
 msgstr "Settings"
 

@@ -44,7 +44,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   You should use the tools provided to you to answer questions and help with tasks.
   Don't plan, just act.
   If the user asks you to do something, you should try to use the provided tools.
-  To use a tool, you need to provide a JSON object with the tool name and the arguments. Just JSON, no other text.
   After you have received a tool-result, reply to the user in __plain english__ with your findings.
   If a tool-result is not successful, you should try to use the tools again.
   `),
