@@ -30,6 +30,12 @@ export type AssignShiftPositionsInput = {
   team: Scalars['String']['input'];
 };
 
+export type AssignableTeamMembersInput = {
+  shiftPositionPk: Scalars['String']['input'];
+  shiftPositionSk: Scalars['String']['input'];
+  teamPk: Scalars['String']['input'];
+};
+
 export type AutoFillParamsInput = {
   endDay: Scalars['String']['input'];
   startDay: Scalars['String']['input'];
@@ -485,6 +491,7 @@ export type PublishShiftPositionsInput = {
 export type Query = {
   __typename?: 'Query';
   allTeams: Array<Team>;
+  assignableTeamMembers: Array<User>;
   companies: Array<Company>;
   company: Company;
   invitation: Invitation;
@@ -504,6 +511,11 @@ export type Query = {
   teamMember: User;
   unit: Unit;
   units: Array<Unit>;
+};
+
+
+export type QueryassignableTeamMembersArgs = {
+  input: AssignableTeamMembersInput;
 };
 
 
@@ -867,6 +879,7 @@ export type ResolversTypes = {
   ApproveLeaveRequestInput: ApproveLeaveRequestInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   AssignShiftPositionsInput: AssignShiftPositionsInput;
+  AssignableTeamMembersInput: AssignableTeamMembersInput;
   AutoFillParamsInput: AutoFillParamsInput;
   AutoFillSlot: ResolverTypeWrapper<AutoFillSlot>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -925,6 +938,7 @@ export type ResolversParentTypes = {
   ApproveLeaveRequestInput: ApproveLeaveRequestInput;
   String: Scalars['String']['output'];
   AssignShiftPositionsInput: AssignShiftPositionsInput;
+  AssignableTeamMembersInput: AssignableTeamMembersInput;
   AutoFillParamsInput: AutoFillParamsInput;
   AutoFillSlot: AutoFillSlot;
   ID: Scalars['ID']['output'];
@@ -1138,6 +1152,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   allTeams?: Resolver<Array<ResolversTypes['Team']>, ParentType, ContextType>;
+  assignableTeamMembers?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryassignableTeamMembersArgs, 'input'>>;
   companies?: Resolver<Array<ResolversTypes['Company']>, ParentType, ContextType>;
   company?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<QuerycompanyArgs, 'companyPk'>>;
   invitation?: Resolver<ResolversTypes['Invitation'], ParentType, ContextType, RequireFields<QueryinvitationArgs, 'secret'>>;

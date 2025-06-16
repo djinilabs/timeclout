@@ -22,7 +22,7 @@ export const teamMembersUsers = async (
 
   let users = await entity.batchGet(Object.keys(members));
 
-  if (qualifications) {
+  if (qualifications && qualifications.length > 0) {
     users = await filterUsersByQualificationsInTeam(
       users,
       qualifications,

@@ -1,0 +1,7 @@
+query assignableTeamMembers($input: AssignableTeamMembersInput!) {
+  assignableTeamMembers(input: $input) {
+    pk
+    name
+    email
+  }
+}

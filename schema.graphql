@@ -13,6 +13,12 @@ input AssignShiftPositionsInput {
   team: String!
 }
 
+input AssignableTeamMembersInput {
+  shiftPositionPk: String!
+  shiftPositionSk: String!
+  teamPk: String!
+}
+
 input AutoFillParamsInput {
   endDay: String!
   startDay: String!
@@ -246,6 +252,7 @@ input PublishShiftPositionsInput {
 
 type Query {
   allTeams: [Team!]!
+  assignableTeamMembers(input: AssignableTeamMembersInput!): [User!]!
   companies: [Company!]!
   company(companyPk: String!): Company!
   invitation(secret: String!): Invitation!

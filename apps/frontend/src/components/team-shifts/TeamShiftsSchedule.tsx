@@ -5,6 +5,7 @@ import { Trans } from "@lingui/react/macro";
 import { Transition } from "@headlessui/react";
 import { getDefined } from "@/utils";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import assignShiftPositionsMutation from "@/graphql-client/mutations/assignShiftPositions.graphql";
 import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../../hooks/useTeamShiftsClipboard";
 import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
@@ -47,6 +48,8 @@ import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamSh
 import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
 import { shiftPositionKey } from "../../utils/shiftPositionKey";
 import { i18n } from "@lingui/core";
+import { useMutation } from "../../hooks/useMutation";
+import toast from "react-hot-toast";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -102,6 +105,29 @@ export const TeamShiftsSchedule = () => {
 
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
     useTeamShiftsDragAndDrop(shiftPositionsResult);
+
+  // ------- assign shift positions -------
+  // asssign shift positions
+
+  const [, assignShiftPositions] = useMutation(assignShiftPositionsMutation);
+
+  const handleAssignShiftPosition = useCallback(
+    async (shiftPosition: ShiftPositionType, member: User) => {
+      console.log("handleAssignShiftPosition", shiftPosition, member);
+      const result = await assignShiftPositions({
+        input: {
+          team: getDefined(teamPk),
+          assignments: [
+            { shiftPositionId: shiftPosition.sk, workerPk: member.pk },
+          ],
+        },
+      });
+      if (!result.error) {
+        toast.success(i18n.t("Shift positions assigned successfully"));
+      }
+    },
+    [assignShiftPositions, teamPk]
+  );
 
   // ------- schedule details -------
 
@@ -413,6 +439,7 @@ export const TeamShiftsSchedule = () => {
                 }}
               >
                 <ShiftPosition
+                  teamPk={getDefined(teamPk)}
                   lastRow={shiftPositionIndex === shiftPositions.length - 1}
                   focus={
                     (focusedShiftPosition &&
@@ -436,6 +463,7 @@ export const TeamShiftsSchedule = () => {
                     shiftPositionKey(shiftPosition)
                   )}
                   showScheduleDetails={showScheduleDetails}
+                  handleAssignShiftPosition={handleAssignShiftPosition}
                 />
               </div>
             );
@@ -447,6 +475,7 @@ export const TeamShiftsSchedule = () => {
       copyShiftPositionToClipboard,
       deleteShiftPosition,
       focusedShiftPosition,
+      handleAssignShiftPosition,
       handleEditShiftPosition,
       hasCopiedShiftPosition,
       leaveSchedule,
@@ -459,6 +488,7 @@ export const TeamShiftsSchedule = () => {
       shiftPositionsMap,
       showLeaveSchedule,
       showScheduleDetails,
+      teamPk,
     ]
   );
 
@@ -560,6 +590,7 @@ export const TeamShiftsSchedule = () => {
               }}
             >
               <ShiftPosition
+                teamPk={getDefined(teamPk)}
                 lastRow={shiftPositionIndex === shiftPositionsForDay.length - 1}
                 focus={
                   (focusedShiftPosition &&
@@ -582,6 +613,7 @@ export const TeamShiftsSchedule = () => {
                   shiftPositionKey(shiftPosition)
                 )}
                 showScheduleDetails={showScheduleDetails}
+                handleAssignShiftPosition={handleAssignShiftPosition}
               />
             </div>
           ))}
@@ -592,6 +624,7 @@ export const TeamShiftsSchedule = () => {
       copyShiftPositionToClipboard,
       deleteShiftPosition,
       focusedShiftPosition,
+      handleAssignShiftPosition,
       handleEditShiftPosition,
       hasCopiedShiftPosition,
       memberLeaveMap,
@@ -602,6 +635,7 @@ export const TeamShiftsSchedule = () => {
       setFocusedShiftPosition,
       showLeaveSchedule,
       showScheduleDetails,
+      teamPk,
     ]
   );
 

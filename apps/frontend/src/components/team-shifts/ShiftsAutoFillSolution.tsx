@@ -12,7 +12,10 @@ import {
 } from "../../hooks/useTeamShiftPositionsMap";
 import { useMutation } from "../../hooks/useMutation";
 import { useTeamLeaveSchedule } from "../../hooks/useTeamLeaveSchedule";
-import { ShiftPosition as ShiftPositionType } from "../../graphql/graphql";
+import {
+  ShiftPosition as ShiftPositionType,
+  User,
+} from "../../graphql/graphql";
 import { Button } from "../particles/Button";
 import { Tabs } from "../molecules/Tabs";
 import { ShiftAutoFillSolutionStats } from "../molecules/ShiftAutoFillSolutionStats";
@@ -133,6 +136,27 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
     onAssignShiftPositions,
   ]);
 
+  const handleAssignShiftPosition = useCallback(
+    async (shiftPosition: ShiftPositionType, member: User) => {
+      const result = await assignShiftPositions({
+        input: {
+          team: getDefined(team),
+          assignments: [
+            {
+              shiftPositionId: shiftPosition.pk,
+              workerPk: member.pk,
+            },
+          ],
+        },
+      });
+      if (!result.error) {
+        toast.success(i18n.t("Shift positions assigned successfully"));
+        onAssignShiftPositions();
+      }
+    },
+    [assignShiftPositions, onAssignShiftPositions, team]
+  );
+
   // analyze
 
   const [analyze, setAnalyze] = useState(false);
@@ -199,6 +223,7 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
                     leaveSchedule={leaveSchedule}
                     analyze={analyze}
                     setAnalyze={setAnalyze}
+                    handleAssignShiftPosition={handleAssignShiftPosition}
                   />
                 </div>
               ))}

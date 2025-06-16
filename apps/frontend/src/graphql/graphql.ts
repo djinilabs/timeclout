@@ -43,6 +43,12 @@ export type AssignShiftPositionsInput = {
   team: Scalars["String"]["input"];
 };
 
+export type AssignableTeamMembersInput = {
+  shiftPositionPk: Scalars["String"]["input"];
+  shiftPositionSk: Scalars["String"]["input"];
+  teamPk: Scalars["String"]["input"];
+};
+
 export type AutoFillParamsInput = {
   endDay: Scalars["String"]["input"];
   startDay: Scalars["String"]["input"];
@@ -459,6 +465,7 @@ export type PublishShiftPositionsInput = {
 export type Query = {
   __typename?: "Query";
   allTeams: Array<Team>;
+  assignableTeamMembers: Array<User>;
   companies: Array<Company>;
   company: Company;
   invitation: Invitation;
@@ -478,6 +485,10 @@ export type Query = {
   teamMember: User;
   unit: Unit;
   units: Array<Unit>;
+};
+
+export type QueryAssignableTeamMembersArgs = {
+  input: AssignableTeamMembersInput;
 };
 
 export type QueryCompanyArgs = {

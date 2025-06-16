@@ -75,6 +75,12 @@ input UnassignShiftPositionsInput {
   endDay: String!
 }
 
+input AssignableTeamMembersInput {
+  shiftPositionPk: String!
+  shiftPositionSk: String!
+  teamPk: String!
+}
+
 extend type Mutation {
   createShiftPosition(input: CreateShiftPositionInput!): ShiftPosition!
   moveShiftPosition(input: MoveShiftPositionInput!): ShiftPosition!
@@ -92,4 +98,5 @@ input QueryShiftPositionsInput {
 
 extend type Query {
   shiftPositions(input: QueryShiftPositionsInput!): [ShiftPosition!]!
+  assignableTeamMembers(input: AssignableTeamMembersInput!): [User!]!
 }

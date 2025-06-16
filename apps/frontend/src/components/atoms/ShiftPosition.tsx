@@ -12,7 +12,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { colors } from "@/settings";
-import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
+import {
+  User,
+  type ShiftPosition as ShiftPositionType,
+} from "libs/graphql/src/types.generated";
 import { classNames } from "../../utils/classNames";
 import {
   type TimeSchedule,
@@ -25,8 +28,10 @@ import { toMinutes } from "../../utils/toMinutes";
 import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { i18n } from "@lingui/core";
 import { Hint } from "../particles/Hint";
+import { AssignableTeamMembers } from "./AssignableTeamMembers";
 
 export interface ShiftPositionProps {
+  teamPk: string;
   shiftPosition: AnalyzedShiftPosition;
   hideName?: boolean;
   setFocusedShiftPosition?: (shiftPosition: ShiftPositionType) => void;
@@ -34,6 +39,10 @@ export interface ShiftPositionProps {
   autoFocus?: boolean;
   tabIndex?: number;
   handleEditShiftPosition?: (shiftPosition: ShiftPositionWithFake) => void;
+  handleAssignShiftPosition: (
+    shiftPosition: ShiftPositionType,
+    member: User
+  ) => void;
   copyShiftPositionToClipboard?: (shiftPosition: ShiftPositionWithFake) => void;
   hasCopiedShiftPosition?: boolean;
   pasteShiftPositionFromClipboard?: (day: string) => void;
@@ -105,6 +114,7 @@ const DeviationCircle = ({
 
 export const ShiftPosition = memo(
   ({
+    teamPk,
     shiftPosition,
     hideName = false,
     setFocusedShiftPosition,
@@ -112,6 +122,7 @@ export const ShiftPosition = memo(
     autoFocus,
     tabIndex,
     handleEditShiftPosition,
+    handleAssignShiftPosition,
     copyShiftPositionToClipboard,
     hasCopiedShiftPosition,
     pasteShiftPositionFromClipboard,
@@ -224,7 +235,7 @@ export const ShiftPosition = memo(
               <EllipsisHorizontalIcon className="w-4 h-4" />
             </MenuButton>
             <Popover placement="auto" referenceElement={menuButtonRef.current}>
-              <MenuItems className="rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+              <MenuItems className="rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition-all duration-300 ease-in">
                 <MenuItem>
                   {({ active }) => (
                     <button
@@ -289,6 +300,34 @@ export const ShiftPosition = memo(
                       aria-label={i18n.t("Delete shift")}
                     >
                       <Trans>Delete</Trans>
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ active }) => (
+                    <button
+                      onClick={() =>
+                        pasteShiftPositionFromClipboard?.(shiftPosition.day)
+                      }
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700"
+                      aria-label={i18n.t("Paste shift here")}
+                    >
+                      {shiftPosition.assignedTo ? (
+                        <Trans>Reassign</Trans>
+                      ) : (
+                        <Trans>Assign</Trans>
+                      )}
+                      {active ? (
+                        <AssignableTeamMembers
+                          teamPk={teamPk}
+                          shiftPosition={shiftPosition}
+                          onSelect={(member) => {
+                            handleAssignShiftPosition?.(shiftPosition, member);
+                          }}
+                        />
+                      ) : (
+                        <></>
+                      )}
                     </button>
                   )}
                 </MenuItem>

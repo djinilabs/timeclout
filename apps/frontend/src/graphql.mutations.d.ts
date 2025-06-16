@@ -314,6 +314,15 @@ declare module '@/graphql-client/mutations/allUnits.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/assignableTeamMembers.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const assignableTeamMembers: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/companyQuery.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

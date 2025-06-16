@@ -22,6 +22,7 @@ import { TeamShiftsSummary } from "./TeamShiftsSummary";
 import { CalendarHeader } from "../atoms/CalendarHeader";
 import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
 import { AnalyzeTeamShiftsCalendarMenu } from "./AnalyzeTeamShiftsCalendarMenu";
+import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
 
 export interface ShiftsAutofillSolutionMonthCalendarProps {
   teamPk: string;
@@ -38,6 +39,10 @@ export interface ShiftsAutofillSolutionMonthCalendarProps {
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
   analyze: boolean;
   setAnalyze: (analyze: boolean) => void;
+  handleAssignShiftPosition: (
+    shiftPosition: ShiftPositionType,
+    member: User
+  ) => void;
 }
 
 export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonthCalendarProps> =
@@ -56,6 +61,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
       setAnalyze,
       leaveSchedule,
       progress,
+      handleAssignShiftPosition,
     } = props;
 
     let assignedShiftPositions = props.assignedShiftPositions;
@@ -177,9 +183,11 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
             {shiftPositions.map((shiftPosition) => (
               <ShiftPosition
                 key={shiftPosition.sk}
+                teamPk={teamPk}
                 shiftPosition={shiftPosition}
                 conflicts={progress.problemInSlotIds.has(shiftPosition.sk)}
                 showScheduleDetails={showScheduleDetails}
+                handleAssignShiftPosition={handleAssignShiftPosition}
               />
             ))}
           </div>
@@ -187,11 +195,13 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
       },
       [
         assignedShiftPositions,
+        handleAssignShiftPosition,
         leaveSchedule,
         maxRowsPerWeekNumber,
         progress.problemInSlotIds,
         showLeaveSchedule,
         showScheduleDetails,
+        teamPk,
       ]
     );
 
@@ -311,12 +321,14 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
                 className="transition-all duration-300 ease-in"
               >
                 <ShiftPosition
+                  teamPk={teamPk}
                   lastRow={
                     shiftPositionIndex === shiftPositionsForDay.length - 1
                   }
                   shiftPosition={shiftPosition}
                   conflicts={false}
                   showScheduleDetails={showScheduleDetails}
+                  handleAssignShiftPosition={handleAssignShiftPosition}
                 />
               </div>
             ))}
@@ -324,10 +336,12 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
         );
       },
       [
+        handleAssignShiftPosition,
         memberLeaveMap,
         memberShiftPositionsMap,
         showLeaveSchedule,
         showScheduleDetails,
+        teamPk,
       ]
     );
 
