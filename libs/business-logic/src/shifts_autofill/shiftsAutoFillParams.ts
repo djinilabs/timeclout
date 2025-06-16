@@ -87,13 +87,10 @@ export const shiftsAutoFillParams = async (
 
   const leaveTypes = await getEntitySettings(companyPk, "leaveTypes");
   const leaveTypesByName = getDefined(
-    leaveTypes?.reduce(
-      (acc, leaveType) => {
-        acc[leaveType.name] = leaveType;
-        return acc;
-      },
-      {} as Record<string, LeaveType>
-    ),
+    leaveTypes?.reduce((acc, leaveType) => {
+      acc[leaveType.name] = leaveType;
+      return acc;
+    }, {} as Record<string, LeaveType>),
     "Leave types not found for company"
   );
 
@@ -161,8 +158,31 @@ export const shiftsAutoFillParams = async (
     };
   });
 
+  // next, we need to filter the workers array to only include workers that have some of the required qualifications
+  const areQualificationsRequired = slots.every(
+    (slot) => slot.requiredQualifications.length > 0
+  );
+
+  if (!areQualificationsRequired) {
+    // early return if qualifications are not required since we don't need to filter the workers array
+    return {
+      workers,
+      slots,
+    };
+  }
+
+  const allQualifications = new Set(
+    slots.flatMap((slot) => slot.requiredQualifications)
+  );
+
+  const workersWithRequiredQualifications = workers.filter((worker) =>
+    worker.qualifications.some((qualification) =>
+      allQualifications.has(qualification)
+    )
+  );
+
   return {
-    workers,
+    workers: workersWithRequiredQualifications,
     slots,
   };
 };
