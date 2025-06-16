@@ -6,6 +6,7 @@ import { Transition } from "@headlessui/react";
 import { getDefined } from "@/utils";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import assignShiftPositionsMutation from "@/graphql-client/mutations/assignShiftPositions.graphql";
+import unassignShiftPositionMutation from "@/graphql-client/mutations/unassignShiftPosition.graphql";
 import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
 import { useTeamShiftsClipboard } from "../../hooks/useTeamShiftsClipboard";
 import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
@@ -110,10 +111,23 @@ export const TeamShiftsSchedule = () => {
   // asssign shift positions
 
   const [, assignShiftPositions] = useMutation(assignShiftPositionsMutation);
+  const [, unassignShiftPosition] = useMutation(unassignShiftPositionMutation);
 
   const handleAssignShiftPosition = useCallback(
-    async (shiftPosition: ShiftPositionType, member: User) => {
+    async (shiftPosition: ShiftPositionType, member?: User | null) => {
       console.log("handleAssignShiftPosition", shiftPosition, member);
+      if (!member) {
+        const result = await unassignShiftPosition({
+          input: {
+            team: getDefined(teamPk),
+            shiftPositionSk: shiftPosition.sk,
+          },
+        });
+        if (!result.error) {
+          toast.success(i18n.t("Shift position unassigned successfully"));
+        }
+        return;
+      }
       const result = await assignShiftPositions({
         input: {
           team: getDefined(teamPk),

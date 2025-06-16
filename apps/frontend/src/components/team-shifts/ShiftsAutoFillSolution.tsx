@@ -22,6 +22,7 @@ import { ShiftAutoFillSolutionStats } from "../molecules/ShiftAutoFillSolutionSt
 import { ShiftAutoFillSolutionDetailedStats } from "../atoms/ShiftAutoFillSolutionDetailedStats";
 import { ShiftsAutofillSolutionMonthCalendar } from "./ShiftsAutofillSolutionMonthCalendar";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import unassignShiftPositionMutation from "@/graphql-client/mutations/unassignShiftPosition.graphql";
 
 export interface ShiftsAutoFillSolutionProps {
   team: string;
@@ -94,7 +95,7 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
       );
     }, [shiftPositionsMap, solution]);
 
-  // asssign shift positions
+  // ------- assign / unassign shift positions -------
 
   const [{ fetching: fetchingAssignShiftPositions }, assignShiftPositions] =
     useMutation(assignShiftPositionsMutation);
@@ -136,32 +137,47 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
     onAssignShiftPositions,
   ]);
 
+  const [, unassignShiftPosition] = useMutation(unassignShiftPositionMutation);
+
   const handleAssignShiftPosition = useCallback(
-    async (shiftPosition: ShiftPositionType, member: User) => {
-      const result = await assignShiftPositions({
-        input: {
-          team: getDefined(team),
-          assignments: [
-            {
-              shiftPositionId: shiftPosition.pk,
-              workerPk: member.pk,
-            },
-          ],
-        },
-      });
-      if (!result.error) {
-        toast.success(i18n.t("Shift positions assigned successfully"));
-        onAssignShiftPositions();
+    async (shiftPosition: ShiftPositionType, member: User | null) => {
+      if (!member) {
+        const result = await unassignShiftPosition({
+          input: {
+            team: getDefined(team),
+            shiftPositionId: shiftPosition.sk,
+          },
+        });
+        if (!result.error) {
+          toast.success(i18n.t("Shift position unassigned successfully"));
+          onAssignShiftPositions();
+        }
+      } else {
+        const result = await assignShiftPositions({
+          input: {
+            team: getDefined(team),
+            assignments: [
+              {
+                shiftPositionId: shiftPosition.pk,
+                workerPk: member.pk,
+              },
+            ],
+          },
+        });
+        if (!result.error) {
+          toast.success(i18n.t("Shift positions assigned successfully"));
+          onAssignShiftPositions();
+        }
       }
     },
-    [assignShiftPositions, onAssignShiftPositions, team]
+    [assignShiftPositions, onAssignShiftPositions, team, unassignShiftPosition]
   );
 
-  // analyze
+  // ----------------- analyze -----------------
 
   const [analyze, setAnalyze] = useState(false);
 
-  // tabs
+  // ----------------- tabs -----------------
 
   const tabs = useMemo(
     () => [

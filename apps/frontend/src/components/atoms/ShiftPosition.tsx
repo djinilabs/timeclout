@@ -41,7 +41,7 @@ export interface ShiftPositionProps {
   handleEditShiftPosition?: (shiftPosition: ShiftPositionWithFake) => void;
   handleAssignShiftPosition: (
     shiftPosition: ShiftPositionType,
-    member: User
+    member: User | null
   ) => void;
   copyShiftPositionToClipboard?: (shiftPosition: ShiftPositionWithFake) => void;
   hasCopiedShiftPosition?: boolean;
@@ -303,6 +303,19 @@ export const ShiftPosition = memo(
                     </button>
                   )}
                 </MenuItem>
+                {shiftPosition.assignedTo && (
+                  <MenuItem>
+                    <button
+                      onClick={() =>
+                        handleAssignShiftPosition?.(shiftPosition, null)
+                      }
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 cursor-pointer"
+                      aria-label={i18n.t("Paste shift here")}
+                    >
+                      <Trans>Unassign</Trans>
+                    </button>
+                  </MenuItem>
+                )}
                 <MenuItem>
                   {({ active }) => (
                     <button

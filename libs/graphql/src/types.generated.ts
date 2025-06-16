@@ -256,6 +256,7 @@ export type Mutation = {
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
   saveTeamMemberQualifications: Team;
+  unassignShiftPosition: ShiftPosition;
   unassignShiftPositions: Array<ShiftPosition>;
   updateCompany: Company;
   updateCompanySettings: Company;
@@ -402,6 +403,11 @@ export type MutationsaveTeamMemberQualificationsArgs = {
   qualifications: Array<Scalars['String']['input']>;
   teamPk: Scalars['String']['input'];
   userPk: Scalars['String']['input'];
+};
+
+
+export type MutationunassignShiftPositionArgs = {
+  input: UnassignShiftPositionInput;
 };
 
 
@@ -712,6 +718,11 @@ export type TeamsettingsArgs = {
   name: Scalars['String']['input'];
 };
 
+export type UnassignShiftPositionInput = {
+  shiftPositionSk: Scalars['String']['input'];
+  team: Scalars['String']['input'];
+};
+
 export type UnassignShiftPositionsInput = {
   endDay: Scalars['String']['input'];
   startDay: Scalars['String']['input'];
@@ -923,6 +934,7 @@ export type ResolversTypes = {
   ShiftPositionScheduleInput: ShiftPositionScheduleInput;
   ShiftsAutoFillParams: ResolverTypeWrapper<ShiftsAutoFillParams>;
   Team: ResolverTypeWrapper<Team>;
+  UnassignShiftPositionInput: UnassignShiftPositionInput;
   UnassignShiftPositionsInput: UnassignShiftPositionsInput;
   Unit: ResolverTypeWrapper<Unit>;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
@@ -982,6 +994,7 @@ export type ResolversParentTypes = {
   ShiftPositionScheduleInput: ShiftPositionScheduleInput;
   ShiftsAutoFillParams: ShiftsAutoFillParams;
   Team: Team;
+  UnassignShiftPositionInput: UnassignShiftPositionInput;
   UnassignShiftPositionsInput: UnassignShiftPositionsInput;
   Unit: Unit;
   UpdateLeaveRequestInput: UpdateLeaveRequestInput;
@@ -1135,6 +1148,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   rejectLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationrejectLeaveRequestArgs, 'input'>>;
   removeUserFromTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationremoveUserFromTeamArgs, 'teamPk' | 'userPk'>>;
   saveTeamMemberQualifications?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationsaveTeamMemberQualificationsArgs, 'qualifications' | 'teamPk' | 'userPk'>>;
+  unassignShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationunassignShiftPositionArgs, 'input'>>;
   unassignShiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<MutationunassignShiftPositionsArgs, 'input'>>;
   updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanyArgs, 'name' | 'pk'>>;
   updateCompanySettings?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationupdateCompanySettingsArgs, 'companyPk' | 'name' | 'settings'>>;

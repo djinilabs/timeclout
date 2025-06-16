@@ -268,6 +268,7 @@ export type Mutation = {
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
   saveTeamMemberQualifications: Team;
+  unassignShiftPosition: ShiftPosition;
   unassignShiftPositions: Array<ShiftPosition>;
   updateCompany: Company;
   updateCompanySettings: Company;
@@ -389,6 +390,10 @@ export type MutationSaveTeamMemberQualificationsArgs = {
   qualifications: Array<Scalars["String"]["input"]>;
   teamPk: Scalars["String"]["input"];
   userPk: Scalars["String"]["input"];
+};
+
+export type MutationUnassignShiftPositionArgs = {
+  input: UnassignShiftPositionInput;
 };
 
 export type MutationUnassignShiftPositionsArgs = {
@@ -665,6 +670,11 @@ export type TeamScheduleArgs = {
 
 export type TeamSettingsArgs = {
   name: Scalars["String"]["input"];
+};
+
+export type UnassignShiftPositionInput = {
+  shiftPositionSk: Scalars["String"]["input"];
+  team: Scalars["String"]["input"];
 };
 
 export type UnassignShiftPositionsInput = {

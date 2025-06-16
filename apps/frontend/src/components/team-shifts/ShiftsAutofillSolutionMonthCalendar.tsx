@@ -41,7 +41,7 @@ export interface ShiftsAutofillSolutionMonthCalendarProps {
   setAnalyze: (analyze: boolean) => void;
   handleAssignShiftPosition: (
     shiftPosition: ShiftPositionType,
-    member: User
+    member: User | null
   ) => void;
 }
 
