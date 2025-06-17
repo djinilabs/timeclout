@@ -51,6 +51,7 @@ import { shiftPositionKey } from "../../utils/shiftPositionKey";
 import { i18n } from "@lingui/core";
 import { useMutation } from "../../hooks/useMutation";
 import toast from "react-hot-toast";
+import { PublishActions } from "../atoms/PublishActions";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -720,6 +721,10 @@ export const TeamShiftsSchedule = () => {
               aria-label="Toggle schedule analysis"
             />
           ),
+        },
+        {
+          type: "component",
+          component: <PublishActions />,
         },
       ],
       [
