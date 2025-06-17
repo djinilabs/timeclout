@@ -47,7 +47,8 @@ export const UnassignShiftPositions: FC<UnassignShiftPositionsProps> = ({
       !(await showConfirmDialog({
         text: (
           <Trans>
-            Are you sure you want to unassign these shift positions?
+            Are you sure you want to unassign the shift positions between{" "}
+            {dateRange.from.toHumanString()} and {dateRange.to.toHumanString()}?
           </Trans>
         ),
       }))

@@ -14,12 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:127
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:152
-msgid "Shift position unassigned successfully"
-msgstr "Shift position unassigned successfully"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Unknown"
@@ -589,29 +583,35 @@ msgid "Team removed successfully"
 msgstr "Team removed successfully"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:66
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:67
 msgid "Shift positions unassigned successfully"
 msgstr "Shift positions unassigned successfully"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:113
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:114
 msgid "Select date range for unassigning shift positions"
 msgstr "Select date range for unassigning shift positions"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:121
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:122
 msgid "Unassign shift actions"
 msgstr "Unassign shift actions"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:126
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:127
 msgid "Cancel unassigning shift positions"
 msgstr "Cancel unassigning shift positions"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:133
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:134
 msgid "Unassign shift positions for selected date range"
 msgstr "Unassign shift positions for selected date range"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:127
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:152
+msgid "Shift position unassigned successfully"
+msgstr "Shift position unassigned successfully"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:140
@@ -1366,9 +1366,11 @@ msgstr "Are you sure you want to remove this user from the team?"
 msgid "Are you sure you want to revoke this invitation?"
 msgstr "Are you sure you want to revoke this invitation?"
 
+#. placeholder {0}: dateRange.from.toHumanString()
+#. placeholder {1}: dateRange.to.toHumanString()
 #: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:49
-msgid "Are you sure you want to unassign these shift positions?"
-msgstr "Are you sure you want to unassign these shift positions?"
+msgid "Are you sure you want to unassign the shift positions between {0} and {1}?"
+msgstr "Are you sure you want to unassign the shift positions between {0} and {1}?"
 
 #: apps/frontend/src/components/atoms/ShiftPosition.tsx:331
 msgid "Assign"
@@ -1432,7 +1434,7 @@ msgstr "Calendar subscriptions:"
 #: apps/frontend/src/pages/PageNewCompany.tsx:136
 #: apps/frontend/src/components/LeaveRequest.tsx:117
 #: apps/frontend/src/components/InviteToTeam.tsx:147
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:128
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:129
 #: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:554
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:307
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:360
@@ -1561,7 +1563,7 @@ msgstr "Created by"
 msgid "Created By"
 msgstr "Created By"
 
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:93
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:94
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:67
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:267
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:343
@@ -2436,13 +2438,13 @@ msgstr "Unassign positions"
 msgid "Unassign shift positions"
 msgstr "Unassign shift positions"
 
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:86
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:87
 msgid "Unassign Shift Positions"
 msgstr "Unassign Shift Positions"
 
 #. placeholder {0}: dateRange.from.toHumanString()
 #. placeholder {1}: dateRange.to.toHumanString()
-#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:138
+#: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:139
 msgid "Unassign shift positions from {0} to {1}"
 msgstr "Unassign shift positions from {0} to {1}"
 
