@@ -5,14 +5,17 @@ import { database, PERMISSION_LEVELS } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { teamMembersUsers } from "@/business-logic";
 
-export const assignableTeamMembers: NonNullable<QueryResolvers['assignableTeamMembers']> = async (_parent, { input }, ctx) => {
+export const assignableTeamMembers: NonNullable<
+  QueryResolvers["assignableTeamMembers"]
+> = async (_parent, { input }, ctx) => {
   const { shiftPositionPk, shiftPositionSk, teamPk } = input;
   const pk = resourceRef("teams", teamPk);
   await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
   const { shift_positions } = await database();
   const shiftPosition = await shift_positions.get(
     shiftPositionPk,
-    shiftPositionSk
+    shiftPositionSk,
+    "staging"
   );
   if (!shiftPosition) {
     throw notFound("Shift position not found");

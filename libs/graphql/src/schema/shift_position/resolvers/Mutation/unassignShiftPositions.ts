@@ -7,7 +7,9 @@ import type {
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 import { DayDate } from "@/day-date";
 
-export const unassignShiftPositions: NonNullable<MutationResolvers['unassignShiftPositions']> = async (
+export const unassignShiftPositions: NonNullable<
+  MutationResolvers["unassignShiftPositions"]
+> = async (
   _parent: unknown,
   arg: { input: { team: string; startDay: string; endDay: string } },
   ctx
@@ -22,14 +24,17 @@ export const unassignShiftPositions: NonNullable<MutationResolvers['unassignShif
 
   const endDayDate = new DayDate(endDay);
 
-  const positions = await shift_positions.query({
-    KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
-    ExpressionAttributeValues: {
-      ":pk": pk,
-      ":startDay": startDay,
-      ":endDay": endDayDate.nextDay().toString(),
+  const positions = await shift_positions.query(
+    {
+      KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
+      ExpressionAttributeValues: {
+        ":pk": pk,
+        ":startDay": startDay,
+        ":endDay": endDayDate.nextDay().toString(),
+      },
     },
-  });
+    "staging"
+  );
 
   const updatedPositions = await Promise.all(
     positions.map(async (position) => {
@@ -37,7 +42,7 @@ export const unassignShiftPositions: NonNullable<MutationResolvers['unassignShif
         position.assignedTo = undefined;
         position.updatedBy = userPk;
         position.updatedAt = new Date().toISOString();
-        await shift_positions.update(position);
+        await shift_positions.update(position, "staging");
       }
       return position;
     })

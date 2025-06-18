@@ -54,6 +54,30 @@ const getVersion = <T extends TableBaseSchemaType>(
   } as T;
 };
 
+const setVersion = <T extends TableBaseSchemaType>(
+  _base: T | undefined,
+  newVersion: Partial<T>,
+  version: string
+): T => {
+  const cleanNewVersion = cleanItem(
+    omit(newVersion, ["userVersions", "noMainVersion", "version"])
+  );
+  const base = _base ?? {
+    pk: newVersion.pk,
+    sk: newVersion.sk,
+    noMainVersion: true,
+  };
+  return {
+    ...base,
+    userVersions: {
+      ..._base?.userVersions,
+      [version]: {
+        newProps: cleanNewVersion,
+      },
+    },
+  } as T;
+};
+
 const keySubset = <T extends TableBaseSchemaType>(
   item: Partial<T>
 ): { pk: string; sk: string } | { pk: string; sk?: undefined } => {
@@ -84,9 +108,10 @@ export const tableApi = <
   ) => TTableRecord;
   const self: TableAPI<TTableName> = {
     delete: async (pk: string, sk?: string, version?: string) => {
+      console.info("delete", { pk, sk, version });
       if (version) {
         const key = keySubset({ pk, sk });
-        const item = await self.get(key.pk, key.sk, version);
+        const item = await self.get(key.pk, key.sk);
         if (!item) {
           throw notFound(
             `Error deleting record in table ${tableName}: Item not found`
@@ -117,6 +142,7 @@ export const tableApi = <
       }
     },
     deleteAll: async (pk: string, version?: string) => {
+      console.info("deleteAll", { pk, version });
       try {
         console.debug("deleteAll:Going to get all items", tableName, { pk });
         const items = (
@@ -137,6 +163,7 @@ export const tableApi = <
       }
     },
     deleteIfExists: async (pk: string, sk?: string, version?: string) => {
+      console.info("deleteIfExists", { pk, sk, version });
       try {
         const item = await self.get(pk, sk, version);
         if (!item) {
@@ -149,6 +176,7 @@ export const tableApi = <
       }
     },
     get: async (pk: string, sk?: string, version?: string) => {
+      console.info("get", { pk, sk, version });
       try {
         const args = keySubset({ pk, sk });
         const item = schema.optional().parse(await lowLevelTable.get(args));
@@ -159,6 +187,7 @@ export const tableApi = <
       }
     },
     batchGet: async (keys: string[], version?: string) => {
+      console.info("batchGet", { keys, version });
       if (keys.length === 0) {
         return [];
       }
@@ -184,8 +213,9 @@ export const tableApi = <
       item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>,
       version?: string
     ): Promise<TTableRecord> => {
+      console.info("update", JSON.stringify({ item, version }, null, 2));
       try {
-        const previousItem = (await self.get(item.pk, item.sk, version)) as
+        const previousItem = (await self.get(item.pk, item.sk)) as
           | TTableRecord
           | undefined;
         if (!previousItem) {
@@ -195,35 +225,24 @@ export const tableApi = <
         }
 
         if (version) {
-          const newItem = {
-            ...previousItem,
-            userVersions: {
-              ...previousItem.userVersions,
-              [version]: {
-                ...previousItem.userVersions?.[version],
-                newProps: {
-                  ...(previousItem.userVersions?.[version]?.newProps ??
-                    omit(previousItem, ["userVersions"])),
-                  ...item,
-                },
-              },
-            },
-          };
+          const newItem = setVersion(previousItem, item, version);
           return self.update(newItem) as Promise<TTableRecord>;
         }
 
-        const newItem = parseItem(
-          {
-            ...previousItem,
-            version: previousItem.version + 1,
-            updatedAt: new Date().toISOString(),
-            ...item,
-          },
-          "update"
-        ) as TTableRecord;
+        const newItem = cleanItem(
+          parseItem(
+            {
+              ...previousItem,
+              version: previousItem.version + 1,
+              updatedAt: new Date().toISOString(),
+              ...item,
+            },
+            "update"
+          ) as TTableRecord
+        );
 
         await lowLevelClient.PutItem({
-          Item: parseItem(newItem, "update"),
+          Item: newItem,
           TableName: lowLevelTableName,
           ConditionExpression: "#version = :version",
           ExpressionAttributeValues: {
@@ -246,51 +265,53 @@ export const tableApi = <
       item: Omit<TTableRecord, "version" | "createdAt">,
       version?: string
     ) => {
-      console.info("creating new record in ", tableName, item);
+      console.info("create", JSON.stringify({ item, version }, null, 2));
       try {
         if (version) {
           // first, we need to verify if the record already exists
           const existingItem = await self.get(item.pk, item.sk);
           if (!existingItem) {
-            const newItem = parseItem(
-              {
-                pk: item.pk,
-                sk: item.sk,
-                noMainVersion: true,
-                userVersions: {
-                  [version]: {
-                    newProps: item,
+            const newItem = cleanItem(
+              parseItem(
+                {
+                  ...item,
+                  pk: item.pk,
+                  sk: item.sk,
+                  noMainVersion: true,
+                  version: 1,
+                  createdAt: new Date().toISOString(),
+                  userVersions: {
+                    [version]: {
+                      newProps: cleanItem(item),
+                    },
                   },
                 },
-              },
-              "create"
-            ) as TTableRecord;
-            await lowLevelClient.PutItem({
-              Item: newItem,
-              TableName: lowLevelTableName,
-              ConditionExpression: "attribute_not_exists(pk)",
-            });
-            return newItem;
+                "create"
+              ) as TTableRecord
+            );
+            return self.create(newItem);
           }
           // if the record exists, we need to update it
-          const newItem = {
+          const newItem = cleanItem({
             ...existingItem,
             userVersions: {
               ...existingItem.userVersions,
               [version]: {
-                newProps: item,
+                newProps: cleanItem(item),
               },
             },
-          };
+          });
           return self.update(newItem) as Promise<TTableRecord>;
         }
-        const parsedItem = parseItem(
-          {
-            version: 1,
-            createdAt: new Date().toISOString(),
-            ...item,
-          },
-          "create"
+        const parsedItem = cleanItem(
+          parseItem(
+            {
+              version: 1,
+              createdAt: new Date().toISOString(),
+              ...item,
+            },
+            "create"
+          )
         );
 
         await lowLevelClient.PutItem({
@@ -310,25 +331,12 @@ export const tableApi = <
       }
     },
     upsert: async (item: TTableRecord, version?: string) => {
-      console.info("upsert", item);
+      console.info("upsert", JSON.stringify({ item, version }, null, 2));
       try {
         const existingItem = await self.get(item.pk, item.sk);
 
         if (version) {
-          const newItem = {
-            ...existingItem,
-            pk: item.pk,
-            sk: item.sk,
-            userVersions: {
-              ...existingItem?.userVersions,
-              [version]: {
-                newProps: item,
-              },
-            },
-          } as TTableRecord;
-          if (!existingItem) {
-            newItem.noMainVersion = true;
-          }
+          const newItem = setVersion(existingItem, item, version);
           return self.upsert(newItem);
         }
 
@@ -358,6 +366,7 @@ export const tableApi = <
       }
     },
     query: async (query, version) => {
+      console.info("query", { query, version });
       try {
         let items: TTableRecord[] = [];
         let lastEvaluatedKey: Record<string, unknown> | undefined = undefined;
@@ -385,6 +394,7 @@ export const tableApi = <
       }
     },
     merge: async (pk: string, sk: string | undefined, version: string) => {
+      console.info("merge", { pk, sk, version });
       const existingItem = await self.get(pk, sk, version);
       if (!existingItem) {
         throw notFound(
@@ -400,11 +410,15 @@ export const tableApi = <
         await lowLevelTable.delete({ pk, sk });
         return existingItem;
       }
-      const newItem = {
+      const newItem = cleanItem({
         pk,
         sk,
         ...versionMeta.newProps,
-      } as TTableRecord;
+        userVersions: cleanItem({
+          ...existingItem.userVersions,
+          [version]: undefined,
+        }),
+      }) as TTableRecord;
       return self.update(newItem);
     },
   };

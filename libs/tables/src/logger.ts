@@ -2,6 +2,7 @@ import chalk from "chalk";
 
 export const logger = (tableName: string) => {
   if (
+    process.env.NODE_ENV != null &&
     process.env.NODE_ENV !== "development" &&
     process.env.NODE_ENV !== "production"
   ) {

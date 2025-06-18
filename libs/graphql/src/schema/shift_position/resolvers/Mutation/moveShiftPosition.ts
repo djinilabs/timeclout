@@ -7,17 +7,19 @@ import type {
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
-export const moveShiftPosition: NonNullable<MutationResolvers['moveShiftPosition']> = async (_parent, arg, ctx) => {
+export const moveShiftPosition: NonNullable<
+  MutationResolvers["moveShiftPosition"]
+> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const { pk: team, sk, day } = input;
   const pk = getResourceRef(team, "teams");
   const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
-  const shiftPosition = await shift_positions.get(pk, sk);
+  const shiftPosition = await shift_positions.get(pk, sk, "staging");
   if (!shiftPosition) {
     throw new Error("Shift position not found");
   }
-  await shift_positions.delete(pk, sk);
+  await shift_positions.delete(pk, sk, "staging");
   const newSk = `${day}/${nanoid()}`;
   const newShiftPosition = {
     ...shiftPosition,
@@ -26,5 +28,12 @@ export const moveShiftPosition: NonNullable<MutationResolvers['moveShiftPosition
     updatedBy: userPk,
     updatedAt: new Date().toISOString(),
   };
-  return shift_positions.create(newShiftPosition) as unknown as ShiftPosition;
+  console.log(
+    "moveShiftPosition: creating new ShiftPosition",
+    JSON.stringify(newShiftPosition, null, 2)
+  );
+  return shift_positions.create(
+    newShiftPosition,
+    "staging"
+  ) as unknown as ShiftPosition;
 };

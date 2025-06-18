@@ -7,7 +7,9 @@ import type {
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 import { notFound } from "@hapi/boom";
 
-export const unassignShiftPosition: NonNullable<MutationResolvers['unassignShiftPosition']> = async (_parent, arg, ctx) => {
+export const unassignShiftPosition: NonNullable<
+  MutationResolvers["unassignShiftPosition"]
+> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const { team, shiftPositionSk } = input;
@@ -16,7 +18,7 @@ export const unassignShiftPosition: NonNullable<MutationResolvers['unassignShift
 
   console.log("unassign shift position", pk, shiftPositionSk);
 
-  const position = await shift_positions.get(pk, shiftPositionSk);
+  const position = await shift_positions.get(pk, shiftPositionSk, "staging");
   if (!position) {
     throw notFound(`Shift position ${shiftPositionSk} not found`);
   }
@@ -24,7 +26,7 @@ export const unassignShiftPosition: NonNullable<MutationResolvers['unassignShift
   position.assignedTo = undefined;
   position.updatedBy = userPk;
   position.updatedAt = new Date().toISOString();
-  await shift_positions.update(position);
+  await shift_positions.update(position, "staging");
 
   return position as unknown as ShiftPosition;
 };

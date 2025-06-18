@@ -7,7 +7,9 @@ import type {
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 
-export const createShiftPosition: NonNullable<MutationResolvers['createShiftPosition']> = async (_parent, arg, ctx) => {
+export const createShiftPosition: NonNullable<
+  MutationResolvers["createShiftPosition"]
+> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const { team, day, name, color, requiredSkills, schedules, assignedTo } =
@@ -30,6 +32,6 @@ export const createShiftPosition: NonNullable<MutationResolvers['createShiftPosi
     replaces: undefined,
   };
   console.log("shiftPosition:", shiftPosition);
-  await shift_positions.create(shiftPosition);
+  await shift_positions.create(shiftPosition, "staging");
   return shiftPosition as unknown as ShiftPosition;
 };
