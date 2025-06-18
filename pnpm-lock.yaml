@@ -133,6 +133,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.64.1
         version: 5.80.6(react@19.1.0)
+      '@types/lodash.omit':
+        specifier: ^4.5.9
+        version: 4.5.9
       '@types/node':
         specifier: ^22.10.2
         version: 22.15.31
@@ -181,6 +184,9 @@ importers:
       lodash.debounce:
         specifier: ^4.0.8
         version: 4.0.8
+      lodash.omit:
+        specifier: ^4.5.0
+        version: 4.5.0
       nanoid:
         specifier: ^5.0.9
         version: 5.1.5
@@ -3648,6 +3654,9 @@ packages:
   '@types/lodash.debounce@4.0.9':
     resolution: {integrity: sha512-Ma5JcgTREwpLRwMM+XwBR7DaWe96nC38uCBDFKZWbNKD+osjVzdpnUSwBcqCptrp16sSOLBAUb50Car5I0TCsQ==}
 
+  '@types/lodash.omit@4.5.9':
+    resolution: {integrity: sha512-zuAVFLUPJMOzsw6yawshsYGgq2hWUHtsZgeXHZmSFhaQQFC6EQ021uDKHkSjOpNhSvtNSU9165/o3o/Q51GpTw==}
+
   '@types/lodash@4.17.17':
     resolution: {integrity: sha512-RRVJ+J3J+WmyOTqnz3PiBLA501eKwXl2noseKOrNo/6+XEHjTAxO4xHvxQB6QuNm+s4WRbn6rSiap8+EA+ykFQ==}
 
@@ -5721,6 +5730,10 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+
+  lodash.omit@4.5.0:
+    resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
+    deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
   lodash.sortby@4.7.0:
     resolution: {integrity: sha512-HDWXG8isMntAyRF5vZ7xKuEvOhT4AhlRt/3czTSjvGUxjYCBVRQY48ViDHyfYz9VIoBkW4TMGQNapx+l3RUwdA==}
@@ -12061,6 +12074,10 @@ snapshots:
     dependencies:
       '@types/lodash': 4.17.17
 
+  '@types/lodash.omit@4.5.9':
+    dependencies:
+      '@types/lodash': 4.17.17
+
   '@types/lodash@4.17.17': {}
 
   '@types/mdast@4.0.4':
@@ -14317,6 +14334,8 @@ snapshots:
   lodash.isplainobject@4.0.6: {}
 
   lodash.merge@4.6.2: {}
+
+  lodash.omit@4.5.0: {}
 
   lodash.sortby@4.7.0: {}
 

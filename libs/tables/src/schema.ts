@@ -13,6 +13,18 @@ const TableBaseSchema = z.object({
   createdBy: z.string().refine(getResourceRef),
   updatedAt: z.string().datetime().optional(),
   updatedBy: z.string().refine(getResourceRef).optional(),
+  noMainVersion: z.boolean().optional(),
+  userVersions: z
+    .record(
+      z.string(),
+      z.object({
+        deleted: z.boolean().optional(),
+        createdAt: z.string().datetime().optional(),
+        createdBy: z.string().refine(getResourceRef).optional(),
+        newProps: z.record(z.string(), z.unknown()).optional(),
+      })
+    )
+    .optional(),
 });
 
 const shiftPositionScheduleSchema = z.object({
@@ -79,8 +91,6 @@ export const tableSchemas = {
     day: z.string().date(),
     name: z.string().optional(),
     color: z.string().optional(),
-    published: z.boolean(),
-    replaces: z.string().optional(),
     requiredSkills: z.array(z.string()),
     schedules: z.array(shiftPositionScheduleSchema),
     assignedTo: z.string().refine(getResourceRef).optional(),
@@ -114,6 +124,7 @@ export const permissionLevelToName = (level: number) => {
   }
 };
 
+export type TableBaseSchemaType = z.infer<typeof TableBaseSchema>;
 export type TableSchemas = typeof tableSchemas;
 export type TableName =
   | "entity"
@@ -137,22 +148,35 @@ export type TableAPI<
   TTableName extends TableName,
   TTableRecord extends z.infer<TableSchemas[TTableName]> = z.infer<
     TableSchemas[TTableName]
-  >,
+  >
 > = {
-  delete: (key: string, sk?: string) => Promise<TTableRecord>;
+  delete: (key: string, sk?: string, version?: string) => Promise<TTableRecord>;
   deleteIfExists: (
     key: string,
-    sk?: string
+    sk?: string,
+    version?: string
   ) => Promise<TTableRecord | undefined>;
-  deleteAll: (key: string) => Promise<void>;
-  get: (pk: string, sk?: string) => Promise<TTableRecord | undefined>;
-  batchGet: (keys: string[]) => Promise<TTableRecord[]>;
-  update: (item: Partial<TTableRecord>) => Promise<TTableRecord>;
-  upsert: (item: Omit<TTableRecord, "version">) => Promise<TTableRecord>;
-  create: (
-    item: Omit<TTableRecord, "version" | "createdAt">
+  deleteAll: (key: string, version?: string) => Promise<void>;
+  get: (
+    pk: string,
+    sk?: string,
+    version?: string
+  ) => Promise<TTableRecord | undefined>;
+  batchGet: (keys: string[], version?: string) => Promise<TTableRecord[]>;
+  update: (
+    item: Partial<TTableRecord>,
+    version?: string
   ) => Promise<TTableRecord>;
-  query: (query: Query) => Promise<TTableRecord[]>;
+  upsert: (
+    item: Omit<TTableRecord, "version">,
+    version?: string
+  ) => Promise<TTableRecord>;
+  create: (
+    item: Omit<TTableRecord, "version" | "createdAt">,
+    version?: string
+  ) => Promise<TTableRecord>;
+  query: (query: Query, version?: string) => Promise<TTableRecord[]>;
+  merge: (pk: string, sk: string, version: string) => Promise<TTableRecord>;
 };
 
 export type DatabaseSchema = {
