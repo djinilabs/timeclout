@@ -8,6 +8,7 @@ import { Button } from "../particles/Button";
 import { DayPicker } from "../atoms/DayPicker";
 import { useMutation } from "../../hooks/useMutation";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import { useSearchParam } from "../../hooks/useSearchParam";
 
 export interface UnassignShiftPositionsProps {
   team: string;
@@ -20,12 +21,19 @@ export const UnassignShiftPositions: FC<UnassignShiftPositionsProps> = ({
   onClose,
   onUnassign,
 }) => {
+  const { current: month } = useSearchParam("month");
   const [dateRange, setDateRange] = useState<{
     from: DayDate;
     to: DayDate;
-  }>({
-    from: DayDate.today(),
-    to: DayDate.today(),
+  }>(() => {
+    const firstOfMonth = month
+      ? new DayDate(month)
+      : DayDate.today().firstOfMonth();
+    const lastOfMonth = firstOfMonth.endOfMonth();
+    return {
+      from: firstOfMonth,
+      to: lastOfMonth,
+    };
   });
 
   const [{ fetching }, unassignShiftPositions] = useMutation(
@@ -39,7 +47,8 @@ export const UnassignShiftPositions: FC<UnassignShiftPositionsProps> = ({
       !(await showConfirmDialog({
         text: (
           <Trans>
-            Are you sure you want to unassign these shift positions?
+            Are you sure you want to unassign the shift positions between{" "}
+            {dateRange.from.toHumanString()} and {dateRange.to.toHumanString()}?
           </Trans>
         ),
       }))
@@ -88,10 +97,12 @@ export const UnassignShiftPositions: FC<UnassignShiftPositionsProps> = ({
           id="date-range-picker"
           mode="range"
           required
+          numberOfMonths={2}
           selected={{
             from: dateRange.from.toDate(),
             to: dateRange.to.toDate(),
           }}
+          defaultMonth={dateRange.from.toDate()}
           onSelectRange={(range) => {
             if (range?.from && range?.to) {
               setDateRange({
@@ -125,7 +136,10 @@ export const UnassignShiftPositions: FC<UnassignShiftPositionsProps> = ({
           )}
           aria-busy={fetching}
         >
-          <Trans>Unassign</Trans>
+          <Trans>
+            Unassign shift positions from {dateRange.from.toHumanString()} to{" "}
+            {dateRange.to.toHumanString()}
+          </Trans>
         </Button>
       </div>
     </div>
