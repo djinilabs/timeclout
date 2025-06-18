@@ -35,6 +35,7 @@ export const useTeamShiftsQuery = ({
       team,
       startDay: startDay?.toString() ?? "",
       endDay: endDay?.toString() ?? "",
+      version: "staging",
     },
     pause: pause || !startDay || !endDay,
   });

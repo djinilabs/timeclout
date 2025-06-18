@@ -611,6 +611,7 @@ export type QueryShiftPositionsInput = {
   endDay: Scalars['String']['input'];
   startDay: Scalars['String']['input'];
   team: Scalars['String']['input'];
+  version?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type QuotaFulfilment = {

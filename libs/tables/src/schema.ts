@@ -150,33 +150,44 @@ export type TableAPI<
     TableSchemas[TTableName]
   >
 > = {
-  delete: (key: string, sk?: string, version?: string) => Promise<TTableRecord>;
+  delete: (
+    key: string,
+    sk?: string,
+    version?: string | null
+  ) => Promise<TTableRecord>;
   deleteIfExists: (
     key: string,
     sk?: string,
-    version?: string
+    version?: string | null
   ) => Promise<TTableRecord | undefined>;
-  deleteAll: (key: string, version?: string) => Promise<void>;
+  deleteAll: (key: string, version?: string | null) => Promise<void>;
   get: (
     pk: string,
     sk?: string,
-    version?: string
+    version?: string | null
   ) => Promise<TTableRecord | undefined>;
-  batchGet: (keys: string[], version?: string) => Promise<TTableRecord[]>;
+  batchGet: (
+    keys: string[],
+    version?: string | null
+  ) => Promise<TTableRecord[]>;
   update: (
     item: Partial<TTableRecord>,
-    version?: string
+    version?: string | null
   ) => Promise<TTableRecord>;
   upsert: (
     item: Omit<TTableRecord, "version">,
-    version?: string
+    version?: string | null
   ) => Promise<TTableRecord>;
   create: (
     item: Omit<TTableRecord, "version" | "createdAt">,
-    version?: string
+    version?: string | null
   ) => Promise<TTableRecord>;
-  query: (query: Query, version?: string) => Promise<TTableRecord[]>;
-  merge: (pk: string, sk: string, version: string) => Promise<TTableRecord>;
+  query: (query: Query, version?: string | null) => Promise<TTableRecord[]>;
+  merge: (
+    pk: string,
+    sk: string,
+    version: string | null
+  ) => Promise<TTableRecord>;
 };
 
 export type DatabaseSchema = {

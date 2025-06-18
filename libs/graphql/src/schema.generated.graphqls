@@ -274,6 +274,7 @@ input QueryShiftPositionsInput {
   endDay: String!
   startDay: String!
   team: String!
+  version: String
 }
 
 type QuotaFulfilment {

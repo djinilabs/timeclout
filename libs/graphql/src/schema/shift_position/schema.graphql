@@ -98,6 +98,7 @@ input QueryShiftPositionsInput {
   team: String!
   startDay: String!
   endDay: String!
+  version: String
 }
 
 extend type Query {

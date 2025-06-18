@@ -1,5 +1,17 @@
-query ShiftPositions($team: String!, $startDay: String!, $endDay: String!) {
-  shiftPositions(input: { team: $team, startDay: $startDay, endDay: $endDay }) {
+query ShiftPositions(
+  $team: String!
+  $startDay: String!
+  $endDay: String!
+  $version: String
+) {
+  shiftPositions(
+    input: {
+      team: $team
+      startDay: $startDay
+      endDay: $endDay
+      version: $version
+    }
+  ) {
     pk
     sk
     day

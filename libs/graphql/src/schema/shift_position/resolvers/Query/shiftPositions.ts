@@ -7,20 +7,25 @@ import type {
 } from "./../../../../types.generated";
 import { DayDate } from "@/day-date";
 
-export const shiftPositions: NonNullable<QueryResolvers['shiftPositions']> = async (_parent, arg, ctx) => {
+export const shiftPositions: NonNullable<
+  QueryResolvers["shiftPositions"]
+> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
-  const { team, startDay, endDay } = input;
+  const { team, startDay, endDay, version } = input;
   const pk = resourceRef("teams", team);
   await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.READ);
-  const result = await shift_positions.query({
-    KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
-    ExpressionAttributeValues: {
-      ":pk": pk,
-      ":startDay": startDay,
-      ":endDay": new DayDate(endDay).nextDay().toString(),
+  const result = await shift_positions.query(
+    {
+      KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
+      ExpressionAttributeValues: {
+        ":pk": pk,
+        ":startDay": startDay,
+        ":endDay": new DayDate(endDay).nextDay().toString(),
+      },
     },
-  });
+    version
+  );
   return result.sort((a, b) =>
     a.name && b.name
       ? a.name.localeCompare(b.name)

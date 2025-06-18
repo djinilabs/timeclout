@@ -32,7 +32,7 @@ const parsingItem =
 
 const getVersion = <T extends TableBaseSchemaType>(
   item: T | undefined,
-  version?: string
+  version?: string | null
 ): T | undefined => {
   if (!version || !item) {
     return item;
@@ -44,7 +44,10 @@ const getVersion = <T extends TableBaseSchemaType>(
   if (userVersionMeta?.deleted) {
     return undefined;
   }
-  const userVersionProps = userVersionMeta?.newProps ?? {};
+  const userVersionProps = userVersionMeta?.newProps;
+  if (!userVersionProps) {
+    return item;
+  }
   return {
     ...keySubset(item),
     ...userVersionProps,
