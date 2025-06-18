@@ -17,7 +17,5 @@ mutation UnassignShiftPosition($input: UnassignShiftPositionInput!) {
       email
       emailMd5
     }
-    published
-    replaces
   }
 }

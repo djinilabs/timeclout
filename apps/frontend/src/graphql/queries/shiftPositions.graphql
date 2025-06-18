@@ -17,7 +17,5 @@ query ShiftPositions($team: String!, $startDay: String!, $endDay: String!) {
       email
       emailMd5
     }
-    published
-    replaces
   }
 }

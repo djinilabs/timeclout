@@ -17,7 +17,5 @@ mutation copyShiftPositionShiftPosition($input: CopyShiftPositionInput!) {
       email
       emailMd5
     }
-    published
-    replaces
   }
 }

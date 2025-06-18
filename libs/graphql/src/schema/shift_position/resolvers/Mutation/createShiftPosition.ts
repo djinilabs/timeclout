@@ -27,7 +27,6 @@ export const createShiftPosition: NonNullable<MutationResolvers['createShiftPosi
     requiredSkills,
     schedules,
     assignedTo: assignedTo ?? undefined,
-    published: false,
     replaces: undefined,
   };
   console.log("shiftPosition:", shiftPosition);

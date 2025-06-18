@@ -307,8 +307,6 @@ type ShiftPosition {
   day: String!
   name: String
   pk: String!
-  published: Boolean!
-  replaces: String
   requiredSkills: [String!]!
   schedules: [ShiftPositionSchedule!]!
   sk: String!
