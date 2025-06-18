@@ -21,6 +21,8 @@ const TableBaseSchema = z.object({
         deleted: z.boolean().optional(),
         createdAt: z.string().datetime().optional(),
         createdBy: z.string().refine(getResourceRef).optional(),
+        updatedAt: z.string().datetime().optional(),
+        updatedBy: z.string().refine(getResourceRef).optional(),
         newProps: z.record(z.string(), z.unknown()).optional(),
       })
     )

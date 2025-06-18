@@ -13,7 +13,7 @@ import omit from "lodash.omit";
 import { logger } from "./logger";
 
 // removes undefined values from the item
-const cleanItem = <T extends object>(item: T): T => {
+const clean = <T extends object>(item: T): T => {
   return Object.fromEntries(
     Object.entries(item).filter(([, value]) => value !== undefined)
   ) as T;
@@ -23,7 +23,7 @@ const parsingItem =
   <T extends TableBaseSchemaType>(schema: ZodSchema, tableName: string) =>
   (item: unknown, operation: string): T => {
     try {
-      return cleanItem(schema.parse(item));
+      return clean(schema.parse(item));
     } catch (err) {
       err.message = `Error parsing item when ${operation} in ${tableName}: ${err.message}`;
       throw err;
@@ -59,7 +59,7 @@ const setVersion = <T extends TableBaseSchemaType>(
   newVersion: Partial<T>,
   version: string
 ): T => {
-  const cleanNewVersion = cleanItem(
+  const cleanNewVersion = clean(
     omit(newVersion, ["userVersions", "noMainVersion", "version"])
   );
   const base = _base ?? {
@@ -229,7 +229,7 @@ export const tableApi = <
           return self.update(newItem) as Promise<TTableRecord>;
         }
 
-        const newItem = cleanItem(
+        const newItem = clean(
           parseItem(
             {
               ...previousItem,
@@ -271,7 +271,7 @@ export const tableApi = <
           // first, we need to verify if the record already exists
           const existingItem = await self.get(item.pk, item.sk);
           if (!existingItem) {
-            const newItem = cleanItem(
+            const newItem = clean(
               parseItem(
                 {
                   ...item,
@@ -282,7 +282,7 @@ export const tableApi = <
                   createdAt: new Date().toISOString(),
                   userVersions: {
                     [version]: {
-                      newProps: cleanItem(item),
+                      newProps: clean(item),
                     },
                   },
                 },
@@ -292,18 +292,18 @@ export const tableApi = <
             return self.create(newItem);
           }
           // if the record exists, we need to update it
-          const newItem = cleanItem({
+          const newItem = clean({
             ...existingItem,
             userVersions: {
               ...existingItem.userVersions,
               [version]: {
-                newProps: cleanItem(item),
+                newProps: clean(item),
               },
             },
           });
           return self.update(newItem) as Promise<TTableRecord>;
         }
-        const parsedItem = cleanItem(
+        const parsedItem = clean(
           parseItem(
             {
               version: 1,
@@ -410,11 +410,11 @@ export const tableApi = <
         await lowLevelTable.delete({ pk, sk });
         return existingItem;
       }
-      const newItem = cleanItem({
+      const newItem = clean({
         pk,
         sk,
         ...versionMeta.newProps,
-        userVersions: cleanItem({
+        userVersions: clean({
           ...existingItem.userVersions,
           [version]: undefined,
         }),
