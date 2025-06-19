@@ -3,5 +3,7 @@ query assignableTeamMembers($input: AssignableTeamMembersInput!) {
     pk
     name
     email
+    emailMd5
+    createdAt
   }
 }
