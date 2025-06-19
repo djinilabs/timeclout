@@ -647,8 +647,6 @@ export type ShiftPosition = {
   day: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   pk: Scalars['String']['output'];
-  published: Scalars['Boolean']['output'];
-  replaces?: Maybe<Scalars['String']['output']>;
   requiredSkills: Array<Scalars['String']['output']>;
   schedules: Array<ShiftPositionSchedule>;
   sk: Scalars['String']['output'];
@@ -1216,8 +1214,6 @@ export type ShiftPositionResolvers<ContextType = any, ParentType extends Resolve
   day?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  published?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  replaces?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   requiredSkills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   schedules?: Resolver<Array<ResolversTypes['ShiftPositionSchedule']>, ParentType, ContextType>;
   sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

@@ -605,8 +605,6 @@ export type ShiftPosition = {
   day: Scalars["String"]["output"];
   name?: Maybe<Scalars["String"]["output"]>;
   pk: Scalars["String"]["output"];
-  published: Scalars["Boolean"]["output"];
-  replaces?: Maybe<Scalars["String"]["output"]>;
   requiredSkills: Array<Scalars["String"]["output"]>;
   schedules: Array<ShiftPositionSchedule>;
   sk: Scalars["String"]["output"];

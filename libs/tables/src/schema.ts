@@ -79,8 +79,6 @@ export const tableSchemas = {
     day: z.string().date(),
     name: z.string().optional(),
     color: z.string().optional(),
-    published: z.boolean(),
-    replaces: z.string().optional(),
     requiredSkills: z.array(z.string()),
     schedules: z.array(shiftPositionScheduleSchema),
     assignedTo: z.string().refine(getResourceRef).optional(),
@@ -137,7 +135,7 @@ export type TableAPI<
   TTableName extends TableName,
   TTableRecord extends z.infer<TableSchemas[TTableName]> = z.infer<
     TableSchemas[TTableName]
-  >,
+  >
 > = {
   delete: (key: string, sk?: string) => Promise<TTableRecord>;
   deleteIfExists: (
