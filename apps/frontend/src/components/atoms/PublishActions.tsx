@@ -40,7 +40,7 @@ export const PublishActions = ({ areAnyUnpublished }: PublishActionsProps) => {
             ) : (
               <CheckIcon aria-hidden="true" className="-ml-0.5 size-5" />
             )}
-            <p className="text-sm font-semibold">
+            <p className="text-sm font-semibold whitespace-nowrap">
               {areAnyUnpublished ? i18n.t("Unpublished") : i18n.t("Published")}
             </p>
           </div>
