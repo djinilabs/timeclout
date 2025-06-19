@@ -7,9 +7,7 @@ import type {
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 import { DayDate } from "@/day-date";
 
-export const unassignShiftPositions: NonNullable<
-  MutationResolvers["unassignShiftPositions"]
-> = async (
+export const unassignShiftPositions: NonNullable<MutationResolvers['unassignShiftPositions']> = async (
   _parent: unknown,
   arg: { input: { team: string; startDay: string; endDay: string } },
   ctx

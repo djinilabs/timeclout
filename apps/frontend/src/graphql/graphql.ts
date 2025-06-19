@@ -609,6 +609,7 @@ export type ShiftPosition = {
   requiredSkills: Array<Scalars["String"]["output"]>;
   schedules: Array<ShiftPositionSchedule>;
   sk: Scalars["String"]["output"];
+  userVersion: Scalars["String"]["output"];
 };
 
 export type ShiftPositionAssignmentInput = {

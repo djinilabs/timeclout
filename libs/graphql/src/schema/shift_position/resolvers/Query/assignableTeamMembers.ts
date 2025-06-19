@@ -5,9 +5,7 @@ import { database, PERMISSION_LEVELS } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { teamMembersUsers } from "@/business-logic";
 
-export const assignableTeamMembers: NonNullable<
-  QueryResolvers["assignableTeamMembers"]
-> = async (_parent, { input }, ctx) => {
+export const assignableTeamMembers: NonNullable<QueryResolvers['assignableTeamMembers']> = async (_parent, { input }, ctx) => {
   const { shiftPositionPk, shiftPositionSk, teamPk } = input;
   const pk = resourceRef("teams", teamPk);
   await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);

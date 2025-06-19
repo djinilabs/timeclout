@@ -651,6 +651,7 @@ export type ShiftPosition = {
   requiredSkills: Array<Scalars['String']['output']>;
   schedules: Array<ShiftPositionSchedule>;
   sk: Scalars['String']['output'];
+  userVersion: Scalars['String']['output'];
 };
 
 export type ShiftPositionAssignmentInput = {
@@ -1218,6 +1219,7 @@ export type ShiftPositionResolvers<ContextType = any, ParentType extends Resolve
   requiredSkills?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   schedules?: Resolver<Array<ResolversTypes['ShiftPositionSchedule']>, ParentType, ContextType>;
   sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

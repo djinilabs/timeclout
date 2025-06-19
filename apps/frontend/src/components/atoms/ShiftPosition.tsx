@@ -306,7 +306,7 @@ export const ShiftPosition = memo(
                 {shiftPosition.assignedTo && (
                   <MenuItem>
                     <button
-                      onClick={(ev) => {
+                      onClick={() => {
                         handleAssignShiftPosition?.(shiftPosition, null);
                       }}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 cursor-pointer"
