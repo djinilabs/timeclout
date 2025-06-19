@@ -56,24 +56,21 @@ export const useTeamShiftPositionsMap = ({
       );
     });
 
-    const map = entries?.reduce(
-      (acc, [day, shiftPosition]) => {
-        const dayPositions = acc[day] ?? [];
-        acc[day] = dayPositions;
-        const pos =
-          draggingShiftPosition &&
-          shiftPosition.sk ===
-            (draggingShiftPosition as ShiftPositionWithFake).fakeFrom
-            ? {
-                ...shiftPosition,
-                fake: true,
-              }
-            : shiftPosition;
-        dayPositions.push(pos);
-        return acc;
-      },
-      {} as Record<string, ShiftPositionWithFake[]>
-    );
+    const map = entries?.reduce((acc, [day, shiftPosition]) => {
+      const dayPositions = acc[day] ?? [];
+      acc[day] = dayPositions;
+      const pos =
+        draggingShiftPosition &&
+        shiftPosition.sk ===
+          (draggingShiftPosition as ShiftPositionWithFake).fakeFrom
+          ? {
+              ...shiftPosition,
+              fake: true,
+            }
+          : shiftPosition;
+      dayPositions.push(pos);
+      return acc;
+    }, {} as Record<string, ShiftPositionWithFake[]>);
 
     const newMap = {} as Record<string, Array<ShiftPositionWithRowSpan>>;
 

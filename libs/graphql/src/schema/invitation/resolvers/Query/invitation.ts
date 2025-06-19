@@ -8,13 +8,13 @@ import { requireSession } from "../../../../session/requireSession";
 import { isAuthorized } from "../../../../auth/isAuthorized";
 import { getDefined, getResourceRef } from "@/utils";
 
-export const invitation: NonNullable<QueryResolvers['invitation']> = async (
+export const invitation: NonNullable<QueryResolvers["invitation"]> = async (
   _parent,
   _arg,
   ctx
 ) => {
   const { invitation } = await database();
-  const invitations = await invitation.query({
+  const { items: invitations } = await invitation.query({
     IndexName: "bySecret",
     KeyConditionExpression: "secret = :secret",
     ExpressionAttributeValues: {

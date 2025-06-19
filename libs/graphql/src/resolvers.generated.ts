@@ -70,6 +70,7 @@ import    { Invitation } from './schema/invitation/resolvers/Invitation';
 import    { Leave } from './schema/leave/resolvers/Leave';
 import    { LeaveRequest } from './schema/leave_request/resolvers/LeaveRequest';
 import    { MemberQualifications } from './schema/team/resolvers/MemberQualifications';
+import    { QueryShiftPositionsOutput } from './schema/shift_position/resolvers/QueryShiftPositionsOutput';
 import    { QuotaFulfilment } from './schema/leave/resolvers/QuotaFulfilment';
 import    { Schedule } from './schema/schedule/resolvers/Schedule';
 import    { ShiftPosition } from './schema/shift_position/resolvers/ShiftPosition';
@@ -94,6 +95,7 @@ Invitation: Invitation,
 Leave: Leave,
 LeaveRequest: LeaveRequest,
 MemberQualifications: MemberQualifications,
+QueryShiftPositionsOutput: QueryShiftPositionsOutput,
 QuotaFulfilment: QuotaFulfilment,
 Schedule: Schedule,
 ShiftPosition: ShiftPosition,

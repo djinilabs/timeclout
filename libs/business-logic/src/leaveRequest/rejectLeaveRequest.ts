@@ -9,7 +9,7 @@ export const rejectLeaveRequest = async (
 
   // if was approved, remove all respective leave records
   if (leaveRequest.approved) {
-    const leaveRecords = await leave.query({
+    const { items: leaveRecords } = await leave.query({
       IndexName: "byLeaveRequestPkAndSk",
       KeyConditionExpression:
         "leaveRequestPk = :leaveRequestPk AND leaveRequestSk = :leaveRequestSk",

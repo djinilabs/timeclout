@@ -9,10 +9,12 @@ import type {
 import { requireSession } from "../../../../session/requireSession";
 import { getDefined } from "@/utils";
 
-export const acceptInvitation: NonNullable<MutationResolvers['acceptInvitation']> = async (_parent, arg, ctx) => {
+export const acceptInvitation: NonNullable<
+  MutationResolvers["acceptInvitation"]
+> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const { invitation, entity } = await database();
-  const invitations = await invitation.query({
+  const { items: invitations } = await invitation.query({
     IndexName: "bySecret",
     KeyConditionExpression: "secret = :secret",
     ExpressionAttributeValues: {

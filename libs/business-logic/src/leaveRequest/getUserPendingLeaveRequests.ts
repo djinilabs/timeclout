@@ -27,5 +27,5 @@ export const getUserPendingLeaveRequests = async (
         })
       )
     )
-  ).flat();
+  ).flatMap(({ items }) => items);
 };

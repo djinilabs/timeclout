@@ -7,7 +7,9 @@ import type {
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 import { DayDate } from "@/day-date";
 
-export const unassignShiftPositions: NonNullable<MutationResolvers['unassignShiftPositions']> = async (
+export const unassignShiftPositions: NonNullable<
+  MutationResolvers["unassignShiftPositions"]
+> = async (
   _parent: unknown,
   arg: { input: { team: string; startDay: string; endDay: string } },
   ctx
@@ -22,7 +24,7 @@ export const unassignShiftPositions: NonNullable<MutationResolvers['unassignShif
 
   const endDayDate = new DayDate(endDay);
 
-  const positions = await shift_positions.query(
+  const { items: positions } = await shift_positions.query(
     {
       KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
       ExpressionAttributeValues: {

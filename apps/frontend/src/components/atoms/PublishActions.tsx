@@ -10,21 +10,20 @@ import {
 } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 
-const publishingOptions = [
-  {
-    title: "Published",
-    description: "This job posting can be viewed by anyone who has the link.",
-    current: true,
-  },
-  {
-    title: "Draft",
-    description: "This job posting will no longer be publicly accessible.",
-    current: false,
-  },
-];
+export interface PublishActionsProps {
+  areAnyUnpublished: boolean;
+}
 
-export const PublishActions = () => {
-  const [selected, setSelected] = useState(publishingOptions[0]);
+export const PublishActions = ({ areAnyUnpublished }: PublishActionsProps) => {
+  const [selected, setSelected] = useState(undefined);
+
+  const publishingOptions = [
+    {
+      title: "Published",
+      description: "This job posting can be viewed by anyone who has the link.",
+      current: true,
+    },
+  ];
 
   return (
     <Listbox value={selected} onChange={setSelected}>
@@ -32,8 +31,23 @@ export const PublishActions = () => {
       <div className="relative">
         <div className="inline-flex divide-x divide-teal-700 rounded-md outline-none">
           <div className="inline-flex items-center gap-x-1.5 rounded-l-md bg-teal-600 px-3 py-2 text-white">
-            <CheckIcon aria-hidden="true" className="-ml-0.5 size-5" />
-            <p className="text-sm font-semibold">{selected.title}</p>
+            {areAnyUnpublished ? (
+              <span
+                aria-hidden="true"
+                className="size-3 rounded-full bg-orange-400 animate-pulse border-2 border-orange-500 shadow-inner"
+                style={{
+                  display: "inline-block",
+                  minWidth: "0.75rem",
+                  minHeight: "0.75rem",
+                  marginRight: "0.5rem",
+                }}
+              />
+            ) : (
+              <CheckIcon aria-hidden="true" className="-ml-0.5 size-5" />
+            )}
+            <p className="text-sm font-semibold">
+              {areAnyUnpublished ? "Unpublished" : "Published"}
+            </p>
           </div>
           <ListboxButton className="inline-flex items-center rounded-l-none rounded-r-md bg-teal-600 p-2 outline-none hover:bg-teal-700 focus-visible:outline-2 focus-visible:outline-teal-400">
             <span className="sr-only">Change published status</span>
@@ -48,7 +62,7 @@ export const PublishActions = () => {
           transition
           className="absolute right-0 z-10 mt-2 w-72 origin-top-right divide-y divide-gray-200 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in"
         >
-          {publishingOptions.map((option) => (
+          {publishingOptions?.map((option) => (
             <ListboxOption
               key={option.title}
               value={option}

@@ -267,7 +267,7 @@ type Query {
   myLeaveRequests(companyPk: String!): [LeaveRequest!]!
   myQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!): [QuotaFulfilment!]!
   pendingLeaveRequests(companyPk: String): [LeaveRequest!]!
-  shiftPositions(input: QueryShiftPositionsInput!): [ShiftPosition!]!
+  shiftPositions(input: QueryShiftPositionsInput!): QueryShiftPositionsOutput!
   shiftsAutoFillParams(input: AutoFillParamsInput!): ShiftsAutoFillParams!
   team(teamPk: String!): Team!
   teamMember(memberPk: String!, teamPk: String!): User!
@@ -280,6 +280,11 @@ input QueryShiftPositionsInput {
   startDay: String!
   team: String!
   version: String
+}
+
+type QueryShiftPositionsOutput {
+  areAnyUnpublished: Boolean!
+  shiftPositions: [ShiftPosition!]!
 }
 
 type QuotaFulfilment {

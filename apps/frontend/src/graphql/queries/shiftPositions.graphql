@@ -12,23 +12,26 @@ query ShiftPositions(
       version: $version
     }
   ) {
-    pk
-    sk
-    day
-    name
-    color
-    requiredSkills
-    userVersion
-    schedules {
-      startHourMinutes
-      endHourMinutes
-      inconveniencePerHour
-    }
-    assignedTo {
+    shiftPositions {
       pk
+      sk
+      day
       name
-      email
-      emailMd5
+      color
+      requiredSkills
+      userVersion
+      schedules {
+        startHourMinutes
+        endHourMinutes
+        inconveniencePerHour
+      }
+      assignedTo {
+        pk
+        name
+        email
+        emailMd5
+      }
     }
+    areAnyUnpublished
   }
 }

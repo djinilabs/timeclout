@@ -13,12 +13,14 @@ export const getAuthorized = async (
     "users",
     getDefined(session.user?.id, "User ID is undefined")
   );
-  return permission.query({
-    IndexName: "byResourceTypeAndEntityId",
-    KeyConditionExpression: "resourceType = :resourceType AND sk = :sk  ",
-    ExpressionAttributeValues: {
-      ":resourceType": resourceType,
-      ":sk": userPk,
-    },
-  });
+  return (
+    await permission.query({
+      IndexName: "byResourceTypeAndEntityId",
+      KeyConditionExpression: "resourceType = :resourceType AND sk = :sk  ",
+      ExpressionAttributeValues: {
+        ":resourceType": resourceType,
+        ":sk": userPk,
+      },
+    })
+  ).items;
 };

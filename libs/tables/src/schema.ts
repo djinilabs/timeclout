@@ -147,6 +147,11 @@ export type Query = {
   ScanIndexForward?: boolean;
 };
 
+export type QueryResponse<TTableRecord extends TableBaseSchemaType> = {
+  items: TTableRecord[];
+  areAnyUnpublished: boolean;
+};
+
 export type TableAPI<
   TTableName extends TableName,
   TTableRecord extends z.infer<TableSchemas[TTableName]> = z.infer<
@@ -185,7 +190,10 @@ export type TableAPI<
     item: Omit<TTableRecord, "version" | "createdAt">,
     version?: string | null
   ) => Promise<TTableRecord>;
-  query: (query: Query, version?: string | null) => Promise<TTableRecord[]>;
+  query: (
+    query: Query,
+    version?: string | null
+  ) => Promise<QueryResponse<TTableRecord>>;
   merge: (
     pk: string,
     sk: string,

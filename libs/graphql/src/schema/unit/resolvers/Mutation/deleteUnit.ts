@@ -5,7 +5,7 @@ import { resourceRef } from "@/utils";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
 
-export const deleteUnit: NonNullable<MutationResolvers['deleteUnit']> = async (
+export const deleteUnit: NonNullable<MutationResolvers["deleteUnit"]> = async (
   _parent,
   _arg,
   _ctx
@@ -20,7 +20,7 @@ export const deleteUnit: NonNullable<MutationResolvers['deleteUnit']> = async (
   }
 
   // make sure no teams are in this unit
-  const teams = await entity.query({
+  const { items: teams } = await entity.query({
     IndexName: "byParentPk",
     KeyConditionExpression: "parentPk = :parentPk",
     ExpressionAttributeValues: {

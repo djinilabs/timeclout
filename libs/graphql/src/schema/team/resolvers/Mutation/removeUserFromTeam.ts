@@ -5,7 +5,9 @@ import { PERMISSION_LEVELS } from "@/tables";
 import { notFound } from "@hapi/boom";
 import { notAcceptable } from "@hapi/boom";
 import { getDefined, resourceRef } from "@/utils";
-export const removeUserFromTeam: NonNullable<MutationResolvers['removeUserFromTeam']> = async (_parent, arg, ctx) => {
+export const removeUserFromTeam: NonNullable<
+  MutationResolvers["removeUserFromTeam"]
+> = async (_parent, arg, ctx) => {
   const teamRef = resourceRef("teams", arg.teamPk);
   const actorUserPk = await ensureAuthorized(
     ctx,
@@ -25,7 +27,7 @@ export const removeUserFromTeam: NonNullable<MutationResolvers['removeUserFromTe
   const unitPk = getDefined(team.parentPk, "Team must have a parent unit");
 
   // Get all teams in the unit to check if user belongs to any other team
-  const teamsInUnit = await entity.query({
+  const { items: teamsInUnit } = await entity.query({
     IndexName: "byParentPk",
     KeyConditionExpression: "parentPk = :parentPk",
     ExpressionAttributeValues: {
@@ -56,7 +58,7 @@ export const removeUserFromTeam: NonNullable<MutationResolvers['removeUserFromTe
       getDefined(unit?.parentPk, "Unit must have a parent company")
     );
     if (company) {
-      const unitsInCompany = await entity.query({
+      const { items: unitsInCompany } = await entity.query({
         IndexName: "byParentPk",
         KeyConditionExpression: "parentPk = :parentPk",
         ExpressionAttributeValues: {

@@ -5,7 +5,9 @@ import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { PERMISSION_LEVELS } from "@/tables";
 import { badData, notFound } from "@hapi/boom";
 
-export const deleteCompany: NonNullable<MutationResolvers['deleteCompany']> = async (_parent, arg, _ctx) => {
+export const deleteCompany: NonNullable<
+  MutationResolvers["deleteCompany"]
+> = async (_parent, arg, _ctx) => {
   const companyRef = resourceRef("companies", arg.pk);
   await ensureAuthorized(_ctx, companyRef, PERMISSION_LEVELS.OWNER);
   const { entity, permission } = await database();
@@ -22,7 +24,7 @@ export const deleteCompany: NonNullable<MutationResolvers['deleteCompany']> = as
       ":parentPk": companyRef,
     },
   });
-  if (units.length > 0) {
+  if (units.items.length > 0) {
     throw badData("Company has units, cannot delete");
   }
 

@@ -102,7 +102,12 @@ input QueryShiftPositionsInput {
   version: String
 }
 
+type QueryShiftPositionsOutput {
+  shiftPositions: [ShiftPosition!]!
+  areAnyUnpublished: Boolean!
+}
+
 extend type Query {
-  shiftPositions(input: QueryShiftPositionsInput!): [ShiftPosition!]!
+  shiftPositions(input: QueryShiftPositionsInput!): QueryShiftPositionsOutput!
   assignableTeamMembers(input: AssignableTeamMembersInput!): [User!]!
 }

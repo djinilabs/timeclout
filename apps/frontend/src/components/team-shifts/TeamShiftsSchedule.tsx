@@ -28,10 +28,7 @@ import {
 import { useLocalPreference } from "../../hooks/useLocalPreference";
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 import { useSearchParam } from "../../hooks/useSearchParam";
-import {
-  AnalyzedShiftPosition,
-  useAnalyzeTeamShiftsCalendar,
-} from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { toMinutes } from "../../utils/toMinutes";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "../atoms/ShiftPosition";
@@ -106,7 +103,7 @@ export const TeamShiftsSchedule = () => {
   });
 
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
-    useTeamShiftsDragAndDrop(shiftPositionsResult);
+    useTeamShiftsDragAndDrop(shiftPositionsResult?.shiftPositions ?? []);
 
   // ------- assign shift positions -------
   // asssign shift positions
@@ -151,12 +148,11 @@ export const TeamShiftsSchedule = () => {
     false
   );
 
-  let shiftPositionsMap: Record<string, AnalyzedShiftPosition[]> =
-    useTeamShiftPositionsMap({
-      draggingShiftPosition,
-      shiftPositionsResult,
-      spillTime: showScheduleDetails,
-    }).shiftPositionsMap;
+  let { shiftPositionsMap } = useTeamShiftPositionsMap({
+    draggingShiftPosition,
+    shiftPositionsResult: shiftPositionsResult?.shiftPositions ?? [],
+    spillTime: showScheduleDetails,
+  });
 
   // ------- focus navigation -------
 
@@ -724,7 +720,13 @@ export const TeamShiftsSchedule = () => {
         },
         {
           type: "component",
-          component: <PublishActions />,
+          component: (
+            <PublishActions
+              areAnyUnpublished={
+                shiftPositionsResult?.areAnyUnpublished ?? false
+              }
+            />
+          ),
         },
       ],
       [
@@ -733,6 +735,7 @@ export const TeamShiftsSchedule = () => {
         setIsDialogOpen,
         setShowLeaveSchedule,
         setShowScheduleDetails,
+        shiftPositionsResult?.areAnyUnpublished,
         showLeaveSchedule,
         showScheduleDetails,
         team?.resourcePermission,

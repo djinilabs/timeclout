@@ -511,7 +511,7 @@ export type Query = {
   myLeaveRequests: Array<LeaveRequest>;
   myQuotaFulfilment: Array<QuotaFulfilment>;
   pendingLeaveRequests: Array<LeaveRequest>;
-  shiftPositions: Array<ShiftPosition>;
+  shiftPositions: QueryShiftPositionsOutput;
   shiftsAutoFillParams: ShiftsAutoFillParams;
   team: Team;
   teamMember: User;
@@ -612,6 +612,12 @@ export type QueryShiftPositionsInput = {
   startDay: Scalars['String']['input'];
   team: Scalars['String']['input'];
   version?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type QueryShiftPositionsOutput = {
+  __typename?: 'QueryShiftPositionsOutput';
+  areAnyUnpublished: Scalars['Boolean']['output'];
+  shiftPositions: Array<ShiftPosition>;
 };
 
 export type QuotaFulfilment = {
@@ -925,6 +931,7 @@ export type ResolversTypes = {
   PublishShiftPositionsInput: PublishShiftPositionsInput;
   Query: ResolverTypeWrapper<{}>;
   QueryShiftPositionsInput: QueryShiftPositionsInput;
+  QueryShiftPositionsOutput: ResolverTypeWrapper<QueryShiftPositionsOutput>;
   QuotaFulfilment: ResolverTypeWrapper<QuotaFulfilment>;
   RejectLeaveRequestInput: RejectLeaveRequestInput;
   Schedule: ResolverTypeWrapper<Schedule>;
@@ -985,6 +992,7 @@ export type ResolversParentTypes = {
   PublishShiftPositionsInput: PublishShiftPositionsInput;
   Query: {};
   QueryShiftPositionsInput: QueryShiftPositionsInput;
+  QueryShiftPositionsOutput: QueryShiftPositionsOutput;
   QuotaFulfilment: QuotaFulfilment;
   RejectLeaveRequestInput: RejectLeaveRequestInput;
   Schedule: Schedule;
@@ -1180,12 +1188,18 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   myLeaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType, RequireFields<QuerymyLeaveRequestsArgs, 'companyPk'>>;
   myQuotaFulfilment?: Resolver<Array<ResolversTypes['QuotaFulfilment']>, ParentType, ContextType, RequireFields<QuerymyQuotaFulfilmentArgs, 'companyPk' | 'endDate' | 'startDate'>>;
   pendingLeaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType, Partial<QuerypendingLeaveRequestsArgs>>;
-  shiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<QueryshiftPositionsArgs, 'input'>>;
+  shiftPositions?: Resolver<ResolversTypes['QueryShiftPositionsOutput'], ParentType, ContextType, RequireFields<QueryshiftPositionsArgs, 'input'>>;
   shiftsAutoFillParams?: Resolver<ResolversTypes['ShiftsAutoFillParams'], ParentType, ContextType, RequireFields<QueryshiftsAutoFillParamsArgs, 'input'>>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryteamArgs, 'teamPk'>>;
   teamMember?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryteamMemberArgs, 'memberPk' | 'teamPk'>>;
   unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<QueryunitArgs, 'unitPk'>>;
   units?: Resolver<Array<ResolversTypes['Unit']>, ParentType, ContextType>;
+};
+
+export type QueryShiftPositionsOutputResolvers<ContextType = any, ParentType extends ResolversParentTypes['QueryShiftPositionsOutput'] = ResolversParentTypes['QueryShiftPositionsOutput']> = {
+  areAnyUnpublished?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  shiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QuotaFulfilmentResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuotaFulfilment'] = ResolversParentTypes['QuotaFulfilment']> = {
@@ -1311,6 +1325,7 @@ export type Resolvers<ContextType = any> = {
   MemberQualifications?: MemberQualificationsResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  QueryShiftPositionsOutput?: QueryShiftPositionsOutputResolvers<ContextType>;
   QuotaFulfilment?: QuotaFulfilmentResolvers<ContextType>;
   Schedule?: ScheduleResolvers<ContextType>;
   ShiftPosition?: ShiftPositionResolvers<ContextType>;

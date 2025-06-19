@@ -15,5 +15,5 @@ export const getEntityPksUserHasPermissionFor = async (
         ":sk": userRef,
       },
     })
-  ).map(({ pk }) => getResourceRef(pk));
+  ).items.map(({ pk }) => getResourceRef(pk));
 };

@@ -398,9 +398,19 @@ export const tableApi = <
           lastEvaluatedKey = response.LastEvaluatedKey;
         } while (lastEvaluatedKey);
 
-        return items
-          .map((item) => getVersion(parseItem(item, "query"), version))
-          .filter(Boolean) as TTableRecord[];
+        let someRemoved = false;
+        return {
+          items: items
+            .map((item) => getVersion(parseItem(item, "query"), version))
+            .filter((item) => {
+              if (!someRemoved && item == null) {
+                someRemoved = true;
+              }
+              return item != null;
+            }) as TTableRecord[],
+          areAnyUnpublished:
+            someRemoved || items.some((item) => item.userVersion != null),
+        };
       } catch (err) {
         console.error("Error querying table", tableName, query, err);
         err.message = `Error querying table ${tableName}: ${err.message}`;

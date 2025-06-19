@@ -9,7 +9,7 @@ export const teamMembersUsers = async (
   qualifications?: string[]
 ) => {
   const { permission, entity } = await database();
-  const permissions = await permission.query({
+  const { items: permissions } = await permission.query({
     KeyConditionExpression: "pk = :pk",
     ExpressionAttributeValues: {
       ":pk": teamId,

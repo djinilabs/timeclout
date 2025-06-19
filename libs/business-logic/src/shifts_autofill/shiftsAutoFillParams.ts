@@ -126,7 +126,7 @@ export const shiftsAutoFillParams = async (
     worker.approvedLeaves = approvedLeaves[index];
   });
 
-  const shiftPositions = await shift_positions.query(
+  const { items: shiftPositions } = await shift_positions.query(
     {
       KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
       ExpressionAttributeValues: {
