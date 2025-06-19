@@ -14,6 +14,7 @@ const TableBaseSchema = z.object({
   updatedAt: z.string().datetime().optional(),
   updatedBy: z.string().refine(getResourceRef).optional(),
   noMainVersion: z.boolean().optional(),
+  userVersion: z.string().optional(),
   userVersions: z
     .record(
       z.string(),

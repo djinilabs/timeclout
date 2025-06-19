@@ -51,6 +51,7 @@ const getVersion = <T extends TableBaseSchemaType>(
   return {
     ...keySubset(item),
     ...userVersionProps,
+    userVersion: version,
   } as T;
 };
 
@@ -226,16 +227,20 @@ export const tableApi = <
 
         if (version) {
           const newItem = setVersion(previousItem, item, version);
-          return self.update(newItem) as Promise<TTableRecord>;
+          return getVersion(
+            await self.update(newItem),
+            version
+          ) as TTableRecord;
         }
 
         const newItem = clean(
           parseItem(
             {
-              ...previousItem,
               version: previousItem.version + 1,
               updatedAt: new Date().toISOString(),
               ...item,
+              pk: previousItem.pk,
+              sk: previousItem.sk,
             },
             "update"
           ) as TTableRecord
@@ -289,7 +294,10 @@ export const tableApi = <
                 "create"
               ) as TTableRecord
             );
-            return self.create(newItem);
+            return getVersion(
+              await self.create(newItem),
+              version
+            ) as TTableRecord;
           }
           // if the record exists, we need to update it
           const newItem = clean({
@@ -301,7 +309,10 @@ export const tableApi = <
               },
             },
           });
-          return self.update(newItem) as Promise<TTableRecord>;
+          return getVersion(
+            await self.update(newItem),
+            version
+          ) as TTableRecord;
         }
         const parsedItem = clean(
           parseItem(
@@ -337,7 +348,10 @@ export const tableApi = <
 
         if (version) {
           const newItem = setVersion(existingItem, item, version);
-          return self.upsert(newItem);
+          return getVersion(
+            await self.upsert(newItem),
+            version
+          ) as TTableRecord;
         }
 
         if (existingItem) {
@@ -414,10 +428,6 @@ export const tableApi = <
         pk,
         sk,
         ...versionMeta.newProps,
-        userVersions: clean({
-          ...existingItem.userVersions,
-          [version]: undefined,
-        }),
       }) as TTableRecord;
       return self.update(newItem);
     },

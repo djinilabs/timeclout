@@ -141,7 +141,7 @@ export const TeamShiftsSchedule = () => {
         toast.success(i18n.t("Shift positions assigned successfully"));
       }
     },
-    [assignShiftPositions, teamPk]
+    [assignShiftPositions, teamPk, unassignShiftPosition]
   );
 
   // ------- schedule details -------

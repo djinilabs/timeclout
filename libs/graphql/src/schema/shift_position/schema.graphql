@@ -13,6 +13,7 @@ type ShiftPosition {
   requiredSkills: [String!]!
   schedules: [ShiftPositionSchedule!]!
   assignedTo: User
+  userVersion: String!
 }
 
 input ShiftPositionScheduleInput {
