@@ -1,16 +1,6 @@
 import { memo, useEffect, useRef } from "react";
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Transition,
-} from "@headlessui/react";
-import {
-  EllipsisHorizontalIcon,
-  ExclamationTriangleIcon,
-} from "@heroicons/react/24/outline";
-import { Trans } from "@lingui/react/macro";
+import { Transition } from "@headlessui/react";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { colors } from "@/settings";
 import {
   User,
@@ -23,12 +13,11 @@ import {
 } from "../particles/MiniTimeScheduleVisualizer";
 import { type ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 import { Avatar } from "../particles/Avatar";
-import { Popover } from "../particles/Popover";
 import { toMinutes } from "../../utils/toMinutes";
 import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { i18n } from "@lingui/core";
 import { Hint } from "../particles/Hint";
-import { AssignableTeamMembers } from "./AssignableTeamMembers";
+import { ShiftPositionMenu } from "./ShiftPositionMenu";
 
 export interface ShiftPositionProps {
   teamPk: string;
@@ -175,8 +164,6 @@ export const ShiftPosition = memo(
         ? shiftPosition.rowEnd - shiftPosition.rowStart + 1
         : 1;
 
-    const menuButtonRef = useRef<HTMLButtonElement>(null);
-
     return (
       <>
         {Array.from({ length: rowSpan - 1 }).map((_, index) => (
@@ -223,130 +210,16 @@ export const ShiftPosition = memo(
               focus || lastRow ? undefined : `1px solid rgb(243 244 246)`,
           }}
         >
-          <Menu
-            as="div"
-            className="right-0 top-0 absolute opacity-0 group-hover:opacity-100 z-200"
-          >
-            <MenuButton
-              ref={menuButtonRef}
-              className="cursor-pointer hover:bg-gray-200 hover:bg-opacity-10 rounded-sm"
-              aria-label={i18n.t("Shift options menu")}
-            >
-              <EllipsisHorizontalIcon className="w-4 h-4" />
-            </MenuButton>
-            <Popover placement="auto" referenceElement={menuButtonRef.current}>
-              <MenuItems className="rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition-all duration-300 ease-in">
-                <MenuItem>
-                  {({ active }) => (
-                    <button
-                      onClick={() => handleEditShiftPosition?.(shiftPosition)}
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block w-full text-left px-4 py-2 text-sm text-gray-700"
-                      )}
-                      aria-label={i18n.t("Edit shift")}
-                    >
-                      <Trans>Edit</Trans>
-                    </button>
-                  )}
-                </MenuItem>
-                <MenuItem>
-                  {({ active }) => (
-                    <button
-                      onClick={() =>
-                        copyShiftPositionToClipboard?.(shiftPosition)
-                      }
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block w-full text-left px-4 py-2 text-sm text-gray-700"
-                      )}
-                      aria-label={i18n.t("Copy shift")}
-                    >
-                      <Trans>Copy</Trans>
-                    </button>
-                  )}
-                </MenuItem>
-                {hasCopiedShiftPosition && (
-                  <MenuItem>
-                    {({ active }) => (
-                      <button
-                        onClick={() =>
-                          pasteShiftPositionFromClipboard?.(shiftPosition.day)
-                        }
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block w-full text-left px-4 py-2 text-sm text-gray-700"
-                        )}
-                        aria-label={i18n.t("Paste shift here")}
-                      >
-                        <Trans>Paste here</Trans>
-                      </button>
-                    )}
-                  </MenuItem>
-                )}
-                <MenuItem>
-                  {({ active }) => (
-                    <button
-                      onClick={() =>
-                        deleteShiftPosition?.(
-                          shiftPosition.pk,
-                          shiftPosition.sk
-                        )
-                      }
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block w-full text-left px-4 py-2 text-sm text-gray-700"
-                      )}
-                      aria-label={i18n.t("Delete shift")}
-                    >
-                      <Trans>Delete</Trans>
-                    </button>
-                  )}
-                </MenuItem>
-                {shiftPosition.assignedTo && (
-                  <MenuItem>
-                    <button
-                      onClick={() => {
-                        handleAssignShiftPosition?.(shiftPosition, null);
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 cursor-pointer"
-                      aria-label={i18n.t("Paste shift here")}
-                    >
-                      <Trans>Unassign</Trans>
-                    </button>
-                  </MenuItem>
-                )}
-                <MenuItem>
-                  {({ active }) => (
-                    <button
-                      onClick={() =>
-                        pasteShiftPositionFromClipboard?.(shiftPosition.day)
-                      }
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700"
-                      aria-label={i18n.t("Paste shift here")}
-                    >
-                      {shiftPosition.assignedTo ? (
-                        <Trans>Reassign</Trans>
-                      ) : (
-                        <Trans>Assign</Trans>
-                      )}
-                      {active ? (
-                        <AssignableTeamMembers
-                          teamPk={teamPk}
-                          shiftPosition={shiftPosition}
-                          onSelect={(member) => {
-                            handleAssignShiftPosition?.(shiftPosition, member);
-                          }}
-                        />
-                      ) : (
-                        <></>
-                      )}
-                    </button>
-                  )}
-                </MenuItem>
-              </MenuItems>
-            </Popover>
-          </Menu>
+          <ShiftPositionMenu
+            teamPk={teamPk}
+            shiftPosition={shiftPosition}
+            handleAssignShiftPosition={handleAssignShiftPosition}
+            handleEditShiftPosition={handleEditShiftPosition}
+            copyShiftPositionToClipboard={copyShiftPositionToClipboard}
+            hasCopiedShiftPosition={hasCopiedShiftPosition}
+            pasteShiftPositionFromClipboard={pasteShiftPositionFromClipboard}
+            deleteShiftPosition={deleteShiftPosition}
+          />
 
           <div
             className="flex-auto flex items-center justify-left ml-2 overflow-hidden transition-all duration-300 ease-in"
