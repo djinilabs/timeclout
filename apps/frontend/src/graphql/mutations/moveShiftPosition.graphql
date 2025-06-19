@@ -3,7 +3,10 @@ mutation MoveShiftPosition($input: MoveShiftPositionInput!) {
     pk
     sk
     day
+    name
+    color
     requiredSkills
+    userVersion
     schedules {
       startHourMinutes
       endHourMinutes

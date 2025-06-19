@@ -6,6 +6,7 @@ mutation AssignShiftPositions($input: AssignShiftPositionsInput!) {
     name
     color
     requiredSkills
+    userVersion
     schedules {
       startHourMinutes
       endHourMinutes
