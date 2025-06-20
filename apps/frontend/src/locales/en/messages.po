@@ -14,16 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/PublishActions.tsx:44
-msgid "Unpublished"
-msgstr "Unpublished"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/PublishActions.tsx:44
-msgid "Published"
-msgstr "Published"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Unknown"
@@ -1221,6 +1211,16 @@ msgid "Please select a user"
 msgstr "Please select a user"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PublishActions.tsx:39
+msgid "Unpublished"
+msgstr "Unpublished"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PublishActions.tsx:39
+msgid "Published"
+msgstr "Published"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/PermissionInput.tsx:18
 msgid "Please select a permission"
 msgstr "Please select a permission"
@@ -1316,6 +1316,10 @@ msgstr "Adjust these parameters to control how the automatic assignment balances
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:267
 msgid "All employees"
 msgstr "All employees"
+
+#: apps/frontend/src/components/atoms/PublishActions.tsx:98
+msgid "All positions in these dates have no changes"
+msgstr "All positions in these dates have no changes"
 
 #: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:714
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:376
@@ -2054,11 +2058,11 @@ msgstr "Previous year"
 msgid "Professional name"
 msgstr "Professional name"
 
-#: apps/frontend/src/components/atoms/PublishActions.tsx:77
+#: apps/frontend/src/components/atoms/PublishActions.tsx:72
 msgid "Publish changes"
 msgstr "Publish changes"
 
-#: apps/frontend/src/components/atoms/PublishActions.tsx:93
+#: apps/frontend/src/components/atoms/PublishActions.tsx:91
 msgid "Published"
 msgstr "Published"
 
@@ -2149,7 +2153,7 @@ msgstr "Reset Month"
 msgid "Respect leave schedule"
 msgstr "Respect leave schedule"
 
-#: apps/frontend/src/components/atoms/PublishActions.tsx:80
+#: apps/frontend/src/components/atoms/PublishActions.tsx:78
 msgid "Revert to published"
 msgstr "Revert to published"
 
@@ -2321,6 +2325,10 @@ msgstr "Solution Heuristic Scores"
 msgid "Solutions"
 msgstr "Solutions"
 
+#: apps/frontend/src/components/atoms/PublishActions.tsx:70
+msgid "Some of the positions in these dates have changes"
+msgstr "Some of the positions in these dates have changes"
+
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillProgress.tsx:95
 msgid "Some solutions have been discarded because of the following reasons:"
 msgstr "Some solutions have been discarded because of the following reasons:"
@@ -2392,14 +2400,6 @@ msgstr "The time between shifts for each worker. The box plot shows the median, 
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillProgress.tsx:82
 msgid "There are"
 msgstr "There are"
-
-#: apps/frontend/src/components/atoms/PublishActions.tsx:75
-msgid "These dates have changes"
-msgstr "These dates have changes"
-
-#: apps/frontend/src/components/atoms/PublishActions.tsx:100
-msgid "These dates have no changes"
-msgstr "These dates have no changes"
 
 #. placeholder {0}: quota.simulatedUsed
 #: apps/frontend/src/components/company/MyQuotaFulfilment.tsx:60
@@ -2490,7 +2490,7 @@ msgstr "Unit name"
 msgid "Unknown"
 msgstr "Unknown"
 
-#: apps/frontend/src/components/atoms/PublishActions.tsx:68
+#: apps/frontend/src/components/atoms/PublishActions.tsx:63
 msgid "Unpublished"
 msgstr "Unpublished"
 

@@ -14,16 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/PublishActions.tsx:44
-msgid "Unpublished"
-msgstr "Não publicado"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/PublishActions.tsx:44
-msgid "Published"
-msgstr "Publicado"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -1221,6 +1211,16 @@ msgid "Please select a user"
 msgstr "Por favor seleccione um membro"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PublishActions.tsx:39
+msgid "Unpublished"
+msgstr "Não publicado"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PublishActions.tsx:39
+msgid "Published"
+msgstr "Publicado"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/PermissionInput.tsx:18
 msgid "Please select a permission"
 msgstr "Por favor, selecione uma permissão"
@@ -1316,6 +1316,10 @@ msgstr "Ajuste estes parâmetros para controlar como a atribuição automática 
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:267
 msgid "All employees"
 msgstr "Todos os funcionários"
+
+#: apps/frontend/src/components/atoms/PublishActions.tsx:98
+msgid "All positions in these dates have no changes"
+msgstr "Todas as posições nestas datas não têm alterações"
 
 #: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:714
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:376
@@ -2054,11 +2058,11 @@ msgstr "Ano anterior"
 msgid "Professional name"
 msgstr "Nome profissional"
 
-#: apps/frontend/src/components/atoms/PublishActions.tsx:77
+#: apps/frontend/src/components/atoms/PublishActions.tsx:72
 msgid "Publish changes"
 msgstr "Publicar alterações"
 
-#: apps/frontend/src/components/atoms/PublishActions.tsx:93
+#: apps/frontend/src/components/atoms/PublishActions.tsx:91
 msgid "Published"
 msgstr "Publicado"
 
@@ -2149,7 +2153,7 @@ msgstr "Reiniciar mês"
 msgid "Respect leave schedule"
 msgstr "Respeitar o calendário de ausências"
 
-#: apps/frontend/src/components/atoms/PublishActions.tsx:80
+#: apps/frontend/src/components/atoms/PublishActions.tsx:78
 msgid "Revert to published"
 msgstr "Reverter para publicado"
 
@@ -2321,6 +2325,10 @@ msgstr "Pontuações desta solução"
 msgid "Solutions"
 msgstr "Soluções"
 
+#: apps/frontend/src/components/atoms/PublishActions.tsx:70
+msgid "Some of the positions in these dates have changes"
+msgstr "Algumas das posições nestas datas têm alterações"
+
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillProgress.tsx:95
 msgid "Some solutions have been discarded because of the following reasons:"
 msgstr "Algumas soluções foram descartadas por causa dos seguintes motivos:"
@@ -2392,14 +2400,6 @@ msgstr "O intervalo de tempo entre turnos para cada membro. O diagrama mostra a 
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillProgress.tsx:82
 msgid "There are"
 msgstr "Existem"
-
-#: apps/frontend/src/components/atoms/PublishActions.tsx:75
-msgid "These dates have changes"
-msgstr "Estas datas contêm alterações"
-
-#: apps/frontend/src/components/atoms/PublishActions.tsx:100
-msgid "These dates have no changes"
-msgstr "Estas datas não contêm alterações"
 
 #. placeholder {0}: quota.simulatedUsed
 #: apps/frontend/src/components/company/MyQuotaFulfilment.tsx:60
@@ -2490,7 +2490,7 @@ msgstr "Nome da unidade"
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: apps/frontend/src/components/atoms/PublishActions.tsx:68
+#: apps/frontend/src/components/atoms/PublishActions.tsx:63
 msgid "Unpublished"
 msgstr "Não publicado"
 
