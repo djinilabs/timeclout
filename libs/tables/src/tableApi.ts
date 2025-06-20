@@ -407,23 +407,11 @@ export const tableApi = <
           getVersion(parseItem(item, "query"), version)
         );
 
-        const areAnyUnpublished = versionedItems.some(
-          (item) => item.isUnpublished
-        );
-        if (areAnyUnpublished) {
-          console.info("some are unpublished");
-          for (const item of versionedItems) {
-            if (item.isUnpublished) {
-              console.info("unpublished item", item.item);
-            }
-          }
-        }
-
         return {
           items: versionedItems
             .map((item) => item.item)
             .filter(Boolean) as TTableRecord[],
-          areAnyUnpublished,
+          areAnyUnpublished: versionedItems.some((item) => item.isUnpublished),
         };
       } catch (err) {
         console.error("Error querying table", tableName, query, err);
