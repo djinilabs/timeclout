@@ -265,6 +265,7 @@ export type Mutation = {
   deleteTeam: Team;
   deleteUnit: Unit;
   moveShiftPosition: ShiftPosition;
+  publishShiftPositions: Array<ShiftPosition>;
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
   saveTeamMemberQualifications: Team;
@@ -377,6 +378,10 @@ export type MutationMoveShiftPositionArgs = {
   input: MoveShiftPositionInput;
 };
 
+export type MutationPublishShiftPositionsArgs = {
+  input: PublishShiftPositionsInput;
+};
+
 export type MutationRejectLeaveRequestArgs = {
   input: RejectLeaveRequestInput;
 };
@@ -459,6 +464,13 @@ export type MutationUpdateUserSettingsArgs = {
   settings: Scalars["JSON"]["input"];
   teamPk: Scalars["String"]["input"];
   userPk: Scalars["String"]["input"];
+};
+
+export type PublishShiftPositionInput = {
+  endDay: Scalars["String"]["input"];
+  shiftPositionSk: Scalars["String"]["input"];
+  startDay: Scalars["String"]["input"];
+  team: Scalars["String"]["input"];
 };
 
 export type PublishShiftPositionsInput = {

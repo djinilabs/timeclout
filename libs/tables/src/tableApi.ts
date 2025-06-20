@@ -33,26 +33,32 @@ const parsingItem =
 const getVersion = <T extends TableBaseSchemaType>(
   item: T | undefined,
   version?: string | null
-): T | undefined => {
+): {
+  item: T | undefined;
+  isUnpublished: boolean;
+} => {
   if (!version || !item) {
-    return item;
+    return { item, isUnpublished: false };
   }
   if (!version && item.noMainVersion) {
-    return undefined;
+    return { item: undefined, isUnpublished: false };
   }
   const userVersionMeta = item.userVersions?.[version];
   if (userVersionMeta?.deleted) {
-    return undefined;
+    return { item, isUnpublished: true };
   }
   const userVersionProps = userVersionMeta?.newProps;
   if (!userVersionProps) {
-    return item;
+    return { item, isUnpublished: true };
   }
   return {
-    ...keySubset(item),
-    ...userVersionProps,
-    userVersion: version,
-  } as T;
+    item: {
+      ...keySubset(item),
+      ...userVersionProps,
+      userVersion: version,
+    } as T,
+    isUnpublished: true,
+  };
 };
 
 const setVersion = <T extends TableBaseSchemaType>(
@@ -181,7 +187,7 @@ export const tableApi = <
       try {
         const args = keySubset({ pk, sk });
         const item = schema.optional().parse(await lowLevelTable.get(args));
-        return getVersion(item, version);
+        return getVersion(item, version).item;
       } catch (err) {
         console.error("Error getting item", tableName, pk, sk, err);
         throw err;
@@ -203,7 +209,7 @@ export const tableApi = <
           ).Responses
         )[lowLevelTableName];
         return items
-          .map((item) => getVersion(parseItem(item, "batchGet"), version))
+          .map((item) => getVersion(parseItem(item, "batchGet"), version).item)
           .filter(Boolean) as TTableRecord[];
       } catch (err) {
         console.error("Error batch getting items", tableName, keys, err);
@@ -227,10 +233,8 @@ export const tableApi = <
 
         if (version) {
           const newItem = setVersion(previousItem, item, version);
-          return getVersion(
-            await self.update(newItem),
-            version
-          ) as TTableRecord;
+          return getVersion(await self.update(newItem), version)
+            .item as TTableRecord;
         }
 
         const newItem = clean(
@@ -294,10 +298,8 @@ export const tableApi = <
                 "create"
               ) as TTableRecord
             );
-            return getVersion(
-              await self.create(newItem),
-              version
-            ) as TTableRecord;
+            return getVersion(await self.create(newItem), version)
+              .item as TTableRecord;
           }
           // if the record exists, we need to update it
           const newItem = clean({
@@ -309,10 +311,8 @@ export const tableApi = <
               },
             },
           });
-          return getVersion(
-            await self.update(newItem),
-            version
-          ) as TTableRecord;
+          return getVersion(await self.update(newItem), version)
+            .item as TTableRecord;
         }
         const parsedItem = clean(
           parseItem(
@@ -348,10 +348,8 @@ export const tableApi = <
 
         if (version) {
           const newItem = setVersion(existingItem, item, version);
-          return getVersion(
-            await self.upsert(newItem),
-            version
-          ) as TTableRecord;
+          return getVersion(await self.upsert(newItem), version)
+            .item as TTableRecord;
         }
 
         if (existingItem) {
@@ -398,18 +396,14 @@ export const tableApi = <
           lastEvaluatedKey = response.LastEvaluatedKey;
         } while (lastEvaluatedKey);
 
-        let someRemoved = false;
+        const versionedItems = items.map((item) =>
+          getVersion(parseItem(item, "query"), version)
+        );
         return {
-          items: items
-            .map((item) => getVersion(parseItem(item, "query"), version))
-            .filter((item) => {
-              if (!someRemoved && item == null) {
-                someRemoved = true;
-              }
-              return item != null;
-            }) as TTableRecord[],
-          areAnyUnpublished:
-            someRemoved || items.some((item) => item.userVersion != null),
+          items: versionedItems
+            .map((item) => item.item)
+            .filter(Boolean) as TTableRecord[],
+          areAnyUnpublished: versionedItems.some((item) => item.isUnpublished),
         };
       } catch (err) {
         console.error("Error querying table", tableName, query, err);

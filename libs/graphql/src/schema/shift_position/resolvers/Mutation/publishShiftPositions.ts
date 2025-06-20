@@ -1,27 +1,24 @@
 import { database, PERMISSION_LEVELS } from "@/tables";
-import { resourceRef } from "@/utils";
 import type {
   MutationResolvers,
   ShiftPosition,
 } from "./../../../../types.generated";
+import { resourceRef } from "@/utils";
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 import { DayDate } from "@/day-date";
 
-export const unassignShiftPositions: NonNullable<MutationResolvers['unassignShiftPositions']> = async (
-  _parent: unknown,
-  arg: { input: { team: string; startDay: string; endDay: string } },
-  ctx
-) => {
-  const { shift_positions } = await database();
-  const { input } = arg;
+export const publishShiftPositions: NonNullable<
+  MutationResolvers["publishShiftPositions"]
+> = async (_parent, { input }, ctx) => {
   const { team, startDay, endDay } = input;
   const pk = resourceRef("teams", team);
-  const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
+  await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
 
   console.log("unassign shift positions", pk, startDay, endDay);
 
   const endDayDate = new DayDate(endDay);
 
+  const { shift_positions } = await database();
   const { items: positions } = await shift_positions.query(
     {
       KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
@@ -34,17 +31,11 @@ export const unassignShiftPositions: NonNullable<MutationResolvers['unassignShif
     "staging"
   );
 
-  const updatedPositions = await Promise.all(
-    positions.map(async (position) => {
-      if (position.assignedTo) {
-        position.assignedTo = undefined;
-        position.updatedBy = userPk;
-        position.updatedAt = new Date().toISOString();
-        await shift_positions.update(position, "staging");
-      }
-      return position;
-    })
-  );
+  const updatedPositions = [];
+  for (const position of positions) {
+    await shift_positions.merge(position.pk, position.sk, "published");
+    updatedPositions.push(position);
+  }
 
   return updatedPositions as unknown as ShiftPosition[];
 };

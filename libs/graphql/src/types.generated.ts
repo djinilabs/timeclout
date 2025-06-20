@@ -253,6 +253,7 @@ export type Mutation = {
   deleteTeam: Team;
   deleteUnit: Unit;
   moveShiftPosition: ShiftPosition;
+  publishShiftPositions: Array<ShiftPosition>;
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
   saveTeamMemberQualifications: Team;
@@ -388,6 +389,11 @@ export type MutationmoveShiftPositionArgs = {
 };
 
 
+export type MutationpublishShiftPositionsArgs = {
+  input: PublishShiftPositionsInput;
+};
+
+
 export type MutationrejectLeaveRequestArgs = {
   input: RejectLeaveRequestInput;
 };
@@ -486,6 +492,13 @@ export type MutationupdateUserSettingsArgs = {
   settings: Scalars['JSON']['input'];
   teamPk: Scalars['String']['input'];
   userPk: Scalars['String']['input'];
+};
+
+export type PublishShiftPositionInput = {
+  endDay: Scalars['String']['input'];
+  shiftPositionSk: Scalars['String']['input'];
+  startDay: Scalars['String']['input'];
+  team: Scalars['String']['input'];
 };
 
 export type PublishShiftPositionsInput = {
@@ -928,6 +941,7 @@ export type ResolversTypes = {
   MemberQualifications: ResolverTypeWrapper<MemberQualifications>;
   MoveShiftPositionInput: MoveShiftPositionInput;
   Mutation: ResolverTypeWrapper<{}>;
+  PublishShiftPositionInput: PublishShiftPositionInput;
   PublishShiftPositionsInput: PublishShiftPositionsInput;
   Query: ResolverTypeWrapper<{}>;
   QueryShiftPositionsInput: QueryShiftPositionsInput;
@@ -989,6 +1003,7 @@ export type ResolversParentTypes = {
   MemberQualifications: MemberQualifications;
   MoveShiftPositionInput: MoveShiftPositionInput;
   Mutation: {};
+  PublishShiftPositionInput: PublishShiftPositionInput;
   PublishShiftPositionsInput: PublishShiftPositionsInput;
   Query: {};
   QueryShiftPositionsInput: QueryShiftPositionsInput;
@@ -1153,6 +1168,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationdeleteTeamArgs, 'pk'>>;
   deleteUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationdeleteUnitArgs, 'pk'>>;
   moveShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationmoveShiftPositionArgs, 'input'>>;
+  publishShiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<MutationpublishShiftPositionsArgs, 'input'>>;
   rejectLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationrejectLeaveRequestArgs, 'input'>>;
   removeUserFromTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationremoveUserFromTeamArgs, 'teamPk' | 'userPk'>>;
   saveTeamMemberQualifications?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationsaveTeamMemberQualificationsArgs, 'qualifications' | 'teamPk' | 'userPk'>>;
