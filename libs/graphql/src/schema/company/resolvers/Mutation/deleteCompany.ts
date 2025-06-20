@@ -22,7 +22,7 @@ export const deleteCompany: NonNullable<MutationResolvers['deleteCompany']> = as
       ":parentPk": companyRef,
     },
   });
-  if (units.length > 0) {
+  if (units.items.length > 0) {
     throw badData("Company has units, cannot delete");
   }
 

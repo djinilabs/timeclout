@@ -2,6 +2,7 @@ import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
+import { i18n } from "@lingui/core";
 import { Transition } from "@headlessui/react";
 import { getDefined } from "@/utils";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
@@ -28,10 +29,7 @@ import {
 import { useLocalPreference } from "../../hooks/useLocalPreference";
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 import { useSearchParam } from "../../hooks/useSearchParam";
-import {
-  AnalyzedShiftPosition,
-  useAnalyzeTeamShiftsCalendar,
-} from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { toMinutes } from "../../utils/toMinutes";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "../atoms/ShiftPosition";
@@ -48,9 +46,11 @@ import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
 import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
 import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
 import { shiftPositionKey } from "../../utils/shiftPositionKey";
-import { i18n } from "@lingui/core";
 import { useMutation } from "../../hooks/useMutation";
 import toast from "react-hot-toast";
+import { PublishActions } from "../atoms/PublishActions";
+import { PublishShiftPositionsDialog } from "./PublishShiftPositionsDialog";
+import { RevertShiftPositionsDialog } from "./RevertShiftPositionsDialog";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -91,6 +91,8 @@ export const TeamShiftsSchedule = () => {
     return selectedMonth.nextMonth(1).previousDay().fullMonthForwardFill();
   }, [selectedMonth]);
 
+  // ------- shift positions -------
+
   const {
     data: shiftPositionsResult,
     refetch: refetchTeamShiftsQuery,
@@ -105,7 +107,7 @@ export const TeamShiftsSchedule = () => {
   });
 
   const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
-    useTeamShiftsDragAndDrop(shiftPositionsResult);
+    useTeamShiftsDragAndDrop(shiftPositionsResult?.shiftPositions ?? []);
 
   // ------- assign shift positions -------
   // asssign shift positions
@@ -140,7 +142,7 @@ export const TeamShiftsSchedule = () => {
         toast.success(i18n.t("Shift positions assigned successfully"));
       }
     },
-    [assignShiftPositions, teamPk]
+    [assignShiftPositions, teamPk, unassignShiftPosition]
   );
 
   // ------- schedule details -------
@@ -150,12 +152,11 @@ export const TeamShiftsSchedule = () => {
     false
   );
 
-  let shiftPositionsMap: Record<string, AnalyzedShiftPosition[]> =
-    useTeamShiftPositionsMap({
-      draggingShiftPosition,
-      shiftPositionsResult,
-      spillTime: showScheduleDetails,
-    }).shiftPositionsMap;
+  let { shiftPositionsMap } = useTeamShiftPositionsMap({
+    draggingShiftPosition,
+    shiftPositionsResult: shiftPositionsResult?.shiftPositions ?? [],
+    spillTime: showScheduleDetails,
+  });
 
   // ------- focus navigation -------
 
@@ -305,6 +306,16 @@ export const TeamShiftsSchedule = () => {
   );
 
   shiftPositionsMap = analyzedShiftPositionsMap;
+
+  // ------- publish -------
+
+  const onPublishChanges = useCallback(async () => {
+    setIsDialogOpen("publish");
+  }, [setIsDialogOpen]);
+
+  const onRevertToPublished = useCallback(() => {
+    setIsDialogOpen("revert");
+  }, [setIsDialogOpen]);
 
   // ------- render -------
 
@@ -721,13 +732,28 @@ export const TeamShiftsSchedule = () => {
             />
           ),
         },
+        {
+          type: "component",
+          component: (
+            <PublishActions
+              areAnyUnpublished={
+                shiftPositionsResult?.areAnyUnpublished ?? false
+              }
+              onPublishChanges={onPublishChanges}
+              onRevertToPublished={onRevertToPublished}
+            />
+          ),
+        },
       ],
       [
         analyze,
+        onPublishChanges,
+        onRevertToPublished,
         setAnalyze,
         setIsDialogOpen,
         setShowLeaveSchedule,
         setShowScheduleDetails,
+        shiftPositionsResult?.areAnyUnpublished,
         showLeaveSchedule,
         showScheduleDetails,
         team?.resourcePermission,
@@ -787,6 +813,28 @@ export const TeamShiftsSchedule = () => {
         }}
         isHelpPanelOpen={helpPanelOpen}
         setHelpPanelOpen={setHelpPanelOpen}
+        teamPk={getDefined(teamPk)}
+      />
+      <PublishShiftPositionsDialog
+        isDialogOpen={isDialogOpen === "publish"}
+        onClose={() => {
+          setIsDialogOpen(null);
+        }}
+        onPublish={() => {
+          setIsDialogOpen(null);
+          refetchTeamShiftsQuery();
+        }}
+        teamPk={getDefined(teamPk)}
+      />
+      <RevertShiftPositionsDialog
+        isDialogOpen={isDialogOpen === "revert"}
+        onClose={() => {
+          setIsDialogOpen(null);
+        }}
+        onRevert={() => {
+          setIsDialogOpen(null);
+          refetchTeamShiftsQuery();
+        }}
         teamPk={getDefined(teamPk)}
       />
       <TeamShiftsCalendar

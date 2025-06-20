@@ -5,7 +5,10 @@ import shiftPositionsQuery from "@/graphql-client/queries/shiftPositions.graphql
 import { useMemo } from "react";
 
 export interface UseTeamShiftsQueryResult {
-  data: ShiftPosition[];
+  data?: {
+    shiftPositions: ShiftPosition[];
+    areAnyUnpublished: boolean;
+  };
   error?: Error;
   fetching: boolean;
   refetch: () => void;
@@ -27,7 +30,10 @@ export const useTeamShiftsQuery = ({
   pause,
 }: UseTeamShiftsQueryOptions): UseTeamShiftsQueryResult => {
   const [shiftPositionsResult, refetch] = useQuery<{
-    shiftPositions: ShiftPosition[];
+    shiftPositions?: {
+      shiftPositions: ShiftPosition[];
+      areAnyUnpublished: boolean;
+    };
   }>({
     query: shiftPositionsQuery,
     pollingIntervalMs,
@@ -35,13 +41,14 @@ export const useTeamShiftsQuery = ({
       team,
       startDay: startDay?.toString() ?? "",
       endDay: endDay?.toString() ?? "",
+      version: "staging",
     },
     pause: pause || !startDay || !endDay,
   });
 
   return {
     data: useMemo(
-      () => shiftPositionsResult.data?.shiftPositions ?? [],
+      () => shiftPositionsResult.data?.shiftPositions,
       [shiftPositionsResult.data?.shiftPositions]
     ),
     error: shiftPositionsResult.error,

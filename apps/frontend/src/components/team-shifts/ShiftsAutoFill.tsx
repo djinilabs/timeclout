@@ -176,7 +176,7 @@ export const ShiftsAutoFillWithoutParams: FC<
             startDate={startDate}
             endDate={endDate}
             progress={progress}
-            shiftPositions={shiftPositions}
+            shiftPositions={shiftPositions?.shiftPositions}
             onAssignShiftPositions={onAssignShiftPositions}
             canAssignShiftPositions={!isAutoFillRunning}
           />

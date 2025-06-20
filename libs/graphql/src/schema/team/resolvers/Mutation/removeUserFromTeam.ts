@@ -25,7 +25,7 @@ export const removeUserFromTeam: NonNullable<MutationResolvers['removeUserFromTe
   const unitPk = getDefined(team.parentPk, "Team must have a parent unit");
 
   // Get all teams in the unit to check if user belongs to any other team
-  const teamsInUnit = await entity.query({
+  const { items: teamsInUnit } = await entity.query({
     IndexName: "byParentPk",
     KeyConditionExpression: "parentPk = :parentPk",
     ExpressionAttributeValues: {
@@ -56,7 +56,7 @@ export const removeUserFromTeam: NonNullable<MutationResolvers['removeUserFromTe
       getDefined(unit?.parentPk, "Unit must have a parent company")
     );
     if (company) {
-      const unitsInCompany = await entity.query({
+      const { items: unitsInCompany } = await entity.query({
         IndexName: "byParentPk",
         KeyConditionExpression: "parentPk = :parentPk",
         ExpressionAttributeValues: {

@@ -16,14 +16,15 @@ export const assignShiftPositions = async (
       const { shiftPositionId, workerPk } = assignment;
       const position = await shift_positions.get(
         getResourceRef(teamPk, "teams"),
-        shiftPositionId
+        shiftPositionId,
+        "staging"
       );
       if (!position) {
         throw notFound(`Shift position ${shiftPositionId} not found`);
       }
       position.assignedTo = getResourceRef(workerPk, "users");
       position.updatedBy = actorPk;
-      await shift_positions.update(position);
+      await shift_positions.update(position, "staging");
       return position;
     })
   );

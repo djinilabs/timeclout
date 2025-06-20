@@ -14,9 +14,13 @@ export const deleteShiftPosition: NonNullable<MutationResolvers['deleteShiftPosi
   const { pk: team, sk } = input;
   const pk = getResourceRef(team, "teams");
   await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
-  const shiftPosition = await shift_positions.get(pk, sk);
+  const shiftPosition = await shift_positions.get(pk, sk, "staging");
   if (!shiftPosition) {
     throw notFound("Shift position not found");
   }
-  return shift_positions.delete(pk, sk) as unknown as Promise<ShiftPosition>;
+  return shift_positions.delete(
+    pk,
+    sk,
+    "staging"
+  ) as unknown as Promise<ShiftPosition>;
 };

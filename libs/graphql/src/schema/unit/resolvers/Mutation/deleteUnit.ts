@@ -20,7 +20,7 @@ export const deleteUnit: NonNullable<MutationResolvers['deleteUnit']> = async (
   }
 
   // make sure no teams are in this unit
-  const teams = await entity.query({
+  const { items: teams } = await entity.query({
     IndexName: "byParentPk",
     KeyConditionExpression: "parentPk = :parentPk",
     ExpressionAttributeValues: {

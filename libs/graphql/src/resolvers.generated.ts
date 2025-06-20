@@ -43,8 +43,10 @@ import    { deleteShiftPosition as Mutation_deleteShiftPosition } from './schema
 import    { deleteTeam as Mutation_deleteTeam } from './schema/team/resolvers/Mutation/deleteTeam';
 import    { deleteUnit as Mutation_deleteUnit } from './schema/unit/resolvers/Mutation/deleteUnit';
 import    { moveShiftPosition as Mutation_moveShiftPosition } from './schema/shift_position/resolvers/Mutation/moveShiftPosition';
+import    { publishShiftPositions as Mutation_publishShiftPositions } from './schema/shift_position/resolvers/Mutation/publishShiftPositions';
 import    { rejectLeaveRequest as Mutation_rejectLeaveRequest } from './schema/leave_request/resolvers/Mutation/rejectLeaveRequest';
 import    { removeUserFromTeam as Mutation_removeUserFromTeam } from './schema/team/resolvers/Mutation/removeUserFromTeam';
+import    { revertShiftPositions as Mutation_revertShiftPositions } from './schema/shift_position/resolvers/Mutation/revertShiftPositions';
 import    { saveTeamMemberQualifications as Mutation_saveTeamMemberQualifications } from './schema/team/resolvers/Mutation/saveTeamMemberQualifications';
 import    { unassignShiftPosition as Mutation_unassignShiftPosition } from './schema/shift_position/resolvers/Mutation/unassignShiftPosition';
 import    { unassignShiftPositions as Mutation_unassignShiftPositions } from './schema/shift_position/resolvers/Mutation/unassignShiftPositions';
@@ -70,6 +72,7 @@ import    { Invitation } from './schema/invitation/resolvers/Invitation';
 import    { Leave } from './schema/leave/resolvers/Leave';
 import    { LeaveRequest } from './schema/leave_request/resolvers/LeaveRequest';
 import    { MemberQualifications } from './schema/team/resolvers/MemberQualifications';
+import    { QueryShiftPositionsOutput } from './schema/shift_position/resolvers/QueryShiftPositionsOutput';
 import    { QuotaFulfilment } from './schema/leave/resolvers/QuotaFulfilment';
 import    { Schedule } from './schema/schedule/resolvers/Schedule';
 import    { ShiftPosition } from './schema/shift_position/resolvers/ShiftPosition';
@@ -82,7 +85,7 @@ import    { UserSchedule } from './schema/schedule/resolvers/UserSchedule';
 import    { DateResolver,DateTimeResolver,JSONResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
       Query: { allTeams: Query_allTeams,assignableTeamMembers: Query_assignableTeamMembers,companies: Query_companies,company: Query_company,invitation: Query_invitation,invitationsTo: Query_invitationsTo,latestAppVersion: Query_latestAppVersion,leaveRequest: Query_leaveRequest,me: Query_me,memberQuotaFulfilment: Query_memberQuotaFulfilment,myInvitations: Query_myInvitations,myLeaveCalendar: Query_myLeaveCalendar,myLeaveRequests: Query_myLeaveRequests,myQuotaFulfilment: Query_myQuotaFulfilment,pendingLeaveRequests: Query_pendingLeaveRequests,shiftPositions: Query_shiftPositions,shiftsAutoFillParams: Query_shiftsAutoFillParams,team: Query_team,teamMember: Query_teamMember,unit: Query_unit,units: Query_units },
-      Mutation: { acceptInvitation: Mutation_acceptInvitation,approveLeaveRequest: Mutation_approveLeaveRequest,assignShiftPositions: Mutation_assignShiftPositions,copyShiftPosition: Mutation_copyShiftPosition,createCompany: Mutation_createCompany,createInvitation: Mutation_createInvitation,createLeaveRequest: Mutation_createLeaveRequest,createLeaveRequestForUser: Mutation_createLeaveRequestForUser,createShiftPosition: Mutation_createShiftPosition,createSingleDayLeaveRequests: Mutation_createSingleDayLeaveRequests,createSingleDayLeaveRequestsForUser: Mutation_createSingleDayLeaveRequestsForUser,createTeam: Mutation_createTeam,createTeamMember: Mutation_createTeamMember,createUnit: Mutation_createUnit,deleteCompany: Mutation_deleteCompany,deleteInvitation: Mutation_deleteInvitation,deleteLeave: Mutation_deleteLeave,deleteLeaveRequest: Mutation_deleteLeaveRequest,deleteShiftPosition: Mutation_deleteShiftPosition,deleteTeam: Mutation_deleteTeam,deleteUnit: Mutation_deleteUnit,moveShiftPosition: Mutation_moveShiftPosition,rejectLeaveRequest: Mutation_rejectLeaveRequest,removeUserFromTeam: Mutation_removeUserFromTeam,saveTeamMemberQualifications: Mutation_saveTeamMemberQualifications,unassignShiftPosition: Mutation_unassignShiftPosition,unassignShiftPositions: Mutation_unassignShiftPositions,updateCompany: Mutation_updateCompany,updateCompanySettings: Mutation_updateCompanySettings,updateLeaveRequest: Mutation_updateLeaveRequest,updateMe: Mutation_updateMe,updateMySettings: Mutation_updateMySettings,updateShiftPosition: Mutation_updateShiftPosition,updateTeam: Mutation_updateTeam,updateTeamMember: Mutation_updateTeamMember,updateTeamSettings: Mutation_updateTeamSettings,updateUnit: Mutation_updateUnit,updateUnitSettings: Mutation_updateUnitSettings,updateUserSettings: Mutation_updateUserSettings },
+      Mutation: { acceptInvitation: Mutation_acceptInvitation,approveLeaveRequest: Mutation_approveLeaveRequest,assignShiftPositions: Mutation_assignShiftPositions,copyShiftPosition: Mutation_copyShiftPosition,createCompany: Mutation_createCompany,createInvitation: Mutation_createInvitation,createLeaveRequest: Mutation_createLeaveRequest,createLeaveRequestForUser: Mutation_createLeaveRequestForUser,createShiftPosition: Mutation_createShiftPosition,createSingleDayLeaveRequests: Mutation_createSingleDayLeaveRequests,createSingleDayLeaveRequestsForUser: Mutation_createSingleDayLeaveRequestsForUser,createTeam: Mutation_createTeam,createTeamMember: Mutation_createTeamMember,createUnit: Mutation_createUnit,deleteCompany: Mutation_deleteCompany,deleteInvitation: Mutation_deleteInvitation,deleteLeave: Mutation_deleteLeave,deleteLeaveRequest: Mutation_deleteLeaveRequest,deleteShiftPosition: Mutation_deleteShiftPosition,deleteTeam: Mutation_deleteTeam,deleteUnit: Mutation_deleteUnit,moveShiftPosition: Mutation_moveShiftPosition,publishShiftPositions: Mutation_publishShiftPositions,rejectLeaveRequest: Mutation_rejectLeaveRequest,removeUserFromTeam: Mutation_removeUserFromTeam,revertShiftPositions: Mutation_revertShiftPositions,saveTeamMemberQualifications: Mutation_saveTeamMemberQualifications,unassignShiftPosition: Mutation_unassignShiftPosition,unassignShiftPositions: Mutation_unassignShiftPositions,updateCompany: Mutation_updateCompany,updateCompanySettings: Mutation_updateCompanySettings,updateLeaveRequest: Mutation_updateLeaveRequest,updateMe: Mutation_updateMe,updateMySettings: Mutation_updateMySettings,updateShiftPosition: Mutation_updateShiftPosition,updateTeam: Mutation_updateTeam,updateTeamMember: Mutation_updateTeamMember,updateTeamSettings: Mutation_updateTeamSettings,updateUnit: Mutation_updateUnit,updateUnitSettings: Mutation_updateUnitSettings,updateUserSettings: Mutation_updateUserSettings },
       
       AutoFillSlot: AutoFillSlot,
 AutoFillSlotWorker: AutoFillSlotWorker,
@@ -94,6 +97,7 @@ Invitation: Invitation,
 Leave: Leave,
 LeaveRequest: LeaveRequest,
 MemberQualifications: MemberQualifications,
+QueryShiftPositionsOutput: QueryShiftPositionsOutput,
 QuotaFulfilment: QuotaFulfilment,
 Schedule: Schedule,
 ShiftPosition: ShiftPosition,

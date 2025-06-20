@@ -14,7 +14,7 @@ export const invitation: NonNullable<QueryResolvers['invitation']> = async (
   ctx
 ) => {
   const { invitation } = await database();
-  const invitations = await invitation.query({
+  const { items: invitations } = await invitation.query({
     IndexName: "bySecret",
     KeyConditionExpression: "secret = :secret",
     ExpressionAttributeValues: {

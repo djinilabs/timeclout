@@ -13,6 +13,7 @@ type ShiftPosition {
   requiredSkills: [String!]!
   schedules: [ShiftPositionSchedule!]!
   assignedTo: User
+  userVersion: String
 }
 
 input ShiftPositionScheduleInput {
@@ -84,6 +85,20 @@ input AssignableTeamMembersInput {
   teamPk: String!
 }
 
+input PublishShiftPositionInput {
+  team: String!
+  shiftPositionSk: String!
+  startDay: String!
+  endDay: String!
+}
+
+input RevertShiftPositionsInput {
+  team: String!
+  startDay: String!
+  endDay: String!
+  version: String!
+}
+
 extend type Mutation {
   createShiftPosition(input: CreateShiftPositionInput!): ShiftPosition!
   moveShiftPosition(input: MoveShiftPositionInput!): ShiftPosition!
@@ -92,15 +107,23 @@ extend type Mutation {
   deleteShiftPosition(input: DeleteShiftPositionInput!): ShiftPosition!
   unassignShiftPositions(input: UnassignShiftPositionsInput!): [ShiftPosition!]!
   unassignShiftPosition(input: UnassignShiftPositionInput!): ShiftPosition!
+  publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
+  revertShiftPositions(input: RevertShiftPositionsInput!): [ShiftPosition!]!
 }
 
 input QueryShiftPositionsInput {
   team: String!
   startDay: String!
   endDay: String!
+  version: String
+}
+
+type QueryShiftPositionsOutput {
+  shiftPositions: [ShiftPosition!]!
+  areAnyUnpublished: Boolean!
 }
 
 extend type Query {
-  shiftPositions(input: QueryShiftPositionsInput!): [ShiftPosition!]!
+  shiftPositions(input: QueryShiftPositionsInput!): QueryShiftPositionsOutput!
   assignableTeamMembers(input: AssignableTeamMembersInput!): [User!]!
 }

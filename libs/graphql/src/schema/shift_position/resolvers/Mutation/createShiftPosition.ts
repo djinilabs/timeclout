@@ -30,6 +30,6 @@ export const createShiftPosition: NonNullable<MutationResolvers['createShiftPosi
     replaces: undefined,
   };
   console.log("shiftPosition:", shiftPosition);
-  await shift_positions.create(shiftPosition);
+  await shift_positions.create(shiftPosition, "staging");
   return shiftPosition as unknown as ShiftPosition;
 };

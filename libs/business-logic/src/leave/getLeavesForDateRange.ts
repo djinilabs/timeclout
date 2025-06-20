@@ -9,12 +9,14 @@ export const getLeavesForDateRange = async (
   endDate: DayDate
 ): Promise<LeaveRecord[]> => {
   const { leave } = await database();
-  return leave.query({
-    KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDate AND :endDate",
-    ExpressionAttributeValues: {
-      ":pk": `${companyRef}/${userRef}`,
-      ":startDate": startDate.toString(),
-      ":endDate": endDate.toString(),
-    },
-  });
+  return (
+    await leave.query({
+      KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDate AND :endDate",
+      ExpressionAttributeValues: {
+        ":pk": `${companyRef}/${userRef}`,
+        ":startDate": startDate.toString(),
+        ":endDate": endDate.toString(),
+      },
+    })
+  ).items;
 };

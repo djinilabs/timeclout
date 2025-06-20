@@ -13,12 +13,12 @@ export const moveShiftPosition: NonNullable<MutationResolvers['moveShiftPosition
   const { pk: team, sk, day } = input;
   const pk = getResourceRef(team, "teams");
   const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
-  const shiftPosition = await shift_positions.get(pk, sk);
+  const shiftPosition = await shift_positions.get(pk, sk, "staging");
   if (!shiftPosition) {
     throw new Error("Shift position not found");
   }
+  await shift_positions.delete(pk, sk, "staging");
   const newSk = `${day}/${nanoid()}`;
-  await shift_positions.delete(pk, sk);
   const newShiftPosition = {
     ...shiftPosition,
     sk: newSk,
@@ -26,5 +26,12 @@ export const moveShiftPosition: NonNullable<MutationResolvers['moveShiftPosition
     updatedBy: userPk,
     updatedAt: new Date().toISOString(),
   };
-  return shift_positions.create(newShiftPosition) as unknown as ShiftPosition;
+  console.log(
+    "moveShiftPosition: creating new ShiftPosition",
+    JSON.stringify(newShiftPosition, null, 2)
+  );
+  return shift_positions.create(
+    newShiftPosition,
+    "staging"
+  ) as unknown as ShiftPosition;
 };

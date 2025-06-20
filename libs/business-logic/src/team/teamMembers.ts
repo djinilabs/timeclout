@@ -4,7 +4,7 @@ export const teamMembers = async (
   teamId: ResourceRef<"teams">
 ): Promise<ResourceRef<"users">[]> => {
   const { permission } = await database();
-  const permissions = await permission.query({
+  const { items: permissions } = await permission.query({
     KeyConditionExpression: "pk = :pk",
     ExpressionAttributeValues: {
       ":pk": teamId,

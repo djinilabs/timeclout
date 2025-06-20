@@ -265,8 +265,10 @@ export type Mutation = {
   deleteTeam: Team;
   deleteUnit: Unit;
   moveShiftPosition: ShiftPosition;
+  publishShiftPositions: Array<ShiftPosition>;
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
+  revertShiftPositions: Array<ShiftPosition>;
   saveTeamMemberQualifications: Team;
   unassignShiftPosition: ShiftPosition;
   unassignShiftPositions: Array<ShiftPosition>;
@@ -377,6 +379,10 @@ export type MutationMoveShiftPositionArgs = {
   input: MoveShiftPositionInput;
 };
 
+export type MutationPublishShiftPositionsArgs = {
+  input: PublishShiftPositionsInput;
+};
+
 export type MutationRejectLeaveRequestArgs = {
   input: RejectLeaveRequestInput;
 };
@@ -384,6 +390,10 @@ export type MutationRejectLeaveRequestArgs = {
 export type MutationRemoveUserFromTeamArgs = {
   teamPk: Scalars["String"]["input"];
   userPk: Scalars["String"]["input"];
+};
+
+export type MutationRevertShiftPositionsArgs = {
+  input: RevertShiftPositionsInput;
 };
 
 export type MutationSaveTeamMemberQualificationsArgs = {
@@ -461,6 +471,13 @@ export type MutationUpdateUserSettingsArgs = {
   userPk: Scalars["String"]["input"];
 };
 
+export type PublishShiftPositionInput = {
+  endDay: Scalars["String"]["input"];
+  shiftPositionSk: Scalars["String"]["input"];
+  startDay: Scalars["String"]["input"];
+  team: Scalars["String"]["input"];
+};
+
 export type PublishShiftPositionsInput = {
   endDay: Scalars["String"]["input"];
   startDay: Scalars["String"]["input"];
@@ -484,7 +501,7 @@ export type Query = {
   myLeaveRequests: Array<LeaveRequest>;
   myQuotaFulfilment: Array<QuotaFulfilment>;
   pendingLeaveRequests: Array<LeaveRequest>;
-  shiftPositions: Array<ShiftPosition>;
+  shiftPositions: QueryShiftPositionsOutput;
   shiftsAutoFillParams: ShiftsAutoFillParams;
   team: Team;
   teamMember: User;
@@ -569,6 +586,13 @@ export type QueryShiftPositionsInput = {
   endDay: Scalars["String"]["input"];
   startDay: Scalars["String"]["input"];
   team: Scalars["String"]["input"];
+  version?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type QueryShiftPositionsOutput = {
+  __typename?: "QueryShiftPositionsOutput";
+  areAnyUnpublished: Scalars["Boolean"]["output"];
+  shiftPositions: Array<ShiftPosition>;
 };
 
 export type QuotaFulfilment = {
@@ -587,6 +611,13 @@ export type QuotaFulfilment = {
 export type RejectLeaveRequestInput = {
   pk: Scalars["String"]["input"];
   sk: Scalars["String"]["input"];
+};
+
+export type RevertShiftPositionsInput = {
+  endDay: Scalars["String"]["input"];
+  startDay: Scalars["String"]["input"];
+  team: Scalars["String"]["input"];
+  version: Scalars["String"]["input"];
 };
 
 export type Schedule = {
@@ -608,6 +639,7 @@ export type ShiftPosition = {
   requiredSkills: Array<Scalars["String"]["output"]>;
   schedules: Array<ShiftPositionSchedule>;
   sk: Scalars["String"]["output"];
+  userVersion?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type ShiftPositionAssignmentInput = {

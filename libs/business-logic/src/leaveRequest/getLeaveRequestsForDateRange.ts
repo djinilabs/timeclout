@@ -25,10 +25,12 @@ export const getLeaveRequestsForDateRange = async (
     filterExpression += " AND approved = :approved";
     expressionAttributeValues[":approved"] = approved;
   }
-  return leave_request.query({
-    IndexName: "byPkAndStartDate",
-    KeyConditionExpression: "pk = :pk AND startDate <= :endDate",
-    FilterExpression: filterExpression,
-    ExpressionAttributeValues: expressionAttributeValues,
-  });
+  return (
+    await leave_request.query({
+      IndexName: "byPkAndStartDate",
+      KeyConditionExpression: "pk = :pk AND startDate <= :endDate",
+      FilterExpression: filterExpression,
+      ExpressionAttributeValues: expressionAttributeValues,
+    })
+  ).items;
 };

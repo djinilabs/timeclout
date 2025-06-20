@@ -19,7 +19,7 @@ export const removeLeaveRequest = async ({
     },
   });
 
-  for (const l of leaves) {
+  for (const l of leaves.items) {
     await leave.delete(l.pk, l.sk);
   }
 };

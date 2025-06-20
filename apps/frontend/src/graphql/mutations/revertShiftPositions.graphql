@@ -1,5 +1,5 @@
-mutation UnassignShiftPosition($input: UnassignShiftPositionInput!) {
-  unassignShiftPosition(input: $input) {
+mutation revertShiftPositions($input: RevertShiftPositionsInput!) {
+  revertShiftPositions(input: $input) {
     pk
     sk
     day

@@ -188,6 +188,15 @@ declare module '@/graphql-client/queries/moveShiftPosition.graphql' {
 }
     
 
+declare module '@/graphql-client/queries/publishShiftPositions.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const publishShiftPositions: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/queries/rejectLeaveRequest.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -201,6 +210,15 @@ declare module '@/graphql-client/queries/removeUserFromTeam.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const removeUserFromTeam: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '@/graphql-client/queries/revertShiftPositions.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const revertShiftPositions: DocumentNode;
 
   export default defaultDocument;
 }

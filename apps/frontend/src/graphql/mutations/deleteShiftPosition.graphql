@@ -3,7 +3,10 @@ mutation DeleteShiftPosition($input: DeleteShiftPositionInput!) {
     pk
     sk
     day
+    name
+    color
     requiredSkills
+    userVersion
     schedules {
       startHourMinutes
       endHourMinutes

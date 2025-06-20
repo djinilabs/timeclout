@@ -34,7 +34,7 @@ export const getTeamShiftsIcal = async (teamId: string): Promise<string> => {
 
   const users = await userCache();
 
-  for (const shift of shifts) {
+  for (const shift of shifts.items) {
     const event = await icalEventFromShift(shift, users);
     if (event) {
       calendar.createEvent(event);

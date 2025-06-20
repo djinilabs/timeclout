@@ -14,6 +14,56 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:69
+msgid "Shift positions reverted successfully"
+msgstr "Posições de turno revertidas com sucesso"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:117
+msgid "Select date range for reverting shift positions"
+msgstr "Seleccione o intervalo de datas dentro do qual deseja reverter as alterações às posições de turno"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:123
+msgid "Revert shift actions"
+msgstr "Accções relacionadas com a reversão de posições de turno"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:128
+msgid "Cancel reverting shift positions"
+msgstr "Cancelar a reversão de posições de turno"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:135
+msgid "Revert shift positions for selected date range"
+msgstr "Reverter as posições de turno para o intervalo de datas seleccionado"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:68
+msgid "Shift positions published successfully"
+msgstr "Posições de turno publicadas com sucesso"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:116
+msgid "Select date range for publishing shift positions"
+msgstr "Seleccione intervalo de datas no qual reverter as alterações às posições de turno"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:124
+msgid "Publish shift actions"
+msgstr "Accções relativas à publicação de posições de turno"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:129
+msgid "Cancel publishing shift positions"
+msgstr "Cancelar a publicação de posições de turno"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:136
+msgid "Publish shift positions for selected date range"
+msgstr "Publicar as posições de turno para o intervalo de datas seleccionado"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -608,30 +658,30 @@ msgid "Unassign shift positions for selected date range"
 msgstr "Remover atribuições de posição de turno para o intervalo de datas seleccionado"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:127
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:129
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:152
 msgid "Shift position unassigned successfully"
 msgstr "Atribuições de posição de turno removidas com sucesso"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:140
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:142
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:129
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:168
 msgid "Shift positions assigned successfully"
 msgstr "Posições de turno atribuídas com sucesso"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:664
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:675
 msgid "Add new shift position"
 msgstr "Adicionar nova posição de turno"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:674
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:685
 msgid "Auto fill shift positions"
 msgstr "Auto-preencher posições de turno"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:683
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:694
 msgid "Unassign shift positions"
 msgstr "Remover atribuições de posição de turno"
 
@@ -1138,68 +1188,68 @@ msgid "Unit deleted successfully"
 msgstr "Unidade removida com sucesso"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:233
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:41
 msgid "Shift options menu"
 msgstr "Menu de opções de turno"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:247
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:58
 msgid "Edit shift"
 msgstr "Alterar turno"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:263
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:72
 msgid "Copy shift"
 msgstr "Copiar turno"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:280
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:313
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:326
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:89
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:117
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:130
 msgid "Paste shift here"
 msgstr "Colar turno aqui"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:300
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:106
 msgid "Delete shift"
 msgstr "Remover turno"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:372
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:375
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:245
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:248
 msgid "Leave conflict detected"
 msgstr "Detetado conflito com ausência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:382
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:388
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:255
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:261
 msgid "Maximum interval between shifts rule violated"
 msgstr "Regra de intervalo máximo entre turnos violada"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:397
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:403
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:270
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:276
 msgid "Minimum number of shifts per week in standard workday rule violated"
 msgstr "Violação da regra de número mínimo de turnos durante a semana de trabalho"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:412
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:418
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:285
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:291
 msgid "Minimum rest slots after shift rule violated"
 msgstr "Violação da regra de horas de descanso depois de turno"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:461
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:334
 msgid "Inconvenience Equality Deviation"
 msgstr "Desvio da Igualdade de Inconveniência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:473
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:346
 msgid "Slot Equality Deviation"
 msgstr "Desvio da Igualdade de número de Posições atribuidas"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:486
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:359
 msgid "Slot Proximity Equality Deviation"
 msgstr "Desvio da Igualdade de Proximidade"
 
@@ -1209,6 +1259,16 @@ msgstr "Desvio da Igualdade de Proximidade"
 #: apps/frontend/src/components/atoms/SelectUser.tsx:76
 msgid "Please select a user"
 msgstr "Por favor seleccione um membro"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PublishActions.tsx:39
+msgid "Unpublished"
+msgstr "Não publicado"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PublishActions.tsx:39
+msgid "Published"
+msgstr "Publicado"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/PermissionInput.tsx:18
@@ -1275,7 +1335,7 @@ msgstr "Adicionar um gerente"
 msgid "Add a new team member to the team."
 msgstr "Adicionar um novo membro à equipa."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:663
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:674
 msgid "Add position"
 msgstr "Adicionar posição"
 
@@ -1307,7 +1367,11 @@ msgstr "Ajuste estes parâmetros para controlar como a atribuição automática 
 msgid "All employees"
 msgstr "Todos os funcionários"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:717
+#: apps/frontend/src/components/atoms/PublishActions.tsx:98
+msgid "All positions in these dates have no changes"
+msgstr "Todas as posições nestas datas não têm alterações"
+
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:728
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:376
 msgid "Analyze"
 msgstr "Analisar"
@@ -1354,6 +1418,12 @@ msgstr "Tem a certeza de que deseja remover as posições de turno seleccionadas
 msgid "Are you sure you want to delete this leave type? This change is not reversible."
 msgstr "Tem a certeza de que deseja remover este tipo de ausência? Esta alteração não é reversível."
 
+#. placeholder {0}: dateRange.from.toHumanString()
+#. placeholder {1}: dateRange.to.toHumanString()
+#: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:49
+msgid "Are you sure you want to publish the shift positions for this team between {0} and {1}?"
+msgstr "Tem a certeza de que deseja publicar as alterações às posições de turno entre {0} e {1}?"
+
 #: apps/frontend/src/components/LeaveRequest.tsx:84
 msgid "Are you sure you want to remove this leave request?"
 msgstr "Tem a certeza de que desejar remover este pedido de ausência?"
@@ -1361,6 +1431,12 @@ msgstr "Tem a certeza de que desejar remover este pedido de ausência?"
 #: apps/frontend/src/components/team/TeamMembers.tsx:198
 msgid "Are you sure you want to remove this user from the team?"
 msgstr "Tem a certeza de que deseja remover este membro da equipa?"
+
+#. placeholder {0}: dateRange.from.toHumanString()
+#. placeholder {1}: dateRange.to.toHumanString()
+#: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:49
+msgid "Are you sure you want to revert the changes made to the shift positions for this team between {0} and {1}?"
+msgstr "Tem a certeza de que deseja reverter as alterações feitas às posições de turno para esta equipa entre {0} e {1}?"
 
 #: apps/frontend/src/components/team/TeamInvites.tsx:115
 msgid "Are you sure you want to revoke this invitation?"
@@ -1372,7 +1448,7 @@ msgstr "Tem a certeza de que deseja remover este convite?"
 msgid "Are you sure you want to unassign the shift positions between {0} and {1}?"
 msgstr "Tem a certeza de que deseja remover as atribuições de posição de turnos entre {0} e {1}?"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:331
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:135
 msgid "Assign"
 msgstr "Atribuir"
 
@@ -1401,7 +1477,7 @@ msgstr "Atenção necessária"
 msgid "August"
 msgstr "Agosto"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:673
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:684
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillDialog.tsx:32
 msgid "Auto fill"
 msgstr "Auto preenchimento"
@@ -1435,6 +1511,8 @@ msgstr "Subscrições de calendário"
 #: apps/frontend/src/components/LeaveRequest.tsx:117
 #: apps/frontend/src/components/InviteToTeam.tsx:147
 #: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:129
+#: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:130
+#: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:131
 #: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:554
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:307
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:360
@@ -1479,7 +1557,7 @@ msgstr "Conflito(s) enquanto pesquisando por solução"
 msgid "Contact our customer service team at"
 msgstr "Contactar o nosso serviço de apoio ao cliente em"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:265
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:74
 msgid "Copy"
 msgstr "Copiar"
 
@@ -1565,6 +1643,8 @@ msgstr "Criado por"
 
 #: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:94
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:67
+#: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:97
+#: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:96
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:267
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:343
 msgid "Date range"
@@ -1589,11 +1669,11 @@ msgstr "Cota anual padrão (dias)"
 
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:132
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:199
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:302
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:108
 msgid "Delete"
 msgstr "Eliminar"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:706
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:717
 msgid "Details"
 msgstr "Detalhes"
 
@@ -1606,7 +1686,7 @@ msgstr "Agendamentos descartados"
 #: apps/frontend/src/components/team/TeamMembers.tsx:182
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:126
 #: apps/frontend/src/components/company/AllCompanyUnits.tsx:167
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:249
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:60
 msgid "Edit"
 msgstr "Editar"
 
@@ -1645,11 +1725,11 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:754
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:780
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:741
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:767
 msgid "Error loading calendar data. Please refresh to try again."
 msgstr "Erro a carregar dados do calendário. Por favor refresque para tentar outra vez."
 
@@ -1854,7 +1934,7 @@ msgstr "Tipo de ausência \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "Pedido de ausência não encontrado"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:695
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:706
 msgid "Leaves"
 msgstr "Ausências"
 
@@ -1866,7 +1946,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:750
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:776
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -2005,7 +2085,7 @@ msgstr "Abrir menu de utilizador"
 msgid "Out of Office"
 msgstr "Fora de Escritório"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:282
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:91
 msgid "Paste here"
 msgstr "Colar aqui"
 
@@ -2044,6 +2124,28 @@ msgstr "Ano anterior"
 msgid "Professional name"
 msgstr "Nome profissional"
 
+#: apps/frontend/src/components/atoms/PublishActions.tsx:72
+msgid "Publish changes"
+msgstr "Publicar alterações"
+
+#: apps/frontend/src/components/team-shifts/PublishShiftPositionsDialog.tsx:23
+msgid "Publish shift positions"
+msgstr "Publicar posições de turno"
+
+#: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:89
+msgid "Publish Shift Positions"
+msgstr "Publicar posições de turno"
+
+#. placeholder {0}: dateRange.from.toHumanString()
+#. placeholder {1}: dateRange.to.toHumanString()
+#: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:139
+msgid "Publish shift positions from {0} to {1}"
+msgstr "Publicar posições de turno de {0} a {1}"
+
+#: apps/frontend/src/components/atoms/PublishActions.tsx:91
+msgid "Published"
+msgstr "Publicado"
+
 #: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:316
 msgid "Qualifications"
 msgstr "Qualificações"
@@ -2053,7 +2155,7 @@ msgstr "Qualificações"
 msgid "Reason"
 msgstr "Motivo"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:329
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:133
 msgid "Reassign"
 msgstr "Reatribuir"
 
@@ -2130,6 +2232,24 @@ msgstr "Reiniciar mês"
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:114
 msgid "Respect leave schedule"
 msgstr "Respeitar o calendário de ausências"
+
+#: apps/frontend/src/components/team-shifts/RevertShiftPositionsDialog.tsx:23
+msgid "Revert shift positions"
+msgstr "Reverter posições de turno"
+
+#: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:90
+msgid "Revert Shift Positions"
+msgstr "Reverter posições de turno"
+
+#. placeholder {0}: dateRange.from.toHumanString()
+#. placeholder {1}: dateRange.to.toHumanString()
+#: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:138
+msgid "Revert shift positions from {0} to {1}"
+msgstr "Reverter posições de turno entre {0} e {1}"
+
+#: apps/frontend/src/components/atoms/PublishActions.tsx:78
+msgid "Revert to published"
+msgstr "Reverter para publicado"
 
 #: apps/frontend/src/components/team/TeamInvites.tsx:131
 msgid "Revoke Invitation"
@@ -2299,6 +2419,10 @@ msgstr "Pontuações desta solução"
 msgid "Solutions"
 msgstr "Soluções"
 
+#: apps/frontend/src/components/atoms/PublishActions.tsx:70
+msgid "Some of the positions in these dates have changes"
+msgstr "Algumas das posições nestas datas têm alterações"
+
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillProgress.tsx:95
 msgid "Some solutions have been discarded because of the following reasons:"
 msgstr "Algumas soluções foram descartadas por causa dos seguintes motivos:"
@@ -2426,11 +2550,11 @@ msgstr "er"
 msgid "un for Sunday"
 msgstr "om"
 
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:315
+#: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:119
 msgid "Unassign"
 msgstr "Remover atribuição"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:682
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:693
 msgid "Unassign positions"
 msgstr "Remover atribuições de posição"
 
@@ -2459,6 +2583,10 @@ msgstr "Nome da unidade"
 #: apps/frontend/src/components/team/TeamInvites.tsx:85
 msgid "Unknown"
 msgstr "Desconhecido"
+
+#: apps/frontend/src/components/atoms/PublishActions.tsx:63
+msgid "Unpublished"
+msgstr "Não publicado"
 
 #: apps/frontend/src/components/molecules/CheckLatestAppVersion.tsx:26
 msgid "Update now"

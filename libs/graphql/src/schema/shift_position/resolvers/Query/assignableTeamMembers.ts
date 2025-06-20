@@ -12,7 +12,8 @@ export const assignableTeamMembers: NonNullable<QueryResolvers['assignableTeamMe
   const { shift_positions } = await database();
   const shiftPosition = await shift_positions.get(
     shiftPositionPk,
-    shiftPositionSk
+    shiftPositionSk,
+    "staging"
   );
   if (!shiftPosition) {
     throw notFound("Shift position not found");

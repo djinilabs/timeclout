@@ -22,14 +22,17 @@ export const unassignShiftPositions: NonNullable<MutationResolvers['unassignShif
 
   const endDayDate = new DayDate(endDay);
 
-  const positions = await shift_positions.query({
-    KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
-    ExpressionAttributeValues: {
-      ":pk": pk,
-      ":startDay": startDay,
-      ":endDay": endDayDate.nextDay().toString(),
+  const { items: positions } = await shift_positions.query(
+    {
+      KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
+      ExpressionAttributeValues: {
+        ":pk": pk,
+        ":startDay": startDay,
+        ":endDay": endDayDate.nextDay().toString(),
+      },
     },
-  });
+    "staging"
+  );
 
   const updatedPositions = await Promise.all(
     positions.map(async (position) => {
@@ -37,7 +40,7 @@ export const unassignShiftPositions: NonNullable<MutationResolvers['unassignShif
         position.assignedTo = undefined;
         position.updatedBy = userPk;
         position.updatedAt = new Date().toISOString();
-        await shift_positions.update(position);
+        await shift_positions.update(position, "staging");
       }
       return position;
     })

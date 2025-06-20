@@ -221,8 +221,10 @@ type Mutation {
   deleteTeam(pk: String!): Team!
   deleteUnit(pk: String!): Unit!
   moveShiftPosition(input: MoveShiftPositionInput!): ShiftPosition!
+  publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
   rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
+  revertShiftPositions(input: RevertShiftPositionsInput!): [ShiftPosition!]!
   saveTeamMemberQualifications(qualifications: [String!]!, teamPk: String!, userPk: String!): Team!
   unassignShiftPosition(input: UnassignShiftPositionInput!): ShiftPosition!
   unassignShiftPositions(input: UnassignShiftPositionsInput!): [ShiftPosition!]!
@@ -238,6 +240,13 @@ type Mutation {
   updateUnit(name: String!, pk: String!): Unit!
   updateUnitSettings(name: String!, settings: JSON!, unitPk: String!): Unit!
   updateUserSettings(name: String!, settings: JSON!, teamPk: String!, userPk: String!): User
+}
+
+input PublishShiftPositionInput {
+  endDay: String!
+  shiftPositionSk: String!
+  startDay: String!
+  team: String!
 }
 
 input PublishShiftPositionsInput {
@@ -262,7 +271,7 @@ type Query {
   myLeaveRequests(companyPk: String!): [LeaveRequest!]!
   myQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!): [QuotaFulfilment!]!
   pendingLeaveRequests(companyPk: String): [LeaveRequest!]!
-  shiftPositions(input: QueryShiftPositionsInput!): [ShiftPosition!]!
+  shiftPositions(input: QueryShiftPositionsInput!): QueryShiftPositionsOutput!
   shiftsAutoFillParams(input: AutoFillParamsInput!): ShiftsAutoFillParams!
   team(teamPk: String!): Team!
   teamMember(memberPk: String!, teamPk: String!): User!
@@ -274,6 +283,12 @@ input QueryShiftPositionsInput {
   endDay: String!
   startDay: String!
   team: String!
+  version: String
+}
+
+type QueryShiftPositionsOutput {
+  areAnyUnpublished: Boolean!
+  shiftPositions: [ShiftPosition!]!
 }
 
 type QuotaFulfilment {
@@ -293,6 +308,13 @@ input RejectLeaveRequestInput {
   sk: String!
 }
 
+input RevertShiftPositionsInput {
+  endDay: String!
+  startDay: String!
+  team: String!
+  version: String!
+}
+
 type Schedule {
   endDate: Date!
   pk: String!
@@ -310,6 +332,7 @@ type ShiftPosition {
   requiredSkills: [String!]!
   schedules: [ShiftPositionSchedule!]!
   sk: String!
+  userVersion: String
 }
 
 input ShiftPositionAssignmentInput {

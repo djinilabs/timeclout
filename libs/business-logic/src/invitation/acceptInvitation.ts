@@ -17,7 +17,7 @@ export const acceptInvitation = async ({
   secret,
 }: AcceptInvitationArgs) => {
   const { invitation, entity } = await database();
-  const invitations = await invitation.query({
+  const { items: invitations } = await invitation.query({
     IndexName: "bySecret",
     KeyConditionExpression: "secret = :secret",
     ExpressionAttributeValues: {

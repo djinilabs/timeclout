@@ -1,28 +1,160 @@
 import { ArcTable } from "@architect/functions/types/tables";
-import { TableAPI, TableName, TableSchemas } from "./schema";
+import {
+  TableAPI,
+  TableName,
+  TableSchemas,
+  TableBaseSchemaType,
+} from "./schema";
 import { z, ZodSchema } from "zod";
 import { conflict, notFound } from "@hapi/boom";
 import { AwsLiteDynamoDB } from "@aws-lite/dynamodb-types";
 import { getDefined } from "@/utils";
+import omit from "lodash.omit";
 import { logger } from "./logger";
-// removes undefined values from the item
-const cleanItem = <T extends object>(item: T): T => {
+
+/**
+ * Removes undefined values from an object to ensure clean data for DynamoDB storage
+ * DynamoDB doesn't accept undefined values, so we filter them out
+ */
+const clean = <T extends object>(item: T): T => {
   return Object.fromEntries(
     Object.entries(item).filter(([, value]) => value !== undefined)
   ) as T;
 };
 
+/**
+ * Creates a parser function that validates and cleans items using Zod schemas
+ * @param schema - The Zod schema to validate against
+ * @param tableName - Name of the table for error reporting
+ * @returns A function that parses and validates items for the specified operation
+ */
 const parsingItem =
-  <T extends object>(schema: ZodSchema, tableName: string) =>
+  <T extends TableBaseSchemaType>(schema: ZodSchema, tableName: string) =>
   (item: unknown, operation: string): T => {
     try {
-      return cleanItem(schema.parse(item));
+      return clean(schema.parse(item));
     } catch (err) {
       err.message = `Error parsing item when ${operation} in ${tableName}: ${err.message}`;
       throw err;
     }
   };
 
+/**
+ * Represents an item that may have version-specific data
+ */
+interface VersionedItem<T extends TableBaseSchemaType> {
+  item: T | undefined;
+  isUnpublished: boolean;
+}
+
+/**
+ * Retrieves a specific version of an item from the userVersions metadata
+ * This enables draft/unpublished content management where users can work on changes
+ * without affecting the main published version
+ *
+ * @param item - The base item containing version metadata
+ * @param version - The specific version to retrieve (optional)
+ * @returns The versioned item and whether it's unpublished
+ */
+const getVersion = <T extends TableBaseSchemaType>(
+  item: T | undefined,
+  version?: string | null
+): VersionedItem<T> => {
+  if (!version || !item) {
+    return { item, isUnpublished: false };
+  }
+  const userVersionMeta = item.userVersions?.[version];
+  if (!userVersionMeta) {
+    if (item.noMainVersion) {
+      console.info("getVersion: no main version", { version, item });
+      return { item: undefined, isUnpublished: true };
+    }
+    return { item, isUnpublished: false };
+  }
+  if (userVersionMeta.deleted) {
+    console.info(
+      "getVersion: deleted",
+      JSON.stringify({ version, item }, null, 2)
+    );
+    return { item: undefined, isUnpublished: true };
+  }
+  const userVersionProps = userVersionMeta.newProps;
+  return {
+    item: {
+      ...keySubset(item),
+      ...userVersionProps,
+      userVersion: version,
+    } as T,
+    isUnpublished: true,
+  };
+};
+
+/**
+ * Sets version-specific data for an item, creating or updating userVersions metadata
+ * This allows storing draft changes without modifying the main item
+ *
+ * @param _base - The base item (can be undefined for new items)
+ * @param newVersion - The new version data to store
+ * @param version - The version identifier
+ * @returns The item with updated version metadata
+ */
+const setVersion = <T extends TableBaseSchemaType>(
+  _base: T | undefined,
+  newVersion: Partial<T>,
+  version: string
+): T => {
+  const cleanNewVersion = clean(
+    omit(newVersion, ["userVersions", "noMainVersion", "version"])
+  );
+  const base = _base ?? {
+    pk: newVersion.pk,
+    sk: newVersion.sk,
+    noMainVersion: true,
+  };
+  return {
+    ...base,
+    userVersions: {
+      ..._base?.userVersions,
+      [version]: {
+        newProps: cleanNewVersion,
+      },
+    },
+  } as T;
+};
+
+/**
+ * Extracts the key subset (pk and optionally sk) from an item
+ * Used for DynamoDB operations that only need the primary key
+ *
+ * @param item - The item to extract keys from
+ * @returns Object containing pk and optionally sk
+ */
+const keySubset = <T extends TableBaseSchemaType>(
+  item: Partial<T>
+): { pk: string; sk: string } | { pk: string; sk?: undefined } => {
+  if (!item.pk) {
+    throw new Error("pk is required");
+  }
+  if (item.sk) {
+    return { pk: item.pk, sk: item.sk };
+  }
+  return { pk: item.pk };
+};
+
+/**
+ * Creates a high-level table API that wraps DynamoDB operations with:
+ * - Schema validation using Zod
+ * - Version management for draft/unpublished content
+ * - Error handling and logging
+ * - Type safety with TypeScript
+ *
+ * @param tableName - The logical name of the table
+ * @param lowLevelTable - The ArcTable instance for basic operations
+ * @param lowLevelClient - The AWS DynamoDB client for advanced operations
+ * @param lowLevelTableName - The actual DynamoDB table name
+ * @param schema - The Zod schema for validating table records
+ * @returns A complete table API with CRUD operations and versioning support
+ */
 export const tableApi = <
   TTableName extends TableName,
   TTableSchema extends TableSchemas[TTableName] = TableSchemas[TTableName],
@@ -35,9 +167,41 @@ export const tableApi = <
   schema: TTableSchema
 ): TableAPI<TTableName> => {
   const console = logger(tableName);
-  const parseItem = parsingItem(schema, tableName);
+  const parseItem = parsingItem(schema, tableName) as (
+    item: unknown,
+    operation: string
+  ) => TTableRecord;
+
   const self: TableAPI<TTableName> = {
-    delete: async (pk: string, sk?: string) => {
+    /**
+     * Deletes an item from the table
+     * If a version is provided, marks the version as deleted instead of removing the item
+     *
+     * @param pk - Primary key
+     * @param sk - Sort key (optional)
+     * @param version - Version to delete (optional, enables soft delete)
+     * @returns The deleted item
+     */
+    delete: async (pk: string, sk?: string, version?: string) => {
+      // console.info("delete", { pk, sk, version });
+      if (version) {
+        // Soft delete: mark the version as deleted instead of removing the item
+        const key = keySubset({ pk, sk });
+        const item = await self.get(key.pk, key.sk);
+        if (!item) {
+          throw notFound(
+            `Error deleting record in table ${tableName}: Item not found`
+          );
+        }
+        const newVersion = {
+          ...item,
+          userVersions: {
+            ...item.userVersions,
+            [version]: { deleted: true },
+          },
+        };
+        return self.update(newVersion);
+      }
       try {
         const item = await self.get(pk, sk);
         if (!item) {
@@ -53,7 +217,16 @@ export const tableApi = <
         throw err;
       }
     },
-    deleteAll: async (pk: string) => {
+
+    /**
+     * Deletes all items with the same primary key
+     * Useful for removing all related records (e.g., all teams in a company)
+     *
+     * @param pk - Primary key to match
+     * @param version - Version to delete (optional)
+     */
+    deleteAll: async (pk: string, version?: string) => {
+      // console.info("deleteAll", { pk, version });
       try {
         console.debug("deleteAll:Going to get all items", tableName, { pk });
         const items = (
@@ -66,44 +239,68 @@ export const tableApi = <
         console.debug("deleteAll:Got all items", tableName, { pk }, items);
 
         await Promise.all(
-          items.map((item) =>
-            item.sk
-              ? lowLevelTable.delete({ pk: item.pk, sk: item.sk })
-              : lowLevelTable.delete({ pk: item.pk })
-          )
+          items.map((item) => self.delete(item.pk, item.sk, version))
         );
       } catch (err) {
         console.error("Error deleting all items", tableName, pk, err);
         throw err;
       }
     },
-    deleteIfExists: async (pk: string, sk?: string) => {
+
+    /**
+     * Deletes an item if it exists, returns undefined if not found
+     * Non-throwing version of delete operation
+     *
+     * @param pk - Primary key
+     * @param sk - Sort key (optional)
+     * @param version - Version to delete (optional)
+     * @returns The deleted item or undefined if not found
+     */
+    deleteIfExists: async (pk: string, sk?: string, version?: string) => {
+      // console.info("deleteIfExists", { pk, sk, version });
       try {
-        const item = await self.get(pk, sk);
+        const item = await self.get(pk, sk, version);
         if (!item) {
           return undefined;
         }
-        await lowLevelTable.delete(sk ? { pk, sk } : { pk });
-        return item;
+        return await self.delete(pk, sk, version);
       } catch (err) {
         console.error("Error deleting item", tableName, pk, sk, err);
         throw err;
       }
     },
-    get: async (pk: string, sk?: string) => {
+
+    /**
+     * Retrieves a single item from the table
+     * Supports version-specific retrieval for draft/unpublished content
+     *
+     * @param pk - Primary key
+     * @param sk - Sort key (optional)
+     * @param version - Version to retrieve (optional)
+     * @returns The item or undefined if not found
+     */
+    get: async (pk: string, sk?: string, version?: string) => {
+      // console.info("get", { pk, sk, version });
       try {
-        if (!pk) {
-          throw new Error("pk is required");
-        }
-        const args = sk ? { pk, sk } : { pk };
-        console.info("get from table", tableName, args);
-        return schema.optional().parse(await lowLevelTable.get(args));
+        const args = keySubset({ pk, sk });
+        const item = schema.optional().parse(await lowLevelTable.get(args));
+        return getVersion(item, version).item;
       } catch (err) {
         console.error("Error getting item", tableName, pk, sk, err);
         throw err;
       }
     },
-    batchGet: async (keys: string[]) => {
+
+    /**
+     * Retrieves multiple items by their primary keys in a single batch operation
+     * More efficient than multiple individual get operations
+     *
+     * @param keys - Array of primary keys to retrieve
+     * @param version - Version to retrieve (optional)
+     * @returns Array of items found
+     */
+    batchGet: async (keys: string[], version?: string) => {
+      // console.info("batchGet", { keys, version });
       if (keys.length === 0) {
         return [];
       }
@@ -117,17 +314,29 @@ export const tableApi = <
             })
           ).Responses
         )[lowLevelTableName];
-        return items.map((item) =>
-          parseItem(item, "batchGet")
-        ) as TTableRecord[];
+        return items
+          .map((item) => getVersion(parseItem(item, "batchGet"), version).item)
+          .filter(Boolean) as TTableRecord[];
       } catch (err) {
         console.error("Error batch getting items", tableName, keys, err);
         throw err;
       }
     },
+
+    /**
+     * Updates an existing item in the table
+     * Uses optimistic locking with version numbers to prevent conflicts
+     * Supports version-specific updates for draft content
+     *
+     * @param item - The item data to update (must include pk)
+     * @param version - Version to update (optional)
+     * @returns The updated item
+     */
     update: async (
-      item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>
-    ) => {
+      item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>,
+      version?: string
+    ): Promise<TTableRecord> => {
+      // console.info("update", JSON.stringify({ item, version }, null, 2));
       try {
         const previousItem = (await self.get(item.pk, item.sk)) as
           | TTableRecord
@@ -138,15 +347,30 @@ export const tableApi = <
           );
         }
 
-        const newItem = {
-          ...previousItem,
-          version: previousItem.version + 1,
-          updatedAt: new Date().toISOString(),
-          ...item,
-        };
+        if (version) {
+          // Update version-specific data instead of main item
+          const newItem = setVersion(previousItem, item, version);
+          return getVersion(await self.update(newItem), version)
+            .item as TTableRecord;
+        }
 
+        // Update main item with optimistic locking
+        const newItem = clean(
+          parseItem(
+            {
+              version: previousItem.version + 1,
+              updatedAt: new Date().toISOString(),
+              ...item,
+              pk: previousItem.pk,
+              sk: previousItem.sk,
+            },
+            "update"
+          ) as TTableRecord
+        );
+
+        // Use conditional update to ensure we're updating the expected version
         await lowLevelClient.PutItem({
-          Item: parseItem(newItem, "update"),
+          Item: newItem,
           TableName: lowLevelTableName,
           ConditionExpression: "#version = :version",
           ExpressionAttributeValues: {
@@ -165,18 +389,76 @@ export const tableApi = <
         throw err;
       }
     },
-    create: async (item: Omit<TTableRecord, "version" | "createdAt">) => {
-      console.info("creating new record in ", tableName, item);
+
+    /**
+     * Creates a new item in the table
+     * Uses conditional put to ensure the item doesn't already exist
+     * Supports version-specific creation for draft content
+     *
+     * @param item - The item data to create (without version/createdAt fields)
+     * @param version - Version to create (optional)
+     * @returns The created item
+     */
+    create: async (
+      item: Omit<TTableRecord, "version" | "createdAt">,
+      version?: string
+    ) => {
+      // console.info("create", JSON.stringify({ item, version }, null, 2));
       try {
-        const parsedItem = parseItem(
-          {
-            version: 1,
-            createdAt: new Date().toISOString(),
-            ...item,
-          },
-          "create"
+        if (version) {
+          // Create version-specific item
+          // first, we need to verify if the record already exists
+          const existingItem = await self.get(item.pk, item.sk);
+          if (!existingItem) {
+            // Create new item with version metadata
+            const newItem = clean(
+              parseItem(
+                {
+                  ...item,
+                  pk: item.pk,
+                  sk: item.sk,
+                  noMainVersion: true,
+                  version: 1,
+                  createdAt: new Date().toISOString(),
+                  userVersions: {
+                    [version]: {
+                      newProps: clean(item),
+                    },
+                  },
+                },
+                "create"
+              ) as TTableRecord
+            );
+            return getVersion(await self.create(newItem), version)
+              .item as TTableRecord;
+          }
+          // if the record exists, we need to update it
+          const newItem = clean({
+            ...existingItem,
+            userVersions: {
+              ...existingItem.userVersions,
+              [version]: {
+                newProps: clean(item),
+              },
+            },
+          });
+          return getVersion(await self.update(newItem), version)
+            .item as TTableRecord;
+        }
+
+        // Create main item
+        const parsedItem = clean(
+          parseItem(
+            {
+              version: 1,
+              createdAt: new Date().toISOString(),
+              ...item,
+            },
+            "create"
+          )
         );
 
+        // Use conditional put to ensure item doesn't already exist
         await lowLevelClient.PutItem({
           Item: parsedItem,
           TableName: lowLevelTableName,
@@ -193,11 +475,29 @@ export const tableApi = <
         throw err;
       }
     },
-    upsert: async (item: TTableRecord) => {
-      console.info("upsert", item);
+
+    /**
+     * Creates an item if it doesn't exist, or updates it if it does
+     * Combines create and update logic in a single operation
+     *
+     * @param item - The item data to upsert
+     * @param version - Version to upsert (optional)
+     * @returns The upserted item
+     */
+    upsert: async (item: TTableRecord, version?: string) => {
+      // console.info("upsert", JSON.stringify({ item, version }, null, 2));
       try {
         const existingItem = await self.get(item.pk, item.sk);
+
+        if (version) {
+          // Upsert version-specific data
+          const newItem = setVersion(existingItem, item, version);
+          return getVersion(await self.upsert(newItem), version)
+            .item as TTableRecord;
+        }
+
         if (existingItem) {
+          // Update existing item, preserving creation metadata
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { createdAt, createdBy, ...rest } = item;
           return self.update(
@@ -210,19 +510,35 @@ export const tableApi = <
             )
           );
         }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { updatedAt, updatedBy, version, ...rest } = item;
-        return self.create(rest as TTableRecord);
+
+        // Create new item, removing update metadata
+        const rest = omit(item, [
+          "updatedAt",
+          "updatedBy",
+          "version",
+        ]) as TTableRecord;
+        return self.create(rest, version);
       } catch (err) {
         console.error("Error upserting item", tableName, item, err);
         throw err;
       }
     },
-    query: async (query) => {
+
+    /**
+     * Queries items from the table using DynamoDB query expressions
+     * Supports pagination and version-specific queries
+     *
+     * @param query - The DynamoDB query parameters
+     * @param version - Version to query (optional)
+     * @returns Object containing items and whether any are unpublished
+     */
+    query: async (query, version) => {
+      console.info("query", { query, version });
       try {
         let items: TTableRecord[] = [];
         let lastEvaluatedKey: Record<string, unknown> | undefined = undefined;
 
+        // Handle pagination by continuing to query until no more results
         do {
           const response = (await lowLevelTable.query({
             ...query,
@@ -236,12 +552,81 @@ export const tableApi = <
           lastEvaluatedKey = response.LastEvaluatedKey;
         } while (lastEvaluatedKey);
 
-        return items.map((item) => parseItem(item, "query")) as TTableRecord[];
+        // Apply version filtering to all items
+        const versionedItems = items.map((item) =>
+          getVersion(parseItem(item, "query"), version)
+        );
+
+        return {
+          items: versionedItems
+            .map((item) => item.item)
+            .filter(Boolean) as TTableRecord[],
+          areAnyUnpublished: versionedItems.some((item) => item.isUnpublished),
+        };
       } catch (err) {
         console.error("Error querying table", tableName, query, err);
         err.message = `Error querying table ${tableName}: ${err.message}`;
         throw err;
       }
+    },
+
+    /**
+     * Merges a version into the main item, making draft changes permanent
+     * This is the final step in the versioning workflow
+     *
+     * @param pk - Primary key
+     * @param sk - Sort key (optional)
+     * @param version - Version to merge
+     * @returns The merged item
+     */
+    merge: async (pk: string, sk: string | undefined, version: string) => {
+      console.info("merge", { pk, sk, version });
+      const existingItem = await self.get(pk, sk);
+      if (!existingItem) {
+        throw notFound(
+          `Error merging item in table ${tableName}: Item not found`
+        );
+      }
+      const versionMeta = existingItem.userVersions?.[version];
+      if (!versionMeta) {
+        if (existingItem.noMainVersion) {
+          // If no main version and no version metadata, delete the item
+          await lowLevelTable.delete({ pk, sk });
+        }
+        return existingItem;
+      }
+      if (versionMeta.deleted) {
+        // item was removed, so we need to remove the main item
+        await lowLevelTable.delete({ pk, sk });
+        return existingItem;
+      }
+      // Merge version data into main item
+      const newItem = clean({
+        pk,
+        sk,
+        ...versionMeta.newProps,
+      }) as TTableRecord;
+      return self.update(newItem);
+    },
+
+    revert: async (pk: string, sk: string | undefined, version: string) => {
+      console.info("revert", { pk, sk, version });
+      const existingItem = await self.get(pk, sk);
+      if (!existingItem) {
+        throw notFound(
+          `Error reverting item in table ${tableName}: Item not found`
+        );
+      }
+      if (!existingItem.userVersions?.[version]) {
+        return existingItem;
+      }
+      const userVersionsWithoutVersion = omit(existingItem.userVersions, [
+        version,
+      ]);
+      return self.update({
+        ...existingItem,
+        userVersions: userVersionsWithoutVersion,
+      });
     },
   };
   return self;

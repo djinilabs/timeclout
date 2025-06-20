@@ -126,14 +126,17 @@ export const shiftsAutoFillParams = async (
     worker.approvedLeaves = approvedLeaves[index];
   });
 
-  const shiftPositions = await shift_positions.query({
-    KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
-    ExpressionAttributeValues: {
-      ":pk": team,
-      ":startDay": startDay.toString(),
-      ":endDay": endDay.toString(),
+  const { items: shiftPositions } = await shift_positions.query(
+    {
+      KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
+      ExpressionAttributeValues: {
+        ":pk": team,
+        ":startDay": startDay.toString(),
+        ":endDay": endDay.toString(),
+      },
     },
-  });
+    "staging"
+  );
 
   const slots: AutoFillSlot[] = shiftPositions.map((position) => {
     const day = new DayDate(position.day);

@@ -23,12 +23,12 @@ export const updateShiftPosition: NonNullable<MutationResolvers['updateShiftPosi
   } = input;
   const pk = getResourceRef(_pk, "teams");
   const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
-  const shiftPosition = await shift_positions.get(pk, sk);
+  const shiftPosition = await shift_positions.get(pk, sk, "staging");
   if (!shiftPosition) {
     throw new Error("Shift position not found");
   }
   const newSk = `${day}/${nanoid()}`;
-  await shift_positions.delete(pk, sk);
+  await shift_positions.delete(pk, sk, "staging");
   const newShiftPosition = {
     ...shiftPosition,
     sk: newSk,
@@ -42,5 +42,8 @@ export const updateShiftPosition: NonNullable<MutationResolvers['updateShiftPosi
     updatedBy: userPk,
     updatedAt: new Date().toISOString(),
   };
-  return shift_positions.create(newShiftPosition) as unknown as ShiftPosition;
+  return shift_positions.create(
+    newShiftPosition,
+    "staging"
+  ) as unknown as ShiftPosition;
 };
