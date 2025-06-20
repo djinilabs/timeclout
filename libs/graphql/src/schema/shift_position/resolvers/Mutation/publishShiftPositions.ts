@@ -7,9 +7,7 @@ import { resourceRef } from "@/utils";
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 import { DayDate } from "@/day-date";
 
-export const publishShiftPositions: NonNullable<
-  MutationResolvers["publishShiftPositions"]
-> = async (_parent, { input }, ctx) => {
+export const publishShiftPositions: NonNullable<MutationResolvers['publishShiftPositions']> = async (_parent, { input }, ctx) => {
   const { team, startDay, endDay } = input;
   const pk = resourceRef("teams", team);
   await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);

@@ -12,13 +12,22 @@ import { getDefined } from "@/utils";
 import omit from "lodash.omit";
 import { logger } from "./logger";
 
-// removes undefined values from the item
+/**
+ * Removes undefined values from an object to ensure clean data for DynamoDB storage
+ * DynamoDB doesn't accept undefined values, so we filter them out
+ */
 const clean = <T extends object>(item: T): T => {
   return Object.fromEntries(
     Object.entries(item).filter(([, value]) => value !== undefined)
   ) as T;
 };
 
+/**
+ * Creates a parser function that validates and cleans items using Zod schemas
+ * @param schema - The Zod schema to validate against
+ * @param tableName - Name of the table for error reporting
+ * @returns A function that parses and validates items for the specified operation
+ */
 const parsingItem =
   <T extends TableBaseSchemaType>(schema: ZodSchema, tableName: string) =>
   (item: unknown, operation: string): T => {
@@ -30,11 +39,23 @@ const parsingItem =
     }
   };
 
+/**
+ * Represents an item that may have version-specific data
+ */
 interface VersionedItem<T extends TableBaseSchemaType> {
   item: T | undefined;
   isUnpublished: boolean;
 }
 
+/**
+ * Retrieves a specific version of an item from the userVersions metadata
+ * This enables draft/unpublished content management where users can work on changes
+ * without affecting the main published version
+ *
+ * @param item - The base item containing version metadata
+ * @param version - The specific version to retrieve (optional)
+ * @returns The versioned item and whether it's unpublished
+ */
 const getVersion = <T extends TableBaseSchemaType>(
   item: T | undefined,
   version?: string | null
@@ -68,6 +89,15 @@ const getVersion = <T extends TableBaseSchemaType>(
   };
 };
 
+/**
+ * Sets version-specific data for an item, creating or updating userVersions metadata
+ * This allows storing draft changes without modifying the main item
+ *
+ * @param _base - The base item (can be undefined for new items)
+ * @param newVersion - The new version data to store
+ * @param version - The version identifier
+ * @returns The item with updated version metadata
+ */
 const setVersion = <T extends TableBaseSchemaType>(
   _base: T | undefined,
   newVersion: Partial<T>,
@@ -92,6 +122,13 @@ const setVersion = <T extends TableBaseSchemaType>(
   } as T;
 };
 
+/**
+ * Extracts the key subset (pk and optionally sk) from an item
+ * Used for DynamoDB operations that only need the primary key
+ *
+ * @param item - The item to extract keys from
+ * @returns Object containing pk and optionally sk
+ */
 const keySubset = <T extends TableBaseSchemaType>(
   item: Partial<T>
 ): { pk: string; sk: string } | { pk: string; sk?: undefined } => {
@@ -104,6 +141,20 @@ const keySubset = <T extends TableBaseSchemaType>(
   return { pk: item.pk };
 };
 
+/**
+ * Creates a high-level table API that wraps DynamoDB operations with:
+ * - Schema validation using Zod
+ * - Version management for draft/unpublished content
+ * - Error handling and logging
+ * - Type safety with TypeScript
+ *
+ * @param tableName - The logical name of the table
+ * @param lowLevelTable - The ArcTable instance for basic operations
+ * @param lowLevelClient - The AWS DynamoDB client for advanced operations
+ * @param lowLevelTableName - The actual DynamoDB table name
+ * @param schema - The Zod schema for validating table records
+ * @returns A complete table API with CRUD operations and versioning support
+ */
 export const tableApi = <
   TTableName extends TableName,
   TTableSchema extends TableSchemas[TTableName] = TableSchemas[TTableName],
@@ -120,10 +171,21 @@ export const tableApi = <
     item: unknown,
     operation: string
   ) => TTableRecord;
+
   const self: TableAPI<TTableName> = {
+    /**
+     * Deletes an item from the table
+     * If a version is provided, marks the version as deleted instead of removing the item
+     *
+     * @param pk - Primary key
+     * @param sk - Sort key (optional)
+     * @param version - Version to delete (optional, enables soft delete)
+     * @returns The deleted item
+     */
     delete: async (pk: string, sk?: string, version?: string) => {
       // console.info("delete", { pk, sk, version });
       if (version) {
+        // Soft delete: mark the version as deleted instead of removing the item
         const key = keySubset({ pk, sk });
         const item = await self.get(key.pk, key.sk);
         if (!item) {
@@ -155,6 +217,14 @@ export const tableApi = <
         throw err;
       }
     },
+
+    /**
+     * Deletes all items with the same primary key
+     * Useful for removing all related records (e.g., all teams in a company)
+     *
+     * @param pk - Primary key to match
+     * @param version - Version to delete (optional)
+     */
     deleteAll: async (pk: string, version?: string) => {
       // console.info("deleteAll", { pk, version });
       try {
@@ -176,6 +246,16 @@ export const tableApi = <
         throw err;
       }
     },
+
+    /**
+     * Deletes an item if it exists, returns undefined if not found
+     * Non-throwing version of delete operation
+     *
+     * @param pk - Primary key
+     * @param sk - Sort key (optional)
+     * @param version - Version to delete (optional)
+     * @returns The deleted item or undefined if not found
+     */
     deleteIfExists: async (pk: string, sk?: string, version?: string) => {
       // console.info("deleteIfExists", { pk, sk, version });
       try {
@@ -189,6 +269,16 @@ export const tableApi = <
         throw err;
       }
     },
+
+    /**
+     * Retrieves a single item from the table
+     * Supports version-specific retrieval for draft/unpublished content
+     *
+     * @param pk - Primary key
+     * @param sk - Sort key (optional)
+     * @param version - Version to retrieve (optional)
+     * @returns The item or undefined if not found
+     */
     get: async (pk: string, sk?: string, version?: string) => {
       // console.info("get", { pk, sk, version });
       try {
@@ -200,6 +290,15 @@ export const tableApi = <
         throw err;
       }
     },
+
+    /**
+     * Retrieves multiple items by their primary keys in a single batch operation
+     * More efficient than multiple individual get operations
+     *
+     * @param keys - Array of primary keys to retrieve
+     * @param version - Version to retrieve (optional)
+     * @returns Array of items found
+     */
     batchGet: async (keys: string[], version?: string) => {
       // console.info("batchGet", { keys, version });
       if (keys.length === 0) {
@@ -223,6 +322,16 @@ export const tableApi = <
         throw err;
       }
     },
+
+    /**
+     * Updates an existing item in the table
+     * Uses optimistic locking with version numbers to prevent conflicts
+     * Supports version-specific updates for draft content
+     *
+     * @param item - The item data to update (must include pk)
+     * @param version - Version to update (optional)
+     * @returns The updated item
+     */
     update: async (
       item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>,
       version?: string
@@ -239,11 +348,13 @@ export const tableApi = <
         }
 
         if (version) {
+          // Update version-specific data instead of main item
           const newItem = setVersion(previousItem, item, version);
           return getVersion(await self.update(newItem), version)
             .item as TTableRecord;
         }
 
+        // Update main item with optimistic locking
         const newItem = clean(
           parseItem(
             {
@@ -257,6 +368,7 @@ export const tableApi = <
           ) as TTableRecord
         );
 
+        // Use conditional update to ensure we're updating the expected version
         await lowLevelClient.PutItem({
           Item: newItem,
           TableName: lowLevelTableName,
@@ -277,6 +389,16 @@ export const tableApi = <
         throw err;
       }
     },
+
+    /**
+     * Creates a new item in the table
+     * Uses conditional put to ensure the item doesn't already exist
+     * Supports version-specific creation for draft content
+     *
+     * @param item - The item data to create (without version/createdAt fields)
+     * @param version - Version to create (optional)
+     * @returns The created item
+     */
     create: async (
       item: Omit<TTableRecord, "version" | "createdAt">,
       version?: string
@@ -284,9 +406,11 @@ export const tableApi = <
       // console.info("create", JSON.stringify({ item, version }, null, 2));
       try {
         if (version) {
+          // Create version-specific item
           // first, we need to verify if the record already exists
           const existingItem = await self.get(item.pk, item.sk);
           if (!existingItem) {
+            // Create new item with version metadata
             const newItem = clean(
               parseItem(
                 {
@@ -321,6 +445,8 @@ export const tableApi = <
           return getVersion(await self.update(newItem), version)
             .item as TTableRecord;
         }
+
+        // Create main item
         const parsedItem = clean(
           parseItem(
             {
@@ -332,6 +458,7 @@ export const tableApi = <
           )
         );
 
+        // Use conditional put to ensure item doesn't already exist
         await lowLevelClient.PutItem({
           Item: parsedItem,
           TableName: lowLevelTableName,
@@ -348,18 +475,29 @@ export const tableApi = <
         throw err;
       }
     },
+
+    /**
+     * Creates an item if it doesn't exist, or updates it if it does
+     * Combines create and update logic in a single operation
+     *
+     * @param item - The item data to upsert
+     * @param version - Version to upsert (optional)
+     * @returns The upserted item
+     */
     upsert: async (item: TTableRecord, version?: string) => {
       // console.info("upsert", JSON.stringify({ item, version }, null, 2));
       try {
         const existingItem = await self.get(item.pk, item.sk);
 
         if (version) {
+          // Upsert version-specific data
           const newItem = setVersion(existingItem, item, version);
           return getVersion(await self.upsert(newItem), version)
             .item as TTableRecord;
         }
 
         if (existingItem) {
+          // Update existing item, preserving creation metadata
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { createdAt, createdBy, ...rest } = item;
           return self.update(
@@ -373,6 +511,7 @@ export const tableApi = <
           );
         }
 
+        // Create new item, removing update metadata
         const rest = omit(item, [
           "updatedAt",
           "updatedBy",
@@ -384,12 +523,22 @@ export const tableApi = <
         throw err;
       }
     },
+
+    /**
+     * Queries items from the table using DynamoDB query expressions
+     * Supports pagination and version-specific queries
+     *
+     * @param query - The DynamoDB query parameters
+     * @param version - Version to query (optional)
+     * @returns Object containing items and whether any are unpublished
+     */
     query: async (query, version) => {
       console.info("query", { query, version });
       try {
         let items: TTableRecord[] = [];
         let lastEvaluatedKey: Record<string, unknown> | undefined = undefined;
 
+        // Handle pagination by continuing to query until no more results
         do {
           const response = (await lowLevelTable.query({
             ...query,
@@ -403,6 +552,7 @@ export const tableApi = <
           lastEvaluatedKey = response.LastEvaluatedKey;
         } while (lastEvaluatedKey);
 
+        // Apply version filtering to all items
         const versionedItems = items.map((item) =>
           getVersion(parseItem(item, "query"), version)
         );
@@ -419,6 +569,16 @@ export const tableApi = <
         throw err;
       }
     },
+
+    /**
+     * Merges a version into the main item, making draft changes permanent
+     * This is the final step in the versioning workflow
+     *
+     * @param pk - Primary key
+     * @param sk - Sort key (optional)
+     * @param version - Version to merge
+     * @returns The merged item
+     */
     merge: async (pk: string, sk: string | undefined, version: string) => {
       console.info("merge", { pk, sk, version });
       const existingItem = await self.get(pk, sk);
@@ -430,6 +590,7 @@ export const tableApi = <
       const versionMeta = existingItem.userVersions?.[version];
       if (!versionMeta) {
         if (existingItem.noMainVersion) {
+          // If no main version and no version metadata, delete the item
           await lowLevelTable.delete({ pk, sk });
         }
         return existingItem;
@@ -439,12 +600,33 @@ export const tableApi = <
         await lowLevelTable.delete({ pk, sk });
         return existingItem;
       }
+      // Merge version data into main item
       const newItem = clean({
         pk,
         sk,
         ...versionMeta.newProps,
       }) as TTableRecord;
       return self.update(newItem);
+    },
+
+    revert: async (pk: string, sk: string | undefined, version: string) => {
+      console.info("revert", { pk, sk, version });
+      const existingItem = await self.get(pk, sk);
+      if (!existingItem) {
+        throw notFound(
+          `Error reverting item in table ${tableName}: Item not found`
+        );
+      }
+      if (!existingItem.userVersions?.[version]) {
+        return existingItem;
+      }
+      const userVersionsWithoutVersion = omit(existingItem.userVersions, [
+        version,
+      ]);
+      return self.update({
+        ...existingItem,
+        userVersions: userVersionsWithoutVersion,
+      });
     },
   };
   return self;

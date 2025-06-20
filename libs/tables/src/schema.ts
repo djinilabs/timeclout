@@ -199,6 +199,11 @@ export type TableAPI<
     sk: string,
     version: string | null
   ) => Promise<TTableRecord>;
+  revert: (
+    pk: string,
+    sk: string | undefined,
+    version: string
+  ) => Promise<TTableRecord>;
 };
 
 export type DatabaseSchema = {

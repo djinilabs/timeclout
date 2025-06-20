@@ -224,6 +224,7 @@ type Mutation {
   publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
   rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
+  revertShiftPositions(input: RevertShiftPositionsInput!): [ShiftPosition!]!
   saveTeamMemberQualifications(qualifications: [String!]!, teamPk: String!, userPk: String!): Team!
   unassignShiftPosition(input: UnassignShiftPositionInput!): ShiftPosition!
   unassignShiftPositions(input: UnassignShiftPositionsInput!): [ShiftPosition!]!
@@ -305,6 +306,13 @@ type QuotaFulfilment {
 input RejectLeaveRequestInput {
   pk: String!
   sk: String!
+}
+
+input RevertShiftPositionsInput {
+  endDay: String!
+  startDay: String!
+  team: String!
+  version: String!
 }
 
 type Schedule {

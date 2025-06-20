@@ -50,6 +50,7 @@ import { useMutation } from "../../hooks/useMutation";
 import toast from "react-hot-toast";
 import { PublishActions } from "../atoms/PublishActions";
 import { PublishShiftPositionsDialog } from "./PublishShiftPositionsDialog";
+import { RevertShiftPositionsDialog } from "./RevertShiftPositionsDialog";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -313,8 +314,8 @@ export const TeamShiftsSchedule = () => {
   }, [setIsDialogOpen]);
 
   const onRevertToPublished = useCallback(() => {
-    console.log("onRevertToPublished");
-  }, []);
+    setIsDialogOpen("revert");
+  }, [setIsDialogOpen]);
 
   // ------- render -------
 
@@ -817,10 +818,23 @@ export const TeamShiftsSchedule = () => {
       <PublishShiftPositionsDialog
         isDialogOpen={isDialogOpen === "publish"}
         onClose={() => {
-          refetchTeamShiftsQuery();
           setIsDialogOpen(null);
         }}
-        onPublish={onPublishChanges}
+        onPublish={() => {
+          setIsDialogOpen(null);
+          refetchTeamShiftsQuery();
+        }}
+        teamPk={getDefined(teamPk)}
+      />
+      <RevertShiftPositionsDialog
+        isDialogOpen={isDialogOpen === "revert"}
+        onClose={() => {
+          setIsDialogOpen(null);
+        }}
+        onRevert={() => {
+          setIsDialogOpen(null);
+          refetchTeamShiftsQuery();
+        }}
         teamPk={getDefined(teamPk)}
       />
       <TeamShiftsCalendar

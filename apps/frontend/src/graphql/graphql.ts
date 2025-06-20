@@ -268,6 +268,7 @@ export type Mutation = {
   publishShiftPositions: Array<ShiftPosition>;
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
+  revertShiftPositions: Array<ShiftPosition>;
   saveTeamMemberQualifications: Team;
   unassignShiftPosition: ShiftPosition;
   unassignShiftPositions: Array<ShiftPosition>;
@@ -389,6 +390,10 @@ export type MutationRejectLeaveRequestArgs = {
 export type MutationRemoveUserFromTeamArgs = {
   teamPk: Scalars["String"]["input"];
   userPk: Scalars["String"]["input"];
+};
+
+export type MutationRevertShiftPositionsArgs = {
+  input: RevertShiftPositionsInput;
 };
 
 export type MutationSaveTeamMemberQualificationsArgs = {
@@ -606,6 +611,13 @@ export type QuotaFulfilment = {
 export type RejectLeaveRequestInput = {
   pk: Scalars["String"]["input"];
   sk: Scalars["String"]["input"];
+};
+
+export type RevertShiftPositionsInput = {
+  endDay: Scalars["String"]["input"];
+  startDay: Scalars["String"]["input"];
+  team: Scalars["String"]["input"];
+  version: Scalars["String"]["input"];
 };
 
 export type Schedule = {

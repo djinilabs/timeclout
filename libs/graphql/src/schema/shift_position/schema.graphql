@@ -92,6 +92,13 @@ input PublishShiftPositionInput {
   endDay: String!
 }
 
+input RevertShiftPositionsInput {
+  team: String!
+  startDay: String!
+  endDay: String!
+  version: String!
+}
+
 extend type Mutation {
   createShiftPosition(input: CreateShiftPositionInput!): ShiftPosition!
   moveShiftPosition(input: MoveShiftPositionInput!): ShiftPosition!
@@ -101,6 +108,7 @@ extend type Mutation {
   unassignShiftPositions(input: UnassignShiftPositionsInput!): [ShiftPosition!]!
   unassignShiftPosition(input: UnassignShiftPositionInput!): ShiftPosition!
   publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
+  revertShiftPositions(input: RevertShiftPositionsInput!): [ShiftPosition!]!
 }
 
 input QueryShiftPositionsInput {
