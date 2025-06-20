@@ -19,21 +19,18 @@ export const publishShiftPositions: NonNullable<
   const endDayDate = new DayDate(endDay);
 
   const { shift_positions } = await database();
-  const { items: positions } = await shift_positions.query(
-    {
-      KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
-      ExpressionAttributeValues: {
-        ":pk": pk,
-        ":startDay": startDay,
-        ":endDay": endDayDate.nextDay().toString(),
-      },
+  const { items: positions } = await shift_positions.query({
+    KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",
+    ExpressionAttributeValues: {
+      ":pk": pk,
+      ":startDay": startDay,
+      ":endDay": endDayDate.nextDay().toString(),
     },
-    "staging"
-  );
+  });
 
   const updatedPositions = [];
   for (const position of positions) {
-    await shift_positions.merge(position.pk, position.sk, "published");
+    await shift_positions.merge(position.pk, position.sk, "staging");
     updatedPositions.push(position);
   }
 

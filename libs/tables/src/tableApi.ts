@@ -30,27 +30,34 @@ const parsingItem =
     }
   };
 
+interface VersionedItem<T extends TableBaseSchemaType> {
+  item: T | undefined;
+  isUnpublished: boolean;
+}
+
 const getVersion = <T extends TableBaseSchemaType>(
   item: T | undefined,
   version?: string | null
-): {
-  item: T | undefined;
-  isUnpublished: boolean;
-} => {
+): VersionedItem<T> => {
   if (!version || !item) {
     return { item, isUnpublished: false };
   }
-  if (!version && item.noMainVersion) {
-    return { item: undefined, isUnpublished: false };
-  }
   const userVersionMeta = item.userVersions?.[version];
-  if (userVersionMeta?.deleted) {
-    return { item, isUnpublished: true };
+  if (!userVersionMeta) {
+    if (item.noMainVersion) {
+      console.info("getVersion: no main version", { version, item });
+      return { item: undefined, isUnpublished: true };
+    }
+    return { item, isUnpublished: false };
   }
-  const userVersionProps = userVersionMeta?.newProps;
-  if (!userVersionProps) {
-    return { item, isUnpublished: true };
+  if (userVersionMeta.deleted) {
+    console.info(
+      "getVersion: deleted",
+      JSON.stringify({ version, item }, null, 2)
+    );
+    return { item: undefined, isUnpublished: true };
   }
+  const userVersionProps = userVersionMeta.newProps;
   return {
     item: {
       ...keySubset(item),
@@ -115,7 +122,7 @@ export const tableApi = <
   ) => TTableRecord;
   const self: TableAPI<TTableName> = {
     delete: async (pk: string, sk?: string, version?: string) => {
-      console.info("delete", { pk, sk, version });
+      // console.info("delete", { pk, sk, version });
       if (version) {
         const key = keySubset({ pk, sk });
         const item = await self.get(key.pk, key.sk);
@@ -149,7 +156,7 @@ export const tableApi = <
       }
     },
     deleteAll: async (pk: string, version?: string) => {
-      console.info("deleteAll", { pk, version });
+      // console.info("deleteAll", { pk, version });
       try {
         console.debug("deleteAll:Going to get all items", tableName, { pk });
         const items = (
@@ -170,7 +177,7 @@ export const tableApi = <
       }
     },
     deleteIfExists: async (pk: string, sk?: string, version?: string) => {
-      console.info("deleteIfExists", { pk, sk, version });
+      // console.info("deleteIfExists", { pk, sk, version });
       try {
         const item = await self.get(pk, sk, version);
         if (!item) {
@@ -183,7 +190,7 @@ export const tableApi = <
       }
     },
     get: async (pk: string, sk?: string, version?: string) => {
-      console.info("get", { pk, sk, version });
+      // console.info("get", { pk, sk, version });
       try {
         const args = keySubset({ pk, sk });
         const item = schema.optional().parse(await lowLevelTable.get(args));
@@ -194,7 +201,7 @@ export const tableApi = <
       }
     },
     batchGet: async (keys: string[], version?: string) => {
-      console.info("batchGet", { keys, version });
+      // console.info("batchGet", { keys, version });
       if (keys.length === 0) {
         return [];
       }
@@ -220,7 +227,7 @@ export const tableApi = <
       item: { pk: TTableRecord["pk"] } & Partial<TTableRecord>,
       version?: string
     ): Promise<TTableRecord> => {
-      console.info("update", JSON.stringify({ item, version }, null, 2));
+      // console.info("update", JSON.stringify({ item, version }, null, 2));
       try {
         const previousItem = (await self.get(item.pk, item.sk)) as
           | TTableRecord
@@ -274,7 +281,7 @@ export const tableApi = <
       item: Omit<TTableRecord, "version" | "createdAt">,
       version?: string
     ) => {
-      console.info("create", JSON.stringify({ item, version }, null, 2));
+      // console.info("create", JSON.stringify({ item, version }, null, 2));
       try {
         if (version) {
           // first, we need to verify if the record already exists
@@ -342,7 +349,7 @@ export const tableApi = <
       }
     },
     upsert: async (item: TTableRecord, version?: string) => {
-      console.info("upsert", JSON.stringify({ item, version }, null, 2));
+      // console.info("upsert", JSON.stringify({ item, version }, null, 2));
       try {
         const existingItem = await self.get(item.pk, item.sk);
 
@@ -399,11 +406,24 @@ export const tableApi = <
         const versionedItems = items.map((item) =>
           getVersion(parseItem(item, "query"), version)
         );
+
+        const areAnyUnpublished = versionedItems.some(
+          (item) => item.isUnpublished
+        );
+        if (areAnyUnpublished) {
+          console.info("some are unpublished");
+          for (const item of versionedItems) {
+            if (item.isUnpublished) {
+              console.info("unpublished item", item.item);
+            }
+          }
+        }
+
         return {
           items: versionedItems
             .map((item) => item.item)
             .filter(Boolean) as TTableRecord[],
-          areAnyUnpublished: versionedItems.some((item) => item.isUnpublished),
+          areAnyUnpublished,
         };
       } catch (err) {
         console.error("Error querying table", tableName, query, err);
@@ -413,7 +433,7 @@ export const tableApi = <
     },
     merge: async (pk: string, sk: string | undefined, version: string) => {
       console.info("merge", { pk, sk, version });
-      const existingItem = await self.get(pk, sk, version);
+      const existingItem = await self.get(pk, sk);
       if (!existingItem) {
         throw notFound(
           `Error merging item in table ${tableName}: Item not found`
@@ -421,6 +441,9 @@ export const tableApi = <
       }
       const versionMeta = existingItem.userVersions?.[version];
       if (!versionMeta) {
+        if (existingItem.noMainVersion) {
+          await lowLevelTable.delete({ pk, sk });
+        }
         return existingItem;
       }
       if (versionMeta.deleted) {
