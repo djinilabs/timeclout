@@ -33,7 +33,6 @@ import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCa
 import { toMinutes } from "../../utils/toMinutes";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "../atoms/ShiftPosition";
-import { LabeledSwitch } from "../particles/LabeledSwitch";
 import {
   TeamShiftsCalendar,
   TeamShiftsCalendarProps,
@@ -51,6 +50,7 @@ import toast from "react-hot-toast";
 import { PublishActions } from "../atoms/PublishActions";
 import { PublishShiftPositionsDialog } from "./PublishShiftPositionsDialog";
 import { RevertShiftPositionsDialog } from "./RevertShiftPositionsDialog";
+import { TeamShiftsScheduleOptionsMenu } from "./TeamShiftsScheduleOptionsMenu";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -307,6 +307,12 @@ export const TeamShiftsSchedule = () => {
 
   shiftPositionsMap = analyzedShiftPositionsMap;
 
+  // ------- templates -------
+
+  const [showTemplates, setShowTemplates] = useLocalPreference(
+    "team-shifts-calendar-show-templates",
+    false
+  );
   // ------- publish -------
 
   const onPublishChanges = useCallback(async () => {
@@ -702,33 +708,15 @@ export const TeamShiftsSchedule = () => {
         {
           type: "component",
           component: (
-            <LabeledSwitch
-              label={<Trans>Leaves</Trans>}
-              checked={showLeaveSchedule}
-              onChange={setShowLeaveSchedule}
-              aria-label="Toggle leave schedule visibility"
-            />
-          ),
-        },
-        {
-          type: "component",
-          component: (
-            <LabeledSwitch
-              label={<Trans>Details</Trans>}
-              checked={showScheduleDetails}
-              onChange={setShowScheduleDetails}
-              aria-label="Toggle schedule details visibility"
-            />
-          ),
-        },
-        {
-          type: "component",
-          component: (
-            <LabeledSwitch
-              label={<Trans>Analyze</Trans>}
-              checked={analyze}
-              onChange={setAnalyze}
-              aria-label="Toggle schedule analysis"
+            <TeamShiftsScheduleOptionsMenu
+              showLeaveSchedule={showLeaveSchedule}
+              setShowLeaveSchedule={setShowLeaveSchedule}
+              showScheduleDetails={showScheduleDetails}
+              setShowScheduleDetails={setShowScheduleDetails}
+              analyze={analyze}
+              setAnalyze={setAnalyze}
+              showTemplates={showTemplates}
+              setShowTemplates={setShowTemplates}
             />
           ),
         },
@@ -753,9 +741,11 @@ export const TeamShiftsSchedule = () => {
         setIsDialogOpen,
         setShowLeaveSchedule,
         setShowScheduleDetails,
+        setShowTemplates,
         shiftPositionsResult?.areAnyUnpublished,
         showLeaveSchedule,
         showScheduleDetails,
+        showTemplates,
         team?.resourcePermission,
       ]
     );
