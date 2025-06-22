@@ -60,18 +60,22 @@ export const TeamShiftPositionTemplates: FC<
 
   if (!teamShiftPositionTemplates || teamShiftPositionTemplates.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
-        <Trans>No shift position templates found.</Trans>
+      <div className="h-full flex flex-col">
+        <div className="text-center py-8 text-gray-500">
+          <Trans>No shift position templates found.</Trans>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4 overflow-hidden">
-      <h3 className="text-lg font-medium text-gray-900">
-        <Trans>Shift Position Templates</Trans>
-      </h3>
-      <div className="space-y-3">
+    <div className="h-full flex flex-col">
+      <div className="flex-shrink-0 mb-4">
+        <h3 className="text-lg font-medium text-gray-900">
+          <Trans>Shift Position Templates</Trans>
+        </h3>
+      </div>
+      <div className="flex-1 overflow-y-auto space-y-3">
         {teamShiftPositionTemplates.map((template, index) => {
           const analyzedShiftPosition = convertTemplateToAnalyzedShiftPosition(
             template,
