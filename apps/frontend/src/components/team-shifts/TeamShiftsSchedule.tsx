@@ -52,6 +52,7 @@ import { PublishShiftPositionsDialog } from "./PublishShiftPositionsDialog";
 import { RevertShiftPositionsDialog } from "./RevertShiftPositionsDialog";
 import { TeamShiftsScheduleOptionsMenu } from "./TeamShiftsScheduleOptionsMenu";
 import { TeamShiftsActionsMenu } from "./TeamShiftsActionsMenu";
+import { TeamShiftPositionTemplates } from "./TeamShiftPositionTemplates";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -740,6 +741,13 @@ export const TeamShiftsSchedule = () => {
       ]
     );
 
+  const tools = useMemo(() => {
+    if (showTemplates) {
+      return <TeamShiftPositionTemplates teamPk={getDefined(teamPk)} />;
+    }
+    return null;
+  }, [showTemplates, teamPk]);
+
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
@@ -839,6 +847,13 @@ export const TeamShiftsSchedule = () => {
           setEditingShiftPosition(undefined);
           setIsDialogOpen("create");
         }}
+        tools={
+          <Transition show={tools !== null} appear>
+            <div className="transition-all duration-300 ease-in data-[closed]:opacity-0 data-[closed]:w-0 w-[200px]">
+              {tools}
+            </div>
+          </Transition>
+        }
       >
         <Transition show={analyze && !isDialogOpen} appear>
           <div

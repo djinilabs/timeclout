@@ -10,6 +10,7 @@ import {
   type User,
 } from "../atoms/MonthlyCalendarPerMember";
 import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { Suspense } from "../atoms/Suspense";
 
 export interface TeamShiftsCalendarProps {
   shiftPositionsMap: Record<string, AnalyzedShiftPosition[]>;
@@ -38,6 +39,7 @@ export interface TeamShiftsCalendarProps {
       }
   >;
   onAdd?: () => unknown;
+  tools?: ReactNode;
 }
 
 export const TeamShiftsCalendar: FC<
@@ -63,10 +65,17 @@ export const TeamShiftsCalendar: FC<
         aria-label={i18n.t("Calendar view options")}
       >
         {children}
-        <div className="mt-8">
-          {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
-          {tab.href === "by-member" && <MonthlyCalendarPerMember {...props} />}
-          {tab.href === "by-duration" && <TeamShiftsSummary {...props} />}
+        <div className="mt-8 flex flex-row gap-4">
+          <div className="flex-1">
+            {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
+            {tab.href === "by-member" && (
+              <MonthlyCalendarPerMember {...props} />
+            )}
+            {tab.href === "by-duration" && <TeamShiftsSummary {...props} />}
+          </div>
+          <Suspense>
+            <div className="flex-0">{props.tools}</div>
+          </Suspense>
         </div>
       </Tabs>
     </div>
