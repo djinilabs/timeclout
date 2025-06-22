@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 import "react-day-picker/style.css";
@@ -6,7 +6,6 @@ import { Trans } from "@lingui/react/macro";
 import { dequal } from "dequal";
 import { DayDate } from "@/day-date";
 import { getDefined } from "@/utils";
-import { SchedulePositionTemplate } from "@/settings";
 import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
 import {
   CreateShiftPositionInput,
@@ -18,8 +17,6 @@ import {
   UpdateShiftPositionInput,
 } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
-import { useTeamWithSettings } from "../../hooks/useTeamWithSettings";
-import { useSaveTeamSettings } from "../../hooks/useSaveTeamSettings";
 import { calculateShiftPositionSchedulesTotalInconvenience } from "../../utils/calculateShiftPositionSchedulesTotalInconvenience";
 import { TimeSchedulesEditor } from "../team-shifts/TimeSchedulesEditor";
 import { EditQualifications } from "../team/EditQualifications";
@@ -29,6 +26,7 @@ import { Button } from "../particles/Button";
 import { ListBox } from "../particles/ListBox";
 import { DayPicker } from "../atoms/DayPicker";
 import { i18n } from "@lingui/core";
+import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionTemplates";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;
@@ -167,31 +165,11 @@ export const CreateOrEditScheduleShiftPosition: FC<
     string | undefined
   >(undefined);
 
-  const { saveTeamSettings: saveTeamTemplates } =
-    useSaveTeamSettings<"schedulePositionTemplates">({
-      teamPk: getDefined(teamPk, "No team provided"),
-      name: "schedulePositionTemplates",
-    });
-
-  const { settings: schedulePositionTemplates } =
-    useTeamWithSettings<"schedulePositionTemplates">({
-      teamPk: getDefined(teamPk, "No team provided"),
-      settingsName: "schedulePositionTemplates",
-    });
-
-  const [creatingTeamTemplate, setCreatingTeamTemplate] = useState(false);
-
-  const createTeamTemplate = useCallback(
-    async (template: SchedulePositionTemplate) => {
-      if (schedulePositionTemplates === undefined) {
-        return;
-      }
-      setCreatingTeamTemplate(true);
-      await saveTeamTemplates([...(schedulePositionTemplates ?? []), template]);
-      setCreatingTeamTemplate(false);
-    },
-    [schedulePositionTemplates, saveTeamTemplates]
-  );
+  const {
+    teamShiftPositionTemplates: schedulePositionTemplates,
+    creatingTeamShiftPositionTemplate,
+    createTeamShiftPositionTemplate,
+  } = useTeamShiftPositionTemplates(getDefined(teamPk, "No team provided"));
 
   // when using template, we need to set the form state to the values in the template
   // using a useEffect
@@ -438,16 +416,19 @@ export const CreateOrEditScheduleShiftPosition: FC<
                       <div className="my-6 col-span-full">
                         <Button
                           onClick={() => {
-                            createTeamTemplate({
+                            createTeamShiftPositionTemplate({
                               name: state.values.name,
                               color: state.values.color,
                               requiredSkills: state.values.requiredSkills,
                               schedules: state.values.schedules,
                             });
                           }}
-                          disabled={!state.values.name || creatingTeamTemplate}
+                          disabled={
+                            !state.values.name ||
+                            creatingTeamShiftPositionTemplate
+                          }
                         >
-                          {creatingTeamTemplate ? (
+                          {creatingTeamShiftPositionTemplate ? (
                             <Trans>Saving...</Trans>
                           ) : (
                             <Trans>Save as template</Trans>
