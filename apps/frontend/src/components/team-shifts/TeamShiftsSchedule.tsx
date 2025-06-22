@@ -51,6 +51,7 @@ import { PublishActions } from "../atoms/PublishActions";
 import { PublishShiftPositionsDialog } from "./PublishShiftPositionsDialog";
 import { RevertShiftPositionsDialog } from "./RevertShiftPositionsDialog";
 import { TeamShiftsScheduleOptionsMenu } from "./TeamShiftsScheduleOptionsMenu";
+import { TeamShiftsActionsMenu } from "./TeamShiftsActionsMenu";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -676,37 +677,26 @@ export const TeamShiftsSchedule = () => {
         ...((team?.resourcePermission ?? -1) >= 2 // WRITE
           ? [
               {
-                type: "button",
-                text: <Trans>Add position</Trans>,
-                label: i18n.t("Add new shift position"),
-                onClick: () => {
-                  setEditingShiftPosition(undefined);
-                  setIsDialogOpen("create");
-                },
-                "aria-label": "Add new shift position",
-              } as const,
-              {
-                type: "button",
-                text: <Trans>Auto fill</Trans>,
-                label: i18n.t("Auto fill shift positions"),
-                onClick: () => {
-                  setIsDialogOpen("autoFill");
-                },
-                "aria-label": "Auto fill shift positions",
-              } as const,
-              {
-                type: "button",
-                text: <Trans>Unassign positions</Trans>,
-                label: i18n.t("Unassign shift positions"),
-                onClick: () => {
-                  setIsDialogOpen("unassign");
-                },
-                "aria-label": "Unassign shift positions",
-              } as const,
+                type: "component" as const,
+                component: (
+                  <TeamShiftsActionsMenu
+                    onAddPosition={() => {
+                      setEditingShiftPosition(undefined);
+                      setIsDialogOpen("create");
+                    }}
+                    onAutoFill={() => {
+                      setIsDialogOpen("autoFill");
+                    }}
+                    onUnassignPositions={() => {
+                      setIsDialogOpen("unassign");
+                    }}
+                  />
+                ),
+              },
             ]
           : []),
         {
-          type: "component",
+          type: "component" as const,
           component: (
             <TeamShiftsScheduleOptionsMenu
               showLeaveSchedule={showLeaveSchedule}
@@ -721,7 +711,7 @@ export const TeamShiftsSchedule = () => {
           ),
         },
         {
-          type: "component",
+          type: "component" as const,
           component: (
             <PublishActions
               areAnyUnpublished={

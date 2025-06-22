@@ -1179,6 +1179,9 @@
   .hidden {
     display: none;
   }
+  .inline {
+    display: inline;
+  }
   .inline-block {
     display: inline-block;
   }
@@ -1333,6 +1336,9 @@
   }
   .w-36 {
     width: calc(var(--spacing) * 36);
+  }
+  .w-56 {
+    width: calc(var(--spacing) * 56);
   }
   .w-64 {
     width: calc(var(--spacing) * 64);
@@ -3207,6 +3213,11 @@
   .focus\:border-teal-600 {
     &:focus {
       border-color: var(--color-teal-600);
+    }
+  }
+  .focus\:bg-gray-100 {
+    &:focus {
+      background-color: var(--color-gray-100);
     }
   }
   .focus\:ring-1 {
