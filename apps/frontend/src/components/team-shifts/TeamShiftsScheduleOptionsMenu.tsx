@@ -1,5 +1,11 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import {
+  EllipsisHorizontalIcon,
+  CalendarIcon,
+  InformationCircleIcon,
+  ChartBarIcon,
+  DocumentDuplicateIcon,
+} from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
 import { LabeledSwitch } from "../particles/LabeledSwitch";
@@ -46,7 +52,12 @@ export const TeamShiftsScheduleOptionsMenu = ({
           <div className="space-y-3">
             <MenuItem as="div" className="cursor-default">
               <LabeledSwitch
-                label={<Trans>Leaves</Trans>}
+                label={
+                  <div className="flex items-center gap-2">
+                    <CalendarIcon className="h-4 w-4 text-gray-500" />
+                    <Trans>Leaves</Trans>
+                  </div>
+                }
                 checked={showLeaveSchedule}
                 onChange={setShowLeaveSchedule}
                 aria-label="Toggle leave schedule visibility"
@@ -54,7 +65,12 @@ export const TeamShiftsScheduleOptionsMenu = ({
             </MenuItem>
             <MenuItem as="div" className="cursor-default">
               <LabeledSwitch
-                label={<Trans>Details</Trans>}
+                label={
+                  <div className="flex items-center gap-2">
+                    <InformationCircleIcon className="h-4 w-4 text-gray-500" />
+                    <Trans>Details</Trans>
+                  </div>
+                }
                 checked={showScheduleDetails}
                 onChange={setShowScheduleDetails}
                 aria-label="Toggle schedule details visibility"
@@ -62,7 +78,12 @@ export const TeamShiftsScheduleOptionsMenu = ({
             </MenuItem>
             <MenuItem as="div" className="cursor-default">
               <LabeledSwitch
-                label={<Trans>Analyze</Trans>}
+                label={
+                  <div className="flex items-center gap-2">
+                    <ChartBarIcon className="h-4 w-4 text-gray-500" />
+                    <Trans>Analyze</Trans>
+                  </div>
+                }
                 checked={analyze}
                 onChange={setAnalyze}
                 aria-label="Toggle schedule analysis"
@@ -70,7 +91,12 @@ export const TeamShiftsScheduleOptionsMenu = ({
             </MenuItem>
             <MenuItem as="div" className="cursor-default">
               <LabeledSwitch
-                label={<Trans>Templates</Trans>}
+                label={
+                  <div className="flex items-center gap-2">
+                    <DocumentDuplicateIcon className="h-4 w-4 text-gray-500" />
+                    <Trans>Templates</Trans>
+                  </div>
+                }
                 checked={showTemplates}
                 onChange={setShowTemplates}
                 aria-label="Toggle schedule templates visibility"
