@@ -11,7 +11,7 @@ export interface ShiftPositionMenuProps {
   teamPk: string;
   shiftPosition: ShiftPositionWithFake;
   handleEditShiftPosition?: (shiftPosition: ShiftPositionWithFake) => void;
-  handleAssignShiftPosition: (
+  handleAssignShiftPosition?: (
     shiftPosition: ShiftPositionWithFake,
     member: User | null
   ) => void;

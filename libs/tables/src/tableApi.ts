@@ -72,10 +72,6 @@ const getVersion = <T extends TableBaseSchemaType>(
     return { item, isUnpublished: false };
   }
   if (userVersionMeta.deleted) {
-    console.info(
-      "getVersion: deleted",
-      JSON.stringify({ version, item }, null, 2)
-    );
     return { item: undefined, isUnpublished: true };
   }
   const userVersionProps = userVersionMeta.newProps;
@@ -235,8 +231,6 @@ export const tableApi = <
             ExpressionAttributeValues: { ":pk": pk },
           })
         ).Items;
-
-        console.debug("deleteAll:Got all items", tableName, { pk }, items);
 
         await Promise.all(
           items.map((item) => self.delete(item.pk, item.sk, version))
@@ -533,7 +527,7 @@ export const tableApi = <
      * @returns Object containing items and whether any are unpublished
      */
     query: async (query, version) => {
-      console.info("query", { query, version });
+      // console.info("query", { query, version });
       try {
         let items: TTableRecord[] = [];
         let lastEvaluatedKey: Record<string, unknown> | undefined = undefined;
@@ -580,7 +574,7 @@ export const tableApi = <
      * @returns The merged item
      */
     merge: async (pk: string, sk: string | undefined, version: string) => {
-      console.info("merge", { pk, sk, version });
+      // console.info("merge", { pk, sk, version });
       const existingItem = await self.get(pk, sk);
       if (!existingItem) {
         throw notFound(

@@ -4,6 +4,7 @@ import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.
 
 export type ShiftPositionWithFake = ShiftPositionType & {
   fake?: boolean;
+  isTemplate?: boolean;
   fakeFrom?: string;
   original: ShiftPositionType;
 };

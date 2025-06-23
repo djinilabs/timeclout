@@ -33,7 +33,6 @@ import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCa
 import { toMinutes } from "../../utils/toMinutes";
 import { classNames } from "../../utils/classNames";
 import { ShiftPosition } from "../atoms/ShiftPosition";
-import { LabeledSwitch } from "../particles/LabeledSwitch";
 import {
   TeamShiftsCalendar,
   TeamShiftsCalendarProps,
@@ -51,6 +50,10 @@ import toast from "react-hot-toast";
 import { PublishActions } from "../atoms/PublishActions";
 import { PublishShiftPositionsDialog } from "./PublishShiftPositionsDialog";
 import { RevertShiftPositionsDialog } from "./RevertShiftPositionsDialog";
+import { TeamShiftsScheduleOptionsMenu } from "./TeamShiftsScheduleOptionsMenu";
+import { TeamShiftsActionsMenu } from "./TeamShiftsActionsMenu";
+import { TeamShiftPositionTemplates } from "./TeamShiftPositionTemplates";
+import { CreateShiftPositionTemplateDialog } from "./CreateShiftPositionTemplateDialog";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -106,8 +109,17 @@ export const TeamShiftsSchedule = () => {
     pause: !!isDialogOpen,
   });
 
-  const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
-    useTeamShiftsDragAndDrop(shiftPositionsResult?.shiftPositions ?? []);
+  const {
+    draggingShiftPosition,
+    onCellDragOver,
+    onCellDragLeave,
+    onCellDrop,
+    onShiftPositionDragStart,
+    onShiftPositionDragEnd,
+  } = useTeamShiftsDragAndDrop(
+    getDefined(teamPk),
+    shiftPositionsResult?.shiftPositions ?? []
+  );
 
   // ------- assign shift positions -------
   // asssign shift positions
@@ -153,7 +165,7 @@ export const TeamShiftsSchedule = () => {
   );
 
   let { shiftPositionsMap } = useTeamShiftPositionsMap({
-    draggingShiftPosition,
+    draggingShiftPosition: draggingShiftPosition as ShiftPositionType | null,
     shiftPositionsResult: shiftPositionsResult?.shiftPositions ?? [],
     spillTime: showScheduleDetails,
   });
@@ -307,6 +319,12 @@ export const TeamShiftsSchedule = () => {
 
   shiftPositionsMap = analyzedShiftPositionsMap;
 
+  // ------- templates -------
+
+  const [showTemplates, setShowTemplates] = useLocalPreference(
+    "team-shifts-calendar-show-templates",
+    false
+  );
   // ------- publish -------
 
   const onPublishChanges = useCallback(async () => {
@@ -489,6 +507,8 @@ export const TeamShiftsSchedule = () => {
                   )}
                   showScheduleDetails={showScheduleDetails}
                   handleAssignShiftPosition={handleAssignShiftPosition}
+                  onShiftPositionDragStart={onShiftPositionDragStart}
+                  onShiftPositionDragEnd={onShiftPositionDragEnd}
                 />
               </div>
             );
@@ -507,6 +527,8 @@ export const TeamShiftsSchedule = () => {
       maxLeaveRowsPerWeekNumber,
       maxRowsPerWeekNumber,
       onShiftPositionClick,
+      onShiftPositionDragEnd,
+      onShiftPositionDragStart,
       pasteShiftPositionFromClipboard,
       selectedShiftPositionKeys,
       setFocusedShiftPosition,
@@ -639,6 +661,8 @@ export const TeamShiftsSchedule = () => {
                 )}
                 showScheduleDetails={showScheduleDetails}
                 handleAssignShiftPosition={handleAssignShiftPosition}
+                onShiftPositionDragStart={onShiftPositionDragStart}
+                onShiftPositionDragEnd={onShiftPositionDragEnd}
               />
             </div>
           ))}
@@ -655,6 +679,8 @@ export const TeamShiftsSchedule = () => {
       memberLeaveMap,
       memberShiftPositionsMap,
       onShiftPositionClick,
+      onShiftPositionDragEnd,
+      onShiftPositionDragStart,
       pasteShiftPositionFromClipboard,
       selectedShiftPositionKeys,
       setFocusedShiftPosition,
@@ -670,70 +696,41 @@ export const TeamShiftsSchedule = () => {
         ...((team?.resourcePermission ?? -1) >= 2 // WRITE
           ? [
               {
-                type: "button",
-                text: <Trans>Add position</Trans>,
-                label: i18n.t("Add new shift position"),
-                onClick: () => {
-                  setEditingShiftPosition(undefined);
-                  setIsDialogOpen("create");
-                },
-                "aria-label": "Add new shift position",
-              } as const,
-              {
-                type: "button",
-                text: <Trans>Auto fill</Trans>,
-                label: i18n.t("Auto fill shift positions"),
-                onClick: () => {
-                  setIsDialogOpen("autoFill");
-                },
-                "aria-label": "Auto fill shift positions",
-              } as const,
-              {
-                type: "button",
-                text: <Trans>Unassign positions</Trans>,
-                label: i18n.t("Unassign shift positions"),
-                onClick: () => {
-                  setIsDialogOpen("unassign");
-                },
-                "aria-label": "Unassign shift positions",
-              } as const,
+                type: "component" as const,
+                component: (
+                  <TeamShiftsActionsMenu
+                    onAddPosition={() => {
+                      setEditingShiftPosition(undefined);
+                      setIsDialogOpen("create");
+                    }}
+                    onAutoFill={() => {
+                      setIsDialogOpen("autoFill");
+                    }}
+                    onUnassignPositions={() => {
+                      setIsDialogOpen("unassign");
+                    }}
+                  />
+                ),
+              },
             ]
           : []),
         {
-          type: "component",
+          type: "component" as const,
           component: (
-            <LabeledSwitch
-              label={<Trans>Leaves</Trans>}
-              checked={showLeaveSchedule}
-              onChange={setShowLeaveSchedule}
-              aria-label="Toggle leave schedule visibility"
+            <TeamShiftsScheduleOptionsMenu
+              showLeaveSchedule={showLeaveSchedule}
+              setShowLeaveSchedule={setShowLeaveSchedule}
+              showScheduleDetails={showScheduleDetails}
+              setShowScheduleDetails={setShowScheduleDetails}
+              analyze={analyze}
+              setAnalyze={setAnalyze}
+              showTemplates={showTemplates}
+              setShowTemplates={setShowTemplates}
             />
           ),
         },
         {
-          type: "component",
-          component: (
-            <LabeledSwitch
-              label={<Trans>Details</Trans>}
-              checked={showScheduleDetails}
-              onChange={setShowScheduleDetails}
-              aria-label="Toggle schedule details visibility"
-            />
-          ),
-        },
-        {
-          type: "component",
-          component: (
-            <LabeledSwitch
-              label={<Trans>Analyze</Trans>}
-              checked={analyze}
-              onChange={setAnalyze}
-              aria-label="Toggle schedule analysis"
-            />
-          ),
-        },
-        {
-          type: "component",
+          type: "component" as const,
           component: (
             <PublishActions
               areAnyUnpublished={
@@ -753,12 +750,28 @@ export const TeamShiftsSchedule = () => {
         setIsDialogOpen,
         setShowLeaveSchedule,
         setShowScheduleDetails,
+        setShowTemplates,
         shiftPositionsResult?.areAnyUnpublished,
         showLeaveSchedule,
         showScheduleDetails,
+        showTemplates,
         team?.resourcePermission,
       ]
     );
+
+  const tools = useMemo(() => {
+    if (showTemplates) {
+      return (
+        <TeamShiftPositionTemplates
+          teamPk={getDefined(teamPk)}
+          onCreateTemplate={() => {
+            setIsDialogOpen("create template");
+          }}
+        />
+      );
+    }
+    return null;
+  }, [showTemplates, teamPk, setIsDialogOpen]);
 
   if (error) {
     return (
@@ -837,6 +850,13 @@ export const TeamShiftsSchedule = () => {
         }}
         teamPk={getDefined(teamPk)}
       />
+      <CreateShiftPositionTemplateDialog
+        isDialogOpen={isDialogOpen === "create template"}
+        onClose={() => {
+          setIsDialogOpen(null);
+        }}
+        teamPk={getDefined(teamPk)}
+      />
       <TeamShiftsCalendar
         shiftPositionsMap={shiftPositionsMap}
         show={!isDialogOpen}
@@ -859,6 +879,13 @@ export const TeamShiftsSchedule = () => {
           setEditingShiftPosition(undefined);
           setIsDialogOpen("create");
         }}
+        tools={
+          <Transition show={tools !== null} appear>
+            <div className="transition-all duration-300 ease-in data-[closed]:opacity-0 data-[closed]:w-0 w-[200px]">
+              {tools}
+            </div>
+          </Transition>
+        }
       >
         <Transition show={analyze && !isDialogOpen} appear>
           <div

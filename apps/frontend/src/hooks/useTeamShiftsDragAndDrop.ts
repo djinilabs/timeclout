@@ -1,65 +1,125 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useCallback, useState } from "react";
 import { nanoid } from "nanoid";
 import { useTeamShiftActions } from "./useTeamShiftActions";
 import { ShiftPosition } from "../graphql/graphql";
+import { useDragAndDrop } from "./useDragAndDrop";
+import { ShiftPositionWithFake } from "./useTeamShiftPositionsMap";
 
-export const useTeamShiftsDragAndDrop = (shiftPositions: ShiftPosition[]) => {
+export const useTeamShiftsDragAndDrop = (
+  teamPk: string,
+  shiftPositions: ShiftPosition[]
+) => {
+  const { setDragging, dragging, resetDragging } = useDragAndDrop();
   const [draggingShiftPosition, setDraggingShiftPosition] =
-    useState<ShiftPosition | null>(null);
+    useState<ShiftPositionWithFake | null>(null);
   const lastDraggedToDay = useRef<string | null>(null);
 
+  const onShiftPositionDragStart = useCallback(
+    (
+      shiftPosition: ShiftPositionWithFake,
+      e: React.DragEvent<HTMLDivElement>
+    ) => {
+      console.log("onShiftPositionDragStart", shiftPosition);
+      setDraggingShiftPosition(shiftPosition);
+      e.dataTransfer.dropEffect = "move";
+      e.currentTarget.setAttribute("aria-grabbed", "true");
+    },
+    []
+  );
+
+  const onShiftPositionDragEnd = useCallback(
+    (_: ShiftPositionWithFake, e: React.DragEvent<HTMLDivElement>) => {
+      console.log("onShiftPositionDragEnd");
+      setDraggingShiftPosition(null);
+      e.currentTarget.setAttribute("aria-grabbed", "false");
+    },
+    []
+  );
+
   const onCellDragOver = useCallback(
-    (day: string, e: React.DragEvent<HTMLDivElement>) => {
+    (day: string) => {
       if (lastDraggedToDay.current == day) {
         return;
       }
       lastDraggedToDay.current = day;
-      const data = e.dataTransfer.types[0];
+      if (!draggingShiftPosition) {
+        return;
+      }
       const foundPosition = shiftPositions?.find(
-        (shiftPosition) => shiftPosition.sk.toLowerCase() === data
+        (shiftPosition) => shiftPosition.sk === draggingShiftPosition.sk
       );
-      if (!foundPosition || foundPosition.day == day) {
+      if (!foundPosition || draggingShiftPosition.day == day) {
         return;
       }
       const position = {
-        ...foundPosition,
+        ...draggingShiftPosition,
         day,
         sk: `day/${nanoid()}`, // fake sk
         fake: true,
-        fakeFrom: foundPosition.sk,
+        fakeFrom: draggingShiftPosition.sk,
       };
-      setDraggingShiftPosition(position);
+      setDragging(position);
     },
-    [shiftPositions]
+    [draggingShiftPosition, setDragging, shiftPositions]
   );
 
   const onCellDragLeave = useCallback(() => {
     lastDraggedToDay.current = null;
-    setDraggingShiftPosition(null);
-  }, []);
+    console.log("onCellDragLeave");
+    if (draggingShiftPosition) {
+      resetDragging();
+    }
+  }, [draggingShiftPosition, resetDragging]);
 
-  const { moveShiftPosition } = useTeamShiftActions();
+  const { moveShiftPosition, createShiftPosition } = useTeamShiftActions();
 
   const onCellDrop = useCallback(
-    (day: string, e: React.DragEvent<HTMLDivElement>) => {
-      const data = e.dataTransfer.types[0];
+    (day: string) => {
+      console.log("onCellDrop", dragging);
+      const shiftPosition = dragging as ShiftPositionWithFake | null;
+      if (!shiftPosition) {
+        return;
+      }
+      if (shiftPosition.isTemplate) {
+        createShiftPosition({
+          team: teamPk,
+          name: shiftPosition.name,
+          color: shiftPosition.color,
+          day: day,
+          requiredSkills: shiftPosition.requiredSkills,
+          schedules: shiftPosition.schedules,
+        });
+        return;
+      }
+      const sk = shiftPosition.fakeFrom?.toLowerCase();
       lastDraggedToDay.current = day;
-      const foundPosition = shiftPositions?.find(
-        (shiftPosition) => shiftPosition.sk.toLowerCase() === data
-      );
+      const foundPosition = shiftPositions?.find((shiftPosition) => {
+        return shiftPosition.sk.toLowerCase() === sk;
+      });
       if (!foundPosition || foundPosition.day == day) {
         return;
       }
       moveShiftPosition(foundPosition.pk, foundPosition.sk, day);
-      setDraggingShiftPosition(null);
+      resetDragging();
     },
-    [moveShiftPosition, shiftPositions]
+    [
+      createShiftPosition,
+      moveShiftPosition,
+      resetDragging,
+      shiftPositions,
+      dragging,
+      teamPk,
+    ]
   );
 
   return {
+    onShiftPositionDragStart,
+    onShiftPositionDragEnd,
     onCellDragOver,
     onCellDragLeave,
     onCellDrop,
-    draggingShiftPosition,
+    draggingShiftPosition: (dragging as ShiftPositionWithFake)?.isTemplate
+      ? null
+      : dragging,
   };
 };

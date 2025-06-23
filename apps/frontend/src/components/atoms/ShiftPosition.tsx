@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 import { Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { colors } from "@/settings";
@@ -28,7 +28,7 @@ export interface ShiftPositionProps {
   autoFocus?: boolean;
   tabIndex?: number;
   handleEditShiftPosition?: (shiftPosition: ShiftPositionWithFake) => void;
-  handleAssignShiftPosition: (
+  handleAssignShiftPosition?: (
     shiftPosition: ShiftPositionType,
     member: User | null
   ) => void;
@@ -40,6 +40,16 @@ export interface ShiftPositionProps {
   conflicts?: boolean;
   isSelected?: boolean;
   showScheduleDetails?: boolean;
+  showMenu?: boolean;
+  marginLeftAccordingToSchedule?: boolean;
+  onShiftPositionDragStart?: (
+    shiftPosition: ShiftPositionWithFake,
+    e: React.DragEvent<HTMLDivElement>
+  ) => void;
+  onShiftPositionDragEnd?: (
+    shiftPosition: ShiftPositionWithFake,
+    e: React.DragEvent<HTMLDivElement>
+  ) => void;
 }
 
 const isValidNumber = (value: number | undefined): value is number =>
@@ -120,6 +130,10 @@ export const ShiftPosition = memo(
     conflicts: originalConflicts,
     isSelected,
     showScheduleDetails,
+    showMenu = true,
+    marginLeftAccordingToSchedule = true,
+    onShiftPositionDragStart,
+    onShiftPositionDragEnd,
   }: ShiftPositionProps) => {
     const conflicts =
       originalConflicts ||
@@ -158,6 +172,23 @@ export const ShiftPosition = memo(
       }
     }, [focus, shiftPosition.day]);
 
+    const draggable =
+      onShiftPositionDragStart != null || onShiftPositionDragEnd != null;
+
+    const onDragStart = useCallback(
+      (e: React.DragEvent<HTMLDivElement>) => {
+        onShiftPositionDragStart?.(shiftPosition, e);
+      },
+      [onShiftPositionDragStart, shiftPosition]
+    );
+
+    const onDragEnd = useCallback(
+      (e: React.DragEvent<HTMLDivElement>) => {
+        onShiftPositionDragEnd?.(shiftPosition, e);
+      },
+      [onShiftPositionDragEnd, shiftPosition]
+    );
+
     const rowSpan =
       isValidNumber(shiftPosition.rowStart) &&
       isValidNumber(shiftPosition.rowEnd)
@@ -174,23 +205,17 @@ export const ShiftPosition = memo(
           onFocus={() => setFocusedShiftPosition?.(shiftPosition)}
           autoFocus={autoFocus}
           tabIndex={tabIndex}
-          draggable
+          draggable={draggable}
           role="button"
           aria-label={`${shiftPosition.name || "Shift"} on ${
             shiftPosition.day
           }`}
           aria-grabbed="false"
-          onDragStart={(e) => {
-            e.dataTransfer.setData(shiftPosition.sk, "");
-            e.dataTransfer.dropEffect = "move";
-            e.currentTarget.setAttribute("aria-grabbed", "true");
-          }}
-          onDragEnd={(e) => {
-            e.dataTransfer.clearData();
-            e.currentTarget.setAttribute("aria-grabbed", "false");
-          }}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
           className={classNames(
-            "rounded-sm group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full",
+            "rounded-sm group relative items-center justify-center active:cursor-grabbing h-full w-full",
+            draggable && "cursor-grab",
             shiftPosition.fake && "opacity-50",
             "hover:ring-2 hover:ring-gray-200",
             "outline-hidden",
@@ -210,21 +235,26 @@ export const ShiftPosition = memo(
               focus || lastRow ? undefined : `1px solid rgb(243 244 246)`,
           }}
         >
-          <ShiftPositionMenu
-            teamPk={teamPk}
-            shiftPosition={shiftPosition}
-            handleAssignShiftPosition={handleAssignShiftPosition}
-            handleEditShiftPosition={handleEditShiftPosition}
-            copyShiftPositionToClipboard={copyShiftPositionToClipboard}
-            hasCopiedShiftPosition={hasCopiedShiftPosition}
-            pasteShiftPositionFromClipboard={pasteShiftPositionFromClipboard}
-            deleteShiftPosition={deleteShiftPosition}
-          />
+          {showMenu && (
+            <ShiftPositionMenu
+              teamPk={teamPk}
+              shiftPosition={shiftPosition}
+              handleAssignShiftPosition={handleAssignShiftPosition}
+              handleEditShiftPosition={handleEditShiftPosition}
+              copyShiftPositionToClipboard={copyShiftPositionToClipboard}
+              hasCopiedShiftPosition={hasCopiedShiftPosition}
+              pasteShiftPositionFromClipboard={pasteShiftPositionFromClipboard}
+              deleteShiftPosition={deleteShiftPosition}
+            />
+          )}
 
           <div
             className="flex-auto flex items-center justify-left ml-2 overflow-hidden transition-all duration-300 ease-in"
             style={{
-              marginLeft: showScheduleDetails ? `${startPercent}%` : undefined,
+              marginLeft:
+                showScheduleDetails && marginLeftAccordingToSchedule
+                  ? `${startPercent}%`
+                  : undefined,
             }}
           >
             <div className="flex flex-col w-full">
@@ -369,6 +399,7 @@ export const ShiftPosition = memo(
             <div className="transition-all duration-300 ease-in data-[closed]:opacity-0">
               <MiniTimeScheduleVisualizer
                 schedules={schedules as Array<TimeSchedule>}
+                marginLeftAccordingToSchedule={marginLeftAccordingToSchedule}
               />
             </div>
           </Transition>

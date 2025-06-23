@@ -16,6 +16,7 @@ import { AppLocalSettingsProvider } from "./contexts/AppLocalSettingsContext";
 import "./styles/print.css";
 import { monitorActivityFetch } from "./utils/monitorActivityFetch";
 import { FetchActivityProvider } from "./providers/FetchActivityProvider";
+import { DragAndDropProvider } from "./providers/DragAndDropProvider";
 
 const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
 
@@ -64,11 +65,13 @@ const AppComponent: FC = () => {
                 >
                   <UrqlProvider value={graphqlClient}>
                     <FetchActivityProvider monitorFetch={monitorFetch}>
-                      <RequiresSession>
-                        <Suspense>
-                          <AppRoutes />
-                        </Suspense>
-                      </RequiresSession>
+                      <DragAndDropProvider>
+                        <RequiresSession>
+                          <Suspense>
+                            <AppRoutes />
+                          </Suspense>
+                        </RequiresSession>
+                      </DragAndDropProvider>
                     </FetchActivityProvider>
                   </UrqlProvider>
                 </SessionProvider>
