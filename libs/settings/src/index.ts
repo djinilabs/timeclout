@@ -8,3 +8,4 @@ export * from "./qualifications";
 export * from "./userQualifications";
 export * from "./schedulePositionTemplates";
 export * from "./colors";
+export * from "./scheduleDayTemplates";

@@ -1,8 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
-import { SchedulePositionTemplate } from "@/settings";
+import { ScheduleDayTemplate } from "@/settings";
 import { useTeamWithSettings } from "./useTeamWithSettings";
 import { useSaveTeamSettings } from "./useSaveTeamSettings";
-import { ScheduleDayTemplate } from "libs/settings/src/scheduleDayTemplates";
 
 export const useTeamDayTemplates = (teamPk: string) => {
   const { saveTeamSettings: saveTeamDayTemplates } =
@@ -17,33 +16,29 @@ export const useTeamDayTemplates = (teamPk: string) => {
       settingsName: "scheduleDayTemplates",
     });
 
-  const [
-    creatingTeamShiftPositionTemplate,
-    setCreatingTeamShiftPositionTemplate,
-  ] = useState(false);
+  const [creatingTeamScheduleDayTemplate, setCreatingTeamScheduleDayTemplate] =
+    useState(false);
 
-  const createTeamShiftPositionTemplate = useCallback(
+  const createTeamScheduleDayTemplate = useCallback(
     async (template: ScheduleDayTemplate) => {
       if (scheduleDayTemplates === undefined) {
         return;
       }
-      setCreatingTeamShiftPositionTemplate(true);
+      setCreatingTeamScheduleDayTemplate(true);
       await saveTeamDayTemplates({ ...(scheduleDayTemplates ?? {}), template });
-      setCreatingTeamShiftPositionTemplate(false);
+      setCreatingTeamScheduleDayTemplate(false);
     },
     [scheduleDayTemplates, saveTeamDayTemplates]
   );
 
-  const deleteTeamShiftPositionTemplate = useCallback(
-    async (template: SchedulePositionTemplate) => {
+  const deleteTeamScheduleDayTemplate = useCallback(
+    async (name: string) => {
       if (scheduleDayTemplates === undefined) {
         return;
       }
       await saveTeamDayTemplates(
         Object.fromEntries(
-          Object.entries(scheduleDayTemplates).filter(
-            ([key]) => key !== template.name
-          )
+          Object.entries(scheduleDayTemplates).filter(([key]) => key !== name)
         )
       );
     },
@@ -53,14 +48,14 @@ export const useTeamDayTemplates = (teamPk: string) => {
   return useMemo(() => {
     return {
       teamDayTemplates: scheduleDayTemplates,
-      creatingTeamShiftPositionTemplate,
-      createTeamShiftPositionTemplate,
-      deleteTeamShiftPositionTemplate,
+      creatingTeamScheduleDayTemplate,
+      createTeamScheduleDayTemplate,
+      deleteTeamScheduleDayTemplate,
     };
   }, [
-    creatingTeamShiftPositionTemplate,
-    createTeamShiftPositionTemplate,
-    deleteTeamShiftPositionTemplate,
+    creatingTeamScheduleDayTemplate,
+    createTeamScheduleDayTemplate,
+    deleteTeamScheduleDayTemplate,
     scheduleDayTemplates,
   ]);
 };
