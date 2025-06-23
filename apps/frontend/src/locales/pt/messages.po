@@ -655,6 +655,11 @@ msgid "Open actions menu"
 msgstr "Abrir menu de acções"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftPositionTemplates.tsx:111
+msgid "Delete template"
+msgstr "Remover modelo"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:394
 #: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:8
 msgid "Team shifts calendar"
@@ -1210,41 +1215,41 @@ msgid "Delete shift"
 msgstr "Remover turno"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:245
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:248
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:254
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:257
 msgid "Leave conflict detected"
 msgstr "Detetado conflito com ausência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:255
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:261
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:264
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:270
 msgid "Maximum interval between shifts rule violated"
 msgstr "Regra de intervalo máximo entre turnos violada"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:270
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:276
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:279
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:285
 msgid "Minimum number of shifts per week in standard workday rule violated"
 msgstr "Violação da regra de número mínimo de turnos durante a semana de trabalho"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:285
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:291
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:294
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:300
 msgid "Minimum rest slots after shift rule violated"
 msgstr "Violação da regra de horas de descanso depois de turno"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:334
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:343
 msgid "Inconvenience Equality Deviation"
 msgstr "Desvio da Igualdade de Inconveniência"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:346
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:355
 msgid "Slot Equality Deviation"
 msgstr "Desvio da Igualdade de número de Posições atribuidas"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/ShiftPosition.tsx:359
+#: apps/frontend/src/components/atoms/ShiftPosition.tsx:368
 msgid "Slot Proximity Equality Deviation"
 msgstr "Desvio da Igualdade de Proximidade"
 
@@ -1325,10 +1330,6 @@ msgstr "Aceitar Convite"
 #: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:294
 msgid "Acceptable Qualifications"
 msgstr "Qualificações aceitáveis"
-
-#: apps/frontend/src/components/team-shifts/TeamShiftPositionTemplates.tsx:114
-msgid "Acceptable Skills:"
-msgstr "Qualificações aceites:"
 
 #: apps/frontend/src/components/team-shifts/TeamShiftsActionsMenu.tsx:29
 msgid "Actions"
@@ -2049,7 +2050,7 @@ msgstr "Nenhum gestor atribuído"
 msgid "No qualifications available for this team."
 msgstr "Nenhuma qualificação disponível para esta equipa."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftPositionTemplates.tsx:64
+#: apps/frontend/src/components/team-shifts/TeamShiftPositionTemplates.tsx:67
 msgid "No shift position templates found."
 msgstr "Não tem modelos de posição de turno"
 
@@ -2402,7 +2403,7 @@ msgstr "Definir o utilizador atribuído a esta posição."
 msgid "Settings"
 msgstr "Definir as configurações"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftPositionTemplates.tsx:72
+#: apps/frontend/src/components/team-shifts/TeamShiftPositionTemplates.tsx:77
 msgid "Shift Position Templates"
 msgstr "Modelos de Posição de Turno"
 
@@ -2692,6 +2693,10 @@ msgstr "Igualdade de turnos do trabalhador"
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:418
 msgid "Worker Shift Proximity"
 msgstr "Proximidade de turnos do trabalhador"
+
+#: apps/frontend/src/components/team-shifts/TeamShiftPositionTemplates.tsx:83
+msgid "You can drag and drop templates to the team shift calendar."
+msgstr "Pode arrastar e largar modelos para cima do calendário de turnos"
 
 #: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:26
 msgid "You can subscribe to your team's calendar using the URL below. This allows you to see team shifts directly in your calendar app. To subscribe:"
