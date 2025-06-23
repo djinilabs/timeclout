@@ -4,7 +4,11 @@ import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionT
 import { ShiftPosition } from "../atoms/ShiftPosition";
 import { type AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { type SchedulePositionTemplate } from "@/settings";
-import { InformationCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  InformationCircleIcon,
+  PlusCircleIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { Button } from "../particles/Button";
 import { Hint } from "../particles/Hint";
 import { i18n } from "@lingui/core";
@@ -13,6 +17,7 @@ import { ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 
 export interface TeamShiftPositionTemplatesProps {
   teamPk: string;
+  onCreateTemplate: () => void;
 }
 
 // Helper function to convert SchedulePositionTemplate to AnalyzedShiftPosition
@@ -50,7 +55,7 @@ const convertTemplateToAnalyzedShiftPosition = (
 
 export const TeamShiftPositionTemplates: FC<
   TeamShiftPositionTemplatesProps
-> = ({ teamPk }) => {
+> = ({ teamPk, onCreateTemplate }) => {
   const { teamShiftPositionTemplates, deleteTeamShiftPositionTemplate } =
     useTeamShiftPositionTemplates(teamPk);
 
@@ -108,6 +113,13 @@ export const TeamShiftPositionTemplates: FC<
             You can drag and drop templates to the team shift calendar.
           </Trans>
         </p>
+        <button
+          onClick={onCreateTemplate}
+          className="flex items-center gap-1 text-blue-500 hover:text-blue-600 hover:bg-blue-50 p-1 rounded-lg cursor-pointer"
+        >
+          <PlusCircleIcon className="w-4 h-4" aria-hidden="true" />
+          <Trans>Create template</Trans>
+        </button>
       </div>
       <div className="flex-1 overflow-y-auto space-y-3">
         {teamShiftPositionTemplates.map((template, index) => {

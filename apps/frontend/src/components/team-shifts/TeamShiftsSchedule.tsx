@@ -53,6 +53,7 @@ import { RevertShiftPositionsDialog } from "./RevertShiftPositionsDialog";
 import { TeamShiftsScheduleOptionsMenu } from "./TeamShiftsScheduleOptionsMenu";
 import { TeamShiftsActionsMenu } from "./TeamShiftsActionsMenu";
 import { TeamShiftPositionTemplates } from "./TeamShiftPositionTemplates";
+import { CreateShiftPositionTemplateDialog } from "./CreateShiftPositionTemplateDialog";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -760,10 +761,17 @@ export const TeamShiftsSchedule = () => {
 
   const tools = useMemo(() => {
     if (showTemplates) {
-      return <TeamShiftPositionTemplates teamPk={getDefined(teamPk)} />;
+      return (
+        <TeamShiftPositionTemplates
+          teamPk={getDefined(teamPk)}
+          onCreateTemplate={() => {
+            setIsDialogOpen("create template");
+          }}
+        />
+      );
     }
     return null;
-  }, [showTemplates, teamPk]);
+  }, [showTemplates, teamPk, setIsDialogOpen]);
 
   if (error) {
     return (
@@ -839,6 +847,13 @@ export const TeamShiftsSchedule = () => {
         onRevert={() => {
           setIsDialogOpen(null);
           refetchTeamShiftsQuery();
+        }}
+        teamPk={getDefined(teamPk)}
+      />
+      <CreateShiftPositionTemplateDialog
+        isDialogOpen={isDialogOpen === "create template"}
+        onClose={() => {
+          setIsDialogOpen(null);
         }}
         teamPk={getDefined(teamPk)}
       />
