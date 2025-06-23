@@ -40,6 +40,8 @@ export interface ShiftPositionProps {
   conflicts?: boolean;
   isSelected?: boolean;
   showScheduleDetails?: boolean;
+  showMenu?: boolean;
+  marginLeftAccordingToSchedule?: boolean;
 }
 
 const isValidNumber = (value: number | undefined): value is number =>
@@ -120,6 +122,8 @@ export const ShiftPosition = memo(
     conflicts: originalConflicts,
     isSelected,
     showScheduleDetails,
+    showMenu = true,
+    marginLeftAccordingToSchedule = true,
   }: ShiftPositionProps) => {
     const conflicts =
       originalConflicts ||
@@ -210,21 +214,26 @@ export const ShiftPosition = memo(
               focus || lastRow ? undefined : `1px solid rgb(243 244 246)`,
           }}
         >
-          <ShiftPositionMenu
-            teamPk={teamPk}
-            shiftPosition={shiftPosition}
-            handleAssignShiftPosition={handleAssignShiftPosition}
-            handleEditShiftPosition={handleEditShiftPosition}
-            copyShiftPositionToClipboard={copyShiftPositionToClipboard}
-            hasCopiedShiftPosition={hasCopiedShiftPosition}
-            pasteShiftPositionFromClipboard={pasteShiftPositionFromClipboard}
-            deleteShiftPosition={deleteShiftPosition}
-          />
+          {showMenu && (
+            <ShiftPositionMenu
+              teamPk={teamPk}
+              shiftPosition={shiftPosition}
+              handleAssignShiftPosition={handleAssignShiftPosition}
+              handleEditShiftPosition={handleEditShiftPosition}
+              copyShiftPositionToClipboard={copyShiftPositionToClipboard}
+              hasCopiedShiftPosition={hasCopiedShiftPosition}
+              pasteShiftPositionFromClipboard={pasteShiftPositionFromClipboard}
+              deleteShiftPosition={deleteShiftPosition}
+            />
+          )}
 
           <div
             className="flex-auto flex items-center justify-left ml-2 overflow-hidden transition-all duration-300 ease-in"
             style={{
-              marginLeft: showScheduleDetails ? `${startPercent}%` : undefined,
+              marginLeft:
+                showScheduleDetails && marginLeftAccordingToSchedule
+                  ? `${startPercent}%`
+                  : undefined,
             }}
           >
             <div className="flex flex-col w-full">
@@ -369,6 +378,7 @@ export const ShiftPosition = memo(
             <div className="transition-all duration-300 ease-in data-[closed]:opacity-0">
               <MiniTimeScheduleVisualizer
                 schedules={schedules as Array<TimeSchedule>}
+                marginLeftAccordingToSchedule={marginLeftAccordingToSchedule}
               />
             </div>
           </Transition>

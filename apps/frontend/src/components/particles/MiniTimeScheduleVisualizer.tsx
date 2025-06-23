@@ -1,15 +1,12 @@
 import { FC, memo, useMemo } from "react";
 import { toMinutes } from "../../utils/toMinutes";
 import { Hint } from "./Hint";
+import { classNames } from "../../utils/classNames";
 
 export interface TimeSchedule {
   startHourMinutes: [number, number];
   endHourMinutes: [number, number];
   inconveniencePerHour: number;
-}
-
-export interface TimeScheduleVisualizerProps {
-  schedules: TimeSchedule[];
 }
 
 const getPercentageOfDays = (schedules: TimeSchedule[]) => {
@@ -29,8 +26,87 @@ const getPrintableEndHour = (endHour: number) => {
   return endHour === 0 ? 24 : endHour;
 };
 
+interface ScheduleBarProps {
+  schedules: TimeSchedule[];
+  totalMinutes: number;
+  marginLeftAccordingToSchedule?: boolean;
+}
+
+const ScheduleBar: FC<ScheduleBarProps> = ({
+  schedules,
+  totalMinutes,
+  marginLeftAccordingToSchedule = true,
+}) => {
+  const firstSchedule = schedules[0];
+  const startSkewInPercent = marginLeftAccordingToSchedule
+    ? 0
+    : Math.round(
+        (toMinutes(firstSchedule.startHourMinutes) / totalMinutes) * 100
+      );
+  return (
+    <div
+      className="relative h-1 rounded-sm col-span-5"
+      role="list"
+      aria-label="Time schedule segments"
+    >
+      {schedules.map((schedule, index) => {
+        const start = schedule.startHourMinutes;
+        const end = schedule.endHourMinutes;
+
+        const startPercent =
+          Math.round((toMinutes(start) / totalMinutes) * 100) -
+          startSkewInPercent;
+        const endPercent =
+          Math.round((toMinutes(end) / totalMinutes) * 100) -
+          startSkewInPercent;
+        const width = endPercent - startPercent;
+
+        const printableEndHour = getPrintableEndHour(end[0]);
+
+        return (
+          <Hint
+            key={index}
+            hint={`${String(start[0]).padStart(2, "0")}:${String(
+              start[1]
+            ).padStart(2, "0")} - ${String(printableEndHour).padStart(
+              2,
+              "0"
+            )}:${String(end[1]).padStart(2, "0")}`}
+            className="absolute h-full rounded-sm transition-all duration-300 ease-in"
+            style={{
+              left: `${startPercent}%`,
+              width: `${width}%`,
+              backgroundColor: `rgb(${Math.min(
+                255,
+                schedule.inconveniencePerHour * 100
+              )}, ${Math.max(
+                0,
+                255 - schedule.inconveniencePerHour * 100
+              )}, 0)`,
+            }}
+            aria-label={`Time segment from ${String(start[0]).padStart(
+              2,
+              "0"
+            )}:${String(start[1]).padStart(2, "0")} to ${String(
+              printableEndHour
+            ).padStart(2, "0")}:${String(end[1]).padStart(
+              2,
+              "0"
+            )} with inconvenience level ${schedule.inconveniencePerHour}`}
+          ></Hint>
+        );
+      })}
+    </div>
+  );
+};
+
+export interface TimeScheduleVisualizerProps {
+  schedules: TimeSchedule[];
+  marginLeftAccordingToSchedule?: boolean;
+}
+
 export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
-  ({ schedules }) => {
+  ({ schedules, marginLeftAccordingToSchedule = true }) => {
     const {
       howManyDaysPercentage,
       startPercent,
@@ -69,6 +145,9 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
       return null;
     }
 
+    const firstSchedule = schedules[0];
+    const lastSchedule = schedules[schedules.length - 1];
+
     return (
       <div
         className="items-center grid grid-cols-5"
@@ -78,74 +157,35 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
       >
         <div
           className="transition-all duration-300 ease-in text-[8px] text-gray-600 col-span-5 text-left whitespace-nowrap leading-none"
-          style={{ marginLeft: `${startPercent}%` }}
+          style={{
+            marginLeft: marginLeftAccordingToSchedule
+              ? `${startPercent}%`
+              : undefined,
+          }}
           aria-label={`Schedule starts at ${String(
-            schedules[0].startHourMinutes[0]
+            firstSchedule.startHourMinutes[0]
           ).padStart(2, "0")}:${String(
-            schedules[0].startHourMinutes[1]
+            firstSchedule.startHourMinutes[1]
           ).padStart(2, "0")}`}
         >
-          {`${String(schedules[0].startHourMinutes[0]).padStart(
+          {`${String(firstSchedule.startHourMinutes[0]).padStart(
             2,
             "0"
-          )}:${String(schedules[0].startHourMinutes[1]).padStart(2, "0")}`}
+          )}:${String(firstSchedule.startHourMinutes[1]).padStart(2, "0")}`}
         </div>
+
+        <ScheduleBar
+          schedules={schedules}
+          totalMinutes={totalMinutes}
+          marginLeftAccordingToSchedule={marginLeftAccordingToSchedule}
+        />
+
         <div
-          className="relative h-1 rounded-sm col-span-5"
-          role="list"
-          aria-label="Time schedule segments"
+          className={classNames(
+            "grid grid-cols-2",
+            marginLeftAccordingToSchedule ? "col-span-5" : "col-span-2"
+          )}
         >
-          {schedules.map((schedule, index) => {
-            const startHour = schedule.startHourMinutes[0];
-            const startMinutes = schedule.startHourMinutes[1];
-            const endHour = schedule.endHourMinutes[0];
-            const endMinutes = schedule.endHourMinutes[1];
-
-            const startPercent = Math.round(
-              ((startHour * 60 + startMinutes) / totalMinutes) * 100
-            );
-            const endPercent = Math.round(
-              ((endHour * 60 + endMinutes) / totalMinutes) * 100
-            );
-            const width = endPercent - startPercent;
-
-            const printableEndHour = getPrintableEndHour(endHour);
-
-            return (
-              <Hint
-                key={index}
-                hint={`${String(startHour).padStart(2, "0")}:${String(
-                  startMinutes
-                ).padStart(2, "0")} - ${String(printableEndHour).padStart(
-                  2,
-                  "0"
-                )}:${String(endMinutes).padStart(2, "0")}`}
-                className="absolute h-full rounded-sm transition-all duration-300 ease-in"
-                style={{
-                  left: `${startPercent}%`,
-                  width: `${width}%`,
-                  backgroundColor: `rgb(${Math.min(
-                    255,
-                    schedule.inconveniencePerHour * 100
-                  )}, ${Math.max(
-                    0,
-                    255 - schedule.inconveniencePerHour * 100
-                  )}, 0)`,
-                }}
-                aria-label={`Time segment from ${String(startHour).padStart(
-                  2,
-                  "0"
-                )}:${String(startMinutes).padStart(2, "0")} to ${String(
-                  printableEndHour
-                ).padStart(2, "0")}:${String(endMinutes).padStart(
-                  2,
-                  "0"
-                )} with inconvenience level ${schedule.inconveniencePerHour}`}
-              ></Hint>
-            );
-          })}
-        </div>
-        <div className=" col-span-5 grid grid-cols-2">
           <div className="text-tiny text-gray-600 whitespace-nowrap text-right leading-normal">
             <Hint
               as="span"
@@ -164,26 +204,20 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
             as="span"
             className="text-tiny text-gray-600 whitespace-nowrap text-right leading-none"
             hint={`${String(
-              getPrintableEndHour(
-                schedules[schedules.length - 1].endHourMinutes[0]
-              )
+              getPrintableEndHour(lastSchedule.endHourMinutes[0])
             ).padStart(2, "0")}:${String(
-              schedules[schedules.length - 1].endHourMinutes[1]
+              lastSchedule.endHourMinutes[1]
             ).padStart(2, "0")}`}
             aria-label={`Schedule ends at ${String(
-              getPrintableEndHour(
-                schedules[schedules.length - 1].endHourMinutes[0]
-              )
+              getPrintableEndHour(lastSchedule.endHourMinutes[0])
             ).padStart(2, "0")}:${String(
-              schedules[schedules.length - 1].endHourMinutes[1]
+              lastSchedule.endHourMinutes[1]
             ).padStart(2, "0")}`}
           >
             {`${String(
-              getPrintableEndHour(
-                schedules[schedules.length - 1].endHourMinutes[0]
-              )
+              getPrintableEndHour(lastSchedule.endHourMinutes[0])
             ).padStart(2, "0")}:${String(
-              schedules[schedules.length - 1].endHourMinutes[1]
+              lastSchedule.endHourMinutes[1]
             ).padStart(2, "0")}`}
           </Hint>
         </div>
