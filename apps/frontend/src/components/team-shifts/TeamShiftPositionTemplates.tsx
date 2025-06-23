@@ -89,16 +89,6 @@ export const TeamShiftPositionTemplates: FC<
     [resetDragging]
   );
 
-  if (!teamShiftPositionTemplates || teamShiftPositionTemplates.length === 0) {
-    return (
-      <div className="h-full flex flex-col">
-        <div className="text-center py-8 text-gray-500">
-          <Trans>No shift position templates found.</Trans>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="h-full flex flex-col">
       <div className="flex-shrink-0 mb-4">
@@ -122,51 +112,58 @@ export const TeamShiftPositionTemplates: FC<
         </button>
       </div>
       <div className="flex-1 overflow-y-auto space-y-3">
-        {teamShiftPositionTemplates.map((template, index) => {
-          const analyzedShiftPosition = convertTemplateToAnalyzedShiftPosition(
-            template,
-            index
-          );
+        {!teamShiftPositionTemplates ||
+        teamShiftPositionTemplates.length === 0 ? (
+          <div className="h-full flex flex-col">
+            <div className="text-center py-8 text-gray-500">
+              <Trans>No shift position templates found.</Trans>
+            </div>
+          </div>
+        ) : (
+          teamShiftPositionTemplates.map((template, index) => {
+            const analyzedShiftPosition =
+              convertTemplateToAnalyzedShiftPosition(template, index);
 
-          return (
-            <div
-              key={`${template.name}-${index}`}
-              className="relative border border-gray-200 rounded-lg hover:border-gray-300 transition-colors"
-            >
-              <ShiftPosition
-                teamPk={teamPk}
-                shiftPosition={analyzedShiftPosition}
-                showScheduleDetails={true}
-                showMenu={false}
-                marginLeftAccordingToSchedule={false}
-                onShiftPositionDragStart={onShiftPositionDragStart}
-                onShiftPositionDragEnd={onShiftPositionDragEnd}
-              />
+            return (
+              <div
+                key={`${template.name}-${index}`}
+                className="relative border border-gray-200 rounded-lg hover:border-gray-300 transition-colors"
+              >
+                <ShiftPosition
+                  teamPk={teamPk}
+                  shiftPosition={analyzedShiftPosition}
+                  showScheduleDetails={true}
+                  showMenu={false}
+                  marginLeftAccordingToSchedule={false}
+                  onShiftPositionDragStart={onShiftPositionDragStart}
+                  onShiftPositionDragEnd={onShiftPositionDragEnd}
+                />
 
-              <div className="mt-3">
-                <div className="flex flex-wrap gap-1">
-                  <Hint hint={i18n.t("Delete template")}>
-                    <Button
-                      onClick={() => handleDeleteTemplate(template)}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50 p-1"
-                      aria-label={`Delete template ${template.name}`}
-                    >
-                      <TrashIcon className="w-4 h-4" />
-                    </Button>
-                  </Hint>
-                  {template.requiredSkills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+                <div className="mt-3">
+                  <div className="flex flex-wrap gap-1">
+                    <Hint hint={i18n.t("Delete template")}>
+                      <Button
+                        onClick={() => handleDeleteTemplate(template)}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50 p-1"
+                        aria-label={`Delete template ${template.name}`}
+                      >
+                        <TrashIcon className="w-4 h-4" />
+                      </Button>
+                    </Hint>
+                    {template.requiredSkills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </div>
   );
