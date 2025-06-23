@@ -115,7 +115,10 @@ export const TeamShiftsSchedule = () => {
     onCellDrop,
     onShiftPositionDragStart,
     onShiftPositionDragEnd,
-  } = useTeamShiftsDragAndDrop(shiftPositionsResult?.shiftPositions ?? []);
+  } = useTeamShiftsDragAndDrop(
+    getDefined(teamPk),
+    shiftPositionsResult?.shiftPositions ?? []
+  );
 
   // ------- assign shift positions -------
   // asssign shift positions

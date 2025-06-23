@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { Trans } from "@lingui/react/macro";
 import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionTemplates";
 import { ShiftPosition } from "../atoms/ShiftPosition";
@@ -8,6 +8,8 @@ import { InformationCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Button } from "../particles/Button";
 import { Hint } from "../particles/Hint";
 import { i18n } from "@lingui/core";
+import { useDragAndDrop } from "../../hooks/useDragAndDrop";
+import { ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 
 export interface TeamShiftPositionTemplatesProps {
   teamPk: string;
@@ -21,6 +23,7 @@ const convertTemplateToAnalyzedShiftPosition = (
   return {
     pk: `template-${index}`,
     sk: `template-${index}`,
+    isTemplate: true,
     day: "template", // This is just for display purposes
     name: template.name,
     color: template.color,
@@ -55,10 +58,31 @@ export const TeamShiftPositionTemplates: FC<
     await deleteTeamShiftPositionTemplate(template);
   };
 
-  // Dummy function for required props
-  const handleAssignShiftPosition = () => {
-    // Templates don't need assignment functionality
-  };
+  const { setDragging, resetDragging } = useDragAndDrop();
+
+  const onShiftPositionDragStart = useCallback(
+    (
+      shiftPosition: ShiftPositionWithFake,
+      e: React.DragEvent<HTMLDivElement>
+    ) => {
+      console.log("onShiftPositionDragStart", shiftPosition);
+      setDragging(shiftPosition);
+      e.dataTransfer.dropEffect = "copy";
+      e.currentTarget.setAttribute("aria-grabbed", "true");
+    },
+    [setDragging]
+  );
+
+  const onShiftPositionDragEnd = useCallback(
+    (
+      _shiftPosition: ShiftPositionWithFake,
+      e: React.DragEvent<HTMLDivElement>
+    ) => {
+      resetDragging();
+      e.currentTarget.setAttribute("aria-grabbed", "false");
+    },
+    [resetDragging]
+  );
 
   if (!teamShiftPositionTemplates || teamShiftPositionTemplates.length === 0) {
     return (
@@ -100,10 +124,11 @@ export const TeamShiftPositionTemplates: FC<
               <ShiftPosition
                 teamPk={teamPk}
                 shiftPosition={analyzedShiftPosition}
-                handleAssignShiftPosition={handleAssignShiftPosition}
                 showScheduleDetails={true}
                 showMenu={false}
                 marginLeftAccordingToSchedule={false}
+                onShiftPositionDragStart={onShiftPositionDragStart}
+                onShiftPositionDragEnd={onShiftPositionDragEnd}
               />
 
               <div className="mt-3">

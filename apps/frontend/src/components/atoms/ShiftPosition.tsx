@@ -28,7 +28,7 @@ export interface ShiftPositionProps {
   autoFocus?: boolean;
   tabIndex?: number;
   handleEditShiftPosition?: (shiftPosition: ShiftPositionWithFake) => void;
-  handleAssignShiftPosition: (
+  handleAssignShiftPosition?: (
     shiftPosition: ShiftPositionType,
     member: User | null
   ) => void;
@@ -214,7 +214,8 @@ export const ShiftPosition = memo(
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
           className={classNames(
-            "rounded-sm group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full",
+            "rounded-sm group relative items-center justify-center active:cursor-grabbing h-full w-full",
+            draggable && "cursor-grab",
             shiftPosition.fake && "opacity-50",
             "hover:ring-2 hover:ring-gray-200",
             "outline-hidden",

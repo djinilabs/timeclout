@@ -5,7 +5,10 @@ import { ShiftPosition } from "../graphql/graphql";
 import { useDragAndDrop } from "./useDragAndDrop";
 import { ShiftPositionWithFake } from "./useTeamShiftPositionsMap";
 
-export const useTeamShiftsDragAndDrop = (shiftPositions: ShiftPosition[]) => {
+export const useTeamShiftsDragAndDrop = (
+  teamPk: string,
+  shiftPositions: ShiftPosition[]
+) => {
   const { setDragging, dragging, resetDragging } = useDragAndDrop();
   const [draggingShiftPosition, setDraggingShiftPosition] =
     useState<ShiftPositionWithFake | null>(null);
@@ -62,14 +65,33 @@ export const useTeamShiftsDragAndDrop = (shiftPositions: ShiftPosition[]) => {
 
   const onCellDragLeave = useCallback(() => {
     lastDraggedToDay.current = null;
-    resetDragging();
-  }, [resetDragging]);
+    console.log("onCellDragLeave");
+    if (draggingShiftPosition) {
+      resetDragging();
+    }
+  }, [draggingShiftPosition, resetDragging]);
 
-  const { moveShiftPosition } = useTeamShiftActions();
+  const { moveShiftPosition, createShiftPosition } = useTeamShiftActions();
 
   const onCellDrop = useCallback(
     (day: string) => {
-      const sk = (dragging as ShiftPositionWithFake)?.fakeFrom?.toLowerCase();
+      console.log("onCellDrop", dragging);
+      const shiftPosition = dragging as ShiftPositionWithFake | null;
+      if (!shiftPosition) {
+        return;
+      }
+      if (shiftPosition.isTemplate) {
+        createShiftPosition({
+          team: teamPk,
+          name: shiftPosition.name,
+          color: shiftPosition.color,
+          day: day,
+          requiredSkills: shiftPosition.requiredSkills,
+          schedules: shiftPosition.schedules,
+        });
+        return;
+      }
+      const sk = shiftPosition.fakeFrom?.toLowerCase();
       lastDraggedToDay.current = day;
       const foundPosition = shiftPositions?.find((shiftPosition) => {
         return shiftPosition.sk.toLowerCase() === sk;
@@ -80,7 +102,14 @@ export const useTeamShiftsDragAndDrop = (shiftPositions: ShiftPosition[]) => {
       moveShiftPosition(foundPosition.pk, foundPosition.sk, day);
       resetDragging();
     },
-    [moveShiftPosition, resetDragging, shiftPositions, dragging]
+    [
+      createShiftPosition,
+      moveShiftPosition,
+      resetDragging,
+      shiftPositions,
+      dragging,
+      teamPk,
+    ]
   );
 
   return {
@@ -89,6 +118,8 @@ export const useTeamShiftsDragAndDrop = (shiftPositions: ShiftPosition[]) => {
     onCellDragOver,
     onCellDragLeave,
     onCellDrop,
-    draggingShiftPosition: dragging,
+    draggingShiftPosition: (dragging as ShiftPositionWithFake)?.isTemplate
+      ? null
+      : dragging,
   };
 };
