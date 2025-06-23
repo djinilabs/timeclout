@@ -108,8 +108,14 @@ export const TeamShiftsSchedule = () => {
     pause: !!isDialogOpen,
   });
 
-  const { draggingShiftPosition, onCellDragOver, onCellDragLeave, onCellDrop } =
-    useTeamShiftsDragAndDrop(shiftPositionsResult?.shiftPositions ?? []);
+  const {
+    draggingShiftPosition,
+    onCellDragOver,
+    onCellDragLeave,
+    onCellDrop,
+    onShiftPositionDragStart,
+    onShiftPositionDragEnd,
+  } = useTeamShiftsDragAndDrop(shiftPositionsResult?.shiftPositions ?? []);
 
   // ------- assign shift positions -------
   // asssign shift positions
@@ -497,6 +503,8 @@ export const TeamShiftsSchedule = () => {
                   )}
                   showScheduleDetails={showScheduleDetails}
                   handleAssignShiftPosition={handleAssignShiftPosition}
+                  onShiftPositionDragStart={onShiftPositionDragStart}
+                  onShiftPositionDragEnd={onShiftPositionDragEnd}
                 />
               </div>
             );
@@ -515,6 +523,8 @@ export const TeamShiftsSchedule = () => {
       maxLeaveRowsPerWeekNumber,
       maxRowsPerWeekNumber,
       onShiftPositionClick,
+      onShiftPositionDragEnd,
+      onShiftPositionDragStart,
       pasteShiftPositionFromClipboard,
       selectedShiftPositionKeys,
       setFocusedShiftPosition,
@@ -647,6 +657,8 @@ export const TeamShiftsSchedule = () => {
                 )}
                 showScheduleDetails={showScheduleDetails}
                 handleAssignShiftPosition={handleAssignShiftPosition}
+                onShiftPositionDragStart={onShiftPositionDragStart}
+                onShiftPositionDragEnd={onShiftPositionDragEnd}
               />
             </div>
           ))}
@@ -663,6 +675,8 @@ export const TeamShiftsSchedule = () => {
       memberLeaveMap,
       memberShiftPositionsMap,
       onShiftPositionClick,
+      onShiftPositionDragEnd,
+      onShiftPositionDragStart,
       pasteShiftPositionFromClipboard,
       selectedShiftPositionKeys,
       setFocusedShiftPosition,

@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 import { Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { colors } from "@/settings";
@@ -42,6 +42,14 @@ export interface ShiftPositionProps {
   showScheduleDetails?: boolean;
   showMenu?: boolean;
   marginLeftAccordingToSchedule?: boolean;
+  onShiftPositionDragStart?: (
+    shiftPosition: ShiftPositionWithFake,
+    e: React.DragEvent<HTMLDivElement>
+  ) => void;
+  onShiftPositionDragEnd?: (
+    shiftPosition: ShiftPositionWithFake,
+    e: React.DragEvent<HTMLDivElement>
+  ) => void;
 }
 
 const isValidNumber = (value: number | undefined): value is number =>
@@ -124,6 +132,8 @@ export const ShiftPosition = memo(
     showScheduleDetails,
     showMenu = true,
     marginLeftAccordingToSchedule = true,
+    onShiftPositionDragStart,
+    onShiftPositionDragEnd,
   }: ShiftPositionProps) => {
     const conflicts =
       originalConflicts ||
@@ -162,6 +172,23 @@ export const ShiftPosition = memo(
       }
     }, [focus, shiftPosition.day]);
 
+    const draggable =
+      onShiftPositionDragStart != null || onShiftPositionDragEnd != null;
+
+    const onDragStart = useCallback(
+      (e: React.DragEvent<HTMLDivElement>) => {
+        onShiftPositionDragStart?.(shiftPosition, e);
+      },
+      [onShiftPositionDragStart, shiftPosition]
+    );
+
+    const onDragEnd = useCallback(
+      (e: React.DragEvent<HTMLDivElement>) => {
+        onShiftPositionDragEnd?.(shiftPosition, e);
+      },
+      [onShiftPositionDragEnd, shiftPosition]
+    );
+
     const rowSpan =
       isValidNumber(shiftPosition.rowStart) &&
       isValidNumber(shiftPosition.rowEnd)
@@ -178,21 +205,14 @@ export const ShiftPosition = memo(
           onFocus={() => setFocusedShiftPosition?.(shiftPosition)}
           autoFocus={autoFocus}
           tabIndex={tabIndex}
-          draggable
+          draggable={draggable}
           role="button"
           aria-label={`${shiftPosition.name || "Shift"} on ${
             shiftPosition.day
           }`}
           aria-grabbed="false"
-          onDragStart={(e) => {
-            e.dataTransfer.setData(shiftPosition.sk, "");
-            e.dataTransfer.dropEffect = "move";
-            e.currentTarget.setAttribute("aria-grabbed", "true");
-          }}
-          onDragEnd={(e) => {
-            e.dataTransfer.clearData();
-            e.currentTarget.setAttribute("aria-grabbed", "false");
-          }}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
           className={classNames(
             "rounded-sm group relative items-center justify-center cursor-grab active:cursor-grabbing h-full w-full",
             shiftPosition.fake && "opacity-50",
