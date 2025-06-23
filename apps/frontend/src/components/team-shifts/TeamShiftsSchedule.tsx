@@ -155,7 +155,7 @@ export const TeamShiftsSchedule = () => {
   );
 
   let { shiftPositionsMap } = useTeamShiftPositionsMap({
-    draggingShiftPosition,
+    draggingShiftPosition: draggingShiftPosition as ShiftPositionType | null,
     shiftPositionsResult: shiftPositionsResult?.shiftPositions ?? [],
     spillTime: showScheduleDetails,
   });

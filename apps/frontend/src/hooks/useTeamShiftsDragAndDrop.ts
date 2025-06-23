@@ -1,11 +1,12 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import { nanoid } from "nanoid";
 import { useTeamShiftActions } from "./useTeamShiftActions";
 import { ShiftPosition } from "../graphql/graphql";
+import { useDragAndDrop } from "./useDragAndDrop";
+import { ShiftPositionWithFake } from "./useTeamShiftPositionsMap";
 
 export const useTeamShiftsDragAndDrop = (shiftPositions: ShiftPosition[]) => {
-  const [draggingShiftPosition, setDraggingShiftPosition] =
-    useState<ShiftPosition | null>(null);
+  const { setDragging, dragging, resetDragging } = useDragAndDrop();
   const lastDraggedToDay = useRef<string | null>(null);
 
   const onCellDragOver = useCallback(
@@ -28,38 +29,38 @@ export const useTeamShiftsDragAndDrop = (shiftPositions: ShiftPosition[]) => {
         fake: true,
         fakeFrom: foundPosition.sk,
       };
-      setDraggingShiftPosition(position);
+      setDragging(position);
     },
-    [shiftPositions]
+    [setDragging, shiftPositions]
   );
 
   const onCellDragLeave = useCallback(() => {
     lastDraggedToDay.current = null;
-    setDraggingShiftPosition(null);
-  }, []);
+    resetDragging();
+  }, [resetDragging]);
 
   const { moveShiftPosition } = useTeamShiftActions();
 
   const onCellDrop = useCallback(
-    (day: string, e: React.DragEvent<HTMLDivElement>) => {
-      const data = e.dataTransfer.types[0];
+    (day: string) => {
+      const sk = (dragging as ShiftPositionWithFake)?.fakeFrom?.toLowerCase();
       lastDraggedToDay.current = day;
-      const foundPosition = shiftPositions?.find(
-        (shiftPosition) => shiftPosition.sk.toLowerCase() === data
-      );
+      const foundPosition = shiftPositions?.find((shiftPosition) => {
+        return shiftPosition.sk.toLowerCase() === sk;
+      });
       if (!foundPosition || foundPosition.day == day) {
         return;
       }
       moveShiftPosition(foundPosition.pk, foundPosition.sk, day);
-      setDraggingShiftPosition(null);
+      resetDragging();
     },
-    [moveShiftPosition, shiftPositions]
+    [moveShiftPosition, resetDragging, shiftPositions, dragging]
   );
 
   return {
     onCellDragOver,
     onCellDragLeave,
     onCellDrop,
-    draggingShiftPosition,
+    draggingShiftPosition: dragging,
   };
 };

@@ -65,7 +65,7 @@ export const TeamShiftsCalendar: FC<
         aria-label={i18n.t("Calendar view options")}
       >
         {children}
-        <div className="mt-8 flex flex-row gap-4 h-[calc(100vh-200px)]">
+        <div className="mt-8 flex flex-row gap-4">
           <div className="flex-1">
             {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
             {tab.href === "by-member" && (
