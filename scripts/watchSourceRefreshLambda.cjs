@@ -2,7 +2,7 @@ const chokidar = require("chokidar");
 const { sync: glob } = require("glob");
 const { execSync } = require("child_process");
 
-const watcher = chokidar.watch("./libs", {
+const watcher = chokidar.watch(["./libs", "package.json"], {
   ignoreInitial: true,
 });
 
@@ -13,8 +13,7 @@ watcher.on("all", async () => {
     // Find all index.ts files in both directories
     const httpFiles = glob("apps/backend/src/http/**/index.ts");
     const queueFiles = glob("apps/backend/src/queues/**/index.ts");
-    const manifestFiles = glob("package.json");
-    const allFiles = [...httpFiles, ...queueFiles, ...manifestFiles];
+    const allFiles = [...httpFiles, ...queueFiles];
 
     // Touch each file by reading and writing back its contents
     for (const file of allFiles) {
