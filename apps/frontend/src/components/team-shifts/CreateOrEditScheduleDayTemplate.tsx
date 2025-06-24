@@ -267,9 +267,6 @@ export const CreateOrEditScheduleDayTemplate: FC<
                             template,
                             index
                           );
-                        const isSelected = selectedTemplates.some(
-                          (t) => t.name === template.name
-                        );
 
                         return (
                           <div
