@@ -54,6 +54,8 @@ import { TeamShiftsScheduleOptionsMenu } from "./TeamShiftsScheduleOptionsMenu";
 import { TeamShiftsActionsMenu } from "./TeamShiftsActionsMenu";
 import { TeamShiftPositionTemplates } from "./TeamShiftPositionTemplates";
 import { CreateShiftPositionTemplateDialog } from "./CreateShiftPositionTemplateDialog";
+import { TeamDayTemplates } from "./TeamDayTemplates";
+import { CreateOrEditScheduleDayTemplateDialog } from "./CreateOrEditScheduleDayTemplateDialog";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -319,12 +321,20 @@ export const TeamShiftsSchedule = () => {
 
   shiftPositionsMap = analyzedShiftPositionsMap;
 
-  // ------- templates -------
+  // ------- position templates -------
 
   const [showTemplates, setShowTemplates] = useLocalPreference(
     "team-shifts-calendar-show-templates",
     false
   );
+
+  // ------- day templates -------
+
+  const [showDayTemplates, setShowDayTemplates] = useLocalPreference(
+    "team-shifts-calendar-show-day-templates",
+    false
+  );
+
   // ------- publish -------
 
   const onPublishChanges = useCallback(async () => {
@@ -726,6 +736,8 @@ export const TeamShiftsSchedule = () => {
               setAnalyze={setAnalyze}
               showTemplates={showTemplates}
               setShowTemplates={setShowTemplates}
+              showDayTemplates={showDayTemplates}
+              setShowDayTemplates={setShowDayTemplates}
             />
           ),
         },
@@ -748,10 +760,12 @@ export const TeamShiftsSchedule = () => {
         onRevertToPublished,
         setAnalyze,
         setIsDialogOpen,
+        setShowDayTemplates,
         setShowLeaveSchedule,
         setShowScheduleDetails,
         setShowTemplates,
         shiftPositionsResult?.areAnyUnpublished,
+        showDayTemplates,
         showLeaveSchedule,
         showScheduleDetails,
         showTemplates,
@@ -760,18 +774,31 @@ export const TeamShiftsSchedule = () => {
     );
 
   const tools = useMemo(() => {
-    if (showTemplates) {
-      return (
-        <TeamShiftPositionTemplates
-          teamPk={getDefined(teamPk)}
-          onCreateTemplate={() => {
-            setIsDialogOpen("create template");
-          }}
-        />
-      );
-    }
-    return null;
-  }, [showTemplates, teamPk, setIsDialogOpen]);
+    return (
+      <>
+        {showTemplates && (
+          <TeamShiftPositionTemplates
+            teamPk={getDefined(teamPk)}
+            onCreateTemplate={() => {
+              setIsDialogOpen("create template");
+            }}
+          />
+        )}
+        {showDayTemplates && (
+          <TeamDayTemplates
+            teamPk={getDefined(teamPk)}
+            onCreateTemplate={() => {
+              setIsDialogOpen("create day template");
+            }}
+          />
+        )}
+      </>
+    );
+  }, [showTemplates, teamPk, showDayTemplates, setIsDialogOpen]);
+
+  const showTools = useMemo(() => {
+    return showTemplates || showDayTemplates;
+  }, [showTemplates, showDayTemplates]);
 
   if (error) {
     return (
@@ -857,6 +884,13 @@ export const TeamShiftsSchedule = () => {
         }}
         teamPk={getDefined(teamPk)}
       />
+      <CreateOrEditScheduleDayTemplateDialog
+        isDialogOpen={isDialogOpen === "create day template"}
+        onClose={() => {
+          setIsDialogOpen(null);
+        }}
+        teamPk={getDefined(teamPk)}
+      />
       <TeamShiftsCalendar
         shiftPositionsMap={shiftPositionsMap}
         show={!isDialogOpen}
@@ -880,8 +914,8 @@ export const TeamShiftsSchedule = () => {
           setIsDialogOpen("create");
         }}
         tools={
-          <Transition show={tools !== null} appear>
-            <div className="transition-all duration-300 ease-in data-[closed]:opacity-0 data-[closed]:w-0 w-[200px]">
+          <Transition show={showTools} appear>
+            <div className="flex flex-col gap-10 divide-y divide-gray-200 transition-all duration-300 ease-in data-[closed]:opacity-0 data-[closed]:w-0 w-[200px]">
               {tools}
             </div>
           </Transition>

@@ -20,12 +20,15 @@ export const useTeamDayTemplates = (teamPk: string) => {
     useState(false);
 
   const createTeamScheduleDayTemplate = useCallback(
-    async (template: ScheduleDayTemplate) => {
+    async (name: string, template: ScheduleDayTemplate) => {
       if (scheduleDayTemplates === undefined) {
         return;
       }
       setCreatingTeamScheduleDayTemplate(true);
-      await saveTeamDayTemplates({ ...(scheduleDayTemplates ?? {}), template });
+      await saveTeamDayTemplates({
+        ...(scheduleDayTemplates ?? {}),
+        [name]: template,
+      });
       setCreatingTeamScheduleDayTemplate(false);
     },
     [scheduleDayTemplates, saveTeamDayTemplates]

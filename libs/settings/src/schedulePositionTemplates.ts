@@ -1,18 +1,21 @@
 import { z } from "zod";
 import { colorNames } from "./colors";
-const schedulePositionTemplatesSchema = z.array(
-  z.object({
-    name: z.string(),
-    color: z.enum(colorNames).optional(),
-    requiredSkills: z.array(z.string()),
-    schedules: z.array(
-      z.object({
-        startHourMinutes: z.array(z.number()),
-        endHourMinutes: z.array(z.number()),
-        inconveniencePerHour: z.number(),
-      })
-    ),
-  })
+
+export const schedulePositionTemplateSchema = z.object({
+  name: z.string(),
+  color: z.enum(colorNames).optional(),
+  requiredSkills: z.array(z.string()),
+  schedules: z.array(
+    z.object({
+      startHourMinutes: z.array(z.number()),
+      endHourMinutes: z.array(z.number()),
+      inconveniencePerHour: z.number(),
+    })
+  ),
+});
+
+export const schedulePositionTemplatesSchema = z.array(
+  schedulePositionTemplateSchema
 );
 
 export const schedulePositionTemplatesParser = {
@@ -31,4 +34,6 @@ export type SchedulePositionTemplates = z.infer<
   typeof schedulePositionTemplatesSchema
 >;
 
-export type SchedulePositionTemplate = SchedulePositionTemplates[number];
+export type SchedulePositionTemplate = z.infer<
+  typeof schedulePositionTemplateSchema
+>;
