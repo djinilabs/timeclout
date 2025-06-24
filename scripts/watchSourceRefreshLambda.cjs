@@ -13,7 +13,8 @@ watcher.on("all", async () => {
     // Find all index.ts files in both directories
     const httpFiles = glob("apps/backend/src/http/**/index.ts");
     const queueFiles = glob("apps/backend/src/queues/**/index.ts");
-    const allFiles = [...httpFiles, ...queueFiles];
+    const manifestFiles = glob("package.json");
+    const allFiles = [...httpFiles, ...queueFiles, ...manifestFiles];
 
     // Touch each file by reading and writing back its contents
     for (const file of allFiles) {
