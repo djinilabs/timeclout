@@ -18,10 +18,7 @@ export const useTeamShiftsDragAndDrop = (
   const [draggingFakeShiftPosition, setDraggingFakeShiftPosition] =
     useState<ShiftPositionWithFake | null>(null);
 
-  console.log("draggingShiftPosition", draggingShiftPosition);
-  // const {
-  //   dragging: draggingDayTemplate,
-  // } = useDragAndDrop("dayTemplate");
+  const { dragging: draggingDayTemplate } = useDragAndDrop("dayTemplate");
 
   const [lastDraggedToDay, setLastDraggedToDay] = useState<string | null>(null);
 
@@ -30,7 +27,6 @@ export const useTeamShiftsDragAndDrop = (
       shiftPosition: ShiftPositionWithFake,
       e: React.DragEvent<HTMLDivElement>
     ) => {
-      console.log("onShiftPositionDragStart", shiftPosition);
       setDragging({
         type: "shiftPosition",
         value: shiftPosition,
@@ -43,7 +39,6 @@ export const useTeamShiftsDragAndDrop = (
 
   const onShiftPositionDragEnd = useCallback(
     (_: ShiftPositionWithFake, e: React.DragEvent<HTMLDivElement>) => {
-      console.log("onShiftPositionDragEnd");
       setDraggingFakeShiftPosition(null);
       resetDragging();
       e.currentTarget.setAttribute("aria-grabbed", "false");
@@ -67,13 +62,11 @@ export const useTeamShiftsDragAndDrop = (
         return;
       }
       if (draggingShiftPosition) {
-        console.log("onCellDragOver", day);
         // the shift position is being dragged
         const foundPosition = shiftPositions?.find(
           (shiftPosition) => shiftPosition.sk === draggingShiftPosition.sk
         );
         if (!foundPosition || draggingShiftPosition.day == day) {
-          console.log("no found position", draggingShiftPosition.sk);
           return;
         }
         const position = {
@@ -95,7 +88,23 @@ export const useTeamShiftsDragAndDrop = (
   const { moveShiftPosition, createShiftPosition } = useTeamShiftActions();
 
   const onCellDrop = useCallback(
-    (day: string) => {
+    async (day: string) => {
+      // drop day template
+      if (draggingDayTemplate) {
+        const dayTemplate = draggingDayTemplate;
+        for (const shiftPosition of dayTemplate) {
+          await createShiftPosition({
+            team: teamPk,
+            name: shiftPosition.name,
+            color: shiftPosition.color,
+            day: day,
+            requiredSkills: shiftPosition.requiredSkills,
+            schedules: shiftPosition.schedules,
+          });
+        }
+        return;
+      }
+
       // drop template
       if (draggingShiftPosition?.isTemplate) {
         createShiftPosition({
@@ -137,6 +146,7 @@ export const useTeamShiftsDragAndDrop = (
       setDraggingFakeShiftPosition(null);
     },
     [
+      draggingDayTemplate,
       draggingShiftPosition?.isTemplate,
       draggingShiftPosition?.name,
       draggingShiftPosition?.color,
@@ -150,8 +160,6 @@ export const useTeamShiftsDragAndDrop = (
       teamPk,
     ]
   );
-
-  console.log("draggingShiftPosition", draggingFakeShiftPosition);
 
   return {
     onShiftPositionDragStart,
