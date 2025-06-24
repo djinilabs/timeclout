@@ -157,15 +157,20 @@ export const CreateOrEditScheduleDayTemplate: FC<
     (e: React.DragEvent<HTMLDivElement>) => {
       e.preventDefault();
       const draggedTemplate = dragging as SchedulePositionTemplate;
-      if (
-        draggedTemplate &&
-        !selectedTemplates.find((t) => t.name === draggedTemplate.name)
-      ) {
+      if (draggedTemplate) {
+        const contains = selectedTemplates.filter(
+          (t) => t.name === draggedTemplate.name
+        );
+        if (contains.length > 0) {
+          draggedTemplate.name = `${draggedTemplate.name} (${
+            contains.length + 1
+          })`;
+        }
         setSelectedTemplates((prev) => [...prev, draggedTemplate]);
       }
       setDragging(null);
     },
-    [dragging, selectedTemplates, setDragging]
+    [dragging, setDragging, selectedTemplates]
   );
 
   const removeTemplate = useCallback(
@@ -269,18 +274,12 @@ export const CreateOrEditScheduleDayTemplate: FC<
                         return (
                           <div
                             key={`${template.name}-${index}`}
-                            className={`relative border border-gray-200 rounded-lg transition-colors ${
-                              isSelected
-                                ? "opacity-50 cursor-not-allowed"
-                                : "hover:border-gray-300 cursor-grab"
-                            }`}
-                            draggable={!isSelected}
+                            className="relative border border-gray-200 rounded-lg transition-colors hover:border-gray-300 cursor-grab"
+                            draggable
                             onDragStart={(e) =>
-                              !isSelected &&
                               onTemplateDragStart(analyzedShiftPosition, e)
                             }
                             onDragEnd={(e) =>
-                              !isSelected &&
                               onTemplateDragEnd(analyzedShiftPosition, e)
                             }
                           >
@@ -290,20 +289,9 @@ export const CreateOrEditScheduleDayTemplate: FC<
                               showScheduleDetails={true}
                               showMenu={false}
                               marginLeftAccordingToSchedule={false}
-                              onShiftPositionDragStart={
-                                !isSelected ? onTemplateDragStart : undefined
-                              }
-                              onShiftPositionDragEnd={
-                                !isSelected ? onTemplateDragEnd : undefined
-                              }
+                              onShiftPositionDragStart={onTemplateDragStart}
+                              onShiftPositionDragEnd={onTemplateDragEnd}
                             />
-                            {isSelected && (
-                              <div className="absolute inset-0 bg-gray-100 bg-opacity-50 rounded-lg flex items-center justify-center">
-                                <span className="text-sm text-gray-600 font-medium">
-                                  <Trans>Added</Trans>
-                                </span>
-                              </div>
-                            )}
                           </div>
                         );
                       })
