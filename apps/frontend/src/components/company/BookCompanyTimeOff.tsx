@@ -258,6 +258,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                 const holidaysDates = Object.keys(holidays ?? {}).map(
                   (date) => new Date(date + "T00:00:00Z")
                 );
+                const refDate = startDate ?? new Date();
                 return (
                   <div>
                     <label
@@ -294,12 +295,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                       }}
                       numberOfMonths={2}
                       captionLayout="dropdown"
-                      startMonth={new Date()}
-                      endMonth={
-                        new Date(
-                          new Date().setMonth(new Date().getMonth() + 24)
-                        )
-                      }
+                      startMonth={refDate}
                       onSelectRange={(range) =>
                         field.handleChange([
                           range?.from?.toISOString().split("T")[0] ?? "",
@@ -334,6 +330,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                 const holidaysDates = Object.keys(holidays ?? {}).map(
                   (date) => new Date(date + "T00:00:00Z")
                 );
+                const refDate = startDate?.toDate() ?? new Date();
                 return (
                   <div>
                     <label
@@ -357,12 +354,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                       }}
                       numberOfMonths={2}
                       captionLayout="dropdown"
-                      startMonth={new Date()}
-                      endMonth={
-                        new Date(
-                          new Date().setMonth(new Date().getMonth() + 24)
-                        )
-                      }
+                      startMonth={refDate}
                       onSelectMultiple={(dates) =>
                         field.handleChange(
                           dates.map((d) => new DayDate(d).toString())
