@@ -13,7 +13,7 @@ export const filterUsersByQualificationsInTeam = async (
         teamPk,
         getResourceRef(user.pk)
       );
-      return requiredQualifications.every((requiredQualification) =>
+      return requiredQualifications.some((requiredQualification) =>
         userQualifications?.includes(requiredQualification)
       );
     })
