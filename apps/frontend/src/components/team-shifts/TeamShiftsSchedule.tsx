@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useMemo, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
@@ -212,6 +212,24 @@ export const TeamShiftsSchedule = () => {
     },
     [selectedShiftPositionKeys]
   );
+
+  useEffect(() => {
+    // remove the selected shift positions that are not visible in the current calendar
+    setSelectedShiftPositionKeys((selectedShiftPositionKeys) => {
+      const startDay = calendarStartDay.toString();
+      const endDay = calendarEndDay.toString();
+      return selectedShiftPositionKeys.filter((key) => {
+        const shiftPositions = shiftPositionsMap[key];
+        return (
+          shiftPositions &&
+          shiftPositions.some(
+            (shiftPosition) =>
+              shiftPosition.day >= startDay && shiftPosition.day <= endDay
+          )
+        );
+      });
+    });
+  }, [calendarStartDay, calendarEndDay, shiftPositionsMap]);
 
   // ------- clipboard -------
 
