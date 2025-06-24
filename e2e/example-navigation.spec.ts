@@ -16,7 +16,7 @@ test.describe("Example Navigation Tests", () => {
     await page.waitForLoadState("networkidle");
 
     // Example: Finding elements by their accessible name and role
-    const signInButton = a11y.getByAccessibleName("button", "Sign in");
+    const signInButton = a11y.getByAccessibleName("button", "Entrar");
     await expect(signInButton).toBeVisible();
 
     // Example: Finding elements by ARIA attributes
@@ -45,7 +45,7 @@ test.describe("Example Navigation Tests", () => {
     await page.waitForLoadState("networkidle");
 
     // Example: Testing keyboard navigation between elements
-    const signInButton = a11y.getByAccessibleName("button", "Sign in");
+    const signInButton = a11y.getByAccessibleName("button", "Entrar");
 
     // Focus the button
     await signInButton.focus();
@@ -144,17 +144,17 @@ test.describe("Example Navigation Tests", () => {
 
     // Test desktop viewport
     await page.setViewportSize({ width: 1920, height: 1080 });
-    const desktopButton = a11y.getByAccessibleName("button", "Sign in");
+    const desktopButton = a11y.getByAccessibleName("button", "Entrar");
     await expect(desktopButton).toBeVisible();
 
     // Test tablet viewport
     await page.setViewportSize({ width: 768, height: 1024 });
-    const tabletButton = a11y.getByAccessibleName("button", "Sign in");
+    const tabletButton = a11y.getByAccessibleName("button", "Entrar");
     await expect(tabletButton).toBeVisible();
 
     // Test mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
-    const mobileButton = a11y.getByAccessibleName("button", "Sign in");
+    const mobileButton = a11y.getByAccessibleName("button", "Entrar");
     await expect(mobileButton).toBeVisible();
 
     // Test touch interaction on mobile
@@ -170,7 +170,7 @@ test.describe("Example Navigation Tests", () => {
     await page.waitForLoadState("networkidle");
 
     // Example: Testing loading state accessibility
-    const signInButton = a11y.getByAccessibleName("button", "Sign in");
+    const signInButton = a11y.getByAccessibleName("button", "Entrar");
 
     // Click button to trigger loading state
     await signInButton.click();
