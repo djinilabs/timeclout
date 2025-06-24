@@ -22,6 +22,11 @@
     "test": "pnpm test:frontend && pnpm test:libs",
     "test:frontend": "cd apps/frontend && vitest run",
     "test:libs": "npx vitest run libs",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:install": "playwright install",
     "lint": "npx eslint",
     "i18n:extract": "pnpm lingui extract --clean",
     "i18n:compile": "pnpm lingui compile --namespace es"
