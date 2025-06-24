@@ -9,7 +9,8 @@ export const useTeamShiftsDragAndDrop = (
   teamPk: string,
   shiftPositions: ShiftPosition[]
 ) => {
-  const { setDragging, dragging, resetDragging } = useDragAndDrop();
+  const { setDragging, dragging, resetDragging } =
+    useDragAndDrop("shiftPosition");
   const [draggingShiftPosition, setDraggingShiftPosition] =
     useState<ShiftPositionWithFake | null>(null);
   const lastDraggedToDay = useRef<string | null>(null);
@@ -58,7 +59,10 @@ export const useTeamShiftsDragAndDrop = (
         fake: true,
         fakeFrom: draggingShiftPosition.sk,
       };
-      setDragging(position);
+      setDragging({
+        type: "shiftPosition",
+        value: position,
+      });
     },
     [draggingShiftPosition, setDragging, shiftPositions]
   );

@@ -2,7 +2,7 @@ import { FC, useCallback } from "react";
 import { Trans } from "@lingui/react/macro";
 import { ShiftPosition } from "../atoms/ShiftPosition";
 import { type AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
-import { type SchedulePositionTemplate } from "@/settings";
+import { ScheduleDayTemplate, type SchedulePositionTemplate } from "@/settings";
 import {
   InformationCircleIcon,
   PlusCircleIcon,
@@ -63,16 +63,22 @@ export const TeamDayTemplates: FC<TeamDayTemplatesProps> = ({
     await deleteTeamScheduleDayTemplate(templateName);
   };
 
-  const { setDragging, resetDragging } = useDragAndDrop();
+  const { setDragging, resetDragging } = useDragAndDrop("dayTemplate");
 
   const onDayTemplateDragStart = useCallback(
     (dayTemplate: string, e: React.DragEvent<HTMLDivElement>) => {
       console.log("onDayTemplateDragStart", dayTemplate);
-      setDragging(dayTemplate);
+      if (!teamDayTemplates) {
+        return;
+      }
+      setDragging({
+        type: "dayTemplate",
+        value: teamDayTemplates[dayTemplate] as ScheduleDayTemplate,
+      });
       e.dataTransfer.dropEffect = "copy";
       e.currentTarget.setAttribute("aria-grabbed", "true");
     },
-    [setDragging]
+    [setDragging, teamDayTemplates]
   );
 
   const onDayTemplateDragEnd = useCallback(

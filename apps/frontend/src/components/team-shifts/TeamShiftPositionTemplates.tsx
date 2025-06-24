@@ -63,7 +63,7 @@ export const TeamShiftPositionTemplates: FC<
     await deleteTeamShiftPositionTemplate(template);
   };
 
-  const { setDragging, resetDragging } = useDragAndDrop();
+  const { setDragging, resetDragging } = useDragAndDrop("shiftPosition");
 
   const onShiftPositionDragStart = useCallback(
     (
@@ -71,7 +71,10 @@ export const TeamShiftPositionTemplates: FC<
       e: React.DragEvent<HTMLDivElement>
     ) => {
       console.log("onShiftPositionDragStart", shiftPosition);
-      setDragging(shiftPosition);
+      setDragging({
+        type: "shiftPosition",
+        value: shiftPosition,
+      });
       e.dataTransfer.dropEffect = "copy";
       e.currentTarget.setAttribute("aria-grabbed", "true");
     },
