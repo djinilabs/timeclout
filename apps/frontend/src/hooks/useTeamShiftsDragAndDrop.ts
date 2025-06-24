@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { nanoid } from "nanoid";
 import { useTeamShiftActions } from "./useTeamShiftActions";
 import { ShiftPosition } from "../graphql/graphql";
@@ -9,11 +9,21 @@ export const useTeamShiftsDragAndDrop = (
   teamPk: string,
   shiftPositions: ShiftPosition[]
 ) => {
-  const { setDragging, dragging, resetDragging } =
-    useDragAndDrop("shiftPosition");
-  const [draggingShiftPosition, setDraggingShiftPosition] =
+  const {
+    setDragging,
+    dragging: draggingShiftPosition,
+    resetDragging,
+  } = useDragAndDrop("shiftPosition");
+
+  const [draggingFakeShiftPosition, setDraggingFakeShiftPosition] =
     useState<ShiftPositionWithFake | null>(null);
-  const lastDraggedToDay = useRef<string | null>(null);
+
+  console.log("draggingShiftPosition", draggingShiftPosition);
+  // const {
+  //   dragging: draggingDayTemplate,
+  // } = useDragAndDrop("dayTemplate");
+
+  const [lastDraggedToDay, setLastDraggedToDay] = useState<string | null>(null);
 
   const onShiftPositionDragStart = useCallback(
     (
@@ -21,66 +31,86 @@ export const useTeamShiftsDragAndDrop = (
       e: React.DragEvent<HTMLDivElement>
     ) => {
       console.log("onShiftPositionDragStart", shiftPosition);
-      setDraggingShiftPosition(shiftPosition);
+      setDragging({
+        type: "shiftPosition",
+        value: shiftPosition,
+      });
       e.dataTransfer.dropEffect = "move";
       e.currentTarget.setAttribute("aria-grabbed", "true");
     },
-    []
+    [setDragging]
   );
 
   const onShiftPositionDragEnd = useCallback(
     (_: ShiftPositionWithFake, e: React.DragEvent<HTMLDivElement>) => {
       console.log("onShiftPositionDragEnd");
-      setDraggingShiftPosition(null);
+      setDraggingFakeShiftPosition(null);
+      resetDragging();
       e.currentTarget.setAttribute("aria-grabbed", "false");
     },
-    []
+    [resetDragging]
   );
 
   const onCellDragOver = useCallback(
     (day: string) => {
-      if (lastDraggedToDay.current == day) {
+      if (lastDraggedToDay == day) {
         return;
       }
-      lastDraggedToDay.current = day;
-      if (!draggingShiftPosition) {
-        return;
-      }
-      const foundPosition = shiftPositions?.find(
-        (shiftPosition) => shiftPosition.sk === draggingShiftPosition.sk
-      );
-      if (!foundPosition || draggingShiftPosition.day == day) {
-        return;
-      }
-      const position = {
-        ...draggingShiftPosition,
-        day,
-        sk: `day/${nanoid()}`, // fake sk
-        fake: true,
-        fakeFrom: draggingShiftPosition.sk,
-      };
-      setDragging({
-        type: "shiftPosition",
-        value: position,
+      let sameDay = false;
+      setLastDraggedToDay((previousDay) => {
+        if (previousDay == day) {
+          sameDay = true;
+        }
+        return day;
       });
+      if (sameDay) {
+        return;
+      }
+      if (draggingShiftPosition) {
+        console.log("onCellDragOver", day);
+        // the shift position is being dragged
+        const foundPosition = shiftPositions?.find(
+          (shiftPosition) => shiftPosition.sk === draggingShiftPosition.sk
+        );
+        if (!foundPosition || draggingShiftPosition.day == day) {
+          console.log("no found position", draggingShiftPosition.sk);
+          return;
+        }
+        const position = {
+          ...draggingShiftPosition,
+          day,
+          sk: `${day}/${nanoid()}`, // fake sk
+          fake: true,
+          fakeFrom: draggingShiftPosition.sk,
+        };
+        setDraggingFakeShiftPosition(position);
+      }
     },
-    [draggingShiftPosition, setDragging, shiftPositions]
+    [draggingShiftPosition, shiftPositions, lastDraggedToDay]
   );
 
-  const onCellDragLeave = useCallback(() => {
-    lastDraggedToDay.current = null;
-    console.log("onCellDragLeave");
-    if (draggingShiftPosition) {
-      resetDragging();
-    }
-  }, [draggingShiftPosition, resetDragging]);
+  // no need to do anything here
+  const onCellDragLeave = useCallback(() => {}, []);
 
   const { moveShiftPosition, createShiftPosition } = useTeamShiftActions();
 
   const onCellDrop = useCallback(
     (day: string) => {
-      console.log("onCellDrop", dragging);
-      const shiftPosition = dragging as ShiftPositionWithFake | null;
+      // drop template
+      if (draggingShiftPosition?.isTemplate) {
+        createShiftPosition({
+          team: teamPk,
+          name: draggingShiftPosition.name,
+          color: draggingShiftPosition.color,
+          day: day,
+          requiredSkills: draggingShiftPosition.requiredSkills,
+          schedules: draggingShiftPosition.schedules,
+        });
+        return;
+      }
+
+      // drop shift position
+      const shiftPosition = draggingFakeShiftPosition;
       if (!shiftPosition) {
         return;
       }
@@ -96,7 +126,6 @@ export const useTeamShiftsDragAndDrop = (
         return;
       }
       const sk = shiftPosition.fakeFrom?.toLowerCase();
-      lastDraggedToDay.current = day;
       const foundPosition = shiftPositions?.find((shiftPosition) => {
         return shiftPosition.sk.toLowerCase() === sk;
       });
@@ -105,16 +134,24 @@ export const useTeamShiftsDragAndDrop = (
       }
       moveShiftPosition(foundPosition.pk, foundPosition.sk, day);
       resetDragging();
+      setDraggingFakeShiftPosition(null);
     },
     [
-      createShiftPosition,
+      draggingShiftPosition?.isTemplate,
+      draggingShiftPosition?.name,
+      draggingShiftPosition?.color,
+      draggingShiftPosition?.requiredSkills,
+      draggingShiftPosition?.schedules,
+      draggingFakeShiftPosition,
+      shiftPositions,
       moveShiftPosition,
       resetDragging,
-      shiftPositions,
-      dragging,
+      createShiftPosition,
       teamPk,
     ]
   );
+
+  console.log("draggingShiftPosition", draggingFakeShiftPosition);
 
   return {
     onShiftPositionDragStart,
@@ -122,8 +159,6 @@ export const useTeamShiftsDragAndDrop = (
     onCellDragOver,
     onCellDragLeave,
     onCellDrop,
-    draggingShiftPosition: (dragging as ShiftPositionWithFake)?.isTemplate
-      ? null
-      : dragging,
+    draggingShiftPosition: draggingFakeShiftPosition,
   };
 };
