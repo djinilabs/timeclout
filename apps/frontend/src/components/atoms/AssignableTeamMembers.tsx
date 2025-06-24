@@ -6,8 +6,6 @@ import {
 import { Suspense } from "./Suspense";
 import { useQuery } from "../../hooks/useQuery";
 import assignableTeamMembers from "@/graphql-client/queries/assignableTeamMembers.graphql";
-import { Menu, MenuItem } from "@headlessui/react";
-import { classNames } from "../../utils/classNames";
 import { Avatar } from "../particles/Avatar";
 import { Trans } from "@lingui/react/macro";
 
@@ -36,28 +34,32 @@ const AssignableTeamMembersContent = ({
     },
   });
   const teamMembers = abc?.data?.assignableTeamMembers;
-  return teamMembers && teamMembers.length > 0 ? (
-    <Menu>
+
+  if (!teamMembers || teamMembers.length === 0) {
+    return (
+      <div className="px-4 py-2 text-sm text-gray-500">
+        <Trans>No assignable team members</Trans>
+      </div>
+    );
+  }
+
+  return (
+    <>
       {teamMembers.map((member) => (
-        <MenuItem key={member.pk}>
-          <button
-            className={classNames(
-              "hover:bg-gray-100 w-full text-left px-4 py-2 text-sm text-gray-700 flex items-center gap-2 cursor-pointer"
-            )}
-            onClick={() => {
-              onSelect(member);
-            }}
-          >
-            <Avatar size={20} {...member} />{" "}
-            <span className="font-bold">{member.name}</span>
-          </button>
-        </MenuItem>
+        <button
+          key={member.pk}
+          className="w-full text-left px-4 py-2 text-sm text-gray-700 flex items-center gap-2 cursor-pointer hover:bg-gray-100"
+          onClick={(ev) => {
+            ev.stopPropagation();
+            ev.preventDefault();
+            onSelect(member);
+          }}
+        >
+          <Avatar size={20} {...member} />
+          <span className="font-bold">{member.name}</span>
+        </button>
       ))}
-    </Menu>
-  ) : (
-    <span className="text-gray-500">
-      <Trans>No assignable team members</Trans>
-    </span>
+    </>
   );
 };
 

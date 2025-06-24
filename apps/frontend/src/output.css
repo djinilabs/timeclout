@@ -248,6 +248,9 @@
   }
 }
 @layer utilities {
+  .pointer-events-auto {
+    pointer-events: auto;
+  }
   .pointer-events-none {
     pointer-events: none;
   }
@@ -1411,6 +1414,9 @@
   }
   .min-w-5 {
     min-width: calc(var(--spacing) * 5);
+  }
+  .min-w-48 {
+    min-width: calc(var(--spacing) * 48);
   }
   .min-w-\[200px\] {
     min-width: 200px;

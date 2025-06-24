@@ -6,6 +6,8 @@ import { i18n } from "@lingui/core";
 import { AssignableTeamMembers } from "./AssignableTeamMembers";
 import { ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 import { User } from "libs/graphql/src/types.generated";
+import { Popover } from "../particles/Popover";
+import { useRef } from "react";
 
 export interface ShiftPositionMenuProps {
   teamPk: string;
@@ -31,6 +33,8 @@ export const ShiftPositionMenu = ({
   pasteShiftPositionFromClipboard,
   deleteShiftPosition,
 }: ShiftPositionMenuProps) => {
+  const assignableTeamMembersRef = useRef<HTMLButtonElement>(null);
+
   return (
     <Menu
       as="div"
@@ -114,38 +118,54 @@ export const ShiftPositionMenu = ({
             <button
               onClick={() => handleAssignShiftPosition?.(shiftPosition, null)}
               className="block w-full text-left px-4 py-2 text-sm text-gray-700 cursor-pointer"
-              aria-label={i18n.t("Paste shift here")}
+              aria-label={i18n.t("Unassign shift")}
             >
               <Trans>Unassign</Trans>
             </button>
           </MenuItem>
         )}
         <MenuItem>
-          {({ active }) => (
-            <button
-              onClick={() =>
-                pasteShiftPositionFromClipboard?.(shiftPosition.day)
-              }
-              className="block w-full text-left px-4 py-2 text-sm text-gray-700"
-              aria-label={i18n.t("Paste shift here")}
-            >
-              {shiftPosition.assignedTo ? (
-                <Trans>Reassign</Trans>
-              ) : (
-                <Trans>Assign</Trans>
-              )}
+          {({ active, close }) => (
+            <div>
+              <button
+                ref={assignableTeamMembersRef}
+                onClick={() =>
+                  pasteShiftPositionFromClipboard?.(shiftPosition.day)
+                }
+                className={classNames(
+                  active ? "bg-gray-100" : "",
+                  "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                )}
+                aria-label={i18n.t("Assign shift")}
+              >
+                {shiftPosition.assignedTo ? (
+                  <Trans>Reassign</Trans>
+                ) : (
+                  <Trans>Assign</Trans>
+                )}
+              </button>
               {active ? (
-                <AssignableTeamMembers
-                  teamPk={teamPk}
-                  shiftPosition={shiftPosition}
-                  onSelect={(member) => {
-                    handleAssignShiftPosition?.(shiftPosition, member);
-                  }}
-                />
-              ) : (
-                <></>
-              )}
-            </button>
+                <Popover
+                  referenceElement={assignableTeamMembersRef.current}
+                  placement="right-start"
+                >
+                  <MenuItems
+                    anchor="bottom start"
+                    as="div"
+                    className="z-300 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+                  >
+                    <AssignableTeamMembers
+                      teamPk={teamPk}
+                      shiftPosition={shiftPosition}
+                      onSelect={(member) => {
+                        close();
+                        handleAssignShiftPosition?.(shiftPosition, member);
+                      }}
+                    />
+                  </MenuItems>
+                </Popover>
+              ) : null}
+            </div>
           )}
         </MenuItem>
       </MenuItems>
