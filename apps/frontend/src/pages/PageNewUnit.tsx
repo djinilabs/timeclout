@@ -96,7 +96,7 @@ export const PageNewUnit = () => {
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}
                           placeholder="Engineering"
-                          className={`unit-name-input col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline outline-1 -outline-offset-1 focus:outline focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
+                          className={`unit-name-input col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 ${
                             field.state.meta.errors.length > 0
                               ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
                               : ""
@@ -146,7 +146,7 @@ export const PageNewUnit = () => {
         <button
           type="submit"
           disabled={form.state.isSubmitting}
-          className="unit-submit-button rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+          className="unit-submit-button rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
           aria-label={i18n.t("Create unit")}
           aria-clickable
           role="button"

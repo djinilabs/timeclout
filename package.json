@@ -113,6 +113,7 @@
     "@graphql-codegen/typescript-graphql-files-modules": "^3.0.0",
     "@lingui/swc-plugin": "^5.4.0",
     "@lingui/vite-plugin": "^5.2.0",
+    "@playwright/test": "^1.53.1",
     "@tailwindcss/cli": "^4.0.13",
     "@tailwindcss/vite": "^4.0.14",
     "@testing-library/jest-dom": "^6.6.3",
