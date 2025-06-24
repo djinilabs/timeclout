@@ -1,16 +1,25 @@
-import { leaveTypeParser, LeaveTypes } from "./leaveTypes";
-import { Managers, managersParser } from "./managers";
-import { YearlyQuota, yearlyQuotaParser } from "./yearlyQuota";
-import { YearlyUserQuotas, yearlyUserQuotasParser } from "./yearlyUserQuotas";
-import { Location, locationParser } from "./location";
-import { WorkSchedule, worksScheduleParser } from "./workSchedule";
-import { Qualifications, qualificationsParser } from "./qualifications";
-import { userQualificationsParser } from "./userQualifications";
-import { UserQualifications } from "./userQualifications";
+import { type LeaveTypes, leaveTypeParser } from "./leaveTypes";
+import { type Managers, managersParser } from "./managers";
+import { type YearlyQuota, yearlyQuotaParser } from "./yearlyQuota";
 import {
-  SchedulePositionTemplates,
+  type YearlyUserQuotas,
+  yearlyUserQuotasParser,
+} from "./yearlyUserQuotas";
+import { type Location, locationParser } from "./location";
+import { type WorkSchedule, worksScheduleParser } from "./workSchedule";
+import { type Qualifications, qualificationsParser } from "./qualifications";
+import {
+  type UserQualifications,
+  userQualificationsParser,
+} from "./userQualifications";
+import {
+  type SchedulePositionTemplates,
   schedulePositionTemplatesParser,
 } from "./schedulePositionTemplates";
+import {
+  type ScheduleDayTemplates,
+  scheduleDayTemplatesParser,
+} from "./scheduleDayTemplates";
 
 export type SettingsType<TShape> = {
   name: string;
@@ -54,6 +63,10 @@ export const settingsTypes = {
     name: "schedulePositionTemplates",
     parse: (value: unknown) => schedulePositionTemplatesParser.parse(value),
   },
+  scheduleDayTemplates: {
+    name: "scheduleDayTemplates",
+    parse: (value: unknown) => scheduleDayTemplatesParser.parse(value),
+  },
 } as const;
 
 export type SettingsTypeKey = keyof typeof settingsTypes;
@@ -62,19 +75,21 @@ export type SettingsShape<TKey extends SettingsTypeKey> =
   TKey extends "leaveTypes"
     ? LeaveTypes
     : TKey extends "managers"
-      ? Managers
-      : TKey extends "yearlyQuota"
-        ? YearlyQuota
-        : TKey extends "yearlyUserQuotas"
-          ? YearlyUserQuotas
-          : TKey extends "location"
-            ? Location
-            : TKey extends "workSchedule"
-              ? WorkSchedule
-              : TKey extends "qualifications"
-                ? Qualifications
-                : TKey extends "userQualifications"
-                  ? UserQualifications
-                  : TKey extends "schedulePositionTemplates"
-                    ? SchedulePositionTemplates
-                    : never;
+    ? Managers
+    : TKey extends "yearlyQuota"
+    ? YearlyQuota
+    : TKey extends "yearlyUserQuotas"
+    ? YearlyUserQuotas
+    : TKey extends "location"
+    ? Location
+    : TKey extends "workSchedule"
+    ? WorkSchedule
+    : TKey extends "qualifications"
+    ? Qualifications
+    : TKey extends "userQualifications"
+    ? UserQualifications
+    : TKey extends "schedulePositionTemplates"
+    ? SchedulePositionTemplates
+    : TKey extends "scheduleDayTemplates"
+    ? ScheduleDayTemplates
+    : never;

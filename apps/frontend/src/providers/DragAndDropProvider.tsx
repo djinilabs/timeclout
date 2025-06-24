@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { DragAndDropContext } from "../contexts/DragAndDropContext";
+import {
+  DragAndDropContext,
+  type DraggableItem,
+} from "../contexts/DragAndDropContext";
 
 export const DragAndDropProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [dragging, setDragging] = useState<NonNullable<unknown> | null>(null);
+  const [dragging, setDragging] = useState<DraggableItem | null>(null);
 
   const resetDragging = () => {
     setDragging(null);

@@ -2,9 +2,9 @@ import { useMutation } from "./useMutation";
 import updateTeamSettingsMutation from "@/graphql-client/mutations/updateTeamSettings.graphql";
 import type { SettingsShape, SettingsTypeKey } from "@/settings";
 
-export interface UseSaveTeamSettingsParams {
+export interface UseSaveTeamSettingsParams<T extends SettingsTypeKey> {
   teamPk: string;
-  name: SettingsTypeKey;
+  name: T;
 }
 
 export interface UseSaveTeamSettingsResponse<T extends SettingsTypeKey> {
@@ -14,7 +14,7 @@ export interface UseSaveTeamSettingsResponse<T extends SettingsTypeKey> {
 export const useSaveTeamSettings = <T extends SettingsTypeKey>({
   teamPk,
   name,
-}: UseSaveTeamSettingsParams): UseSaveTeamSettingsResponse<T> => {
+}: UseSaveTeamSettingsParams<T>): UseSaveTeamSettingsResponse<T> => {
   const [, saveTeamSettingsMutation] = useMutation(updateTeamSettingsMutation);
 
   return {

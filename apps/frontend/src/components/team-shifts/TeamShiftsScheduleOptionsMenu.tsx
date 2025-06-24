@@ -19,6 +19,8 @@ export interface TeamShiftsScheduleOptionsMenuProps {
   setAnalyze: (analyze: boolean) => void;
   showTemplates: boolean;
   setShowTemplates: (show: boolean) => void;
+  showDayTemplates: boolean;
+  setShowDayTemplates: (show: boolean) => void;
 }
 
 export const TeamShiftsScheduleOptionsMenu = ({
@@ -30,6 +32,8 @@ export const TeamShiftsScheduleOptionsMenu = ({
   setAnalyze,
   showTemplates,
   setShowTemplates,
+  showDayTemplates,
+  setShowDayTemplates,
 }: TeamShiftsScheduleOptionsMenuProps) => {
   return (
     <Menu as="div" className="relative">
@@ -94,12 +98,25 @@ export const TeamShiftsScheduleOptionsMenu = ({
                 label={
                   <div className="flex items-center gap-2">
                     <DocumentDuplicateIcon className="h-4 w-4 text-gray-500" />
-                    <Trans>Templates</Trans>
+                    <Trans>Position Templates</Trans>
                   </div>
                 }
                 checked={showTemplates}
                 onChange={setShowTemplates}
                 aria-label="Toggle schedule templates visibility"
+              />
+            </MenuItem>
+            <MenuItem as="div" className="cursor-default">
+              <LabeledSwitch
+                label={
+                  <div className="flex items-center gap-2">
+                    <DocumentDuplicateIcon className="h-4 w-4 text-gray-500" />
+                    <Trans>Day Templates</Trans>
+                  </div>
+                }
+                checked={showDayTemplates}
+                onChange={setShowDayTemplates}
+                aria-label="Toggle schedule day templates visibility"
               />
             </MenuItem>
           </div>
