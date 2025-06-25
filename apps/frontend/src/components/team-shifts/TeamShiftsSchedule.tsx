@@ -640,9 +640,6 @@ export const TeamShiftsSchedule = () => {
                   leaveIndex === 0 && "border-t",
                   leaveIndex === leaves.length - 1 && "border-b"
                 )}
-                style={{
-                  border: "1px solid red",
-                }}
               >
                 <MemberLeaveInCalendar
                   member={leave.user}

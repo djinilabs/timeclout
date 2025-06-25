@@ -100,10 +100,7 @@ export interface ContextualHelpProps {
 
 const ContextualHelp = ({ isOpen }: ContextualHelpProps) => {
   return (
-    <div
-      className="fixed bottom-4 right-4 z-500"
-      style={{ border: "1px solid red" }}
-    >
+    <div className="fixed bottom-4 right-4 z-500">
       {isOpen && (
         <div className="fixed top-10 inset-0 z-50 overflow-y-auto">
           <div className="flex min-h-full justify-center text-center sm:p-0">
