@@ -1,12 +1,6 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import {
-  AnyVariables,
-  useQuery as urqlUseQuery,
-  useClient,
-  UseQueryArgs,
-} from "urql";
-import { useFetchActivity } from "./useFetchActivity";
+import { AnyVariables, useQuery as urqlUseQuery, UseQueryArgs } from "urql";
 import { useIsFetching } from "./useIsFetching";
 
 type ExtendedUseQueryProps<
