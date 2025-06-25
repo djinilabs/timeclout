@@ -44,6 +44,7 @@ const defaultClientOpts = ({
         AutoFillSlotWorker: () => null,
         ShiftsAutoFillParams: () => null,
         QuotaFulfilment: () => null,
+        QueryShiftPositionsOutput: () => null,
       },
       updates: {
         Mutation: {

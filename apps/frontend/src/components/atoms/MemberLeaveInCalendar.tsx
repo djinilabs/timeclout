@@ -1,8 +1,8 @@
-import { forwardRef } from "react";
-import { Avatar } from "../particles/Avatar";
-import { type PartialUser, type LeaveDay } from "../types";
-import { Hint } from "../particles/Hint";
+import { FC, memo } from "react";
 import { i18n } from "@lingui/core";
+import { type PartialUser, type LeaveDay } from "../types";
+import { Avatar } from "../particles/Avatar";
+import { Hint } from "../particles/Hint";
 
 export interface MemberLeaveInCalendarProps {
   member: PartialUser;
@@ -12,14 +12,8 @@ export interface MemberLeaveInCalendarProps {
   showAvatar?: boolean;
 }
 
-export const MemberLeaveInCalendar = forwardRef(
-  ({
-    member,
-    leave,
-    leaveIndex,
-    showName = true,
-    showAvatar = true,
-  }: MemberLeaveInCalendarProps) => {
+export const MemberLeaveInCalendar: FC<MemberLeaveInCalendarProps> = memo(
+  ({ member, leave, leaveIndex, showName = true, showAvatar = true }) => {
     return (
       <Hint
         hint={i18n.t("{type} leave for {member}", {
