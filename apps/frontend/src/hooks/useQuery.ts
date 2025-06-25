@@ -52,10 +52,7 @@ export const useQuery = <
   useEffect(() => {
     if (pollingIntervalMs) {
       const interval = setInterval(() => {
-        if (isFetching) {
-          return;
-        }
-        if (!result.fetching) {
+        if (!isFetching && !result.fetching) {
           reexecuteQuery();
         }
       }, pollingIntervalMs);
