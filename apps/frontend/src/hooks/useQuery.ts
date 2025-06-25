@@ -1,6 +1,13 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { AnyVariables, useQuery as urqlUseQuery, UseQueryArgs } from "urql";
+import {
+  AnyVariables,
+  useQuery as urqlUseQuery,
+  useClient,
+  UseQueryArgs,
+} from "urql";
+import { useFetchActivity } from "./useFetchActivity";
+import { useIsFetching } from "./useIsFetching";
 
 type ExtendedUseQueryProps<
   TData = unknown,
@@ -40,12 +47,21 @@ export const useQuery = <
     };
   }, [result.error, toastIfError]);
 
+  const isFetching = useIsFetching();
+
   useEffect(() => {
     if (pollingIntervalMs) {
-      const interval = setInterval(() => reexecuteQuery(), pollingIntervalMs);
+      const interval = setInterval(() => {
+        if (isFetching) {
+          return;
+        }
+        if (!result.fetching) {
+          reexecuteQuery();
+        }
+      }, pollingIntervalMs);
       return () => clearInterval(interval);
     }
-  }, [pollingIntervalMs, reexecuteQuery]);
+  }, [pollingIntervalMs, reexecuteQuery, result.fetching, isFetching]);
 
   return [result, reexecuteQuery] as const;
 };
