@@ -214,7 +214,7 @@ export const ShiftPosition = memo(
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
           className={classNames(
-            "rounded-sm group relative items-center justify-center active:cursor-grabbing h-full w-full",
+            "rounded-sm group relative items-center justify-center active:cursor-grabbing h-full overflow-hidden",
             draggable && "cursor-grab",
             shiftPosition.fake && "opacity-50",
             "hover:ring-2 hover:ring-gray-200",
@@ -249,7 +249,7 @@ export const ShiftPosition = memo(
           )}
 
           <div
-            className="flex-auto flex items-center justify-left ml-2 overflow-hidden transition-all duration-300 ease-in"
+            className="flex-auto flex items-center justify-left ml-2 overflow-hidden transition-all duration-300 ease-in w-full"
             style={{
               marginLeft:
                 showScheduleDetails && marginLeftAccordingToSchedule
@@ -257,75 +257,85 @@ export const ShiftPosition = memo(
                   : undefined,
             }}
           >
-            <div className="flex flex-col w-full">
-              <div className="flex items-center">
+            <div className="flex flex-col w-full overflow-hidden">
+              <div className="flex flex-row items-center w-full overflow-hidden min-w-0">
                 {shiftPosition.assignedTo && (
-                  <div className="mr-1">
+                  <div className="mr-1 flex-shrink-0">
                     <Avatar size={25} {...shiftPosition.assignedTo} />
                   </div>
                 )}
                 {!hideName && (
-                  <Hint hint={shiftPosition.name ?? ""}>
-                    <span className="text-tiny text-gray-400 truncate text-left">
-                      {shiftPosition.name}
-                    </span>
-                  </Hint>
-                )}
-                {shiftPosition.hasLeaveConflict && (
-                  <Hint hint={i18n.t("Leave conflict detected")}>
-                    <ExclamationTriangleIcon
-                      className="w-4 h-4 text-red-500 ml-1"
-                      aria-label={i18n.t("Leave conflict detected")}
-                      role="img"
-                    />
-                  </Hint>
-                )}
-                {shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule && (
                   <Hint
-                    hint={i18n.t(
-                      "Maximum interval between shifts rule violated"
-                    )}
+                    as="span"
+                    className="text-tiny text-gray-400 truncate text-left overflow-hidden flex-1 min-w-0"
+                    hint={shiftPosition.name ?? ""}
                   >
-                    <ExclamationTriangleIcon
-                      className="w-4 h-4 text-yellow-500 ml-1"
-                      aria-label={i18n.t(
-                        "Maximum interval between shifts rule violated"
-                      )}
-                      role="img"
-                    />
-                  </Hint>
-                )}
-                {shiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday && (
-                  <Hint
-                    hint={i18n.t(
-                      "Minimum number of shifts per week in standard workday rule violated"
-                    )}
-                  >
-                    <ExclamationTriangleIcon
-                      className="w-4 h-4 text-orange-500 ml-1"
-                      aria-label={i18n.t(
-                        "Minimum number of shifts per week in standard workday rule violated"
-                      )}
-                      role="img"
-                    />
-                  </Hint>
-                )}
-                {shiftPosition.hasIssueWithMinimumRestSlotsAfterShiftRule && (
-                  <Hint
-                    hint={i18n.t(
-                      "Minimum rest slots after shift rule violated"
-                    )}
-                  >
-                    <ExclamationTriangleIcon
-                      className="w-4 h-4 text-purple-500 ml-1"
-                      aria-label={i18n.t(
-                        "Minimum rest slots after shift rule violated"
-                      )}
-                      role="img"
-                    />
+                    {shiftPosition.name}
                   </Hint>
                 )}
               </div>
+              {/* Conflicts */}
+              {conflicts && (
+                <div className="flex flex-row items-center">
+                  {shiftPosition.hasLeaveConflict && (
+                    <Hint hint={i18n.t("Leave conflict detected")}>
+                      <ExclamationTriangleIcon
+                        className="w-4 h-4 text-red-500 ml-1 flex-shrink-0"
+                        aria-label={i18n.t("Leave conflict detected")}
+                        role="img"
+                      />
+                    </Hint>
+                  )}
+                  {shiftPosition.hasIssueWithMaximumIntervalBetweenShiftsRule && (
+                    <Hint
+                      as="span"
+                      hint={i18n.t(
+                        "Maximum interval between shifts rule violated"
+                      )}
+                    >
+                      <ExclamationTriangleIcon
+                        className="w-4 h-4 text-yellow-500 ml-1 flex-shrink-0"
+                        aria-label={i18n.t(
+                          "Maximum interval between shifts rule violated"
+                        )}
+                        role="img"
+                      />
+                    </Hint>
+                  )}
+                  {shiftPosition.hasIssueWithMinimumNumberOfShiftsPerWeekInStandardWorkday && (
+                    <Hint
+                      as="span"
+                      hint={i18n.t(
+                        "Minimum number of shifts per week in standard workday rule violated"
+                      )}
+                    >
+                      <ExclamationTriangleIcon
+                        className="w-4 h-4 text-orange-500 ml-1 flex-shrink-0"
+                        aria-label={i18n.t(
+                          "Minimum number of shifts per week in standard workday rule violated"
+                        )}
+                        role="img"
+                      />
+                    </Hint>
+                  )}
+                  {shiftPosition.hasIssueWithMinimumRestSlotsAfterShiftRule && (
+                    <Hint
+                      as="span"
+                      hint={i18n.t(
+                        "Minimum rest slots after shift rule violated"
+                      )}
+                    >
+                      <ExclamationTriangleIcon
+                        className="w-4 h-4 text-purple-500 ml-1 flex-shrink-0"
+                        aria-label={i18n.t(
+                          "Minimum rest slots after shift rule violated"
+                        )}
+                        role="img"
+                      />
+                    </Hint>
+                  )}
+                </div>
+              )}
 
               <Transition
                 show={
