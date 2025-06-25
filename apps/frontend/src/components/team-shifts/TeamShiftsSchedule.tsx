@@ -105,6 +105,20 @@ export const TeamShiftsSchedule = () => {
     return selectedMonth.nextMonth(1).previousDay().fullMonthForwardFill();
   }, [selectedMonth]);
 
+  // ------- filters -------
+
+  const [showFilters, setShowFilters] = useLocalPreference(
+    "team-shifts-calendar-show-filters",
+    false
+  );
+
+  const [filterUsers, setFilterUsers] = useLocalPreference(
+    "team-shifts-calendar-filter-users",
+    false
+  );
+
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+
   // ------- shift positions -------
 
   const {
@@ -118,6 +132,7 @@ export const TeamShiftsSchedule = () => {
     endDay: calendarEndDay,
     pollingIntervalMs: 30000,
     pause: !!isDialogOpen,
+    restrictToUsers: showFilters && filterUsers ? filteredUsers : undefined,
   });
 
   const {
@@ -275,6 +290,7 @@ export const TeamShiftsSchedule = () => {
     team: getDefined(teamPk),
     calendarStartDay,
     calendarEndDay,
+    restrictToUsers: showFilters && filterUsers ? filteredUsers : undefined,
   });
 
   // ------- analyze -------
@@ -361,20 +377,6 @@ export const TeamShiftsSchedule = () => {
     "team-shifts-calendar-show-day-templates",
     false
   );
-
-  // ------- filters -------
-
-  const [showFilters, setShowFilters] = useLocalPreference(
-    "team-shifts-calendar-show-filters",
-    false
-  );
-
-  const [filterUsers, setFilterUsers] = useLocalPreference(
-    "team-shifts-calendar-filter-users",
-    false
-  );
-
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 
   // ------- publish -------
 
@@ -1059,7 +1061,7 @@ export const TeamShiftsSchedule = () => {
                 <FilterTeamShiftsCalendarMenu
                   filterUsers={filterUsers}
                   setFilterUsers={setFilterUsers}
-                  allUsers={members}
+                  allUsers={team?.members ?? []}
                   filteredUsers={filteredUsers}
                   setFilteredUsers={setFilteredUsers}
                 />

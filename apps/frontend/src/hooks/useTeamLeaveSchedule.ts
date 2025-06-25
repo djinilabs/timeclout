@@ -1,6 +1,6 @@
 import { useQuery } from "../hooks/useQuery";
 import teamApprovedScheduleQuery from "@/graphql-client/queries/teamApprovedSchedule.graphql";
-import { Team } from "../graphql/graphql";
+import { Team, User } from "../graphql/graphql";
 import { getDefined } from "@/utils";
 import { DayDate } from "@/day-date";
 import { ReactNode, useMemo } from "react";
@@ -35,6 +35,7 @@ export interface UseTeamLeaveScheduleParams {
   calendarStartDay: DayDate;
   calendarEndDay: DayDate;
   pause?: boolean;
+  restrictToUsers?: User[];
 }
 
 export const useTeamLeaveSchedule = ({
@@ -43,6 +44,7 @@ export const useTeamLeaveSchedule = ({
   calendarStartDay,
   calendarEndDay,
   pause,
+  restrictToUsers,
 }: UseTeamLeaveScheduleParams): {
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
 } => {
@@ -69,6 +71,11 @@ export const useTeamLeaveSchedule = ({
       return {};
     }
     return schedule.userSchedules
+      .filter(
+        (userSchedule) =>
+          restrictToUsers?.some((user) => user.pk === userSchedule.user.pk) ??
+          true
+      )
       .map((userSchedule) => {
         return userSchedule.leaves.map((leave): [string, LeaveInfo] => {
           return [
@@ -100,14 +107,11 @@ export const useTeamLeaveSchedule = ({
           },
         ];
       })
-      .reduce(
-        (acc, [sk, leave]) => {
-          const existingLeaves = acc[sk] ?? [];
-          acc[sk] = [...existingLeaves, leave];
-          return acc;
-        },
-        {} as Record<string, LeaveRenderInfo[]>
-      );
+      .reduce((acc, [sk, leave]) => {
+        const existingLeaves = acc[sk] ?? [];
+        acc[sk] = [...existingLeaves, leave];
+        return acc;
+      }, {} as Record<string, LeaveRenderInfo[]>);
   }, [leaveTypesSettings, teamScheduleResult?.team.approvedSchedule]);
 
   return { leaveSchedule };
