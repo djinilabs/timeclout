@@ -57,8 +57,10 @@
     "@nivo/bar": "^0.88.0",
     "@nivo/boxplot": "^0.88.0",
     "@popperjs/core": "^2.11.8",
+    "@radix-ui/react-dropdown-menu": "^2.1.15",
     "@react-email/components": "0.0.42",
     "@react-email/text": "^0.1.0",
+    "@react-hook/debounce": "^4.0.0",
     "@sentry/aws-serverless": "^9.5.0",
     "@sentry/node": "^9.0.0",
     "@sentry/react": "^9.0.0",
@@ -88,6 +90,7 @@
     "nanoid": "^5.0.9",
     "next-auth": "5.0.0-beta.25",
     "posthog-js": "^1.230.2",
+    "radix-ui": "^1.4.2",
     "react": "^19.0.0",
     "react-day-picker": "^9.5.0",
     "react-dom": "^19.0.0",
@@ -149,7 +152,15 @@
       "@architect/sandbox": "patches/@architect__sandbox.patch"
     },
     "onlyBuiltDependencies": [
-      "@tailwindcss/oxide"
+      "@parcel/watcher",
+      "@sentry/cli",
+      "@swc/core",
+      "@tailwindcss/oxide",
+      "aws-sdk",
+      "core-js",
+      "esbuild",
+      "leveldown",
+      "sharp"
     ]
   }
 }

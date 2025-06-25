@@ -21,6 +21,9 @@ export const Popover: FC<PopoverProps> = memo(
       modifiers: [{ name: "arrow", options: { element: arrowElement } }],
     });
 
+    console.log("referenceElement", referenceElement);
+    console.log("popper styles", styles.popper);
+
     return createPortal(
       <div
         ref={setPopperElement}

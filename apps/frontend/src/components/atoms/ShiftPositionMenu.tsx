@@ -1,13 +1,10 @@
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { DropdownMenu } from "radix-ui";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
-import { classNames } from "../../utils/classNames";
 import { i18n } from "@lingui/core";
 import { AssignableTeamMembers } from "./AssignableTeamMembers";
 import { ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 import { User } from "libs/graphql/src/types.generated";
-import { Popover } from "../particles/Popover";
-import { useRef } from "react";
 
 export interface ShiftPositionMenuProps {
   teamPk: string;
@@ -33,142 +30,97 @@ export const ShiftPositionMenu = ({
   pasteShiftPositionFromClipboard,
   deleteShiftPosition,
 }: ShiftPositionMenuProps) => {
-  const assignableTeamMembersRef = useRef<HTMLButtonElement>(null);
-
   return (
-    <Menu
-      as="div"
-      className="right-0 top-0 absolute opacity-0 group-hover:opacity-100 z-200"
-    >
-      <MenuButton
-        className="cursor-pointer hover:bg-gray-200 hover:bg-opacity-10 rounded-sm"
-        aria-label={i18n.t("Shift options menu")}
-      >
-        <EllipsisHorizontalIcon className="w-4 h-4" />
-      </MenuButton>
-      <MenuItems
-        anchor="bottom start"
-        portal
-        className="absolute z-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-      >
-        <MenuItem>
-          {({ active }) => (
-            <button
-              onClick={() => handleEditShiftPosition?.(shiftPosition)}
-              className={classNames(
-                active ? "bg-gray-100" : "",
-                "block w-full text-left px-4 py-2 text-sm text-gray-700"
-              )}
-              aria-label={i18n.t("Edit shift")}
-            >
-              <Trans>Edit</Trans>
-            </button>
-          )}
-        </MenuItem>
-        <MenuItem>
-          {({ active }) => (
-            <button
-              onClick={() => copyShiftPositionToClipboard?.(shiftPosition)}
-              className={classNames(
-                active ? "bg-gray-100" : "",
-                "block w-full text-left px-4 py-2 text-sm text-gray-700"
-              )}
-              aria-label={i18n.t("Copy shift")}
-            >
-              <Trans>Copy</Trans>
-            </button>
-          )}
-        </MenuItem>
-        {hasCopiedShiftPosition && (
-          <MenuItem>
-            {({ active }) => (
-              <button
-                onClick={() =>
-                  pasteShiftPositionFromClipboard?.(shiftPosition.day)
-                }
-                className={classNames(
-                  active ? "bg-gray-100" : "",
-                  "block w-full text-left px-4 py-2 text-sm text-gray-700"
-                )}
-                aria-label={i18n.t("Paste shift here")}
-              >
-                <Trans>Paste here</Trans>
-              </button>
-            )}
-          </MenuItem>
-        )}
-        <MenuItem>
-          {({ active }) => (
-            <button
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <button
+          className="absolute right-0 top-0 cursor-pointer group-hover:opacity-100 z-200 hover:bg-gray-200 hover:bg-opacity-10 rounded-sm"
+          aria-label={i18n.t("Shift options menu")}
+        >
+          <EllipsisHorizontalIcon className="w-4 h-4" />
+        </button>
+      </DropdownMenu.Trigger>
+
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          className="z-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 min-w-[120px]"
+          sideOffset={5}
+        >
+          <DropdownMenu.Item
+            onClick={() => handleEditShiftPosition?.(shiftPosition)}
+            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+            aria-label={i18n.t("Edit shift")}
+          >
+            <Trans>Edit</Trans>
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item
+            onClick={() => copyShiftPositionToClipboard?.(shiftPosition)}
+            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+            aria-label={i18n.t("Copy shift")}
+          >
+            <Trans>Copy</Trans>
+          </DropdownMenu.Item>
+
+          {hasCopiedShiftPosition && (
+            <DropdownMenu.Item
               onClick={() =>
-                deleteShiftPosition?.(shiftPosition.pk, shiftPosition.sk)
+                pasteShiftPositionFromClipboard?.(shiftPosition.day)
               }
-              className={classNames(
-                active ? "bg-gray-100" : "",
-                "block w-full text-left px-4 py-2 text-sm text-gray-700"
-              )}
-              aria-label={i18n.t("Delete shift")}
+              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+              aria-label={i18n.t("Paste shift here")}
             >
-              <Trans>Delete</Trans>
-            </button>
+              <Trans>Paste here</Trans>
+            </DropdownMenu.Item>
           )}
-        </MenuItem>
-        {shiftPosition.assignedTo && (
-          <MenuItem>
-            <button
+
+          <DropdownMenu.Item
+            onClick={() =>
+              deleteShiftPosition?.(shiftPosition.pk, shiftPosition.sk)
+            }
+            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+            aria-label={i18n.t("Delete shift")}
+          >
+            <Trans>Delete</Trans>
+          </DropdownMenu.Item>
+
+          {shiftPosition.assignedTo && (
+            <DropdownMenu.Item
               onClick={() => handleAssignShiftPosition?.(shiftPosition, null)}
-              className="block w-full text-left px-4 py-2 text-sm text-gray-700 cursor-pointer"
+              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
               aria-label={i18n.t("Unassign shift")}
             >
               <Trans>Unassign</Trans>
-            </button>
-          </MenuItem>
-        )}
-        <MenuItem>
-          {({ active, close }) => (
-            <div>
-              <button
-                ref={assignableTeamMembersRef}
-                onClick={() =>
-                  pasteShiftPositionFromClipboard?.(shiftPosition.day)
-                }
-                className={classNames(
-                  active ? "bg-gray-100" : "",
-                  "block w-full text-left px-4 py-2 text-sm text-gray-700"
-                )}
-                aria-label={i18n.t("Assign shift")}
-              >
-                {shiftPosition.assignedTo ? (
-                  <Trans>Reassign</Trans>
-                ) : (
-                  <Trans>Assign</Trans>
-                )}
-              </button>
-              {active ? (
-                <Popover
-                  referenceElement={assignableTeamMembersRef.current}
-                  placement="right-start"
-                >
-                  <MenuItems
-                    anchor="bottom start"
-                    as="div"
-                    className="z-300 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-                  >
-                    <AssignableTeamMembers
-                      teamPk={teamPk}
-                      shiftPosition={shiftPosition}
-                      onSelect={(member) => {
-                        close();
-                        handleAssignShiftPosition?.(shiftPosition, member);
-                      }}
-                    />
-                  </MenuItems>
-                </Popover>
-              ) : null}
-            </div>
+            </DropdownMenu.Item>
           )}
-        </MenuItem>
-      </MenuItems>
-    </Menu>
+
+          <DropdownMenu.Sub>
+            <DropdownMenu.SubTrigger className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+              {shiftPosition.assignedTo ? (
+                <Trans>Reassign</Trans>
+              ) : (
+                <Trans>Assign</Trans>
+              )}
+            </DropdownMenu.SubTrigger>
+
+            <DropdownMenu.Portal>
+              <DropdownMenu.SubContent
+                className="z-300 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 min-w-[200px]"
+                sideOffset={2}
+                alignOffset={-5}
+              >
+                <AssignableTeamMembers
+                  teamPk={teamPk}
+                  shiftPosition={shiftPosition}
+                  onSelect={(member) => {
+                    handleAssignShiftPosition?.(shiftPosition, member);
+                  }}
+                />
+              </DropdownMenu.SubContent>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Sub>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 };
