@@ -3,9 +3,17 @@ import { useSearchParams } from "react-router";
 import { DayDate } from "@/day-date";
 import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
-import { Transition } from "@headlessui/react";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Transition,
+} from "@headlessui/react";
 import { getDefined } from "@/utils";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronDownIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
 import assignShiftPositionsMutation from "@/graphql-client/mutations/assignShiftPositions.graphql";
 import unassignShiftPositionMutation from "@/graphql-client/mutations/unassignShiftPosition.graphql";
 import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
@@ -56,6 +64,7 @@ import { TeamShiftPositionTemplates } from "./TeamShiftPositionTemplates";
 import { CreateShiftPositionTemplateDialog } from "./CreateShiftPositionTemplateDialog";
 import { TeamDayTemplates } from "./TeamDayTemplates";
 import { CreateOrEditScheduleDayTemplateDialog } from "./CreateOrEditScheduleDayTemplateDialog";
+import { FilterTeamShiftsCalendarMenu } from "./FilterTeamShiftsCalendarMenu";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -352,6 +361,20 @@ export const TeamShiftsSchedule = () => {
     "team-shifts-calendar-show-day-templates",
     false
   );
+
+  // ------- filters -------
+
+  const [showFilters, setShowFilters] = useLocalPreference(
+    "team-shifts-calendar-show-filters",
+    false
+  );
+
+  const [filterUsers, setFilterUsers] = useLocalPreference(
+    "team-shifts-calendar-filter-users",
+    false
+  );
+
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 
   // ------- publish -------
 
@@ -753,6 +776,8 @@ export const TeamShiftsSchedule = () => {
               setShowTemplates={setShowTemplates}
               showDayTemplates={showDayTemplates}
               setShowDayTemplates={setShowDayTemplates}
+              showFilters={showFilters}
+              setShowFilters={setShowFilters}
             />
           ),
         },
@@ -776,11 +801,13 @@ export const TeamShiftsSchedule = () => {
         setAnalyze,
         setIsDialogOpen,
         setShowDayTemplates,
+        setShowFilters,
         setShowLeaveSchedule,
         setShowScheduleDetails,
         setShowTemplates,
         shiftPositionsResult?.areAnyUnpublished,
         showDayTemplates,
+        showFilters,
         showLeaveSchedule,
         showScheduleDetails,
         showTemplates,
@@ -930,7 +957,7 @@ export const TeamShiftsSchedule = () => {
         }}
         tools={
           <Transition show={showTools} appear>
-            <div className="flex flex-col gap-10 divide-y divide-gray-200 transition-all duration-300 ease-in data-[closed]:opacity-0 data-[closed]:w-0 w-[200px]">
+            <div className="flex flex-col gap-10 divide-y divide-gray-200 transition-all duration-200 ease-in data-[closed]:opacity-0 data-[closed]:w-0 w-[200px]">
               {tools}
             </div>
           </Transition>
@@ -942,52 +969,102 @@ export const TeamShiftsSchedule = () => {
             role="region"
             aria-label="Schedule Analysis Options"
           >
-            <AnalyzeTeamShiftsCalendarMenu
-              analyzeLeaveConflicts={analyzeLeaveConflicts}
-              setAnalyzeLeaveConflicts={setAnalyzeLeaveConflicts}
-              requireMaximumIntervalBetweenShifts={
-                requireMaximumIntervalBetweenShifts
-              }
-              setRequireMaximumIntervalBetweenShifts={
-                setRequireMaximumIntervalBetweenShifts
-              }
-              maximumIntervalBetweenShiftsInDays={
-                maximumIntervalBetweenShiftsInDays
-              }
-              setMaximumIntervalBetweenShiftsInDays={
-                setMaximumIntervalBetweenShiftsInDays
-              }
-              requireMinimumNumberOfShiftsPerWeekInStandardWorkday={
-                requireMinimumNumberOfShiftsPerWeekInStandardWorkday
-              }
-              setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday={
-                setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday
-              }
-              minimumNumberOfShiftsPerWeekInStandardWorkday={
-                minimumNumberOfShiftsPerWeekInStandardWorkday
-              }
-              setMinimumNumberOfShiftsPerWeekInStandardWorkday={
-                setMinimumNumberOfShiftsPerWeekInStandardWorkday
-              }
-              requireMinimumRestSlotsAfterShift={
-                requireMinimumRestSlotsAfterShift
-              }
-              setRequireMinimumRestSlotsAfterShift={
-                setRequireMinimumRestSlotsAfterShift
-              }
-              minimumRestSlotsAfterShift={minimumRestSlotsAfterShift}
-              setMinimumRestSlotsAfterShift={setMinimumRestSlotsAfterShift}
-              analyzeWorkerInconvenienceEquality={
-                analyzeWorkerInconvenienceEquality
-              }
-              setAnalyzeWorkerInconvenienceEquality={
-                setAnalyzeWorkerInconvenienceEquality
-              }
-              analyzeWorkerSlotEquality={analyzeWorkerSlotEquality}
-              setAnalyzeWorkerSlotEquality={setAnalyzeWorkerSlotEquality}
-              analyzeWorkerSlotProximity={analyzeWorkerSlotProximity}
-              setAnalyzeWorkerSlotProximity={setAnalyzeWorkerSlotProximity}
-            />
+            <Disclosure
+              as="div"
+              defaultOpen
+              className="bg-gray-100 rounded-md p-2"
+            >
+              <DisclosureButton className="group flex w-full items-center justify-between">
+                <span className="text-sm/6 font-medium text-gray-500 group-data-hover:text-gray-500/80">
+                  <Trans>Schedule Analysis Options</Trans>
+                </span>
+                <ChevronDownIcon className="size-4 text-gray-500 group-data-hover:text-gray-500/80 group-data-open:rotate-180" />
+              </DisclosureButton>
+              <DisclosurePanel
+                transition
+                className="mt-2 origin-top transition duration-200 ease-out data-closed:-translate-y-6 data-closed:opacity-0"
+              >
+                <AnalyzeTeamShiftsCalendarMenu
+                  analyzeLeaveConflicts={analyzeLeaveConflicts}
+                  setAnalyzeLeaveConflicts={setAnalyzeLeaveConflicts}
+                  requireMaximumIntervalBetweenShifts={
+                    requireMaximumIntervalBetweenShifts
+                  }
+                  setRequireMaximumIntervalBetweenShifts={
+                    setRequireMaximumIntervalBetweenShifts
+                  }
+                  maximumIntervalBetweenShiftsInDays={
+                    maximumIntervalBetweenShiftsInDays
+                  }
+                  setMaximumIntervalBetweenShiftsInDays={
+                    setMaximumIntervalBetweenShiftsInDays
+                  }
+                  requireMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                    requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+                  }
+                  setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                    setRequireMinimumNumberOfShiftsPerWeekInStandardWorkday
+                  }
+                  minimumNumberOfShiftsPerWeekInStandardWorkday={
+                    minimumNumberOfShiftsPerWeekInStandardWorkday
+                  }
+                  setMinimumNumberOfShiftsPerWeekInStandardWorkday={
+                    setMinimumNumberOfShiftsPerWeekInStandardWorkday
+                  }
+                  requireMinimumRestSlotsAfterShift={
+                    requireMinimumRestSlotsAfterShift
+                  }
+                  setRequireMinimumRestSlotsAfterShift={
+                    setRequireMinimumRestSlotsAfterShift
+                  }
+                  minimumRestSlotsAfterShift={minimumRestSlotsAfterShift}
+                  setMinimumRestSlotsAfterShift={setMinimumRestSlotsAfterShift}
+                  analyzeWorkerInconvenienceEquality={
+                    analyzeWorkerInconvenienceEquality
+                  }
+                  setAnalyzeWorkerInconvenienceEquality={
+                    setAnalyzeWorkerInconvenienceEquality
+                  }
+                  analyzeWorkerSlotEquality={analyzeWorkerSlotEquality}
+                  setAnalyzeWorkerSlotEquality={setAnalyzeWorkerSlotEquality}
+                  analyzeWorkerSlotProximity={analyzeWorkerSlotProximity}
+                  setAnalyzeWorkerSlotProximity={setAnalyzeWorkerSlotProximity}
+                />
+              </DisclosurePanel>
+            </Disclosure>
+          </div>
+        </Transition>
+
+        <Transition show={showFilters && !isDialogOpen} appear>
+          <div
+            className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0"
+            role="region"
+            aria-label="Schedule Analysis Options"
+          >
+            <Disclosure
+              as="div"
+              defaultOpen
+              className="bg-gray-100 rounded-md p-2"
+            >
+              <DisclosureButton className="group flex w-full items-center justify-between">
+                <span className="text-sm/6 font-medium text-gray-500 group-data-hover:text-gray-500/80">
+                  <Trans>Schedule Analysis Options</Trans>
+                </span>
+                <ChevronDownIcon className="size-4 text-gray-500 group-data-hover:text-gray-500/80 group-data-open:rotate-180" />
+              </DisclosureButton>
+              <DisclosurePanel
+                transition
+                className="mt-2 origin-top transition duration-200 ease-out data-closed:-translate-y-6 data-closed:opacity-0"
+              >
+                <FilterTeamShiftsCalendarMenu
+                  filterUsers={filterUsers}
+                  setFilterUsers={setFilterUsers}
+                  allUsers={members}
+                  filteredUsers={filteredUsers}
+                  setFilteredUsers={setFilteredUsers}
+                />
+              </DisclosurePanel>
+            </Disclosure>
           </div>
         </Transition>
       </TeamShiftsCalendar>
