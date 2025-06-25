@@ -101,7 +101,7 @@ export interface ContextualHelpProps {
 const ContextualHelp = ({ isOpen }: ContextualHelpProps) => {
   return (
     <div
-      className="fixed bottom-4 right-4 z-50"
+      className="fixed bottom-4 right-4 z-500"
       style={{ border: "1px solid red" }}
     >
       {isOpen && (

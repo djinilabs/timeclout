@@ -8,7 +8,11 @@ export const workScheduleSettingsHelp: HelpSection = {
     <>
       Configure as definições do horário de trabalho da sua equipa. Defina horas
       de trabalho, fuso horário e outras preferências relacionadas com o horário
-      para garantir uma gestão adequada dos turnos.
+      para garantir uma gestão adequada dos turnos.{" "}
+      <strong>
+        Utilize modelos de dia de horário para aplicar rapidamente padrões
+        diários comuns ao seu calendário.
+      </strong>
     </>
   ),
   features: [
@@ -25,6 +29,11 @@ export const workScheduleSettingsHelp: HelpSection = {
       title: "Preferências de Horário",
       description:
         "Defina preferências e restrições relacionadas com o horário",
+    },
+    {
+      title: "Modelos de Dia de Horário",
+      description:
+        "Crie e aplique modelos de dia para preencher rapidamente o calendário com padrões de turnos comuns para cada dia.",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="work-schedule-settings" />,

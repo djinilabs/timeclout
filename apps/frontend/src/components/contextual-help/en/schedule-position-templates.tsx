@@ -69,6 +69,34 @@ export const schedulePositionTemplatesHelp: HelpSection = {
         </>
       ),
     },
+    {
+      title: "Setting Up Schedule Position Templates and Day Templates",
+      content: (
+        <>
+          <p>
+            <strong>Schedule Position Templates</strong> allow you to define
+            reusable roles or positions (e.g., "Nurse", "Receptionist",
+            "Supervisor") with their own color, required skills, and default
+            shift times. Create these in the "Add Position" dialog in the Shifts
+            Calendar. Use clear names and distinct colors for easy
+            identification.
+          </p>
+          <p className="mt-2">
+            <strong>Schedule Day Templates</strong> are collections of position
+            templates that represent a typical workday (e.g., "Standard
+            Weekday", "Weekend Coverage"). You can create and manage day
+            templates in the Day Templates section. Drag and drop position
+            templates to build a day template, then drag day templates onto the
+            calendar to quickly fill out a week or month.
+          </p>
+          <p className="mt-2">
+            <strong>Best Practices:</strong> Regularly review your templates to
+            ensure they match your team's needs. Use day templates to speed up
+            scheduling and maintain consistency.
+          </p>
+        </>
+      ),
+    },
   ],
   dependencies: (
     <FeatureDependenciesHelp context="schedule-position-templates" />

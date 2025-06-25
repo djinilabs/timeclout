@@ -79,6 +79,33 @@ export const schedulePositionTemplatesHelp: HelpSection = {
         </>
       ),
     },
+    {
+      title: "Configuração de Modelos de Posição e Modelos de Dia",
+      content: (
+        <>
+          <p>
+            <strong>Modelos de Posição de Horário</strong> permitem definir
+            funções reutilizáveis (ex: "Enfermeiro", "Rececionista",
+            "Supervisor") com cor, competências e horários padrão. Crie estes
+            modelos no diálogo "Adicionar Posição" do Calendário de Turnos. Use
+            nomes claros e cores distintas para fácil identificação.
+          </p>
+          <p className="mt-2">
+            <strong>Modelos de Dia de Horário</strong> são conjuntos de modelos
+            de posição que representam um dia típico (ex: "Dia Útil", "Cobertura
+            de Fim de Semana"). Pode criar e gerir modelos de dia na secção de
+            Modelos de Dia. Arraste modelos de posição para construir um modelo
+            de dia e depois arraste modelos de dia para o calendário para
+            preencher rapidamente uma semana ou mês.
+          </p>
+          <p className="mt-2">
+            <strong>Boas Práticas:</strong> Reveja regularmente os seus modelos
+            para garantir que refletem as necessidades da equipa. Use modelos de
+            dia para acelerar o agendamento e manter a consistência.
+          </p>
+        </>
+      ),
+    },
   ],
   dependencies: (
     <FeatureDependenciesHelp context="schedule-position-templates" />

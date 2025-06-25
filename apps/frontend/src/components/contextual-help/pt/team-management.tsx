@@ -3,44 +3,87 @@ import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp.p
 import { RoleBasedHelp } from "../components/RoleBasedHelp.pt";
 
 export const teamManagementHelp: HelpSection = {
-  title: "Gestão de Equipas",
+  title: "Gestão Abrangente de Equipas",
   description: (
     <>
-      Gira as suas equipas dentro desta unidade. Crie novas equipas, atribua
-      membros e configure as definições da equipa. Cada equipa pode ter o seu
-      próprio horário, políticas de ausência e modelos de turnos. Esta interface
-      permite-lhe manter estruturas de equipa eficientes e garantir uma alocação
-      adequada de recursos.
+      Construa e gere equipas de alto desempenho dentro das suas unidades
+      organizacionais. Esta interface poderosa permite criar equipas, atribuir
+      membros com funções e qualificações específicas, configurar políticas
+      específicas da equipa e monitorizar métricas de performance. Desde a
+      configuração inicial da equipa até à otimização contínua, o TT3 fornece
+      todas as ferramentas necessárias para garantir que as suas equipas operem
+      de forma eficiente e eficaz.
     </>
   ),
   features: [
     {
-      title: "Criação de Equipas",
+      title: "Criação Estratégica de Equipas",
       description:
-        "Crie novas equipas com configurações específicas e atribuição de membros",
+        "Crie equipas com propósitos, configurações e atribuições de membros específicos. Defina estrutura da equipa, hierarquia e parâmetros operacionais para corresponder às suas necessidades organizacionais. Cada equipa pode ter configurações únicas mantendo consistência com políticas da empresa.",
     },
     {
-      title: "Gestão de Membros",
-      description: "Adicione, remova e gira membros da equipa e os seus papéis",
+      title: "Gestão Avançada de Membros",
+      description:
+        "Adicione, remova e gere membros da equipa com atribuições de funções detalhadas e níveis de permissão. Acompanhe qualificações dos membros, histórico de performance e padrões de disponibilidade. O sistema fornece perfis abrangentes de membros com toda a informação relevante num só local.",
     },
     {
-      title: "Definições da Equipa",
+      title: "Configuração Flexível de Equipas",
       description:
-        "Configure políticas, horários e preferências específicas da equipa. Defina padrões de trabalho, direitos de ausência e requisitos de turnos.",
+        "Configure políticas específicas da equipa, horários, direitos de licença e requisitos de turno. Configure padrões de trabalho, requisitos de qualificação e regras operacionais que se alinhem com as necessidades e responsabilidades únicas da sua equipa.",
+    },
+    {
+      title: "Análise de Performance e Insights",
+      description:
+        "Aceda a métricas abrangentes de performance da equipa incluindo padrões de presença, indicadores de produtividade, estatísticas de utilização de recursos e tendências de eficiência. Use insights baseados em dados para otimizar performance da equipa e identificar oportunidades de melhoria.",
+    },
+    {
+      title: "Ferramentas de Comunicação Integradas",
+      description:
+        "Gere anúncios da equipa, notificações e preferências de comunicação. Configure alertas automatizados para alterações importantes de horário, atualizações de políticas e requisitos operacionais. Mantenha todos informados e alinhados com objetivos da equipa.",
+    },
+    {
+      title: "Operações de Equipa Escaláveis",
+      description:
+        "Escale operações de equipa eficientemente à medida que a sua organização cresce. Adicione novas equipas, reestruture as existentes e mantenha consistência entre múltiplas equipas preservando autonomia e flexibilidade individuais da equipa.",
     },
   ],
   sections: [
     {
-      title: "Processo de Configuração da Equipa",
+      title: "Processo de Configuração de Equipa",
       content: (
         <>
-          <p>Para configurar uma nova equipa:</p>
-          <ol>
-            <li>Defina a estrutura e hierarquia da equipa</li>
-            <li>Configure as definições e políticas da equipa</li>
-            <li>Adicione membros à equipa e atribua papéis</li>
-            <li>Configure modelos de turnos e horários</li>
-            <li>Configure políticas e direitos de ausência</li>
+          <p>Siga este processo abrangente para configurar equipas eficazes:</p>
+          <ol className="space-y-2">
+            <li>
+              <strong>Definir Propósito da Equipa:</strong> Estabeleça
+              claramente a missão, responsabilidades e âmbito operacional da
+              equipa dentro da sua organização
+            </li>
+            <li>
+              <strong>Configurar Estrutura da Equipa:</strong> Configure
+              hierarquia da equipa, funções e relações de reporte para garantir
+              responsabilidade clara
+            </li>
+            <li>
+              <strong>Estabelecer Políticas:</strong> Defina políticas
+              específicas da equipa para agendamento, gestão de licenças,
+              qualificações e procedimentos operacionais
+            </li>
+            <li>
+              <strong>Adicionar Membros da Equipa:</strong> Recrute e atribua
+              membros da equipa com funções, permissões e requisitos de
+              qualificação apropriados
+            </li>
+            <li>
+              <strong>Configurar Infraestrutura:</strong> Configure modelos de
+              turno, horários de trabalho e parâmetros operacionais específicos
+              às necessidades da equipa
+            </li>
+            <li>
+              <strong>Implementar Monitorização:</strong> Estabeleça métricas de
+              performance e sistemas de monitorização para acompanhar eficácia
+              da equipa e identificar áreas de melhoria
+            </li>
           </ol>
         </>
       ),
@@ -49,14 +92,89 @@ export const teamManagementHelp: HelpSection = {
       title: "Boas Práticas de Gestão de Equipas",
       content: (
         <>
-          <ul>
-            <li>Mantenha definições de papéis e responsabilidades claras</li>
-            <li>Reveja regularmente a composição e desempenho da equipa</li>
+          <ul className="space-y-2">
             <li>
-              Garanta uma distribuição justa de turnos e carga de trabalho
+              <strong>Definição Clara de Funções:</strong> Mantenha definições
+              precisas de funções com responsabilidades específicas, permissões
+              e requisitos de qualificação para cada posição da equipa
             </li>
-            <li>Mantenha as definições e políticas da equipa atualizadas</li>
+            <li>
+              <strong>Revisões Regulares de Performance:</strong> Realize
+              avaliações periódicas da composição da equipa, métricas de
+              performance e eficiência operacional para identificar
+              oportunidades de otimização
+            </li>
+            <li>
+              <strong>Distribuição Justa de Carga de Trabalho:</strong> Garanta
+              distribuição equitativa de turnos, responsabilidades e
+              oportunidades entre todos os membros da equipa para manter moral e
+              prevenir esgotamento
+            </li>
+            <li>
+              <strong>Consistência de Políticas:</strong> Mantenha
+              configurações, políticas e procedimentos da equipa atualizados
+              garantindo alinhamento com padrões organizacionais e requisitos
+              regulatórios
+            </li>
+            <li>
+              <strong>Decisões Baseadas em Dados:</strong> Use análises e
+              métricas de performance para tomar decisões informadas sobre
+              estrutura da equipa, agendamento e alocação de recursos
+            </li>
+            <li>
+              <strong>Melhoria Contínua:</strong> Reveja regularmente operações
+              da equipa, recolha feedback e implemente melhorias para aumentar
+              eficiência e satisfação da equipa
+            </li>
           </ul>
+        </>
+      ),
+    },
+    {
+      title: "Estratégias de Otimização de Equipas",
+      content: (
+        <>
+          <div className="space-y-3">
+            <div>
+              <h5 className="font-medium text-gray-800">
+                Monitorização de Performance
+              </h5>
+              <p className="text-sm text-gray-600">
+                Reveja regularmente padrões de presença, métricas de
+                produtividade e utilização de recursos para identificar áreas de
+                melhoria e otimização.
+              </p>
+            </div>
+            <div>
+              <h5 className="font-medium text-gray-800">
+                Desenvolvimento de Competências
+              </h5>
+              <p className="text-sm text-gray-600">
+                Acompanhe lacunas de qualificação e forneça oportunidades de
+                formação para melhorar capacidades da equipa e flexibilidade
+                operacional.
+              </p>
+            </div>
+            <div>
+              <h5 className="font-medium text-gray-800">
+                Melhoria da Comunicação
+              </h5>
+              <p className="text-sm text-gray-600">
+                Otimize canais de comunicação e sistemas de notificação para
+                garantir fluxo de informação atempado e coordenação da equipa.
+              </p>
+            </div>
+            <div>
+              <h5 className="font-medium text-gray-800">
+                Alocação de Recursos
+              </h5>
+              <p className="text-sm text-gray-600">
+                Analise distribuição de carga de trabalho e ajuste composição da
+                equipa ou agendamento para maximizar eficiência e minimizar
+                gargalos operacionais.
+              </p>
+            </div>
+          </div>
         </>
       ),
     },
