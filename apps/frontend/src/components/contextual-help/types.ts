@@ -7,7 +7,7 @@ export interface HelpSection {
   description: ReactNode;
   features?: {
     title: string;
-    description: string;
+    description: ReactNode;
   }[];
   sections?: {
     title: string;

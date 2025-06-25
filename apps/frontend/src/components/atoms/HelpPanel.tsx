@@ -70,7 +70,7 @@ export const HelpPanel: FC<HelpPanelProps> = ({
 
   return (
     <div
-      className={`fixed inset-y-0 right-0 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
+      className={`fixed z-500 inset-y-0 right-0 bg-white border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
         isHelpPanelOpen ? "translate-x-0" : "translate-x-full"
       }`}
       style={

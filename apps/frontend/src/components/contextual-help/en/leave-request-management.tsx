@@ -6,44 +6,84 @@ export const leaveRequestManagementHelp: HelpSection = {
   title: "Comprehensive Leave Request Management",
   description: (
     <>
-      Streamline and optimize your team's leave management process. This
-      comprehensive system allows you to submit, track, approve, and manage
-      leave requests efficiently while ensuring compliance with company policies
-      and labor regulations. From individual requests to team-wide leave
-      planning, TT3 provides all the tools needed for effective time-off
-      management.
+      Streamline and optimize your team's{" "}
+      <strong>leave management process</strong>. This comprehensive system
+      allows you to submit, track, approve, and manage leave requests
+      efficiently while ensuring <em>compliance with company policies</em>
+      and <u>labor regulations</u>. From individual requests to team-wide leave
+      planning, TT3 provides all the tools needed for effective{" "}
+      <strong>time-off management</strong>.
     </>
   ),
   features: [
     {
       title: "Intelligent Request Submission",
-      description:
-        "Submit leave requests with detailed information including leave type, dates, duration, and reasons. The system automatically validates requests against available quotas, team policies, and scheduling conflicts to ensure smooth processing.",
+      description: (
+        <>
+          Submit leave requests with <strong>detailed information</strong>{" "}
+          including leave type, dates, duration, and reasons. The system
+          automatically validates requests against <em>available quotas</em>,
+          team policies, and <u>scheduling conflicts</u> to ensure smooth
+          processing.
+        </>
+      ),
     },
     {
       title: "Automated Approval Workflows",
-      description:
-        "Streamlined approval processes with automatic routing to appropriate managers based on team structure and leave policies. The system tracks approval status, sends notifications, and ensures timely processing of all requests.",
+      description: (
+        <>
+          Streamlined approval processes with <strong>automatic routing</strong>{" "}
+          to appropriate managers based on team structure and leave policies.
+          The system tracks <em>approval status</em>, sends notifications, and
+          ensures <u>timely processing</u> of all requests.
+        </>
+      ),
     },
     {
       title: "Comprehensive Request Tracking",
-      description:
-        "Track the status of all leave requests from submission to approval/rejection. View request history, approval timelines, and any modifications made during the process. Maintain complete audit trails for compliance and transparency.",
+      description: (
+        <>
+          Track the status of all leave requests from{" "}
+          <strong>submission to approval/rejection</strong>. View request
+          history, <em>approval timelines</em>, and any modifications made
+          during the process. Maintain complete <u>audit trails</u> for
+          compliance and transparency.
+        </>
+      ),
     },
     {
       title: "Quota Management & Validation",
-      description:
-        "Automatic validation of leave requests against individual and team quotas. The system prevents over-allocation, tracks quota usage, and provides clear visibility into available leave balances for all team members.",
+      description: (
+        <>
+          Automatic validation of leave requests against{" "}
+          <strong>individual and team quotas</strong>. The system prevents{" "}
+          <em>over-allocation</em>, tracks quota usage, and provides clear
+          visibility into <u>available leave balances</u> for all team members.
+        </>
+      ),
     },
     {
       title: "Conflict Detection & Resolution",
-      description:
-        "Identify and resolve scheduling conflicts between leave requests and work assignments. The system alerts managers to potential coverage issues and suggests solutions to maintain operational continuity.",
+      description: (
+        <>
+          Identify and resolve <strong>scheduling conflicts</strong> between
+          leave requests and work assignments. The system alerts managers to{" "}
+          <em>potential coverage issues</em> and suggests solutions to maintain{" "}
+          <u>operational continuity</u>.
+        </>
+      ),
     },
     {
       title: "Policy Compliance & Reporting",
-      description:
-        "Ensure all leave requests comply with company policies, labor regulations, and team-specific rules. Generate comprehensive reports on leave patterns, approval rates, and policy compliance for management review.",
+      description: (
+        <>
+          Ensure all leave requests comply with{" "}
+          <strong>company policies</strong>, labor regulations, and
+          team-specific rules. Generate comprehensive reports on{" "}
+          <em>leave patterns</em>, approval rates, and <u>policy compliance</u>{" "}
+          for management review.
+        </>
+      ),
     },
   ],
   sections: [
@@ -58,30 +98,31 @@ export const leaveRequestManagementHelp: HelpSection = {
           <ol className="space-y-2">
             <li>
               <strong>Submit Request:</strong> Complete the leave request form
-              with all required information including dates, leave type, and
-              reason for the request
+              with all <em>required information</em> including dates, leave
+              type, and reason for the request
             </li>
             <li>
               <strong>System Validation:</strong> The system automatically
-              validates the request against quotas, policies, and scheduling
-              conflicts
+              validates the request against <strong>quotas, policies</strong>,
+              and scheduling conflicts
             </li>
             <li>
               <strong>Manager Review:</strong> Appropriate managers review the
-              request based on team structure and approval workflows
+              request based on <em>team structure</em> and approval workflows
             </li>
             <li>
               <strong>Approval/Rejection:</strong> Managers approve or reject
-              requests with comments and reasoning for transparency
+              requests with <u>comments and reasoning</u> for transparency
             </li>
             <li>
               <strong>Notification & Updates:</strong> All parties receive
-              notifications about request status changes and any required
-              actions
+              notifications about <em>request status changes</em> and any
+              required actions
             </li>
             <li>
               <strong>Schedule Integration:</strong> Approved requests are
-              automatically integrated into team schedules and leave calendars
+              automatically integrated into <strong>team schedules</strong> and
+              leave calendars
             </li>
           </ol>
         </>
@@ -93,29 +134,34 @@ export const leaveRequestManagementHelp: HelpSection = {
         <>
           <ul className="space-y-2">
             <li>
-              <strong>Early Submission:</strong> Submit leave requests well in
-              advance to allow for proper planning and approval processing
+              <strong>Early Submission:</strong> Submit leave requests{" "}
+              <u>well in advance</u> to allow for proper planning and approval
+              processing
             </li>
             <li>
-              <strong>Clear Communication:</strong> Provide detailed reasons and
-              context for leave requests to facilitate informed decision-making
+              <strong>Clear Communication:</strong> Provide{" "}
+              <em>detailed reasons</em> and context for leave requests to
+              facilitate informed decision-making
             </li>
             <li>
-              <strong>Policy Awareness:</strong> Familiarize yourself with team
-              and company leave policies to ensure requests meet all
-              requirements
+              <strong>Policy Awareness:</strong> Familiarize yourself with{" "}
+              <strong>team and company leave policies</strong> to ensure
+              requests meet all requirements
             </li>
             <li>
-              <strong>Quota Monitoring:</strong> Regularly check your leave
-              balance and quota usage to plan time-off effectively
+              <strong>Quota Monitoring:</strong> Regularly check your{" "}
+              <em>leave balance</em> and quota usage to plan time-off
+              effectively
             </li>
             <li>
               <strong>Timely Responses:</strong> Managers should respond to
-              leave requests promptly to maintain team planning and morale
+              leave requests <u>promptly</u> to maintain team planning and
+              morale
             </li>
             <li>
-              <strong>Documentation:</strong> Keep records of all leave requests
-              and approvals for compliance and future reference
+              <strong>Documentation:</strong> Keep records of all{" "}
+              <strong>leave requests and approvals</strong> for compliance and
+              future reference
             </li>
           </ul>
         </>
@@ -129,32 +175,36 @@ export const leaveRequestManagementHelp: HelpSection = {
             <div>
               <h5 className="font-medium text-gray-800">For Team Members</h5>
               <p className="text-sm text-gray-600">
-                Submit requests early, provide clear reasons, and monitor your
-                quota balance. Communicate with your manager about any special
-                circumstances or urgent requests.
+                Submit requests <em>early</em>, provide{" "}
+                <strong>clear reasons</strong>, and monitor your quota balance.
+                Communicate with your manager about any{" "}
+                <u>special circumstances</u> or urgent requests.
               </p>
             </div>
             <div>
               <h5 className="font-medium text-gray-800">For Managers</h5>
               <p className="text-sm text-gray-600">
-                Review requests promptly, consider team coverage needs, and
-                provide clear feedback. Balance individual needs with
-                operational requirements.
+                Review requests <strong>promptly</strong>, consider{" "}
+                <em>team coverage needs</em>, and provide clear feedback.
+                Balance individual needs with
+                <u>operational requirements</u>.
               </p>
             </div>
             <div>
               <h5 className="font-medium text-gray-800">For Administrators</h5>
               <p className="text-sm text-gray-600">
-                Monitor leave patterns, ensure policy compliance, and optimize
-                approval workflows. Use analytics to identify trends and improve
+                Monitor <em>leave patterns</em>, ensure{" "}
+                <strong>policy compliance</strong>, and optimize approval
+                workflows. Use analytics to identify trends and improve
                 processes.
               </p>
             </div>
             <div>
               <h5 className="font-medium text-gray-800">Conflict Resolution</h5>
               <p className="text-sm text-gray-600">
-                Address scheduling conflicts proactively by working with team
-                members to find alternative solutions or adjust request timing.
+                Address <strong>scheduling conflicts</strong> proactively by
+                working with team members to find <em>alternative solutions</em>{" "}
+                or adjust request timing.
               </p>
             </div>
           </div>

@@ -6,43 +6,84 @@ export const autoFillHelp: HelpSection = {
   title: "Intelligent Auto-Fill Scheduling",
   description: (
     <>
-      Harness the power of AI-driven scheduling optimization. The auto-fill
-      feature intelligently assigns team members to shifts based on their
-      qualifications, availability, preferences, and workload distribution
-      rules. This advanced algorithm ensures optimal coverage while maintaining
-      fairness and compliance with your team's policies and regulations.
+      Harness the power of <strong>AI-driven scheduling optimization</strong>.
+      The auto-fill feature intelligently assigns team members to shifts based
+      on their
+      <em>qualifications, availability, preferences</em>, and{" "}
+      <u>workload distribution rules</u>. This advanced algorithm ensures{" "}
+      <strong>optimal coverage</strong> while maintaining fairness and
+      compliance with your team's policies and regulations.
     </>
   ),
   features: [
     {
       title: "Smart Qualification Matching",
-      description:
-        "Automatically matches team members to shifts based on their specific qualifications and certifications. The system ensures that only qualified individuals are assigned to positions requiring particular skills, maintaining operational standards and safety compliance.",
+      description: (
+        <>
+          Automatically matches team members to shifts based on their{" "}
+          <strong>specific qualifications</strong> and certifications. The
+          system ensures that only <em>qualified individuals</em> are assigned
+          to positions requiring particular skills, maintaining{" "}
+          <u>operational standards</u> and safety compliance.
+        </>
+      ),
     },
     {
       title: "Advanced Conflict Resolution",
-      description:
-        "Intelligently resolves scheduling conflicts including double-bookings, rest period violations, and qualification mismatches. The algorithm finds optimal solutions that minimize disruptions while maintaining schedule integrity and team satisfaction.",
+      description: (
+        <>
+          Intelligently resolves scheduling conflicts including{" "}
+          <u>double-bookings</u>, <em>rest period violations</em>, and{" "}
+          <strong>qualification mismatches</strong>. The algorithm finds optimal
+          solutions that minimize disruptions while maintaining{" "}
+          <strong>schedule integrity</strong> and team satisfaction.
+        </>
+      ),
     },
     {
       title: "Workload Balance Optimization",
-      description:
-        "Distributes shifts fairly across team members, considering their current workload, preferences, and historical assignment patterns. The system prevents overloading while ensuring all team members have appropriate opportunities.",
+      description: (
+        <>
+          Distributes shifts <em>fairly</em> across team members, considering
+          their <strong>current workload</strong>, preferences, and historical
+          assignment patterns. The system prevents <u>overloading</u> while
+          ensuring all team members have appropriate opportunities.
+        </>
+      ),
     },
     {
       title: "Preference-Aware Scheduling",
-      description:
-        "Takes into account team member preferences, availability patterns, and scheduling history to create schedules that work for everyone. The system learns from past assignments to improve future scheduling decisions.",
+      description: (
+        <>
+          Takes into account team member <strong>preferences</strong>,{" "}
+          <em>availability patterns</em>, and scheduling history to create
+          schedules that work for everyone. The system{" "}
+          <u>learns from past assignments</u> to improve future scheduling
+          decisions.
+        </>
+      ),
     },
     {
       title: "Regulatory Compliance",
-      description:
-        "Ensures schedules comply with labor regulations, including minimum rest periods, maximum work hours, and qualification requirements. The system automatically flags potential compliance issues and suggests alternatives.",
+      description: (
+        <>
+          Ensures schedules comply with <strong>labor regulations</strong>,
+          including <em>minimum rest periods</em>, maximum work hours, and
+          qualification requirements. The system automatically flags{" "}
+          <u>potential compliance issues</u> and suggests alternatives.
+        </>
+      ),
     },
     {
       title: "Real-Time Optimization",
-      description:
-        "Continuously optimizes schedules as new information becomes available. The system can adjust assignments in real-time to accommodate last-minute changes, emergencies, or new requirements.",
+      description: (
+        <>
+          Continuously optimizes schedules as <em>new information</em> becomes
+          available. The system can adjust assignments in{" "}
+          <strong>real-time</strong> to accommodate <u>last-minute changes</u>,
+          emergencies, or new requirements.
+        </>
+      ),
     },
   ],
   sections: [
@@ -57,28 +98,33 @@ export const autoFillHelp: HelpSection = {
           <ol className="space-y-2">
             <li>
               <strong>Analyze Requirements:</strong> Reviews all shift positions
-              and their qualification requirements, time slots, and special
-              needs
+              and their <em>qualification requirements</em>,{" "}
+              <strong>time slots</strong>, and special needs
             </li>
             <li>
               <strong>Assess Availability:</strong> Checks team member
-              availability, existing commitments, and scheduling preferences
+              <em>availability</em>, existing commitments, and{" "}
+              <u>scheduling preferences</u>
             </li>
             <li>
               <strong>Match Qualifications:</strong> Identifies team members
-              with the required skills and certifications for each position
+              with the <strong>required skills</strong> and certifications for
+              each position
             </li>
             <li>
-              <strong>Optimize Distribution:</strong> Balances workload across
-              team members while respecting their preferences and limitations
+              <strong>Optimize Distribution:</strong> Balances <em>workload</em>{" "}
+              across team members while respecting their{" "}
+              <u>preferences and limitations</u>
             </li>
             <li>
               <strong>Validate Compliance:</strong> Ensures the proposed
-              schedule meets all regulatory and policy requirements
+              schedule meets all{" "}
+              <strong>regulatory and policy requirements</strong>
             </li>
             <li>
-              <strong>Generate Schedule:</strong> Creates the final optimized
-              schedule with all assignments and conflict resolutions
+              <strong>Generate Schedule:</strong> Creates the final{" "}
+              <em>optimized schedule</em> with all assignments and conflict
+              resolutions
             </li>
           </ol>
         </>
@@ -91,34 +137,37 @@ export const autoFillHelp: HelpSection = {
           <ul className="space-y-2">
             <li>
               <strong>Keep Qualifications Updated:</strong> Ensure all team
-              member qualifications are current and accurately reflect their
-              capabilities
+              member qualifications are <em>current and accurate</em> and
+              reflect their capabilities
             </li>
             <li>
               <strong>Set Clear Preferences:</strong> Encourage team members to
-              set their availability preferences and scheduling constraints
+              set their <u>availability preferences</u> and scheduling
+              constraints
             </li>
             <li>
               <strong>Review Before Publishing:</strong> Always review
               auto-generated schedules before publishing to ensure they meet
-              your specific needs
+              your <strong>specific needs</strong>
             </li>
             <li>
               <strong>Use as Starting Point:</strong> Consider auto-fill results
-              as a starting point that can be manually adjusted for special
-              circumstances
+              as a <em>starting point</em> that can be manually adjusted for{" "}
+              <u>special circumstances</u>
             </li>
             <li>
               <strong>Monitor Performance:</strong> Track how well auto-fill
-              performs and adjust parameters or preferences as needed
+              performs and adjust <strong>parameters or preferences</strong> as
+              needed
             </li>
             <li>
               <strong>Communicate Changes:</strong> Inform team members about
-              auto-fill usage and how it affects their schedules
+              auto-fill usage and how it affects their <em>schedules</em>
             </li>
             <li>
-              <strong>Publish Results:</strong> Remember to publish
-              auto-generated schedules to make them visible to team members
+              <strong>Publish Results:</strong> Remember to{" "}
+              <u>publish auto-generated schedules</u> to make them visible to
+              team members
             </li>
           </ul>
         </>
@@ -134,8 +183,9 @@ export const autoFillHelp: HelpSection = {
                 Perfect for Regular Scheduling
               </h5>
               <p className="text-sm text-gray-600">
-                Use auto-fill for routine weekly or monthly scheduling when you
-                have consistent requirements and team availability.
+                Use auto-fill for <em>routine weekly or monthly scheduling</em>{" "}
+                when you have <strong>consistent requirements</strong> and team
+                availability.
               </p>
             </div>
             <div>
@@ -143,8 +193,9 @@ export const autoFillHelp: HelpSection = {
                 Complex Qualification Requirements
               </h5>
               <p className="text-sm text-gray-600">
-                Ideal when you have multiple positions requiring different
-                qualifications and need to ensure proper skill matching.
+                Ideal when you have <strong>multiple positions</strong>{" "}
+                requiring different qualifications and need to ensure{" "}
+                <em>proper skill matching</em>.
               </p>
             </div>
             <div>
@@ -152,8 +203,9 @@ export const autoFillHelp: HelpSection = {
                 Large Team Management
               </h5>
               <p className="text-sm text-gray-600">
-                Especially valuable for teams with many members where manual
-                scheduling would be time-consuming and error-prone.
+                Especially valuable for teams with <em>many members</em> where
+                manual scheduling would be <u>time-consuming and error-prone</u>
+                .
               </p>
             </div>
             <div>
@@ -161,8 +213,8 @@ export const autoFillHelp: HelpSection = {
                 Compliance-Critical Environments
               </h5>
               <p className="text-sm text-gray-600">
-                Use when you need to ensure strict adherence to labor
-                regulations and qualification requirements.
+                Use when you need to ensure <strong>strict adherence</strong> to
+                labor regulations and <em>qualification requirements</em>.
               </p>
             </div>
           </div>

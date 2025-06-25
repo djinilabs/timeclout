@@ -6,83 +6,130 @@ export const teamManagementHelp: HelpSection = {
   title: "Gestão Abrangente de Equipas",
   description: (
     <>
-      Construa e gere equipas de alto desempenho dentro das suas unidades
-      organizacionais. Esta interface poderosa permite criar equipas, atribuir
-      membros com funções e qualificações específicas, configurar políticas
-      específicas da equipa e monitorizar métricas de performance. Desde a
-      configuração inicial da equipa até à otimização contínua, o TT3 fornece
-      todas as ferramentas necessárias para garantir que as suas equipas operem
-      de forma eficiente e eficaz.
+      Construa e gere <strong>equipas de alto desempenho</strong> dentro das
+      suas unidades organizacionais. Esta interface poderosa permite-lhe criar
+      equipas, atribuir membros com
+      <em>funções e qualificações específicas</em>, configurar políticas
+      específicas da equipa, e monitorizar <u>métricas de performance</u>. Desde
+      a configuração inicial da equipa até à otimização contínua, o TT3 fornece
+      todas as ferramentas que precisa para garantir que as suas equipas operem{" "}
+      <strong>eficientemente e eficazmente</strong>.
     </>
   ),
   features: [
     {
       title: "Criação Estratégica de Equipas",
-      description:
-        "Crie equipas com propósitos, configurações e atribuições de membros específicos. Defina estrutura da equipa, hierarquia e parâmetros operacionais para corresponder às suas necessidades organizacionais. Cada equipa pode ter configurações únicas mantendo consistência com políticas da empresa.",
+      description: (
+        <>
+          Crie equipas com <strong>propósitos específicos</strong>,
+          configurações e atribuições de membros. Defina estrutura da equipa,
+          hierarquia e <em>parâmetros operacionais</em> para corresponder às
+          suas necessidades organizacionais. Cada equipa pode ter{" "}
+          <u>configurações únicas</u> mantendo consistência com políticas da
+          empresa.
+        </>
+      ),
     },
     {
       title: "Gestão Avançada de Membros",
-      description:
-        "Adicione, remova e gere membros da equipa com atribuições de funções detalhadas e níveis de permissão. Acompanhe qualificações dos membros, histórico de performance e padrões de disponibilidade. O sistema fornece perfis abrangentes de membros com toda a informação relevante num só local.",
+      description: (
+        <>
+          Adicione, remova e gere membros da equipa com{" "}
+          <strong>atribuições de funções detalhadas</strong> e níveis de
+          permissão. Acompanhe <em>qualificações, histórico de performance</em>{" "}
+          e padrões de disponibilidade dos membros. O sistema fornece{" "}
+          <u>perfis abrangentes de membros</u> com toda a informação relevante
+          num só local.
+        </>
+      ),
     },
     {
       title: "Configuração Flexível de Equipas",
-      description:
-        "Configure políticas específicas da equipa, horários, direitos de licença e requisitos de turno. Configure padrões de trabalho, requisitos de qualificação e regras operacionais que se alinhem com as necessidades e responsabilidades únicas da sua equipa.",
+      description: (
+        <>
+          Configure <strong>políticas específicas da equipa</strong>, horários,
+          direitos de licença e requisitos de turno. Configure{" "}
+          <em>padrões de trabalho, requisitos de qualificação</em> e regras
+          operacionais que se alinhem com as necessidades e responsabilidades
+          únicas da sua equipa.
+        </>
+      ),
     },
     {
       title: "Análise de Performance e Insights",
-      description:
-        "Aceda a métricas abrangentes de performance da equipa incluindo padrões de presença, indicadores de produtividade, estatísticas de utilização de recursos e tendências de eficiência. Use insights baseados em dados para otimizar performance da equipa e identificar oportunidades de melhoria.",
+      description: (
+        <>
+          Aceda a <strong>métricas abrangentes de performance da equipa</strong>{" "}
+          incluindo padrões de presença, indicadores de produtividade,{" "}
+          <em>estatísticas de utilização de recursos</em> e tendências de
+          eficiência. Use <u>insights baseados em dados</u> para otimizar
+          performance da equipa e identificar oportunidades de melhoria.
+        </>
+      ),
     },
     {
       title: "Ferramentas de Comunicação Integradas",
-      description:
-        "Gere anúncios da equipa, notificações e preferências de comunicação. Configure alertas automatizados para alterações importantes de horário, atualizações de políticas e requisitos operacionais. Mantenha todos informados e alinhados com objetivos da equipa.",
+      description: (
+        <>
+          Gere <strong>anúncios da equipa</strong>, notificações e preferências
+          de comunicação. Configure <em>alertas automatizados</em> para
+          alterações importantes de horário, atualizações de políticas e
+          requisitos operacionais. Mantenha todos <u>informados e alinhados</u>{" "}
+          com objetivos da equipa.
+        </>
+      ),
     },
     {
       title: "Operações de Equipa Escaláveis",
-      description:
-        "Escale operações de equipa eficientemente à medida que a sua organização cresce. Adicione novas equipas, reestruture as existentes e mantenha consistência entre múltiplas equipas preservando autonomia e flexibilidade individuais da equipa.",
+      description: (
+        <>
+          Escale operações de equipa <strong>eficientemente</strong> à medida
+          que a sua organização cresce. Adicione novas equipas, reestruture as
+          existentes e mantenha <em>consistência entre múltiplas equipas</em>{" "}
+          preservando autonomia e flexibilidade individuais da equipa.
+        </>
+      ),
     },
   ],
   sections: [
     {
-      title: "Processo de Configuração de Equipa",
+      title: "Processo de Configuração de Equipas",
       content: (
         <>
           <p>Siga este processo abrangente para configurar equipas eficazes:</p>
           <ol className="space-y-2">
             <li>
               <strong>Definir Propósito da Equipa:</strong> Estabeleça
-              claramente a missão, responsabilidades e âmbito operacional da
-              equipa dentro da sua organização
+              claramente a<em>missão, responsabilidades</em> e âmbito
+              operacional da equipa dentro da sua organização
             </li>
             <li>
               <strong>Configurar Estrutura da Equipa:</strong> Configure
-              hierarquia da equipa, funções e relações de reporte para garantir
+              hierarquia da equipa, funções e{" "}
+              <strong>relações de reporte</strong> para garantir
               responsabilidade clara
             </li>
             <li>
-              <strong>Estabelecer Políticas:</strong> Defina políticas
-              específicas da equipa para agendamento, gestão de licenças,
-              qualificações e procedimentos operacionais
+              <strong>Estabelecer Políticas:</strong> Defina{" "}
+              <u>políticas específicas da equipa</u>
+              para agendamento, gestão de licenças, qualificações e
+              procedimentos operacionais
             </li>
             <li>
               <strong>Adicionar Membros da Equipa:</strong> Recrute e atribua
-              membros da equipa com funções, permissões e requisitos de
+              membros da equipa com <em>funções, permissões</em> e requisitos de
               qualificação apropriados
             </li>
             <li>
-              <strong>Configurar Infraestrutura:</strong> Configure modelos de
-              turno, horários de trabalho e parâmetros operacionais específicos
-              às necessidades da equipa
+              <strong>Configurar Infraestrutura:</strong> Configure{" "}
+              <strong>modelos de turno</strong>, horários de trabalho e
+              parâmetros operacionais específicos às necessidades da equipa
             </li>
             <li>
-              <strong>Implementar Monitorização:</strong> Estabeleça métricas de
-              performance e sistemas de monitorização para acompanhar eficácia
-              da equipa e identificar áreas de melhoria
+              <strong>Implementar Monitorização:</strong> Estabeleça{" "}
+              <em>métricas de performance</em> e sistemas de monitorização para
+              acompanhar eficácia da equipa e identificar{" "}
+              <u>áreas de melhoria</u>
             </li>
           </ol>
         </>
@@ -95,36 +142,38 @@ export const teamManagementHelp: HelpSection = {
           <ul className="space-y-2">
             <li>
               <strong>Definição Clara de Funções:</strong> Mantenha definições
-              precisas de funções com responsabilidades específicas, permissões
-              e requisitos de qualificação para cada posição da equipa
+              precisas de funções com <em>responsabilidades específicas</em>,
+              permissões e <strong>requisitos de qualificação</strong> para cada
+              posição da equipa
             </li>
             <li>
               <strong>Revisões Regulares de Performance:</strong> Realize
-              avaliações periódicas da composição da equipa, métricas de
-              performance e eficiência operacional para identificar
-              oportunidades de otimização
+              avaliações periódicas de <em>composição da equipa</em>, métricas
+              de performance e eficiência operacional para identificar{" "}
+              <u>oportunidades de otimização</u>
             </li>
             <li>
-              <strong>Distribuição Justa de Carga de Trabalho:</strong> Garanta
-              distribuição equitativa de turnos, responsabilidades e
-              oportunidades entre todos os membros da equipa para manter moral e
-              prevenir esgotamento
+              <strong>Distribuição Justa de Carga de Trabalho:</strong> Garanta{" "}
+              <strong>distribuição equitativa</strong> de turnos,
+              responsabilidades e oportunidades entre todos os membros da equipa
+              para manter moral e prevenir <em>esgotamento</em>
             </li>
             <li>
               <strong>Consistência de Políticas:</strong> Mantenha
               configurações, políticas e procedimentos da equipa atualizados
-              garantindo alinhamento com padrões organizacionais e requisitos
-              regulatórios
+              garantindo <u>alinhamento com padrões organizacionais</u> e
+              requisitos regulatórios
             </li>
             <li>
-              <strong>Decisões Baseadas em Dados:</strong> Use análises e
-              métricas de performance para tomar decisões informadas sobre
-              estrutura da equipa, agendamento e alocação de recursos
+              <strong>Decisões Baseadas em Dados:</strong> Use{" "}
+              <em>análises e métricas de performance</em> para tomar decisões
+              informadas sobre estrutura da equipa, agendamento e{" "}
+              <strong>alocação de recursos</strong>
             </li>
             <li>
               <strong>Melhoria Contínua:</strong> Reveja regularmente operações
-              da equipa, recolha feedback e implemente melhorias para aumentar
-              eficiência e satisfação da equipa
+              da equipa, recolha feedback e implemente <u>melhorias</u> para
+              aumentar eficiência e satisfação da equipa
             </li>
           </ul>
         </>
@@ -140,9 +189,9 @@ export const teamManagementHelp: HelpSection = {
                 Monitorização de Performance
               </h5>
               <p className="text-sm text-gray-600">
-                Reveja regularmente padrões de presença, métricas de
-                produtividade e utilização de recursos para identificar áreas de
-                melhoria e otimização.
+                Reveja regularmente <em>padrões de presença</em>, métricas de
+                produtividade e utilização de recursos para identificar áreas de{" "}
+                <strong>melhoria e otimização</strong>.
               </p>
             </div>
             <div>
@@ -150,9 +199,9 @@ export const teamManagementHelp: HelpSection = {
                 Desenvolvimento de Competências
               </h5>
               <p className="text-sm text-gray-600">
-                Acompanhe lacunas de qualificação e forneça oportunidades de
-                formação para melhorar capacidades da equipa e flexibilidade
-                operacional.
+                Acompanhe <strong>lacunas de qualificação</strong> e forneça
+                oportunidades de formação para aumentar capacidades da equipa e{" "}
+                <em>flexibilidade operacional</em>.
               </p>
             </div>
             <div>
@@ -160,8 +209,9 @@ export const teamManagementHelp: HelpSection = {
                 Melhoria da Comunicação
               </h5>
               <p className="text-sm text-gray-600">
-                Otimize canais de comunicação e sistemas de notificação para
-                garantir fluxo de informação atempado e coordenação da equipa.
+                Otimize <em>canais de comunicação</em> e sistemas de notificação
+                para garantir <strong>fluxo de informação atempado</strong> e
+                coordenação da equipa.
               </p>
             </div>
             <div>
@@ -169,9 +219,10 @@ export const teamManagementHelp: HelpSection = {
                 Alocação de Recursos
               </h5>
               <p className="text-sm text-gray-600">
-                Analise distribuição de carga de trabalho e ajuste composição da
-                equipa ou agendamento para maximizar eficiência e minimizar
-                gargalos operacionais.
+                Analise <em>distribuição de carga de trabalho</em> e ajuste
+                composição da equipa ou agendamento para maximizar{" "}
+                <strong>eficiência</strong> e minimizar estrangulamentos
+                operacionais.
               </p>
             </div>
           </div>

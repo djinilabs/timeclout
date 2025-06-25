@@ -6,45 +6,100 @@ export const shiftsCalendarHelp: HelpSection = {
   title: "Gestão e Agendamento de Turnos",
   description: (
     <>
-      O coração do sistema de gestão de força de trabalho do TT3. Crie, organize
-      e gere horários de trabalho da equipa com precisão e eficiência. Esta
-      interface de calendário abrangente permite visualizar turnos ao longo de
-      períodos de tempo, atribuir membros da equipa com base em qualificações, e
-      garantir cobertura ideal para as suas operações. O sistema atualiza
-      automaticamente em tempo real, mantendo todos informados sobre alterações
-      de horário.
+      O{" "}
+      <strong>coração do sistema de gestão de força de trabalho do TT3</strong>.
+      Crie, organize e gere horários de trabalho da equipa com{" "}
+      <em>precisão e eficiência</em>. Esta interface de calendário abrangente
+      permite visualizar <strong>turnos ao longo de períodos de tempo</strong>,
+      atribuir membros da equipa com base em <u>qualificações</u>, e garantir{" "}
+      <strong>cobertura ideal</strong> para as suas operações. O sistema
+      atualiza automaticamente em <em>tempo real</em>, mantendo todos informados
+      sobre alterações de horário.
     </>
   ),
   features: [
     {
       title: "Gestão Inteligente de Intervalos de Datas",
-      description:
-        "Navegue facilmente entre meses, semanas e intervalos de datas personalizados. Utilize o seletor de datas intuitivo para focar em períodos específicos para planeamento detalhado ou obter uma visão geral de horários a longo prazo. Perfeito tanto para planeamento operacional a curto prazo como para agendamento estratégico a longo prazo.",
+      description: (
+        <>
+          Navegue facilmente entre{" "}
+          <strong>meses, semanas e intervalos de datas personalizados</strong>.
+          Utilize o seletor de datas intuitivo para focar em períodos
+          específicos para <em>planeamento detalhado</em> ou obter uma visão
+          geral de <strong>horários a longo prazo</strong>. Perfeito tanto para{" "}
+          <u>planeamento operacional a curto prazo</u> como para{" "}
+          <u>agendamento estratégico a longo prazo</u>.
+        </>
+      ),
     },
     {
       title: "Sincronização em Tempo Real",
-      description:
-        "Experimente atualizações verdadeiramente em tempo real com sondagem automática que mantém os horários atuais em todos os membros da equipa. As alterações feitas por qualquer utilizador autorizado são refletidas instantaneamente, eliminando confusão e garantindo que todos trabalhem com a informação mais atualizada. Não é necessário atualizar manualmente.",
+      description: (
+        <>
+          Experimente atualizações verdadeiramente{" "}
+          <strong>em tempo real</strong> com sondagem automática que mantém os
+          horários atuais em todos os membros da equipa. As alterações feitas
+          por qualquer <em>utilizador autorizado</em> são{" "}
+          <u>refletidas instantaneamente</u>, eliminando confusão e garantindo
+          que todos trabalhem com a informação mais atualizada.{" "}
+          <strong>Não é necessário atualizar manualmente</strong>.
+        </>
+      ),
     },
     {
       title: "Gestão Avançada de Posições",
-      description:
-        "Crie posições de turno sofisticadas com especificações detalhadas incluindo requisitos de função, horários, pré-requisitos de qualificação e notas personalizadas. Cada posição pode ter requisitos únicos, facilitando a garantia de que a pessoa certa é atribuída à função certa na altura certa.",
+      description: (
+        <>
+          Crie posições de turno sofisticadas com especificações detalhadas
+          incluindo <strong>requisitos de função</strong>, <em>horários</em>,{" "}
+          <u>pré-requisitos de qualificação</u> e notas personalizadas. Cada
+          posição pode ter <strong>requisitos únicos</strong>, facilitando a
+          garantia de que a{" "}
+          <em>pessoa certa é atribuída à função certa na altura certa</em>.
+        </>
+      ),
     },
     {
       title: "Navegação Flexível no Calendário",
-      description:
-        "Navegue pelo seu horário com facilidade utilizando controlos de zoom intuitivos e seletores de período de tempo. Alterne entre visualizações diárias, semanais e mensais para corresponder às suas necessidades de planeamento. O design responsivo adapta-se a diferentes tamanhos de ecrã para visualização ideal em qualquer dispositivo.",
+      description: (
+        <>
+          Navegue pelo seu horário com facilidade utilizando{" "}
+          <strong>controlos de zoom intuitivos</strong> e seletores de período
+          de tempo. Alterne entre{" "}
+          <em>visualizações diárias, semanais e mensais</em> para corresponder
+          às suas necessidades de planeamento. O{" "}
+          <strong>design responsivo</strong> adapta-se a diferentes tamanhos de
+          ecrã para visualização ideal em qualquer dispositivo.
+        </>
+      ),
     },
     {
       title: "Sistema de Atribuição Drag-and-Drop",
-      description:
-        "Atribua intuitivamente membros da equipa aos turnos utilizando a nossa interface drag-and-drop. O sistema valida automaticamente as atribuições contra requisitos de qualificação, conflitos de disponibilidade e regras de distribuição de carga de trabalho. O feedback visual ajuda-o a tomar decisões de atribuição informadas rapidamente.",
+      description: (
+        <>
+          Atribua intuitivamente membros da equipa aos turnos utilizando a nossa{" "}
+          <strong>interface drag-and-drop</strong>. O sistema valida
+          automaticamente as atribuições contra{" "}
+          <u>requisitos de qualificação</u>,{" "}
+          <em>conflitos de disponibilidade</em> e{" "}
+          <strong>regras de distribuição de carga de trabalho</strong>. O
+          feedback visual ajuda-o a tomar{" "}
+          <em>decisões de atribuição informadas</em> rapidamente.
+        </>
+      ),
     },
     {
       title: "Deteção e Resolução de Conflitos",
-      description:
-        "Identifique e sinalize automaticamente conflitos de agendamento incluindo reservas duplas, incompatibilidades de qualificação e violações de períodos de descanso. O sistema fornece avisos claros e sugestões para ajudar a resolver problemas antes de se tornarem problemas.",
+      description: (
+        <>
+          Identifique e sinalize automaticamente conflitos de agendamento
+          incluindo <u>reservas duplas</u>,{" "}
+          <strong>incompatibilidades de qualificação</strong> e{" "}
+          <em>violações de períodos de descanso</em>. O sistema fornece{" "}
+          <strong>avisos claros e sugestões</strong> para ajudar a resolver
+          problemas antes de se tornarem problemas.
+        </>
+      ),
     },
   ],
   sections: [
@@ -58,27 +113,28 @@ export const shiftsCalendarHelp: HelpSection = {
           <ol className="space-y-2">
             <li>
               <strong>Defina o Seu Período:</strong> Utilize o seletor de datas
-              para selecionar o seu período de planeamento - seja a semana
-              atual, o próximo mês, ou um intervalo personalizado
+              para selecionar o seu período de planeamento - seja a{" "}
+              <em>semana atual</em>, <em>próximo mês</em>, ou um{" "}
+              <strong>intervalo personalizado</strong>
             </li>
             <li>
               <strong>Reveja o Estado Atual:</strong> Examine os turnos e
-              posições existentes para entender a cobertura atual e identificar
-              lacunas
+              posições existentes para entender a <em>cobertura atual</em> e
+              identificar <u>lacunas</u>
             </li>
             <li>
               <strong>Crie ou Modifique Posições:</strong> Adicione novas
-              posições de turno ou edite as existentes com requisitos
-              específicos e horários
+              posições de turno ou edite as existentes com{" "}
+              <strong>requisitos específicos</strong> e <em>horários</em>
             </li>
             <li>
-              <strong>Atribua Membros da Equipa:</strong> Atribua membros da
-              equipa qualificados para turnos apropriados, garantindo cobertura
-              adequada
+              <strong>Atribua Membros da Equipa:</strong> Atribua{" "}
+              <u>membros da equipa qualificados</u> para turnos apropriados,
+              garantindo <strong>cobertura adequada</strong>
             </li>
             <li>
               <strong>Valide e Publique:</strong> Reveja o horário completo para
-              conflitos e publique quando estiver pronto
+              <em>conflitos</em> e <u>publique quando estiver pronto</u>
             </li>
           </ol>
         </>
@@ -91,33 +147,38 @@ export const shiftsCalendarHelp: HelpSection = {
           <ul className="space-y-2">
             <li>
               <strong>Planeamento Proativo:</strong> Planeie turnos com pelo
-              menos duas semanas de antecedência para permitir planeamento dos
-              membros da equipa e reduzir alterações de última hora
+              menos <u>duas semanas de antecedência</u> para permitir
+              planeamento dos membros da equipa e reduzir{" "}
+              <em>alterações de última hora</em>
             </li>
             <li>
               <strong>Correspondência de Qualificações:</strong> Sempre garanta
-              que os membros da equipa atribuídos aos turnos tenham as
-              qualificações e certificações necessárias
+              que os membros da equipa atribuídos aos turnos tenham as{" "}
+              <strong>qualificações necessárias</strong> e<em>certificações</em>
             </li>
             <li>
               <strong>Equilíbrio de Carga de Trabalho:</strong> Monitore e
-              mantenha distribuição justa de turnos entre membros da equipa para
-              prevenir esgotamento e garantir equidade
+              mantenha <em>distribuição justa</em> de turnos entre membros da
+              equipa para prevenir <u>esgotamento</u> e garantir{" "}
+              <strong>equidade</strong>
             </li>
             <li>
               <strong>Conformidade com Períodos de Descanso:</strong> Respeite
-              períodos mínimos de descanso entre turnos para cumprir
-              regulamentações laborais e manter o bem-estar da equipa
+              <u>períodos mínimos de descanso</u> entre turnos para cumprir{" "}
+              <strong>regulamentações laborais</strong> e manter o bem-estar da
+              equipa
             </li>
             <li>
-              <strong>Revisões Regulares:</strong> Realize revisões semanais de
-              horário para identificar padrões, otimizar eficiência e abordar
-              problemas recorrentes
+              <strong>Revisões Regulares:</strong> Realize{" "}
+              <em>revisões semanais de horário</em> para identificar padrões,
+              otimizar eficiência e abordar{" "}
+              <strong>problemas recorrentes</strong>
             </li>
             <li>
-              <strong>Comunicação:</strong> Utilize as funcionalidades de
-              notificação do sistema para manter os membros da equipa informados
-              sobre alterações e atualizações de horário
+              <strong>Comunicação:</strong> Utilize as{" "}
+              <u>funcionalidades de notificação</u> do sistema para manter os
+              membros da equipa informados sobre alterações e atualizações de
+              horário
             </li>
           </ul>
         </>
@@ -133,10 +194,11 @@ export const shiftsCalendarHelp: HelpSection = {
                 Nenhum Membro da Equipa Qualificado Disponível
               </h5>
               <p className="text-sm text-gray-600">
-                Verifique se os membros da equipa têm as qualificações
-                necessárias atribuídas. Considere ajustar temporariamente os
-                requisitos de qualificação ou formar membros da equipa para
-                competências necessárias.
+                Verifique se os membros da equipa têm as{" "}
+                <strong>qualificações necessárias</strong> atribuídas. Considere
+                ajustar temporariamente os <em>requisitos de qualificação</em>{" "}
+                ou <u>formar membros da equipa</u> para competências
+                necessárias.
               </p>
             </div>
             <div>
@@ -144,9 +206,10 @@ export const shiftsCalendarHelp: HelpSection = {
                 Conflitos de Agendamento Detetados
               </h5>
               <p className="text-sm text-gray-600">
-                Reveja os detalhes do conflito e ajuste as atribuições.
-                Considere utilizar a funcionalidade de preenchimento automático
-                para encontrar soluções ótimas automaticamente.
+                Reveja os <strong>detalhes do conflito</strong> e ajuste as
+                atribuições. Considere utilizar a{" "}
+                <em>funcionalidade de preenchimento automático</em> para
+                encontrar soluções ótimas automaticamente.
               </p>
             </div>
             <div>
@@ -154,9 +217,10 @@ export const shiftsCalendarHelp: HelpSection = {
                 Cobertura Insuficiente
               </h5>
               <p className="text-sm text-gray-600">
-                Analise a disponibilidade da sua equipa e considere ajustar
-                horários de turno, adicionar posições temporárias, ou solicitar
-                membros adicionais da equipa.
+                Analise a <em>disponibilidade</em> da sua equipa e considere
+                ajustar <strong>horários de turno</strong>, adicionar{" "}
+                <u>posições temporárias</u>, ou solicitar membros adicionais da
+                equipa.
               </p>
             </div>
           </div>
@@ -173,11 +237,12 @@ export const shiftsCalendarHelp: HelpSection = {
                 Fluxo de Trabalho de Publicação de Horários
               </h5>
               <p className="text-sm text-gray-600">
-                Quando faz alterações aos turnos, elas são marcadas como "não
-                publicadas" até que as publique explicitamente. Isto permite-lhe
-                trabalhar nos horários sem afetar a versão ativa que os membros
-                da equipa veem. Use o botão de publicação para tornar as suas
-                alterações visíveis para a equipa.
+                Quando faz alterações aos turnos, elas são marcadas como{" "}
+                <strong>"não publicadas"</strong> até que as publique
+                explicitamente. Isto permite-lhe trabalhar nos horários sem
+                afetar a <em>versão ativa</em> que os membros da equipa veem.
+                Use o <u>botão de publicação</u> para tornar as suas alterações
+                visíveis para a equipa.
               </p>
             </div>
             <div>
@@ -185,11 +250,13 @@ export const shiftsCalendarHelp: HelpSection = {
                 Publicação para Intervalos de Datas
               </h5>
               <p className="text-sm text-gray-600">
-                Pode publicar horários para intervalos de datas específicos (ex:
-                uma semana, mês, ou período personalizado). Isto dá-lhe controlo
-                sobre quando as alterações se tornam visíveis e permite
-                implementações graduais de atualizações de horário. Selecione o
-                seu intervalo de datas desejado e publique apenas essas datas.
+                Pode publicar horários para{" "}
+                <strong>intervalos de datas específicos</strong> (ex: uma
+                semana, mês, ou período personalizado). Isto dá-lhe{" "}
+                <em>controlo sobre quando as alterações se tornam visíveis</em>{" "}
+                e permite <u>implementações graduais</u> de atualizações de
+                horário. Selecione o seu intervalo de datas desejado e publique
+                apenas essas datas.
               </p>
             </div>
             <div>
@@ -197,12 +264,12 @@ export const shiftsCalendarHelp: HelpSection = {
                 Reverter para Versão Publicada
               </h5>
               <p className="text-sm text-gray-600">
-                Se precisar de desfazer alterações e regressar à última versão
-                publicada, use a opção "Reverter para publicado". Isto
-                descartará todas as alterações não publicadas e restaurará o
-                horário ao seu último estado publicado. Isto é útil para
-                corrigir erros ou quando as alterações precisam de ser revistas
-                mais a fundo.
+                Se precisar de desfazer alterações e regressar à{" "}
+                <strong>última versão publicada</strong>, use a opção{" "}
+                <u>"Reverter para publicado"</u>. Isto irá descartar todas as
+                alterações não publicadas e restaurar o horário ao seu último
+                estado publicado. Isto é útil para <em>corrigir erros</em> ou
+                quando alterações precisam de ser revistas mais.
               </p>
             </div>
             <div>
@@ -250,5 +317,5 @@ export const shiftsCalendarHelp: HelpSection = {
     },
   ],
   dependencies: <FeatureDependenciesHelp context="shifts-calendar" />,
-  roles: <RoleBasedHelp />,
+  roles: <RoleBasedHelp context="shifts-calendar" />,
 };
