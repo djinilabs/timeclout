@@ -1,5 +1,5 @@
 import { DayDate } from "@/day-date";
-import { ShiftPosition } from "../graphql/graphql";
+import { ShiftPosition, User } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
 import shiftPositionsQuery from "@/graphql-client/queries/shiftPositions.graphql";
 import { useMemo } from "react";
@@ -20,6 +20,7 @@ export interface UseTeamShiftsQueryOptions {
   endDay?: DayDate;
   pollingIntervalMs?: number;
   pause?: boolean;
+  restrictToUsers?: User[];
 }
 
 export const useTeamShiftsQuery = ({
@@ -28,6 +29,7 @@ export const useTeamShiftsQuery = ({
   endDay,
   pollingIntervalMs,
   pause,
+  restrictToUsers,
 }: UseTeamShiftsQueryOptions): UseTeamShiftsQueryResult => {
   const [shiftPositionsResult, refetch] = useQuery<{
     shiftPositions?: {
@@ -46,11 +48,25 @@ export const useTeamShiftsQuery = ({
     pause: pause || !startDay || !endDay,
   });
 
+  const filteredShiftPositions = useMemo(() => {
+    if (!restrictToUsers || !shiftPositionsResult.data?.shiftPositions) {
+      return shiftPositionsResult.data?.shiftPositions;
+    }
+    return {
+      shiftPositions:
+        shiftPositionsResult.data.shiftPositions.shiftPositions.filter(
+          (shiftPosition) =>
+            restrictToUsers.some(
+              (user) => user.pk === shiftPosition.assignedTo?.pk
+            )
+        ),
+      areAnyUnpublished:
+        shiftPositionsResult.data.shiftPositions.areAnyUnpublished,
+    };
+  }, [shiftPositionsResult.data?.shiftPositions, restrictToUsers]);
+
   return {
-    data: useMemo(
-      () => shiftPositionsResult.data?.shiftPositions,
-      [shiftPositionsResult.data?.shiftPositions]
-    ),
+    data: filteredShiftPositions,
     error: shiftPositionsResult.error,
     fetching: shiftPositionsResult.fetching,
     refetch,

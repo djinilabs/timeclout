@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
-import teamQuery from "@/graphql-client/queries/teamQuery.graphql";
 import { useQuery } from "../hooks/useQuery";
+import { teamWithMembers } from "@/graphql-client/queries/teamWithMembers.graphql";
 import type {
   Company,
   Query,
@@ -49,7 +49,7 @@ export const EntityNavigationContextProvider = ({
   const unit = company?.units?.find((unit) => unit.pk === `units/${unitPk}`);
 
   const [teamQueryResponse, refetchTeam] = useQuery<{ team: Query["team"] }>({
-    query: teamQuery,
+    query: teamWithMembers,
     variables: {
       teamPk,
     },
