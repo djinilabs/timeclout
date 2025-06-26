@@ -1,4 +1,4 @@
-# TT3 - Team Time & Turnover Management
+# TT3 - Team Time Table
 
 **Transform your team scheduling with intelligent automation and comprehensive workforce management**
 
