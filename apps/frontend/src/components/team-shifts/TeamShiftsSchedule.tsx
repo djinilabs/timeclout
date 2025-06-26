@@ -242,16 +242,24 @@ export const TeamShiftsSchedule = () => {
     setSelectedShiftPositionKeys((selectedShiftPositionKeys) => {
       const startDay = calendarStartDay.toString();
       const endDay = calendarEndDay.toString();
-      return selectedShiftPositionKeys.filter((key) => {
-        const shiftPositions = shiftPositionsMap[key];
-        return (
-          shiftPositions &&
-          shiftPositions.some(
-            (shiftPosition) =>
-              shiftPosition.day >= startDay && shiftPosition.day <= endDay
-          )
-        );
-      });
+      const newSelectedShiftPositionKeys = selectedShiftPositionKeys.filter(
+        (key) => {
+          const shiftPositions = shiftPositionsMap[key];
+          return (
+            shiftPositions &&
+            shiftPositions.some(
+              (shiftPosition) =>
+                shiftPosition.day >= startDay && shiftPosition.day <= endDay
+            )
+          );
+        }
+      );
+      if (
+        newSelectedShiftPositionKeys.length !== selectedShiftPositionKeys.length
+      ) {
+        return newSelectedShiftPositionKeys;
+      }
+      return selectedShiftPositionKeys;
     });
   }, [calendarStartDay, calendarEndDay, shiftPositionsMap]);
 
