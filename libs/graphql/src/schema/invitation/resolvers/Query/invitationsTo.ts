@@ -6,18 +6,22 @@ import type {
   ResolversTypes,
 } from "./../../../../types.generated";
 
-export const invitationsTo: NonNullable<QueryResolvers['invitationsTo']> = async (_parent, arg, ctx) => {
+export const invitationsTo: NonNullable<
+  QueryResolvers["invitationsTo"]
+> = async (_parent, arg, ctx) => {
   await ensureAuthorized(
     ctx,
     getResourceRef(arg.toEntityPk),
     PERMISSION_LEVELS.READ
   );
   const { invitation } = await database();
-  const invitations = (await invitation.query({
-    KeyConditionExpression: "pk = :pk",
-    ExpressionAttributeValues: {
-      ":pk": arg.toEntityPk,
-    },
-  })) as unknown as ResolversTypes["Invitation"][];
+  const invitations = (
+    await invitation.query({
+      KeyConditionExpression: "pk = :pk",
+      ExpressionAttributeValues: {
+        ":pk": arg.toEntityPk,
+      },
+    })
+  ).items as unknown as ResolversTypes["Invitation"][];
   return invitations;
 };
