@@ -969,7 +969,7 @@ export const TeamShiftsSchedule = () => {
           <div
             className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0"
             role="region"
-            aria-label="Schedule Analysis Options"
+            aria-label={i18n.t("Schedule Analysis Options")}
           >
             <Disclosure
               as="div"
