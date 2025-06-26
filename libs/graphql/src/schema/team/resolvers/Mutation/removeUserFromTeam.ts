@@ -1,11 +1,13 @@
+import { notFound, notAcceptable } from "@hapi/boom";
 import { database } from "@/tables";
-import type { MutationResolvers, Team } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { PERMISSION_LEVELS } from "@/tables";
-import { notFound } from "@hapi/boom";
-import { notAcceptable } from "@hapi/boom";
 import { getDefined, resourceRef } from "@/utils";
-export const removeUserFromTeam: NonNullable<MutationResolvers['removeUserFromTeam']> = async (_parent, arg, ctx) => {
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import type { MutationResolvers, Team } from "./../../../../types.generated";
+
+export const removeUserFromTeam: NonNullable<
+  MutationResolvers["removeUserFromTeam"]
+> = async (_parent, arg, ctx) => {
   const teamRef = resourceRef("teams", arg.teamPk);
   const actorUserPk = await ensureAuthorized(
     ctx,
