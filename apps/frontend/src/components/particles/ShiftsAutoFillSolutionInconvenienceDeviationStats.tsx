@@ -1,6 +1,5 @@
 import { FC, memo, useMemo } from "react";
 import { Slot, SlotWorker, type ScoredShiftSchedule } from "@/scheduler";
-import { ResponsiveBar } from "@nivo/bar";
 import { Trans } from "@lingui/react/macro";
 import { getInitials } from "../../utils/getInitials";
 import { DeviationBarPlot } from "../stats/DeviationBarPlot";
