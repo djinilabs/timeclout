@@ -1,8 +1,11 @@
-import { FC, memo, useMemo } from "react";
+import { FC, memo, useCallback, useMemo } from "react";
 import { Slot, SlotWorker, type ScoredShiftSchedule } from "@/scheduler";
 import { Trans } from "@lingui/react/macro";
 import { getInitials } from "../../utils/getInitials";
-import { DeviationBarPlot } from "../stats/DeviationBarPlot";
+import {
+  DeviationBarPlot,
+  DeviationBarPlotDatum,
+} from "../stats/DeviationBarPlot";
 import { i18n } from "@lingui/core";
 
 interface ShiftsAutoFillSolutionInconvenienceDeviationStatsProps {
@@ -100,34 +103,47 @@ export const ShiftsAutoFillSolutionInconvenienceDeviationStats: FC<ShiftsAutoFil
         </p>
         <div className="aspect-square w-full">
           <DeviationBarPlot
-            label={(data) => {
-              const deviationPercent = (
-                (data.deviation / expectedInconvenience) *
-                100
-              ).toFixed(1);
-              return `${data.deviation >= 0 ? "+" : ""}${deviationPercent}%`;
-            }}
+            label={useCallback(
+              (data: DeviationBarPlotDatum) => {
+                const deviationPercent = (
+                  (data.deviation / expectedInconvenience) *
+                  100
+                ).toFixed(1);
+                return `${data.deviation >= 0 ? "+" : ""}${deviationPercent}%`;
+              },
+              [expectedInconvenience]
+            )}
             maxDeviation={maxDeviation}
-            data={inconvenienceByWorker.map((worker) => ({
-              group: worker.workerPk,
-              deviation: worker.totalInconvenience - expectedInconvenience,
-            }))}
-            color={(data) => {
-              const deviation = Math.abs(data.deviation);
+            data={useMemo(
+              () =>
+                inconvenienceByWorker.map((worker) => ({
+                  group: worker.workerPk,
+                  deviation: worker.totalInconvenience - expectedInconvenience,
+                })),
+              [inconvenienceByWorker, expectedInconvenience]
+            )}
+            color={useCallback(
+              (data: DeviationBarPlotDatum) => {
+                const deviation = Math.abs(data.deviation);
 
-              const ratio = deviation / maxDeviation;
-              // Use teal color scale from light to dark based on ratio
-              const tealBase = 180; // Teal hue
-              const lightness = 80 - ratio * 40; // Vary from 80% to 30% lightness
-              return `hsl(${tealBase}, 50%, ${lightness}%)`;
-            }}
-            tickLabel={(data) => {
-              const worker = workerById[data];
-              if (!worker) {
-                return "";
-              }
-              return getInitials(worker.name);
-            }}
+                const ratio = deviation / maxDeviation;
+                // Use teal color scale from light to dark based on ratio
+                const tealBase = 180; // Teal hue
+                const lightness = 80 - ratio * 40; // Vary from 80% to 30% lightness
+                return `hsl(${tealBase}, 50%, ${lightness}%)`;
+              },
+              [maxDeviation]
+            )}
+            tickLabel={useCallback(
+              (data) => {
+                const worker = workerById[data];
+                if (!worker) {
+                  return "";
+                }
+                return getInitials(worker.name);
+              },
+              [workerById]
+            )}
             axisBottomLabel={i18n.t("Inconvenience:Deviation from Expected")}
             ariaLabel="Worker inconvenience deviation chart"
           />

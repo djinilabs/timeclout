@@ -38,25 +38,14 @@ export const BoxPlot: FC<BoxPlotProps> = memo(
           legendPosition: "middle",
           legendOffset: -45,
           renderTick: useCallback(
-            (tick: { value: { name: string }; x: number; y: number }) => {
+            (tick: { value: string; x: number; y: number }) => {
               return (
                 <g transform={`translate(${tick.x - 25},${tick.y})`}>
                   <foreignObject x="-10" y="-10" width="200" height="60">
                     <div className="flex gap-2 flex-col">
-                      <span className="text-sm">
-                        {tickLabel(tick.value.name)}
-                      </span>
+                      <span className="text-sm">{tickLabel(tick.value)}</span>
                     </div>
                   </foreignObject>
-                  <text
-                    x="-22"
-                    y="4"
-                    textAnchor="end"
-                    dominantBaseline="middle"
-                    style={{ fill: "rgb(102, 102, 102)", fontSize: "14px" }}
-                  >
-                    {tick.value.name}
-                  </text>
                 </g>
               );
             },
