@@ -11,6 +11,7 @@ import {
 } from "../atoms/MonthlyCalendarPerMember";
 import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { Suspense } from "../atoms/Suspense";
+import { TeamShiftsStats } from "./TeamShiftsStats";
 
 export interface TeamShiftsCalendarProps {
   shiftPositionsMap: Record<string, AnalyzedShiftPosition[]>;
@@ -50,6 +51,7 @@ export const TeamShiftsCalendar: FC<
       { name: i18n.t("By day"), href: "by-day" },
       { name: i18n.t("By member"), href: "by-member" },
       { name: i18n.t("By duration"), href: "by-duration" },
+      { name: i18n.t("Stats"), href: "stats" },
     ],
     []
   );
@@ -72,6 +74,7 @@ export const TeamShiftsCalendar: FC<
               <MonthlyCalendarPerMember {...props} />
             )}
             {tab.href === "by-duration" && <TeamShiftsSummary {...props} />}
+            {tab.href === "stats" && <TeamShiftsStats {...props} />}
           </div>
           <Suspense>
             <div className="h-full overflow-y-auto relative">{props.tools}</div>

@@ -47,7 +47,6 @@ export const StackedBarPlot: FC<StackedBarPlotProps> = ({
         tickRotation: 0,
         renderTick: useCallback(
           (tick: { value: string; x: number; y: number }) => {
-            console.log("tick", tick);
             return (
               <g transform={`translate(${tick.x - 25},${tick.y})`}>
                 <foreignObject x="-10" y="-10" width="200" height="60">
