@@ -626,7 +626,7 @@ msgid "Shift positions assigned successfully"
 msgstr "Posições de turno atribuídas com sucesso"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:972
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:983
 msgid "Schedule Analysis Options"
 msgstr "Opções de Análise"
 
@@ -938,6 +938,21 @@ msgstr "Formulário de informação pessoal"
 #: apps/frontend/src/components/personal/MeEdit.tsx:99
 msgid "Professional name is required"
 msgstr "O nome profissional é obrigatório"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:103
+msgid "Hours between shifts"
+msgstr "Número de horas entre turnos"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:86
+msgid "Number of shifts"
+msgstr "Número de turnos"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:147
+msgid "Inconvenience:Deviation from Expected"
+msgstr "Inconveniência: Desvio do Esperado"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:66
@@ -1818,11 +1833,11 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:864
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:875
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:851
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:862
 msgid "Error loading calendar data. Please refresh to try again."
 msgstr "Erro a carregar dados do calendário. Por favor refresque para tentar outra vez."
 
@@ -1923,10 +1938,6 @@ msgstr "Valores mais altos tentam igualar a distribuição de turnos para cada f
 msgid "Home"
 msgstr "Início"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:106
-msgid "Hours between shifts"
-msgstr "Horas entre turnos"
-
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:273
 #: apps/frontend/src/components/team-shifts/AnalyzeTeamShiftsCalendarMenu.tsx:202
 msgid "hours rest"
@@ -1961,13 +1972,9 @@ msgstr "No Outlook: Definições > Calendário > Adicionar calendário > Subscre
 msgid "Inconvenience"
 msgstr "Inconveniência"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:99
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:97
 msgid "Inconvenience Deviation"
 msgstr "Desvio de Inconveniência"
-
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:171
-msgid "Inconvenience:Deviation from Expected"
-msgstr "Inconveniência: Desvio do esperado"
 
 #: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:216
 msgid "Insert a position into the team schedule."
@@ -2047,7 +2054,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:860
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:871
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -2164,8 +2171,7 @@ msgstr "Nenhuma unidade"
 msgid "November"
 msgstr "Novembro"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:79
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:106
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:75
 msgid "Number of shifts"
 msgstr "Número de turnos"
 
@@ -2430,8 +2436,8 @@ msgstr "A guardar..."
 msgid "Schedule"
 msgstr "Horário"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:981
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:1053
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:992
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:1064
 msgid "Schedule Analysis Options"
 msgstr "Opções de Análise"
 
@@ -2615,7 +2621,7 @@ msgstr "Equipa"
 msgid "Template Name"
 msgstr "Nome do modelo"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:102
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:100
 msgid "The deviation of the inconvenience from the expected inconvenience."
 msgstr "O desvio da inconveniência esperada"
 
@@ -2623,11 +2629,11 @@ msgstr "O desvio da inconveniência esperada"
 msgid "The most recent version of the app is available. Please update to the most recent version."
 msgstr "Está disponível tem uma nova versão desta aplicação. Por favor atualize para a versão mais recente."
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:82
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:78
 msgid "The number of shifts assigned to each worker for each type."
 msgstr "O número de turnos atribuidos a cada membro por tipo de turno"
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:88
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:94
 msgid "The time between shifts for each worker. The box plot shows the median, quartiles, and outliers."
 msgstr "O intervalo de tempo entre turnos para cada membro. O diagrama mostra a mediana, quartis e outliers."
 
@@ -2646,7 +2652,7 @@ msgstr "Estas ausências deduzirão <0>{0} dias</0> da sua cota "
 msgid "They will have exceeded their quota by <0>{0} days</0>."
 msgstr "Eles terão excedido a sua cota em <0>{0} dias</0>."
 
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:85
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:91
 msgid "Time between shifts"
 msgstr "Tempo entre turnos"
 
@@ -2794,10 +2800,6 @@ msgstr "Que tipo de ausência está a planear?"
 #: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:122
 msgid "Work Days"
 msgstr "Dias de trabalho"
-
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:114
-msgid "Worker"
-msgstr "Trabalhador"
 
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:344
 msgid "Worker Inconvenience Equality"
