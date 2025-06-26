@@ -240,6 +240,9 @@ export const TeamShiftsSchedule = () => {
   useEffect(() => {
     // remove the selected shift positions that are not visible in the current calendar
     setSelectedShiftPositionKeys((selectedShiftPositionKeys) => {
+      if (selectedShiftPositionKeys.length === 0) {
+        return selectedShiftPositionKeys;
+      }
       const startDay = calendarStartDay.toString();
       const endDay = calendarEndDay.toString();
       const newSelectedShiftPositionKeys = selectedShiftPositionKeys.filter(
