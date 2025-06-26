@@ -1,8 +1,9 @@
-import { FC, memo, useMemo } from "react";
-import { ResponsiveBoxPlot } from "@nivo/boxplot";
+import { FC, memo, useCallback, useMemo } from "react";
 import { Trans } from "@lingui/react/macro";
 import { type ScoredShiftSchedule } from "@/scheduler";
 import { getInitials } from "../../utils/getInitials";
+import { BoxPlot } from "../stats/BoxPlot";
+import { i18n } from "@lingui/core";
 
 interface ShiftsAutoFillSolutionTimeDistributionStatsProps {
   schedule: ScoredShiftSchedule;
@@ -14,18 +15,15 @@ export const ShiftsAutoFillSolutionTimeDistributionStats: FC<ShiftsAutoFillSolut
 
     const { workerTimeIntervals, workerById } = useMemo(() => {
       // Group shifts by worker
-      const shiftsByWorker = shiftSchedule.shifts.reduce(
-        (acc, shift) => {
-          if (!shift.assigned) return acc;
+      const shiftsByWorker = shiftSchedule.shifts.reduce((acc, shift) => {
+        if (!shift.assigned) return acc;
 
-          if (!acc[shift.assigned.pk]) {
-            acc[shift.assigned.pk] = [];
-          }
-          acc[shift.assigned.pk].push(shift);
-          return acc;
-        },
-        {} as Record<string, typeof shiftSchedule.shifts>
-      );
+        if (!acc[shift.assigned.pk]) {
+          acc[shift.assigned.pk] = [];
+        }
+        acc[shift.assigned.pk].push(shift);
+        return acc;
+      }, {} as Record<string, typeof shiftSchedule.shifts>);
 
       // For each worker, sort their shifts by start time and calculate intervals
       const workerTimeIntervals = Object.entries(shiftsByWorker).map(
@@ -53,15 +51,12 @@ export const ShiftsAutoFillSolutionTimeDistributionStats: FC<ShiftsAutoFillSolut
         }
       );
 
-      const workerById = shiftSchedule.shifts.reduce(
-        (acc, shift) => {
-          if (shift.assigned) {
-            acc[shift.assigned.pk] = shift.assigned;
-          }
-          return acc;
-        },
-        {} as Record<string, (typeof shiftSchedule.shifts)[number]["assigned"]>
-      );
+      const workerById = shiftSchedule.shifts.reduce((acc, shift) => {
+        if (shift.assigned) {
+          acc[shift.assigned.pk] = shift.assigned;
+        }
+        return acc;
+      }, {} as Record<string, (typeof shiftSchedule.shifts)[number]["assigned"]>);
 
       return {
         workerTimeIntervals,
@@ -79,6 +74,17 @@ export const ShiftsAutoFillSolutionTimeDistributionStats: FC<ShiftsAutoFillSolut
       );
     }, [workerTimeIntervals]);
 
+    const tickLabel = useCallback(
+      (tick: string) => {
+        const worker = workerById[tick];
+        if (!worker) {
+          return "";
+        }
+        return getInitials(worker.name);
+      },
+      [workerById]
+    );
+
     return (
       <div className="flex flex-col gap-2 w-full">
         <h2 className="text-lg font-bold">
@@ -91,56 +97,10 @@ export const ShiftsAutoFillSolutionTimeDistributionStats: FC<ShiftsAutoFillSolut
           </Trans>
         </p>
         <div className="aspect-square w-full">
-          <ResponsiveBoxPlot
+          <BoxPlot
             data={boxPlotData}
-            margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
-            minValue="auto"
-            maxValue="auto"
-            colors="#14b8a6"
-            borderRadius={4}
-            layout="horizontal"
-            axisBottom={{
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-              legend: <Trans>Hours between shifts</Trans>,
-              legendPosition: "middle",
-              legendOffset: 40,
-            }}
-            axisLeft={{
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-              legend: <Trans>Worker</Trans>,
-              legendPosition: "middle",
-              legendOffset: 80,
-              renderTick: (tick) => {
-                const worker = workerById[tick.value];
-                if (!worker) {
-                  return null;
-                }
-                return (
-                  <g transform={`translate(${tick.x - 25},${tick.y})`}>
-                    <foreignObject x="-10" y="-10" width="200" height="60">
-                      <div className="flex gap-2 flex-col">
-                        <span className="text-sm">
-                          {getInitials(worker.name)}
-                        </span>
-                      </div>
-                    </foreignObject>
-                    <text
-                      x="-22"
-                      y="4"
-                      textAnchor="end"
-                      dominantBaseline="middle"
-                      style={{ fill: "rgb(102, 102, 102)", fontSize: "14px" }}
-                    >
-                      {tick.value.name}
-                    </text>
-                  </g>
-                );
-              },
-            }}
+            tickLabel={tickLabel}
+            axisBottomLabel={i18n.t("Hours between shifts")}
           />
         </div>
       </div>

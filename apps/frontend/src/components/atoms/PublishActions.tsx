@@ -18,7 +18,7 @@ export const PublishActions = ({
   onRevertToPublished,
 }: PublishActionsProps) => {
   return (
-    <Menu as="div" className="relative z-500">
+    <Menu as="div" className="relative">
       <div className="inline-flex divide-x divide-teal-700 rounded-md outline-none">
         <div className="inline-flex items-center gap-x-1.5 rounded-l-md bg-teal-600 px-3 py-2 text-white">
           {areAnyUnpublished ? (
