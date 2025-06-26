@@ -1,4 +1,4 @@
-import { FC, useMemo, useEffect } from "react";
+import { FC, useMemo, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Provider as UrqlProvider } from "urql";
 import { SessionProvider } from "next-auth/react";
@@ -17,6 +17,9 @@ import "./styles/print.css";
 import { monitorActivityFetch } from "./utils/monitorActivityFetch";
 import { FetchActivityProvider } from "./providers/FetchActivityProvider";
 import { DragAndDropProvider } from "./providers/DragAndDropProvider";
+import { Loading } from "./components/particles/Loading";
+import { locales } from "./i18n";
+import { LocaleProvider } from "./providers/LocaleProvider";
 
 const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
 
@@ -28,7 +31,45 @@ if (SENTRY_DSN) {
   console.debug("Sentry initialized.");
 }
 
+const saveLocale = (locale: string) => {
+  localStorage.setItem("locale", locale);
+};
+
+const loadLocale = () => {
+  const locale = localStorage.getItem("locale");
+  if (locale) {
+    return locale;
+  }
+  return null;
+};
+
+const detectLocale = () => {
+  // first, try to load preference from localStorage
+  const locale = loadLocale();
+  if (locale) {
+    return locale;
+  }
+  // then, try to load preference from browser
+  for (const language of navigator.languages) {
+    const localeStr = language.split("-")[0];
+    if (Object.keys(locales).includes(localeStr)) {
+      console.log("detected locale", localeStr);
+      return localeStr;
+    }
+  }
+  return null;
+};
+
+const detectOrDefaultLocale = () => {
+  const locale = detectLocale();
+  if (locale) {
+    return locale;
+  }
+  return "en";
+};
+
 const AppComponent: FC = () => {
+  // urql
   const monitorFetch = useMemo(() => monitorActivityFetch(), []);
   const graphqlClient = useMemo(
     () =>
@@ -39,9 +80,25 @@ const AppComponent: FC = () => {
   );
   const queryClient = useMemo(() => new QueryClient(), []);
 
+  // locale
+  const [locale, setLocale] = useState<string>(detectOrDefaultLocale);
+  const [isLocaleActivated, setIsLocaleActivated] = useState(false);
   useEffect(() => {
-    dynamicActivate("pt");
-  }, []);
+    setIsLocaleActivated(false);
+    dynamicActivate(locale).finally(() => {
+      setIsLocaleActivated(true);
+    });
+  }, [locale]);
+
+  const setLocaleAndSave = (locale: string) => {
+    setLocale(locale);
+    saveLocale(locale);
+  };
+
+  // render
+  if (!isLocaleActivated) {
+    return <Loading />;
+  }
 
   return (
     <ErrorBoundary
@@ -54,32 +111,34 @@ const AppComponent: FC = () => {
         </div>
       )}
     >
-      <AnalyticsProvider>
-        <I18nProvider i18n={i18n}>
-          <BrowserRouter>
-            <AppLocalSettingsProvider>
-              <QueryClientProvider client={queryClient}>
-                <SessionProvider
-                  refetchWhenOffline={false}
-                  basePath="/api/v1/auth"
-                >
-                  <UrqlProvider value={graphqlClient}>
-                    <FetchActivityProvider monitorFetch={monitorFetch}>
-                      <DragAndDropProvider>
-                        <RequiresSession>
-                          <Suspense>
-                            <AppRoutes />
-                          </Suspense>
-                        </RequiresSession>
-                      </DragAndDropProvider>
-                    </FetchActivityProvider>
-                  </UrqlProvider>
-                </SessionProvider>
-              </QueryClientProvider>
-            </AppLocalSettingsProvider>
-          </BrowserRouter>
-        </I18nProvider>
-      </AnalyticsProvider>
+      <LocaleProvider locale={locale} setLocale={setLocaleAndSave}>
+        <AnalyticsProvider>
+          <I18nProvider i18n={i18n}>
+            <BrowserRouter>
+              <AppLocalSettingsProvider>
+                <QueryClientProvider client={queryClient}>
+                  <SessionProvider
+                    refetchWhenOffline={false}
+                    basePath="/api/v1/auth"
+                  >
+                    <UrqlProvider value={graphqlClient}>
+                      <FetchActivityProvider monitorFetch={monitorFetch}>
+                        <DragAndDropProvider>
+                          <RequiresSession>
+                            <Suspense>
+                              <AppRoutes />
+                            </Suspense>
+                          </RequiresSession>
+                        </DragAndDropProvider>
+                      </FetchActivityProvider>
+                    </UrqlProvider>
+                  </SessionProvider>
+                </QueryClientProvider>
+              </AppLocalSettingsProvider>
+            </BrowserRouter>
+          </I18nProvider>
+        </AnalyticsProvider>
+      </LocaleProvider>
     </ErrorBoundary>
   );
 };
