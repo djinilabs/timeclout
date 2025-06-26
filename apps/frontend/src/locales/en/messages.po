@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/TeamShiftsTimeDistributionStats.tsx:109
+msgid "Days between shifts"
+msgstr "Days between shifts"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Unknown"
@@ -631,25 +636,31 @@ msgid "Schedule Analysis Options"
 msgstr "Schedule Analysis Options"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:50
+#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:51
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:211
 msgid "By day"
 msgstr "By day"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:51
+#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:52
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:215
 msgid "By member"
 msgstr "By member"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:52
+#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:53
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:219
 msgid "By duration"
 msgstr "By duration"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:65
+#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:54
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:189
+msgid "Stats"
+msgstr "Stats"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:67
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:460
 msgid "Calendar view options"
 msgstr "Calendar view options"
@@ -699,11 +710,6 @@ msgstr "Team shifts summary"
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:185
 msgid "Calendar"
 msgstr "Calendar"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:189
-msgid "Stats"
-msgstr "Stats"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:69
@@ -940,19 +946,21 @@ msgid "Professional name is required"
 msgstr "Professional name is required"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:103
-msgid "Hours between shifts"
-msgstr "Hours between shifts"
-
-#. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/TeamShiftsScheduleTypeDistributionStats.tsx:94
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:86
 msgid "Number of shifts"
 msgstr "Number of shifts"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/TeamShiftsInconvenienceDeviationStats.tsx:170
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:147
 msgid "Inconvenience:Deviation from Expected"
 msgstr "Inconvenience:Deviation from Expected"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:103
+msgid "Hours between shifts"
+msgstr "Hours between shifts"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:66
@@ -1972,6 +1980,7 @@ msgstr "In Outlook: Settings > Calendar > Add calendar > Subscribe from web and 
 msgid "Inconvenience"
 msgstr "Inconvenience"
 
+#: apps/frontend/src/components/particles/TeamShiftsInconvenienceDeviationStats.tsx:120
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:97
 msgid "Inconvenience Deviation"
 msgstr "Inconvenience Deviation"
@@ -2171,6 +2180,7 @@ msgstr "No units"
 msgid "November"
 msgstr "November"
 
+#: apps/frontend/src/components/particles/TeamShiftsScheduleTypeDistributionStats.tsx:83
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:75
 msgid "Number of shifts"
 msgstr "Number of shifts"
@@ -2621,6 +2631,7 @@ msgstr "Team"
 msgid "Template Name"
 msgstr "Template Name"
 
+#: apps/frontend/src/components/particles/TeamShiftsInconvenienceDeviationStats.tsx:123
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:100
 msgid "The deviation of the inconvenience from the expected inconvenience."
 msgstr "The deviation of the inconvenience from the expected inconvenience."
@@ -2629,10 +2640,12 @@ msgstr "The deviation of the inconvenience from the expected inconvenience."
 msgid "The most recent version of the app is available. Please update to the most recent version."
 msgstr "The most recent version of the app is available. Please update to the most recent version."
 
+#: apps/frontend/src/components/particles/TeamShiftsScheduleTypeDistributionStats.tsx:86
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:78
 msgid "The number of shifts assigned to each worker for each type."
 msgstr "The number of shifts assigned to each worker for each type."
 
+#: apps/frontend/src/components/particles/TeamShiftsTimeDistributionStats.tsx:100
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:94
 msgid "The time between shifts for each worker. The box plot shows the median, quartiles, and outliers."
 msgstr "The time between shifts for each worker. The box plot shows the median, quartiles, and outliers."
@@ -2652,6 +2665,7 @@ msgstr "These leave days will deduct <0>{0} days</0> from your quota "
 msgid "They will have exceeded their quota by <0>{0} days</0>."
 msgstr "They will have exceeded their quota by <0>{0} days</0>."
 
+#: apps/frontend/src/components/particles/TeamShiftsTimeDistributionStats.tsx:97
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionTimeDistributionStats.tsx:91
 msgid "Time between shifts"
 msgstr "Time between shifts"
