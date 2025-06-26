@@ -7,6 +7,9 @@ export const locales = {
 
 export async function dynamicActivate(locale: string) {
   const { messages } = await import(`./locales/${locale}/messages.mjs`);
-  i18n.load(locale, messages);
-  i18n.activate(locale);
+  i18n.loadAndActivate({
+    locale,
+    locales: Object.keys(locales),
+    messages,
+  });
 }
