@@ -26,8 +26,9 @@ export const TeamShiftsTimeDistributionStats: FC<TeamShiftsTimeDistributionStats
         }, {} as Record<string, ShiftPositionWithRowSpan[]>);
 
       // For each worker, sort their shifts by day and calculate intervals
-      const workerTimeIntervals = Object.entries(shiftsByWorker).map(
-        ([workerPk, shifts]) => {
+      const workerTimeIntervals = Object.entries(shiftsByWorker)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([workerPk, shifts]) => {
           // Sort shifts by day
           const sortedShifts = [...shifts].sort((a, b) => {
             return new Date(a.day).getTime() - new Date(b.day).getTime();
@@ -52,8 +53,7 @@ export const TeamShiftsTimeDistributionStats: FC<TeamShiftsTimeDistributionStats
             workerPk,
             intervals,
           };
-        }
-      );
+        });
 
       const workerById = Object.values(shiftPositionsMap)
         .flat()

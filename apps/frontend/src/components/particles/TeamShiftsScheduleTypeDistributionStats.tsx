@@ -50,13 +50,15 @@ export const TeamShiftsScheduleTypeDistributionStats: FC<TeamShiftsScheduleTypeD
             return acc;
           }, {} as Record<string, WorkerAssignment>);
 
-      const workerStats = Object.values(workerTypeAssignments).map((v) => {
-        return Object.fromEntries(
-          Object.entries(v).filter(
-            ([, value]) => typeof value !== "number" || value !== 0
-          )
-        );
-      });
+      const workerStats = Object.entries(workerTypeAssignments)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([, v]) => {
+          return Object.fromEntries(
+            Object.entries(v).filter(
+              ([, value]) => typeof value !== "number" || value !== 0
+            )
+          );
+        });
 
       const workerById = Object.values(shiftPositionsMap)
         .flat()

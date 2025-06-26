@@ -63,8 +63,8 @@ export const TeamShiftsInconvenienceDeviationStats: FC<TeamShiftsInconvenienceDe
           totalInconvenience / Object.keys(workerShifts).length;
 
         // Calculate total inconvenience per worker
-        const inconvenienceByWorker = Object.entries(workerShifts).map(
-          ([workerPk, shifts]) => ({
+        const inconvenienceByWorker = Object.entries(workerShifts)
+          .map(([workerPk, shifts]) => ({
             workerPk,
             totalInconvenience: shifts.reduce(
               (acc, shift) =>
@@ -88,8 +88,8 @@ export const TeamShiftsInconvenienceDeviationStats: FC<TeamShiftsInconvenienceDe
               0
             ),
             numShifts: shifts.length,
-          })
-        );
+          }))
+          .sort((a, b) => a.workerPk.localeCompare(b.workerPk));
 
         // Collect worker info by id
         const workerById = Object.values(shiftPositionsMap)
