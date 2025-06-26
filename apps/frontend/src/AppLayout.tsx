@@ -20,6 +20,7 @@ import { classNames } from "./utils/classNames";
 import { HelpPanel } from "./components/atoms/HelpPanel";
 import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
 import { FetchActivityIndicator } from "./components/atoms/FetchActivityIndicator";
+import { LocaleSwitcher } from "./components/particles/LocaleSwitcher";
 
 const AIChatPanel = lazy(() => import("./components/ai/AIChatPanel"));
 const SideBar = lazy(() => import("./components/molecules/SideBar"));
@@ -154,13 +155,14 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
                   </Suspense>
                 </div>
               </div>
-              <div className="flex items-center gap-x-4 lg:gap-x-6 shrink-0">
+              <div className="flex items-center gap-x-4 lg:gap-x-6 shrink-0 mr-4">
                 <div
                   aria-hidden="true"
                   className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
                 />
 
                 <UserTopBarMenu />
+                <LocaleSwitcher />
               </div>
             </div>
           </div>
