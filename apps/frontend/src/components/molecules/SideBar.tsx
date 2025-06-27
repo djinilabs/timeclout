@@ -110,7 +110,7 @@ const SideBar = ({
         expanded ? "px-6 w-72" : "px-2 w-16"
       }`}
     >
-      <div className="flex h-16 shrink-0 items-center">
+      <div className="h-16 w-20 overflow-hidden">
         <a
           href="https://tt3.app"
           aria-label="Team Time Table Home"
@@ -120,10 +120,10 @@ const SideBar = ({
         >
           <img
             alt="Team Time Table"
-            src="/images/tt3-logo.svg"
-            className={`h-20 w-auto mt-2 transition-opacity duration-300 ${
-              expanded ? "opacity-100" : "opacity-0"
-            }`}
+            src={
+              expanded ? "/images/tt3-logo.svg" : "/images/tt3-logo-plain.svg"
+            }
+            className="h-20 w-20 mt-2 transition-opacity duration-300"
             id="tt3-logo-description"
           />
         </a>
