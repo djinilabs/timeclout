@@ -25,6 +25,8 @@ export interface TeamShiftsScheduleOptionsMenuProps {
   setShowDayTemplates: (show: boolean) => void;
   showFilters: boolean;
   setShowFilters: (show: boolean) => void;
+  showHolidays: boolean;
+  setShowHolidays: (show: boolean) => void;
 }
 
 export const TeamShiftsScheduleOptionsMenu = memo(
@@ -41,6 +43,8 @@ export const TeamShiftsScheduleOptionsMenu = memo(
     setShowDayTemplates,
     showFilters,
     setShowFilters,
+    showHolidays,
+    setShowHolidays,
   }: TeamShiftsScheduleOptionsMenuProps) => {
     return (
       <Menu as="div" className="relative">
@@ -137,6 +141,19 @@ export const TeamShiftsScheduleOptionsMenu = memo(
                   checked={showFilters}
                   onChange={setShowFilters}
                   aria-label="Toggle schedule filters visibility"
+                />
+              </MenuItem>
+              <MenuItem as="div" className="cursor-default">
+                <LabeledSwitch
+                  label={
+                    <div className="flex items-center gap-2">
+                      <CalendarIcon className="h-4 w-4 text-gray-500" />
+                      <Trans>Holidays</Trans>
+                    </div>
+                  }
+                  checked={showHolidays}
+                  onChange={setShowHolidays}
+                  aria-label="Toggle holidays visibility"
                 />
               </MenuItem>
             </div>

@@ -65,6 +65,8 @@ import { CreateShiftPositionTemplateDialog } from "./CreateShiftPositionTemplate
 import { TeamDayTemplates } from "./TeamDayTemplates";
 import { CreateOrEditScheduleDayTemplateDialog } from "./CreateOrEditScheduleDayTemplateDialog";
 import { FilterTeamShiftsCalendarMenu } from "./FilterTeamShiftsCalendarMenu";
+import { useHolidays } from "../../hooks/useHolidays";
+import { TeamHolidaysMenu } from "./TeamHolidaysMenu";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
@@ -118,6 +120,28 @@ export const TeamShiftsSchedule = () => {
   );
 
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+
+  // ------- holidays -------
+
+  const [showHolidays, setShowHolidays] = useLocalPreference(
+    "team-shifts-calendar-show-holidays",
+    false
+  );
+
+  const [holidaysCountry, setHolidaysCountry] = useLocalPreference<
+    string | undefined
+  >("team-shifts-calendar-holidays-country", undefined);
+
+  const [holidaysRegion, setHolidaysRegion] = useLocalPreference<
+    string | undefined
+  >("team-shifts-calendar-holidays-region", undefined);
+
+  const { data: holidays } = useHolidays({
+    country: holidaysCountry,
+    region: holidaysRegion,
+    startDate: calendarStartDay,
+    endDate: calendarEndDay,
+  });
 
   // ------- shift positions -------
 
@@ -434,13 +458,28 @@ export const TeamShiftsSchedule = () => {
     return weekNumbers;
   }, [leaveSchedule, showLeaveSchedule]);
 
+  const maxHolidayRowsPerWeekNumber = useMemo(() => {
+    if (!showHolidays) {
+      return [];
+    }
+    const weekNumbers: Array<number> = [];
+    for (const [day] of Object.entries(holidays ?? {})) {
+      const week = new DayDate(day).getWeekNumber();
+      weekNumbers[week] = Math.max(weekNumbers[week] ?? 0, 1);
+    }
+    return weekNumbers;
+  }, [holidays, showHolidays]);
+
+  console.log("maxHolidayRowsPerWeekNumber", maxHolidayRowsPerWeekNumber);
+
   // join the two arrays
   const maxRowsPerWeekNumber = useMemo(() => {
     return maxShiftPositionRowsPerWeekNumber.map(
       (maxShiftPositionRows, week) => {
         return (
           maxShiftPositionRows +
-          (showLeaveSchedule ? maxLeaveRowsPerWeekNumber[week] ?? 0 : 0)
+          (showLeaveSchedule ? maxLeaveRowsPerWeekNumber[week] ?? 0 : 0) +
+          (showHolidays ? maxHolidayRowsPerWeekNumber[week] ?? 0 : 0)
         );
       }
     );
@@ -448,6 +487,8 @@ export const TeamShiftsSchedule = () => {
     maxShiftPositionRowsPerWeekNumber,
     showLeaveSchedule,
     maxLeaveRowsPerWeekNumber,
+    showHolidays,
+    maxHolidayRowsPerWeekNumber,
   ]);
 
   // render per day
@@ -456,13 +497,18 @@ export const TeamShiftsSchedule = () => {
     (day: Day, dayIndex: number) => {
       const shiftPositions = shiftPositionsMap?.[day.date];
       const leaves = showLeaveSchedule ? leaveSchedule[day.date] : undefined;
-      if (!shiftPositions && !leaves) {
+      const holidaysForDay = showHolidays ? holidays?.[day.date] : undefined;
+      if (!shiftPositions && !leaves && !holidaysForDay) {
         return null;
       }
       const weekNumber = new DayDate(day.date).getWeekNumber();
       const rowCount: number | undefined = maxRowsPerWeekNumber[weekNumber];
       const leaveRowCount = showLeaveSchedule
         ? maxLeaveRowsPerWeekNumber[weekNumber] ?? 0
+        : 0;
+
+      const weekHasHolidays = showHolidays
+        ? maxHolidayRowsPerWeekNumber[weekNumber] ?? 0
         : 0;
 
       return (
@@ -475,6 +521,15 @@ export const TeamShiftsSchedule = () => {
             }, 1fr)`,
           }}
         >
+          {holidaysForDay ? (
+            <div className="p-2 border-gray-100 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0">
+              <div className="bg-red-600 text-white rounded-2xl px-2 py-0.5 text-xs font-semibold inline-block leading-tight">
+                {holidaysForDay}
+              </div>
+            </div>
+          ) : weekHasHolidays ? (
+            <div className="p-2 border-gray-100 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0"></div>
+          ) : null}
           {leaves?.map((leave, leaveIndex) => (
             <Transition show={showLeaveSchedule} appear key={leaveIndex}>
               <div
@@ -587,6 +642,7 @@ export const TeamShiftsSchedule = () => {
       handleAssignShiftPosition,
       handleEditShiftPosition,
       hasCopiedShiftPosition,
+      holidays,
       leaveSchedule,
       maxLeaveRowsPerWeekNumber,
       maxRowsPerWeekNumber,
@@ -597,6 +653,7 @@ export const TeamShiftsSchedule = () => {
       selectedShiftPositionKeys,
       setFocusedShiftPosition,
       shiftPositionsMap,
+      showHolidays,
       showLeaveSchedule,
       showScheduleDetails,
       teamPk,
@@ -791,6 +848,8 @@ export const TeamShiftsSchedule = () => {
               setShowDayTemplates={setShowDayTemplates}
               showFilters={showFilters}
               setShowFilters={setShowFilters}
+              showHolidays={showHolidays}
+              setShowHolidays={setShowHolidays}
             />
           ),
         },
@@ -815,12 +874,14 @@ export const TeamShiftsSchedule = () => {
         setIsDialogOpen,
         setShowDayTemplates,
         setShowFilters,
+        setShowHolidays,
         setShowLeaveSchedule,
         setShowScheduleDetails,
         setShowTemplates,
         shiftPositionsResult?.areAnyUnpublished,
         showDayTemplates,
         showFilters,
+        showHolidays,
         showLeaveSchedule,
         showScheduleDetails,
         showTemplates,
@@ -1075,6 +1136,38 @@ export const TeamShiftsSchedule = () => {
                   allUsers={team?.members ?? []}
                   filteredUsers={filteredUsers}
                   setFilteredUsers={setFilteredUsers}
+                />
+              </DisclosurePanel>
+            </Disclosure>
+          </div>
+        </Transition>
+
+        <Transition show={showHolidays && !isDialogOpen} appear>
+          <div
+            className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0"
+            role="region"
+            aria-label={i18n.t("Holidays Options")}
+          >
+            <Disclosure
+              as="div"
+              defaultOpen
+              className="bg-gray-100 rounded-md p-2"
+            >
+              <DisclosureButton className="group flex w-full items-center justify-between">
+                <span className="text-sm/6 font-medium text-gray-500 group-data-hover:text-gray-500/80">
+                  <Trans>Holidays Options</Trans>
+                </span>
+                <ChevronDownIcon className="size-4 text-gray-500 group-data-hover:text-gray-500/80 group-data-open:rotate-180" />
+              </DisclosureButton>
+              <DisclosurePanel
+                transition
+                className="mt-2 origin-top transition duration-200 ease-out data-closed:-translate-y-6 data-closed:opacity-0"
+              >
+                <TeamHolidaysMenu
+                  selectedCountryIsoCode={holidaysCountry}
+                  selectedRegionIsoCode={holidaysRegion}
+                  onChangeCountry={setHolidaysCountry}
+                  onChangeRegion={setHolidaysRegion}
                 />
               </DisclosurePanel>
             </Disclosure>
