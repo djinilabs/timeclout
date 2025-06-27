@@ -110,7 +110,12 @@ const SideBar = ({
         expanded ? "px-6 w-72" : "px-2 w-16"
       }`}
     >
-      <div className="h-16 w-20 overflow-hidden">
+      <div
+        className={classNames(
+          "h-16 mt-2 overflow-hidden flex flex-row items-center",
+          expanded ? "w-40" : "w-20"
+        )}
+      >
         <a
           href="https://tt3.app"
           aria-label="Team Time Table Home"
@@ -123,10 +128,17 @@ const SideBar = ({
             src={
               expanded ? "/images/tt3-logo.svg" : "/images/tt3-logo-plain.svg"
             }
-            className="h-20 w-20 mt-2 transition-opacity duration-300"
+            className="h-20 mt-2 transition-opacity duration-300"
             id="tt3-logo-description"
           />
         </a>
+        {expanded && (
+          <div className="-mt-4">
+            <span className="inline-flex items-center rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800 whitespace-nowrap leading-tight">
+              Closed Beta
+            </span>
+          </div>
+        )}
       </div>
       <nav className="flex flex-1 flex-col" aria-label="Main navigation">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
