@@ -723,8 +723,16 @@ export const TeamShiftsSchedule = () => {
         : undefined;
       const shiftPositionsForDay =
         memberShiftPositionsMap[member.pk]?.[dayString];
+      const holidaysForDay = showHolidays ? holidays?.[dayString] : undefined;
       return (
         <div>
+          {holidaysForDay ? (
+            <div className="p-2 border-gray-100 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0">
+              <div className="bg-red-600 text-white rounded-2xl px-2 py-0.5 text-xs font-semibold inline-block leading-tight">
+                {holidaysForDay}
+              </div>
+            </div>
+          ) : null}
           {leaves?.map((leave, leaveIndex) => (
             <Transition show={showLeaveSchedule} appear key={leaveIndex}>
               <div
