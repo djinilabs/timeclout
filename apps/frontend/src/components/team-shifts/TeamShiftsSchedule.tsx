@@ -644,6 +644,7 @@ export const TeamShiftsSchedule = () => {
       hasCopiedShiftPosition,
       holidays,
       leaveSchedule,
+      maxHolidayRowsPerWeekNumber,
       maxLeaveRowsPerWeekNumber,
       maxRowsPerWeekNumber,
       onShiftPositionClick,

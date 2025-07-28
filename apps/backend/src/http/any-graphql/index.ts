@@ -16,6 +16,7 @@ import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 // @ts-ignore
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
 import { handlingErrors } from "../../utils/handlingErrors";
+import { createUserCache } from "../../../../../libs/graphql/src/resolverContext";
 
 const yoga = createYoga({
   graphqlEndpoint: "/graphql",
@@ -26,6 +27,12 @@ const yoga = createYoga({
   maskedErrors: false,
   landingPage: false,
   graphiql: false,
+  context: async () => {
+    const userCache = await createUserCache();
+    return {
+      userCache,
+    };
+  },
   plugins: [
     useSentry({
       includeRawResult: false,

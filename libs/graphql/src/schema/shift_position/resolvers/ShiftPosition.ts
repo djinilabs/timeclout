@@ -1,15 +1,14 @@
-import { database } from "@/tables";
 import type { ShiftPositionResolvers, User } from "./../../../types.generated";
 import { getResourceRef } from "@/utils";
+
 export const ShiftPosition: ShiftPositionResolvers = {
-  assignedTo: async (parent) => {
-    const userRef = parent.assignedTo;
+  assignedTo: async (parent, _args, ctx) => {
+    // Cast to access the raw database field where assignedTo is a string
+    const userRef = (parent as { assignedTo?: string }).assignedTo;
     if (!userRef) {
       return null;
     }
-    const { entity } = await database();
-    return entity.get(
-      getResourceRef(parent.assignedTo as unknown as string)
-    ) as unknown as User;
+    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    return user as unknown as User;
   },
 };

@@ -1,5 +1,6 @@
 import { database } from "@/tables";
 import crypto from "crypto";
+import { getResourceRef } from "@/utils";
 import type {
   InvitationResolvers,
   ResolversTypes,
@@ -7,7 +8,6 @@ import type {
   User,
 } from "./../../../types.generated";
 import { notFound } from "@hapi/boom";
-import { ResourceRef } from "@/utils";
 
 const entityTypeToGraphQlEntityType = {
   companies: "Company",
@@ -23,20 +23,20 @@ export const Invitation: InvitationResolvers = {
   emailMd5: (parent) => {
     return crypto.createHash("md5").update(parent.sk).digest("hex");
   },
-  createdBy: async (parent) => {
-    const { entity } = await database();
-    return entity.get(
-      parent.createdBy as unknown as ResourceRef
-    ) as unknown as Promise<User>;
+  createdBy: async (parent, _args, ctx) => {
+    // Cast to access the raw database field where createdBy is a string
+    const userRef = (parent as unknown as { createdBy: string }).createdBy;
+    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    return user as unknown as User;
   },
-  updatedBy: async (parent) => {
-    if (!parent.updatedBy) {
+  updatedBy: async (parent, _args, ctx) => {
+    // Cast to access the raw database field where updatedBy is a string
+    const userRef = (parent as unknown as { updatedBy?: string }).updatedBy;
+    if (!userRef) {
       return null;
     }
-    const { entity } = await database();
-    return entity.get(
-      parent.updatedBy as unknown as ResourceRef
-    ) as unknown as Promise<User>;
+    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    return user as unknown as User;
   },
   toEntity: async (parent) => {
     const { entity } = await database();

@@ -112,7 +112,11 @@ export const useTeamLeaveSchedule = ({
         acc[sk] = [...existingLeaves, leave];
         return acc;
       }, {} as Record<string, LeaveRenderInfo[]>);
-  }, [leaveTypesSettings, teamScheduleResult?.team.approvedSchedule]);
+  }, [
+    leaveTypesSettings,
+    restrictToUsers,
+    teamScheduleResult?.team.approvedSchedule,
+  ]);
 
   return { leaveSchedule };
 };
