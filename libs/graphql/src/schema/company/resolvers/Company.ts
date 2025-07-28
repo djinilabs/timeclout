@@ -1,24 +1,25 @@
 import { database, EntityRecord } from "@/tables";
 import { getUserAuthorizationLevelForResource } from "@/business-logic";
-import { resourceRef } from "@/utils";
+import { resourceRef, getResourceRef } from "@/utils";
 import { CompanyResolvers, Unit, User } from "../../../types.generated";
 import { getAuthorized } from "../../../auth/getAuthorized";
 import { requireSession } from "../../../session/requireSession";
 
 export const Company: CompanyResolvers = {
-  createdBy: async (parent) => {
-    const { entity } = await database();
-    const user = await entity.get(parent.createdBy as unknown as string);
+  createdBy: async (parent, _args, ctx) => {
+    // Cast to access the raw database field where createdBy is a string
+    const userRef = (parent as unknown as { createdBy: string }).createdBy;
+    const user = await ctx.userCache.getUser(getResourceRef(userRef));
     return user as unknown as User;
   },
-  updatedBy: async (parent) => {
-    if (!parent.updatedBy) {
+  updatedBy: async (parent, _args, ctx) => {
+    // Cast to access the raw database field where updatedBy is a string
+    const userRef = (parent as unknown as { updatedBy?: string }).updatedBy;
+    if (!userRef) {
       return null;
     }
-    const { entity } = await database();
-    return entity.get(
-      parent.updatedBy as unknown as string
-    ) as unknown as Promise<User>;
+    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    return user as unknown as User;
   },
   units: async (parent, _args, ctx) => {
     const { entity } = await database();

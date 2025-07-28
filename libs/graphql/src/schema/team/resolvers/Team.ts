@@ -18,16 +18,20 @@ import type {
 import { requireSession } from "../../../session/requireSession";
 
 export const Team: TeamResolvers = {
-  createdBy: async (parent) => {
-    const { entity } = await database();
-    return entity.get(parent.createdBy as unknown as string) as unknown as User;
+  createdBy: async (parent, _args, ctx) => {
+    // Cast to access the raw database field where createdBy is a string
+    const userRef = (parent as unknown as { createdBy: string }).createdBy;
+    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    return user as unknown as User;
   },
-  updatedBy: async (parent) => {
-    if (!parent.updatedBy) {
+  updatedBy: async (parent, _args, ctx) => {
+    // Cast to access the raw database field where updatedBy is a string
+    const userRef = (parent as unknown as { updatedBy?: string }).updatedBy;
+    if (!userRef) {
       return null;
     }
-    const { entity } = await database();
-    return entity.get(parent.updatedBy as unknown as string) as unknown as User;
+    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    return user as unknown as User;
   },
   members: async (parent, args) => {
     return teamMembersUsers(
@@ -48,13 +52,17 @@ export const Team: TeamResolvers = {
     );
     return {
       ...schedule,
-      pk: `${schedule.team.pk}:${schedule.startDate.toString()}:${schedule.endDate.toString()}`,
+      pk: `${
+        schedule.team.pk
+      }:${schedule.startDate.toString()}:${schedule.endDate.toString()}`,
       team: schedule.team as unknown as TeamType,
       startDate: schedule.startDate.toString(),
       endDate: schedule.endDate.toString(),
       userSchedules: schedule.userSchedules.map((userSchedule) => ({
         ...userSchedule,
-        pk: `${userSchedule.user?.pk}:${userSchedule.startDate.toString()}:${userSchedule.endDate.toString()}`,
+        pk: `${
+          userSchedule.user?.pk
+        }:${userSchedule.startDate.toString()}:${userSchedule.endDate.toString()}`,
         startDate: userSchedule.startDate.toString(),
         endDate: userSchedule.endDate.toString(),
       })) as unknown as UserSchedule[],
@@ -74,13 +82,17 @@ export const Team: TeamResolvers = {
     );
     return {
       ...schedule,
-      pk: `${schedule.team.pk}:${schedule.startDate.toString()}:${schedule.endDate.toString()}`,
+      pk: `${
+        schedule.team.pk
+      }:${schedule.startDate.toString()}:${schedule.endDate.toString()}`,
       team: schedule.team as unknown as TeamType,
       startDate: schedule.startDate.toString(),
       endDate: schedule.endDate.toString(),
       userSchedules: schedule.userSchedules.map((userSchedule) => ({
         ...userSchedule,
-        pk: `${userSchedule.user?.pk}:${userSchedule.startDate.toString()}:${userSchedule.endDate.toString()}`,
+        pk: `${
+          userSchedule.user?.pk
+        }:${userSchedule.startDate.toString()}:${userSchedule.endDate.toString()}`,
         startDate: userSchedule.startDate.toString(),
         endDate: userSchedule.endDate.toString(),
       })) as unknown as UserSchedule[],

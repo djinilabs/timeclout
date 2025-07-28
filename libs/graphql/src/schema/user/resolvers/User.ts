@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import { database } from "@/tables";
+import { getResourceRef } from "@/utils";
 import type {
   UserResolvers,
   User as UserType,
@@ -20,19 +21,22 @@ export const User: UserResolvers = {
     const { entity_settings } = await database();
     return (await entity_settings.get(parent.pk, args.name))?.settings;
   },
-  createdBy: async (parent) => {
-    const { entity } = await database();
-    return entity.get(
-      parent.createdBy as unknown as string
-    ) as unknown as UserType;
-  },
-  updatedBy: async (parent) => {
-    if (!parent.updatedBy) {
+  createdBy: async (parent, _args, ctx) => {
+    // Cast to access the raw database field where createdBy is a string
+    const userRef = (parent as unknown as { createdBy?: string }).createdBy;
+    if (!userRef) {
       return null;
     }
-    const { entity } = await database();
-    return entity.get(
-      parent.updatedBy as unknown as string
-    ) as unknown as UserType;
+    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    return user as unknown as UserType;
+  },
+  updatedBy: async (parent, _args, ctx) => {
+    // Cast to access the raw database field where updatedBy is a string
+    const userRef = (parent as unknown as { updatedBy?: string }).updatedBy;
+    if (!userRef) {
+      return null;
+    }
+    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    return user as unknown as UserType;
   },
 };
