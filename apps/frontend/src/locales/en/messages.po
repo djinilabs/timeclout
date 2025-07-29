@@ -14,6 +14,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/hooks/useQuery.ts:34
+msgid "Error fetching companies: {message}"
+msgstr "Error fetching companies: {message}"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/company/CompanyTimeOff.tsx:225
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:120
+msgid "Error fetching holidays: {message}"
+msgstr "Error fetching holidays: {message}"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Unknown"
@@ -1178,12 +1189,12 @@ msgid "Save changes"
 msgstr "Save changes"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/company/CompanyTimeOff.tsx:165
+#: apps/frontend/src/components/company/CompanyTimeOff.tsx:162
 msgid "Leave request submitted"
 msgstr "Leave request submitted"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/company/CompanyTimeOff.tsx:180
+#: apps/frontend/src/components/company/CompanyTimeOff.tsx:177
 msgid "Leave requests submitted"
 msgstr "Leave requests submitted"
 
@@ -1208,17 +1219,17 @@ msgid "Leave type deleted"
 msgstr "Leave type deleted"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:132
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:136
 msgid "Book company time off form"
 msgstr "Book company time off form"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:201
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:205
 msgid "Please provide a reason for your leave request."
 msgstr "Please provide a reason for your leave request."
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:210
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:214
 msgid "Reason for leave"
 msgstr "Reason for leave"
 
@@ -1585,7 +1596,7 @@ msgstr "Calendar subscriptions:"
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:307
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:360
 #: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:263
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:397
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:401
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -1641,7 +1652,7 @@ msgid "Create"
 msgstr "Create"
 
 #. placeholder {0}: selectedLeaveType?.name
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:416
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:420
 msgid "Create {0} leave"
 msgstr "Create {0} leave"
 
@@ -1744,8 +1755,8 @@ msgstr "Created By"
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:67
 #: apps/frontend/src/components/team-shifts/RevertShiftPositions.tsx:97
 #: apps/frontend/src/components/team-shifts/PublishShiftPositions.tsx:96
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:268
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:340
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:272
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:344
 msgid "Date range"
 msgstr "Date range"
 
@@ -1870,7 +1881,7 @@ msgstr "F"
 msgid "February"
 msgstr "February"
 
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:409
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:413
 msgid "Fill in all the form fields"
 msgstr "Fill in all the form fields"
 
@@ -1913,7 +1924,7 @@ msgstr "From"
 
 #. placeholder {0}: startDate.toLocaleDateString()
 #. placeholder {1}: endDate.toLocaleDateString()
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:272
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:276
 msgid "From {0} to {1}"
 msgstr "From {0} to {1}"
 
@@ -2300,7 +2311,7 @@ msgstr "Publish shift positions from {0} to {1}"
 msgid "Published"
 msgstr "Published"
 
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:196
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:200
 #: apps/frontend/src/components/atoms/LeaveRequest.tsx:161
 msgid "Reason"
 msgstr "Reason"
@@ -2344,7 +2355,7 @@ msgstr "Request time off"
 msgid "Request Time Off"
 msgstr "Request Time Off"
 
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:136
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:140
 msgid "Request time off by filling this form:"
 msgstr "Request time off by filling this form:"
 
@@ -2482,11 +2493,11 @@ msgstr "Select a region"
 msgid "Select a user"
 msgstr "Select a user"
 
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:277
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:281
 msgid "Select the date range for your leave."
 msgstr "Select the date range for your leave."
 
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:229
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:233
 msgid "Select the dates"
 msgstr "Select the dates"
 
@@ -2623,7 +2634,7 @@ msgid "Stop searching"
 msgstr "Stop searching"
 
 #. placeholder {0}: selectedLeaveType.name
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:411
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:415
 msgid "Submit request for {0} and wait for approval"
 msgstr "Submit request for {0} and wait for approval"
 
@@ -2716,7 +2727,7 @@ msgstr "Total inconvenience: {totalInconvenience}"
 msgid "Type"
 msgstr "Type"
 
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:146
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:150
 msgid "Type of Leave"
 msgstr "Type of Leave"
 
@@ -2826,7 +2837,7 @@ msgstr "W"
 msgid "ed for Wednesday"
 msgstr "wednesday"
 
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:149
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:153
 msgid "What type of leave are you planning to take?"
 msgstr "What type of leave are you planning to take?"
 

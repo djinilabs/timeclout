@@ -120,13 +120,10 @@ const CompanyTimeOff = () => {
         },
         {} as Record<string, LeaveDay>
       ),
-      ...myLeaveCalendar.data?.myLeaveCalendar.leaves.reduce(
-        (acc, leave) => {
-          acc[leave.sk] = leaveTypeForCalendar(leave, approvedLeaveRequests);
-          return acc;
-        },
-        {} as Record<string, LeaveDay>
-      ),
+      ...myLeaveCalendar.data?.myLeaveCalendar.leaves.reduce((acc, leave) => {
+        acc[leave.sk] = leaveTypeForCalendar(leave, approvedLeaveRequests);
+        return acc;
+      }, {} as Record<string, LeaveDay>),
     };
   }, [
     leaveTypeForCalendar,
@@ -224,7 +221,11 @@ const CompanyTimeOff = () => {
 
   useEffect(() => {
     if (holidaysError) {
-      toast.error(`Error fetching holidays: ${holidaysError.message}`);
+      toast.error(
+        i18n.t("Error fetching holidays: {message}", {
+          message: holidaysError.message,
+        })
+      );
     }
   }, [holidaysError]);
 

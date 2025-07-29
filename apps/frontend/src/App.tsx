@@ -69,20 +69,21 @@ const detectOrDefaultLocale = () => {
 };
 
 const AppComponent: FC = () => {
+  // locale
+  const [locale, setLocale] = useState<string>(detectOrDefaultLocale);
+  const [isLocaleActivated, setIsLocaleActivated] = useState(false);
+
   // urql
   const monitorFetch = useMemo(() => monitorActivityFetch(), []);
   const graphqlClient = useMemo(
     () =>
       createGraphqlClient({
         fetch: monitorFetch.fetch,
+        locale,
       }),
-    [monitorFetch]
+    [monitorFetch, locale]
   );
   const queryClient = useMemo(() => new QueryClient(), []);
-
-  // locale
-  const [locale, setLocale] = useState<string>(detectOrDefaultLocale);
-  const [isLocaleActivated, setIsLocaleActivated] = useState(false);
   useEffect(() => {
     setIsLocaleActivated(false);
     dynamicActivate(locale).finally(() => {

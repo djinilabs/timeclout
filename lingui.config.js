@@ -12,7 +12,6 @@ module.exports = {
         'libs/graphql/src',
         'libs/business-logic/src',
         'apps/backend/src',
-        'libs/locales/src'
       ],
     },
   ],

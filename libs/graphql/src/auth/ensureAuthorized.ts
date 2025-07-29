@@ -2,6 +2,7 @@ import { forbidden } from "@hapi/boom";
 import { ResolverContext } from "../resolverContext";
 import { isAuthorized } from "./isAuthorized";
 import { ResourceRef } from "@/utils";
+import { i18n } from "@/locales";
 
 export const ensureAuthorized = async (
   ctx: ResolverContext,
@@ -18,7 +19,10 @@ export const ensureAuthorized = async (
       `User does not have permission of level ${minimumPermission} to access this resouce (${resource})`
     );
     throw forbidden(
-      `User does not have permission of level ${minimumPermission} to access this resouce (${resource})`
+      i18n.t(
+        "User does not have permission of level {minimumPermission} to access this resource ({resource})",
+        { minimumPermission, resource }
+      )
     );
   }
 

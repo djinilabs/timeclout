@@ -116,7 +116,11 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
 
   useEffect(() => {
     if (holidaysError) {
-      toast.error("Error fetching holidays: " + holidaysError.message);
+      toast.error(
+        i18n.t("Error fetching holidays: {message}", {
+          message: holidaysError.message,
+        })
+      );
     }
   }, [holidaysError]);
 

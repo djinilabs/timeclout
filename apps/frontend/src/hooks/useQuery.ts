@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { AnyVariables, useQuery as urqlUseQuery, UseQueryArgs } from "urql";
 import { useIsFetching } from "./useIsFetching";
+import { i18n } from "@lingui/core";
 
 type ExtendedUseQueryProps<
   TData = unknown,
@@ -30,7 +31,9 @@ export const useQuery = <
       console.error(result.error);
       if (toastIfError) {
         handle = toast.error(
-          "Error fetching companies: " + result.error.message
+          i18n.t("Error fetching companies: {message}", {
+            message: result.error.message,
+          })
         );
       }
     }

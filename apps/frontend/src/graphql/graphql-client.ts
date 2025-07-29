@@ -66,5 +66,29 @@ export const clientOptions = ({
   merge(defaultClientOpts({ additionalExchanges }), options);
 
 export const createClient = (
-  options: Partial<ClientOptions & WithSession & AdditionalClientOptions> = {}
-): Client => urqlCreateClient(clientOptions(options));
+  options: Partial<
+    ClientOptions & WithSession & AdditionalClientOptions & { locale?: string }
+  > = {}
+): Client => {
+  const { locale, ...restOptions } = options;
+
+  const clientOpts = clientOptions({
+    ...restOptions,
+    fetchOptions: () => {
+      const baseFetchOptions =
+        typeof restOptions.fetchOptions === "function"
+          ? restOptions.fetchOptions()
+          : restOptions.fetchOptions || {};
+
+      return {
+        ...baseFetchOptions,
+        headers: {
+          ...baseFetchOptions.headers,
+          ...(locale && { "Accept-Language": locale }),
+        },
+      };
+    },
+  });
+
+  return urqlCreateClient(clientOpts);
+};

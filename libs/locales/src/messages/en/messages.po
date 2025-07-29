@@ -101,6 +101,11 @@ msgid "Company has units, cannot delete"
 msgstr "Company has units, cannot delete"
 
 #. js-lingui-explicit-id
+#: libs/graphql/src/auth/ensureAuthorized.ts:22
+msgid "User does not have permission of level {minimumPermission} to access this resource ({resource})"
+msgstr "User does not have permission of level {minimumPermission} to access this resource ({resource})"
+
+#. js-lingui-explicit-id
 #: libs/business-logic/src/shifts_autofill/assignShiftPositions.ts:25
 msgid "Shift position {shiftPositionId} not found"
 msgstr "Shift position {shiftPositionId} not found"
