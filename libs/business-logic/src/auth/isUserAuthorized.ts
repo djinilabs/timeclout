@@ -10,11 +10,10 @@ export const isUserAuthorized = async (
   resource: ResourceRef,
   minimumPermission: number
 ): Promise<IsUserAuthorizedResult> => {
-  return [false];
-  // const { permission } = await database();
-  // const permissionRecord = await permission.get(resource, userPk);
-  // if (!permissionRecord || permissionRecord.type < minimumPermission) {
-  //   return [false];
-  // }
-  // return [true, userPk, permissionRecord.type];
+  const { permission } = await database();
+  const permissionRecord = await permission.get(resource, userPk);
+  if (!permissionRecord || permissionRecord.type < minimumPermission) {
+    return [false];
+  }
+  return [true, userPk, permissionRecord.type];
 };
