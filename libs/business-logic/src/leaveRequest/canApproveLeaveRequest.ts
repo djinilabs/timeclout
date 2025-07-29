@@ -3,6 +3,7 @@ import { ResourceRef } from "@/utils";
 import { parseLeaveRequestPk } from "./parseLeaveRequestPk";
 import { getUnitManagersPks } from "../unit";
 import { getUserUnits } from "../users/getUserUnits";
+import { i18n } from "@/locales";
 
 export const canApproveLeaveRequest = async (
   userPk: ResourceRef,
@@ -20,7 +21,9 @@ export const canApproveLeaveRequest = async (
     units.map((unit) => unit.pk as ResourceRef)
   );
   if (unitManagerPks.length === 0) {
-    throw notFound("No unit managers found for the units the user is in");
+    throw notFound(
+      i18n._("No unit managers found for the units the user is in")
+    );
   }
 
   return unitManagerPks.includes(userPk);

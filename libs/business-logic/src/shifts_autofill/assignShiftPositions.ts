@@ -1,6 +1,7 @@
 import { database } from "@/tables";
 import { getResourceRef, ResourceRef } from "@/utils";
 import { notFound } from "@hapi/boom";
+import { i18n } from "@/locales";
 
 export const assignShiftPositions = async (
   teamPk: ResourceRef<"teams">,
@@ -20,7 +21,11 @@ export const assignShiftPositions = async (
         "staging"
       );
       if (!position) {
-        throw notFound(`Shift position ${shiftPositionId} not found`);
+        throw notFound(
+          i18n._("Shift position {shiftPositionId} not found", {
+            shiftPositionId,
+          })
+        );
       }
       position.assignedTo = getResourceRef(workerPk, "users");
       position.updatedBy = actorPk;

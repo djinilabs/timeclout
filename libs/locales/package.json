@@ -1,0 +1,12 @@
+{
+  "name": "@tt3/locales",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@lingui/core": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2"
+  }
+} 

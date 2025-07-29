@@ -16,7 +16,8 @@
       "@/day-date": ["./libs/day-date/src"],
       "@/holidays": ["./libs/holidays/src"],
       "@/scheduler": ["./libs/scheduler/src"],
-      "@/scheduler-worker": ["./libs/scheduler-worker/src"]
+      "@/scheduler-worker": ["./libs/scheduler-worker/src"],
+      "@/locales": ["./libs/locales/src"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

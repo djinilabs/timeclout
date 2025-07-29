@@ -1,40 +1,39 @@
-import { database } from "@/tables";
+import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 import type { Company, MutationResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import { PERMISSION_LEVELS } from "@/tables";
-import { badData, notFound } from "@hapi/boom";
+import { notFound, badData } from "@hapi/boom";
+import { i18n } from "@/locales";
 
-export const deleteCompany: NonNullable<MutationResolvers['deleteCompany']> = async (_parent, arg, _ctx) => {
-  const companyRef = resourceRef("companies", arg.pk);
-  await ensureAuthorized(_ctx, companyRef, PERMISSION_LEVELS.OWNER);
-  const { entity, permission } = await database();
-  const company = await entity.get(companyRef);
+export const deleteCompany: NonNullable<
+  MutationResolvers["deleteCompany"]
+> = async (_parent, _arg, ctx) => {
+  await ensureAuthorized(
+    ctx,
+    resourceRef("companies", _arg.pk),
+    PERMISSION_LEVELS.WRITE
+  );
+  const { entity } = await database();
+  const company = await entity.get(resourceRef("companies", _arg.pk));
   if (!company) {
-    throw notFound("Company with pk ${_arg.pk} not found");
+    throw notFound(
+      i18n._("Company with pk {companyPk} not found", { companyPk: _arg.pk })
+    );
   }
 
-  // Check if the company has any units
-  const units = await entity.query({
+  // Check if company has units
+  const { items: units } = await entity.query({
     IndexName: "byParentPk",
     KeyConditionExpression: "parentPk = :parentPk",
     ExpressionAttributeValues: {
-      ":parentPk": companyRef,
+      ":parentPk": company.pk,
     },
   });
-  if (units.items.length > 0) {
-    throw badData("Company has units, cannot delete");
+
+  if (units.length > 0) {
+    throw badData(i18n._("Company has units, cannot delete"));
   }
 
-  console.log("Company has no units, can delete");
-
-  await entity.delete(companyRef);
-
-  console.log("Deleted company");
-
-  await permission.deleteAll(companyRef);
-
-  console.log("Deleted company permissions");
-
+  await entity.delete(company.pk);
   return company as unknown as Company;
 };

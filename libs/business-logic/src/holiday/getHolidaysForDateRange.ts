@@ -1,8 +1,9 @@
 import { notFound } from "@hapi/boom";
 import { ResourceRef } from "@/utils";
-import { getEntitySettings } from "../entity/getEntitySettings";
 import { DayDate } from "@/day-date";
 import { getHolidays } from "@/holidays";
+import { i18n } from "@/locales";
+import { getEntitySettings } from "../entity/getEntitySettings";
 
 export const getHolidaysForDateRange = async (
   userRef: ResourceRef,
@@ -15,7 +16,7 @@ export const getHolidaysForDateRange = async (
     "location"
   );
   if (locationSettings == null) {
-    throw notFound("User location settings not found");
+    throw notFound(i18n._("User location settings not found"));
   }
   const { country, region } = locationSettings;
 

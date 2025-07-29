@@ -3,6 +3,7 @@ import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 import { getDefined } from "@/utils";
 import { ensureAuthorization } from "../auth/ensureAuthorization";
+import { i18n } from "@/locales";
 
 export interface AcceptInvitationArgs {
   user: {
@@ -26,19 +27,19 @@ export const acceptInvitation = async ({
   });
 
   if (invitations.length === 0) {
-    throw notFound("Invitation not found");
+    throw notFound(i18n._("Invitation not found"));
   }
 
   const userInvitation = getDefined(invitations[0]);
 
   if (userInvitation.sk !== user.email) {
-    throw notFound("Invitation not found");
+    throw notFound(i18n._("Invitation not found"));
   }
 
   // ensure user has permissions to the team
   const team = await entity.get(userInvitation.pk);
   if (!team) {
-    throw notFound("Team not found");
+    throw notFound(i18n._("Team not found"));
   }
 
   const userPk = resourceRef("users", user.pk);
@@ -49,7 +50,7 @@ export const acceptInvitation = async ({
   );
 
   if (!unit) {
-    throw notFound("Unit not found");
+    throw notFound(i18n._("Unit not found"));
   }
 
   // get the company the unit belongs to
@@ -57,7 +58,7 @@ export const acceptInvitation = async ({
     getDefined(unit.parentPk, "Unit parent PK is required")
   );
   if (!company) {
-    throw notFound("Company not found");
+    throw notFound(i18n._("Company not found"));
   }
 
   // ensure user has permissions to the company

@@ -7,8 +7,11 @@ import type {
   ShiftPosition,
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { i18n } from "@/locales";
 
-export const copyShiftPosition: NonNullable<MutationResolvers['copyShiftPosition']> = async (_parent, arg, ctx) => {
+export const copyShiftPosition: NonNullable<
+  MutationResolvers["copyShiftPosition"]
+> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const { pk: team, sk, day } = input;
@@ -16,7 +19,7 @@ export const copyShiftPosition: NonNullable<MutationResolvers['copyShiftPosition
   const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
   const shiftPosition = await shift_positions.get(pk, sk, "staging");
   if (!shiftPosition) {
-    throw notFound("Shift position not found");
+    throw notFound(i18n._("Shift position not found"));
   }
   const newSk = `${day}/${nanoid()}`;
   const newShiftPosition = {

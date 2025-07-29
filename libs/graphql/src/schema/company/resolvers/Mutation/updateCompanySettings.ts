@@ -3,8 +3,11 @@ import { resourceRef } from "@/utils";
 import { notFound } from "@hapi/boom";
 import type { Company, MutationResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { i18n } from "@/locales";
 
-export const updateCompanySettings: NonNullable<MutationResolvers['updateCompanySettings']> = async (_parent, arg, _ctx) => {
+export const updateCompanySettings: NonNullable<
+  MutationResolvers["updateCompanySettings"]
+> = async (_parent, arg, _ctx) => {
   console.log("updateCompanySettings", arg);
   const companyRef = resourceRef("companies", arg.companyPk);
   const userPk = await ensureAuthorized(
@@ -15,7 +18,11 @@ export const updateCompanySettings: NonNullable<MutationResolvers['updateCompany
   const { entity, entity_settings } = await database();
   const company = await entity.get(companyRef);
   if (!company) {
-    throw notFound(`Company with pk ${arg.companyPk} not found`);
+    throw notFound(
+      i18n._("Company with pk {companyPk} not found", {
+        companyPk: arg.companyPk,
+      })
+    );
   }
   await entity_settings.upsert({
     pk: companyRef,

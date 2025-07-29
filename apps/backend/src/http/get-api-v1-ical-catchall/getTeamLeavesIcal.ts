@@ -6,6 +6,7 @@ import { notFound } from "@hapi/boom";
 import ical, { ICalCalendarMethod } from "ical-generator";
 import { icalEventFromLeave } from "./icalEventFromLeave";
 import { userCache } from "./userCache";
+import { i18n } from "@/locales";
 
 export const getTeamLeavesIcal = async (teamId: string) => {
   const { entity } = await database();
@@ -13,7 +14,7 @@ export const getTeamLeavesIcal = async (teamId: string) => {
   const team = await entity.get(resourceRef("teams", teamId));
 
   if (!team) {
-    throw notFound("Team not found");
+    throw notFound(i18n._("Team not found"));
   }
 
   const unit = await entity.get(
@@ -21,7 +22,7 @@ export const getTeamLeavesIcal = async (teamId: string) => {
   );
 
   if (!unit) {
-    throw notFound("team has no unit");
+    throw notFound(i18n._("team has no unit"));
   }
 
   const companyPk = getDefined(unit.parentPk, "unit has no company");

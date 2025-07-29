@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-07-29 12:06+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/user/resolvers/Query/me.ts:16
+#: libs/graphql/src/schema/user/resolvers/Query/me.ts:21
+#: libs/graphql/src/schema/user/resolvers/Mutation/updateMe.ts:16
+#: libs/graphql/src/schema/user/resolvers/Mutation/updateMe.ts:21
+msgid "User not found"
+msgstr "User not found"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/user/resolvers/Mutation/updateMe.ts:25
+msgid "Name is required"
+msgstr "Name is required"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/unit/resolvers/Query/unit.ts:21
+#: libs/business-logic/src/invitation/acceptInvitation.ts:53
+msgid "Unit not found"
+msgstr "Unit not found"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/team/resolvers/Query/teamMember.ts:25
+msgid "User is not a member of this team"
+msgstr "User is not a member of this team"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/shift_position/resolvers/Query/assignableTeamMembers.ts:22
+#: libs/graphql/src/schema/shift_position/resolvers/Mutation/updateShiftPosition.ts:31
+#: libs/graphql/src/schema/shift_position/resolvers/Mutation/copyShiftPosition.ts:22
+msgid "Shift position not found"
+msgstr "Shift position not found"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/shift_position/resolvers/Mutation/unassignShiftPosition.ts:25
+msgid "Shift position {shiftPositionSk} not found"
+msgstr "Shift position {shiftPositionSk} not found"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/leave_request/resolvers/Query/leaveRequest.ts:21
+#: libs/graphql/src/schema/leave_request/resolvers/Mutation/updateLeaveRequest.ts:22
+#: libs/graphql/src/schema/leave_request/resolvers/Mutation/rejectLeaveRequest.ts:22
+msgid "Leave request not found"
+msgstr "Leave request not found"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/leave_request/resolvers/Query/leaveRequest.ts:28
+#: libs/graphql/src/schema/leave_request/resolvers/Mutation/updateLeaveRequest.ts:29
+msgid "You are not allowed to update this leave request"
+msgstr "You are not allowed to update this leave request"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/leave_request/resolvers/Mutation/rejectLeaveRequest.ts:28
+msgid "You are not allowed to reject this leave request"
+msgstr "You are not allowed to reject this leave request"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/leave/resolvers/Query/memberQuotaFulfilment.ts:35
+msgid "User is not in the specified team"
+msgstr "User is not in the specified team"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/leave/resolvers/Mutation/deleteLeave.ts:14
+msgid "Leave not found"
+msgstr "Leave not found"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/leave/resolvers/Mutation/deleteLeave.ts:17
+msgid "You are not allowed to delete this leave"
+msgstr "You are not allowed to delete this leave"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/company/resolvers/Query/company.ts:21
+#: libs/business-logic/src/invitation/acceptInvitation.ts:61
+msgid "Company not found"
+msgstr "Company not found"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/company/resolvers/Mutation/updateCompanySettings.ts:22
+#: libs/graphql/src/schema/company/resolvers/Mutation/updateCompany.ts:20
+#: libs/graphql/src/schema/company/resolvers/Mutation/deleteCompany.ts:20
+msgid "Company with pk {companyPk} not found"
+msgstr "Company with pk {companyPk} not found"
+
+#. js-lingui-explicit-id
+#: libs/graphql/src/schema/company/resolvers/Mutation/deleteCompany.ts:34
+msgid "Company has units, cannot delete"
+msgstr "Company has units, cannot delete"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/shifts_autofill/assignShiftPositions.ts:25
+msgid "Shift position {shiftPositionId} not found"
+msgstr "Shift position {shiftPositionId} not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/leaveRequest/parseLeaveRequestPk.ts:7
+msgid "Invalid leave request pk: {pk}"
+msgstr "Invalid leave request pk: {pk}"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/leaveRequest/isLeaveRequestFullyApproved.ts:19
+#: libs/business-logic/src/leaveRequest/canApproveLeaveRequest.ts:25
+msgid "No unit managers found for the units the user is in"
+msgstr "No unit managers found for the units the user is in"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/leaveRequest/getLeaveType.ts:18
+msgid "Company leave type settings not found"
+msgstr "Company leave type settings not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/leaveRequest/getLeaveType.ts:30
+msgid "Leave type not found"
+msgstr "Leave type not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/leaveRequest/createLeaveRequestsForSingleDays.ts:58
+msgid "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
+msgstr "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/leaveRequest/createLeaveRequest.ts:58
+#: libs/business-logic/src/leaveRequest/approveLeaveRequest.ts:23
+msgid "Leave request overlaps with existing {type} of type {culpritType}"
+msgstr "Leave request overlaps with existing {type} of type {culpritType}"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/invitation/createInvitation.ts:36
+msgid "Invited to entity not found"
+msgstr "Invited to entity not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/invitation/acceptInvitation.ts:30
+#: libs/business-logic/src/invitation/acceptInvitation.ts:36
+msgid "Invitation not found"
+msgstr "Invitation not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/invitation/acceptInvitation.ts:42
+#: apps/backend/src/http/get-api-v1-ical-catchall/getTeamLeavesIcal.ts:17
+msgid "Team not found"
+msgstr "Team not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/holiday/getHolidaysForDateRange.ts:19
+msgid "User location settings not found"
+msgstr "User location settings not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/entity/updateEntitySettings.ts:16
+msgid "Entity with pk {entityRef} not found"
+msgstr "Entity with pk {entityRef} not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/entity/getEntitySettings.ts:23
+msgid "Error getting entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
+msgstr "Error getting entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/entity/getEntitySettings.ts:42
+msgid "Error parsing entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
+msgstr "Error parsing entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
+
+#. js-lingui-explicit-id
+#: apps/backend/src/http/get-api-v1-ical-catchall/getTeamLeavesIcal.ts:25
+msgid "team has no unit"
+msgstr "team has no unit"

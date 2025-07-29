@@ -6,6 +6,7 @@ import { ResourceRef } from "@/utils";
 import { approveLeaveRequest } from "./approveLeaveRequest";
 import { getLeaveType } from "./getLeaveType";
 import { leaveRequestOverlaps } from "./leaveRequestOverlaps";
+import { i18n } from "@/locales";
 
 export interface CreateLeaveRequestForSingleDayOptions {
   companyPk: ResourceRef;
@@ -54,7 +55,14 @@ export const createLeaveRequestsForSingleDays = async ({
       if (overlaps) {
         const culprit = leaves.length > 0 ? leaves[0] : leaveRequests[0];
         throw badRequest(
-          `Leave request overlaps with existing ${leaves.length > 0 ? "leave" : "leave request"} of type ${culprit.type} for day ${day}`
+          i18n._(
+            "Leave request overlaps with existing {type} of type {culpritType} for day {day}",
+            {
+              type: leaves.length > 0 ? "leave" : "leave request",
+              culpritType: culprit.type,
+              day,
+            }
+          )
         );
       }
       return leaveRequestCandidate;

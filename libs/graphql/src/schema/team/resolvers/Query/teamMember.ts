@@ -4,8 +4,9 @@ import type { QueryResolvers, User } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { forbidden } from "@hapi/boom";
 import { isUserAuthorized } from "@/business-logic";
+import { i18n } from "@/locales";
 
-export const teamMember: NonNullable<QueryResolvers['teamMember']> = async (
+export const teamMember: NonNullable<QueryResolvers["teamMember"]> = async (
   _parent,
   { teamPk, memberPk },
   ctx
@@ -21,7 +22,7 @@ export const teamMember: NonNullable<QueryResolvers['teamMember']> = async (
     PERMISSION_LEVELS.READ
   );
   if (!isAuthorized) {
-    throw forbidden("User is not a member of this team");
+    throw forbidden(i18n._("User is not a member of this team"));
   }
 
   return {

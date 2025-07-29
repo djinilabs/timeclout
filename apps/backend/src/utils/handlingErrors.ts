@@ -31,16 +31,39 @@ export const handlingErrors = (
         | string;
     } catch (error) {
       const boomed = boomify(error as Error);
+
+      // Try to translate the error message if it's a translatable message
+      let translatedMessage = boomed.message;
+      try {
+        // Check if the message looks like a translatable message (contains t`...`)
+        if (boomed.message && !boomed.message.includes("t`")) {
+          // For now, we'll keep the original message
+          // In the future, we can implement more sophisticated translation logic
+          translatedMessage = boomed.message;
+        }
+      } catch (translationError) {
+        console.warn("Failed to translate error message:", translationError);
+        translatedMessage = boomed.message;
+      }
+
       if (boomed.isServer) {
         console.error(boomed);
       } else {
         console.warn(boomed);
       }
+
       const { statusCode, headers, payload } = boomed.output;
+
+      // Update the payload with the translated message
+      const updatedPayload = {
+        ...payload,
+        message: translatedMessage,
+      };
+
       return {
         statusCode,
         headers: headers as Record<string, string | number | boolean>,
-        body: JSON.stringify(payload),
+        body: JSON.stringify(updatedPayload),
       };
     }
   };

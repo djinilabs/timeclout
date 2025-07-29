@@ -1,10 +1,11 @@
-import { badRequest, notFound } from "@hapi/boom";
-import { resourceRef } from "@/utils";
 import { database } from "@/tables";
-import type { MutationResolvers, User } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
+import type { MutationResolvers, User } from "./../../../../types.generated";
+import { notFound, badRequest } from "@hapi/boom";
+import { resourceRef } from "@/utils";
+import { i18n } from "@/locales";
 
-export const updateMe: NonNullable<MutationResolvers['updateMe']> = async (
+export const updateMe: NonNullable<MutationResolvers["updateMe"]> = async (
   _parent,
   args,
   ctx
@@ -12,19 +13,20 @@ export const updateMe: NonNullable<MutationResolvers['updateMe']> = async (
   const session = await requireSession(ctx);
   const userId = session.user?.id;
   if (!userId) {
-    throw notFound("User not found");
+    throw notFound(i18n._("User not found"));
+  }
+  const { entity } = await database();
+  const user = await entity.get(resourceRef("users", userId));
+  if (!user) {
+    throw notFound(i18n._("User not found"));
   }
   const name = args.input.name;
   if (!name) {
-    throw badRequest("Name is required");
+    throw badRequest(i18n._("Name is required"));
   }
-  const { entity } = await database();
-  const userRef = resourceRef("users", userId);
-  const user = await entity.update({
-    pk: userRef,
+  const updatedUser = await entity.upsert({
+    ...user,
     name,
-    updatedAt: new Date().toISOString(),
-    updatedBy: userRef,
   });
-  return user as unknown as User;
+  return updatedUser as unknown as User;
 };

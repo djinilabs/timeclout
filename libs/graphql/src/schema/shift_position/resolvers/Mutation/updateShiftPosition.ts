@@ -6,8 +6,11 @@ import type {
   ShiftPosition,
 } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { i18n } from "@/locales";
 
-export const updateShiftPosition: NonNullable<MutationResolvers['updateShiftPosition']> = async (_parent, arg, ctx) => {
+export const updateShiftPosition: NonNullable<
+  MutationResolvers["updateShiftPosition"]
+> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const {
@@ -25,7 +28,7 @@ export const updateShiftPosition: NonNullable<MutationResolvers['updateShiftPosi
   const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
   const shiftPosition = await shift_positions.get(pk, sk, "staging");
   if (!shiftPosition) {
-    throw new Error("Shift position not found");
+    throw new Error(i18n._("Shift position not found"));
   }
   const newSk = `${day}/${nanoid()}`;
   await shift_positions.delete(pk, sk, "staging");

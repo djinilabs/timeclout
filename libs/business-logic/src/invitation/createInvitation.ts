@@ -4,6 +4,7 @@ import { database, permissionLevelToName } from "@/tables";
 import { authConfig } from "@/auth-config";
 import { getDefined } from "@/utils";
 import { sendEmail } from "@/send-email";
+import { i18n } from "@/locales";
 
 export async function createHash(message: string) {
   const data = new TextEncoder().encode(message);
@@ -32,7 +33,7 @@ export const createInvitation = async ({
   const { entity, invitation } = await database();
   const invitedTo = await entity.get(toEntityPk);
   if (!invitedTo) {
-    throw notFound("Invited to entity not found");
+    throw notFound(i18n._("Invited to entity not found"));
   }
   const secret = nanoid();
   const createdInvitation = await invitation.create({
@@ -61,12 +62,18 @@ export const createInvitation = async ({
   const callbackUrl = origin + "/invites/accept?secret=" + secret;
   const verificationUrl =
     origin +
-    `${getDefined(auth.basePath)}/callback/${provider}?callbackUrl=${encodeURIComponent(callbackUrl)}&token=${secret}&email=${invitedUserEmail}`;
+    `${getDefined(
+      auth.basePath
+    )}/callback/${provider}?callbackUrl=${encodeURIComponent(
+      callbackUrl
+    )}&token=${secret}&email=${invitedUserEmail}`;
 
   await sendEmail({
     to: invitedUserEmail,
     subject: "You've been invited to join a team",
-    text: `You've been invited to join ${invitedTo.name} as a ${permissionLevelToName(
+    text: `You've been invited to join ${
+      invitedTo.name
+    } as a ${permissionLevelToName(
       permissionType
     )}. Click here to accept the invitation: ${verificationUrl}`,
   });

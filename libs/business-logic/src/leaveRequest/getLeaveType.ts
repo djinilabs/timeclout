@@ -2,6 +2,7 @@ import { leaveTypeParser } from "@/settings";
 import { database } from "@/tables";
 import { ResourceRef } from "@/utils";
 import { notFound } from "@hapi/boom";
+import { i18n } from "@/locales";
 
 export const getLeaveType = async (
   companyRef: ResourceRef,
@@ -14,7 +15,7 @@ export const getLeaveType = async (
   );
 
   if (!leaveTypeSettingsUnparsed) {
-    throw notFound("Company leave type settings not found");
+    throw notFound(i18n._("Company leave type settings not found"));
   }
 
   const leaveTypeSettings = leaveTypeParser.parse(
@@ -26,7 +27,7 @@ export const getLeaveType = async (
   );
 
   if (!leaveType) {
-    throw notFound("Leave type not found");
+    throw notFound(i18n._("Leave type not found"));
   }
 
   return leaveType;

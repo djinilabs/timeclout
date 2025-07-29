@@ -10,20 +10,23 @@ import type {
   MutationResolvers,
 } from "./../../../../types.generated";
 import { requireSession } from "../../../../session/requireSession";
+import { i18n } from "@/locales";
 
-export const updateLeaveRequest: NonNullable<MutationResolvers['updateLeaveRequest']> = async (_parent, arg, ctx) => {
+export const updateLeaveRequest: NonNullable<
+  MutationResolvers["updateLeaveRequest"]
+> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const { leave_request } = await database();
   const leaveRequest = await leave_request.get(arg.input.pk, arg.input.sk);
   if (!leaveRequest) {
-    throw notFound("Leave request not found");
+    throw notFound(i18n._("Leave request not found"));
   }
   const userPk = resourceRef("users", getDefined(session.user?.id));
   if (
     leaveRequest.createdBy !== userPk ||
     !canApproveLeaveRequest(userPk, leaveRequest.pk)
   ) {
-    throw forbidden("You are not allowed to update this leave request");
+    throw forbidden(i18n._("You are not allowed to update this leave request"));
   }
   return updateLeaveRequestLogic({
     leaveRequest,

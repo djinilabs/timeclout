@@ -5,8 +5,11 @@ import { DayDate } from "@/day-date";
 import type { QueryResolvers } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { forbidden } from "@hapi/boom";
+import { i18n } from "@/locales";
 
-export const memberQuotaFulfilment: NonNullable<QueryResolvers['memberQuotaFulfilment']> = async (_parent, arg, ctx) => {
+export const memberQuotaFulfilment: NonNullable<
+  QueryResolvers["memberQuotaFulfilment"]
+> = async (_parent, arg, ctx) => {
   const {
     companyPk,
     teamPk,
@@ -29,7 +32,7 @@ export const memberQuotaFulfilment: NonNullable<QueryResolvers['memberQuotaFulfi
     PERMISSION_LEVELS.READ
   );
   if (!isAuthorized) {
-    throw forbidden("User is not in the specified team");
+    throw forbidden(i18n._("User is not in the specified team"));
   }
 
   const quotaFulfilment = await getQuotaFulfilment({

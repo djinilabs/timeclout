@@ -1,10 +1,11 @@
 import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
 import { database } from "@/tables";
 import { ResourceRef } from "@/utils";
+import { i18n } from "@/locales";
 
 export const getEntitySettings = async <
   TKey extends SettingsTypeKey,
-  TShape = SettingsShape<TKey>,
+  TShape = SettingsShape<TKey>
 >(
   entityPk: ResourceRef,
   settingsKey: TKey
@@ -19,9 +20,15 @@ export const getEntitySettings = async <
   } catch (err) {
     console.error(err);
     throw new Error(
-      `Error getting entity settings for entity: ${entityPk} and settings key: ${settingsKey}: ${JSON.stringify(
-        settings
-      )}: ${err.message}`
+      i18n._(
+        "Error getting entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}",
+        {
+          entityPk: String(entityPk),
+          settingsKey: String(settingsKey),
+          settings: JSON.stringify(settings),
+          errorMessage: err.message,
+        }
+      )
     );
   }
   if (settings == null) {
@@ -32,9 +39,15 @@ export const getEntitySettings = async <
   } catch (err) {
     console.error(err);
     throw new Error(
-      `Error parsing entity settings for entity: ${entityPk} and settings key: ${settingsKey}: ${JSON.stringify(
-        settings
-      )}: ${err.message}`
+      i18n._(
+        "Error parsing entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}",
+        {
+          entityPk: String(entityPk),
+          settingsKey: String(settingsKey),
+          settings: JSON.stringify(settings),
+          errorMessage: err.message,
+        }
+      )
     );
   }
 };

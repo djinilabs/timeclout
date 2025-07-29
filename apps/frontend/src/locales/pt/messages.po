@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/particles/TeamShiftsTimeDistributionStats.tsx:109
-msgid "Days between shifts"
-msgstr "Número de dias entre turnos"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -613,27 +608,32 @@ msgid "Unassign shift positions for selected date range"
 msgstr "Remover atribuições de posição de turno para o intervalo de datas seleccionado"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:49
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:53
 msgid "Open schedule options menu"
 msgstr "Abrir menu de opções de calendário"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:167
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:191
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:152
 msgid "Shift position unassigned successfully"
 msgstr "Atribuições de posição de turno removidas com sucesso"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:180
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:204
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:129
 #: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:168
 msgid "Shift positions assigned successfully"
 msgstr "Posições de turno atribuídas com sucesso"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:983
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:1053
 msgid "Schedule Analysis Options"
 msgstr "Opções de Análise"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:1158
+msgid "Holidays Options"
+msgstr "Opções de ausências"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:51
@@ -946,6 +946,11 @@ msgid "Professional name is required"
 msgstr "O nome profissional é obrigatório"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/TeamShiftsTimeDistributionStats.tsx:109
+msgid "Days between shifts"
+msgstr "Número de dias entre turnos"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/particles/TeamShiftsScheduleTypeDistributionStats.tsx:94
 #: apps/frontend/src/components/particles/ShiftsAutoFillSolutionScheduleTypeDistributionStats.tsx:86
 msgid "Number of shifts"
@@ -963,11 +968,13 @@ msgid "Hours between shifts"
 msgstr "Número de horas entre turnos"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/SelectCountryAndRegion.tsx:66
 #: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:66
 msgid "Select a country"
 msgstr "Seleccionar um país"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/SelectCountryAndRegion.tsx:106
 #: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:119
 msgid "Select a region"
 msgstr "Seleccionar uma região"
@@ -1426,7 +1433,7 @@ msgstr "Todos os funcionários"
 msgid "All positions in these dates have no changes"
 msgstr "Todas as posições nestas datas não têm alterações"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:95
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:99
 #: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:376
 msgid "Analyze"
 msgstr "Analisar"
@@ -1623,6 +1630,7 @@ msgstr "Contactar o nosso serviço de apoio ao cliente em"
 msgid "Copy"
 msgstr "Copiar"
 
+#: apps/frontend/src/components/particles/SelectCountryAndRegion.tsx:55
 #: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:55
 msgid "Country"
 msgstr "País"
@@ -1750,7 +1758,7 @@ msgstr "Dia"
 msgid "Day Template Contents"
 msgstr "Conteúdos do modelo de dia"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:121
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:125
 #: apps/frontend/src/components/team-shifts/TeamDayTemplates.tsx:96
 msgid "Day Templates"
 msgstr "Modelos de dia"
@@ -1773,7 +1781,7 @@ msgstr "Cota anual padrão (dias)"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:82
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:86
 msgid "Details"
 msgstr "Detalhes"
 
@@ -1781,7 +1789,7 @@ msgstr "Detalhes"
 msgid "Discarded Schedules"
 msgstr "Agendamentos descartados"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:61
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:65
 msgid "Display Options"
 msgstr "Opções de visualização"
 
@@ -1841,11 +1849,11 @@ msgstr "Fim"
 msgid "End Date"
 msgstr "Data de fim"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:875
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:945
 msgid "Error loading calendar data"
 msgstr "Erro ao carregar dados do calendário"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:862
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:932
 msgid "Error loading calendar data. Please refresh to try again."
 msgstr "Erro a carregar dados do calendário. Por favor refresque para tentar outra vez."
 
@@ -1870,7 +1878,7 @@ msgstr "Preencha todos os campos do formulário"
 msgid "Filter users"
 msgstr "Filtrar membros"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:134
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:138
 msgid "Filters"
 msgstr "Filtros"
 
@@ -1941,6 +1949,14 @@ msgstr "Valores mais altos garantem que os funcionários recebem níveis semelha
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:424
 msgid "Higher values try to equalize the spread of shifts for each worker through time"
 msgstr "Valores mais altos tentam igualar a distribuição de turnos para cada funcionário ao longo do tempo"
+
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:151
+msgid "Holidays"
+msgstr "Ausências"
+
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:1167
+msgid "Holidays Options"
+msgstr "Opções de ausências"
 
 #: apps/frontend/src/components/particles/BreadcrumbNav.tsx:28
 msgid "Home"
@@ -2051,7 +2067,7 @@ msgstr "Tipo de ausência \"{0}\""
 msgid "LeaveRequest not found"
 msgstr "Pedido de ausência não encontrado"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:69
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:73
 msgid "Leaves"
 msgstr "Ausências"
 
@@ -2063,7 +2079,7 @@ msgstr "deixando-os com <0>{simulatedDaysLeft} dias</0> restantes."
 msgid "leaving you with <0>{simulatedDaysLeft} days</0> left."
 msgstr "deixando-o com <0>{simulatedDaysLeft} dias</0> restantes."
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:871
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:941
 msgid "Loading calendar..."
 msgstr "A carregar calendário..."
 
@@ -2211,7 +2227,7 @@ msgstr "Abrir opções"
 msgid "Open user menu"
 msgstr "Abrir menu de utilizador"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:51
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:55
 msgid "Options"
 msgstr "Opções"
 
@@ -2245,7 +2261,7 @@ msgstr "Informação pessoal"
 msgid "Pick a color"
 msgstr "Escolher uma cor"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:108
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:112
 msgid "Position Templates"
 msgstr "Modelos de posição"
 
@@ -2293,6 +2309,7 @@ msgstr "Motivo"
 msgid "Reassign"
 msgstr "Reatribuir"
 
+#: apps/frontend/src/components/particles/SelectCountryAndRegion.tsx:95
 #: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:107
 msgid "Region"
 msgstr "Região"
@@ -2446,15 +2463,17 @@ msgstr "A guardar..."
 msgid "Schedule"
 msgstr "Horário"
 
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:992
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:1064
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:1062
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:1134
 msgid "Schedule Analysis Options"
 msgstr "Opções de Análise"
 
+#: apps/frontend/src/components/particles/SelectCountryAndRegion.tsx:70
 #: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:76
 msgid "Select a country"
 msgstr "Selecionar um país"
 
+#: apps/frontend/src/components/particles/SelectCountryAndRegion.tsx:110
 #: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:129
 msgid "Select a region"
 msgstr "Selecionar uma região"
@@ -2531,7 +2550,7 @@ msgstr "Definir o horário para esta posição."
 msgid "Set the user assigned to this position."
 msgstr "Definir o utilizador atribuído a esta posição."
 
-#: apps/frontend/src/components/molecules/SideBar.tsx:216
+#: apps/frontend/src/components/molecules/SideBar.tsx:228
 msgid "Settings"
 msgstr "Definir as configurações"
 

@@ -3,6 +3,7 @@ import { ResourceRef, unique } from "@/utils";
 import { isLeaveRequestFullyApproved } from "./isLeaveRequestFullyApproved";
 import { leaveRequestOverlaps } from "./leaveRequestOverlaps";
 import { notAcceptable } from "@hapi/boom";
+import { i18n } from "@/locales";
 
 export const approveLeaveRequest = async (
   leaveRequest: LeaveRequestRecord,
@@ -12,13 +13,20 @@ export const approveLeaveRequest = async (
     return leaveRequest;
   }
 
-  const [overlaps, leaves, leaveRequests] =
-    await leaveRequestOverlaps(leaveRequest);
+  const [overlaps, leaves, leaveRequests] = await leaveRequestOverlaps(
+    leaveRequest
+  );
 
   if (overlaps) {
     const culprit = leaves.length > 0 ? leaves[0] : leaveRequests[0];
     throw notAcceptable(
-      `Leave request overlaps with existing ${leaves.length > 0 ? "leave" : "leave request"} of type ${culprit.type}`
+      i18n._(
+        "Leave request overlaps with existing {type} of type {culpritType}",
+        {
+          type: leaves.length > 0 ? "leave" : "leave request",
+          culpritType: culprit.type,
+        }
+      )
     );
   }
 

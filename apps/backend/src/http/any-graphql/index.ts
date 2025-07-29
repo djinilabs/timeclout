@@ -17,6 +17,10 @@ import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
 import { handlingErrors } from "../../utils/handlingErrors";
 import { createUserCache } from "../../../../../libs/graphql/src/resolverContext";
+import {
+  getLocaleFromHeaders,
+  initI18n,
+} from "../../../../../libs/locales/src";
 
 const yoga = createYoga({
   graphqlEndpoint: "/graphql",
@@ -27,10 +31,19 @@ const yoga = createYoga({
   maskedErrors: false,
   landingPage: false,
   graphiql: false,
-  context: async () => {
+  context: async ({ request }) => {
     const userCache = await createUserCache();
+
+    // Extract locale from accept-language header
+    const acceptLanguage = request.headers.get("accept-language");
+    const locale = getLocaleFromHeaders(acceptLanguage || undefined);
+
+    // Initialize i18n for this request
+    await initI18n(locale);
+
     return {
       userCache,
+      locale,
     };
   },
   plugins: [
