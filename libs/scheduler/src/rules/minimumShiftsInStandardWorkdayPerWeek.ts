@@ -1,11 +1,14 @@
 import { DayDate } from "@/day-date";
+import { i18n } from "@/locales";
 import { SlotWorker, ValidationRule } from "../types";
 
 export const minimumShiftsInStandardWorkdayPerWeek: ValidationRule = {
   id: "minimumShiftsInStandardWorkdayPerWeek",
   name: (ruleOptions) => {
     if (typeof ruleOptions !== "number") {
-      throw new TypeError("minimumShiftsInStandardWorkday must be a number");
+      throw new TypeError(
+        i18n._("minimumShiftsInStandardWorkday must be a number")
+      );
     }
     return `Minimum Shifts in Standard Workday Per Week of ${ruleOptions}`;
   },
@@ -14,7 +17,9 @@ export const minimumShiftsInStandardWorkdayPerWeek: ValidationRule = {
       minimumStandardWorkDayShiftCount == null ||
       typeof minimumStandardWorkDayShiftCount !== "number"
     ) {
-      throw new TypeError("minimumShiftsInStandardWorkday must be a number");
+      throw new TypeError(
+        i18n._("minimumShiftsInStandardWorkday must be a number")
+      );
     }
     const workersShiftDays = new Map<SlotWorker, DayDate[]>();
     for (const shift of schedule.shifts) {

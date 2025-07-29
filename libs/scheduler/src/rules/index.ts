@@ -5,6 +5,7 @@ import { minimumShiftsInStandardWorkdayPerWeek } from "./minimumShiftsInStandard
 import { RuleName } from "./types";
 export * from "./types";
 import { getUniqueWorkers } from "../utils/getUniqueWorkers";
+import { i18n } from "@/locales";
 
 const rules: ValidationRule[] = [
   minimumFrequency,
@@ -21,7 +22,7 @@ export const isScheduleValid = (
   for (const [ruleName, ruleValue] of Object.entries(ruleOptions)) {
     const rule = rules.find((rule) => rule.id === ruleName);
     if (!rule) {
-      throw new Error(`Rule ${ruleName} not found`);
+      throw new Error(i18n._("Rule {ruleName} not found", { ruleName }));
     }
     const [valid, problemInSlotId] = rule.function(
       schedule,

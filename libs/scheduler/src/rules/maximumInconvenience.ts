@@ -1,3 +1,4 @@
+import { i18n } from "@/locales";
 import { SlotWorker, ValidationRule } from "../types";
 import { calculateSlotInconvenience } from "../utils/calculateSlotInconvenience";
 
@@ -5,13 +6,13 @@ export const maximumInconvenience: ValidationRule = {
   id: "maximumInconvenience",
   name: (ruleOptions) => {
     if (typeof ruleOptions !== "number") {
-      throw new TypeError("maximumInconvenience must be a number");
+      throw new TypeError(i18n._("maximumInconvenience must be a number"));
     }
     return `Maximum Inconvenience of ${ruleOptions}`;
   },
   function: (schedule, _workers, maximumInconvenience) => {
     if (typeof maximumInconvenience !== "number") {
-      throw new TypeError("maximumInconvenience must be a number");
+      throw new TypeError(i18n._("maximumInconvenience must be a number"));
     }
     const workerInconveniences: Map<SlotWorker, number> = new Map();
 

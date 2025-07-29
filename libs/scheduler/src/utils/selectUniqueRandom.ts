@@ -1,3 +1,4 @@
+import { i18n } from "@/locales";
 import { selectRandom } from "./selectRandom";
 
 export const selectUniqueRandom = <T>(
@@ -5,13 +6,13 @@ export const selectUniqueRandom = <T>(
   count: number
 ): Array<T> => {
   if (count > from.length) {
-    throw new TypeError("count must be smaller or equal to from array");
+    throw new TypeError(i18n._("count must be smaller or equal to from array"));
   }
   const selected: Array<T> = [];
   for (let i = 0; i < count; i++) {
     const tryFrom = selectRandom(from.filter((v) => !selected.includes(v)));
     if (tryFrom == null) {
-      throw new TypeError("tryFrom is undefined");
+      throw new TypeError(i18n._("tryFrom is undefined"));
     }
     selected.push(tryFrom);
   }

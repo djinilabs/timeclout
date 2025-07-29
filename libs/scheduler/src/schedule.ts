@@ -1,11 +1,12 @@
-import { RuleName } from "./rules/types";
-import { ShiftSchedule, SlotShift, WorkSlots, SlotWorker } from "./types";
-import { calculateMinimumRestMinutesAfterShift } from "./utils/calculateMinimumRestMinutesAfterShift";
-import { calculateSlotInconvenience } from "./utils/calculateSlotInconvenience";
-import { decreasingRandomLinearWeights } from "./utils/decreasingRandomLinearWeights";
-import { selectUniqueRandomWeighted } from "./utils/selectUniqueRandomWeighted";
-import { isWorkerAvailableToWork } from "./utils/isWorkerAvailableToWork";
 import { getDefined } from "@/utils";
+import { i18n } from "@/locales";
+import { calculateSlotInconvenience } from "./utils/calculateSlotInconvenience";
+import { calculateMinimumRestMinutesAfterShift } from "./utils/calculateMinimumRestMinutesAfterShift";
+import { isWorkerAvailableToWork } from "./utils/isWorkerAvailableToWork";
+import { selectUniqueRandomWeighted } from "./utils/selectUniqueRandomWeighted";
+import { decreasingRandomLinearWeights } from "./utils/decreasingRandomLinearWeights";
+import type { ShiftSchedule, SlotShift, SlotWorker, WorkSlots } from "./types";
+import type { RuleName } from "./rules/types";
 
 export interface ScheduleOptions {
   startDay: string;
@@ -59,14 +60,26 @@ export const randomSchedule = ({
 
       if (!slot.assignedWorkerPk && availableWorkers.length < 1) {
         throw new Error(
-          `Of ${workers.length} workers, none is available to work on day ${slot.startsOnDay} for shift ${slot.typeName}. For this shift we had ${workersWithAtLeastOneOfTheRequiredQualifications.length} workers with at least one of the required qualifications and ${availableWorkers.length} available.`
+          i18n._(
+            "Of {workersCount} workers, none is available to work on day {day} for shift {shiftType}. For this shift we had {qualifiedWorkersCount} workers with at least one of the required qualifications and {availableWorkersCount} available.",
+            {
+              workersCount: workers.length,
+              day: slot.startsOnDay,
+              shiftType: slot.typeName,
+              qualifiedWorkersCount:
+                workersWithAtLeastOneOfTheRequiredQualifications.length,
+              availableWorkersCount: availableWorkers.length,
+            }
+          )
         );
       }
 
       const worker: SlotWorker = slot.assignedWorkerPk
         ? getDefined(
             workers.find((w) => w.pk === slot.assignedWorkerPk),
-            `Worker ${slot.assignedWorkerPk} not found`
+            i18n._("Worker {workerPk} not found", {
+              workerPk: slot.assignedWorkerPk,
+            })
           )
         : getDefined(
             selectUniqueRandomWeighted(

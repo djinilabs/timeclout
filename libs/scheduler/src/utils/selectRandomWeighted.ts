@@ -1,9 +1,11 @@
+import { i18n } from "@/locales";
+
 export const selectRandomWeighted = <T>(
   from: Array<T>,
   weights: Array<number>
 ): T => {
   if (from.length !== weights.length) {
-    throw new TypeError("from and weights must have the same length");
+    throw new TypeError(i18n._("from and weights must have the same length"));
   }
 
   const cumulativeWeights: number[] = [];
@@ -21,5 +23,5 @@ export const selectRandomWeighted = <T>(
     }
   }
 
-  throw new Error("No element selected");
+  throw new Error(i18n._("No element selected"));
 };

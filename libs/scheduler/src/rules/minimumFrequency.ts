@@ -1,3 +1,4 @@
+import { i18n } from "@/locales";
 import { SlotWorker, ValidationRule } from "../types";
 
 const workerUnavailablityInSecondsBetween = (
@@ -6,7 +7,7 @@ const workerUnavailablityInSecondsBetween = (
   endTime: number
 ) => {
   if (startTime > endTime) {
-    throw new TypeError("startTime must be less than endTime");
+    throw new TypeError(i18n._("startTime must be less than endTime"));
   }
   // counts the amount of seconds the worker is unavailable between the start and end time
   return worker.approvedLeaves.reduce((acc, leave) => {
@@ -21,13 +22,13 @@ export const minimumFrequency: ValidationRule = {
   id: "minimumFrequency",
   name: (ruleOptions) => {
     if (typeof ruleOptions !== "number") {
-      throw new TypeError("minimumFrequency must be a number");
+      throw new TypeError(i18n._("minimumFrequency must be a number"));
     }
     return `Minimum Frequency of ${ruleOptions / 24 / 60} days`;
   },
   function: (schedule, workers, minimumFrequency) => {
     if (typeof minimumFrequency !== "number") {
-      throw new TypeError("minimumFrequency must be a number");
+      throw new TypeError(i18n._("minimumFrequency must be a number"));
     }
     const previousShifts = new Map(workers.map((worker) => [worker, 0]));
 

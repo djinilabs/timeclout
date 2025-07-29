@@ -11,6 +11,7 @@ module.exports = {
       include: [
         'libs/graphql/src',
         'libs/business-logic/src',
+        'libs/scheduler/src',
         'apps/backend/src',
       ],
     },

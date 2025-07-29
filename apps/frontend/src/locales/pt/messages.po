@@ -14,17 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/hooks/useQuery.ts:34
-msgid "Error fetching companies: {message}"
-msgstr "Error a obter empresas: {message}"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/company/CompanyTimeOff.tsx:225
-#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:120
-msgid "Error fetching holidays: {message}"
-msgstr "Erro a obter ausências: {message}"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/utils/permissionTypeToString.ts:5
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -248,6 +237,11 @@ msgstr "Posição de turno copiada"
 #: apps/frontend/src/hooks/useTeamShiftActions.ts:78
 msgid "Shift position deleted"
 msgstr "Posição de turno apagada"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/hooks/useQuery.ts:34
+msgid "Error fetching companies: {message}"
+msgstr "Error a obter empresas: {message}"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/OnboardingTour.tsx:22
@@ -1197,6 +1191,12 @@ msgstr "Pedido de ausência submetido"
 #: apps/frontend/src/components/company/CompanyTimeOff.tsx:177
 msgid "Leave requests submitted"
 msgstr "Pedido de ausência submetido"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/company/CompanyTimeOff.tsx:225
+#: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:120
+msgid "Error fetching holidays: {message}"
+msgstr "Erro a obter ausências: {message}"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/company/CompanySettings.tsx:11

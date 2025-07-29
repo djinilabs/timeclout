@@ -180,6 +180,75 @@ msgid "Error parsing entity settings for entity: {entityPk} and settings key: {s
 msgstr "Error parsing entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
 
 #. js-lingui-explicit-id
+#: libs/scheduler/src/schedule.ts:63
+msgid "Of {workersCount} workers, none is available to work on day {day} for shift {shiftType}. For this shift we had {qualifiedWorkersCount} workers with at least one of the required qualifications and {availableWorkersCount} available."
+msgstr "Of {workersCount} workers, none is available to work on day {day} for shift {shiftType}. For this shift we had {qualifiedWorkersCount} workers with at least one of the required qualifications and {availableWorkersCount} available."
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/schedule.ts:80
+msgid "Worker {workerPk} not found"
+msgstr "Worker {workerPk} not found"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectUniqueRandomWeighted.ts:10
+msgid "not enough items to select"
+msgstr "not enough items to select"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectUniqueRandomWeighted.ts:19
+#: libs/scheduler/src/utils/selectUniqueRandom.ts:15
+msgid "tryFrom is undefined"
+msgstr "tryFrom is undefined"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectUniqueRandom.ts:9
+msgid "count must be smaller or equal to from array"
+msgstr "count must be smaller or equal to from array"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectRandomWeighted.ts:8
+msgid "from and weights must have the same length"
+msgstr "from and weights must have the same length"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectRandomWeighted.ts:26
+msgid "No element selected"
+msgstr "No element selected"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectRandom.ts:5
+msgid "No elements to select from"
+msgstr "No elements to select from"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/rules/minimumShiftsInStandardWorkdayPerWeek.ts:10
+#: libs/scheduler/src/rules/minimumShiftsInStandardWorkdayPerWeek.ts:21
+msgid "minimumShiftsInStandardWorkday must be a number"
+msgstr "minimumShiftsInStandardWorkday must be a number"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/rules/minimumFrequency.ts:10
+msgid "startTime must be less than endTime"
+msgstr "startTime must be less than endTime"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/rules/minimumFrequency.ts:25
+#: libs/scheduler/src/rules/minimumFrequency.ts:31
+msgid "minimumFrequency must be a number"
+msgstr "minimumFrequency must be a number"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/rules/maximumInconvenience.ts:9
+#: libs/scheduler/src/rules/maximumInconvenience.ts:15
+msgid "maximumInconvenience must be a number"
+msgstr "maximumInconvenience must be a number"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/rules/index.ts:25
+msgid "Rule {ruleName} not found"
+msgstr "Rule {ruleName} not found"
+
+#. js-lingui-explicit-id
 #: apps/backend/src/http/get-api-v1-ical-catchall/getTeamLeavesIcal.ts:25
 msgid "team has no unit"
 msgstr "team has no unit"
