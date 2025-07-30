@@ -145,6 +145,7 @@ const defaultOptions: SchedulerOptions = {
     },
   ],
   respectLeaveSchedule: true,
+  locale: "en",
 };
 
 describe("SchedulerWorkerClient", () => {

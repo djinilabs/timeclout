@@ -43,6 +43,7 @@ export interface SchedulerOptions {
     minimumRestMinutes: number;
   }[];
   respectLeaveSchedule: boolean;
+  locale?: string;
 }
 
 const hex = (uint8: Uint8Array) => {

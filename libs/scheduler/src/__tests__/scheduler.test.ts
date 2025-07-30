@@ -72,6 +72,7 @@ describe("Scheduler", () => {
       },
     ],
     respectLeaveSchedule: true,
+    locale: "en",
   };
 
   it("should initialize with valid options", () => {
