@@ -8,16 +8,21 @@ import { database, EntityRecord } from "@/tables";
 import { ExpressAuthConfig } from "@auth/express";
 
 // Remove hardcoded email list
-// const acceptableEmailAddresses = new Set([
-//   "i@pgte.me",
-//   "pedro.teixeira@gmail.com",
-//   "susana.g.chaves@gmail.com",
-//   "carinagouveia@hotmail.com",
-// ]);
+const acceptableEmailAddresses = new Set([
+  "i@pgte.me",
+  "pedro.teixeira@gmail.com",
+  "susana.g.chaves@gmail.com",
+  "carinagouveia@hotmail.com",
+]);
 
 // Function to check if user is allowed to sign in
 async function isUserAllowedToSignIn(email: string): Promise<boolean> {
   if (!email) return false;
+
+  if (acceptableEmailAddresses.has(email)) {
+    console.log("User in whitelist, allowing sign in:", email);
+    return true;
+  }
 
   const { entity, invitation } = await database();
 
