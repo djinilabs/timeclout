@@ -119,10 +119,12 @@ export const autoFillHelp: HelpSection = {
     {
       caption: "Auto-fill dialog with optimization options",
       alt: "Auto-fill configuration",
+      src: "/images/help/auto-fill-dialog.png",
     },
     {
       caption: "Results view showing assigned members",
       alt: "Auto-fill results",
+      src: "/images/help/auto-fill-results.png",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="auto-fill" />,

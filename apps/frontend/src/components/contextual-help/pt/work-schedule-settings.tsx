@@ -74,16 +74,7 @@ export const workScheduleSettingsHelp: HelpSection = {
       ),
     },
   ],
-  screenshots: [
-    {
-      caption: "Formulário de configurações do horário de trabalho",
-      alt: "Configuração do horário de trabalho",
-    },
-    {
-      caption: "Seleção de fuso horário e configuração de horários",
-      alt: "Configuração de fuso horário e horários",
-    },
-  ],
+  screenshots: [],
   dependencies: <FeatureDependenciesHelp context="work-schedule-settings" />,
   roles: <RoleBasedHelp context="work-schedule-settings" />,
 };

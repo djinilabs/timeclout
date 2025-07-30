@@ -68,16 +68,7 @@ export const workScheduleSettingsHelp: HelpSection = {
       ),
     },
   ],
-  screenshots: [
-    {
-      caption: "Work schedule settings form with time configuration",
-      alt: "Work schedule configuration",
-    },
-    {
-      caption: "Timezone selection and working hours setup",
-      alt: "Timezone and hours setup",
-    },
-  ],
+  screenshots: [],
   dependencies: <FeatureDependenciesHelp context="work-schedule-settings" />,
   roles: <RoleBasedHelp context="work-schedule-settings" />,
 };

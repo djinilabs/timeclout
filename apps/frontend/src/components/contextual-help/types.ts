@@ -16,6 +16,7 @@ export interface HelpSection {
   screenshots?: {
     caption: string;
     alt?: string;
+    src?: string;
   }[];
   dependencies?: ReactNode;
   roles?: ReactNode;

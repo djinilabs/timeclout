@@ -79,12 +79,9 @@ export const teamInvitationsHelp: HelpSection = {
   ],
   screenshots: [
     {
-      caption: "Diálogo Convidar Membro com seleção de função",
-      alt: "Formulário de convite da equipa",
-    },
-    {
       caption: "Lista de convites pendentes com indicadores de estado",
       alt: "Vista de gestão de convites",
+      src: "/images/help/team-invitations-list.png",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="team-invitations" />,

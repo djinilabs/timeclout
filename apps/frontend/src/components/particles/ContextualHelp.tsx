@@ -238,8 +238,8 @@ export const ContextualHelpContent = () => {
         </div>
       )}
 
-      {/* Screenshots placeholder */}
-      {helpContent.screenshots && (
+      {/* Screenshots */}
+      {helpContent.screenshots && helpContent.screenshots.length > 0 && (
         <div>
           <h3 className="text-sm font-semibold text-gray-900 mb-3">
             <Trans>Visual Guide</Trans>
@@ -250,14 +250,22 @@ export const ContextualHelpContent = () => {
                 key={index}
                 className="border border-gray-200 rounded-lg p-3"
               >
-                <div className="aspect-video bg-gray-100 rounded flex items-center justify-center mb-2">
-                  <DocumentTextIcon className="h-8 w-8 text-gray-400" />
-                  <span className="text-xs text-gray-500 ml-2">
-                    {i18n.locale === "pt"
-                      ? `Captura de Ecrã ${index + 1}`
-                      : `Screenshot ${index + 1}`}
-                  </span>
-                </div>
+                {screenshot.src ? (
+                  <img
+                    src={screenshot.src}
+                    alt={screenshot.alt || screenshot.caption}
+                    className="w-full h-auto rounded mb-2"
+                  />
+                ) : (
+                  <div className="aspect-video bg-gray-100 rounded flex items-center justify-center mb-2">
+                    <DocumentTextIcon className="h-8 w-8 text-gray-400" />
+                    <span className="text-xs text-gray-500 ml-2">
+                      {i18n.locale === "pt"
+                        ? `Captura de Ecrã ${index + 1}`
+                        : `Screenshot ${index + 1}`}
+                    </span>
+                  </div>
+                )}
                 <div className="text-xs text-gray-600">
                   {screenshot.caption}
                 </div>

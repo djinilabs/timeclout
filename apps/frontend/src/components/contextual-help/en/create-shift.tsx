@@ -78,10 +78,7 @@ export const createShiftHelp: HelpSection = {
     {
       caption: "Create shift dialog with template selection",
       alt: "Shift creation form",
-    },
-    {
-      caption: "Position details and qualification requirements",
-      alt: "Shift configuration",
+      src: "/images/help/create-shift-dialog.png",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="create-shift" />,

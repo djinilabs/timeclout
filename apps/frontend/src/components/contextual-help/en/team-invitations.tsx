@@ -76,12 +76,9 @@ export const teamInvitationsHelp: HelpSection = {
   ],
   screenshots: [
     {
-      caption: "Invite Member dialog with role selection",
-      alt: "Team invitation form",
-    },
-    {
       caption: "Pending invitations list with status indicators",
       alt: "Invitations management view",
+      src: "/images/help/team-invitations-list.png",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="team-invitations" />,

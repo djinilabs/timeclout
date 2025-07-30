@@ -128,10 +128,12 @@ export const autoFillHelp: HelpSection = {
     {
       caption: "Diálogo de preenchimento automático com opções de otimização",
       alt: "Configuração de preenchimento automático",
+      src: "/images/help/auto-fill-dialog.png",
     },
     {
       caption: "Vista de resultados mostrando membros atribuídos",
       alt: "Resultados do preenchimento automático",
+      src: "/images/help/auto-fill-results.png",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="auto-fill" />,

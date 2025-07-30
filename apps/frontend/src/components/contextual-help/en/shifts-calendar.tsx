@@ -100,14 +100,17 @@ export const shiftsCalendarHelp: HelpSection = {
     {
       caption: "Main calendar view with shift positions and member assignments",
       alt: "Shift calendar interface",
+      src: "/images/help/shifts-calendar-main.png",
     },
     {
       caption: "Drag and drop interface for assigning members to shifts",
       alt: "Member assignment interface",
+      src: "/images/help/shifts-calendar-drag.png",
     },
     {
       caption: "Auto-fill dialog with assignment options",
       alt: "Auto-fill scheduling",
+      src: "/images/help/shifts-calendar-autofill.png",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="shifts-calendar" />,

@@ -105,14 +105,17 @@ export const shiftsCalendarHelp: HelpSection = {
       caption:
         "Vista principal do calendário com posições de turno e atribuições de membros",
       alt: "Interface do calendário de turnos",
+      src: "/images/help/shifts-calendar-main.png",
     },
     {
       caption: "Interface de arrastar e largar para atribuir membros a turnos",
       alt: "Interface de atribuição de membros",
+      src: "/images/help/shifts-calendar-drag.png",
     },
     {
       caption: "Diálogo de preenchimento automático com opções de atribuição",
       alt: "Agendamento com preenchimento automático",
+      src: "/images/help/shifts-calendar-autofill.png",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="shifts-calendar" />,

@@ -79,10 +79,7 @@ export const createShiftHelp: HelpSection = {
     {
       caption: "Diálogo criar turno com seleção de modelo",
       alt: "Formulário de criação de turno",
-    },
-    {
-      caption: "Detalhes da posição e requisitos de qualificação",
-      alt: "Configuração do turno",
+      src: "/images/help/create-shift-dialog.png",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="create-shift" />,
