@@ -12,7 +12,6 @@ const acceptableEmailAddresses = new Set([
   "pedro.teixeira@gmail.com",
   "susana.g.chaves@gmail.com",
   "carinagouveia@hotmail.com",
-  "pedro@decipad.com",
 ]);
 
 export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
