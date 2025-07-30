@@ -19,7 +19,7 @@ export const shiftsCalendarHelp: HelpSection = {
     },
     {
       title: "Assign Team Members",
-      description: "Drag qualified members to shifts with automatic validation",
+      description: "Assign qualified members to shifts using dropdown menus",
     },
     {
       title: "Auto-Fill Scheduling",
@@ -37,8 +37,8 @@ export const shiftsCalendarHelp: HelpSection = {
             the left panel
           </p>
           <p className="text-xs text-gray-600">
-            • <strong>Assign Member:</strong> Drag a member from the right panel
-            to a shift
+            • <strong>Assign Member:</strong> Use the dropdown menu in the shift
+            dialog or context menu
           </p>
           <p className="text-xs text-gray-600">
             • <strong>Auto-Fill:</strong> Use the auto-fill button to
@@ -103,7 +103,7 @@ export const shiftsCalendarHelp: HelpSection = {
       src: "/images/help/shifts-calendar-main.png",
     },
     {
-      caption: "Drag and drop interface for assigning members to shifts",
+      caption: "Shift position with context menu for member assignment",
       alt: "Member assignment interface",
       src: "/images/help/shifts-calendar-drag.png",
     },

@@ -20,7 +20,7 @@ export const shiftsCalendarHelp: HelpSection = {
     {
       title: "Atribuir Membros da Equipa",
       description:
-        "Arraste membros qualificados para turnos com validação automática",
+        "Atribua membros qualificados a turnos usando menus pendentes",
     },
     {
       title: "Preenchimento Automático",
@@ -38,8 +38,8 @@ export const shiftsCalendarHelp: HelpSection = {
             painel esquerdo
           </p>
           <p className="text-xs text-gray-600">
-            • <strong>Atribuir Membro:</strong> Arraste um membro do painel
-            direito para um turno
+            • <strong>Atribuir Membro:</strong> Use o menu pendente no diálogo
+            do turno ou menu de contexto
           </p>
           <p className="text-xs text-gray-600">
             • <strong>Preenchimento Automático:</strong> Use o botão auto-fill
@@ -108,7 +108,8 @@ export const shiftsCalendarHelp: HelpSection = {
       src: "/images/help/shifts-calendar-main.png",
     },
     {
-      caption: "Interface de arrastar e largar para atribuir membros a turnos",
+      caption:
+        "Posição de turno com menu de contexto para atribuição de membros",
       alt: "Interface de atribuição de membros",
       src: "/images/help/shifts-calendar-drag.png",
     },
