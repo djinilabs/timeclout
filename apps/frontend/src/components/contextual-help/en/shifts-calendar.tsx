@@ -95,6 +95,47 @@ export const shiftsCalendarHelp: HelpSection = {
         </div>
       ),
     },
+    {
+      title: "Display Options",
+      content: (
+        <div className="space-y-2">
+          <p className="text-xs text-gray-600">
+            Use the <strong>Options</strong> menu to customize what you see in
+            the calendar:
+          </p>
+          <div className="space-y-1">
+            <p className="text-xs text-gray-600">
+              • <strong>Leaves:</strong> Show team member leave requests and
+              time off
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Details:</strong> Display additional shift information
+              like start/end times and qualifications
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Analyze:</strong> Highlight scheduling conflicts, rule
+              violations, and optimization opportunities
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Position Templates:</strong> Show draggable shift
+              position models for quick creation
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Day Templates:</strong> Display draggable day models to
+              copy entire day schedules
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Filters:</strong> Filter the calendar view by specific
+              team members
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Holidays:</strong> Show company holidays and non-working
+              days
+            </p>
+          </div>
+        </div>
+      ),
+    },
   ],
   screenshots: [
     {

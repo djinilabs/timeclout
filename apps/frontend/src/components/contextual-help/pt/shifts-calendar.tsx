@@ -99,6 +99,47 @@ export const shiftsCalendarHelp: HelpSection = {
         </div>
       ),
     },
+    {
+      title: "Opções de Visualização",
+      content: (
+        <div className="space-y-2">
+          <p className="text-xs text-gray-600">
+            Use o menu <strong>Opções</strong> para personalizar o que vê no
+            calendário:
+          </p>
+          <div className="space-y-1">
+            <p className="text-xs text-gray-600">
+              • <strong>Férias:</strong> Mostrar pedidos de férias e ausências
+              dos membros da equipa
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Detalhes:</strong> Exibir informações adicionais dos
+              turnos como horários de início/fim e qualificações
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Analisar:</strong> Destacar conflitos de agendamento,
+              violações de regras e oportunidades de otimização
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Modelos de Posição:</strong> Mostrar modelos de posições
+              de turno arrastáveis para criação rápida
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Modelos de Dia:</strong> Exibir modelos de dia
+              arrastáveis para copiar horários completos de dias
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Filtros:</strong> Filtrar a vista do calendário por
+              membros específicos da equipa
+            </p>
+            <p className="text-xs text-gray-600">
+              • <strong>Feriados:</strong> Mostrar feriados da empresa e dias
+              não úteis
+            </p>
+          </div>
+        </div>
+      ),
+    },
   ],
   screenshots: [
     {
