@@ -48,6 +48,8 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       Mailgun({
         name: "TT3",
         from: "info@tt3.app",
+        // Ensure email provider can handle existing users
+        normalizeIdentifier: (identifier) => identifier.toLowerCase(),
       }),
       Google({
         clientId: getDefined(
@@ -63,19 +65,29 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     ],
     adapter: databaseAdapter,
     callbacks: {
-      async signIn({ user, account }) {
-        console.log("signIn", user, account);
+      async signIn({ user, account, profile }) {
+        console.log("signIn", user, account, profile);
 
-        // For email authentication, check whitelist
+        // Check if email is in whitelist
+        const isEmailAllowed = acceptableEmailAddresses.has(user.email ?? "");
+        if (!isEmailAllowed) {
+          console.log("Email not in whitelist:", user.email);
+          return false;
+        }
+
+        // For email authentication - always allow if email is in whitelist
         if (account?.type === "email") {
-          return acceptableEmailAddresses.has(user.email ?? "");
+          console.log("Email authentication allowed for:", user.email);
+          return true;
         }
 
-        // For Google OAuth, check whitelist
+        // For Google OAuth - always allow if email is in whitelist
         if (account?.provider === "google") {
-          return acceptableEmailAddresses.has(user.email ?? "");
+          console.log("Google OAuth allowed for:", user.email);
+          return true;
         }
 
+        console.log("Unknown authentication method:", account);
         return false;
       },
       async jwt({ token, account, user }) {
@@ -83,11 +95,15 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
         if (account?.type === "email" && account.providerAccountId) {
           token.email = account.providerAccountId;
           token.id = token.sub;
+
+          // Try to get existing user data
           const userRef = resourceRef("users", token.id as string);
           const { entity } = await database();
           const userRecord = await entity.get(userRef);
           if (userRecord) {
             token.name = userRecord.name;
+            // Note: image property is not available in EntityRecord type
+            // Profile pictures are handled by NextAuth session
           }
         }
 
@@ -130,7 +146,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
         }
       },
       signIn: async ({ user, isNewUser, account }) => {
-        console.log("signIn", user, isNewUser, account);
+        console.log("signIn event", { user, isNewUser, account });
         const { entity } = await database();
         const userRef = resourceRef("users", getDefined(user.id));
 
