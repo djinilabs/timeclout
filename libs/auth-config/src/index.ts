@@ -7,12 +7,56 @@ import { getDefined, once, resourceRef } from "@/utils";
 import { database, EntityRecord } from "@/tables";
 import { ExpressAuthConfig } from "@auth/express";
 
-const acceptableEmailAddresses = new Set([
-  "i@pgte.me",
-  "pedro.teixeira@gmail.com",
-  "susana.g.chaves@gmail.com",
-  "carinagouveia@hotmail.com",
-]);
+// Remove hardcoded email list
+// const acceptableEmailAddresses = new Set([
+//   "i@pgte.me",
+//   "pedro.teixeira@gmail.com",
+//   "susana.g.chaves@gmail.com",
+//   "carinagouveia@hotmail.com",
+// ]);
+
+// Function to check if user is allowed to sign in
+async function isUserAllowedToSignIn(email: string): Promise<boolean> {
+  if (!email) return false;
+
+  const { entity, invitation } = await database();
+
+  // Check if user already exists in the system
+  const userRef = resourceRef("users", email);
+  const existingUser = await entity.get(userRef);
+  if (existingUser) {
+    console.log("User already exists, allowing sign in:", email);
+    return true;
+  }
+
+  // Check if user has an active invitation
+  const { items: invitations } = await invitation.query({
+    IndexName: "bySecret",
+    KeyConditionExpression: "sk = :email",
+    ExpressionAttributeValues: {
+      ":email": email,
+    },
+  });
+
+  if (invitations.length > 0) {
+    console.log("User has active invitation, allowing sign in:", email);
+    return true;
+  }
+
+  // Optional: Fallback to environment variable during transition
+  const fallbackEmails =
+    process.env.FALLBACK_ALLOWED_EMAILS?.split(",").map((e) => e.trim()) || [];
+  if (fallbackEmails.includes(email)) {
+    console.log("User in fallback list, allowing sign in:", email);
+    return true;
+  }
+
+  console.log(
+    "User not found and no active invitation, denying sign in:",
+    email
+  );
+  return false;
+}
 
 export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -67,20 +111,20 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       async signIn({ user, account, profile }) {
         console.log("signIn", user, account, profile);
 
-        // Check if email is in whitelist
-        const isEmailAllowed = acceptableEmailAddresses.has(user.email ?? "");
+        // Check if user is allowed to sign in using database
+        const isEmailAllowed = await isUserAllowedToSignIn(user.email ?? "");
         if (!isEmailAllowed) {
-          console.log("Email not in whitelist:", user.email);
+          console.log("Email not allowed to sign in:", user.email);
           return false;
         }
 
-        // For email authentication - always allow if email is in whitelist
+        // For email authentication - always allow if email is in database/whitelist
         if (account?.type === "email") {
           console.log("Email authentication allowed for:", user.email);
           return true;
         }
 
-        // For Google OAuth - always allow if email is in whitelist
+        // For Google OAuth - always allow if email is in database/whitelist
         if (account?.provider === "google") {
           console.log("Google OAuth allowed for:", user.email);
           return true;

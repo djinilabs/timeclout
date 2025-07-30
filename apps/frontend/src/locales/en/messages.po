@@ -1340,6 +1340,11 @@ msgid "Please select a permission"
 msgstr "Please select a permission"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/Login.tsx:82
+msgid "Enter your email address"
+msgstr "Enter your email address"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/ColorPicker.tsx:18
 msgid "Select a color"
 msgstr "Select a color"
@@ -1559,6 +1564,10 @@ msgstr "Available"
 msgid "Available Shift Position Templates"
 msgstr "Available Shift Position Templates"
 
+#: apps/frontend/src/components/atoms/Login.tsx:142
+msgid "Back to sign-in options"
+msgstr "Back to sign-in options"
+
 #: apps/frontend/src/components/atoms/LeaveRequest.tsx:79
 msgid "Beneficiary"
 msgstr "Beneficiary"
@@ -1596,6 +1605,10 @@ msgstr "Calendar subscriptions:"
 msgid "Cancel"
 msgstr "Cancel"
 
+#: apps/frontend/src/components/atoms/Login.tsx:159
+msgid "Choose your preferred sign-in method"
+msgstr "Choose your preferred sign-in method"
+
 #: apps/frontend/src/components/AcceptInvite.tsx:80
 msgid "Click the button below to accept the invitation."
 msgstr "Click the button below to accept the invitation."
@@ -1629,9 +1642,13 @@ msgstr "Configure the yearly leave quota settings for employees in this company:
 msgid "conflict(s) when trying to search for a solution"
 msgstr "conflict(s) when trying to search for a solution"
 
-#: apps/frontend/src/components/particles/ContextualHelp.tsx:332
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:340
 msgid "Contact our support team"
 msgstr "Contact our support team"
+
+#: apps/frontend/src/components/atoms/Login.tsx:191
+msgid "Continue with Google"
+msgstr "Continue with Google"
 
 #: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:62
 msgid "Copy"
@@ -1844,6 +1861,7 @@ msgstr "Edit the leave type \"{0}\""
 
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:234
 #: apps/frontend/src/components/personal/MeEdit.tsx:153
+#: apps/frontend/src/components/atoms/Login.tsx:69
 #: apps/frontend/src/components/atoms/LeaveRequests.tsx:49
 msgid "Email address"
 msgstr "Email address"
@@ -1855,6 +1873,10 @@ msgstr "End"
 #: apps/frontend/src/components/atoms/LeaveRequest.tsx:129
 msgid "End Date"
 msgstr "End Date"
+
+#: apps/frontend/src/components/atoms/Login.tsx:54
+msgid "Enter your email"
+msgstr "Enter your email"
 
 #: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:945
 msgid "Error loading calendar data"
@@ -2111,7 +2133,7 @@ msgstr "March"
 msgid "May"
 msgstr "May"
 
-#: apps/frontend/src/components/particles/ContextualHelp.tsx:276
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:284
 msgid "More Details"
 msgstr "More Details"
 
@@ -2122,7 +2144,7 @@ msgstr "More Details"
 msgid "Name"
 msgstr "Name"
 
-#: apps/frontend/src/components/particles/ContextualHelp.tsx:329
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:337
 msgid "Need More Help?"
 msgstr "Need More Help?"
 
@@ -2238,6 +2260,10 @@ msgstr "Open user menu"
 msgid "Options"
 msgstr "Options"
 
+#: apps/frontend/src/components/atoms/Login.tsx:202
+msgid "or"
+msgstr "or"
+
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:217
 msgid "Out of Office"
 msgstr "Out of Office"
@@ -2272,7 +2298,7 @@ msgstr "Pick a color"
 msgid "Position Templates"
 msgstr "Position Templates"
 
-#: apps/frontend/src/components/particles/ContextualHelp.tsx:302
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:310
 msgid "Prerequisites"
 msgstr "Prerequisites"
 
@@ -2387,7 +2413,7 @@ msgstr "Require minimum rest periods between shifts based on inconvenience score
 msgid "Requires manager approval"
 msgstr "Requires manager approval"
 
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFill.tsx:281
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFill.tsx:285
 msgid "Reset"
 msgstr "Reset"
 
@@ -2426,7 +2452,7 @@ msgstr "Revoke Invitation"
 msgid "ri for Friday"
 msgstr "ri"
 
-#: apps/frontend/src/components/particles/ContextualHelp.tsx:317
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:325
 msgid "Role Permissions"
 msgstr "Role Permissions"
 
@@ -2529,6 +2555,14 @@ msgstr "Select the user you want to request time off for."
 msgid "Select User"
 msgstr "Select User"
 
+#: apps/frontend/src/components/atoms/Login.tsx:132
+msgid "Send sign-in link"
+msgstr "Send sign-in link"
+
+#: apps/frontend/src/components/atoms/Login.tsx:115
+msgid "Sending..."
+msgstr "Sending..."
+
 #: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:182
 msgid "September"
 msgstr "September"
@@ -2593,13 +2627,13 @@ msgstr "Show leave schedule"
 msgid "Show schedule details"
 msgstr "Show schedule details"
 
-#: apps/frontend/src/components/atoms/Login.tsx:40
-msgid "Sign in"
-msgstr "Sign in"
-
-#: apps/frontend/src/components/atoms/Login.tsx:27
+#: apps/frontend/src/components/atoms/Login.tsx:156
 msgid "Sign in to your account"
 msgstr "Sign in to your account"
+
+#: apps/frontend/src/components/atoms/Login.tsx:227
+msgid "Sign in with email link"
+msgstr "Sign in with email link"
 
 #: apps/frontend/src/components/molecules/ShiftAutoFillSolutionStats.tsx:116
 msgid "Solution Heuristic Scores"
@@ -2625,7 +2659,7 @@ msgstr "Start"
 msgid "Start Date"
 msgstr "Start Date"
 
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFill.tsx:270
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFill.tsx:274
 msgid "Start searching for the best solution"
 msgstr "Start searching for the best solution"
 
@@ -2637,7 +2671,7 @@ msgstr "starting on day"
 msgid "Status"
 msgstr "Status"
 
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFill.tsx:268
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFill.tsx:272
 msgid "Stop searching"
 msgstr "Stop searching"
 
@@ -2843,6 +2877,14 @@ msgstr "W"
 #: apps/frontend/src/components/company/TimeOffYearCalendar.tsx:139
 msgid "W"
 msgstr "W"
+
+#: apps/frontend/src/components/atoms/Login.tsx:57
+msgid "We'll send you a secure link to sign in"
+msgstr "We'll send you a secure link to sign in"
+
+#: apps/frontend/src/components/atoms/Login.tsx:234
+msgid "We'll send you a secure link to sign in without a password"
+msgstr "We'll send you a secure link to sign in without a password"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/particles/MonthDailyCalendar.tsx:82
