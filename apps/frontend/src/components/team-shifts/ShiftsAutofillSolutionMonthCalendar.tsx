@@ -12,7 +12,7 @@ import { classNames } from "../../utils/classNames";
 import { Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
 import { ShiftPosition } from "../atoms/ShiftPosition";
 import { Avatar } from "../particles/Avatar";
-import { Tabs } from "../molecules/Tabs";
+import { Tabs, type Tab } from "../molecules/Tabs";
 import { LabeledSwitch } from "../particles/LabeledSwitch";
 import {
   MonthlyCalendarPerMember,
@@ -23,6 +23,11 @@ import { CalendarHeader } from "../atoms/CalendarHeader";
 import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
 import { AnalyzeTeamShiftsCalendarMenu } from "./AnalyzeTeamShiftsCalendarMenu";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
+import {
+  CalendarDaysIcon,
+  ClockIcon,
+  UsersIcon,
+} from "@heroicons/react/24/outline";
 
 export interface ShiftsAutofillSolutionMonthCalendarProps {
   teamPk: string;
@@ -205,19 +210,22 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
       ]
     );
 
-    const tabs = useMemo(
+    const tabs = useMemo<Tab[]>(
       () => [
         {
           name: i18n.t("By day"),
           href: "by-day",
+          icon: CalendarDaysIcon,
         },
         {
           name: i18n.t("By member"),
           href: "by-member",
+          icon: UsersIcon,
         },
         {
           name: i18n.t("By duration"),
           href: "by-duration",
+          icon: ClockIcon,
         },
       ],
       []

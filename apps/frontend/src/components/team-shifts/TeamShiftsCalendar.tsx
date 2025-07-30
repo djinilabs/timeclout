@@ -2,9 +2,15 @@ import { DayDate } from "@/day-date";
 import { FC, PropsWithChildren, ReactNode, useMemo, useState } from "react";
 import { type Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
 import { i18n } from "@lingui/core";
+import {
+  CalendarDaysIcon,
+  ChartBarIcon,
+  ClockIcon,
+  UsersIcon,
+} from "@heroicons/react/24/outline";
 import { TeamShiftsSummary } from "./TeamShiftsSummary";
 import { CalendarHeader } from "../atoms/CalendarHeader";
-import { Tabs } from "../molecules/Tabs";
+import { Tabs, type Tab } from "../molecules/Tabs";
 import {
   MonthlyCalendarPerMember,
   type User,
@@ -46,16 +52,16 @@ export interface TeamShiftsCalendarProps {
 export const TeamShiftsCalendar: FC<
   PropsWithChildren<TeamShiftsCalendarProps>
 > = ({ children, ...props }) => {
-  const tabs = useMemo(
+  const tabs = useMemo<Tab[]>(
     () => [
-      { name: i18n.t("By day"), href: "by-day" },
-      { name: i18n.t("By member"), href: "by-member" },
-      { name: i18n.t("By duration"), href: "by-duration" },
-      { name: i18n.t("Stats"), href: "stats" },
+      { name: i18n.t("By day"), href: "by-day", icon: CalendarDaysIcon },
+      { name: i18n.t("By member"), href: "by-member", icon: UsersIcon },
+      { name: i18n.t("By duration"), href: "by-duration", icon: ClockIcon },
+      { name: i18n.t("Stats"), href: "stats", icon: ChartBarIcon },
     ],
     []
   );
-  const [tab, setTab] = useState(tabs[0]);
+  const [tab, setTab] = useState<Tab>(tabs[0]);
 
   return (
     <div>

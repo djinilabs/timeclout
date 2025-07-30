@@ -10,6 +10,7 @@ export interface Tab {
   count?: string;
   href: string;
   className?: string;
+  icon?: React.ElementType;
 }
 
 export interface TabsProps {
@@ -109,9 +110,12 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
                   tab.href === currentTab?.href
                     ? "border-teal-500 text-teal-600"
                     : "border-transparent text-gray-500 hover:border-teal-500 hover:text-teal-600",
-                  "flex whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium transition-colors duration-200"
+                  "flex items-center whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium transition-colors duration-200"
                 )}
               >
+                {tab.icon && (
+                  <tab.icon className="mr-2 h-4 w-4" aria-hidden="true" />
+                )}
                 {tab.name}
                 {tab.count ? (
                   <span

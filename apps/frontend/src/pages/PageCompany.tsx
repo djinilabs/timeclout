@@ -1,6 +1,12 @@
 import { FC, lazy, useMemo, useState } from "react";
 import { i18n } from "@lingui/core";
-import { Tabs } from "../components/molecules/Tabs";
+import {
+  CalendarDaysIcon,
+  Cog6ToothIcon,
+  DocumentDuplicateIcon,
+  FolderIcon,
+} from "@heroicons/react/24/outline";
+import { Tabs, type Tab } from "../components/molecules/Tabs";
 import { Suspense } from "../components/atoms/Suspense";
 import { useEntityNavigationContext } from "../hooks/useEntityNavigationContext";
 
@@ -26,22 +32,31 @@ export const PageCompany: FC = () => {
 
   const tabs = useMemo(
     () => [
-      { name: i18n.t("Company Units"), href: "units" },
-      { name: i18n.t("My Time Off"), href: "time-off" },
-      { name: i18n.t("My Leave Requests"), href: "my-leave-requests" },
+      { name: i18n.t("Company Units"), href: "units", icon: FolderIcon },
+      { name: i18n.t("My Time Off"), href: "time-off", icon: CalendarDaysIcon },
+      {
+        name: i18n.t("My Leave Requests"),
+        href: "my-leave-requests",
+        icon: DocumentDuplicateIcon,
+      },
       ...((company?.resourcePermission ?? -1) >= 2 // WRITE
         ? [
-            { name: i18n.t("Company Settings"), href: "settings" },
+            {
+              name: i18n.t("Company Settings"),
+              href: "settings",
+              icon: Cog6ToothIcon,
+            },
             {
               name: i18n.t("Pending Leave Requests"),
               href: "pending-leave-requests",
+              icon: DocumentDuplicateIcon,
             },
           ]
         : []),
     ],
     [company?.resourcePermission]
   );
-  const [tab, setTab] = useState(tabs[0]);
+  const [tab, setTab] = useState<Tab>(tabs[0]);
 
   return (
     <Suspense>

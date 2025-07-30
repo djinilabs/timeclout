@@ -1,21 +1,27 @@
 import { useMemo, useState } from "react";
 import { i18n } from "@lingui/core";
-import { Tabs } from "../molecules/Tabs";
+import { AcademicCapIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
+import { Tabs, type Tab } from "../molecules/Tabs";
 import { TeamQualifications } from "./TeamQualifications";
 import { TeamSchedulePositionTemplates } from "./TeamSchedulePositionTemplates";
 
 export const TeamSettings = () => {
-  const tabs = useMemo(
+  const tabs = useMemo<Tab[]>(
     () => [
-      { name: i18n.t("Qualifications"), href: "qualifications" },
+      {
+        name: i18n.t("Qualifications"),
+        href: "qualifications",
+        icon: AcademicCapIcon,
+      },
       {
         name: i18n.t("Schedule Position Templates"),
         href: "schedule-position-templates",
+        icon: DocumentTextIcon,
       },
     ],
     []
   );
-  const [tab, setTab] = useState(tabs[0]);
+  const [tab, setTab] = useState<Tab>(tabs[0]);
   return (
     <div>
       <Tabs

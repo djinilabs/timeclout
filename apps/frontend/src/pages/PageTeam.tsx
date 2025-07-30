@@ -1,5 +1,13 @@
 import { useMemo, useState } from "react";
 import { i18n } from "@lingui/core";
+import {
+  CalendarDaysIcon,
+  Cog6ToothIcon,
+  DocumentDuplicateIcon,
+  EnvelopeIcon,
+  UsersIcon,
+  WrenchScrewdriverIcon,
+} from "@heroicons/react/24/outline";
 import { Suspense } from "../components/atoms/Suspense";
 import { type Tab, Tabs } from "../components/molecules/Tabs";
 import { TeamSettings } from "../components/team/TeamSettings";
@@ -15,21 +23,37 @@ export const PageTeam = () => {
   const tabs = useMemo<Tab[]>(
     () => [
       ...((team?.resourcePermission ?? -1) >= 2
-        ? [{ name: i18n.t("Members"), href: "members" }]
+        ? [{ name: i18n.t("Members"), href: "members", icon: UsersIcon }]
         : []),
-      { name: i18n.t("Leave Schedule"), href: "leave-schedule" },
-      { name: i18n.t("Shifts Calendar"), href: "shifts-calendar" },
+      {
+        name: i18n.t("Leave Schedule"),
+        href: "leave-schedule",
+        icon: CalendarDaysIcon,
+      },
+      {
+        name: i18n.t("Shifts Calendar"),
+        href: "shifts-calendar",
+        icon: DocumentDuplicateIcon,
+      },
       ...((team?.resourcePermission ?? -1) >= 2 // WRITE
         ? [
-            { name: i18n.t("Invitations"), href: "invitations" },
-            { name: i18n.t("Settings"), href: "settings" },
+            {
+              name: i18n.t("Invitations"),
+              href: "invitations",
+              icon: EnvelopeIcon,
+            },
+            { name: i18n.t("Settings"), href: "settings", icon: Cog6ToothIcon },
           ]
         : []),
-      { name: i18n.t("Calendar integrations"), href: "calendar-integrations" },
+      {
+        name: i18n.t("Calendar integrations"),
+        href: "calendar-integrations",
+        icon: WrenchScrewdriverIcon,
+      },
     ],
     [team?.resourcePermission]
   );
-  const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const [currentTab, setCurrentTab] = useState<Tab>(tabs[0]);
 
   return (
     <Suspense>

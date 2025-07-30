@@ -1,10 +1,14 @@
 import { useMemo, useState } from "react";
-import { Tabs } from "../molecules/Tabs";
+import { UsersIcon } from "@heroicons/react/24/outline";
+import { Tabs, type Tab } from "../molecules/Tabs";
 import { UnitManagers } from "./UnitManagers";
 
 export const UnitSettings = () => {
-  const tabs = useMemo(() => [{ name: "Managers", href: "managers" }], []);
-  const [tab, setTab] = useState(tabs[0]);
+  const tabs = useMemo<Tab[]>(
+    () => [{ name: "Managers", href: "managers", icon: UsersIcon }],
+    []
+  );
+  const [tab, setTab] = useState<Tab>(tabs[0]);
   return (
     <div>
       <Tabs

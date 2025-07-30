@@ -17,12 +17,13 @@ import {
   User,
 } from "../../graphql/graphql";
 import { Button } from "../particles/Button";
-import { Tabs } from "../molecules/Tabs";
+import { Tabs, type Tab } from "../molecules/Tabs";
 import { ShiftAutoFillSolutionStats } from "../molecules/ShiftAutoFillSolutionStats";
 import { ShiftAutoFillSolutionDetailedStats } from "../atoms/ShiftAutoFillSolutionDetailedStats";
 import { ShiftsAutofillSolutionMonthCalendar } from "./ShiftsAutofillSolutionMonthCalendar";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import unassignShiftPositionMutation from "@/graphql-client/mutations/unassignShiftPosition.graphql";
+import { CalendarDaysIcon, ChartBarIcon } from "@heroicons/react/24/outline";
 
 export interface ShiftsAutoFillSolutionProps {
   team: string;
@@ -179,21 +180,23 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
 
   // ----------------- tabs -----------------
 
-  const tabs = useMemo(
+  const tabs = useMemo<Tab[]>(
     () => [
       {
         name: i18n.t("Calendar"),
         href: "calendar",
+        icon: CalendarDaysIcon,
       },
       {
         name: i18n.t("Stats"),
         href: "stats",
+        icon: ChartBarIcon,
       },
     ],
     []
   );
 
-  const [tab, setTab] = useState(tabs[0]);
+  const [tab, setTab] = useState<Tab>(tabs[0]);
 
   return (
     <div className="grid grid-cols-5 gap-5">
