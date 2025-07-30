@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 export const useLocalPreference = <T>(name: string, defaultValue: T) => {
   const getItem = useCallback(() => {
     const storedValue = localStorage.getItem(name);
-    if (storedValue != null) {
+    if (storedValue && storedValue !== "undefined") {
       return JSON.parse(storedValue);
     }
     return defaultValue;
