@@ -5,10 +5,20 @@ import { useState, useEffect } from "react";
 import { getContextualHelp } from "../contextual-help";
 import { HelpSection } from "../contextual-help/types";
 
+import { Link } from "react-router-dom";
+import {
+  CalendarIcon,
+  UserGroupIcon,
+  CogIcon,
+  DocumentTextIcon,
+  ArrowRightIcon,
+} from "@heroicons/react/24/outline";
+
 export const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();
   const [searchParams] = useSearchParams();
   const { i18n } = useLingui();
+
   const [helpContent, setHelpContent] = useState<HelpSection | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -56,9 +66,71 @@ export const ContextualHelpContent = () => {
     i18n.locale,
   ]);
 
+  const getContextualLinks = () => {
+    const links = [];
+
+    if (company && unit && team) {
+      // Team level - show team-related links
+      links.push(
+        {
+          title: "Team Settings",
+          href: `/companies/${company}/units/${unit}/teams/${team}?tab=settings`,
+          icon: CogIcon,
+          description: "Configure team preferences and permissions",
+        },
+        {
+          title: "Team Members",
+          href: `/companies/${company}/units/${unit}/teams/${team}?tab=members`,
+          icon: UserGroupIcon,
+          description: "Manage team members and roles",
+        },
+        {
+          title: "Leave Calendar",
+          href: `/companies/${company}/units/${unit}/teams/${team}?tab=leave-schedule`,
+          icon: CalendarIcon,
+          description: "View team leave schedule",
+        }
+      );
+    } else if (company && unit) {
+      // Unit level - show unit-related links
+      links.push(
+        {
+          title: "Unit Settings",
+          href: `/companies/${company}/units/${unit}?tab=settings`,
+          icon: CogIcon,
+          description: "Configure unit settings",
+        },
+        {
+          title: "Teams",
+          href: `/companies/${company}/units/${unit}?tab=teams`,
+          icon: UserGroupIcon,
+          description: "Manage teams in this unit",
+        }
+      );
+    } else if (company) {
+      // Company level - show company-related links
+      links.push(
+        {
+          title: "Company Settings",
+          href: `/companies/${company}/settings`,
+          icon: CogIcon,
+          description: "Configure company settings",
+        },
+        {
+          title: "Units",
+          href: `/companies/${company}?tab=units`,
+          icon: UserGroupIcon,
+          description: "Manage company units",
+        }
+      );
+    }
+
+    return links;
+  };
+
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div className="animate-pulse">
           <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
           <div className="h-4 bg-gray-200 rounded w-full"></div>
@@ -72,42 +144,66 @@ export const ContextualHelpContent = () => {
     return null;
   }
 
+  const contextualLinks = getContextualLinks();
+
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-semibold">{helpContent.title}</h2>
-        <p className="mt-2 text-sm text-gray-600">{helpContent.description}</p>
+      {/* Header */}
+      <div className="border-b border-gray-200 pb-4">
+        <h2 className="text-lg font-semibold text-gray-900">
+          {helpContent.title}
+        </h2>
+        <div className="mt-2 text-sm text-gray-600">
+          {helpContent.description}
+        </div>
       </div>
 
-      {helpContent.features && (
+      {/* Quick Actions */}
+      {contextualLinks.length > 0 && (
         <div>
-          <h3 className="text-md font-semibold">
-            <Trans>Key Features</Trans>
+          <h3 className="text-sm font-semibold text-gray-900 mb-3">
+            <Trans>Quick Actions</Trans>
           </h3>
-          <ul className="mt-2 space-y-4">
-            {helpContent.features.map((feature, index) => (
-              <li key={index}>
-                <h4 className="font-medium">{feature.title}</h4>
-                <p className="mt-1 text-sm text-gray-600">
-                  {feature.description}
-                </p>
-              </li>
+          <div className="space-y-2">
+            {contextualLinks.map((link, index) => (
+              <Link
+                key={index}
+                to={link.href}
+                className="flex items-center p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+              >
+                <link.icon className="h-5 w-5 text-gray-500 mr-3" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium text-gray-900">
+                    {link.title}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {link.description}
+                  </div>
+                </div>
+                <ArrowRightIcon className="h-4 w-4 text-gray-400" />
+              </Link>
             ))}
-          </ul>
+          </div>
         </div>
       )}
 
-      {helpContent.sections && (
+      {/* Key Features - More concise */}
+      {helpContent.features && (
         <div>
-          <h3 className="text-md font-semibold">
-            <Trans>Additional Information</Trans>
+          <h3 className="text-sm font-semibold text-gray-900 mb-3">
+            <Trans>What You Can Do</Trans>
           </h3>
-          <div className="mt-2 space-y-4">
-            {helpContent.sections.map((section, index) => (
-              <div key={index}>
-                <h4 className="font-medium">{section.title}</h4>
-                <div className="mt-1 text-sm text-gray-600">
-                  {section.content}
+          <div className="space-y-3">
+            {helpContent.features.slice(0, 3).map((feature, index) => (
+              <div key={index} className="flex items-start">
+                <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></div>
+                <div>
+                  <div className="text-sm font-medium text-gray-900">
+                    {feature.title}
+                  </div>
+                  <div className="text-xs text-gray-600 mt-1">
+                    {feature.description}
+                  </div>
                 </div>
               </div>
             ))}
@@ -115,25 +211,103 @@ export const ContextualHelpContent = () => {
         </div>
       )}
 
-      {helpContent.dependencies && (
-        <div className="mt-6">{helpContent.dependencies}</div>
+      {/* Screenshots placeholder */}
+      {helpContent.screenshots && (
+        <div>
+          <h3 className="text-sm font-semibold text-gray-900 mb-3">
+            <Trans>Visual Guide</Trans>
+          </h3>
+          <div className="space-y-3">
+            {helpContent.screenshots.map((screenshot, index) => (
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg p-3"
+              >
+                <div className="aspect-video bg-gray-100 rounded flex items-center justify-center mb-2">
+                  <DocumentTextIcon className="h-8 w-8 text-gray-400" />
+                  <span className="text-xs text-gray-500 ml-2">
+                    Screenshot {index + 1}
+                  </span>
+                </div>
+                <div className="text-xs text-gray-600">
+                  {screenshot.caption}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
 
-      {helpContent.roles && <div className="mt-6">{helpContent.roles}</div>}
+      {/* Additional Information - Collapsible for space efficiency */}
+      {helpContent.sections && helpContent.sections.length > 0 && (
+        <details className="group">
+          <summary className="cursor-pointer list-none">
+            <div className="flex items-center justify-between text-sm font-semibold text-gray-900">
+              <span>
+                <Trans>More Details</Trans>
+              </span>
+              <ArrowRightIcon className="h-4 w-4 text-gray-400 group-open:rotate-90 transition-transform" />
+            </div>
+          </summary>
+          <div className="mt-3 space-y-4 pl-4 border-l-2 border-gray-100">
+            {helpContent.sections.map((section, index) => (
+              <div key={index}>
+                <h4 className="text-sm font-medium text-gray-900">
+                  {section.title}
+                </h4>
+                <div className="mt-1 text-xs text-gray-600">
+                  {section.content}
+                </div>
+              </div>
+            ))}
+          </div>
+        </details>
+      )}
 
-      <div className="mt-8 border-t border-gray-200 pt-6">
-        <h3 className="text-md font-semibold">
+      {/* Dependencies - Only show if relevant */}
+      {helpContent.dependencies && (
+        <details className="group">
+          <summary className="cursor-pointer list-none">
+            <div className="flex items-center justify-between text-sm font-semibold text-gray-900">
+              <span>
+                <Trans>Prerequisites</Trans>
+              </span>
+              <ArrowRightIcon className="h-4 w-4 text-gray-400 group-open:rotate-90 transition-transform" />
+            </div>
+          </summary>
+          <div className="mt-3">{helpContent.dependencies}</div>
+        </details>
+      )}
+
+      {/* Roles - Only show if relevant */}
+      {helpContent.roles && (
+        <details className="group">
+          <summary className="cursor-pointer list-none">
+            <div className="flex items-center justify-between text-sm font-semibold text-gray-900">
+              <span>
+                <Trans>Role Permissions</Trans>
+              </span>
+              <ArrowRightIcon className="h-4 w-4 text-gray-400 group-open:rotate-90 transition-transform" />
+            </div>
+          </summary>
+          <div className="mt-3">{helpContent.roles}</div>
+        </details>
+      )}
+
+      {/* Contact Support */}
+      <div className="border-t border-gray-200 pt-4">
+        <h3 className="text-sm font-semibold text-gray-900 mb-2">
           <Trans>Need More Help?</Trans>
         </h3>
-        <p className="mt-2 text-sm text-gray-600">
-          <Trans>Contact our customer service team at</Trans>{" "}
-          <a
-            href="mailto:support@tt3.app"
-            className="text-blue-600 hover:text-blue-800"
-          >
-            support@tt3.app
-          </a>
+        <p className="text-xs text-gray-600 mb-2">
+          <Trans>Contact our support team</Trans>
         </p>
+        <a
+          href="mailto:support@tt3.app"
+          className="inline-flex items-center text-xs text-blue-600 hover:text-blue-800"
+        >
+          support@tt3.app
+        </a>
       </div>
     </div>
   );

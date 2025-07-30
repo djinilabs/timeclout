@@ -13,6 +13,10 @@ export interface HelpSection {
     title: string;
     content: ReactNode;
   }[];
+  screenshots?: {
+    caption: string;
+    alt?: string;
+  }[];
   dependencies?: ReactNode;
   roles?: ReactNode;
   content?: ReactElement;
