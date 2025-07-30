@@ -45,7 +45,10 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       buttonText: "Sign in",
     },
     providers: [
-      Mailgun({ name: "TT3", from: "info@tt3.app" }),
+      Mailgun({
+        name: "TT3",
+        from: "info@tt3.app",
+      }),
       Google({
         clientId: getDefined(
           process.env.GOOGLE_CLIENT_ID,
@@ -55,6 +58,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
           process.env.GOOGLE_CLIENT_SECRET,
           "GOOGLE_CLIENT_SECRET is required"
         ),
+        allowDangerousEmailAccountLinking: true,
       }),
     ],
     adapter: databaseAdapter,
