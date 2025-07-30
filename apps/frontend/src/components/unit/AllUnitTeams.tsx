@@ -7,6 +7,7 @@ import {
   TrashIcon,
   ClockIcon,
 } from "@heroicons/react/20/solid";
+import { UsersIcon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
 import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
@@ -114,6 +115,10 @@ export const AllUnitTeams = () => {
                 key="team-name-container"
                 className="flex items-start gap-x-3"
               >
+                <UsersIcon
+                  className="mt-0.5 h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
                 <p
                   key="team-name"
                   className="text-sm/6 font-semibold text-gray-900"

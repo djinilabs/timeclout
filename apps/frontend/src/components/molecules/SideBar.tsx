@@ -3,7 +3,7 @@ import {
   BuildingOfficeIcon,
   Cog6ToothIcon,
   DocumentDuplicateIcon,
-  FolderIcon,
+  Squares2X2Icon,
   HomeIcon,
   UsersIcon,
   ChevronLeftIcon,
@@ -87,7 +87,7 @@ const SideBar = ({
       ...allUnits.map((unit) => ({
         name: unit.name,
         href: `/${unit.companyPk}/${unit.pk}`,
-        icon: FolderIcon,
+        icon: Squares2X2Icon,
       })),
       ...allTeams.map((team) => ({
         name: team.name,

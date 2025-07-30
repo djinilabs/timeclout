@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { BuildingOfficeIcon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
 import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
@@ -103,6 +104,10 @@ export const AllUserCompanies = () => {
           >
             <div className="min-w-0">
               <div className="flex items-start gap-x-3">
+                <BuildingOfficeIcon
+                  className="mt-0.5 h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
                 <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
                   <Link
                     to={`/${company.pk}`}

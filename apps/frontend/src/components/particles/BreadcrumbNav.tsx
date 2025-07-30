@@ -1,7 +1,7 @@
 import { HomeIcon } from "@heroicons/react/20/solid";
 import {
   BuildingOfficeIcon,
-  FolderIcon,
+  Squares2X2Icon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
@@ -91,7 +91,10 @@ export const BreadcrumbNav = () => {
                       role="link"
                       aria-describedby={`unit-${unit.pk}-description`}
                     >
-                      <FolderIcon className="mr-2 h-4 w-4" aria-hidden="true" />
+                      <Squares2X2Icon
+                        className="mr-2 h-4 w-4"
+                        aria-hidden="true"
+                      />
                       {unit.name}
                       <span
                         className="sr-only"

@@ -4,7 +4,7 @@ import {
   CalendarDaysIcon,
   Cog6ToothIcon,
   DocumentDuplicateIcon,
-  FolderIcon,
+  Squares2X2Icon,
 } from "@heroicons/react/24/outline";
 import { Tabs, type Tab } from "../components/molecules/Tabs";
 import { Suspense } from "../components/atoms/Suspense";
@@ -32,7 +32,7 @@ export const PageCompany: FC = () => {
 
   const tabs = useMemo(
     () => [
-      { name: i18n.t("Company Units"), href: "units", icon: FolderIcon },
+      { name: i18n.t("Company Units"), href: "units", icon: Squares2X2Icon },
       { name: i18n.t("My Time Off"), href: "time-off", icon: CalendarDaysIcon },
       {
         name: i18n.t("My Leave Requests"),
