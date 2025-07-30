@@ -73,54 +73,81 @@ export const ContextualHelpContent = () => {
       // Team level - show team-related links
       links.push(
         {
-          title: "Team Settings",
+          title:
+            i18n.locale === "pt" ? "Configurações da Equipa" : "Team Settings",
           href: `/companies/${company}/units/${unit}/teams/${team}?tab=settings`,
           icon: CogIcon,
-          description: "Configure team preferences and permissions",
+          description:
+            i18n.locale === "pt"
+              ? "Configure preferências e permissões da equipa"
+              : "Configure team preferences and permissions",
         },
         {
-          title: "Team Members",
+          title: i18n.locale === "pt" ? "Membros da Equipa" : "Team Members",
           href: `/companies/${company}/units/${unit}/teams/${team}?tab=members`,
           icon: UserGroupIcon,
-          description: "Manage team members and roles",
+          description:
+            i18n.locale === "pt"
+              ? "Gerir membros da equipa e funções"
+              : "Manage team members and roles",
         },
         {
-          title: "Leave Calendar",
+          title:
+            i18n.locale === "pt" ? "Calendário de Férias" : "Leave Calendar",
           href: `/companies/${company}/units/${unit}/teams/${team}?tab=leave-schedule`,
           icon: CalendarIcon,
-          description: "View team leave schedule",
+          description:
+            i18n.locale === "pt"
+              ? "Ver calendário de férias da equipa"
+              : "View team leave schedule",
         }
       );
     } else if (company && unit) {
       // Unit level - show unit-related links
       links.push(
         {
-          title: "Unit Settings",
+          title:
+            i18n.locale === "pt" ? "Configurações da Unidade" : "Unit Settings",
           href: `/companies/${company}/units/${unit}?tab=settings`,
           icon: CogIcon,
-          description: "Configure unit settings",
+          description:
+            i18n.locale === "pt"
+              ? "Configure configurações da unidade"
+              : "Configure unit settings",
         },
         {
-          title: "Teams",
+          title: i18n.locale === "pt" ? "Equipas" : "Teams",
           href: `/companies/${company}/units/${unit}?tab=teams`,
           icon: UserGroupIcon,
-          description: "Manage teams in this unit",
+          description:
+            i18n.locale === "pt"
+              ? "Gerir equipas nesta unidade"
+              : "Manage teams in this unit",
         }
       );
     } else if (company) {
       // Company level - show company-related links
       links.push(
         {
-          title: "Company Settings",
+          title:
+            i18n.locale === "pt"
+              ? "Configurações da Empresa"
+              : "Company Settings",
           href: `/companies/${company}/settings`,
           icon: CogIcon,
-          description: "Configure company settings",
+          description:
+            i18n.locale === "pt"
+              ? "Configure configurações da empresa"
+              : "Configure company settings",
         },
         {
-          title: "Units",
+          title: i18n.locale === "pt" ? "Unidades" : "Units",
           href: `/companies/${company}?tab=units`,
           icon: UserGroupIcon,
-          description: "Manage company units",
+          description:
+            i18n.locale === "pt"
+              ? "Gerir unidades da empresa"
+              : "Manage company units",
         }
       );
     }
@@ -226,7 +253,9 @@ export const ContextualHelpContent = () => {
                 <div className="aspect-video bg-gray-100 rounded flex items-center justify-center mb-2">
                   <DocumentTextIcon className="h-8 w-8 text-gray-400" />
                   <span className="text-xs text-gray-500 ml-2">
-                    Screenshot {index + 1}
+                    {i18n.locale === "pt"
+                      ? `Captura de Ecrã ${index + 1}`
+                      : `Screenshot ${index + 1}`}
                   </span>
                 </div>
                 <div className="text-xs text-gray-600">
