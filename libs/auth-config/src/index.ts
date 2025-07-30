@@ -1,4 +1,5 @@
 import Mailgun from "next-auth/providers/mailgun";
+import Google from "next-auth/providers/google";
 import { DynamoDBAdapter } from "@auth/dynamodb-adapter";
 import { tables } from "@architect/functions";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
@@ -11,6 +12,7 @@ const acceptableEmailAddresses = new Set([
   "pedro.teixeira@gmail.com",
   "susana.g.chaves@gmail.com",
   "carinagouveia@hotmail.com",
+  "pedro@decipad.com",
 ]);
 
 export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
@@ -42,29 +44,71 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       brandColor: "#008080",
       buttonText: "Sign in",
     },
-    providers: [Mailgun({ name: "TT3", from: "info@tt3.app" })],
+    providers: [
+      Mailgun({ name: "TT3", from: "info@tt3.app" }),
+      Google({
+        clientId: getDefined(
+          process.env.GOOGLE_CLIENT_ID,
+          "GOOGLE_CLIENT_ID is required"
+        ),
+        clientSecret: getDefined(
+          process.env.GOOGLE_CLIENT_SECRET,
+          "GOOGLE_CLIENT_SECRET is required"
+        ),
+      }),
+    ],
     adapter: databaseAdapter,
     callbacks: {
       async signIn({ user, account }) {
         console.log("signIn", user, account);
-        return acceptableEmailAddresses.has(user.email ?? "");
+
+        // For email authentication, check whitelist
+        if (account?.type === "email") {
+          return acceptableEmailAddresses.has(user.email ?? "");
+        }
+
+        // For Google OAuth, check whitelist
+        if (account?.provider === "google") {
+          return acceptableEmailAddresses.has(user.email ?? "");
+        }
+
+        return false;
       },
-      async jwt({ token, account }) {
+      async jwt({ token, account, user }) {
+        // Handle email authentication
         if (account?.type === "email" && account.providerAccountId) {
           token.email = account.providerAccountId;
           token.id = token.sub;
           const userRef = resourceRef("users", token.id as string);
           const { entity } = await database();
-          const user = await entity.get(userRef);
-          if (user) {
-            token.name = user.name;
+          const userRecord = await entity.get(userRef);
+          if (userRecord) {
+            token.name = userRecord.name;
           }
         }
+
+        // Handle Google OAuth
+        if (account?.provider === "google" && user) {
+          token.email = user.email;
+          token.id = user.id;
+          token.name = user.name;
+          token.picture = user.image;
+        }
+
         return token;
       },
       async session({ session, token }) {
         if (token.sub) {
           session.user.id = token.sub;
+        }
+        if (token.email) {
+          session.user.email = token.email;
+        }
+        if (token.name) {
+          session.user.name = token.name;
+        }
+        if (token.picture) {
+          session.user.image = token.picture;
         }
         return session;
       },
@@ -81,10 +125,11 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
           };
         }
       },
-      signIn: async ({ user, isNewUser }) => {
-        console.log("signIn", user, isNewUser);
+      signIn: async ({ user, isNewUser, account }) => {
+        console.log("signIn", user, isNewUser, account);
         const { entity } = await database();
         const userRef = resourceRef("users", getDefined(user.id));
+
         if (isNewUser) {
           const newUser = {
             pk: userRef,
@@ -92,20 +137,41 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
             email: user.email,
             createdAt: new Date().toISOString(),
             createdBy: userRef,
+            // Add provider-specific data as additional properties
             ...user,
           };
           console.log("creating new user", newUser);
-          await entity.create(newUser as EntityRecord);
+          await entity.create(newUser as unknown as EntityRecord);
         } else {
           console.log("updating user", user);
           const officialUser = await entity.get(userRef);
           console.log("officialUser", officialUser);
-          if (officialUser && officialUser.name !== user.name && user.id) {
-            console.log("updating user name", officialUser);
-            await databaseAdapter.updateUser?.({
-              id: user.id,
-              name: officialUser.name,
-            });
+
+          // Update user data if it has changed
+          if (officialUser && user.id) {
+            const updates: Partial<EntityRecord> = {};
+            let hasUpdates = false;
+
+            if (officialUser.name !== user.name && user.name) {
+              updates.name = user.name;
+              hasUpdates = true;
+            }
+
+            if (officialUser.email !== user.email && user.email) {
+              updates.email = user.email;
+              hasUpdates = true;
+            }
+
+            // Note: image property is not supported in EntityRecord type
+            // User profile images are handled by NextAuth session
+
+            if (hasUpdates) {
+              console.log("updating user data", updates);
+              await entity.update({
+                ...officialUser,
+                ...updates,
+              });
+            }
           }
         }
       },

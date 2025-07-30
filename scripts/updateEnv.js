@@ -55,4 +55,6 @@ function updateEnvFile(env, envPath = "") {
 
 updateEnvFile({
   AUTH_SECRET: generateRandomString(),
+  GOOGLE_CLIENT_ID: "your-google-client-id-here",
+  GOOGLE_CLIENT_SECRET: "your-google-client-secret-here",
 });

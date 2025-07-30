@@ -48,6 +48,8 @@ jobs:
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           AUTH_MAILGUN_KEY: ${{ secrets.AUTH_MAILGUN_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           TT3_CERTIFICATE_ARN: ${{ secrets.TT3_CERTIFICATE_ARN }}
           TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
           VITE_PUBLIC_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
@@ -61,6 +63,8 @@ jobs:
           export PATH=../../node_modules/.bin:$PATH
           pnpm arc env --add --env production AUTH_SECRET "${AUTH_SECRET}"
           pnpm arc env --add --env production AUTH_MAILGUN_KEY "${AUTH_MAILGUN_KEY}"
+          pnpm arc env --add --env production GOOGLE_CLIENT_ID "${GOOGLE_CLIENT_ID}"
+          pnpm arc env --add --env production GOOGLE_CLIENT_SECRET "${GOOGLE_CLIENT_SECRET}"
           pnpm arc env --add --env production SENTRY_DSN "${SENTRY_DSN}"
           pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "${SENTRY_TRACES_SAMPLE_RATE}"
           pnpm arc env --add --env production SENTRY_PROFILES_SAMPLE_RATE "${SENTRY_PROFILES_SAMPLE_RATE}"
