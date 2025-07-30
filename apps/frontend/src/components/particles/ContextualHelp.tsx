@@ -1,25 +1,71 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
+import { useLingui } from "@lingui/react";
+import { useState, useEffect } from "react";
 import { getContextualHelp } from "../contextual-help";
+import { HelpSection } from "../contextual-help/types";
 
 export const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();
   const [searchParams] = useSearchParams();
+  const { i18n } = useLingui();
+  const [helpContent, setHelpContent] = useState<HelpSection | null>(null);
+  const [loading, setLoading] = useState(true);
+
   const tab = searchParams.get("tab") || undefined;
   const settingsTab = searchParams.get("settingsTab") || undefined;
   const dialog = searchParams.get("dialog") || undefined;
   const teamShiftScheduleDialog =
     searchParams.get("team-shift-schedule-dialog") || undefined;
 
-  const helpContent = getContextualHelp(
+  useEffect(() => {
+    const loadHelpContent = async () => {
+      setLoading(true);
+      try {
+        const content = await getContextualHelp(
+          company,
+          unit,
+          team,
+          tab,
+          settingsTab,
+          dialog,
+          teamShiftScheduleDialog,
+          i18n.locale as "en" | "pt"
+        );
+        setHelpContent(content);
+      } catch (error) {
+        console.error("Failed to load help content:", error);
+        setHelpContent({
+          title: "Help",
+          description: "Help content not available.",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadHelpContent();
+  }, [
     company,
     unit,
     team,
     tab,
     settingsTab,
     dialog,
-    teamShiftScheduleDialog
-  );
+    teamShiftScheduleDialog,
+    i18n.locale,
+  ]);
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="animate-pulse">
+          <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-full"></div>
+        </div>
+      </div>
+    );
+  }
 
   if (!helpContent) {
     console.error("No help content found");
