@@ -1,4 +1,9 @@
 import { HomeIcon } from "@heroicons/react/20/solid";
+import {
+  BuildingOfficeIcon,
+  FolderIcon,
+  UsersIcon,
+} from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
@@ -45,12 +50,16 @@ export const BreadcrumbNav = () => {
                 </svg>
                 <Link
                   to={`/${company.pk}`}
-                  className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+                  className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap flex items-center"
                   aria-label={`Go to ${company.name} company`}
                   aria-clickable
                   role="link"
                   aria-describedby={`company-${company.pk}-description`}
                 >
+                  <BuildingOfficeIcon
+                    className="mr-2 h-4 w-4"
+                    aria-hidden="true"
+                  />
                   {company.name}
                   <span
                     className="sr-only"
@@ -76,12 +85,13 @@ export const BreadcrumbNav = () => {
                     </svg>
                     <Link
                       to={`/${company.pk}/${unit.pk}`}
-                      className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+                      className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap flex items-center"
                       aria-label={`Go to ${unit.name} unit`}
                       aria-clickable
                       role="link"
                       aria-describedby={`unit-${unit.pk}-description`}
                     >
+                      <FolderIcon className="mr-2 h-4 w-4" aria-hidden="true" />
                       {unit.name}
                       <span
                         className="sr-only"
@@ -106,12 +116,16 @@ export const BreadcrumbNav = () => {
                       </svg>
                       <Link
                         to={`/${company.pk}/${unit.pk}/${team.pk}`}
-                        className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+                        className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap flex items-center"
                         aria-label={`Go to ${team.name} team`}
                         aria-clickable
                         role="link"
                         aria-describedby={`team-${team.pk}-description`}
                       >
+                        <UsersIcon
+                          className="mr-2 h-4 w-4"
+                          aria-hidden="true"
+                        />
                         {team.name}
                         <span
                           className="sr-only"
