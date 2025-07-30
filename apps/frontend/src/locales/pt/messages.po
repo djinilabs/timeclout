@@ -1428,10 +1428,6 @@ msgstr "Adicionar qualificações"
 msgid "Add your personal information to help us identify you."
 msgstr "Adicione suas informações pessoais para nos ajudar a identificá-lo."
 
-#: apps/frontend/src/components/particles/ContextualHelp.tsx:57
-msgid "Additional Information"
-msgstr "Informação Adicional"
-
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:324
 msgid "Adjust these parameters to control how the automatic assignment balances different priorities"
 msgstr "Ajuste estes parâmetros para controlar como a atribuição automática equilibra diferentes prioridades"
@@ -1633,9 +1629,9 @@ msgstr "Configure as configurações de cota anual de ausência para os funcion�
 msgid "conflict(s) when trying to search for a solution"
 msgstr "Conflito(s) enquanto pesquisando por solução"
 
-#: apps/frontend/src/components/particles/ContextualHelp.tsx:83
-msgid "Contact our customer service team at"
-msgstr "Contactar o nosso serviço de apoio ao cliente em"
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:332
+msgid "Contact our support team"
+msgstr "Contacte a nossa equipa de suporte"
 
 #: apps/frontend/src/components/atoms/ShiftPositionMenu.tsx:62
 msgid "Copy"
@@ -2057,10 +2053,6 @@ msgstr "Julho"
 msgid "June"
 msgstr "Junho"
 
-#: apps/frontend/src/components/particles/ContextualHelp.tsx:39
-msgid "Key Features"
-msgstr "Funcionalidades Principais"
-
 #: apps/frontend/src/components/atoms/LeaveRequest.tsx:50
 msgid "Leave Request"
 msgstr "Pedido de ausência"
@@ -2119,6 +2111,10 @@ msgstr "Março"
 msgid "May"
 msgstr "Maio"
 
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:276
+msgid "More Details"
+msgstr "Mais detalhes"
+
 #: apps/frontend/src/components/team-shifts/CreateShiftPositionTemplate.tsx:237
 #: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:378
 #: apps/frontend/src/components/molecules/LeaveTypeEditor.tsx:101
@@ -2126,7 +2122,7 @@ msgstr "Maio"
 msgid "Name"
 msgstr "Nome"
 
-#: apps/frontend/src/components/particles/ContextualHelp.tsx:80
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:329
 msgid "Need More Help?"
 msgstr "Necessita de ajuda adicional?"
 
@@ -2276,6 +2272,10 @@ msgstr "Escolher uma cor"
 msgid "Position Templates"
 msgstr "Modelos de posição"
 
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:302
+msgid "Prerequisites"
+msgstr "Pré-requisitos"
+
 #: apps/frontend/src/components/atoms/CalendarHeader.tsx:87
 msgid "Previous month"
 msgstr "Mês anterior"
@@ -2310,6 +2310,10 @@ msgstr "Publicar posições de turno de {0} a {1}"
 #: apps/frontend/src/components/atoms/PublishActions.tsx:91
 msgid "Published"
 msgstr "Publicado"
+
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:192
+msgid "Quick Actions"
+msgstr "Ações rápidas"
 
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:200
 #: apps/frontend/src/components/atoms/LeaveRequest.tsx:161
@@ -2421,6 +2425,10 @@ msgstr "Revogar convite"
 #: apps/frontend/src/components/particles/MonthDailyCalendar.tsx:94
 msgid "ri for Friday"
 msgstr "ex"
+
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:317
+msgid "Role Permissions"
+msgstr "Permissões de função"
 
 #: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:99
 msgid "Rules"
@@ -2823,6 +2831,10 @@ msgstr "Ver unidade"
 msgid "Visible to"
 msgstr "Visível para"
 
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:245
+msgid "Visual Guide"
+msgstr "Guia visual"
+
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/particles/MonthDailyCalendar.tsx:80
 msgid "W for Wednesday"
@@ -2840,6 +2852,10 @@ msgstr "ua"
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:153
 msgid "What type of leave are you planning to take?"
 msgstr "Que tipo de ausência está a planear?"
+
+#: apps/frontend/src/components/particles/ContextualHelp.tsx:221
+msgid "What You Can Do"
+msgstr "O que pode fazer"
 
 #: apps/frontend/src/components/company/CompanyWorkSchedule.tsx:122
 msgid "Work Days"

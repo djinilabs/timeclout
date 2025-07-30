@@ -6,74 +6,79 @@ export const createShiftHelp: HelpSection = {
   title: "Create Shift",
   description: (
     <>
-      Create a new shift position for your team. You can either create a new
-      position from scratch or reuse an existing position template. Templates
-      help maintain consistency and save time when creating similar shifts.
-      Define the position details, required qualifications, and schedule to
-      ensure proper coverage for your team's operations.
+      <strong>Add a new shift position</strong> to your team's schedule. Use
+      templates for consistency or create from scratch.
     </>
   ),
   features: [
     {
-      title: "Position Templates",
+      title: "Use Templates",
       description:
-        "Select from existing position templates to quickly create consistent shifts. Templates include predefined names, colors, and qualification requirements.",
+        "Select from existing templates to quickly create consistent shifts",
     },
     {
-      title: "Position Details",
+      title: "Custom Details",
       description:
-        "Define the shift position name, description, and requirements. When using a template, these fields will be pre-filled but can be modified as needed.",
+        "Define position name, requirements, and schedule for this specific shift",
     },
     {
-      title: "Schedule Configuration",
-      description:
-        "Set up the shift schedule, duration, and frequency. This can be customized regardless of whether you're using a template or creating a new position.",
-    },
-    {
-      title: "Qualification Requirements",
-      description:
-        "Specify required qualifications and skills for the position. Templates will include their predefined requirements, which you can adjust for this specific shift.",
+      title: "Qualification Matching",
+      description: "Set required skills and qualifications for the position",
     },
   ],
   sections: [
     {
-      title: "Creating a Shift with Templates",
+      title: "How to Create a Shift",
       content: (
-        <>
-          <p>To create a shift using a position template:</p>
-          <ol>
-            <li>Click "Add Position" in the calendar view</li>
-            <li>Select an existing position template from the dropdown</li>
-            <li>Review and adjust the pre-filled position details if needed</li>
-            <li>Configure the specific schedule for this shift</li>
-            <li>Modify qualification requirements if necessary</li>
-            <li>Save the new shift position</li>
-          </ol>
-          <p className="mt-2">
-            Using templates ensures consistency across similar shifts while
-            allowing flexibility to adjust details for specific scheduling
-            needs.
+        <div className="space-y-2">
+          <p className="text-xs text-gray-600">
+            1. Click <strong>"Add Position"</strong> in the calendar
           </p>
-        </>
+          <p className="text-xs text-gray-600">
+            2. Choose a <strong>template</strong> or create from scratch
+          </p>
+          <p className="text-xs text-gray-600">
+            3. Set the <strong>position name</strong> and description
+          </p>
+          <p className="text-xs text-gray-600">
+            4. Configure <strong>start/end times</strong> and duration
+          </p>
+          <p className="text-xs text-gray-600">
+            5. Add <strong>required qualifications</strong>
+          </p>
+          <p className="text-xs text-gray-600">
+            6. Click <strong>"Save"</strong> to create the shift
+          </p>
+        </div>
       ),
     },
     {
-      title: "Best Practices",
+      title: "Templates vs Custom",
       content: (
-        <>
-          <ul>
-            <li>
-              Use templates for common position types to maintain consistency
-            </li>
-            <li>Review template details before creating the shift</li>
-            <li>
-              Adjust qualification requirements based on specific shift needs
-            </li>
-            <li>Consider creating new templates for unique position types</li>
-            <li>Keep template names and requirements up to date</li>
-          </ul>
-        </>
+        <div className="space-y-2">
+          <div className="flex items-start text-xs">
+            <div className="w-2 h-2 bg-blue-500 rounded-full mt-1 mr-2 flex-shrink-0"></div>
+            <div>
+              <strong>Templates:</strong> Pre-filled with common settings, good
+              for consistency
+            </div>
+          </div>
+          <div className="flex items-start text-xs">
+            <div className="w-2 h-2 bg-green-500 rounded-full mt-1 mr-2 flex-shrink-0"></div>
+            <div>
+              <strong>Custom:</strong> Start from scratch, good for unique
+              positions
+            </div>
+          </div>
+        </div>
       ),
+    },
+  ],
+  screenshots: [
+    {
+      caption: "Create shift dialog with template selection",
+      alt: "Shift creation form",
+      src: "/images/help/create-shift-dialog.png",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="create-shift" />,

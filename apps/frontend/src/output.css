@@ -1328,6 +1328,9 @@
   .h-\[calc\(100vh-64px\)\] {
     height: calc(100vh - 64px);
   }
+  .h-auto {
+    height: auto;
+  }
   .h-full {
     height: 100%;
   }

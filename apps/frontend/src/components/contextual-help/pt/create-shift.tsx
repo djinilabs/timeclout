@@ -6,79 +6,80 @@ export const createShiftHelp: HelpSection = {
   title: "Criar Turno",
   description: (
     <>
-      Crie uma nova posição de turno para a sua equipa. Pode criar uma nova
-      posição do zero ou reutilizar um modelo de posição existente. Os modelos
-      ajudam a manter a consistência e poupam tempo ao criar turnos semelhantes.
-      Defina os detalhes da posição, as qualificações necessárias e o horário
-      para garantir uma cobertura adequada para as operações da sua equipa.
+      <strong>Adicione uma nova posição de turno</strong> ao horário da sua
+      equipa. Use modelos para consistência ou crie do zero.
     </>
   ),
   features: [
     {
-      title: "Modelos de Posição",
+      title: "Usar Modelos",
       description:
-        "Selecione entre modelos de posição existentes para criar rapidamente turnos consistentes. Os modelos incluem nomes, cores e requisitos de qualificação predefinidos.",
+        "Selecione de modelos existentes para criar rapidamente turnos consistentes",
     },
     {
-      title: "Detalhes da Posição",
+      title: "Detalhes Personalizados",
       description:
-        "Defina o nome da posição do turno, descrição e requisitos. Ao utilizar um modelo, estes campos serão pré-preenchidos mas podem ser modificados conforme necessário.",
+        "Defina nome da posição, requisitos e horário para este turno específico",
     },
     {
-      title: "Configuração do Horário",
+      title: "Correspondência de Qualificações",
       description:
-        "Configure o horário do turno, duração e frequência. Isto pode ser personalizado independentemente de estar a utilizar um modelo ou a criar uma nova posição.",
-    },
-    {
-      title: "Requisitos de Qualificação",
-      description:
-        "Especifique as qualificações e competências necessárias para a posição. Os modelos incluirão os seus requisitos predefinidos, que pode ajustar para este turno específico.",
+        "Defina competências e qualificações necessárias para a posição",
     },
   ],
   sections: [
     {
-      title: "Criar um Turno com Modelos",
+      title: "Como Criar um Turno",
       content: (
-        <>
-          <p>Para criar um turno utilizando um modelo de posição:</p>
-          <ol>
-            <li>Clique em "Adicionar Posição" na vista do calendário</li>
-            <li>Selecione um modelo de posição existente no menu pendente</li>
-            <li>
-              Reveja e ajuste os detalhes da posição pré-preenchidos se
-              necessário
-            </li>
-            <li>Configure o horário específico para este turno</li>
-            <li>Modifique os requisitos de qualificação se necessário</li>
-            <li>Guarde a nova posição de turno</li>
-          </ol>
-          <p className="mt-2">
-            A utilização de modelos garante consistência entre turnos
-            semelhantes, permitindo flexibilidade para ajustar detalhes para
-            necessidades específicas de agendamento.
+        <div className="space-y-2">
+          <p className="text-xs text-gray-600">
+            1. Clique em <strong>"Adicionar Posição"</strong> no calendário
           </p>
-        </>
+          <p className="text-xs text-gray-600">
+            2. Escolha um <strong>modelo</strong> ou crie do zero
+          </p>
+          <p className="text-xs text-gray-600">
+            3. Defina o <strong>nome da posição</strong> e descrição
+          </p>
+          <p className="text-xs text-gray-600">
+            4. Configure <strong>horários de início/fim</strong> e duração
+          </p>
+          <p className="text-xs text-gray-600">
+            5. Adicione <strong>qualificações necessárias</strong>
+          </p>
+          <p className="text-xs text-gray-600">
+            6. Clique em <strong>"Guardar"</strong> para criar o turno
+          </p>
+        </div>
       ),
     },
     {
-      title: "Boas Práticas",
+      title: "Modelos vs Personalizado",
       content: (
-        <>
-          <ul>
-            <li>
-              Utilize modelos para tipos de posição comuns para manter a
-              consistência
-            </li>
-            <li>Reveja os detalhes do modelo antes de criar o turno</li>
-            <li>
-              Ajuste os requisitos de qualificação com base nas necessidades
-              específicas do turno
-            </li>
-            <li>Considere criar novos modelos para tipos de posição únicos</li>
-            <li>Mantenha os nomes e requisitos dos modelos atualizados</li>
-          </ul>
-        </>
+        <div className="space-y-2">
+          <div className="flex items-start text-xs">
+            <div className="w-2 h-2 bg-blue-500 rounded-full mt-1 mr-2 flex-shrink-0"></div>
+            <div>
+              <strong>Modelos:</strong> Pré-preenchidos com configurações
+              comuns, bons para consistência
+            </div>
+          </div>
+          <div className="flex items-start text-xs">
+            <div className="w-2 h-2 bg-green-500 rounded-full mt-1 mr-2 flex-shrink-0"></div>
+            <div>
+              <strong>Personalizado:</strong> Comece do zero, bom para posições
+              únicas
+            </div>
+          </div>
+        </div>
       ),
+    },
+  ],
+  screenshots: [
+    {
+      caption: "Diálogo criar turno com seleção de modelo",
+      alt: "Formulário de criação de turno",
+      src: "/images/help/create-shift-dialog.png",
     },
   ],
   dependencies: <FeatureDependenciesHelp context="create-shift" />,

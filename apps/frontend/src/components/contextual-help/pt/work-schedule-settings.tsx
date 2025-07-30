@@ -3,39 +3,78 @@ import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp.p
 import { RoleBasedHelp } from "../components/RoleBasedHelp.pt";
 
 export const workScheduleSettingsHelp: HelpSection = {
-  title: "Definições do Horário de Trabalho",
+  title: "Configurações do Horário de Trabalho",
   description: (
     <>
-      Configure as definições do horário de trabalho da sua equipa. Defina horas
-      de trabalho, fuso horário e outras preferências relacionadas com o horário
-      para garantir uma gestão adequada dos turnos.{" "}
+      Configure os{" "}
       <strong>
-        Utilize modelos de dia de horário para aplicar rapidamente padrões
-        diários comuns ao seu calendário.
-      </strong>
+        horários de trabalho, fuso horário e preferências de horário
+      </strong>{" "}
+      da sua equipa. Estas configurações afetam como os turnos são exibidos e
+      agendados.
     </>
   ),
   features: [
     {
-      title: "Horas de Trabalho",
-      description: "Defina as horas de trabalho padrão e os períodos de pausa",
+      title: "Horários de Trabalho",
+      description:
+        "Defina dias de trabalho padrão, horários de início/fim e períodos de pausa",
+    },
+    {
+      title: "Fuso Horário",
+      description:
+        "Configure o fuso horário da equipa para agendamento preciso de turnos",
+    },
+    {
+      title: "Regras de Horário",
+      description:
+        "Defina períodos de descanso, regras de horas extras e restrições de agendamento",
+    },
+  ],
+  sections: [
+    {
+      title: "Configurar Horários de Trabalho",
+      content: (
+        <div className="space-y-2">
+          <p className="text-xs text-gray-600">
+            • <strong>Dias de Trabalho:</strong> Selecione quais dias da semana
+            são dias de trabalho
+          </p>
+          <p className="text-xs text-gray-600">
+            • <strong>Horários de Início/Fim:</strong> Defina horários padrão de
+            início e fim dos turnos
+          </p>
+          <p className="text-xs text-gray-600">
+            • <strong>Pausas:</strong> Defina períodos obrigatórios de pausa
+            durante os turnos
+          </p>
+          <p className="text-xs text-gray-600">
+            • <strong>Regras de Horas Extras:</strong> Configure quando os
+            turnos contam como horas extras
+          </p>
+        </div>
+      ),
     },
     {
       title: "Configuração do Fuso Horário",
-      description:
-        "Configure o fuso horário da equipa para um agendamento preciso",
-    },
-    {
-      title: "Preferências de Horário",
-      description:
-        "Defina preferências e restrições relacionadas com o horário",
-    },
-    {
-      title: "Modelos de Dia de Horário",
-      description:
-        "Crie e aplique modelos de dia para preencher rapidamente o calendário com padrões de turnos comuns para cada dia.",
+      content: (
+        <div className="space-y-2">
+          <p className="text-xs text-gray-600">
+            • Escolha o <strong>fuso horário principal</strong> da sua equipa
+            para todo o agendamento
+          </p>
+          <p className="text-xs text-gray-600">
+            • Todos os horários dos turnos serão exibidos neste fuso horário
+          </p>
+          <p className="text-xs text-gray-600">
+            • Considere as mudanças de horário de verão ao configurar os
+            horários
+          </p>
+        </div>
+      ),
     },
   ],
+  screenshots: [],
   dependencies: <FeatureDependenciesHelp context="work-schedule-settings" />,
   roles: <RoleBasedHelp context="work-schedule-settings" />,
 };
