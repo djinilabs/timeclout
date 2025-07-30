@@ -57,7 +57,7 @@ export const TeamShiftsScheduleOptionsMenu = memo(
         </MenuButton>
         <MenuItems
           transition
-          className="absolute right-0 z-10 mt-2 w-64 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
+          className="absolute right-0 z-100 mt-2 w-64 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
           aria-label="Schedule options menu"
         >
           <div className="px-4 py-2">
