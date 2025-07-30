@@ -10,6 +10,7 @@ import { ShiftsAutoFillParams } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
 import { useTeamShiftsQuery } from "../../hooks/useTeamShiftsQuery";
 import { useLocalPreference } from "../../hooks/useLocalPreference";
+import { useLocale } from "../../hooks/useLocale";
 import { Suspense } from "../atoms/Suspense";
 import { Button } from "../particles/Button";
 import { Loading } from "../particles/Loading";
@@ -78,6 +79,7 @@ export const ShiftsAutoFillWithoutParams: FC<
   const shiftsAutoFillParams =
     shiftsAutoFillParamsResponse?.data?.shiftsAutoFillParams;
 
+  const { locale } = useLocale();
   const queriedDates = useRef<Array<DayDate | undefined>>([startDate, endDate]);
 
   useEffect(() => {
@@ -131,6 +133,7 @@ export const ShiftsAutoFillWithoutParams: FC<
         },
         respectLeaveSchedule,
         rules,
+        locale,
       },
       (progress) => {
         console.log("Progress", progress);
@@ -158,6 +161,7 @@ export const ShiftsAutoFillWithoutParams: FC<
     startDate,
     endDate,
     minimumRestSlotsAfterShift,
+    locale,
   ]);
 
   const { data: shiftPositions } = useTeamShiftsQuery({
