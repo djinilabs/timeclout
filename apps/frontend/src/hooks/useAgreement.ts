@@ -1,33 +1,54 @@
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useLocation } from "react-router-dom";
 
 export const useAgreement = () => {
   const [hasAgreed, setHasAgreed] = useState<boolean | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { status } = useSession();
+  const location = useLocation();
 
   useEffect(() => {
     // Only check agreement if user is authenticated
-    const checkAgreement = () => {
-      try {
-        const agreementAccepted = localStorage.getItem(
-          "tt3-agreement-accepted"
-        );
-        const hasAgreedBefore = agreementAccepted === "true";
-        setHasAgreed(hasAgreedBefore);
+    if (status === "authenticated") {
+      // Don't show agreement dialog on privacy statement or terms of service pages
+      const isLegalPage =
+        location.pathname === "/privacy-statement" ||
+        location.pathname === "/terms-of-service";
 
-        // If user hasn't agreed, show the dialog
-        if (!hasAgreedBefore) {
+      if (isLegalPage) {
+        setHasAgreed(true);
+        setIsDialogOpen(false);
+        return;
+      }
+
+      const checkAgreement = () => {
+        try {
+          const agreementAccepted = localStorage.getItem(
+            "tt3-agreement-accepted"
+          );
+          const hasAgreedBefore = agreementAccepted === "true";
+          setHasAgreed(hasAgreedBefore);
+
+          // If user hasn't agreed, show the dialog
+          if (!hasAgreedBefore) {
+            setIsDialogOpen(true);
+          }
+        } catch (error) {
+          console.error("Failed to check agreement status:", error);
+          // If we can't access localStorage, assume they haven't agreed
+          setHasAgreed(false);
           setIsDialogOpen(true);
         }
-      } catch (error) {
-        console.error("Failed to check agreement status:", error);
-        // If we can't access localStorage, assume they haven't agreed
-        setHasAgreed(false);
-        setIsDialogOpen(true);
-      }
-    };
+      };
 
-    checkAgreement();
-  }, []);
+      checkAgreement();
+    } else if (status === "unauthenticated") {
+      // If user is not authenticated, don't show agreement dialog
+      setHasAgreed(true);
+      setIsDialogOpen(false);
+    }
+  }, [status, location.pathname]);
 
   const handleAgree = () => {
     setHasAgreed(true);
