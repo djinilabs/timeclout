@@ -20,6 +20,7 @@ import { DragAndDropProvider } from "./providers/DragAndDropProvider";
 import { Loading } from "./components/particles/Loading";
 import { locales } from "./i18n";
 import { LocaleProvider } from "./providers/LocaleProvider";
+import { AgreementWrapper } from "./components/molecules/AgreementWrapper";
 
 const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
 
@@ -126,9 +127,11 @@ const AppComponent: FC = () => {
                       <FetchActivityProvider monitorFetch={monitorFetch}>
                         <DragAndDropProvider>
                           <RequiresSession>
-                            <Suspense>
-                              <AppRoutes />
-                            </Suspense>
+                            <AgreementWrapper>
+                              <Suspense>
+                                <AppRoutes />
+                              </Suspense>
+                            </AgreementWrapper>
                           </RequiresSession>
                         </DragAndDropProvider>
                       </FetchActivityProvider>
