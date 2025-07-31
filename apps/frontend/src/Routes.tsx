@@ -29,6 +29,8 @@ const LazyNewTeamMemberLeaveRequest = lazy(
   () => import("./routes/NewTeamMemberLeaveRequest")
 );
 const LazyCreateLeaveType = lazy(() => import("./routes/CreateLeaveType"));
+const LazyTermsOfService = lazy(() => import("./routes/TermsOfService"));
+const LazyPrivacyStatement = lazy(() => import("./routes/PrivacyStatement"));
 
 export const AppRoutes: FC = () => {
   return (
@@ -117,6 +119,8 @@ export const AppRoutes: FC = () => {
             path="/companies/:company/units/:unit/teams/:team/users/:member"
             element={<LazyEditTeamMember />}
           />
+          <Route path="/terms-of-service" element={<LazyTermsOfService />} />
+          <Route path="/privacy-statement" element={<LazyPrivacyStatement />} />
           <Route path="*" element={<LazyPageNotFound />} />
         </Route>
       </Routes>

@@ -234,6 +234,24 @@ const SideBar = ({
               &copy; {new Date().getFullYear()} Team Time Table
               <br />v{version}
             </p>
+            {expanded && (
+              <div className="mt-4 space-y-2">
+                <Link
+                  to="/terms-of-service"
+                  className="block text-teal-200 hover:text-white transition-colors"
+                  onClick={onSelect}
+                >
+                  Terms of Service
+                </Link>
+                <Link
+                  to="/privacy-statement"
+                  className="block text-teal-200 hover:text-white transition-colors"
+                  onClick={onSelect}
+                >
+                  Privacy Statement
+                </Link>
+              </div>
+            )}
           </li>
         </ul>
       </nav>
