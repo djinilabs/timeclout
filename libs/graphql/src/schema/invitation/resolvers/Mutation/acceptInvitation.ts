@@ -9,7 +9,9 @@ import type {
 import { requireSession } from "../../../../session/requireSession";
 import { getDefined } from "@/utils";
 
-export const acceptInvitation: NonNullable<MutationResolvers['acceptInvitation']> = async (_parent, arg, ctx) => {
+export const acceptInvitation: NonNullable<
+  MutationResolvers["acceptInvitation"]
+> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const { invitation, entity } = await database();
   const { items: invitations } = await invitation.query({
@@ -66,7 +68,7 @@ export const acceptInvitation: NonNullable<MutationResolvers['acceptInvitation']
     company.pk,
     userPk,
     PERMISSION_LEVELS.READ,
-    userInvitation.createdBy
+    userInvitation.createdBy ?? userPk
   );
 
   // ensure user has permissions to the unit
@@ -74,7 +76,7 @@ export const acceptInvitation: NonNullable<MutationResolvers['acceptInvitation']
     unit.pk,
     userPk,
     PERMISSION_LEVELS.READ,
-    userInvitation.createdBy,
+    userInvitation.createdBy ?? userPk,
     company.pk
   );
 
@@ -83,7 +85,7 @@ export const acceptInvitation: NonNullable<MutationResolvers['acceptInvitation']
     team.pk,
     userPk,
     userInvitation.permissionType,
-    userInvitation.createdBy,
+    userInvitation.createdBy ?? userPk,
     unit.pk
   );
 

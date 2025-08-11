@@ -10,7 +10,7 @@ const TableBaseSchema = z.object({
   sk: z.string().optional(),
   version: z.number(),
   createdAt: z.string().datetime(),
-  createdBy: z.string().refine(getResourceRef),
+  createdBy: z.string().refine(getResourceRef).optional(),
   updatedAt: z.string().datetime().optional(),
   updatedBy: z.string().refine(getResourceRef).optional(),
   noMainVersion: z.boolean().optional(),

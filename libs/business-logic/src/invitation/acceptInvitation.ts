@@ -66,7 +66,7 @@ export const acceptInvitation = async ({
     company.pk,
     userPk,
     PERMISSION_LEVELS.READ,
-    userInvitation.createdBy
+    userInvitation.createdBy ?? userPk
   );
 
   // ensure user has permissions to the unit
@@ -74,7 +74,7 @@ export const acceptInvitation = async ({
     unit.pk,
     userPk,
     PERMISSION_LEVELS.READ,
-    userInvitation.createdBy,
+    userInvitation.createdBy ?? userPk,
     company.pk
   );
 
@@ -83,7 +83,7 @@ export const acceptInvitation = async ({
     team.pk,
     userPk,
     userInvitation.permissionType,
-    userInvitation.createdBy,
+    userInvitation.createdBy ?? userPk,
     unit.pk
   );
 
