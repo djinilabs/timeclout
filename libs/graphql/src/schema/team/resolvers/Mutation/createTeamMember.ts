@@ -49,7 +49,7 @@ export const createTeamMember: NonNullable<
       email: input.email,
       name: input.name,
       id: userPk,
-      createdBy: createdByPk,
+      createdBy,
     });
   } else {
     userPk = authUser.id;
