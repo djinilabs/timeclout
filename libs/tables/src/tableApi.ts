@@ -42,7 +42,7 @@ const parsingItem =
 /**
  * Represents an item that may have version-specific data
  */
-interface VersionedItem<T extends TableBaseSchemaType> {
+interface VersionedItem<T> {
   item: T | undefined;
   isUnpublished: boolean;
 }
@@ -56,7 +56,9 @@ interface VersionedItem<T extends TableBaseSchemaType> {
  * @param version - The specific version to retrieve (optional)
  * @returns The versioned item and whether it's unpublished
  */
-const getVersion = <T extends TableBaseSchemaType>(
+const getVersion = <
+  T extends Omit<TableBaseSchemaType, "version"> & { version?: number }
+>(
   item: T | undefined,
   version?: string | null
 ): VersionedItem<T> => {

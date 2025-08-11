@@ -106,6 +106,8 @@ export const tableSchemas = {
     emailVerified: z.string().datetime().optional(),
     image: z.string().optional(),
     id: z.string(),
+    version: z.number().default(1),
+    createdAt: z.string().datetime().default(new Date().toISOString()),
   }),
 } as const;
 
