@@ -16,14 +16,16 @@ export async function createHash(message: string) {
     .toString();
 }
 
-export const createInvitation: NonNullable<MutationResolvers['createInvitation']> = async (_parent, arg, ctx) => {
+export const createInvitation: NonNullable<
+  MutationResolvers["createInvitation"]
+> = async (_parent, arg, ctx) => {
   const actingUserPk = await ensureAuthorized(
     ctx,
     getResourceRef(arg.toEntityPk),
     PERMISSION_LEVELS.WRITE
   );
   return createInvitationLogic({
-    toEntityPk: arg.toEntityPk,
+    toEntityPk: getResourceRef(arg.toEntityPk),
     invitedUserEmail: arg.invitedUserEmail,
     permissionType: arg.permissionType,
     actingUserPk: actingUserPk,

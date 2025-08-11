@@ -1,10 +1,11 @@
-import { notFound } from "@hapi/boom";
+import { conflict, notFound } from "@hapi/boom";
 import { nanoid } from "nanoid";
 import { database, permissionLevelToName } from "@/tables";
 import { authConfig } from "@/auth-config";
-import { getDefined } from "@/utils";
+import { getDefined, resourceRef, ResourceRef } from "@/utils";
 import { sendEmail } from "@/send-email";
 import { i18n } from "@/locales";
+import { getUserAuthorizationLevelForResource } from "../auth/getUserAuthorizationLevelForResource";
 
 export async function createHash(message: string) {
   const data = new TextEncoder().encode(message);
@@ -16,7 +17,7 @@ export async function createHash(message: string) {
 }
 
 export interface CreateInvitationArgs {
-  toEntityPk: string;
+  toEntityPk: ResourceRef;
   invitedUserEmail: string;
   permissionType: number;
   actingUserPk: string;
@@ -30,11 +31,32 @@ export const createInvitation = async ({
   actingUserPk,
   origin,
 }: CreateInvitationArgs) => {
-  const { entity, invitation } = await database();
+  const { entity, invitation, "next-auth": nextAuth } = await database();
   const invitedTo = await entity.get(toEntityPk);
   if (!invitedTo) {
     throw notFound(i18n._("Invited to entity not found"));
   }
+
+  const user = (
+    await nextAuth.query({
+      KeyConditionExpression: "pk = :pk and sk = :sk",
+      ExpressionAttributeValues: {
+        ":pk": `USER#${invitedUserEmail}`,
+        ":sk": `USER#${invitedUserEmail}`,
+      },
+    })
+  ).items[0];
+  if (user) {
+    // verify uf the user is already a member of the entity
+    const isMember = await getUserAuthorizationLevelForResource(
+      toEntityPk,
+      resourceRef("users", user.id)
+    );
+    if (isMember) {
+      throw conflict("User already is a member");
+    }
+  }
+
   const secret = nanoid();
   const createdInvitation = await invitation.create({
     pk: invitedTo.pk,
