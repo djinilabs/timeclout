@@ -1,14 +1,18 @@
 import { nanoid } from "nanoid";
-import { notFound } from "@hapi/boom";
+import { conflict, notFound } from "@hapi/boom";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { getDefined, resourceRef } from "@/utils";
-import { authConfig } from "@/auth-config";
-import { ensureAuthorization } from "@/business-logic";
+import {
+  ensureAuthorization,
+  getUserAuthorizationLevelForResource,
+} from "@/business-logic";
 import type { MutationResolvers, User } from "./../../../../types.generated";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { requireSession } from "../../../../session/requireSession";
 
-export const createTeamMember: NonNullable<MutationResolvers['createTeamMember']> = async (_parent, { input }, ctx) => {
+export const createTeamMember: NonNullable<
+  MutationResolvers["createTeamMember"]
+> = async (_parent, { input }, ctx) => {
   const teamRef = resourceRef("teams", input.teamPk);
   // ensure user has write access to team
   await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
@@ -26,24 +30,52 @@ export const createTeamMember: NonNullable<MutationResolvers['createTeamMember']
     throw notFound("Team not found");
   }
 
-  const auth = await authConfig();
-  const userPk = nanoid();
-  await getDefined(auth.adapter?.createUser)({
-    id: userPk,
-    email: input.email,
-    name: input.name,
-    emailVerified: null,
-  });
+  const tables = await database();
+  let userPk;
+  const authUser = (
+    await tables["next-auth"].query({
+      KeyConditionExpression: "pk = :pk and sk = :sk",
+      ExpressionAttributeValues: {
+        ":pk": `USER#${input.email}`,
+        ":sk": `USER#${input.email}`,
+      },
+    })
+  ).items[0];
+  if (!authUser) {
+    userPk = nanoid();
+    await tables["next-auth"].create({
+      pk: `USER#${input.email}`,
+      sk: `USER#${input.email}`,
+      email: input.email,
+      name: input.name,
+      id: userPk,
+    });
+  } else {
+    userPk = authUser.id;
+  }
 
   const userRef = resourceRef("users", userPk);
 
-  const newUser = {
-    pk: userRef,
-    name: input.name,
-    email: input.email,
-    createdBy,
-  };
-  (await entity.create(newUser)) as unknown as Promise<User>;
+  const userHasAccessToTeam = await getUserAuthorizationLevelForResource(
+    resourceRef("teams", team.pk),
+    userRef
+  );
+  if (userHasAccessToTeam) {
+    throw conflict("User already is a member of the team");
+  }
+
+  let systemUser = await tables.entity.get(userRef);
+  if (!systemUser) {
+    systemUser = {
+      pk: userRef,
+      name: input.name,
+      email: input.email,
+      createdBy,
+      version: 0,
+      createdAt: new Date().toISOString(),
+    };
+    await entity.create(systemUser);
+  }
 
   const unit = await entity.get(
     getDefined(team.parentPk, "Team parent PK is required")
@@ -87,5 +119,5 @@ export const createTeamMember: NonNullable<MutationResolvers['createTeamMember']
     unit.pk
   );
 
-  return newUser as unknown as User;
+  return systemUser as unknown as User;
 };

@@ -98,6 +98,15 @@ export const tableSchemas = {
     schedules: z.array(shiftPositionScheduleSchema),
     assignedTo: z.string().refine(getResourceRef).optional(),
   }),
+  "next-auth": z.object({
+    pk: z.string(),
+    sk: z.string(),
+    email: z.string().email(),
+    name: z.string().optional(),
+    emailVerified: z.string().datetime().optional(),
+    image: z.string().optional(),
+    id: z.string(),
+  }),
 } as const;
 
 export type EntityRecord = z.infer<typeof tableSchemas.entity>;
@@ -136,7 +145,8 @@ export type TableName =
   | "entity_settings"
   | "leave_request"
   | "leave"
-  | "shift_positions";
+  | "shift_positions"
+  | "next-auth";
 
 export type Query = {
   IndexName?: string;
@@ -214,4 +224,5 @@ export type DatabaseSchema = {
   leave_request: TableAPI<"leave_request">;
   leave: TableAPI<"leave">;
   shift_positions: TableAPI<"shift_positions">;
+  "next-auth": TableAPI<"next-auth">;
 };
