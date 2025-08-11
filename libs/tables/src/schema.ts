@@ -98,7 +98,7 @@ export const tableSchemas = {
     schedules: z.array(shiftPositionScheduleSchema),
     assignedTo: z.string().refine(getResourceRef).optional(),
   }),
-  "next-auth": z.object({
+  "next-auth": TableBaseSchema.extend({
     pk: z.string(),
     sk: z.string(),
     email: z.string().email(),
