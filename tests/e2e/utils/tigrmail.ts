@@ -1,14 +1,5 @@
 import { Tigrmail } from "tigrmail";
 
-interface TigrMailMessage {
-  id: string;
-  from: string;
-  to: string;
-  subject: string;
-  text: string;
-  html: string;
-  created_at: string;
-}
 export class TigrMailClient {
   private client: Tigrmail;
 
@@ -35,46 +26,27 @@ export class TigrMailClient {
   /**
    * Poll for the next message in the current inbox
    */
-  async pollNextMessage(emailAddress: string): Promise<TigrMailMessage | null> {
+  async pollNextMessage(emailAddress: string) {
     try {
       const message = await this.client.pollNextMessage({
         inbox: emailAddress,
       });
 
       if (!message) {
-        return null;
+        throw new Error("No message found");
       }
 
-      // Type assertion for the message response
-      const messageData = message as {
-        id?: string;
-        from?: { email?: string; domain?: string };
-        subject?: string;
-        text?: string;
-        html?: string;
-        created_at?: string;
-      };
-
-      return {
-        id: messageData?.id || String(Date.now()),
-        from:
-          messageData?.from?.email || messageData?.from?.domain || "unknown",
-        to: emailAddress,
-        subject: messageData?.subject || "",
-        text: messageData?.text || "",
-        html: messageData?.html || "",
-        created_at: messageData?.created_at || new Date().toISOString(),
-      };
+      return message;
     } catch (error) {
       console.warn(`Error polling for message: ${error}`);
-      return null;
+      throw error;
     }
   }
 }
 
-// Create a singleton instance using token from environment variable
-// You can set TIGRMAIL_TOKEN in your environment or .env file
-const token =
-  process.env.TIGRMAIL_TOKEN ||
-  "x0lrzzaiiovjs04vtbpbhzpwjboysq4ks7c14oisnfv4h15coq8upd6itrqgblf6";
+const token = process.env.TIGRMAIL_TOKEN;
+if (!token) {
+  throw new Error("TIGRMAIL_TOKEN is not set");
+}
+
 export const tigrMail = new TigrMailClient(token);
