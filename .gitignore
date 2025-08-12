@@ -33,3 +33,9 @@ scripts/deploy.sh
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# Playwright test artifacts
+test-results/
+playwright-report/
+playwright/.cache/
+screenshots/

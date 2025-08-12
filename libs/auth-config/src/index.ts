@@ -19,6 +19,15 @@ const acceptableEmailAddresses = new Set([
 async function isUserAllowedToSignIn(email: string): Promise<boolean> {
   if (!email) return false;
 
+  // Allow any TigrMail email addresses (check for common TigrMail domains)
+  // TigrMail typically uses domains like tigrmail.com, tigrmail.net, etc.
+  // and subdomains like den.tigrmail.com, etc.
+  const emailDomain = email.split("@")[1];
+  if (emailDomain && emailDomain.includes("tigrmail")) {
+    console.log("TigrMail email detected, allowing sign in:", email);
+    return true;
+  }
+
   if (acceptableEmailAddresses.has(email)) {
     console.log("User in whitelist, allowing sign in:", email);
     return true;
