@@ -1,7 +1,20 @@
 import { test, expect } from "@playwright/test";
+import {
+  UserManagement,
+  createUserManagement,
+  TestUser,
+} from "../utils/user-management";
+import { TestHelpers, createTestHelpers } from "../utils/test-helpers";
 
 // Export the test object and expect
 export { test, expect };
+
+// Export user management types and utilities
+export { UserManagement, createUserManagement };
+export type { TestUser };
+
+// Export test helpers
+export { TestHelpers, createTestHelpers };
 
 // Helper functions for common test operations
 export async function setupTestEnvironment(): Promise<void> {
@@ -13,3 +26,20 @@ export async function teardownTestEnvironment(): Promise<void> {
   console.log("Tearing down test environment...");
   // No specific cleanup needed for magic link testing
 }
+
+// Enhanced test fixture that includes user management and test helpers
+export const testWithUserManagement = test.extend<{
+  userManagement: UserManagement;
+  testHelpers: TestHelpers;
+}>({
+  userManagement: async ({ page }, use) => {
+    const userManagement = createUserManagement(page);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    await use(userManagement);
+  },
+  testHelpers: async ({ userManagement }, use) => {
+    const testHelpers = createTestHelpers(userManagement);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    await use(testHelpers);
+  },
+});
