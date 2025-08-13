@@ -54,18 +54,12 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm test:e2e:install
 
-      - name: Build frontend
-        run: pnpm build:frontend
-
       - name: Setup environment variables
         run: |
           # Create .env file for e2e tests
           mkdir -p tests/e2e
           cat > tests/e2e/.env << EOF
           MAILSLURP_API_KEY=${{ secrets.MAILSLURP_API_KEY }}
-          AUTH_MAILGUN_KEY=${{ secrets.AUTH_MAILGUN_KEY }}
-          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
           BASE_URL=http://localhost:3000
           TEST_TIMEOUT=300000
           ACTION_TIMEOUT=120000
@@ -88,7 +82,7 @@ jobs:
       - name: Run E2E tests
         run: pnpm test:e2e
         env:
-          NODE_ENV: "production"
+          NODE_ENV: "test"
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           AUTH_MAILGUN_KEY: ${{ secrets.AUTH_MAILGUN_KEY }}
