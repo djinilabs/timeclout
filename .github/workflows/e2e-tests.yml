@@ -71,6 +71,27 @@ jobs:
           TRACE=on-first-retry
           EOF
 
+      - name: Setup backend environment variables
+        run: |
+          # Create .env file for backend
+          mkdir -p apps/backend
+          cat > apps/backend/.env << EOF
+          MAILSLURP_API_KEY=${{ secrets.MAILSLURP_API_KEY }}
+          BASE_URL=http://localhost:3000
+          TEST_TIMEOUT=300000
+          ACTION_TIMEOUT=120000
+          CI=true
+          BROWSER=chromium
+          HEADLESS=true
+          SCREENSHOT=only-on-failure
+          VIDEO=retain-on-failure
+          TRACE=on-first-retry
+          AUTH_SECRET=${{ secrets.AUTH_SECRET }}
+          AUTH_MAILGUN_KEY=${{ secrets.AUTH_MAILGUN_KEY }}
+          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+          EOF
+
       - name: Verify test environment
         run: |
           echo "Verifying test environment..."
@@ -84,10 +105,6 @@ jobs:
         env:
           NODE_ENV: "test"
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
-          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          AUTH_MAILGUN_KEY: ${{ secrets.AUTH_MAILGUN_KEY }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
       - name: Ensure test artifacts are captured
         if: always()
