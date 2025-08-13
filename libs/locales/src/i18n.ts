@@ -35,7 +35,6 @@ export async function initI18n(locale: string = "en"): Promise<void> {
     if (messages[locale] && Object.keys(messages[locale]).length > 0) {
       i18n.load(locale, messages[locale]);
       i18n.activate(locale);
-      console.log("i18n: activated", locale);
     } else {
       // Fallback to English if locale not available
       if (Object.keys(messages.en).length === 0) {

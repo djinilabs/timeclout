@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { Link } from "react-router-dom";
 
 interface AgreementDialogProps {
@@ -40,17 +40,17 @@ export const AgreementDialog = ({
 
       {/* Full-screen container */}
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto max-w-2xl w-full bg-white rounded-xl shadow-2xl">
+        <DialogPanel className="mx-auto max-w-2xl w-full max-h-[90vh] bg-white rounded-xl shadow-2xl flex flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <Dialog.Title className="text-xl font-semibold text-gray-900">
+          <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
+            <DialogTitle className="text-xl font-semibold text-gray-900">
               Welcome to TT3
-            </Dialog.Title>
+            </DialogTitle>
             <div className="w-6" /> {/* Spacer for centering */}
           </div>
 
-          {/* Content */}
-          <div className="p-6 space-y-6">
+          {/* Content - Scrollable */}
+          <div className="p-6 space-y-6 overflow-y-auto flex-1">
             <div className="prose prose-gray max-w-none">
               <p className="text-gray-600">
                 Welcome to TT3! Before you can use our team scheduling and leave
@@ -103,8 +103,8 @@ export const AgreementDialog = ({
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="flex flex-col sm:flex-row gap-3 p-6 border-t border-gray-200">
+          {/* Footer - Fixed at bottom */}
+          <div className="flex flex-col sm:flex-row gap-3 p-6 border-t border-gray-200 flex-shrink-0">
             <button
               type="button"
               onClick={handleDisagree}
@@ -121,7 +121,7 @@ export const AgreementDialog = ({
               {isLoading ? "Processing..." : "I Agree"}
             </button>
           </div>
-        </Dialog.Panel>
+        </DialogPanel>
       </div>
     </Dialog>
   );

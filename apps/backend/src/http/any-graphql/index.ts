@@ -37,7 +37,6 @@ const yoga = createYoga({
     // Extract locale from accept-language header
     const acceptLanguage = request.headers.get("accept-language");
     const locale = getLocaleFromHeaders(acceptLanguage || undefined);
-    console.log("locale", locale);
 
     // Initialize i18n for this request
     await initI18n(locale);

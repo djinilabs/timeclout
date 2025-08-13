@@ -1,6 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import { e2eConfig } from "./tests/e2e/config/env";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,23 +28,23 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: "http://localhost:3000",
+    baseURL: e2eConfig.app.baseUrl,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "on-first-retry",
+    trace: e2eConfig.recording.trace,
 
     /* Take screenshot on failure */
-    screenshot: "only-on-failure",
+    screenshot: e2eConfig.recording.screenshot,
 
     /* Record video on failure */
-    video: "retain-on-failure",
+    video: e2eConfig.recording.video,
 
     /* Increase timeout for tests that need to wait for emails */
-    actionTimeout: 60000,
+    actionTimeout: e2eConfig.test.actionTimeout,
   },
 
   /* Global test timeout */
-  timeout: 180000, // 3 minutes
+  timeout: e2eConfig.test.timeout, // 3 minutes
 
   /* Configure projects for major browsers */
   projects: [

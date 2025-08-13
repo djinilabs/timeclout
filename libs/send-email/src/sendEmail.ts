@@ -18,14 +18,11 @@ export const sendEmail = async ({
   formData.append("text", text);
   if (html) {
     formData.append("html", html);
+    // Add charset headers for Mailslurp compatibility
+    formData.append("h:Content-Type", "text/html; charset=UTF-8");
+    formData.append("h:Content-Transfer-Encoding", "8bit");
+    formData.append("h:MIME-Version", "1.0");
   }
-
-  console.log("sending email", {
-    to,
-    subject,
-    text,
-    html,
-  });
 
   const response = await fetch(
     `https://api.eu.mailgun.net/v3/${domain}/messages`,
@@ -44,7 +41,7 @@ export const sendEmail = async ({
     throw new Error(`Failed to send email: ${response.statusText}`);
   }
 
-  console.log("email sent", response.json());
+  const result = await response.json();
 
-  return response.json();
+  return result;
 };

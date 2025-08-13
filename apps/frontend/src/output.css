@@ -1336,6 +1336,9 @@
   .max-h-64 {
     max-height: calc(var(--spacing) * 64);
   }
+  .max-h-\[90vh\] {
+    max-height: 90vh;
+  }
   .max-h-\[200px\] {
     max-height: 200px;
   }

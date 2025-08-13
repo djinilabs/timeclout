@@ -1,11 +1,15 @@
-import { Tigrmail } from "tigrmail";
+import { MailSlurp } from "mailslurp-client";
+import { mailslurp as mailslurpConfig } from "../config/env";
 
-export class TigrMailClient {
-  private client: Tigrmail;
+export class MailslurpClient {
+  private client: MailSlurp;
+  private inboxId: string | null = null;
 
-  constructor(token: string) {
-    this.client = new Tigrmail({ token });
-    console.log(`TigrMail initialized with token: ${token.substring(0, 8)}...`);
+  constructor(apiKey: string) {
+    this.client = new MailSlurp({ apiKey });
+    console.log(
+      `Mailslurp initialized with API key: ${apiKey.substring(0, 8)}...`
+    );
   }
 
   /**
@@ -13,12 +17,14 @@ export class TigrMailClient {
    */
   async createEmailAddress(): Promise<string> {
     try {
-      const emailAddress = await this.client.createEmailAddress();
+      const inbox = await this.client.createInbox();
+      this.inboxId = inbox.id;
+      const emailAddress = inbox.emailAddress;
 
       console.log(`Email address created: ${emailAddress}`);
       return emailAddress;
     } catch (error) {
-      console.error("Error creating TigrMail inbox:", error);
+      console.error("Error creating Mailslurp inbox:", error);
       throw error;
     }
   }
@@ -30,21 +36,26 @@ export class TigrMailClient {
     emailAddress: string,
     maxRetries: number = 3
   ): Promise<unknown> {
+    if (!this.inboxId) {
+      throw new Error(
+        "No inbox ID available. Call createEmailAddress() first."
+      );
+    }
+
     console.log(`Polling for messages in inbox: ${emailAddress}`);
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         console.log(`Attempt ${attempt}/${maxRetries} to poll for messages...`);
 
-        const message = await this.client.pollNextMessage({
-          inbox: emailAddress,
-        });
+        const messages = await this.client.getEmails(this.inboxId);
 
-        if (message) {
+        if (messages && messages.length > 0) {
+          const message = messages[0]; // Get the most recent message
           console.log(`✅ Message received on attempt ${attempt}:`, {
-            to: (message as any).to,
-            from: (message as any).from,
-            subject: (message as any).subject,
+            to: message.to,
+            from: message.from,
+            subject: message.subject,
           });
           return message;
         } else {
@@ -74,10 +85,13 @@ export class TigrMailClient {
   /**
    * Wait for a message to arrive with a timeout
    */
-  async waitForMessage(
-    emailAddress: string,
-    timeoutMs: number = 60000
-  ): Promise<unknown> {
+  async waitForMessage(emailAddress: string, timeoutMs: number = 60000) {
+    if (!this.inboxId) {
+      throw new Error(
+        "No inbox ID available. Call createEmailAddress() first."
+      );
+    }
+
     console.log(
       `Waiting for message in ${emailAddress} with ${timeoutMs}ms timeout...`
     );
@@ -87,23 +101,21 @@ export class TigrMailClient {
 
     while (Date.now() - startTime < timeoutMs) {
       try {
-        const message = await this.client.pollNextMessage({
-          inbox: emailAddress,
-        });
+        const messages = await this.client.getEmails(this.inboxId);
 
-        if (message) {
+        if (messages && messages.length > 0) {
+          const message = messages[0]; // Get the most recent message
           console.log(
             `✅ Message received after ${Date.now() - startTime}ms:`,
             {
-              to: (message as any).to,
-              from: (message as any).from,
-              subject: (message as any).subject,
+              to: message.to,
+              from: message.from,
+              subject: message.subject,
             }
           );
-          return message;
+          return this.client.getEmail(message.id);
         }
 
-        console.log(`No message yet, waiting ${pollInterval}ms...`);
         await new Promise((resolve) => setTimeout(resolve, pollInterval));
       } catch (error) {
         console.warn(`Error while polling:`, error.message);
@@ -113,10 +125,23 @@ export class TigrMailClient {
 
     throw new Error(`Timeout waiting for message after ${timeoutMs}ms`);
   }
+
+  /**
+   * Clean up the inbox after testing
+   */
+  async cleanup(): Promise<void> {
+    if (this.inboxId) {
+      try {
+        await this.client.deleteInbox(this.inboxId);
+        console.log(`Cleaned up inbox: ${this.inboxId}`);
+        this.inboxId = null;
+      } catch (error) {
+        console.warn("Error cleaning up inbox:", error.message);
+      }
+    }
+  }
 }
 
-const token =
-  process.env.TIGRMAIL_TOKEN ||
-  "x0lrzzaiiovjs04vtbpbhzpwjboysq4ks7c14oisnfv4h15coq8upd6itrqgblf6";
+const apiKey = mailslurpConfig.apiKey;
 
-export const tigrMail = new TigrMailClient(token);
+export const mailslurp = new MailslurpClient(apiKey);

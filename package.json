@@ -27,6 +27,8 @@
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:install": "playwright install chromium",
+    "test:e2e:env": "npx tsx tests/e2e/test-env-config.ts",
+    "test:mailslurp": "npx tsx tests/e2e/utils/test-mailslurp.ts",
     "lint": "npx eslint",
     "i18n:extract": "pnpm lingui extract --clean",
     "i18n:compile": "pnpm lingui compile --namespace es"
@@ -96,6 +98,7 @@
     "javascript-time-ago": "^2.5.11",
     "lodash.debounce": "^4.0.8",
     "lodash.omit": "^4.5.0",
+    "mailslurp-client": "^16.0.0",
     "nanoid": "^5.0.9",
     "next-auth": "5.0.0-beta.25",
     "posthog-js": "^1.230.2",
@@ -113,7 +116,6 @@
     "react-time-ago": "^7.3.3",
     "rxjs": "^7.8.2",
     "tailwindcss": "^4.0.14",
-    "tigrmail": "^1.0.9",
     "ua-parser-js": "^2.0.3",
     "urql": "^4.2.1",
     "zod": "^3.24.1"
@@ -139,6 +141,7 @@
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react-swc": "^3.7.2",
     "chokidar": "^4.0.3",
+    "dotenv": "^17.2.1",
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",

@@ -1,9 +1,14 @@
 import { FullConfig } from "@playwright/test";
 import { spawn, ChildProcess } from "child_process";
+import { validateEnvironment } from "./config/env";
 
 let backendProcess: ChildProcess | null = null;
 
 async function globalSetup(config: FullConfig) {
+  // Validate environment variables before starting tests
+  console.log("Validating environment configuration...");
+  validateEnvironment();
+
   const { baseURL } = config.projects[0].use;
   console.log("Setting up test environment...");
   console.log(`Base URL: ${baseURL}`);
