@@ -24,6 +24,7 @@ export default defineConfig({
     ["list"], // Use list reporter for stdout output
     ["json", { outputFile: "test-results/results.json" }],
     ["junit", { outputFile: "test-results/results.xml" }],
+    ["html", { outputFolder: "playwright-report" }], // HTML report for better debugging
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -55,12 +56,14 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: "pnpm dev:frontend",
-    url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-  },
+  webServer: process.env.CI
+    ? undefined
+    : {
+        command: "pnpm dev:frontend",
+        url: "http://localhost:3000",
+        reuseExistingServer: true,
+        timeout: 120 * 1000,
+      },
 
   /* Global setup and teardown */
   globalSetup: join(__dirname, "./tests/e2e/global-setup.ts"),
