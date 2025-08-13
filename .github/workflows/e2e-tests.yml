@@ -33,7 +33,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -102,93 +102,3 @@ jobs:
           name: playwright-report-${{ github.run_id }}
           path: playwright-report/
           retention-days: 30
-
-      - name: Comment PR with test results
-        if: github.event_name == 'pull_request' && always()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const path = require('path');
-
-            // Check if test results exist
-            const resultsPath = path.join(process.env.GITHUB_WORKSPACE, 'test-results', 'results.json');
-            let testResults = null;
-
-            try {
-              if (fs.existsSync(resultsPath)) {
-                const resultsContent = fs.readFileSync(resultsPath, 'utf8');
-                testResults = JSON.parse(resultsContent);
-              }
-            } catch (error) {
-              console.log('Could not read test results:', error.message);
-            }
-
-            // Generate summary
-            let summary = '## 🧪 E2E Test Results\n\n';
-
-            if (testResults && testResults.suites) {
-              const totalTests = testResults.suites.reduce((acc, suite) => 
-                acc + suite.specs.reduce((specAcc, spec) => specAcc + spec.tests.length, 0), 0
-              );
-              const passedTests = testResults.suites.reduce((acc, suite) => 
-                acc + suite.specs.reduce((specAcc, spec) => 
-                  specAcc + spec.tests.filter(test => test.results.some(r => r.status === 'passed')).length, 0
-                ), 0
-              );
-              const failedTests = totalTests - passedTests;
-              
-              summary += `- **Total Tests:** ${totalTests}\n`;
-              summary += `- **Passed:** ${passedTests} ✅\n`;
-              summary += `- **Failed:** ${failedTests} ❌\n\n`;
-              
-              if (failedTests > 0) {
-                summary += '### Failed Tests:\n';
-                testResults.suites.forEach(suite => {
-                  suite.specs.forEach(spec => {
-                    spec.tests.forEach(test => {
-                      const failedResult = test.results.find(r => r.status === 'failed');
-                      if (failedResult) {
-                        summary += `- **${spec.title}** - ${test.title}\n`;
-                        if (failedResult.error) {
-                          summary += `  - Error: ${failedResult.error.message}\n`;
-                        }
-                      }
-                    });
-                  });
-                });
-              }
-            } else {
-              summary += 'Test results could not be parsed.\n';
-            }
-
-            summary += '\n---\n';
-            summary += '📊 [View detailed test report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)\n';
-
-            // Find existing comment or create new one
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-
-            const existingComment = comments.find(comment => 
-              comment.user.type === 'Bot' && 
-              comment.body.includes('## 🧪 E2E Test Results')
-            );
-
-            if (existingComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existingComment.id,
-                body: summary
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: summary
-              });
-            }
