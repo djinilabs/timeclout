@@ -37,7 +37,13 @@ export default defineConfig({
 
     /* Record video on failure */
     video: "retain-on-failure",
+
+    /* Increase timeout for tests that need to wait for emails */
+    actionTimeout: 60000,
   },
+
+  /* Global test timeout */
+  timeout: 180000, // 3 minutes
 
   /* Configure projects for major browsers */
   projects: [

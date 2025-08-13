@@ -20,6 +20,13 @@ export const sendEmail = async ({
     formData.append("html", html);
   }
 
+  console.log("sending email", {
+    to,
+    subject,
+    text,
+    html,
+  });
+
   const response = await fetch(
     `https://api.eu.mailgun.net/v3/${domain}/messages`,
     {
@@ -36,6 +43,8 @@ export const sendEmail = async ({
   if (!response.ok) {
     throw new Error(`Failed to send email: ${response.statusText}`);
   }
+
+  console.log("email sent", response.json());
 
   return response.json();
 };

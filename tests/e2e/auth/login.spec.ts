@@ -71,9 +71,10 @@ test.describe("Magic Link Login Workflow", () => {
     // Step 4: Fetch the email from TigrMail
     console.log("Fetching magic link email from TigrMail...");
 
-    const magicLinkEmail = await tigrMail.pollNextMessage(emailAddress);
+    // Use the improved waitForMessage method with a longer timeout
+    const magicLinkEmail = await tigrMail.waitForMessage(emailAddress, 120000); // 2 minutes timeout
     expect(magicLinkEmail).not.toBeNull();
-    expect(magicLinkEmail?.to).toBe(emailAddress);
+    expect((magicLinkEmail as any)?.to).toBe(emailAddress);
     console.log("✅ Magic link email received");
 
     // Step 5: Extract the magic link from the email
@@ -181,10 +182,7 @@ test.describe("Magic Link Login Workflow", () => {
 /**
  * Helper function to extract magic link from email content
  */
-function extractMagicLinkFromEmail(email: {
-  text: string;
-  html: string;
-}): string {
+function extractMagicLinkFromEmail(email: any): string {
   // Try to find a link in the email content
   const linkRegex = /https?:\/\/[^\s<>"']+/g;
 
@@ -198,7 +196,7 @@ function extractMagicLinkFromEmail(email: {
     // Return the first link that looks like a magic link
     // Filter out any obvious non-magic links
     const magicLink = links.find(
-      (link) =>
+      (link: string) =>
         !link.includes("unsubscribe") &&
         !link.includes("preferences") &&
         !link.includes("footer")

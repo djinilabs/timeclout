@@ -80,7 +80,7 @@ export const createInvitation = async ({
     token,
   });
 
-  const provider = "mailgun"; // CHANGE HERE IF PROVIDER CHANGES
+  const provider = "email"; // CHANGE HERE IF PROVIDER CHANGES
   const callbackUrl = origin + "/invites/accept?secret=" + secret;
   const verificationUrl =
     origin +

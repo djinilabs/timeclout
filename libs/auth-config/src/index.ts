@@ -1,4 +1,3 @@
-import Mailgun from "next-auth/providers/mailgun";
 import Google from "next-auth/providers/google";
 import { DynamoDBAdapter } from "@auth/dynamodb-adapter";
 import { tables } from "@architect/functions";
@@ -90,6 +89,153 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     indexSortKey: "sk",
   });
 
+  // Custom email template functions with proper charset handling
+  const createHtmlEmail = ({
+    host,
+    url,
+    theme,
+  }: {
+    host: string;
+    url: string;
+    theme: { brandColor?: string; buttonText?: string };
+  }) => {
+    const brandColor = theme.brandColor || "#008080";
+
+    return `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Sign in to ${host}</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f9f9f9;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h1 style="color: #333; text-align: center; margin-bottom: 30px;">Sign in to ${host}</h1>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="${url}" 
+               style="background-color: ${brandColor}; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-size: 18px; font-weight: bold; display: inline-block;">
+                Sign in
+            </a>
+        </div>
+        
+        <p style="color: #666; text-align: center; font-size: 14px; line-height: 1.5;">
+            If you did not request this email, you can safely ignore it.
+        </p>
+    </div>
+</body>
+</html>`;
+  };
+
+  const createTextEmail = ({ host, url }: { host: string; url: string }) => {
+    return `Sign in to ${host}\n\n${url}\n\nIf you did not request this email you can safely ignore it.`;
+  };
+
+  // Create a completely custom email provider instead of using Mailgun
+  const customEmailProvider = {
+    id: "email",
+    type: "email" as const,
+    name: "Email",
+    from: "info@tt3.app",
+    maxAge: 24 * 60 * 60,
+    async sendVerificationRequest(req: {
+      identifier: string;
+      url: string;
+      theme: { brandColor?: string; buttonText?: string };
+    }) {
+      console.log("sendVerificationRequest", req);
+
+      const { identifier: to, url, theme } = req;
+      const { host } = new URL(url);
+      const domain = "tt3.app"; // Use your domain directly
+
+      const form = new FormData();
+      form.append("from", `TT3 <info@${domain}>`);
+      form.append("to", to);
+      form.append("subject", `Sign in to ${host}`);
+
+      // Use custom email templates with proper charset handling
+      const htmlContent = createHtmlEmail({ host, url, theme });
+      const textContent = createTextEmail({ host, url });
+
+      console.log("Email content:", {
+        htmlContent,
+        textContent,
+        to,
+        host,
+        domain,
+      });
+
+      // For TigrMail, try a very simple HTML first to test
+      const simpleHtmlContent = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in to ${host}</title>
+</head>
+<body>
+    <h1>Sign in to ${host}</h1>
+    <p><a href="${url}">Click here to sign in</a></p>
+</body>
+</html>`;
+
+      form.append("html", simpleHtmlContent);
+      form.append("text", textContent);
+
+      // Add explicit charset headers for TigrMail compatibility
+      form.append("h:Content-Type", "text/html; charset=UTF-8");
+      form.append("h:Content-Transfer-Encoding", "8bit");
+      form.append("h:MIME-Version", "1.0");
+      form.append("h:X-Mailer", "TT3-Auth-System");
+      form.append(
+        "h:Message-ID",
+        `<${Date.now()}.${Math.random().toString(36).substr(2, 9)}@${domain}>`
+      );
+      form.append("h:Accept-Charset", "UTF-8");
+
+      console.log("Form data entries:");
+      for (const [key, value] of form.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+
+      const res = await fetch(
+        `https://api.eu.mailgun.net/v3/${domain}/messages`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Basic ${Buffer.from(
+              `api:${getDefined(
+                process.env.AUTH_MAILGUN_KEY,
+                "AUTH_MAILGUN_KEY is required"
+              )}`
+            ).toString("base64")}`,
+          },
+          body: form,
+        }
+      );
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("Mailgun error:", errorText);
+        console.error("Response status:", res.status);
+        console.error(
+          "Response headers:",
+          Object.fromEntries(res.headers.entries())
+        );
+        throw new Error("Mailgun error: " + errorText);
+      }
+
+      const responseText = await res.text();
+      console.log("Mailgun response:", responseText);
+      console.log(
+        "Response headers:",
+        Object.fromEntries(res.headers.entries())
+      );
+      console.log("sendVerificationRequest response: success");
+    },
+    normalizeIdentifier: (identifier: string) => identifier.toLowerCase(),
+  };
+
   return {
     basePath: "/api/v1/auth",
     session: {
@@ -102,12 +248,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       buttonText: "Sign in",
     },
     providers: [
-      Mailgun({
-        name: "TT3",
-        from: "info@tt3.app",
-        // Ensure email provider can handle existing users
-        normalizeIdentifier: (identifier) => identifier.toLowerCase(),
-      }),
+      customEmailProvider,
       Google({
         clientId: getDefined(
           process.env.GOOGLE_CLIENT_ID,
@@ -135,6 +276,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
         // For email authentication - always allow if email is in database/whitelist
         if (account?.type === "email") {
           console.log("Email authentication allowed for:", user.email);
+          console.log("Email authentication details:", { account, user });
           return true;
         }
 
@@ -251,6 +393,13 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
             }
           }
         }
+      },
+      // Add email verification event for debugging
+      createUser: async ({ user }) => {
+        console.log("createUser event", { user });
+      },
+      linkAccount: async ({ user, account }) => {
+        console.log("linkAccount event", { user, account });
       },
     },
   };
