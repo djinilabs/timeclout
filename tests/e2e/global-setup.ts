@@ -23,6 +23,9 @@ async function globalSetup(config: FullConfig) {
       cwd: process.cwd(),
       stdio: "pipe",
       detached: false,
+      env: {
+        ...process.env,
+      },
     });
 
     // Wait for the backend to be ready
