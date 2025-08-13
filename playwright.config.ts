@@ -55,16 +55,6 @@ export default defineConfig({
     },
   ],
 
-  /* Run your local dev server before starting the tests */
-  webServer: process.env.CI
-    ? undefined
-    : {
-        command: "pnpm dev:frontend",
-        url: "http://localhost:3000",
-        reuseExistingServer: true,
-        timeout: 120 * 1000,
-      },
-
   /* Global setup and teardown */
   globalSetup: join(__dirname, "./tests/e2e/global-setup.ts"),
   globalTeardown: join(__dirname, "./tests/e2e/global-teardown.ts"),

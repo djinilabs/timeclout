@@ -1,5 +1,5 @@
 import { timeout } from "@/utils";
-import { backendProcess } from "./global-setup";
+import { backendProcess, frontendProcess } from "./global-setup";
 import { exec } from "child_process";
 import { promisify } from "util";
 
@@ -55,6 +55,26 @@ async function findAndKillProcessesOnPort(port: number): Promise<void> {
 
 async function globalTeardown() {
   console.log("Cleaning up test environment...");
+
+  // Kill the frontend process
+  if (frontendProcess) {
+    console.log("Stopping frontend server...");
+    try {
+      frontendProcess.kill("SIGTERM");
+      await timeout(2000);
+      frontendProcess.kill("SIGTERM");
+      await timeout(2000);
+
+      // Force kill if still running
+      if (!frontendProcess.killed) {
+        frontendProcess.kill("SIGKILL");
+      }
+
+      console.log("✅ Frontend server stopped");
+    } catch (error) {
+      console.error("Error stopping frontend server:", error);
+    }
+  }
 
   // Kill the backend sandbox process
   if (backendProcess) {

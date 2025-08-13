@@ -57,19 +57,6 @@ jobs:
       - name: Build frontend
         run: pnpm build:frontend
 
-      - name: Create test output directories
-        run: |
-          mkdir -p test-results
-          mkdir -p playwright-report
-          echo "Created test output directories"
-
-      - name: Start frontend preview server
-        run: |
-          cd apps/frontend
-          pnpm preview &
-          echo "Frontend preview server started in background"
-          sleep 5  # Give server time to start
-
       - name: Setup environment variables
         run: |
           # Create .env file for e2e tests
@@ -90,9 +77,16 @@ jobs:
           TRACE=on-first-retry
           EOF
 
+      - name: Verify test environment
+        run: |
+          echo "Verifying test environment..."
+          echo "Current directory: $(pwd)"
+          echo "Tests directory exists: $(test -d tests/e2e && echo "Yes" || echo "No")"
+          echo "Playwright config exists: $(test -f playwright.config.ts && echo "Yes" || echo "No")"
+          echo "Global setup exists: $(test -f tests/e2e/global-setup.ts && echo "Yes" || echo "No")"
+
       - name: Run E2E tests
         run: pnpm test:e2e
-        continue-on-error: true
         env:
           NODE_ENV: "production"
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
@@ -101,7 +95,16 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
-      - name: Check test exit code
+      - name: Ensure test artifacts are captured
+        if: always()
+        run: |
+          echo "Ensuring test artifacts are captured..."
+          # Create directories if they don't exist
+          mkdir -p test-results
+          mkdir -p playwright-report
+          echo "Test output directories ready"
+
+      - name: Check test execution status
         if: always()
         run: |
           echo "Test execution completed"
@@ -178,19 +181,3 @@ jobs:
           name: traces-${{ github.run_id }}
           path: test-results/**/*.zip
           retention-days: 30
-
-      - name: Check if tests failed
-        if: always()
-        run: |
-          if [ -f "test-results/results.json" ]; then
-            FAILED_TESTS=$(cat test-results/results.json | jq -r '.stats.failures // 0')
-            if [ "$FAILED_TESTS" -gt 0 ]; then
-              echo "Tests failed: $FAILED_TESTS failures detected"
-              exit 1
-            else
-              echo "All tests passed successfully"
-            fi
-          else
-            echo "No test results found - assuming tests failed"
-            exit 1
-          fi
