@@ -25,6 +25,7 @@ async function globalSetup(config: FullConfig) {
       detached: false,
       env: {
         ...process.env,
+        NODE_ENV: "test",
       },
     });
 
@@ -84,6 +85,10 @@ async function globalSetup(config: FullConfig) {
       cwd: process.cwd(),
       stdio: "pipe",
       detached: false,
+      env: {
+        ...process.env,
+        NODE_ENV: "test",
+      },
     });
 
     // Wait for the frontend to be ready
