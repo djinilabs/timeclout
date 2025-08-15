@@ -205,9 +205,6 @@ importers:
       lodash.omit:
         specifier: ^4.5.0
         version: 4.5.0
-      mailslurp-client:
-        specifier: ^16.0.0
-        version: 16.0.0
       nanoid:
         specifier: ^5.0.9
         version: 5.1.5
@@ -6101,9 +6098,6 @@ packages:
   magic-string@0.30.8:
     resolution: {integrity: sha512-ISQTe55T2ao7XtlAStud6qwYPZjE4GK1S/BeVPus4jrq6JuOnQ00YKQC581RWhR122W7msZV263KzVeLoqidyQ==}
     engines: {node: '>=12'}
-
-  mailslurp-client@16.0.0:
-    resolution: {integrity: sha512-4g3Zauq5vcHZ2HAanfLpdcXcsZhZj6ToL/hUY10YS1vHK2DGt9EEO43ms5wzLFHCMFOCsx6So1JMIER/n8rIXw==}
 
   make-dir@3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
@@ -14794,12 +14788,6 @@ snapshots:
   magic-string@0.30.8:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
-
-  mailslurp-client@16.0.0:
-    dependencies:
-      cross-fetch: 4.1.0
-    transitivePeerDependencies:
-      - encoding
 
   make-dir@3.1.0:
     dependencies:
