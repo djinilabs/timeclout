@@ -48,7 +48,7 @@ const NoUnits = () => {
       <div className="mt-6">
         <button
           type="button"
-          className="new-unit-buttoninline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+          className="new-unit-button inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
           onClick={() => {
             navigate(`/companies/${companyPk}/units/new`);
           }}

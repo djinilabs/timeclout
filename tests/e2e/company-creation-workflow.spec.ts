@@ -52,15 +52,15 @@ testWithUserManagement.describe("Company Creation Workflow", () => {
       console.log("🏢 Entering company...");
 
       // Look for the company in the companies list and click on it
-      const companyLink = page.locator(
-        `a[href*="/companies/"]:has-text("${companyName}")`
-      );
+      const companyLink = page
+        .locator(`a[aria-label*="View ${companyName} company details"]`)
+        .first();
       await companyLink.waitFor({ timeout: 10000 });
       await companyLink.click();
       console.log("✅ Clicked on company to enter it");
 
       // Wait for the company page to load
-      await page.waitForSelector(".company-header", { timeout: 10000 });
+      await page.waitForSelector(".new-unit-button", { timeout: 10000 });
       console.log("✅ Successfully entered company");
 
       // Step 4: Create a unit
@@ -91,19 +91,29 @@ testWithUserManagement.describe("Company Creation Workflow", () => {
         "✅ Unit created successfully, redirected back to company page"
       );
 
+      // Refresh the page to ensure the latest data is loaded
+      await page.reload();
+      console.log("✅ Page refreshed to load latest data");
+
+      // Wait for the unit to appear in the units list
+      await page.waitForSelector(`a[aria-label*="View ${unitName} unit"]`, {
+        timeout: 10000,
+      });
+      console.log("✅ Unit appears in the units list");
+
       // Step 5: Enter the unit
       console.log("🏗️ Entering unit...");
 
       // Look for the unit in the units list and click on it
-      const unitLink = page.locator(
-        `a[href*="/units/"]:has-text("${unitName}")`
-      );
+      const unitLink = page
+        .locator(`a[aria-label*="View ${unitName} unit"]`)
+        .first();
       await unitLink.waitFor({ timeout: 10000 });
       await unitLink.click();
       console.log("✅ Clicked on unit to enter it");
 
       // Wait for the unit page to load
-      await page.waitForSelector(".unit-header", { timeout: 10000 });
+      await page.waitForSelector(".new-team-button", { timeout: 10000 });
       console.log("✅ Successfully entered unit");
 
       // Step 6: Create a team
@@ -136,15 +146,15 @@ testWithUserManagement.describe("Company Creation Workflow", () => {
       console.log("👥 Entering team...");
 
       // Look for the team in the teams list and click on it
-      const teamLink = page.locator(
-        `a[href*="/teams/"]:has-text("${teamName}")`
-      );
+      const teamLink = page
+        .locator(`a[aria-label*="View ${teamName} team details"]`)
+        .first();
       await teamLink.waitFor({ timeout: 10000 });
       await teamLink.click();
       console.log("✅ Clicked on team to enter it");
 
       // Wait for the team page to load
-      await page.waitForSelector(".team-header", { timeout: 10000 });
+      await page.waitForSelector(".new-team-member-button", { timeout: 10000 });
       console.log("✅ Successfully entered team");
 
       // Final verification - we should be on the team page
