@@ -170,11 +170,7 @@ export class UserManagement {
     const userMenuButton = this.page.locator(
       'button[aria-label="Open user menu"]'
     );
-    if (!(await userMenuButton.isVisible())) {
-      throw new Error(
-        "User menu button not found - user may not be authenticated"
-      );
-    }
+    await expect(userMenuButton).toBeVisible();
 
     console.log("✅ User successfully authenticated - user menu button found");
 
@@ -186,14 +182,7 @@ export class UserManagement {
       `span[aria-hidden="true"]:has-text("${user.professionalName}")`
     );
 
-    if (await userNameSpan.isVisible()) {
-      const nameText = await userNameSpan.textContent();
-      console.log(`✅ Found user name in navigation: ${nameText}`);
-    } else {
-      console.log("⚠️ User menu opened but name not specifically displayed");
-      // Since we filled in the professional name, we should find it somewhere
-      expect(await userNameSpan.isVisible()).toBe(true);
-    }
+    await expect(userNameSpan).toBeVisible();
   }
 
   /**
