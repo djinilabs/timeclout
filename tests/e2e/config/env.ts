@@ -14,9 +14,10 @@ config({ path: envPath });
 
 // Environment variable configuration with defaults
 export const e2eConfig = {
-  // Mailslurp configuration
-  mailslurp: {
-    apiKey: process.env.MAILSLURP_API_KEY || "",
+  // Testmail configuration
+  testmail: {
+    namespace: process.env.TESTMAIL_NAMESPACE,
+    apiKey: process.env.TESTMAIL_API_KEY,
   },
 
   // Application configuration
@@ -47,7 +48,7 @@ export const e2eConfig = {
 
 // Validate required environment variables
 export function validateEnvironment(): void {
-  const requiredVars = ["MAILSLURP_API_KEY"];
+  const requiredVars = ["TESTMAIL_NAMESPACE"];
   const missingVars = requiredVars.filter((varName) => !process.env[varName]);
 
   if (missingVars.length > 0) {
@@ -60,4 +61,4 @@ export function validateEnvironment(): void {
 }
 
 // Export individual configs for convenience
-export const { mailslurp, app, test, browser, recording } = e2eConfig;
+export const { testmail, app, test, browser, recording } = e2eConfig;

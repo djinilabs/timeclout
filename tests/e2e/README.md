@@ -1,48 +1,62 @@
-# E2E Test Environment Configuration
+# End-to-End Testing
 
-This directory contains end-to-end tests for the TT3 application. The tests use environment variables to configure various aspects of the testing environment.
+This directory contains end-to-end tests for the TT3 application using Playwright.
 
-## Environment Setup
+## Setup
 
-### 1. Create Environment File
+### Prerequisites
 
-Copy the example environment file and configure it with your values:
+1. **Node.js**: Ensure you have Node.js installed
+2. **Playwright**: Install Playwright browsers: `pnpm test:e2e:install`
+3. **Environment Variables**: Create a `.env` file in the `tests/e2e` directory
+
+### Environment Variables
+
+Create a `.env` file in the `tests/e2e` directory with the following variables:
 
 ```bash
-cp tests/e2e/env.example tests/e2e/.env
+# Testmail configuration
+TESTMAIL_NAMESPACE=your_testmail_namespace
+
+# Application configuration
+BASE_URL=http://localhost:3000
+
+# Test configuration
+TEST_TIMEOUT=180000
+ACTION_TIMEOUT=60000
+CI=false
+HEADLESS=true
+
+# Browser configuration
+BROWSER=chromium
+
+# Recording configuration
+SCREENSHOT=only-on-failure
+VIDEO=retain-on-failure
+TRACE=on-first-retry
 ```
 
-### 2. Configure Required Variables
+### Testmail Setup
 
-Edit `tests/e2e/.env` and set the following required variables:
+1. **Get a Testmail Namespace**:
 
-#### Required Variables
+   - Go to [testmail.app](https://testmail.app)
+   - Sign up for a free account
+   - Get your namespace from the dashboard
 
-- **`MAILSLURP_API_KEY`**: Your Mailslurp API key for email testing
-  - Get a free API key from [Mailslurp](https://www.mailslurp.com/)
-  - This is required for magic link login tests
+2. **Configure Environment**:
 
-#### Optional Variables
+   - Set `TESTMAIL_NAMESPACE` in your `.env` file
+   - The system will automatically generate unique tags for each test run
 
-- **`BASE_URL`**: Base URL for the application under test (default: `http://localhost:3000`)
-- **`TEST_TIMEOUT`**: Global test timeout in milliseconds (default: `180000` - 3 minutes)
-- **`ACTION_TIMEOUT`**: Action timeout in milliseconds (default: `60000` - 1 minute)
-- **`CI`**: Set to `true` when running in CI/CD pipeline (default: `false`)
-- **`BROWSER`**: Browser to use for tests (default: `chromium`)
-- **`HEADLESS`**: Run tests without opening browser windows (default: `false`)
-- **`SCREENSHOT`**: Screenshot recording mode (default: `only-on-failure`)
-- **`VIDEO`**: Video recording mode (default: `retain-on-failure`)
-- **`TRACE`**: Trace recording mode (default: `on-first-retry`)
+3. **How It Works**:
+   - Test emails are sent to `{namespace}.{tag}@testmail.app`
+   - Each test run gets a unique tag to avoid conflicts
+   - Emails are automatically cleaned up after 24 hours
 
 ## Running Tests
 
-### Install Dependencies
-
-```bash
-pnpm test:e2e:install
-```
-
-### Run Tests
+### Basic Commands
 
 ```bash
 # Run all e2e tests
@@ -51,44 +65,97 @@ pnpm test:e2e
 # Run tests with UI
 pnpm test:e2e:ui
 
-# Run tests in headed mode (shows browser)
+# Run tests in headed mode (visible browser)
 pnpm test:e2e:headed
 
 # Run tests in debug mode
 pnpm test:e2e:debug
+
+# Test testmail integration
+pnpm test:testmail
 ```
 
-## Environment Validation
+### Test Structure
 
-The test suite automatically validates required environment variables before running tests. If any required variables are missing, the tests will fail with a clear error message indicating what needs to be configured.
+- **Fixtures**: Common test utilities and user management
+- **Utils**: Helper functions for common operations
+- **Pages**: Page object models for different application pages
+- **Auth**: Authentication-related test utilities
 
-## Configuration Files
+## User Management
 
-- **`config/env.ts`**: Environment configuration loader and validator
-- **`env.example`**: Example environment file with all available options
-- **`.env`**: Your local environment configuration (not committed to git)
+The test suite includes a comprehensive user management system that handles:
+
+- **User Creation**: Automatic creation of test users with unique emails
+- **Magic Link Authentication**: Complete authentication workflow
+- **Cleanup**: Automatic cleanup of test data
+
+### Example Usage
+
+```typescript
+test("example test", async ({ page, userManagement }) => {
+  // Create and login a new user
+  const user = await userManagement.createAndLoginUser("Test User");
+
+  // User is now authenticated and ready for testing
+  console.log(`Logged in as: ${user.email}`);
+
+  // Test logic here...
+});
+```
+
+## Test Utilities
+
+### Testmail Client
+
+The `TestmailClient` class provides:
+
+- **Email Address Generation**: Creates unique test email addresses
+- **Message Polling**: Waits for and retrieves test emails
+- **Automatic Cleanup**: Handles cleanup of test data
+
+### User Management
+
+The `UserManagement` class provides:
+
+- **User Creation**: Creates test users with unique emails
+- **Authentication Workflow**: Complete magic link login process
+- **Verification**: Ensures users are properly authenticated
+
+## Best Practices
+
+1. **Unique Data**: Always use unique names/timestamps for test data
+2. **Cleanup**: Tests automatically clean up after themselves
+3. **Timeouts**: Use appropriate timeouts for email operations
+4. **Error Handling**: Implement proper error handling for flaky operations
 
 ## Troubleshooting
 
-### Missing Mailslurp API Key
+### Common Issues
 
-If you see an error about missing `MAILSLURP_API_KEY`:
+1. **Email Not Received**:
 
-1. Sign up for a free account at [Mailslurp](https://www.mailslurp.com/)
-2. Get your API key from the dashboard
-3. Add it to your `tests/e2e/.env` file
+   - Check your `TESTMAIL_NAMESPACE` is correct
+   - Verify the email was sent to the correct address
+   - Check testmail.app dashboard for received emails
 
-### Environment Variables Not Loading
+2. **Authentication Failures**:
 
-Make sure your `.env` file is in the correct location: `tests/e2e/.env`
+   - Ensure the application is running and accessible
+   - Check that magic link authentication is properly configured
+   - Verify email templates are working correctly
 
-The configuration automatically loads from this location relative to the test files.
+3. **Test Timeouts**:
+   - Increase timeout values in environment configuration
+   - Check network connectivity to testmail.app
+   - Verify application performance
 
-### Test Timeouts
+### Debug Mode
 
-If tests are timing out, you can increase the timeout values in your `.env` file:
+Run tests in debug mode to see what's happening:
 
 ```bash
-TEST_TIMEOUT=300000  # 5 minutes
-ACTION_TIMEOUT=120000 # 2 minutes
+pnpm test:e2e:debug
 ```
+
+This will open Playwright's debug UI where you can step through tests and inspect the browser state.

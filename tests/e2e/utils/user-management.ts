@@ -1,11 +1,12 @@
 import { Page, expect } from "@playwright/test";
-import { mailslurp } from "./mailslurp";
+import { TestmailClient } from "./testmail";
 import { getDefined } from "@/utils";
 
 export interface TestUser {
   email: string;
   professionalName: string;
   magicLink?: string;
+  testmail: TestmailClient;
 }
 
 export interface LoginOptions {
@@ -26,12 +27,15 @@ export class UserManagement {
   async createTestUser(
     professionalName: string = "Test User"
   ): Promise<TestUser> {
-    const emailAddress = await mailslurp.createEmailAddress();
-    console.log(`Created Mailslurp inbox: ${emailAddress}`);
+    const testmail = new TestmailClient(
+      getDefined(process.env.TESTMAIL_NAMESPACE, "TESTMAIL_NAMESPACE")
+    );
+    console.log(`Created Testmail inbox: ${testmail.emailAddress}`);
 
     return {
-      email: emailAddress,
+      email: testmail.emailAddress,
       professionalName,
+      testmail,
     };
   }
 
@@ -67,15 +71,15 @@ export class UserManagement {
     user: TestUser,
     timeout: number = 120000
   ): Promise<string> {
-    console.log(`Fetching magic link email from Mailslurp for: ${user.email}`);
+    console.log(`Fetching magic link email from Testmail for: ${user.email}`);
 
-    const magicLinkEmail = await mailslurp.waitForMessage(user.email, timeout);
+    const magicLinkEmail = await user.testmail.waitForMessage(timeout);
     if (!magicLinkEmail) {
       throw new Error(`No magic link email received for ${user.email}`);
     }
 
     const magicLink = this.extractMagicLinkFromEmail(
-      getDefined(magicLinkEmail.body)
+      getDefined(magicLinkEmail.text)
     );
     user.magicLink = magicLink;
 
@@ -243,11 +247,11 @@ export class UserManagement {
   }
 
   /**
-   * Cleans up the test user's Mailslurp inbox
+   * Cleans up the test user's Testmail inbox
    */
   async cleanupUser(user: TestUser): Promise<void> {
-    console.log(`Cleaning up Mailslurp inbox for: ${user.email}`);
-    await mailslurp.cleanup();
+    console.log(`Cleaning up Testmail inbox for: ${user.email}`);
+    await user.testmail.cleanup();
   }
 
   /**

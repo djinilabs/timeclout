@@ -18,7 +18,7 @@ testWithUserManagement.describe("Magic Link Login Workflow", () => {
   );
 
   testWithUserManagement.afterEach(async ({ userManagement }) => {
-    // Clean up the test user's Mailslurp inbox after each test
+    // Clean up the test user's Testmail inbox after each test
     if (testUser) {
       await userManagement.cleanupUser(testUser);
     }

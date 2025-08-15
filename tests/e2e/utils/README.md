@@ -8,7 +8,7 @@ The `UserManagement` class provides a comprehensive set of methods to create, au
 
 ## Key Features
 
-- **Automatic User Creation**: Creates unique email addresses using Mailslurp
+- **Automatic User Creation**: Creates unique email addresses using Testmail
 - **Complete Login Workflow**: Handles the entire magic link authentication process
 - **Flexible Options**: Configurable timeouts and professional names
 - **Automatic Cleanup**: Cleans up test user inboxes after tests
@@ -107,7 +107,7 @@ testWithUserManagement("multi-user test", async ({ userManagement }) => {
   - Completes the entire login workflow from start to finish
 
 - `cleanupUser(user: TestUser): Promise<void>`
-  - Cleans up the test user's Mailslurp inbox
+  - Cleans up the test user's Testmail inbox
 
 #### Options
 
@@ -186,7 +186,7 @@ testWithUserManagement.describe("Feature Tests", () => {
 ## Dependencies
 
 - `@playwright/test` - Test framework
-- `mailslurp` - Email testing service
+- `testmail` - Email testing service
 - `@/utils` - Project utilities (getDefined function)
 
 ## Troubleshooting

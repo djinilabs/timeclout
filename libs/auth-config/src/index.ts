@@ -18,12 +18,9 @@ const acceptableEmailAddresses = new Set([
 async function isUserAllowedToSignIn(email: string): Promise<boolean> {
   if (!email) return false;
 
-  // Allow any Mailslurp email addresses (check for common Mailslurp domains)
-  // Mailslurp typically uses domains like mailslurp.com, mailslurp.net, etc.
-  // and subdomains like inbox.mailslurp.com, etc.
   const emailDomain = email.split("@")[1];
-  if (emailDomain && emailDomain.includes("mailslurp")) {
-    console.log("Mailslurp email detected, allowing sign in:", email);
+  if (emailDomain && emailDomain.endsWith("inbox.testmail.app")) {
+    console.log("Testmail email detected, allowing sign in:", email);
     return true;
   }
 
@@ -101,8 +98,6 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       url: string;
       theme: { brandColor?: string; buttonText?: string };
     }) {
-      console.log("sendVerificationRequest", req);
-
       const { identifier: to, url } = req;
       const { host } = new URL(url);
 

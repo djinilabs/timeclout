@@ -8,8 +8,8 @@ console.log("Testing E2E Environment Configuration...\n");
 console.log("Current Configuration:");
 console.log("=====================");
 console.log(
-  `Mailslurp API Key: ${
-    e2eConfig.mailslurp.apiKey ? "✅ Present" : "❌ Missing"
+  `Testmail Namespace: ${
+    e2eConfig.testmail.namespace ? "✅ Present" : "❌ Missing"
   }`
 );
 console.log(`Base URL: ${e2eConfig.app.baseUrl}`);
