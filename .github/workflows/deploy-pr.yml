@@ -45,7 +45,7 @@ jobs:
           AUTH_MAILGUN_KEY: ${{ secrets.AUTH_MAILGUN_KEY }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          TT3_CERTIFICATE_ARN: ${{ secrets.TT3_CERTIFICATE_ARN }}
+          TT3_CERTIFICATE_ARN: "arn:aws:acm:eu-west-2:307946679392:certificate/59f56794-8927-424b-9bf0-043e81aa4d38"
           TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
           TT3_CUSTOM_DOMAIN: "${{ github.event.pull_request.number }}.tt3.app"
           SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
