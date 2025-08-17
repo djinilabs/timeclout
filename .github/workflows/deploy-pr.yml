@@ -1,6 +1,8 @@
 name: Deploy PR
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
   workflow_run:
     workflows: ["Test"]
     types:
@@ -9,12 +11,14 @@ on:
 jobs:
   deploy:
     if: |
-      github.event.workflow_run.conclusion == 'success' && 
-      github.event.workflow_run.pull_requests && 
-      github.event.workflow_run.pull_requests.length > 0
+      (github.event_name == 'pull_request' && github.event.action != 'closed') ||
+      (github.event_name == 'workflow_run' && 
+       github.event.workflow_run.conclusion == 'success' && 
+       github.event.workflow_run.pull_requests && 
+       github.event.workflow_run.pull_requests.length > 0)
     runs-on: ubuntu-latest
     concurrency:
-      group: deploy-pr-${{ github.event.workflow_run.pull_requests[0].number }}
+      group: deploy-pr-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.event.workflow_run.pull_requests[0].number }}
       cancel-in-progress: false
 
     steps:
@@ -45,7 +49,7 @@ jobs:
       - name: Deploy
         env:
           NODE_ENV: "production"
-          BASE_URL: "https://${{ github.event.workflow_run.pull_requests[0].number }}.tt3.app"
+          BASE_URL: "https://${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.event.workflow_run.pull_requests[0].number }}.tt3.app"
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           AUTH_MAILGUN_KEY: ${{ secrets.AUTH_MAILGUN_KEY }}
@@ -53,7 +57,7 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           TT3_CERTIFICATE_ARN: ${{ secrets.TT3_CERTIFICATE_ARN }}
           TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
-          TT3_CUSTOM_DOMAIN: "${{ github.event.workflow_run.pull_requests[0].number }}.tt3.app"
+          TT3_CUSTOM_DOMAIN: "${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.event.workflow_run.pull_requests[0].number }}.tt3.app"
           VITE_PUBLIC_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           VITE_PUBLIC_POSTHOG_KEY: phc_XU057cIRzEJ2mfLNL5HuoWNBu0w2yjzpMKYUlrb8Jsk
           VITE_PUBLIC_POSTHOG_HOST: https://eu.i.posthog.com
@@ -73,4 +77,4 @@ jobs:
           cd ../..
           pnpm build
           cd apps/backend
-          pnpm arc deploy --name "PR${{ github.event.workflow_run.pull_requests[0].number }}" --staging --no-hydrate --verbose
+          pnpm arc deploy --name "PR${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.event.workflow_run.pull_requests[0].number }}" --staging --no-hydrate --verbose
