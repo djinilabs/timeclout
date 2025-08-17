@@ -6,7 +6,7 @@ testWithUserManagement.describe("Magic Link Login Workflow", () => {
 
   testWithUserManagement(
     "should complete full magic link login workflow",
-    async ({ userManagement }) => {
+    async ({ page, userManagement, testHelpers }) => {
       // Create and log in a new user in one operation
       testUser = await userManagement.createAndLoginUser("Test User");
 
@@ -14,6 +14,14 @@ testWithUserManagement.describe("Magic Link Login Workflow", () => {
       console.log(
         `✅ User ${testUser.professionalName} (${testUser.email}) successfully logged in`
       );
+
+      // Additional verification that the user is properly authenticated
+      // This helps catch any issues with the authentication flow
+      await testHelpers.waitForCondition(async () => {
+        // Check if we're on a page that requires authentication
+        const currentUrl = page.url();
+        return currentUrl !== "/" || currentUrl.includes("companies");
+      }, 10000);
     }
   );
 

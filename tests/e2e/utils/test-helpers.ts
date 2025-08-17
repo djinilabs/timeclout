@@ -1,4 +1,5 @@
 import { UserManagement, TestUser } from "./user-management";
+import { Page } from "@playwright/test";
 
 /**
  * Common test scenarios and patterns for user management
@@ -8,6 +9,69 @@ export class TestHelpers {
 
   constructor(userManagement: UserManagement) {
     this.userManagement = userManagement;
+  }
+
+  /**
+   * Waits for a condition to be met with retry logic
+   */
+  async waitForCondition(
+    condition: () => Promise<boolean>,
+    maxWaitTime: number = 30000,
+    checkInterval: number = 1000
+  ): Promise<void> {
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < maxWaitTime) {
+      if (await condition()) {
+        return;
+      }
+      await new Promise((resolve) => setTimeout(resolve, checkInterval));
+    }
+
+    throw new Error(`Condition not met within ${maxWaitTime}ms`);
+  }
+
+  /**
+   * Waits for an element to be visible and stable (not changing)
+   */
+  async waitForElementStable(
+    page: Page,
+    selector: string,
+    timeout: number = 10000
+  ): Promise<void> {
+    await page.waitForSelector(selector, { state: "visible", timeout });
+
+    // Wait a bit more to ensure the element is fully stable
+    await page.waitForTimeout(500);
+  }
+
+  /**
+   * Retries an action with exponential backoff
+   */
+  async retryWithBackoff<T>(
+    action: () => Promise<T>,
+    maxRetries: number = 3,
+    baseDelay: number = 1000
+  ): Promise<T> {
+    let lastError: Error;
+
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        return await action();
+      } catch (error) {
+        lastError = error as Error;
+
+        if (attempt === maxRetries) {
+          throw lastError;
+        }
+
+        const delay = baseDelay * Math.pow(2, attempt);
+        console.log(`Attempt ${attempt + 1} failed, retrying in ${delay}ms...`);
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+    }
+
+    throw lastError!;
   }
 
   /**
@@ -172,18 +236,10 @@ export class TestHelpers {
     const user = await this.userManagement.createAndLoginUser(professionalName);
 
     // Wait for the condition to be met
-    const startTime = Date.now();
-    while (Date.now() - startTime < maxWaitTime) {
-      if (await condition()) {
-        console.log(`✅ Condition met for user ${professionalName}`);
-        return user;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second
-    }
+    await this.waitForCondition(condition, maxWaitTime);
+    console.log(`✅ Condition met for user ${professionalName}`);
 
-    throw new Error(
-      `Condition not met within ${maxWaitTime}ms for user ${professionalName}`
-    );
+    return user;
   }
 
   /**
@@ -198,6 +254,59 @@ export class TestHelpers {
 
     await Promise.all(cleanupPromises);
     console.log(`✅ Cleaned up ${users.length} users`);
+  }
+
+  /**
+   * Waits for navigation to complete and verifies the URL
+   */
+  async waitForNavigationAndVerify(
+    page: Page,
+    expectedUrlPattern: string | RegExp,
+    timeout: number = 10000
+  ): Promise<void> {
+    await page.waitForURL(expectedUrlPattern, { timeout });
+
+    // Additional wait to ensure the page is fully loaded
+    await page.waitForLoadState("networkidle");
+  }
+
+  /**
+   * Fills a form field with retry logic
+   */
+  async fillFormField(
+    page: Page,
+    selector: string,
+    value: string,
+    timeout: number = 10000
+  ): Promise<void> {
+    await this.retryWithBackoff(async () => {
+      const field = page.locator(selector);
+      await field.waitFor({ state: "visible", timeout });
+      await field.fill(value);
+
+      // Verify the value was set correctly
+      const actualValue = await field.inputValue();
+      if (actualValue !== value) {
+        throw new Error(
+          `Field value mismatch: expected "${value}", got "${actualValue}"`
+        );
+      }
+    });
+  }
+
+  /**
+   * Clicks a button with retry logic
+   */
+  async clickButton(
+    page: Page,
+    selector: string,
+    timeout: number = 10000
+  ): Promise<void> {
+    await this.retryWithBackoff(async () => {
+      const button = page.locator(selector);
+      await button.waitFor({ state: "visible", timeout });
+      await button.click();
+    });
   }
 }
 

@@ -38,6 +38,9 @@ export default defineConfig({
 
     /* Increase timeout for tests that need to wait for emails */
     actionTimeout: e2eConfig.test.actionTimeout,
+
+    /* Add navigation timeout */
+    navigationTimeout: 30000,
   },
 
   /* Global test timeout */
@@ -47,11 +50,26 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        // Add browser-specific settings for better reliability
+        launchOptions: {
+          args: [
+            "--disable-background-timer-throttling",
+            "--disable-backgrounding-occluded-windows",
+            "--disable-renderer-backgrounding",
+            "--disable-features=TranslateUI",
+            "--disable-ipc-flooding-protection",
+          ],
+        },
+      },
     },
   ],
 
   /* Global setup and teardown */
   globalSetup: join(__dirname, "./tests/e2e/global-setup.ts"),
   globalTeardown: join(__dirname, "./tests/e2e/global-teardown.ts"),
+
+  /* Add test retry configuration */
+  workers: process.env.CI ? 1 : undefined, // Reduce workers in CI to avoid resource conflicts
 });

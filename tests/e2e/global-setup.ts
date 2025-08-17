@@ -5,6 +5,16 @@ import { validateEnvironment } from "./config/env";
 let backendProcess: ChildProcess | null = null;
 let frontendProcess: ChildProcess | null = null;
 
+async function killProcessesOnPort(port: number): Promise<void> {
+  try {
+    const { execSync } = await import("child_process");
+    execSync(`lsof -ti:${port} | xargs kill -9`);
+    console.log(`Killed processes on port ${port}`);
+  } catch (error) {
+    console.warn(`No processes found on port ${port}:`, error);
+  }
+}
+
 async function globalSetup(config: FullConfig) {
   // Validate environment variables before starting tests
   console.log("Validating environment configuration...");
@@ -13,6 +23,15 @@ async function globalSetup(config: FullConfig) {
   const { baseURL } = config.projects[0].use;
   console.log("Setting up test environment...");
   console.log(`Base URL: ${baseURL}`);
+
+  // Always start fresh services for testing
+  const backendPort = 3333;
+  const frontendPort = 3000;
+
+  // Kill any existing processes on these ports first
+  console.log("Ensuring clean ports for test services...");
+  await killProcessesOnPort(backendPort);
+  await killProcessesOnPort(frontendPort);
 
   // Start the backend sandbox
   console.log("Starting backend sandbox...");
@@ -78,73 +97,75 @@ async function globalSetup(config: FullConfig) {
 
     // Wait a bit more for the backend to fully initialize
     await new Promise((resolve) => setTimeout(resolve, 5000));
-
-    // Start the frontend server
-    console.log("Starting frontend server...");
-    frontendProcess = spawn("pnpm", ["dev:frontend"], {
-      cwd: process.cwd(),
-      stdio: "pipe",
-      detached: false,
-      env: {
-        ...process.env,
-        NODE_ENV: "test",
-      },
-    });
-
-    // Wait for the frontend to be ready
-    console.log("Waiting for frontend to start...");
-    await new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        reject(new Error("Frontend startup timeout"));
-      }, 30000); // 30 second timeout
-
-      if (frontendProcess?.stdout) {
-        frontendProcess.stdout.on("data", (data: Buffer) => {
-          const output = data.toString();
-          console.log(`Frontend: ${output.trim()}`);
-
-          // Check if the frontend is ready (Vite typically shows "Local:" when ready)
-          if (
-            output.includes("Local:") ||
-            output.includes("ready in") ||
-            output.includes("VITE v")
-          ) {
-            clearTimeout(timeout);
-            resolve(true);
-          }
-        });
-      }
-
-      if (frontendProcess?.stderr) {
-        frontendProcess.stderr.on("data", (data: Buffer) => {
-          const output = data.toString();
-          console.log(`Frontend stderr: ${output.trim()}`);
-        });
-      }
-
-      if (frontendProcess) {
-        frontendProcess.on("error", (error: Error) => {
-          clearTimeout(timeout);
-          reject(error);
-        });
-
-        frontendProcess.on("exit", (code: number) => {
-          if (code !== 0) {
-            clearTimeout(timeout);
-            reject(new Error(`Frontend process exited with code ${code}`));
-          }
-        });
-      }
-    });
-
-    console.log("✅ Frontend server started successfully");
-
-    // Wait a bit more for the frontend to fully initialize
-    await new Promise((resolve) => setTimeout(resolve, 5000));
   } catch (error) {
-    console.error("Failed to start services:", error);
+    console.error("Failed to start backend:", error);
     throw error;
   }
+
+  // Start the frontend server
+  console.log("Starting frontend server...");
+  frontendProcess = spawn("pnpm", ["dev:frontend"], {
+    cwd: process.cwd(),
+    stdio: "pipe",
+    detached: false,
+    env: {
+      ...process.env,
+      NODE_ENV: "test",
+    },
+  });
+
+  // Wait for the frontend to be ready
+  console.log("Waiting for frontend to start...");
+  await new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      reject(new Error("Frontend startup timeout"));
+    }, 30000); // 30 second timeout
+
+    if (frontendProcess?.stdout) {
+      frontendProcess.stdout.on("data", (data: Buffer) => {
+        const output = data.toString();
+        console.log(`Frontend: ${output.trim()}`);
+
+        // Check if the frontend is ready (Vite typically shows "Local:" when ready)
+        if (
+          output.includes("Local:") ||
+          output.includes("ready in") ||
+          output.includes("VITE v")
+        ) {
+          clearTimeout(timeout);
+          resolve(true);
+        }
+      });
+    }
+
+    if (frontendProcess?.stderr) {
+      frontendProcess.stderr.on("data", (data: Buffer) => {
+        const output = data.toString();
+        console.log(`Frontend stderr: ${output.trim()}`);
+      });
+    }
+
+    if (frontendProcess) {
+      frontendProcess.on("error", (error: Error) => {
+        clearTimeout(timeout);
+        reject(error);
+      });
+
+      frontendProcess.on("exit", (code: number) => {
+        if (code !== 0) {
+          clearTimeout(timeout);
+          reject(new Error(`Frontend process exited with code ${code}`));
+        }
+      });
+    }
+  });
+
+  console.log("✅ Frontend server started successfully");
+
+  // Wait a bit more for the frontend to fully initialize
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+
+  console.log("✅ Test environment setup completed");
 }
 
 export default globalSetup;

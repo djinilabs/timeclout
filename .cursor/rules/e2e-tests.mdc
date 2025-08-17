@@ -1,0 +1,15 @@
+---
+alwaysApply: true
+---
+
+When producing or changing e2e tests:
+
+- Always use playwright for E2E tests
+- do not use playwright APIs that can expose flakiness: always prefer APIs that will wait for a condition to be met
+- place E2E tests in rhe `tests/e2e` folder
+- do not try to guess locators. Instead read the .tsx files to understand which locators to use
+- always prefer locators that are acessibility-specific
+- after changing a test, run it (using `pnpm test:e2e {test name}`)
+- when tests fail, the e2e tests should log a screenshot. Read that screenshot to understand what was the UI state.
+- when a test fails, fix that test and rerun that test in isolation until fixed.
+- do not perform workarounds. For instance, after creating an entity that entity is not displayed in an entity list, that's a probably bug that needs to be solved (instead of changing the E2E test to reload the page).

@@ -56,9 +56,21 @@ async function findAndKillProcessesOnPort(port: number): Promise<void> {
 async function globalTeardown() {
   console.log("Cleaning up test environment...");
 
-  // Kill the frontend process
+  // Always clean up the ports used by the test services
+  const backendPort = 3333;
+  const frontendPort = 3000;
+
+  // Kill any processes on the backend port
+  console.log("Cleaning up backend port...");
+  await findAndKillProcessesOnPort(backendPort);
+
+  // Kill any processes on the frontend port
+  console.log("Cleaning up frontend port...");
+  await findAndKillProcessesOnPort(frontendPort);
+
+  // Also try to stop the processes that were started by the test runner
   if (frontendProcess) {
-    console.log("Stopping frontend server...");
+    console.log("Stopping frontend server started by test runner...");
     try {
       frontendProcess.kill("SIGTERM");
       await timeout(2000);
@@ -76,9 +88,8 @@ async function globalTeardown() {
     }
   }
 
-  // Kill the backend sandbox process
   if (backendProcess) {
-    console.log("Stopping backend sandbox...");
+    console.log("Stopping backend sandbox started by test runner...");
     try {
       backendProcess.kill("SIGTERM");
       await timeout(2000);
@@ -90,17 +101,13 @@ async function globalTeardown() {
         backendProcess.kill("SIGKILL");
       }
 
-      // kill all processes waiting on 3333
-      await findAndKillProcessesOnPort(3333);
-
       console.log("✅ Backend sandbox stopped");
     } catch (error) {
       console.error("Error stopping backend sandbox:", error);
     }
   }
 
-  // Add any other cleanup logic here
-  // For example, cleaning up test data, stopping services, etc.
+  console.log("✅ Test environment cleanup completed");
 }
 
 export default globalTeardown;

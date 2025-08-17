@@ -61,6 +61,10 @@ const defaultClientOpts = ({
               typeof createUnitResult === "object" &&
               "companyPk" in createUnitResult
             ) {
+              // Fix: Invalidate the company query with the correct cache key
+              // The company query is stored under "Query" with key "company"
+              cache.invalidate("Query", "company");
+              // Also invalidate any specific company cache entries
               cache.invalidate("Company", createUnitResult.companyPk as string);
             }
           },

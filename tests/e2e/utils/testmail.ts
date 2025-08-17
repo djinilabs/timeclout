@@ -46,8 +46,6 @@ export class TestmailClient {
       url.searchParams.set("tag", this.tag);
       url.searchParams.set("livequery", "true");
 
-      console.log(url.toString());
-
       const response = await fetch(url.toString(), {
         signal: AbortSignal.timeout(timeoutMs),
       });

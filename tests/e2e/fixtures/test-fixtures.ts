@@ -5,6 +5,7 @@ import {
   TestUser,
 } from "../utils/user-management";
 import { TestHelpers, createTestHelpers } from "../utils/test-helpers";
+import { PageObjects, createPageObjects } from "../utils/page-objects";
 
 // Export the test object and expect
 export { test, expect };
@@ -15,6 +16,9 @@ export type { TestUser };
 
 // Export test helpers
 export { TestHelpers, createTestHelpers };
+
+// Export page objects
+export { PageObjects, createPageObjects };
 
 // Helper functions for common test operations
 export async function setupTestEnvironment(): Promise<void> {
@@ -27,10 +31,11 @@ export async function teardownTestEnvironment(): Promise<void> {
   // No specific cleanup needed for magic link testing
 }
 
-// Enhanced test fixture that includes user management and test helpers
+// Enhanced test fixture that includes user management, test helpers, and page objects
 export const testWithUserManagement = test.extend<{
   userManagement: UserManagement;
   testHelpers: TestHelpers;
+  pageObjects: PageObjects;
 }>({
   userManagement: async ({ page }, use) => {
     const userManagement = createUserManagement(page);
@@ -41,5 +46,10 @@ export const testWithUserManagement = test.extend<{
     const testHelpers = createTestHelpers(userManagement);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(testHelpers);
+  },
+  pageObjects: async ({ page }, use) => {
+    const pageObjects = createPageObjects(page);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    await use(pageObjects);
   },
 });
