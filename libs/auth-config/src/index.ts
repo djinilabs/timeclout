@@ -1,4 +1,3 @@
-import Mailgun from "next-auth/providers/mailgun";
 import Google from "next-auth/providers/google";
 import { DynamoDBAdapter } from "@auth/dynamodb-adapter";
 import { tables } from "@architect/functions";
@@ -18,6 +17,12 @@ const acceptableEmailAddresses = new Set([
 // Function to check if user is allowed to sign in
 async function isUserAllowedToSignIn(email: string): Promise<boolean> {
   if (!email) return false;
+
+  const emailDomain = email.split("@")[1];
+  if (emailDomain && emailDomain.endsWith("inbox.testmail.app")) {
+    console.log("Testmail email detected, allowing sign in:", email);
+    return true;
+  }
 
   if (acceptableEmailAddresses.has(email)) {
     console.log("User in whitelist, allowing sign in:", email);
@@ -81,6 +86,40 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     indexSortKey: "sk",
   });
 
+  // Create a completely custom email provider instead of using Mailgun
+  const customEmailProvider = {
+    id: "email",
+    type: "email" as const,
+    name: "Email",
+    from: "info@tt3.app",
+    maxAge: 24 * 60 * 60,
+    async sendVerificationRequest(req: {
+      identifier: string;
+      url: string;
+      theme: { brandColor?: string; buttonText?: string };
+    }) {
+      const { identifier: to, url } = req;
+      const { host } = new URL(url);
+
+      // Use the working sendEmail function instead of trying to fix Mailgun
+      try {
+        const { sendEmail } = await import("@/send-email");
+
+        await sendEmail({
+          to,
+          subject: `Sign in to ${host}`,
+          text: `Sign in to ${host}\n\n${url}\n\nIf you did not request this email, you can safely ignore it.`,
+        });
+
+        console.log("Email sent successfully using sendEmail function");
+      } catch (error) {
+        console.error("Failed to send email using sendEmail:", error);
+        throw error;
+      }
+    },
+    normalizeIdentifier: (identifier: string) => identifier.toLowerCase(),
+  };
+
   return {
     basePath: "/api/v1/auth",
     session: {
@@ -93,12 +132,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       buttonText: "Sign in",
     },
     providers: [
-      Mailgun({
-        name: "TT3",
-        from: "info@tt3.app",
-        // Ensure email provider can handle existing users
-        normalizeIdentifier: (identifier) => identifier.toLowerCase(),
-      }),
+      customEmailProvider,
       Google({
         clientId: getDefined(
           process.env.GOOGLE_CLIENT_ID,
@@ -242,6 +276,13 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
             }
           }
         }
+      },
+      // Add email verification event for debugging
+      createUser: async ({ user }) => {
+        console.log("createUser event", { user });
+      },
+      linkAccount: async ({ user, account }) => {
+        console.log("linkAccount event", { user, account });
       },
     },
   };

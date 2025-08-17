@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+src/output.css
 
 # Editor directories and files
 .vscode/*
@@ -33,3 +34,12 @@ scripts/deploy.sh
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# E2E Test Environment
+tests/e2e/.env
+
+# Playwright test artifacts
+test-results/
+playwright-report/
+playwright/.cache/
+screenshots/

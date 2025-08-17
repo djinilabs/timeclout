@@ -51,6 +51,109 @@ const defaultClientOpts = ({
           deleteShiftPosition: (result, _args, cache) => {
             cache.invalidate(result.deleteShiftPosition as Entity);
           },
+          createUnit: (result, _args, cache) => {
+            // Invalidate the units query to refresh the units list
+            cache.invalidate("Query", "units");
+            // Also invalidate the company query to refresh the company's units
+            const createUnitResult = result.createUnit as Data;
+            if (
+              createUnitResult &&
+              typeof createUnitResult === "object" &&
+              "companyPk" in createUnitResult
+            ) {
+              // Fix: Invalidate the company query with the correct cache key
+              // The company query is stored under "Query" with key "company"
+              cache.invalidate("Query", "company");
+              // Also invalidate any specific company cache entries
+              cache.invalidate("Company", createUnitResult.companyPk as string);
+            }
+          },
+          updateUnit: (result, _args, cache) => {
+            // Invalidate the units query to refresh the units list
+            cache.invalidate("Query", "units");
+            // Also invalidate the specific unit
+            const updateUnitResult = result.updateUnit as Data;
+            if (
+              updateUnitResult &&
+              typeof updateUnitResult === "object" &&
+              "pk" in updateUnitResult
+            ) {
+              cache.invalidate("Unit", updateUnitResult.pk as string);
+            }
+          },
+          deleteUnit: (result, _args, cache) => {
+            // Invalidate the units query to refresh the units list
+            cache.invalidate("Query", "units");
+            // Also invalidate the company query to refresh the company's units
+            const deleteUnitResult = result.deleteUnit as Data;
+            if (
+              deleteUnitResult &&
+              typeof deleteUnitResult === "object" &&
+              "companyPk" in deleteUnitResult
+            ) {
+              cache.invalidate("Company", deleteUnitResult.companyPk as string);
+            }
+          },
+          createTeam: (result, _args, cache) => {
+            // Invalidate the teams query to refresh the teams list
+            cache.invalidate("Query", "allTeams");
+            // Also invalidate the unit query to refresh the unit's teams
+            const createTeamResult = result.createTeam as Data;
+            if (
+              createTeamResult &&
+              typeof createTeamResult === "object" &&
+              "pk" in createTeamResult
+            ) {
+              cache.invalidate("Unit", createTeamResult.pk as string);
+            }
+          },
+          updateTeam: (result, _args, cache) => {
+            // Invalidate the teams query to refresh the teams list
+            cache.invalidate("Query", "allTeams");
+            // Also invalidate the specific team
+            const updateTeamResult = result.updateTeam as Data;
+            if (
+              updateTeamResult &&
+              typeof updateTeamResult === "object" &&
+              "pk" in updateTeamResult
+            ) {
+              cache.invalidate("Team", updateTeamResult.pk as string);
+            }
+          },
+          deleteTeam: (result, _args, cache) => {
+            // Invalidate the teams query to refresh the teams list
+            cache.invalidate("Query", "allTeams");
+            // Also invalidate the unit query to refresh the unit's teams
+            const deleteTeamResult = result.deleteTeam as Data;
+            if (
+              deleteTeamResult &&
+              typeof deleteTeamResult === "object" &&
+              "pk" in deleteTeamResult
+            ) {
+              cache.invalidate("Unit", deleteTeamResult.pk as string);
+            }
+          },
+          createCompany: (_result, _args, cache) => {
+            // Invalidate the companies query to refresh the companies list
+            cache.invalidate("Query", "companies");
+          },
+          updateCompany: (result, _args, cache) => {
+            // Invalidate the companies query to refresh the companies list
+            cache.invalidate("Query", "companies");
+            // Also invalidate the specific company
+            const updateCompanyResult = result.updateCompany as Data;
+            if (
+              updateCompanyResult &&
+              typeof updateCompanyResult === "object" &&
+              "pk" in updateCompanyResult
+            ) {
+              cache.invalidate("Company", updateCompanyResult.pk as string);
+            }
+          },
+          deleteCompany: (_result, _args, cache) => {
+            // Invalidate the companies query to refresh the companies list
+            cache.invalidate("Query", "companies");
+          },
         },
       },
     }),

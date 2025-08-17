@@ -18,6 +18,10 @@ export const sendEmail = async ({
   formData.append("text", text);
   if (html) {
     formData.append("html", html);
+    // Add charset headers for Mailslurp compatibility
+    formData.append("h:Content-Type", "text/html; charset=UTF-8");
+    formData.append("h:Content-Transfer-Encoding", "8bit");
+    formData.append("h:MIME-Version", "1.0");
   }
 
   const response = await fetch(
@@ -37,5 +41,7 @@ export const sendEmail = async ({
     throw new Error(`Failed to send email: ${response.statusText}`);
   }
 
-  return response.json();
+  const result = await response.json();
+
+  return result;
 };

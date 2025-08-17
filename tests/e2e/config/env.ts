@@ -1,0 +1,64 @@
+import { config } from "dotenv";
+import { join } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import type { ScreenshotMode, VideoMode, TraceMode } from "@playwright/test";
+
+// Get the directory of this file
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load environment variables from .env file in the e2e directory
+const envPath = join(__dirname, "..", ".env");
+config({ path: envPath });
+
+// Environment variable configuration with defaults
+export const e2eConfig = {
+  // Testmail configuration
+  testmail: {
+    namespace: process.env.TESTMAIL_NAMESPACE,
+    apiKey: process.env.TESTMAIL_API_KEY,
+  },
+
+  // Application configuration
+  app: {
+    baseUrl: process.env.BASE_URL || "http://localhost:3000",
+  },
+
+  // Test configuration
+  test: {
+    timeout: parseInt(process.env.TEST_TIMEOUT || "180000"),
+    actionTimeout: parseInt(process.env.ACTION_TIMEOUT || "60000"),
+    ci: process.env.CI === "true",
+    headless: process.env.HEADLESS === "true",
+  },
+
+  // Browser configuration
+  browser: {
+    name: process.env.BROWSER || "chromium",
+  },
+
+  // Recording configuration
+  recording: {
+    screenshot: (process.env.SCREENSHOT || "only-on-failure") as ScreenshotMode,
+    video: (process.env.VIDEO || "retain-on-failure") as VideoMode,
+    trace: (process.env.TRACE || "on-first-retry") as TraceMode,
+  },
+};
+
+// Validate required environment variables
+export function validateEnvironment(): void {
+  const requiredVars = ["TESTMAIL_NAMESPACE"];
+  const missingVars = requiredVars.filter((varName) => !process.env[varName]);
+
+  if (missingVars.length > 0) {
+    throw new Error(
+      `Missing required environment variables: ${missingVars.join(", ")}\n` +
+        `Please create a .env file in the tests/e2e directory with these variables.\n` +
+        `See .env.example for reference.`
+    );
+  }
+}
+
+// Export individual configs for convenience
+export const { testmail, app, test, browser, recording } = e2eConfig;

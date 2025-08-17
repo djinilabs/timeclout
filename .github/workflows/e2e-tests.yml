@@ -1,0 +1,196 @@
+name: E2E Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  e2e-tests:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+
+    # Cancel in-progress runs when new commits are pushed
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          architecture: "x64"
+          cache: pnpm
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm test:e2e:install
+
+      - name: Setup environment variables
+        run: |
+          # Create .env file for e2e tests
+          mkdir -p tests/e2e
+          cat > tests/e2e/.env << EOF
+          TESTMAIL_API_KEY=${{ secrets.TESTMAIL_API_KEY }}
+          TESTMAIL_NAMESPACE=${{ secrets.TESTMAIL_NAMESPACE }}
+          BASE_URL=http://localhost:3000
+          TEST_TIMEOUT=300000
+          ACTION_TIMEOUT=120000
+          CI=true
+          BROWSER=chromium
+          HEADLESS=true
+          SCREENSHOT=only-on-failure
+          VIDEO=retain-on-failure
+          TRACE=on-first-retry
+          EOF
+
+      - name: Setup backend environment variables
+        run: |
+          # Create .env file for backend
+          mkdir -p apps/backend
+          cat > apps/backend/.env << EOF
+          TESTMAIL_API_KEY=${{ secrets.TESTMAIL_API_KEY }}
+          TESTMAIL_NAMESPACE=${{ secrets.TESTMAIL_NAMESPACE }}
+          BASE_URL=http://localhost:3000
+          TEST_TIMEOUT=300000
+          ACTION_TIMEOUT=120000
+          CI=true
+          BROWSER=chromium
+          HEADLESS=true
+          SCREENSHOT=only-on-failure
+          VIDEO=retain-on-failure
+          TRACE=on-first-retry
+          AUTH_SECRET=${{ secrets.AUTH_SECRET }}
+          AUTH_MAILGUN_KEY=${{ secrets.AUTH_MAILGUN_KEY }}
+          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+          EOF
+
+      - name: Verify test environment
+        run: |
+          echo "Verifying test environment..."
+          echo "Current directory: $(pwd)"
+          echo "Tests directory exists: $(test -d tests/e2e && echo "Yes" || echo "No")"
+          echo "Playwright config exists: $(test -f playwright.config.ts && echo "Yes" || echo "No")"
+          echo "Global setup exists: $(test -f tests/e2e/global-setup.ts && echo "Yes" || echo "No")"
+
+      - name: Run E2E tests
+        run: pnpm test:e2e
+        env:
+          NODE_ENV: "test"
+          NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
+
+      - name: Ensure test artifacts are captured
+        if: always()
+        run: |
+          echo "Ensuring test artifacts are captured..."
+          # Create directories if they don't exist
+          mkdir -p test-results
+          mkdir -p playwright-report
+          echo "Test output directories ready"
+
+      - name: Check test execution status
+        if: always()
+        run: |
+          echo "Test execution completed"
+          echo "Current working directory: $(pwd)"
+          echo "Directory contents:"
+          ls -la
+
+      - name: Check test results
+        if: always()
+        run: |
+          echo "=== Test Results Summary ==="
+          if [ -f "test-results/results.json" ]; then
+            echo "JSON results found"
+            cat test-results/results.json | jq '.stats' || echo "Could not parse JSON results"
+          else
+            echo "No JSON results found"
+          fi
+
+          if [ -f "test-results/results.xml" ]; then
+            echo "JUnit results found"
+            echo "JUnit results file size: $(wc -l < test-results/results.xml) lines"
+          else
+            echo "No JUnit results found"
+          fi
+
+      - name: List test artifacts
+        if: always()
+        run: |
+          echo "=== Test Results Directory ==="
+          ls -la test-results/ || echo "test-results directory not found"
+          echo "=== Playwright Report Directory ==="
+          ls -la playwright-report/ || echo "playwright-report directory not found"
+          echo "=== Looking for specific artifact types ==="
+          find . -name "*.png" -o -name "*.webm" -o -name "*.zip" | head -20 || echo "No artifacts found"
+
+      - name: Upload test results and artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ github.run_id }}
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 30
+
+      - name: Upload Playwright HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-html-report-${{ github.run_id }}
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots-${{ github.run_id }}
+          path: test-results/**/*.png
+          retention-days: 30
+
+      - name: Upload videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: videos-${{ github.run_id }}
+          path: test-results/**/*.webm
+          retention-days: 30
+
+      - name: Upload traces
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: traces-${{ github.run_id }}
+          path: test-results/**/*.zip
+          retention-days: 30

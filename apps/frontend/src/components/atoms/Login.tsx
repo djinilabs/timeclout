@@ -29,7 +29,7 @@ const Login: FC = () => {
     if (!email.trim()) return;
 
     setIsSubmitting(true);
-    signIn("mailgun", {
+    signIn("email", {
       email: email.trim(),
       callbackUrl: window.location.href,
     }).finally(() => {
