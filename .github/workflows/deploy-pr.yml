@@ -60,4 +60,5 @@ jobs:
           pnpm arc env --add --env staging SENTRY_TRACES_SAMPLE_RATE "${SENTRY_TRACES_SAMPLE_RATE}"
           pnpm arc env --add --env staging SENTRY_PROFILES_SAMPLE_RATE "${SENTRY_PROFILES_SAMPLE_RATE}"
           pnpm build
-          pnpm arc deploy --name "PR${{ github.event.workflow_run.pull_requests[0].number }}" --staging --no-hydrate --verbose --cwd apps/backend
+          cd apps/backend
+          pnpm arc deploy --name "PR${{ github.event.workflow_run.pull_requests[0].number }}" --staging --no-hydrate --verbose
