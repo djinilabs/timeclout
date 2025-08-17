@@ -1,11 +1,10 @@
 name: E2E Tests
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - main
-  push:
+  workflow_run:
+    workflows: ["Deploy PR"]
+    types:
+      - completed
     branches:
       - main
 
@@ -13,10 +12,11 @@ jobs:
   e2e-tests:
     name: Run E2E Tests
     runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
 
     # Cancel in-progress runs when new commits are pushed
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+      group: e2e-tests-pr-${{ github.event.workflow_run.pull_requests[0].number }}
       cancel-in-progress: true
 
     steps:
@@ -61,7 +61,7 @@ jobs:
           cat > tests/e2e/.env << EOF
           TESTMAIL_API_KEY=${{ secrets.TESTMAIL_API_KEY }}
           TESTMAIL_NAMESPACE=${{ secrets.TESTMAIL_NAMESPACE }}
-          BASE_URL=http://localhost:3000
+          BASE_URL=https://${{ github.event.workflow_run.pull_requests[0].number }}.tt3.app
           TEST_TIMEOUT=300000
           ACTION_TIMEOUT=120000
           CI=true
@@ -79,7 +79,7 @@ jobs:
           cat > apps/backend/.env << EOF
           TESTMAIL_API_KEY=${{ secrets.TESTMAIL_API_KEY }}
           TESTMAIL_NAMESPACE=${{ secrets.TESTMAIL_NAMESPACE }}
-          BASE_URL=http://localhost:3000
+          BASE_URL=https://${{ github.event.workflow_run.pull_requests[0].number }}.tt3.app
           TEST_TIMEOUT=300000
           ACTION_TIMEOUT=120000
           CI=true

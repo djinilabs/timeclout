@@ -56,7 +56,18 @@ async function findAndKillProcessesOnPort(port: number): Promise<void> {
 async function globalTeardown() {
   console.log("Cleaning up test environment...");
 
-  // Always clean up the ports used by the test services
+  // Check if we're testing against localhost to determine if we need to clean up local services
+  const baseURL = process.env.BASE_URL || process.env.PLAYWRIGHT_BASE_URL;
+
+  if (!baseURL || !baseURL.startsWith("http://localhost")) {
+    console.log(
+      "Testing against remote environment, skipping local service cleanup"
+    );
+    console.log("✅ Test environment cleanup completed");
+    return;
+  }
+
+  // Clean up the ports used by the local test services
   const backendPort = 3333;
   const frontendPort = 3000;
 
@@ -68,42 +79,44 @@ async function globalTeardown() {
   console.log("Cleaning up frontend port...");
   await findAndKillProcessesOnPort(frontendPort);
 
-  // Also try to stop the processes that were started by the test runner
-  if (frontendProcess) {
-    console.log("Stopping frontend server started by test runner...");
-    try {
-      frontendProcess.kill("SIGTERM");
-      await timeout(2000);
-      frontendProcess.kill("SIGTERM");
-      await timeout(2000);
+  // Also try to stop the processes that were started by the test runner (only for local testing)
+  if (baseURL && baseURL.startsWith("http://localhost")) {
+    if (frontendProcess) {
+      console.log("Stopping frontend server started by test runner...");
+      try {
+        frontendProcess.kill("SIGTERM");
+        await timeout(2000);
+        frontendProcess.kill("SIGTERM");
+        await timeout(2000);
 
-      // Force kill if still running
-      if (!frontendProcess.killed) {
-        frontendProcess.kill("SIGKILL");
+        // Force kill if still running
+        if (!frontendProcess.killed) {
+          frontendProcess.kill("SIGKILL");
+        }
+
+        console.log("✅ Frontend server stopped");
+      } catch (error) {
+        console.error("Error stopping frontend server:", error);
       }
-
-      console.log("✅ Frontend server stopped");
-    } catch (error) {
-      console.error("Error stopping frontend server:", error);
     }
-  }
 
-  if (backendProcess) {
-    console.log("Stopping backend sandbox started by test runner...");
-    try {
-      backendProcess.kill("SIGTERM");
-      await timeout(2000);
-      backendProcess.kill("SIGTERM");
-      await timeout(2000);
+    if (backendProcess) {
+      console.log("Stopping backend sandbox started by test runner...");
+      try {
+        backendProcess.kill("SIGTERM");
+        await timeout(2000);
+        backendProcess.kill("SIGTERM");
+        await timeout(2000);
 
-      // Force kill if still running
-      if (!backendProcess.killed) {
-        backendProcess.kill("SIGKILL");
+        // Force kill if still running
+        if (!backendProcess.killed) {
+          backendProcess.kill("SIGKILL");
+        }
+
+        console.log("✅ Backend sandbox stopped");
+      } catch (error) {
+        console.error("Error stopping backend sandbox:", error);
       }
-
-      console.log("✅ Backend sandbox stopped");
-    } catch (error) {
-      console.error("Error stopping backend sandbox:", error);
     }
   }
 
