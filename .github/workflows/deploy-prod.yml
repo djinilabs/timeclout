@@ -41,7 +41,7 @@ jobs:
       - name: Install
         run: pnpm install -w
 
-      - name: Deploy
+      - name: Deploy to production
         env:
           NODE_ENV: "production"
           BASE_URL: "https://app.tt3.app"

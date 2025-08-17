@@ -16,7 +16,7 @@ jobs:
 
     # Cancel in-progress runs when new commits are pushed
     concurrency:
-      group: e2e-tests-pr-${{ github.event.workflow_run.pull_requests[0].number }}
+      group: e2e-tests-pr-${{ github.event.pull_request.number }}
       cancel-in-progress: true
 
     steps:
@@ -61,7 +61,7 @@ jobs:
           cat > tests/e2e/.env << EOF
           TESTMAIL_API_KEY=${{ secrets.TESTMAIL_API_KEY }}
           TESTMAIL_NAMESPACE=${{ secrets.TESTMAIL_NAMESPACE }}
-          BASE_URL=https://${{ github.event.workflow_run.pull_requests[0].number }}.tt3.app
+          BASE_URL=https://${{ github.event.pull_request.number }}.tt3.app
           TEST_TIMEOUT=300000
           ACTION_TIMEOUT=120000
           CI=true
@@ -79,7 +79,7 @@ jobs:
           cat > apps/backend/.env << EOF
           TESTMAIL_API_KEY=${{ secrets.TESTMAIL_API_KEY }}
           TESTMAIL_NAMESPACE=${{ secrets.TESTMAIL_NAMESPACE }}
-          BASE_URL=https://${{ github.event.workflow_run.pull_requests[0].number }}.tt3.app
+          BASE_URL=https://${{ github.event.pull_request.number }}.tt3.app
           TEST_TIMEOUT=300000
           ACTION_TIMEOUT=120000
           CI=true
