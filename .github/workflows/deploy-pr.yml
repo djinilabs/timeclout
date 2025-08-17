@@ -52,8 +52,6 @@ jobs:
           SENTRY_TRACES_SAMPLE_RATE: "1.0"
           SENTRY_PROFILES_SAMPLE_RATE: "1.0"
         run: |
-          cd apps/backend
-          export PATH=../../node_modules/.bin:$PATH
           pnpm arc env --add --env staging AUTH_SECRET "${AUTH_SECRET}"
           pnpm arc env --add --env staging AUTH_MAILGUN_KEY "${AUTH_MAILGUN_KEY}"
           pnpm arc env --add --env staging GOOGLE_CLIENT_ID "${GOOGLE_CLIENT_ID}"
@@ -61,7 +59,5 @@ jobs:
           pnpm arc env --add --env staging SENTRY_DSN "${SENTRY_DSN}"
           pnpm arc env --add --env staging SENTRY_TRACES_SAMPLE_RATE "${SENTRY_TRACES_SAMPLE_RATE}"
           pnpm arc env --add --env staging SENTRY_PROFILES_SAMPLE_RATE "${SENTRY_PROFILES_SAMPLE_RATE}"
-          cd ../..
           pnpm build
-          cd apps/backend
-          pnpm arc deploy --name "PR${{ github.event.workflow_run.pull_requests[0].number }}" --staging --no-hydrate --verbose
+          pnpm arc deploy --name "PR${{ github.event.workflow_run.pull_requests[0].number }}" --staging --no-hydrate --verbose --cwd apps/backend
