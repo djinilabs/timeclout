@@ -45,7 +45,7 @@ jobs:
       - name: Deploy
         env:
           NODE_ENV: "production"
-          BASE_URL: "https://app.tt3.app"
+          BASE_URL: "https://${{ github.event.workflow_run.pull_requests[0].number }}.tt3.app"
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           AUTH_MAILGUN_KEY: ${{ secrets.AUTH_MAILGUN_KEY }}
