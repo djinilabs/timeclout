@@ -1,10 +1,8 @@
 name: Deploy PR
 
 on:
-  workflow_run:
-    workflows: ["Test"]
-    types:
-      - completed
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 jobs:
   deploy:
