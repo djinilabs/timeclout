@@ -3,4 +3,5 @@ module.exports  = {
     '.graphqls': 'text',
   },
   sourcemap: false,
+  sourcesContent: false,
 };
