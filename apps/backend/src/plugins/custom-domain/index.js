@@ -1,9 +1,6 @@
 module.exports = {
   deploy: {
     start: async ({ cloudformation, stage }) => {
-      if (stage !== 'production') {
-        return cloudformation;
-      }
       const customDomain = process.env.TT3_CUSTOM_DOMAIN;
       const CertificateArn = process.env.TT3_CERTIFICATE_ARN;
       const HostedZoneId = process.env.TT3_ZONE_ID;

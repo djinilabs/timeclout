@@ -24,7 +24,16 @@ async function globalSetup(config: FullConfig) {
   console.log("Setting up test environment...");
   console.log(`Base URL: ${baseURL}`);
 
-  // Always start fresh services for testing
+  // Only start local services if testing against localhost
+  if (!baseURL || !baseURL.startsWith("http://localhost")) {
+    console.log(
+      "Testing against remote environment, skipping local service startup"
+    );
+    console.log("✅ Test environment setup completed");
+    return;
+  }
+
+  // Start fresh services for local testing
   const backendPort = 3333;
   const frontendPort = 3000;
 

@@ -1,19 +1,14 @@
-name: Deploy Prod
+name: Deploy PR
 
 on:
-  workflow_run:
-    workflows: ["Test"]
-    types:
-      - completed
-    branches:
-      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 jobs:
   deploy:
-    if: ${{ github.event_name != 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     concurrency:
-      group: deploy-prod
+      group: deploy-pr-${{ github.event.pull_request.number }}
       cancel-in-progress: false
 
     steps:
@@ -41,34 +36,33 @@ jobs:
       - name: Install
         run: pnpm install -w
 
-      - name: Deploy to production
+      - name: Deploy PR
         env:
           NODE_ENV: "production"
-          BASE_URL: "https://app.tt3.app"
+          BASE_URL: "https://${{ github.event.pull_request.number }}.tt3.app"
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           AUTH_MAILGUN_KEY: ${{ secrets.AUTH_MAILGUN_KEY }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          TT3_CERTIFICATE_ARN: ${{ secrets.TT3_CERTIFICATE_ARN }}
+          TT3_CERTIFICATE_ARN: "arn:aws:acm:eu-west-2:307946679392:certificate/59f56794-8927-424b-9bf0-043e81aa4d38"
           TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
-          VITE_PUBLIC_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
-          VITE_PUBLIC_POSTHOG_KEY: phc_XU057cIRzEJ2mfLNL5HuoWNBu0w2yjzpMKYUlrb8Jsk
-          VITE_PUBLIC_POSTHOG_HOST: https://eu.i.posthog.com
+          TT3_CUSTOM_DOMAIN: "${{ github.event.pull_request.number }}.tt3.app"
           SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           SENTRY_TRACES_SAMPLE_RATE: "1.0"
           SENTRY_PROFILES_SAMPLE_RATE: "1.0"
         run: |
           cd apps/backend
+          pnpm install
           export PATH=../../node_modules/.bin:$PATH
-          pnpm arc env --add --env production AUTH_SECRET "${AUTH_SECRET}"
-          pnpm arc env --add --env production AUTH_MAILGUN_KEY "${AUTH_MAILGUN_KEY}"
-          pnpm arc env --add --env production GOOGLE_CLIENT_ID "${GOOGLE_CLIENT_ID}"
-          pnpm arc env --add --env production GOOGLE_CLIENT_SECRET "${GOOGLE_CLIENT_SECRET}"
-          pnpm arc env --add --env production SENTRY_DSN "${SENTRY_DSN}"
-          pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "${SENTRY_TRACES_SAMPLE_RATE}"
-          pnpm arc env --add --env production SENTRY_PROFILES_SAMPLE_RATE "${SENTRY_PROFILES_SAMPLE_RATE}"
+          pnpm arc env --add --env staging AUTH_SECRET "${AUTH_SECRET}"
+          pnpm arc env --add --env staging AUTH_MAILGUN_KEY "${AUTH_MAILGUN_KEY}"
+          pnpm arc env --add --env staging GOOGLE_CLIENT_ID "${GOOGLE_CLIENT_ID}"
+          pnpm arc env --add --env staging GOOGLE_CLIENT_SECRET "${GOOGLE_CLIENT_SECRET}"
+          pnpm arc env --add --env staging SENTRY_DSN "${SENTRY_DSN}"
+          pnpm arc env --add --env staging SENTRY_TRACES_SAMPLE_RATE "${SENTRY_TRACES_SAMPLE_RATE}"
+          pnpm arc env --add --env staging SENTRY_PROFILES_SAMPLE_RATE "${SENTRY_PROFILES_SAMPLE_RATE}"
           cd ../..
           pnpm build
           cd apps/backend
-          pnpm arc deploy --production --no-hydrate --verbose
+          pnpm arc deploy --name "PR${{ github.event.pull_request.number }}" --staging --no-hydrate --verbose
