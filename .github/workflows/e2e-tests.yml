@@ -12,6 +12,7 @@ on:
           - staging
           - production
           - custom
+          - pr
       custom_url:
         description: "Custom URL to test against (only used if environment is custom)"
         required: false
@@ -21,6 +22,8 @@ on:
         required: false
         type: string
         default: ""
+  pull_request:
+    branches: [main]
   workflow_run:
     workflows: ["Deploy PR"]
     types:
@@ -32,11 +35,11 @@ jobs:
   e2e-tests:
     name: Run E2E Tests
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
+    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request'
 
     # Cancel in-progress runs when new commits are pushed (only for PR runs)
     concurrency:
-      group: e2e-tests-${{ github.event_name == 'workflow_dispatch' && 'manual' || format('pr-{0}', github.event.pull_request.number) }}
+      group: e2e-tests-${{ github.event_name == 'workflow_dispatch' && 'manual' || format('pr-{0}', github.event.pull_request.number || github.event.number) }}
       cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 
     steps:
@@ -82,11 +85,21 @@ jobs:
               echo "url=${{ github.event.inputs.custom_url }}" >> $GITHUB_OUTPUT
             elif [ "${{ github.event.inputs.environment }}" == "production" ]; then
               echo "url=https://tt3.app" >> $GITHUB_OUTPUT
+            elif [ "${{ github.event.inputs.environment }}" == "pr" ]; then
+              # For manual PR runs, use the PR URL if we're on a PR branch
+              if [ -n "${{ github.event.pull_request.number }}" ]; then
+                echo "url=https://${{ github.event.pull_request.number }}.tt3.app" >> $GITHUB_OUTPUT
+              else
+                echo "url=https://staging.tt3.app" >> $GITHUB_OUTPUT
+              fi
             else
               echo "url=https://staging.tt3.app" >> $GITHUB_OUTPUT
             fi
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            # For PR events, always use the PR URL
+            echo "url=https://${{ github.event.pull_request.number }}.tt3.app" >> $GITHUB_OUTPUT
           else
-            # For automatic PR runs, use the PR URL
+            # For automatic PR runs from workflow_run, use the PR URL
             echo "url=https://${{ github.event.pull_request.number }}.tt3.app" >> $GITHUB_OUTPUT
           fi
           echo "Testing against: ${{ steps.test-url.outputs.url }}"
