@@ -1,0 +1,58 @@
+name: Undeploy PR
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  undeploy:
+    runs-on: ubuntu-latest
+    # Only run if the PR was merged or closed (not just synchronized)
+    if: github.event.pull_request.merged == true || github.event.pull_request.state == 'closed'
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      - name: Check if CloudFormation stack exists
+        id: check-stack
+        run: |
+          STACK_NAME="Tt3StagingPR${{ github.event.pull_request.number }}"
+          if aws cloudformation describe-stacks --stack-name "$STACK_NAME" --region eu-west-2 >/dev/null 2>&1; then
+            echo "stack_exists=true" >> $GITHUB_OUTPUT
+            echo "Stack $STACK_NAME exists, will proceed with deletion"
+          else
+            echo "stack_exists=false" >> $GITHUB_OUTPUT
+            echo "Stack $STACK_NAME does not exist, nothing to delete"
+          fi
+
+      - name: Delete CloudFormation stack
+        if: steps.check-stack.outputs.stack_exists == 'true'
+        run: |
+          STACK_NAME="Tt3StagingPR${{ github.event.pull_request.number }}"
+          echo "Deleting CloudFormation stack: $STACK_NAME"
+
+          # Delete the stack
+          aws cloudformation delete-stack \
+            --stack-name "$STACK_NAME" \
+            --region eu-west-2
+
+          echo "Stack deletion initiated for $STACK_NAME"
+
+          # Wait for stack deletion to complete
+          echo "Waiting for stack deletion to complete..."
+          aws cloudformation wait stack-delete-complete \
+            --stack-name "$STACK_NAME" \
+            --region eu-west-2
+
+          echo "Stack $STACK_NAME has been successfully deleted"
+
+      - name: Cleanup completed
+        if: steps.check-stack.outputs.stack_exists == 'false'
+        run: |
+          echo "No CloudFormation stack found for PR #${{ github.event.pull_request.number }}"
+          echo "Cleanup completed successfully"
