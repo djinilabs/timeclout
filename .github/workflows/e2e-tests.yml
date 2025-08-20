@@ -22,8 +22,6 @@ on:
         required: false
         type: string
         default: ""
-  pull_request:
-    branches: [main]
   workflow_run:
     workflows: ["Deploy PR"]
     types:
