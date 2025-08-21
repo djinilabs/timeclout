@@ -34,7 +34,7 @@ async function createCompany(
   const currentUrl = page.url();
   if (currentUrl.includes("/me/edit")) {
     console.log("🔄 User profile not complete, completing profile first...");
-    await completeUserProfile(page, pageObjects);
+    await completeUserProfile(page);
     console.log("✅ User profile completed");
   }
 
@@ -65,10 +65,7 @@ async function createCompany(
 /**
  * Helper function to complete user profile
  */
-async function completeUserProfile(
-  page: Page,
-  pageObjects: PageObjects
-): Promise<void> {
+async function completeUserProfile(page: Page): Promise<void> {
   console.log("🔄 Completing user profile...");
 
   // Fill in the professional name
