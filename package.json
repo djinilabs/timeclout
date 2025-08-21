@@ -63,7 +63,7 @@
     "@nivo/boxplot": "^0.88.0",
     "@popperjs/core": "^2.11.8",
     "@radix-ui/react-dropdown-menu": "^2.1.15",
-    "@react-email/components": "0.0.42",
+    "@react-email/components": "0.5.1",
     "@react-email/text": "^0.1.0",
     "@react-hook/debounce": "^4.0.0",
     "@sentry/aws-serverless": "^9.5.0",
@@ -149,12 +149,12 @@
     "source-map-support": "^0.5.21",
     "typescript": "~5.8.0",
     "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5",
+    "vite": "^7.0.0",
     "vite-plugin-graphql-loader": "^4.0.4",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.1"
   },
-  "packageManager": "pnpm@10.11.1",
+  "packageManager": "pnpm@10.15.0",
   "pnpm": {
     "patchedDependencies": {
       "@architect/functions": "patches/@architect__functions.patch",
