@@ -66,16 +66,23 @@ runs:
         PR_URL="${{ inputs.pull_request_url }}"
         WORKFLOW_RUN_NAME="${{ inputs.workflow_run_name }}"
 
+        # Debug information
+        echo "Debug: EVENT_NAME=$EVENT_NAME"
+        echo "Debug: WORKFLOW_RUN_NAME=$WORKFLOW_RUN_NAME"
+        echo "Debug: ref_name=${{ inputs.ref_name }}"
+
         # Determine PR information
         if [ "$EVENT_NAME" == "pull_request" ] && [ -n "$PR_NUMBER" ]; then
           PR_INFO="🔗 **PR #$PR_NUMBER**: [$PR_TITLE]($PR_URL)"
         elif [ "$EVENT_NAME" == "workflow_run" ] && [ -n "$WORKFLOW_RUN_NAME" ]; then
           # Extract PR number from workflow_run event name
+          echo "Debug: Processing workflow_run event with name: $WORKFLOW_RUN_NAME"
           EXTRACTED_PR_NUMBER=$(echo "$WORKFLOW_RUN_NAME" | grep -o 'PR[0-9]*' | grep -o '[0-9]*')
+          echo "Debug: Extracted PR number: $EXTRACTED_PR_NUMBER"
           if [ -n "$EXTRACTED_PR_NUMBER" ]; then
             PR_INFO="🔗 **PR #$EXTRACTED_PR_NUMBER**: From workflow run"
           else
-            PR_INFO="📋 **Workflow Run**: From other workflow"
+            PR_INFO="📋 **Workflow Run**: $WORKFLOW_RUN_NAME"
           fi
         elif [ "$EVENT_NAME" == "workflow_dispatch" ]; then
           if [ -n "$PR_NUMBER" ]; then
@@ -84,7 +91,7 @@ runs:
             PR_INFO="🔧 **Manual Dispatch**: Manual workflow trigger"
           fi
         elif [ "$EVENT_NAME" == "push" ]; then
-          if [ "${{ inputs.ref_name }}" == "refs/heads/main" ]; then
+          if [ "${{ inputs.ref_name }}" == "main" ] || [ "${{ inputs.ref_name }}" == "refs/heads/main" ]; then
             PR_INFO="🚀 **Push to Main**: Direct commit"
           else
             PR_INFO="📝 **Push**: Branch update"
@@ -165,14 +172,27 @@ runs:
         EOF
         )
 
+        # Debug payload (without sensitive info)
+        echo "Debug: Payload prepared successfully"
+        echo "Debug: Payload length: ${#DISCORD_PAYLOAD} characters"
+
         # Send to Discord webhook
         if [ -n "${{ inputs.webhook_url }}" ]; then
           echo "Sending Discord notification..."
-          curl -H "Content-Type: application/json" \
+          HTTP_RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" -H "Content-Type: application/json" \
                -X POST \
                -d "$DISCORD_PAYLOAD" \
-               "${{ inputs.webhook_url }}"
-          echo "Discord notification sent successfully"
+               "${{ inputs.webhook_url }}")
+          
+          HTTP_STATUS=$(echo $HTTP_RESPONSE | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+          
+          if [ $HTTP_STATUS -eq 204 ]; then
+            echo "Discord notification sent successfully (HTTP $HTTP_STATUS)"
+          else
+            echo "Discord notification failed with HTTP status $HTTP_STATUS"
+            echo "Response: $HTTP_RESPONSE"
+            exit 1
+          fi
         else
           echo "Webhook URL not provided, skipping Discord notification"
         fi
