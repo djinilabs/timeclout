@@ -1,15 +1,10 @@
 import { config } from "dotenv";
 import { join } from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
 import type { ScreenshotMode, VideoMode, TraceMode } from "@playwright/test";
 
-// Get the directory of this file
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 // Load environment variables from .env file in the e2e directory
-const envPath = join(__dirname, "..", ".env");
+// Using relative path from project root since this is a test config
+const envPath = join(process.cwd(), "tests", "e2e", ".env");
 config({ path: envPath });
 
 // Environment variable configuration with defaults

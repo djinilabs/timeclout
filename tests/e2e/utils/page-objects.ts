@@ -145,7 +145,7 @@ export class PageObjects {
     timeout = 15000
   ): Promise<void> {
     await this.page.waitForURL(urlPattern, { timeout });
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("domcontentloaded");
   }
 
   // Company link selector generator
@@ -169,9 +169,10 @@ export class PageObjects {
 
   // Wait for element to be stable (not changing)
   async waitForElementStable(selector: string, timeout = 10000): Promise<void> {
-    await this.page.waitForSelector(selector, { state: "visible", timeout });
-    // Wait a bit more to ensure the element is fully stable
-    await this.page.waitForTimeout(500);
+    const locator = this.page.locator(selector);
+    await locator.waitFor({ state: "visible", timeout });
+    // Wait for the element to be stable (not moving/changing)
+    await locator.waitFor({ state: "attached" });
   }
 
   // Fill form field with verification

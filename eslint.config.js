@@ -2,10 +2,11 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import playwright from 'eslint-plugin-playwright'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules', 'apps/frontend/dist', 'apps/backend/dist', '**/*.generated.ts', 'apps/frontend/src/locales'] },
+  { ignores: ['dist', 'node_modules', 'apps/frontend/dist', 'apps/backend/dist', '**/*.generated.ts', 'apps/frontend/src/locales', '**/messages.mjs', '**/locales/*/messages.mjs'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
@@ -24,5 +25,9 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
     },
+  },
+  {
+    files: ['tests/e2e/**/*.{js,ts}'],
+    ...playwright.configs['flat/recommended'],
   },
 )

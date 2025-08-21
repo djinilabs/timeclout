@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useForm } from "@tanstack/react-form";
 import { Trans } from "@lingui/react/macro";
@@ -23,6 +24,7 @@ export const MeEdit = () => {
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });
   const me = result?.data?.me;
   // const { startTour } = useTour();
+  const navigate = useNavigate();
 
   const [selectedCountryIsoCode, setSelectedCountryIsoCode] = useState<
     string | undefined
@@ -55,7 +57,9 @@ export const MeEdit = () => {
       });
       if (!result.error) {
         toast.success(i18n.t("Your profile has been updated"));
-        updateSession();
+        await updateSession();
+        // Redirect to the root page after successful profile completion
+        navigate("/");
       }
     },
   });

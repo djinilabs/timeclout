@@ -31,6 +31,10 @@ export default defineConfig({
     global: "globalThis",
   },
 
+  server: {
+    open: process.env.E2E_NO_UI === "true" ? false : true,
+  },
+
   worker: {
     plugins: () => [tsconfigPaths()],
     format: "es",

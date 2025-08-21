@@ -39,10 +39,11 @@ export class TestHelpers {
     selector: string,
     timeout: number = 10000
   ): Promise<void> {
-    await page.waitForSelector(selector, { state: "visible", timeout });
+    const locator = page.locator(selector);
+    await locator.waitFor({ state: "visible", timeout });
 
-    // Wait a bit more to ensure the element is fully stable
-    await page.waitForTimeout(500);
+    // Wait for the element to be stable (attached and visible)
+    await locator.waitFor({ state: "attached" });
   }
 
   /**
@@ -267,7 +268,7 @@ export class TestHelpers {
     await page.waitForURL(expectedUrlPattern, { timeout });
 
     // Additional wait to ensure the page is fully loaded
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
   }
 
   /**
