@@ -77,11 +77,12 @@ runs:
         elif [ "$EVENT_NAME" == "workflow_run" ] && [ -n "$WORKFLOW_RUN_NAME" ]; then
           # Extract PR number from workflow_run event name
           echo "Debug: Processing workflow_run event with name: $WORKFLOW_RUN_NAME"
-          EXTRACTED_PR_NUMBER=$(echo "$WORKFLOW_RUN_NAME" | grep -o 'PR[0-9]*' | grep -o '[0-9]*')
-          echo "Debug: Extracted PR number: $EXTRACTED_PR_NUMBER"
-          if [ -n "$EXTRACTED_PR_NUMBER" ]; then
+          if echo "$WORKFLOW_RUN_NAME" | grep -q 'PR[0-9]*'; then
+            EXTRACTED_PR_NUMBER=$(echo "$WORKFLOW_RUN_NAME" | grep -o 'PR[0-9]*' | grep -o '[0-9]*')
+            echo "Debug: Extracted PR number: $EXTRACTED_PR_NUMBER"
             PR_INFO="🔗 **PR #$EXTRACTED_PR_NUMBER**: From workflow run"
           else
+            echo "Debug: No PR number found in workflow name"
             PR_INFO="📋 **Workflow Run**: $WORKFLOW_RUN_NAME"
           fi
         elif [ "$EVENT_NAME" == "workflow_dispatch" ]; then
@@ -100,7 +101,10 @@ runs:
           PR_INFO="📋 **Event**: $EVENT_NAME"
         fi
 
+        echo "Debug: PR_INFO set to: $PR_INFO"
+
         # Set status emoji and color
+        echo "Debug: Setting status for RUN_STATUS: $RUN_STATUS"
         if [ "$RUN_STATUS" == "success" ]; then
           STATUS_EMOJI="✅"
           STATUS_COLOR="3066993" # Green
@@ -119,7 +123,10 @@ runs:
           STATUS_TEXT="$RUN_STATUS"
         fi
 
+        echo "Debug: Status set - Emoji: $STATUS_EMOJI, Color: $STATUS_COLOR, Text: $STATUS_TEXT"
+
         # Create Discord embed
+        echo "Debug: Creating Discord payload..."
         DISCORD_PAYLOAD=$(cat << EOF
         {
           "embeds": [{
@@ -172,11 +179,14 @@ runs:
         EOF
         )
 
+        echo "Debug: Timestamp generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
         # Debug payload (without sensitive info)
         echo "Debug: Payload prepared successfully"
         echo "Debug: Payload length: ${#DISCORD_PAYLOAD} characters"
 
         # Send to Discord webhook
+        echo "Debug: About to check webhook URL and send notification..."
         if [ -n "${{ inputs.webhook_url }}" ]; then
           echo "Sending Discord notification..."
           HTTP_RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" -H "Content-Type: application/json" \
