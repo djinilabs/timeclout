@@ -10,7 +10,7 @@ describe("Avatar", () => {
     i18n.load({
       en: {
         messages: {
-          "’s avatar": { message: "’s avatar" },
+          "'s avatar": { message: "'s avatar" },
         },
       },
     });
@@ -21,7 +21,7 @@ describe("Avatar", () => {
     render(<Avatar />);
     const avatar = screen.getByRole("img");
     expect(avatar).toBeInTheDocument();
-    await expect(avatar).toHaveAttribute("alt", "'s avatar");
+    await expect(avatar).toHaveAttribute("alt", "\u2019s avatar");
   });
 
   it("renders with name and email", async () => {
@@ -38,7 +38,7 @@ describe("Avatar", () => {
       "src",
       "https://www.gravatar.com/avatar/abc123?s=250&d=blank"
     );
-    await expect(avatar).toHaveAttribute("alt", "john@example.com's avatar");
+    await expect(avatar).toHaveAttribute("alt", "john@example.com\u2019s avatar");
   });
 
   it("generates correct initials", () => {
