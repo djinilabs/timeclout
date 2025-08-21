@@ -1,7 +1,6 @@
 import "react-day-picker/style.css";
 import { FC, useMemo, useCallback, useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import "react-day-picker/style.css";
 import { Trans } from "@lingui/react/macro";
 import { getDefined } from "@/utils";
 import { useTeamDayTemplates } from "../../hooks/useTeamDayTemplates";

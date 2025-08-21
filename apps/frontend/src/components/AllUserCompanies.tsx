@@ -1,7 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { BuildingOfficeIcon } from "@heroicons/react/24/outline";
+import {
+  BuildingOfficeIcon,
+  PencilIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
 import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
@@ -9,7 +13,6 @@ import deleteCompanyMutation from "@/graphql-client/mutations/deleteCompany.grap
 import { type Company } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
 import { Button } from "./particles/Button";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useConfirmDialog } from "../hooks/useConfirmDialog";
 import { i18n } from "@lingui/core";
 import { useMutation } from "../hooks/useMutation";

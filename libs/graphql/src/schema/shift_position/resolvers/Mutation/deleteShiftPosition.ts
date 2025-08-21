@@ -1,8 +1,7 @@
-import { database } from "@/tables";
+import { database , PERMISSION_LEVELS } from "@/tables";
 import { getResourceRef } from "@/utils";
 import { notFound } from "@hapi/boom";
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
-import { PERMISSION_LEVELS } from "@/tables";
 import type {
   MutationResolvers,
   ShiftPosition,

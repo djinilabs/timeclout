@@ -1,6 +1,5 @@
-import { describe, expect, it, beforeEach } from "vitest";
+import { describe, expect, it, beforeEach , vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { vi } from "vitest";
 import { type LeaveDay } from "../types";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";

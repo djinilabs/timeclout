@@ -29,8 +29,7 @@ import {
   QueryCompanyArgs,
 } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
-import { leaveTypeColors } from "../../settings/leaveTypes";
-import { leaveTypeIcons } from "../../settings/leaveTypes";
+import { leaveTypeColors , leaveTypeIcons } from "../../settings/leaveTypes";
 import { useHolidays } from "../../hooks/useHolidays";
 import { Suspense } from "../atoms/Suspense";
 import { MyQuotaFulfilment } from "./MyQuotaFulfilment";

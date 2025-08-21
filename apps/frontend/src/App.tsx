@@ -9,7 +9,7 @@ import { createClient as createGraphqlClient } from "./graphql/graphql-client";
 import { Suspense } from "./components/atoms/Suspense";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import { dynamicActivate } from "./i18n";
+import { dynamicActivate , locales } from "./i18n";
 import { AnalyticsProvider } from "./AnalyticsProvider";
 import { RequiresSession } from "./components/molecules/RequiresSession";
 import { AppLocalSettingsProvider } from "./contexts/AppLocalSettingsContext";
@@ -18,7 +18,6 @@ import { monitorActivityFetch } from "./utils/monitorActivityFetch";
 import { FetchActivityProvider } from "./providers/FetchActivityProvider";
 import { DragAndDropProvider } from "./providers/DragAndDropProvider";
 import { Loading } from "./components/particles/Loading";
-import { locales } from "./i18n";
 import { LocaleProvider } from "./providers/LocaleProvider";
 import { AgreementWrapper } from "./components/molecules/AgreementWrapper";
 

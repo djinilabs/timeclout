@@ -19,7 +19,9 @@ export const PercentageStatCard: FC<PercentageStatCardProps> = memo(
               className="h-2.5 rounded-full"
               style={{
                 width: `${Math.min(100, value).toLocaleString()}%`,
-                backgroundColor: `hsl(${value * 1.2}, 70%, ${value < 50 ? 60 : 65}%)`,
+                backgroundColor: `hsl(${value * 1.2}, 70%, ${
+                  value < 50 ? 60 : 65
+                }%)`,
               }}
             />
           </div>

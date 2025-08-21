@@ -12,8 +12,7 @@ import {
   Mutation,
   MutationUpdateCompanySettingsArgs,
   Query,
-} from "../../graphql/graphql";
-import { QueryCompanyArgs } from "../../graphql/graphql";
+ QueryCompanyArgs } from "../../graphql/graphql";
 import { toast } from "react-hot-toast";
 import { i18n } from "@lingui/core";
 import { useCallback, useMemo } from "react";

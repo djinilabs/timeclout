@@ -1,6 +1,5 @@
 import { FC, memo, ReactNode } from "react";
-import { Field, Label } from "@headlessui/react";
-import { Switch } from "@headlessui/react";
+import { Field, Label , Switch } from "@headlessui/react";
 
 export interface LabeledSwitchProps {
   id?: string;

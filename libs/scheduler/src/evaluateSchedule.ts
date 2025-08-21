@@ -1,8 +1,7 @@
 import {
   ShiftScheduleHeuristicWithMultiplier,
   EvaluateScheduleResult,
-} from "./types";
-import { ShiftSchedule } from "./types";
+ ShiftSchedule } from "./types";
 
 export const evaluateSchedule = (
   schedule: ShiftSchedule,

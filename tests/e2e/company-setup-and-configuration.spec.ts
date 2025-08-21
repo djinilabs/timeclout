@@ -1,7 +1,5 @@
-import { testWithUserManagement } from "./fixtures/test-fixtures";
-import { TestUser } from "./fixtures/test-fixtures";
+import { testWithUserManagement , TestUser , UserManagement, PageObjects } from "./fixtures/test-fixtures";
 import { Page } from "@playwright/test";
-import { UserManagement, PageObjects } from "./fixtures/test-fixtures";
 
 // Step functions for the company setup and configuration workflow
 

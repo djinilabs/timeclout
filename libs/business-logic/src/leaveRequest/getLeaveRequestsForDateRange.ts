@@ -1,5 +1,4 @@
-import { LeaveRequestRecord } from "@/tables";
-import { database } from "@/tables";
+import { LeaveRequestRecord , database } from "@/tables";
 import { ResourceRef } from "@/utils";
 import { DayDate } from "@/day-date";
 

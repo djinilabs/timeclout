@@ -8,7 +8,6 @@ import {
 } from "../../graphql/graphql";
 import { FC, useEffect, useMemo, useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import "react-day-picker/style.css";
 import { Trans } from "@lingui/react/macro";
 import { dequal } from "dequal";
 import { getDefined } from "@/utils";

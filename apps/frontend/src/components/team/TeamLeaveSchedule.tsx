@@ -16,8 +16,7 @@ import {
   Team,
   TeamScheduleArgs,
 } from "../../graphql/graphql";
-import { leaveTypeColors } from "../../settings/leaveTypes";
-import { leaveTypeIcons } from "../../settings/leaveTypes";
+import { leaveTypeColors , leaveTypeIcons } from "../../settings/leaveTypes";
 import { useLocalPreference } from "../../hooks/useLocalPreference";
 import { TeamLeaveSchedule as TeamLeaveScheduleUI } from "../molecules/TeamLeaveSchedule";
 

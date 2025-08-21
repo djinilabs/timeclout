@@ -1,7 +1,6 @@
-import { getResourceRef } from "@/utils";
+import { getResourceRef , ResourceRef } from "@/utils";
 
 import { database } from "@/tables";
-import { ResourceRef } from "@/utils";
 import { filterUsersByQualificationsInTeam } from "./filterUsersByQualificationsInTeam";
 
 export const teamMembersUsers = async (

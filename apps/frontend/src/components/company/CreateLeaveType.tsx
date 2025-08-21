@@ -13,8 +13,7 @@ import {
   Mutation,
   MutationUpdateCompanySettingsArgs,
   Query,
-} from "../../graphql/graphql";
-import { QueryCompanyArgs } from "../../graphql/graphql";
+ QueryCompanyArgs } from "../../graphql/graphql";
 
 export const CreateLeaveType = () => {
   const { company: companyPk } = useParams();

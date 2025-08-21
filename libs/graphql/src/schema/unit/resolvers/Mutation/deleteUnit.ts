@@ -1,6 +1,5 @@
 import { badData, notFound } from "@hapi/boom";
-import { PERMISSION_LEVELS } from "@/tables";
-import { database } from "@/tables";
+import { PERMISSION_LEVELS , database } from "@/tables";
 import { resourceRef } from "@/utils";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, Unit } from "./../../../../types.generated";
