@@ -220,7 +220,11 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                 <ol className="space-y-2 mt-2 text-sm">
                   <li>
                     To install Chrome you can download it from{" "}
-                    <a target="_blank" href="https://www.google.com/chrome/">
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      href="https://www.google.com/chrome/"
+                    >
                       https://www.google.com/chrome/
                     </a>
                   </li>
