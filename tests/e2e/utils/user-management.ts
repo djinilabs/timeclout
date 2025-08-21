@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { TestmailClient } from "./testmail";
-import { getDefined } from "@/utils";
+import { getDefined } from "../../../libs/utils/src";
 
 export interface TestUser {
   email: string;

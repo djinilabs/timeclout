@@ -102,7 +102,7 @@ async function createUnit(
  * Step 4: Create a team within the unit
  */
 async function createTeam(
-  page: Page,
+  _page: Page,
   pageObjects: PageObjects,
   unitName: string,
   teamName: string
