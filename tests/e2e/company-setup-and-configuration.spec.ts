@@ -75,7 +75,8 @@ async function createUnit(
   console.log(`✅ Created unit: ${unitName}`);
 
   // Wait for navigation back to company page
-  await pageObjects.waitForNavigation(/\/companies\/.*$/, 15000);
+  await page.waitForURL(/\/companies\/.*$/, { timeout: 15000 });
+  await page.waitForLoadState("domcontentloaded");
   console.log("✅ Unit created successfully, redirected back to company page");
 
   // Handle cache invalidation by refreshing data
@@ -130,7 +131,8 @@ async function createTeam(
   console.log(`✅ Created team: ${teamName}`);
 
   // Wait for navigation back to unit page
-  await pageObjects.waitForNavigation(/\/companies\/.*\/units\/.*$/, 15000);
+  await page.waitForURL(/\/companies\/.*\/units\/.*$/, { timeout: 15000 });
+  await page.waitForLoadState("domcontentloaded");
   console.log("✅ Team created successfully, redirected back to unit page");
 }
 
@@ -146,7 +148,7 @@ async function navigateToCompanySettings(
 
   // Navigate back to the company page
   await page.goto(`/companies/${companyPk}`);
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
   console.log("✅ Navigated back to company page");
 
   // Wait for the company page to load and look for the settings tab
@@ -163,7 +165,7 @@ async function navigateToCompanySettings(
   console.log("✅ Clicked on Company Settings tab");
 
   // Wait for the settings page to load
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
   console.log("✅ Company settings page loaded");
 }
 
@@ -180,7 +182,7 @@ async function configureLeaveTypes(page: Page): Promise<void> {
   console.log("✅ Clicked on Leave Types tab");
 
   // Wait for the leave types section to load
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
 
   // Look for the "Create New Leave Type" button
   const createLeaveTypeButton = page.locator(
@@ -197,7 +199,7 @@ async function configureLeaveTypes(page: Page): Promise<void> {
   console.log("✅ Clicked on Create New Leave Type button");
 
   // Wait for the leave type creation form
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
 
   // Fill in the leave type form
   const leaveTypeNameInput = page.locator('input[name="name"]');
@@ -213,7 +215,7 @@ async function configureLeaveTypes(page: Page): Promise<void> {
   console.log("✅ Created new leave type: Vacation");
 
   // Wait for navigation back to company settings
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
   console.log("✅ Returned to company settings");
 }
 
@@ -230,7 +232,7 @@ async function configureWorkSchedule(page: Page): Promise<void> {
   console.log("✅ Clicked on Work Schedule tab");
 
   // Wait for the work schedule section to load
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
 
   // Look for work schedule form elements
   const mondayStartInput = page.locator(
@@ -251,7 +253,7 @@ async function configureWorkSchedule(page: Page): Promise<void> {
   console.log("✅ Saved work schedule changes");
 
   // Wait for the save operation to complete
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
 }
 
 /**
@@ -267,7 +269,7 @@ async function configureYearlyQuota(page: Page): Promise<void> {
   console.log("✅ Clicked on Yearly Quota tab");
 
   // Wait for the yearly quota section to load
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
 
   // Look for yearly quota form elements
   const resetMonthSelect = page.locator('select[name="resetMonth"]');
@@ -288,7 +290,7 @@ async function configureYearlyQuota(page: Page): Promise<void> {
   console.log("✅ Saved yearly quota changes");
 
   // Wait for the save operation to complete
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
 }
 
 /**
@@ -298,7 +300,7 @@ async function handleCacheInvalidation(page: Page): Promise<void> {
   console.log("🔄 Waiting for company data to refresh and unit to appear...");
 
   // Wait for the page to settle after navigation
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
 
   // Since there's a cache invalidation bug, trigger a refresh by navigating
   // to a different route and back to force the company data to be re-fetched
@@ -315,12 +317,12 @@ async function handleCacheInvalidation(page: Page): Promise<void> {
   const companyPk = companyPkMatch[1];
 
   await page.goto("/companies");
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
   console.log("✅ Navigated to companies list");
 
   // Navigate back to the company page to trigger a fresh data fetch
   await page.goto(`/companies/${companyPk}`);
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
   console.log("✅ Navigated back to company page");
 }
 

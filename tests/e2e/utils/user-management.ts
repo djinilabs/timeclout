@@ -61,8 +61,8 @@ export class UserManagement {
     await submitButton.waitFor({ state: "visible" });
     await submitButton.click();
 
-    // Wait for form submission to process - wait for network idle instead of timeout
-    await this.page.waitForLoadState("networkidle");
+    // Wait for form submission to process
+    await this.page.waitForLoadState("domcontentloaded");
 
     console.log(`Magic link login initiated for: ${email}`);
   }
@@ -100,7 +100,7 @@ export class UserManagement {
 
     console.log("Navigating to magic link...");
     await this.page.goto(user.magicLink);
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("domcontentloaded");
 
     // Handle terms and conditions if they appear
     await this.handleTermsAndConditions();
@@ -124,9 +124,9 @@ export class UserManagement {
       console.log("✅ Clicked terms acceptance button");
 
       // Wait for the page to process the acceptance
-      await this.page.waitForLoadState("networkidle");
+      await this.page.waitForLoadState("domcontentloaded");
       // Wait for any UI updates to complete
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForLoadState("load");
     } else {
       console.log("ℹ️ No terms and conditions page found");
     }
@@ -156,9 +156,9 @@ export class UserManagement {
         console.log("✅ Clicked save button");
 
         // Wait for the form submission to process
-        await this.page.waitForLoadState("networkidle");
+        await this.page.waitForLoadState("domcontentloaded");
         // Wait for any UI updates to complete
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForLoadState("load");
       }
     } else {
       console.log("ℹ️ No professional name form found");
@@ -183,7 +183,10 @@ export class UserManagement {
     await userMenuButton.click();
 
     // Wait for the menu to open
-    await this.page.waitForTimeout(500);
+    await this.page
+      .locator('[role="menu"]')
+      .waitFor({ timeout: 5000 })
+      .catch(() => null);
 
     // Look for the user name in multiple possible locations
     // First try the span with aria-hidden="true" (desktop view)
