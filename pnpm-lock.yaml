@@ -158,7 +158,7 @@ importers:
         specifier: ^22.10.2
         version: 22.15.33
       '@urql/exchange-graphcache':
-        specifier: ^7.2.1
+        specifier: ^7.2.4
         version: 7.2.4(@urql/core@5.1.1(graphql@16.11.0))(graphql@16.11.0)
       '@vendia/serverless-express':
         specifier: ^4.12.6
