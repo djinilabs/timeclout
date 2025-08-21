@@ -22,7 +22,7 @@
     "test": "pnpm test:frontend && pnpm test:libs",
     "test:frontend": "cd apps/frontend && vitest run",
     "test:libs": "npx vitest run libs",
-    "test:e2e": "NODE_ENV=test playwright test",
+    "test:e2e": "NODE_ENV=test E2E_NO_UI=true playwright test",
     "test:e2e:ui": "NODE_ENV=test pplaywright test --ui",
     "test:e2e:headed": "NODE_ENV=test playwright test --headed",
     "test:e2e:debug": "NODE_ENV=test playwright test --debug",

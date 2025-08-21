@@ -88,8 +88,8 @@ async function completeUserProfile(page: Page): Promise<void> {
     await countrySelect.selectOption("Portugal"); // Select a valid country
     console.log("✅ Selected country");
 
-    // Wait a bit for the region options to update based on country selection
-    await page.waitForTimeout(1000);
+    // Wait for the region options to update based on country selection
+    await page.waitForLoadState("domcontentloaded");
   }
 
   // Select a region (appears to be required)

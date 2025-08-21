@@ -107,7 +107,8 @@ export class UserManagement {
 
     // Wait for the page to fully load and settle
     await this.page.waitForLoadState("load");
-    await this.page.waitForTimeout(3000);
+    // Wait for any dynamic content to settle
+    await this.page.waitForLoadState("domcontentloaded");
 
     // Check if we're on a callback URL and wait for redirect
     const currentUrl = this.page.url();
@@ -118,7 +119,8 @@ export class UserManagement {
         timeout: 15000,
       });
       await this.page.waitForLoadState("load");
-      await this.page.waitForTimeout(2000);
+      // Wait for any dynamic content to settle
+      await this.page.waitForLoadState("domcontentloaded");
     }
 
     // Handle terms and conditions if they appear
@@ -140,8 +142,8 @@ export class UserManagement {
     await this.page.waitForLoadState("domcontentloaded");
     await this.page.waitForLoadState("load");
 
-    // Wait a bit more for any dynamic content to appear
-    await this.page.waitForTimeout(3000);
+    // Wait for any dynamic content to appear
+    await this.page.waitForLoadState("domcontentloaded");
 
     // Look for the terms dialog with multiple possible selectors
     const termsButton = this.page
@@ -161,11 +163,11 @@ export class UserManagement {
       await this.page.waitForLoadState("load");
 
       // Additional wait to ensure the terms dialog is fully closed and page has settled
-      await this.page.waitForTimeout(3000);
+      await this.page.waitForLoadState("domcontentloaded");
 
       // Check if we're still on the same page or if we've been redirected
       console.log(`Current URL after accepting terms: ${this.page.url()}`);
-    } catch (error) {
+    } catch {
       console.log("ℹ️ No terms and conditions page found after waiting");
       console.log(
         "This might mean the user has already agreed to terms or there's no agreement required"
@@ -181,8 +183,8 @@ export class UserManagement {
   ): Promise<void> {
     console.log("Checking if professional name form is displayed...");
 
-    // Wait a bit for the page to settle after terms acceptance
-    await this.page.waitForTimeout(2000);
+    // Wait for the page to settle after terms acceptance
+    await this.page.waitForLoadState("domcontentloaded");
 
     // Wait for the page to fully load
     await this.page.waitForLoadState("domcontentloaded");
@@ -224,7 +226,7 @@ export class UserManagement {
         await this.page.waitForLoadState("load");
 
         // Additional wait to ensure the page has fully loaded
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForLoadState("domcontentloaded");
       }
     } else {
       console.log("ℹ️ No professional name form found after waiting");
@@ -254,8 +256,8 @@ export class UserManagement {
       'button[aria-label="Open user menu"]'
     );
 
-    // Wait a bit longer for the UI to fully load
-    await this.page.waitForTimeout(3000);
+    // Wait for the UI to fully load
+    await this.page.waitForLoadState("domcontentloaded");
 
     if (await userMenuButton.isVisible()) {
       console.log(
