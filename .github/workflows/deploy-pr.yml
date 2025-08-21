@@ -77,4 +77,4 @@ jobs:
             --field run_specific_tests="" \
             --ref ${{ github.head_ref }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.E2E_TRIGGER_TOKEN }}
