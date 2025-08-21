@@ -262,123 +262,21 @@ jobs:
 
       - name: Send Discord notification
         if: always()
-        run: |
-          # Prepare Discord message
-          WORKFLOW_NAME="${{ github.workflow }}"
-          RUN_STATUS="${{ job.status }}"
-          RUN_ID="${{ github.run_id }}"
-          RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          COMMIT_SHA="${{ github.sha }}"
-          COMMIT_MESSAGE="${{ github.event.head_commit.message || github.event.pull_request.title || 'Manual workflow dispatch' }}"
-
-          # Determine PR information
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            PR_NUMBER="${{ github.event.pull_request.number }}"
-            PR_TITLE="${{ github.event.pull_request.title }}"
-            PR_URL="${{ github.event.pull_request.html_url }}"
-            PR_INFO="🔗 **PR #$PR_NUMBER**: [$PR_TITLE]($PR_URL)"
-          elif [ "${{ github.event_name }}" == "workflow_run" ]; then
-            # Extract PR number from workflow_run event
-            PR_NUMBER=$(echo "${{ github.event.workflow_run.name }}" | grep -o 'PR[0-9]*' | grep -o '[0-9]*')
-            if [ -n "$PR_NUMBER" ]; then
-              PR_INFO="🔗 **PR #$PR_NUMBER**: From workflow run"
-            else
-              PR_INFO="📋 **Workflow Run**: From other workflow"
-            fi
-          elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            if [ "${{ github.event.inputs.environment }}" == "pr" ] && [ -n "${{ github.event.inputs.pull_request_number }}" ]; then
-              PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
-              PR_INFO="🔗 **PR #$PR_NUMBER**: Manual dispatch"
-            else
-              PR_INFO="🔧 **Manual Dispatch**: ${{ github.event.inputs.environment }} environment"
-            fi
-          else
-            PR_INFO="📋 **Event**: ${{ github.event_name }}"
-          fi
-
-          # Set status emoji and color
-          if [ "$RUN_STATUS" == "success" ]; then
-            STATUS_EMOJI="✅"
-            STATUS_COLOR="3066993" # Green
-            STATUS_TEXT="SUCCESS"
-          elif [ "$RUN_STATUS" == "failure" ]; then
-            STATUS_EMOJI="❌"
-            STATUS_COLOR="15158332" # Red
-            STATUS_TEXT="FAILED"
-          elif [ "$RUN_STATUS" == "cancelled" ]; then
-            STATUS_EMOJI="⏹️"
-            STATUS_COLOR="7506394" # Gray
-            STATUS_TEXT="CANCELLED"
-          else
-            STATUS_EMOJI="🔄"
-            STATUS_COLOR="3447003" # Blue
-            STATUS_TEXT="$RUN_STATUS"
-          fi
-
-          # Create Discord embed
-          DISCORD_PAYLOAD=$(cat << EOF
-          {
-            "embeds": [{
-              "title": "$STATUS_EMOJI $WORKFLOW_NAME - $STATUS_TEXT",
-              "description": "Workflow execution completed",
-              "color": $STATUS_COLOR,
-              "fields": [
-                {
-                  "name": "Status",
-                  "value": "$STATUS_EMOJI $STATUS_TEXT",
-                  "inline": true
-                },
-                {
-                  "name": "Workflow",
-                  "value": "$WORKFLOW_NAME",
-                  "inline": true
-                },
-                {
-                  "name": "Run ID",
-                  "value": "[#$RUN_ID]($RUN_URL)",
-                  "inline": true
-                },
-                {
-                  "name": "PR/Event",
-                  "value": "$PR_INFO",
-                  "inline": false
-                },
-                {
-                  "name": "Commit",
-                  "value": "[`${COMMIT_SHA:0:8}`]($RUN_URL) - $COMMIT_MESSAGE",
-                  "inline": false
-                },
-                {
-                  "name": "Repository",
-                  "value": "${{ github.repository }}",
-                  "inline": true
-                },
-                {
-                  "name": "Branch",
-                  "value": "${{ github.ref_name }}",
-                  "inline": true
-                }
-              ],
-              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-              "footer": {
-                "text": "GitHub Actions"
-              }
-            }]
-          }
-          EOF
-          )
-
-          # Send to Discord webhook
-          if [ -n "${{ secrets.DISCORD_CI_WEBHOOK_URL }}" ]; then
-            echo "Sending Discord notification..."
-            curl -H "Content-Type: application/json" \
-                 -X POST \
-                 -d "$DISCORD_PAYLOAD" \
-                 "${{ secrets.DISCORD_CI_WEBHOOK_URL }}"
-            echo "Discord notification sent successfully"
-          else
-            echo "DISCORD_CI_WEBHOOK_URL secret not configured, skipping Discord notification"
-          fi
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
+          workflow_name: ${{ github.workflow }}
+          job_status: ${{ job.status }}
+          run_id: ${{ github.run_id }}
+          repository: ${{ github.repository }}
+          sha: ${{ github.sha }}
+          ref_name: ${{ github.ref_name }}
+          event_name: ${{ github.event_name }}
+          head_commit_message: ${{ github.event.head_commit.message || github.event.pull_request.title || 'Manual workflow dispatch' }}
+          pull_request_number: ${{ github.event.pull_request.number || github.event.inputs.pull_request_number || '' }}
+          pull_request_title: ${{ github.event.pull_request.title || '' }}
+          pull_request_url: ${{ github.event.pull_request.html_url || '' }}
+          workflow_run_name: ${{ github.event.workflow_run.name || '' }}
 
       - name: Report status to PR
         if: always() && github.event.workflow_run.conclusion != 'success'

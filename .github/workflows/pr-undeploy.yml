@@ -91,3 +91,20 @@ jobs:
         run: |
           echo "No CloudFormation stack found for PR #${{ github.event.pull_request.number }}"
           echo "Cleanup completed successfully"
+
+      - name: Send Discord notification
+        if: always()
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
+          workflow_name: ${{ github.workflow }}
+          job_status: ${{ job.status }}
+          run_id: ${{ github.run_id }}
+          repository: ${{ github.repository }}
+          sha: ${{ github.sha }}
+          ref_name: ${{ github.ref_name }}
+          event_name: ${{ github.event_name }}
+          head_commit_message: "PR #${{ github.event.pull_request.number }} cleanup"
+          pull_request_number: ${{ github.event.pull_request.number }}
+          pull_request_title: ${{ github.event.pull_request.title }}
+          pull_request_url: ${{ github.event.pull_request.html_url }}

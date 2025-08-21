@@ -72,3 +72,18 @@ jobs:
           pnpm build
           cd apps/backend
           pnpm arc deploy --production --no-hydrate --verbose
+
+      - name: Send Discord notification
+        if: always()
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
+          workflow_name: ${{ github.workflow }}
+          job_status: ${{ job.status }}
+          run_id: ${{ github.run_id }}
+          repository: ${{ github.repository }}
+          sha: ${{ github.sha }}
+          ref_name: ${{ github.ref_name }}
+          event_name: ${{ github.event_name }}
+          head_commit_message: ${{ github.event.workflow_run.head_commit.message || 'Production deployment' }}
+          workflow_run_name: ${{ github.event.workflow_run.name }}
