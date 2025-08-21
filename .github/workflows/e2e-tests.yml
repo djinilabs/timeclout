@@ -264,3 +264,65 @@ jobs:
           name: traces-${{ github.run_id }}
           path: test-results/**/*.zip
           retention-days: 30
+
+      - name: Report status to PR
+        if: always() && github.event.workflow_run.conclusion != 'success'
+        run: |
+          # Get the PR number from the workflow_run event or from inputs
+          if [ "${{ github.event_name }}" == "workflow_run" ]; then
+            # Extract PR number from the workflow_run event
+            PR_NUMBER=$(echo "${{ github.event.workflow_run.name }}" | grep -o 'PR[0-9]*' | grep -o '[0-9]*')
+            if [ -n "$PR_NUMBER" ]; then
+              echo "Found PR number: $PR_NUMBER"
+              # Report status to the PR
+              if [ "${{ job.status }}" == "success" ]; then
+                gh pr comment $PR_NUMBER --body "✅ **E2E Tests Passed** - All tests completed successfully against PR deployment."
+              else
+                gh pr comment $PR_NUMBER --body "❌ **E2E Tests Failed** - Some tests failed. Check the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
+              fi
+            fi
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ github.event.inputs.environment }}" == "pr" ]; then
+            # For manual PR runs, use the input parameter
+            PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
+            if [ -n "$PR_NUMBER" ]; then
+              echo "Using PR number from inputs: $PR_NUMBER"
+              # Report status to the PR
+              if [ "${{ job.status }}" == "success" ]; then
+                gh pr comment $PR_NUMBER --body "✅ **E2E Tests Passed** - All tests completed successfully against PR deployment."
+              else
+                gh pr comment $PR_NUMBER --body "❌ **E2E Tests Failed** - Some tests failed. Check the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
+              fi
+            fi
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create status check
+        if: always()
+        run: |
+          # Get the PR number and create a status check
+          if [ "${{ github.event_name }}" == "workflow_run" ]; then
+            PR_NUMBER=$(echo "${{ github.event.workflow_run.name }}" | grep -o 'PR[0-9]*' | grep -o '[0-9]*')
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ github.event.inputs.environment }}" == "pr" ]; then
+            PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
+          fi
+
+          if [ -n "$PR_NUMBER" ]; then
+            echo "Creating status check for PR $PR_NUMBER"
+            # Create a status check using the GitHub API
+            if [ "${{ job.status }}" == "success" ]; then
+              gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
+                -f state=success \
+                -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+                -f description="E2E Tests Passed" \
+                -f context="E2E Tests (PR $PR_NUMBER)"
+            else
+              gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
+                -f state=failure \
+                -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+                -f description="E2E Tests Failed" \
+                -f context="E2E Tests (PR $PR_NUMBER)"
+            fi
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
