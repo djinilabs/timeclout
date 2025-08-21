@@ -1,11 +1,15 @@
-import { database, PERMISSION_LEVELS } from "@/tables";
+import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
+
 import type {
   MutationResolvers,
   ShiftPosition,
 } from "./../../../../types.generated";
-import { resourceRef } from "@/utils";
-import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
+
 import { DayDate } from "@/day-date";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
+
+
 
 export const publishShiftPositions: NonNullable<MutationResolvers['publishShiftPositions']> = async (_parent, { input }, ctx) => {
   const { team, startDay, endDay } = input;

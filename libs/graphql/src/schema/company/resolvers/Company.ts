@@ -1,9 +1,11 @@
-import { database, EntityRecord } from "@/tables";
-import { getUserAuthorizationLevelForResource } from "@/business-logic";
-import { resourceRef, getResourceRef } from "@/utils";
-import { CompanyResolvers, Unit, User } from "../../../types.generated";
 import { getAuthorized } from "../../../auth/getAuthorized";
 import { requireSession } from "../../../session/requireSession";
+import { CompanyResolvers, Unit, User } from "../../../types.generated";
+
+import { getUserAuthorizationLevelForResource } from "@/business-logic";
+import { database, EntityRecord } from "@/tables";
+import { resourceRef, getResourceRef } from "@/utils";
+
 
 export const Company: CompanyResolvers = {
   createdBy: async (parent, _args, ctx) => {

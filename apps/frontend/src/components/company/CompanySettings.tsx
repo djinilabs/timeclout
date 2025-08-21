@@ -1,14 +1,16 @@
-import { useMemo, useState } from "react";
-import { i18n } from "@lingui/core";
 import {
   CalendarDaysIcon,
   ClockIcon,
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
+import { i18n } from "@lingui/core";
+import { useMemo, useState } from "react";
+
 import { Tabs, type Tab } from "../molecules/Tabs";
+
 import { CompanyLeaveTypes } from "./CompanyLeaveTypes";
-import { CompanyYearlyQuota } from "./CompanyYearlyQuota";
 import { CompanyWorkSchedule } from "./CompanyWorkSchedule";
+import { CompanyYearlyQuota } from "./CompanyYearlyQuota";
 
 const CompanySettings = () => {
   const tabs = useMemo<Tab[]>(

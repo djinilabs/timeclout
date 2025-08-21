@@ -1,6 +1,6 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp.pt";
 import { RoleBasedHelp } from "../components/RoleBasedHelp.pt";
+import { HelpSection } from "../types";
 
 export const createShiftHelp: HelpSection = {
   title: "Criar Turno",
@@ -33,7 +33,8 @@ export const createShiftHelp: HelpSection = {
       content: (
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
-            1. Clique em <strong>"Adicionar Posição"</strong> no calendário
+            1. Clique em <strong>&quot;Adicionar Posição&quot;</strong> no
+            calendário
           </p>
           <p className="text-xs text-gray-600">
             2. Escolha um <strong>modelo</strong> ou crie do zero
@@ -48,7 +49,7 @@ export const createShiftHelp: HelpSection = {
             5. Adicione <strong>qualificações necessárias</strong>
           </p>
           <p className="text-xs text-gray-600">
-            6. Clique em <strong>"Guardar"</strong> para criar o turno
+            6. Clique em <strong>&quot;Guardar&quot;</strong> para criar o turno
           </p>
         </div>
       ),

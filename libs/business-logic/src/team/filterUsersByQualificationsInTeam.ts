@@ -1,6 +1,7 @@
-import { getResourceRef, ResourceRef } from "@/utils";
-import { EntityRecord } from "@/tables";
 import { userTeamQualifications } from "./userTeamQualifications";
+
+import { EntityRecord } from "@/tables";
+import { getResourceRef, ResourceRef } from "@/utils";
 
 export const filterUsersByQualificationsInTeam = async (
   users: EntityRecord[],

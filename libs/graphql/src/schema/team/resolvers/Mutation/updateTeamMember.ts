@@ -1,11 +1,15 @@
 import { forbidden, notFound } from "@hapi/boom";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { requireSession } from "../../../../session/requireSession";
-import { database, PERMISSION_LEVELS } from "@/tables";
-import { getDefined, resourceRef } from "@/utils";
+
+import type { MutationResolvers, User } from "./../../../../types.generated";
+
 import { authConfig } from "@/auth-config";
 import { isUserAuthorized, ensureExactAuthorization } from "@/business-logic";
-import type { MutationResolvers, User } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { getDefined, resourceRef } from "@/utils";
+
 
 export const updateTeamMember: NonNullable<MutationResolvers['updateTeamMember']> = async (_parent, { input }, ctx) => {
   const teamRef = resourceRef("teams", input.teamPk);

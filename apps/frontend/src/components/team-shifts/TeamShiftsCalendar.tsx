@@ -1,23 +1,27 @@
-import { DayDate } from "@/day-date";
-import { FC, PropsWithChildren, ReactNode, useMemo, useState } from "react";
-import { type Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
-import { i18n } from "@lingui/core";
 import {
   CalendarDaysIcon,
   ChartBarIcon,
   ClockIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
-import { TeamShiftsSummary } from "./TeamShiftsSummary";
+import { i18n } from "@lingui/core";
+import { FC, PropsWithChildren, ReactNode, useMemo, useState } from "react";
+
+
+import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { CalendarHeader } from "../atoms/CalendarHeader";
-import { Tabs, type Tab } from "../molecules/Tabs";
 import {
   MonthlyCalendarPerMember,
   type User,
 } from "../atoms/MonthlyCalendarPerMember";
-import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { Suspense } from "../atoms/Suspense";
+import { Tabs, type Tab } from "../molecules/Tabs";
+import { type Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
+
 import { TeamShiftsStats } from "./TeamShiftsStats";
+import { TeamShiftsSummary } from "./TeamShiftsSummary";
+
+import { DayDate } from "@/day-date";
 
 export interface TeamShiftsCalendarProps {
   shiftPositionsMap: Record<string, AnalyzedShiftPosition[]>;

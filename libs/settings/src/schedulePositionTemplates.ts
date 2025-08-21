@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { colorNames } from "./colors";
 
 export const schedulePositionTemplateSchema = z.object({

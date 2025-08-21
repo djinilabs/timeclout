@@ -1,11 +1,12 @@
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { FC, memo, ReactNode, useCallback } from "react";
 import { Trans } from "@lingui/react/macro";
+import { FC, memo, ReactNode, useCallback } from "react";
+
 import { months } from "../../utils/months";
 import { Button } from "../particles/Button";
 
@@ -80,7 +81,6 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
                 onClick={handlePrevMonth}
                 className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
                 aria-label="Previous month"
-                aria-clickable
                 role="button"
               >
                 <span className="sr-only">
@@ -94,7 +94,6 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
                 onClick={handleToday}
                 className="hidden h-9 border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
                 aria-label="Go to today"
-                aria-clickable
                 role="button"
               >
                 <Trans>Today</Trans>
@@ -109,7 +108,6 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
                 onClick={handleNextMonth}
                 className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
                 aria-label="Next month"
-                aria-clickable
                 role="button"
               >
                 <span className="sr-only">
@@ -154,7 +152,6 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
             <MenuButton
               className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500"
               aria-label="Open calendar actions menu"
-              aria-clickable
               role="button"
             >
               <span className="sr-only">
@@ -202,7 +199,6 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
                       className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                       role="menuitem"
                       aria-label="Go to today"
-                      aria-clickable
                     >
                       <Trans>Go to today</Trans>
                     </a>
@@ -216,3 +212,5 @@ export const CalendarHeader: FC<CalendarHeaderProps> = memo(
     );
   }
 );
+
+CalendarHeader.displayName = "CalendarHeader";

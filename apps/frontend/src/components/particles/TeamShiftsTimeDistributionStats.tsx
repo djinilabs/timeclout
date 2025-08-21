@@ -1,9 +1,10 @@
-import { FC, memo, useCallback, useMemo } from "react";
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
+import { FC, memo, useCallback, useMemo } from "react";
+
+import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { getInitials } from "../../utils/getInitials";
 import { BoxPlot } from "../stats/BoxPlot";
-import { i18n } from "@lingui/core";
-import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 
 interface TeamShiftsTimeDistributionStatsProps {
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
@@ -112,3 +113,5 @@ export const TeamShiftsTimeDistributionStats: FC<TeamShiftsTimeDistributionStats
       </div>
     );
   });
+
+TeamShiftsTimeDistributionStats.displayName = "TeamShiftsTimeDistributionStats";

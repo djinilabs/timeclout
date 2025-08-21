@@ -1,6 +1,9 @@
+/* eslint-disable playwright/no-standalone-expect */
 import { describe, it, expect } from "vitest";
-import { DayDate } from "@/day-date";
+
 import { getLeaveQuotaPeriods } from "./getLeaveQuotaPeriods";
+
+import { DayDate } from "@/day-date";
 
 describe("getLeaveQuotaPeriods", () => {
   it("should return correct periods when reset month is January", () => {

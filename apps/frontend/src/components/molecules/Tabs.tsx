@@ -1,9 +1,10 @@
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { FC, PropsWithChildren, useCallback, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
+
+import { useSearchParam } from "../../hooks/useSearchParam";
 import { classNames } from "../../utils/classNames";
 import { Suspense } from "../atoms/Suspense";
-import { useSearchParam } from "../../hooks/useSearchParam";
 
 export interface Tab {
   name: string;

@@ -1,15 +1,18 @@
+/* eslint-disable react/no-children-prop */
 import "react-day-picker/style.css";
-import { FC, useMemo, useCallback, useState } from "react";
-import { useForm } from "@tanstack/react-form";
+import { XMarkIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
-import { getDefined } from "@/utils";
+import { useForm } from "@tanstack/react-form";
+import { FC, useMemo, useCallback, useState } from "react";
+
+import { type AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { useTeamDayTemplates } from "../../hooks/useTeamDayTemplates";
-import { ScheduleDayTemplate, SchedulePositionTemplate } from "@/settings";
+import { type ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionTemplates";
 import { ShiftPosition } from "../atoms/ShiftPosition";
-import { type AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
-import { type ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
-import { XMarkIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+
+import { ScheduleDayTemplate, SchedulePositionTemplate } from "@/settings";
+import { getDefined } from "@/utils";
 
 export interface CreateOrEditScheduleDayTemplateDialogProps {
   onClose: () => void;

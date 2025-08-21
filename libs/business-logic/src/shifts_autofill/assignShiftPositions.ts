@@ -1,7 +1,8 @@
+import { notFound } from "@hapi/boom";
+
+import { i18n } from "@/locales";
 import { database } from "@/tables";
 import { getResourceRef, ResourceRef } from "@/utils";
-import { notFound } from "@hapi/boom";
-import { i18n } from "@/locales";
 
 export const assignShiftPositions = async (
   teamPk: ResourceRef<"teams">,

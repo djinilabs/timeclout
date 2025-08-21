@@ -1,9 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
-import { ShiftPosition } from "libs/graphql/src/types.generated";
-import { useTeamShiftActions } from "./useTeamShiftActions";
-import { shiftPositionKey } from "../utils/shiftPositionKey";
-import { useConfirmDialog } from "./useConfirmDialog";
 import { Trans } from "@lingui/react/macro";
+import { ShiftPosition } from "libs/graphql/src/types.generated";
+import { useCallback, useEffect, useState } from "react";
+
+
+import { shiftPositionKey } from "../utils/shiftPositionKey";
+
+import { useConfirmDialog } from "./useConfirmDialog";
+import { useTeamShiftActions } from "./useTeamShiftActions";
+
 
 type ShiftPositionWithFake = ShiftPosition & {
   fake?: boolean;

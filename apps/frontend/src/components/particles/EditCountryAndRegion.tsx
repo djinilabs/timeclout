@@ -1,12 +1,14 @@
+/* eslint-disable react/no-children-prop */
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
 import { FC, useEffect } from "react";
 import toast from "react-hot-toast";
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import { Trans } from "@lingui/react/macro";
+
 import { useCountries } from "../../hooks/useCountries";
 import { useCountrySubdivisions } from "../../hooks/useCountrySubdivisions";
-import { FieldComponent } from "../types";
 import { useFetchActivity } from "../../hooks/useFetchActivity";
-import { i18n } from "@lingui/core";
+import { FieldComponent } from "../types";
 
 interface EditCountryAndRegionProps {
   Field: FieldComponent;

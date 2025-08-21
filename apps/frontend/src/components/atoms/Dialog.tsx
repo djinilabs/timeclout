@@ -1,10 +1,11 @@
-import { FC, PropsWithChildren, ReactNode, memo } from "react";
 import {
   Dialog as HeadlessDialog,
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
+import { FC, PropsWithChildren, ReactNode, memo } from "react";
+
 import { classNames } from "../../utils/classNames";
 export interface DialogProps {
   className?: string;
@@ -72,3 +73,5 @@ export const Dialog: FC<PropsWithChildren<DialogProps>> = memo(
     );
   }
 );
+
+Dialog.displayName = "Dialog";

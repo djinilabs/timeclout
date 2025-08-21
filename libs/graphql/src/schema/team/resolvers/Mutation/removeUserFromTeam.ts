@@ -1,8 +1,11 @@
 import { notFound, notAcceptable } from "@hapi/boom";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { MutationResolvers, Team } from "./../../../../types.generated";
+
 import { database , PERMISSION_LEVELS } from "@/tables";
 import { getDefined, resourceRef } from "@/utils";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import type { MutationResolvers, Team } from "./../../../../types.generated";
 
 export const removeUserFromTeam: NonNullable<
   MutationResolvers["removeUserFromTeam"]

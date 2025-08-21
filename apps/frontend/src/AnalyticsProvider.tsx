@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren } from "react";
 import { PostHogProvider } from "posthog-js/react";
+import { FC, PropsWithChildren } from "react";
 
 const postHogOptions = {
   api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,

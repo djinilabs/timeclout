@@ -1,5 +1,5 @@
-import { database, LeaveRequestRecord, EntityRecord } from "@/tables";
 import { eventBus } from "@/event-bus";
+import { database, LeaveRequestRecord, EntityRecord } from "@/tables";
 
 export const rejectLeaveRequest = async (
   leaveRequest: LeaveRequestRecord,

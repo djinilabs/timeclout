@@ -1,5 +1,5 @@
-import { FC, memo, useCallback } from "react";
 import { ResponsiveBar, BarDatum, ComputedDatum } from "@nivo/bar";
+import { FC, memo, useCallback } from "react";
 
 export interface DeviationBarPlotDatum extends BarDatum {
   group: string;
@@ -17,7 +17,7 @@ export interface DeviationBarPlotProps {
 }
 
 export const DeviationBarPlot: FC<DeviationBarPlotProps> = memo(
-  ({
+  function DeviationBarPlot({
     data,
     label,
     tickLabel,
@@ -25,7 +25,7 @@ export const DeviationBarPlot: FC<DeviationBarPlotProps> = memo(
     color,
     axisBottomLabel,
     ariaLabel,
-  }) => {
+  }) {
     return (
       <ResponsiveBar
         labelTextColor="black"

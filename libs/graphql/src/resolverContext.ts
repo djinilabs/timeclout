@@ -1,4 +1,5 @@
 import { APIGatewayProxyEventV2, Context } from "aws-lambda";
+
 import { database, EntityRecord } from "@/tables";
 import { ResourceRef } from "@/utils";
 

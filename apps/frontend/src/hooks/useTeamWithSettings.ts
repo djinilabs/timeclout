@@ -1,8 +1,11 @@
-import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
-import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
+import { useMemo } from "react";
+
 import { QueryTeamArgs, Team, TeamSettingsArgs } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { useMemo } from "react";
+
+import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
+import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
+
 
 export interface UseTeamWithSettingsParams<T extends SettingsTypeKey> {
   teamPk: string;

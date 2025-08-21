@@ -1,11 +1,17 @@
-import { useQuery } from "../hooks/useQuery";
-import teamApprovedScheduleQuery from "@/graphql-client/queries/teamApprovedSchedule.graphql";
-import { Team, User } from "../graphql/graphql";
-import { getDefined } from "@/utils";
-import { DayDate } from "@/day-date";
 import { ReactNode, useMemo } from "react";
-import { useCompanyWithSettings } from "./useCompanyWithSettings";
+
+import { Team, User } from "../graphql/graphql";
+import { useQuery } from "../hooks/useQuery";
 import { leaveTypeColors, leaveTypeIcons } from "../settings/leaveTypes";
+
+import { useCompanyWithSettings } from "./useCompanyWithSettings";
+
+import { DayDate } from "@/day-date";
+import teamApprovedScheduleQuery from "@/graphql-client/queries/teamApprovedSchedule.graphql";
+import { getDefined } from "@/utils";
+
+
+
 
 interface LeaveInfo {
   type: string;

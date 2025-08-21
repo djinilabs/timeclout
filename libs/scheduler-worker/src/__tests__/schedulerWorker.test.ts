@@ -1,5 +1,7 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
+
 import { SchedulerWorkerClient } from "../schedulerWorkerClient";
+
 import type { SchedulerState, SchedulerOptions } from "@/scheduler";
 
 // Mock the worker module before any imports

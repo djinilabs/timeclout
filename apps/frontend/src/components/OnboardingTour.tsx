@@ -1,10 +1,12 @@
-import { useState, useEffect, useMemo } from "react";
-import { useLocation, useMatch } from "react-router-dom";
-import Joyride, { CallBackProps, STATUS } from "react-joyride";
-import { useLingui } from "@lingui/react";
 import { i18n } from "@lingui/core";
-import { once } from "@/utils";
+import { useLingui } from "@lingui/react";
+import { useState, useEffect, useMemo } from "react";
+import Joyride, { CallBackProps, STATUS } from "react-joyride";
+import { useLocation, useMatch } from "react-router-dom";
+
 import { useTour } from "../hooks/useTour";
+
+import { once } from "@/utils";
 
 interface TourStep {
   target: string;

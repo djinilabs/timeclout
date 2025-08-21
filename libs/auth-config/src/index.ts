@@ -1,10 +1,12 @@
-import Google from "next-auth/providers/google";
-import { DynamoDBAdapter } from "@auth/dynamodb-adapter";
 import { tables } from "@architect/functions";
-import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
-import { getDefined, once, resourceRef } from "@/utils";
-import { database, EntityRecord } from "@/tables";
+import { DynamoDBAdapter } from "@auth/dynamodb-adapter";
 import { ExpressAuthConfig } from "@auth/express";
+import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
+import Google from "next-auth/providers/google";
+
+import { database, EntityRecord } from "@/tables";
+import { getDefined, once, resourceRef } from "@/utils";
+
 
 // Remove hardcoded email list
 const acceptableEmailAddresses = new Set([

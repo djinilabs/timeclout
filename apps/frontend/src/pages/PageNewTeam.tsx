@@ -1,13 +1,16 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useForm } from "@tanstack/react-form";
+/* eslint-disable react/no-children-prop */
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
-import toast from "react-hot-toast";
-import { getDefined } from "@/utils";
-import createTeamMutation from "@/graphql-client/mutations/createTeam.graphql";
-import { useMutation } from "../hooks/useMutation";
-import { Mutation, MutationCreateTeamArgs } from "../graphql/graphql";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
+import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { Mutation, MutationCreateTeamArgs } from "../graphql/graphql";
+import { useMutation } from "../hooks/useMutation";
+
+import createTeamMutation from "@/graphql-client/mutations/createTeam.graphql";
+import { getDefined } from "@/utils";
 
 export const PageNewTeam = () => {
   const { company: companyPk, unit: unitPk } = useParams();
@@ -61,7 +64,7 @@ export const PageNewTeam = () => {
             </h2>
             <p className="mt-1 text-sm/6 text-gray-600">
               To create a new team you just have to fill in the team name and
-              click on "Create".
+              click on &quot;Create&quot;.
             </p>
           </div>
 
@@ -136,6 +139,7 @@ export const PageNewTeam = () => {
           type="button"
           className="text-sm/6 font-semibold text-gray-900"
           aria-label="Cancel"
+          // eslint-disable-next-line react/no-unknown-property
           aria-clickable
           role="button"
         >
@@ -146,6 +150,7 @@ export const PageNewTeam = () => {
           disabled={form.state.isSubmitting}
           className="team-submit-button rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
           aria-label={i18n.t("Create team")}
+          // eslint-disable-next-line react/no-unknown-property
           aria-clickable
           role="button"
         >

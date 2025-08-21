@@ -1,16 +1,18 @@
 import { ArcTable } from "@architect/functions/types/tables";
+import { AwsLiteDynamoDB } from "@aws-lite/dynamodb-types";
+import { conflict, notFound } from "@hapi/boom";
+import omit from "lodash.omit";
+import { z, ZodSchema } from "zod";
+
+import { logger } from "./logger";
 import {
   TableAPI,
   TableName,
   TableSchemas,
   TableBaseSchemaType,
 } from "./schema";
-import { z, ZodSchema } from "zod";
-import { conflict, notFound } from "@hapi/boom";
-import { AwsLiteDynamoDB } from "@aws-lite/dynamodb-types";
+
 import { getDefined } from "@/utils";
-import omit from "lodash.omit";
-import { logger } from "./logger";
 
 /**
  * Removes undefined values from an object to ensure clean data for DynamoDB storage

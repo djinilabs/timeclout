@@ -1,7 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
-import { ScheduleDayTemplate } from "@/settings";
-import { useTeamWithSettings } from "./useTeamWithSettings";
+
 import { useSaveTeamSettings } from "./useSaveTeamSettings";
+import { useTeamWithSettings } from "./useTeamWithSettings";
+
+import { ScheduleDayTemplate } from "@/settings";
 
 export const useTeamDayTemplates = (teamPk: string) => {
   const { saveTeamSettings: saveTeamDayTemplates } =

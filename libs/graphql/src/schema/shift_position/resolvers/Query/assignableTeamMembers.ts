@@ -1,10 +1,13 @@
-import { resourceRef } from "@/utils";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import type { QueryResolvers, User } from "./../../../../types.generated";
-import { database, PERMISSION_LEVELS } from "@/tables";
 import { notFound } from "@hapi/boom";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { QueryResolvers, User } from "./../../../../types.generated";
+
 import { teamMembersUsers } from "@/business-logic";
 import { i18n } from "@/locales";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 
 export const assignableTeamMembers: NonNullable<
   QueryResolvers["assignableTeamMembers"]

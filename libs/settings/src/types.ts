@@ -1,25 +1,25 @@
 import { type LeaveTypes, leaveTypeParser } from "./leaveTypes";
-import { type Managers, managersParser } from "./managers";
-import { type YearlyQuota, yearlyQuotaParser } from "./yearlyQuota";
-import {
-  type YearlyUserQuotas,
-  yearlyUserQuotasParser,
-} from "./yearlyUserQuotas";
 import { type Location, locationParser } from "./location";
-import { type WorkSchedule, worksScheduleParser } from "./workSchedule";
+import { type Managers, managersParser } from "./managers";
 import { type Qualifications, qualificationsParser } from "./qualifications";
 import {
-  type UserQualifications,
-  userQualificationsParser,
-} from "./userQualifications";
+  type ScheduleDayTemplates,
+  scheduleDayTemplatesParser,
+} from "./scheduleDayTemplates";
 import {
   type SchedulePositionTemplates,
   schedulePositionTemplatesParser,
 } from "./schedulePositionTemplates";
 import {
-  type ScheduleDayTemplates,
-  scheduleDayTemplatesParser,
-} from "./scheduleDayTemplates";
+  type UserQualifications,
+  userQualificationsParser,
+} from "./userQualifications";
+import { type WorkSchedule, worksScheduleParser } from "./workSchedule";
+import { type YearlyQuota, yearlyQuotaParser } from "./yearlyQuota";
+import {
+  type YearlyUserQuotas,
+  yearlyUserQuotasParser,
+} from "./yearlyUserQuotas";
 
 export type SettingsType<TShape> = {
   name: string;

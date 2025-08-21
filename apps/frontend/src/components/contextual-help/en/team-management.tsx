@@ -1,6 +1,6 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const teamManagementHelp: HelpSection = {
   title: "Comprehensive Team Management",
@@ -48,7 +48,8 @@ export const teamManagementHelp: HelpSection = {
           Configure <strong>team-specific policies</strong>, schedules, leave
           entitlements, and shift requirements. Set up{" "}
           <em>work patterns, qualification requirements</em>, and operational
-          rules that align with your team's unique needs and responsibilities.
+          rules that align with your team&apos;s unique needs and
+          responsibilities.
         </>
       ),
     },
@@ -96,7 +97,8 @@ export const teamManagementHelp: HelpSection = {
           <p>Follow this comprehensive process to set up effective teams:</p>
           <ol className="space-y-2">
             <li>
-              <strong>Define Team Purpose:</strong> Clearly establish the team's
+              <strong>Define Team Purpose:</strong> Clearly establish the
+              team&apos;s
               <em>mission, responsibilities</em>, and operational scope within
               your organization
             </li>
@@ -119,7 +121,7 @@ export const teamManagementHelp: HelpSection = {
             <li>
               <strong>Set Up Infrastructure:</strong> Configure{" "}
               <strong>shift templates</strong>, work schedules, and operational
-              parameters specific to the team's needs
+              parameters specific to the team&apos;s needs
             </li>
             <li>
               <strong>Implement Monitoring:</strong> Establish{" "}

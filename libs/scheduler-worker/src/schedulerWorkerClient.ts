@@ -1,5 +1,6 @@
-import { SchedulerState, type SchedulerOptions } from "@/scheduler";
 import SchedulerWorker from "./schedulerWorker?worker";
+
+import { SchedulerState, type SchedulerOptions } from "@/scheduler";
 
 export class SchedulerWorkerClient {
   private worker: Worker | undefined;

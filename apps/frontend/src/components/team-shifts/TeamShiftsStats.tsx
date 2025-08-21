@@ -1,4 +1,5 @@
 import { FC, memo } from "react";
+
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { TeamShiftsInconvenienceDeviationStats } from "../particles/TeamShiftsInconvenienceDeviationStats";
 import { TeamShiftsScheduleTypeDistributionStats } from "../particles/TeamShiftsScheduleTypeDistributionStats";
@@ -12,7 +13,7 @@ export interface TeamShiftsStatsProps {
 }
 
 export const TeamShiftsStats: FC<TeamShiftsStatsProps> = memo(
-  ({ shiftPositionsMap }) => {
+  function TeamShiftsStats({ shiftPositionsMap }) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
         <TeamShiftsInconvenienceDeviationStats

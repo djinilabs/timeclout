@@ -1,6 +1,7 @@
-import { Trans } from "@lingui/react/macro";
-import { LabeledSwitch } from "../particles/LabeledSwitch";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { Trans } from "@lingui/react/macro";
+
+import { LabeledSwitch } from "../particles/LabeledSwitch";
 
 export interface AnalyzeTeamShiftsCalendarMenuProps {
   analyzeLeaveConflicts: boolean;

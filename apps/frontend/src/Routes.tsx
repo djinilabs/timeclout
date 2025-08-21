@@ -1,11 +1,12 @@
 import { FC, lazy } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import { RequiresSelfSettings } from "./components/personal/RequiresSelfSettings";
+
 import { AppLayout } from "./AppLayout";
+import { Suspense } from "./components/atoms/Suspense";
+import { CheckLatestAppVersion } from "./components/molecules/CheckLatestAppVersion";
+import { RequiresSelfSettings } from "./components/personal/RequiresSelfSettings";
 import { EntityNavigationContextProvider } from "./contexts/EntityNavigationContext";
 import { ConfirmDialogProvider } from "./providers/ConfirmDialogProvider";
-import { CheckLatestAppVersion } from "./components/molecules/CheckLatestAppVersion";
-import { Suspense } from "./components/atoms/Suspense";
 
 const LazyCompanies = lazy(() => import("./routes/Companies"));
 const LazyNewCompany = lazy(() => import("./routes/NewCompany"));

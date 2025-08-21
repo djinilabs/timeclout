@@ -21,10 +21,11 @@ const PagePrivacyStatement = () => {
             <div className="mt-8 prose prose-gray max-w-none">
               <h2>1. Introduction</h2>
               <p>
-                TT3 ("we," "our," or "us") is committed to protecting your
-                privacy. This Privacy Statement explains how we collect, use,
-                disclose, and safeguard your information when you use our team
-                scheduling and leave management platform.
+                TT3 (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is
+                committed to protecting your privacy. This Privacy Statement
+                explains how we collect, use, disclose, and safeguard your
+                information when you use our team scheduling and leave
+                management platform.
               </p>
 
               <h2>2. Information We Collect</h2>
@@ -172,7 +173,7 @@ const PagePrivacyStatement = () => {
                 Privacy Statement.
               </p>
 
-              <h2>10. Children's Privacy</h2>
+              <h2>10. Children&apos;s Privacy</h2>
               <p>
                 Our Service is not intended for children under the age of 13. We
                 do not knowingly collect personal information from children
@@ -184,7 +185,8 @@ const PagePrivacyStatement = () => {
               <p>
                 We may update this Privacy Statement from time to time. We will
                 notify you of any material changes by posting the new Privacy
-                Statement on this page and updating the "Last updated" date.
+                Statement on this page and updating the &quot;Last updated&quot;
+                date.
               </p>
 
               <h2>12. Contact Us</h2>

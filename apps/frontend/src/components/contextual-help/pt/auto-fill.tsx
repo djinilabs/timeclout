@@ -1,6 +1,6 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp.pt";
 import { RoleBasedHelp } from "../components/RoleBasedHelp.pt";
+import { HelpSection } from "../types";
 
 export const autoFillHelp: HelpSection = {
   title: "Preenchimento Automático de Agendamento",
@@ -34,8 +34,8 @@ export const autoFillHelp: HelpSection = {
       content: (
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
-            1. Clique no botão <strong>"Preenchimento Automático"</strong> no
-            calendário
+            1. Clique no botão{" "}
+            <strong>&quot;Preenchimento Automático&quot;</strong> no calendário
           </p>
           <p className="text-xs text-gray-600">
             2. Selecione o <strong>intervalo de datas</strong> que quer
@@ -57,8 +57,9 @@ export const autoFillHelp: HelpSection = {
             </p>
           </div>
           <p className="text-xs text-gray-600">
-            4. Clique em <strong>"Executar Preenchimento Automático"</strong>{" "}
-            para gerar atribuições
+            4. Clique em{" "}
+            <strong>&quot;Executar Preenchimento Automático&quot;</strong> para
+            gerar atribuições
           </p>
           <p className="text-xs text-gray-600">
             5. <strong>Revise</strong> os resultados e publique se estiver

@@ -1,13 +1,14 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import graphqlLoader from "vite-plugin-graphql-loader";
 import path from "path";
-import tsconfigPaths from "vite-tsconfig-paths";
+
 import { lingui } from "@lingui/vite-plugin";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react-swc";
+import { defineConfig } from "vite";
+import graphqlLoader from "vite-plugin-graphql-loader";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig({

@@ -1,13 +1,17 @@
+import { Trans } from "@lingui/react/macro";
 import {
   AssignableTeamMembersInput,
   ShiftPosition,
   User,
 } from "libs/graphql/src/types.generated";
-import { Suspense } from "./Suspense";
+
 import { useQuery } from "../../hooks/useQuery";
-import assignableTeamMembers from "@/graphql-client/queries/assignableTeamMembers.graphql";
 import { Avatar } from "../particles/Avatar";
-import { Trans } from "@lingui/react/macro";
+
+import { Suspense } from "./Suspense";
+
+import assignableTeamMembers from "@/graphql-client/queries/assignableTeamMembers.graphql";
+
 
 export interface AssignableTeamMembersProps {
   teamPk: string;

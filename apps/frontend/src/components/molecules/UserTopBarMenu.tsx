@@ -1,15 +1,18 @@
-import { useMemo } from "react";
-import { Link } from "react-router-dom";
-import { useSession, signOut } from "next-auth/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
-import meQuery from "@/graphql-client/queries/me.graphql";
-import { useQuery } from "../../hooks/useQuery";
+import { Trans } from "@lingui/react/macro";
+import { useSession, signOut } from "next-auth/react";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
+
+
 import { Query } from "../../graphql/graphql";
-import { Avatar } from "../particles/Avatar";
+import { useQuery } from "../../hooks/useQuery";
 import { Suspense } from "../atoms/Suspense";
+import { Avatar } from "../particles/Avatar";
+
+import meQuery from "@/graphql-client/queries/me.graphql";
 
 export const LoadingUserTopBarMenu = () => {
   const userNavigation = useMemo(

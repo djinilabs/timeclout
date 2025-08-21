@@ -1,9 +1,11 @@
-import { database } from "@/tables";
+import { requireSession } from "libs/graphql/src/session/requireSession";
+
 import type {
   QueryResolvers,
   ResolversTypes,
 } from "./../../../../types.generated";
-import { requireSession } from "libs/graphql/src/session/requireSession";
+
+import { database } from "@/tables";
 import { getDefined } from "@/utils";
 
 export const myInvitations: NonNullable<

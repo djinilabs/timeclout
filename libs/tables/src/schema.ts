@@ -1,9 +1,10 @@
+import { z } from "zod";
+
 import {
   getCompoundedResourceRef,
   getResourceRef,
   gettingResourceRef,
 } from "@/utils";
-import { z } from "zod";
 
 const TableBaseSchema = z.object({
   pk: z.string(),

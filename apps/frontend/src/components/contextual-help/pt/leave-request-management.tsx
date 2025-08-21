@@ -1,6 +1,6 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp.pt";
 import { RoleBasedHelp } from "../components/RoleBasedHelp.pt";
+import { HelpSection } from "../types";
 
 export const leaveRequestManagementHelp: HelpSection = {
   title: "Gestão Abrangente de Pedidos de Licença",

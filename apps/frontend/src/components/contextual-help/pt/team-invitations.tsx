@@ -1,6 +1,6 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp.pt";
 import { RoleBasedHelp } from "../components/RoleBasedHelp.pt";
+import { HelpSection } from "../types";
 
 export const teamInvitationsHelp: HelpSection = {
   title: "Convites da Equipa",
@@ -34,7 +34,7 @@ export const teamInvitationsHelp: HelpSection = {
       content: (
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
-            1. Clique no botão <strong>"Convidar Membro"</strong>
+            1. Clique no botão <strong>&quot;Convidar Membro&quot;</strong>
           </p>
           <p className="text-xs text-gray-600">
             2. Introduza o <strong>endereço de email</strong> e selecione a{" "}

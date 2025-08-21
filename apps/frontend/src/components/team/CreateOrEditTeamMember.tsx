@@ -1,12 +1,10 @@
+/* eslint-disable react/no-children-prop */
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
 import { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useForm } from "@tanstack/react-form";
-import { Trans } from "@lingui/react/macro";
-import { getDefined } from "@/utils";
-import teamMemberWithSettingsQuery from "@/graphql-client/queries/teamMemberWithSettings.graphql";
-import createTeamMemberMutation from "@/graphql-client/mutations/createTeamMember.graphql";
-import updateTeamMemberMutation from "@/graphql-client/mutations/updateTeamMember.graphql";
-import updateUserSettingsMutation from "@/graphql-client/mutations/updateUserSettings.graphql";
+
 import {
   Mutation,
   MutationCreateTeamMemberArgs,
@@ -17,12 +15,18 @@ import {
   UserSettingsArgs,
 } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
-import { Button } from "../particles/Button";
-import { EditCountryAndRegion } from "../particles/EditCountryAndRegion";
 import { useQuery } from "../../hooks/useQuery";
 import { PermissionInput } from "../atoms/PermissionInput";
+import { Button } from "../particles/Button";
+import { EditCountryAndRegion } from "../particles/EditCountryAndRegion";
 import { FieldComponent } from "../types";
-import { i18n } from "@lingui/core";
+
+import createTeamMemberMutation from "@/graphql-client/mutations/createTeamMember.graphql";
+import updateTeamMemberMutation from "@/graphql-client/mutations/updateTeamMember.graphql";
+import updateUserSettingsMutation from "@/graphql-client/mutations/updateUserSettings.graphql";
+import teamMemberWithSettingsQuery from "@/graphql-client/queries/teamMemberWithSettings.graphql";
+import { getDefined } from "@/utils";
+
 interface CreateOrEditTeamMemberProps {
   teamPk: string;
   memberPk?: string;

@@ -1,7 +1,8 @@
-import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
-import { settingsTypes } from "@/settings";
+
 import { i18n } from "@/locales";
+import { settingsTypes } from "@/settings";
+import { database } from "@/tables";
 
 export const updateEntitySettings = async (
   entityRef: string,

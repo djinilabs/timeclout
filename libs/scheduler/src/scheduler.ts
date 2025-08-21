@@ -1,5 +1,8 @@
-import { getDefined, timeout } from "@/utils";
+import { dequal } from "dequal";
+import { random } from "nanoid";
+
 import { evaluateSchedule } from "./evaluateSchedule";
+import { heuristics as realHeuristics } from "./heuristics";
 import { isScheduleValid } from "./rules";
 import { RuleName } from "./rules/types";
 import { randomSchedule } from "./schedule";
@@ -10,9 +13,9 @@ import {
   SlotWorker,
 } from "./types";
 import { sortByScore } from "./utils/sortByScore";
-import { heuristics as realHeuristics } from "./heuristics";
-import { random } from "nanoid";
-import { dequal } from "dequal";
+
+import { getDefined, timeout } from "@/utils";
+
 
 export interface SchedulerSubscriptionOptions {
   interval: number;

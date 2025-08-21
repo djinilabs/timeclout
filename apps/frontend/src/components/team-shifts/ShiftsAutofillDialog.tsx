@@ -1,12 +1,15 @@
-import { useMemo } from "react";
-import { DayDate, DayDateInterval } from "@/day-date";
-import { Trans } from "@lingui/react/macro";
 import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import { Dialog } from "../atoms/Dialog";
-import { Suspense } from "../atoms/Suspense";
+import { Trans } from "@lingui/react/macro";
+import { useMemo } from "react";
+
 import { classNames } from "../../utils/classNames";
-import { ShiftsAutoFill } from "./ShiftsAutoFill";
+import { Dialog } from "../atoms/Dialog";
 import { HelpPanel } from "../atoms/HelpPanel";
+import { Suspense } from "../atoms/Suspense";
+
+import { ShiftsAutoFill } from "./ShiftsAutoFill";
+
+import { DayDate, DayDateInterval } from "@/day-date";
 
 export interface ShiftsAutofillDialogProps {
   isDialogOpen: boolean;

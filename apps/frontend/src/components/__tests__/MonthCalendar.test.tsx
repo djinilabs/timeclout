@@ -1,8 +1,9 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
-import { BrowserRouter } from "react-router-dom";
+import { I18nProvider } from "@lingui/react";
 import { render, screen, fireEvent } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import { describe, expect, it, vi, beforeEach } from "vitest";
+
 import { MonthDailyCalendar } from "../particles/MonthDailyCalendar";
 
 // Mock ResizeObserver
@@ -85,13 +86,13 @@ describe("MonthCalendar", () => {
     const currentMonthDay = screen
       .getByTestId("day-2024-03-15")
       .closest("div[tabindex]");
-    expect(currentMonthDay).toHaveClass("bg-white");
+    await expect(currentMonthDay).toHaveClass("bg-white");
 
     // Previous month day (if visible)
     const prevMonthDay = screen
       .getByTestId("day-2024-02-29")
       .closest("div[tabindex]");
-    expect(prevMonthDay).toHaveClass("bg-gray-50");
+    await expect(prevMonthDay).toHaveClass("bg-gray-50");
   });
 
   it("renders custom day content", () => {

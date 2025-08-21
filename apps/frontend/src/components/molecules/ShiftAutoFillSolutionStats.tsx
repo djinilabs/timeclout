@@ -1,8 +1,12 @@
-import { useMemo } from "react";
-import { Trans } from "@lingui/react/macro";
-import { ScoredShiftSchedule, type SchedulerState } from "@/scheduler";
-import { PercentageStatCard } from "../atoms/PercentageStatCard";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useMemo } from "react";
+
+import { PercentageStatCard } from "../atoms/PercentageStatCard";
+
+import { ScoredShiftSchedule, type SchedulerState } from "@/scheduler";
+
+
 
 export interface ShiftAutoFillSolutionStatsProps {
   solution: ScoredShiftSchedule;

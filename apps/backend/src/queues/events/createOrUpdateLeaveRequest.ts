@@ -1,10 +1,5 @@
-import { EventBusEventCreatedOrUpdatedLeaveRequest } from "@/event-bus";
-import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
-import { leaveTypeParser } from "@/settings";
-import { EmailParams, renderEmail } from "@/emails";
-import { sendEmail } from "@/send-email";
-import { getDefined } from "@/utils";
+
 import {
   approveLeaveRequest as approveLeaveRequestLogic,
   getUnitManagersPks,
@@ -12,6 +7,12 @@ import {
   isLeaveRequestFullyApproved,
   parseLeaveRequestPk,
 } from "@/business-logic";
+import { EmailParams, renderEmail } from "@/emails";
+import { EventBusEventCreatedOrUpdatedLeaveRequest } from "@/event-bus";
+import { sendEmail } from "@/send-email";
+import { leaveTypeParser } from "@/settings";
+import { database } from "@/tables";
+import { getDefined } from "@/utils";
 
 export const handleCreateOrUpdateLeaveRequest = async ({
   value: { leaveRequest },

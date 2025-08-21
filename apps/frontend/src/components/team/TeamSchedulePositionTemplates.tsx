@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
 import {
   Combobox,
   ComboboxButton,
@@ -8,22 +6,26 @@ import {
   ComboboxOptions,
 } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import toast from "react-hot-toast";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
-import { getDefined } from "@/utils";
+import { Trans } from "@lingui/react/macro";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+
+import { QueryTeamArgs, Team, TeamSettingsArgs } from "../../graphql/graphql";
+import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
+import { Badge } from "../particles/Badge";
+import { Button } from "../particles/Button";
+
+import updateTeamSettingsMutation from "@/graphql-client/mutations/updateTeamSettings.graphql";
+import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
 import {
   colorNames,
   schedulePositionTemplatesParser,
   SchedulePositionTemplates,
 } from "@/settings";
-import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
-import updateTeamSettingsMutation from "@/graphql-client/mutations/updateTeamSettings.graphql";
-import { QueryTeamArgs, Team, TeamSettingsArgs } from "../../graphql/graphql";
-import { useQuery } from "../../hooks/useQuery";
-import { useMutation } from "../../hooks/useMutation";
-import { Badge } from "../particles/Badge";
-import { Button } from "../particles/Button";
+import { getDefined } from "@/utils";
 
 export const TeamSchedulePositionTemplates = () => {
   const { team: teamPk } = useParams();

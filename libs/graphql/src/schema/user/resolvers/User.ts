@@ -1,10 +1,12 @@
 import crypto from "node:crypto";
-import { database } from "@/tables";
-import { getResourceRef } from "@/utils";
+
 import type {
   UserResolvers,
   User as UserType,
 } from "./../../../types.generated";
+
+import { database } from "@/tables";
+import { getResourceRef } from "@/utils";
 
 export const User: UserResolvers = {
   email: (parent) => {

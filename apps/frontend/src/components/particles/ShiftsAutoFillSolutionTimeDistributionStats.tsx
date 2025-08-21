@@ -1,9 +1,11 @@
-import { FC, memo, useCallback, useMemo } from "react";
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
-import { type ScoredShiftSchedule } from "@/scheduler";
+import { FC, memo, useCallback, useMemo } from "react";
+
 import { getInitials } from "../../utils/getInitials";
 import { BoxPlot } from "../stats/BoxPlot";
-import { i18n } from "@lingui/core";
+
+import { type ScoredShiftSchedule } from "@/scheduler";
 
 interface ShiftsAutoFillSolutionTimeDistributionStatsProps {
   schedule: ScoredShiftSchedule;
@@ -106,3 +108,6 @@ export const ShiftsAutoFillSolutionTimeDistributionStats: FC<ShiftsAutoFillSolut
       </div>
     );
   });
+
+ShiftsAutoFillSolutionTimeDistributionStats.displayName =
+  "ShiftsAutoFillSolutionTimeDistributionStats";

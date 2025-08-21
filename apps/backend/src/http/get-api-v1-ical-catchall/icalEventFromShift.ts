@@ -1,7 +1,9 @@
+import { ICalEventData } from "ical-generator";
+
+import { UserCache } from "./userCache";
+
 import { type ShiftPositionsRecord } from "@/tables";
 import { resourceRef } from "@/utils";
-import { ICalEventData } from "ical-generator";
-import { UserCache } from "./userCache";
 
 const startDate = (shift: ShiftPositionsRecord) => {
   const start = new Date(shift.day);

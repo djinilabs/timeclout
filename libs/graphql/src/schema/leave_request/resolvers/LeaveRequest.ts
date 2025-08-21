@@ -1,5 +1,6 @@
-import { getResourceRef } from "@/utils";
 import type { LeaveRequestResolvers, User } from "./../../../types.generated";
+
+import { getResourceRef } from "@/utils";
 
 export const LeaveRequest: LeaveRequestResolvers = {
   /* Implement LeaveRequest resolver logic here */

@@ -1,9 +1,11 @@
-import { FC, memo, useCallback, useMemo } from "react";
-import { Trans } from "@lingui/react/macro";
-import { type ScoredShiftSchedule } from "@/scheduler";
-import { getInitials } from "../../utils/getInitials";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { FC, memo, useCallback, useMemo } from "react";
+
+import { getInitials } from "../../utils/getInitials";
 import { StackedBarPlot } from "../stats/StackedBarPlot";
+
+import { type ScoredShiftSchedule } from "@/scheduler";
 
 interface ShiftsAutoFillSolutionScheduleTypeDistributionStatsProps {
   schedule: ScoredShiftSchedule;
@@ -100,3 +102,6 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats: FC<ShiftsAutoF
       </div>
     );
   });
+
+ShiftsAutoFillSolutionScheduleTypeDistributionStats.displayName =
+  "ShiftsAutoFillSolutionScheduleTypeDistributionStats";

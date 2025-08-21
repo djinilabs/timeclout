@@ -1,12 +1,15 @@
 import { nanoid } from "nanoid";
-import { getResourceRef } from "@/utils";
-import { database, PERMISSION_LEVELS } from "@/tables";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
 import type {
   MutationResolvers,
   ShiftPosition,
 } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
 import { i18n } from "@/locales";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { getResourceRef } from "@/utils";
 
 export const updateShiftPosition: NonNullable<
   MutationResolvers["updateShiftPosition"]

@@ -1,19 +1,22 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
 import { i18n } from "@lingui/core";
-import { getDefined } from "@/utils";
-import { leaveTypeParser } from "@/settings";
-import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
-import { useQuery } from "../../hooks/useQuery";
-import { useMutation } from "../../hooks/useMutation";
-import { LeaveTypeEditor } from "../molecules/LeaveTypeEditor";
+import { toast } from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+
 import {
   CompanySettingsArgs,
   Mutation,
   MutationUpdateCompanySettingsArgs,
   Query,
  QueryCompanyArgs } from "../../graphql/graphql";
+import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
+import { LeaveTypeEditor } from "../molecules/LeaveTypeEditor";
+
+import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import { leaveTypeParser } from "@/settings";
+import { getDefined } from "@/utils";
+
 
 export const CreateLeaveType = () => {
   const { company: companyPk } = useParams();

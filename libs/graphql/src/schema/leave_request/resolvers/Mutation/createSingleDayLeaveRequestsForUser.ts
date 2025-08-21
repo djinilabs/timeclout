@@ -1,15 +1,20 @@
-import { PERMISSION_LEVELS } from "@/tables";
-import { resourceRef } from "@/utils";
-import {
-  createLeaveRequestsForSingleDays,
-  isUserAuthorized,
-} from "@/business-logic";
+import { forbidden } from "@hapi/boom";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
 import type {
   LeaveRequest,
   MutationResolvers,
 } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import { forbidden } from "@hapi/boom";
+
+import {
+  createLeaveRequestsForSingleDays,
+  isUserAuthorized,
+} from "@/business-logic";
+import { PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
+
+
 
 export const createSingleDayLeaveRequestsForUser: NonNullable<MutationResolvers['createSingleDayLeaveRequestsForUser']> = async (_parent, { input }, ctx) => {
   const companyResourceRef = resourceRef("companies", input.companyPk);

@@ -1,4 +1,5 @@
 import { useContext } from "react";
+
 import { EntityNavigationContext } from "../contexts/EntityNavigationContext";
 
 export const useEntityNavigationContext = () => {

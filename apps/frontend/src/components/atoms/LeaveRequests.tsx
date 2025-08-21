@@ -1,8 +1,9 @@
+import { ChevronRightIcon, ClockIcon } from "@heroicons/react/24/outline";
+import { Trans } from "@lingui/react/macro";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
-import { ChevronRightIcon, ClockIcon } from "@heroicons/react/24/outline";
-import { Trans } from "@lingui/react/macro";
+
 import { LeaveRequest } from "../../graphql/graphql";
 import { Avatar } from "../particles/Avatar";
 
@@ -37,6 +38,7 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
                       href={`mailto:${leaveRequest.beneficiary.email}`}
                       className="relative truncate hover:underline"
                       aria-label={`Send email to ${leaveRequest.beneficiary.name} at ${leaveRequest.beneficiary.email}`}
+                      // eslint-disable-next-line react/no-unknown-property
                       aria-clickable
                       role="link"
                       aria-describedby={`email-${leaveRequest.pk}-description`}

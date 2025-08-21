@@ -1,13 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import { useForm } from "@tanstack/react-form";
+/* eslint-disable react/no-children-prop */
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
-import toast from "react-hot-toast";
-import createCompanyMutation from "@/graphql-client/mutations/createCompany.graphql";
-import { Button } from "../components/particles/Button";
-import { useMutation } from "../hooks/useMutation";
-import { Mutation, MutationCreateCompanyArgs } from "../graphql/graphql";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
+import { Button } from "../components/particles/Button";
+import { Mutation, MutationCreateCompanyArgs } from "../graphql/graphql";
+import { useMutation } from "../hooks/useMutation";
+
+import createCompanyMutation from "@/graphql-client/mutations/createCompany.graphql";
 
 export const PageNewCompany = () => {
   const navigate = useNavigate();
@@ -60,7 +63,7 @@ export const PageNewCompany = () => {
               <p className="mt-1 text-sm/6 text-gray-600">
                 <Trans>
                   To create a new company you just have to fill in the company
-                  name and click on "Create".
+                  name and click on &quot;Create&quot;.
                 </Trans>
               </p>
             </div>
@@ -140,6 +143,7 @@ export const PageNewCompany = () => {
             disabled={form.state.isSubmitting}
             className="company-submit-button rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
             aria-label={i18n.t("Create company")}
+            // eslint-disable-next-line react/no-unknown-property
             aria-clickable
             role="button"
           >

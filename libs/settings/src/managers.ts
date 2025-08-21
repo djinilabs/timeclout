@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { getResourceRef } from "@/utils";
 
 const managersSchema = z.array(z.string().refine(getResourceRef));

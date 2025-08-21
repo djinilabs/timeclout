@@ -1,9 +1,12 @@
-import { database } from "@/tables";
-import { requireSession } from "../../../../session/requireSession";
-import type { QueryResolvers, User } from "./../../../../types.generated";
 import { notFound } from "@hapi/boom";
-import { resourceRef } from "@/utils";
+
+import { requireSession } from "../../../../session/requireSession";
+
+import type { QueryResolvers, User } from "./../../../../types.generated";
+
 import { i18n } from "@/locales";
+import { database } from "@/tables";
+import { resourceRef } from "@/utils";
 
 export const me: NonNullable<QueryResolvers["me"]> = async (
   _parent,

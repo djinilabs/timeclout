@@ -1,14 +1,14 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp.pt";
 import { RoleBasedHelp } from "../components/RoleBasedHelp.pt";
+import { HelpSection } from "../types";
 
 export const schedulePositionTemplatesHelp: HelpSection = {
   title: "Modelos de Posições de Horário",
   description: (
     <>
       Visualize e gere <strong>modelos para posições de horário</strong>. Estes
-      modelos são criados no diálogo <em>"Adicionar Posição"</em> da secção
-      Calendário de Turnos e são utilizados para manter{" "}
+      modelos são criados no diálogo <em>&quot;Adicionar Posição&quot;</em> da
+      secção Calendário de Turnos e são utilizados para manter{" "}
       <u>consistência na criação de turnos</u>. Cada modelo inclui um nome e cor
       para fácil identificação, facilitando o preenchimento de posições com{" "}
       <strong>membros da equipa qualificados</strong>.
@@ -41,7 +41,7 @@ export const schedulePositionTemplatesHelp: HelpSection = {
         <>
           Revise e gere <strong>modelos de posições existentes</strong>. Note
           que novos modelos devem ser criados no diálogo{" "}
-          <u>'Adicionar Posição'</u> da secção Calendário de Turnos.
+          <u>&apos;Adicionar Posição&apos;</u> da secção Calendário de Turnos.
         </>
       ),
     },
@@ -67,7 +67,8 @@ export const schedulePositionTemplatesHelp: HelpSection = {
               Navegue para a secção <strong>Calendário de Turnos</strong>
             </li>
             <li>
-              Clique em <em>"Adicionar Posição"</em> na vista do calendário
+              Clique em <em>&quot;Adicionar Posição&quot;</em> na vista do
+              calendário
             </li>
             <li>
               Introduza um <strong>nome descritivo</strong> para a posição
@@ -121,22 +122,23 @@ export const schedulePositionTemplatesHelp: HelpSection = {
         <>
           <p>
             <strong>Modelos de Posições de Horário</strong> permitem-lhe definir
-            funções ou posições reutilizáveis (ex: <em>"Enfermeiro"</em>,{" "}
-            <em>"Rececionista"</em>,<em>"Supervisor"</em>) com a sua própria
-            cor, <strong>competências necessárias</strong> e horários de turno
-            padrão. Crie estes no diálogo <u>"Adicionar Posição"</u> no
-            Calendário de Turnos. Use nomes claros e cores distintas para fácil
-            identificação.
+            funções ou posições reutilizáveis (ex:{" "}
+            <em>&quot;Enfermeiro&quot;</em>, <em>&quot;Rececionista&quot;</em>,
+            <em>&quot;Supervisor&quot;</em>) com a sua própria cor,{" "}
+            <strong>competências necessárias</strong> e horários de turno
+            padrão. Crie estes no diálogo <u>&quot;Adicionar Posição&quot;</u>{" "}
+            no Calendário de Turnos. Use nomes claros e cores distintas para
+            fácil identificação.
           </p>
           <p className="mt-2">
             <strong>Modelos de Dia de Horário</strong> são coleções de modelos
             de posições que representam um dia de trabalho típico (ex:{" "}
-            <em>"Dia Útil Padrão"</em>, <em>"Cobertura de Fim de Semana"</em>).
-            Pode criar e gerir modelos de dia na{" "}
-            <strong>secção Modelos de Dia</strong>. Arraste e largue modelos de
-            posições para construir um modelo de dia, depois arraste modelos de
-            dia para o calendário para preencher rapidamente uma{" "}
-            <u>semana ou mês</u>.
+            <em>&quot;Dia Útil Padrão&quot;</em>,{" "}
+            <em>&quot;Cobertura de Fim de Semana&quot;</em>). Pode criar e gerir
+            modelos de dia na <strong>secção Modelos de Dia</strong>. Arraste e
+            largue modelos de posições para construir um modelo de dia, depois
+            arraste modelos de dia para o calendário para preencher rapidamente
+            uma <u>semana ou mês</u>.
           </p>
           <p className="mt-2">
             <strong>Boas Práticas:</strong> Revise regularmente os seus modelos

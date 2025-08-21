@@ -1,4 +1,5 @@
 import { FC, memo, ReactNode, useEffect, useState } from "react";
+
 import { classNames } from "../../utils/classNames";
 
 export interface VerticalTabsProps {
@@ -60,3 +61,5 @@ export const VerticalTabs: FC<VerticalTabsProps> = memo(({ tabs }) => {
     </div>
   );
 });
+
+VerticalTabs.displayName = "VerticalTabs";

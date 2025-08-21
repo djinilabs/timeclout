@@ -1,4 +1,5 @@
 import { FC, memo, ReactNode, useCallback } from "react";
+
 import { Dialog } from "../atoms/Dialog";
 
 export interface ConfirmDialogProps {
@@ -57,3 +58,5 @@ export const ConfirmDialog: FC<ConfirmDialogProps> = memo(
     );
   }
 );
+
+ConfirmDialog.displayName = "ConfirmDialog";

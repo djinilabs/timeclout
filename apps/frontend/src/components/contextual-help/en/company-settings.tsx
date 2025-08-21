@@ -1,13 +1,13 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const companySettingsHelp: HelpSection = {
   title: "Company Settings",
   description: (
     <>
-      Manage your company's settings and preferences. Configure company-wide
-      policies, user roles, and other organizational settings.
+      Manage your company&apos;s settings and preferences. Configure
+      company-wide policies, user roles, and other organizational settings.
     </>
   ),
   features: [

@@ -1,6 +1,6 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const unitSettingsHelp: HelpSection = {
   title: "Unit Settings",

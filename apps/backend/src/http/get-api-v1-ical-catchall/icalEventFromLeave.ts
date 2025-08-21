@@ -1,6 +1,8 @@
-import { LeaveRecord } from "@/tables";
 import { ICalEventData } from "ical-generator";
+
 import { UserCache } from "./userCache";
+
+import { LeaveRecord } from "@/tables";
 import { getCompoundedResourceRefConstituents, resourceRef } from "@/utils";
 
 export const icalEventFromLeave = async (

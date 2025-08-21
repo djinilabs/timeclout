@@ -1,8 +1,10 @@
-import { FC, memo } from "react";
-import { getInitials } from "../../utils/getInitials";
-import { Hint } from "./Hint";
-import { classNames } from "../../utils/classNames";
 import { i18n } from "@lingui/core";
+import { FC, memo } from "react";
+
+import { classNames } from "../../utils/classNames";
+import { getInitials } from "../../utils/getInitials";
+
+import { Hint } from "./Hint";
 
 const getColorAndBackground = (md5?: string | null) => {
   if (!md5) {
@@ -95,3 +97,5 @@ export const Avatar: FC<AvatarProps> = memo(
     );
   }
 );
+
+Avatar.displayName = "Avatar";

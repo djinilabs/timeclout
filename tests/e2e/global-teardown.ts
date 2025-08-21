@@ -1,7 +1,9 @@
-import { timeout } from "../../libs/utils/src";
-import { backendProcess, frontendProcess } from "./global-setup";
 import { exec } from "child_process";
 import { promisify } from "util";
+
+import { timeout } from "../../libs/utils/src";
+
+import { backendProcess, frontendProcess } from "./global-setup";
 
 const execAsync = promisify(exec);
 

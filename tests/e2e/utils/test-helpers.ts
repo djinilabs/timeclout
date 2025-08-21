@@ -1,5 +1,6 @@
-import { UserManagement, TestUser } from "./user-management";
 import { Page } from "@playwright/test";
+
+import { UserManagement, TestUser } from "./user-management";
 
 /**
  * Common test scenarios and patterns for user management

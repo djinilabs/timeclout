@@ -1,7 +1,10 @@
-import { APIGatewayProxyHandlerV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import serverlessExpress from "@vendia/serverless-express";
-import { createApp } from "./ical-app";
+import { APIGatewayProxyHandlerV2, APIGatewayProxyResultV2 } from "aws-lambda";
+
 import { handlingErrors } from "../../utils/handlingErrors";
+
+import { createApp } from "./ical-app";
+
 
 let cachedHandler: APIGatewayProxyHandlerV2 | undefined;
 

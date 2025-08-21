@@ -1,6 +1,8 @@
 import { Trans } from "@lingui/react/macro";
+
 import { Dialog } from "../atoms/Dialog";
 import { Suspense } from "../atoms/Suspense";
+
 import { RevertShiftPositions } from "./RevertShiftPositions";
 
 export interface RevertShiftPositionsDialogProps {

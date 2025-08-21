@@ -24,16 +24,16 @@ export const TeamCalendarIntegrations = () => {
       </p>
       <p className="mb-4 text-sm/6 text-gray-500">
         <Trans>
-          You can subscribe to your team's calendar using the URL below. This
-          allows you to see team shifts directly in your calendar app. To
+          You can subscribe to your team&apos;s calendar using the URL below.
+          This allows you to see team shifts directly in your calendar app. To
           subscribe:
         </Trans>
       </p>
       <ul className="mb-4 ml-6 list-disc text-sm/6 text-gray-500">
         <li>
           <Trans>
-            In Google Calendar: Click the + next to "Other calendars" &gt; "From
-            URL" and paste the URL
+            In Google Calendar: Click the + next to &quot;Other calendars&quot;
+            &gt; &quot;From URL&quot; and paste the URL
           </Trans>
         </li>
         <li>
@@ -72,7 +72,9 @@ export const TeamCalendarIntegrations = () => {
                 await navigator.clipboard.writeText(url);
                 const button = document.activeElement as HTMLButtonElement;
                 const originalContent = button.innerHTML;
-                button.innerHTML = `<span class="text-sm font-medium text-green-600">${i18n.t("Copied!")}</span>`;
+                button.innerHTML = `<span class="text-sm font-medium text-green-600">${i18n.t(
+                  "Copied!"
+                )}</span>`;
                 setTimeout(() => {
                   button.innerHTML = originalContent;
                 }, 2000);

@@ -1,11 +1,13 @@
-import { database , PERMISSION_LEVELS } from "@/tables";
-import { getResourceRef } from "@/utils";
 import { notFound } from "@hapi/boom";
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
+
 import type {
   MutationResolvers,
   ShiftPosition,
 } from "./../../../../types.generated";
+
+import { database , PERMISSION_LEVELS } from "@/tables";
+import { getResourceRef } from "@/utils";
 
 export const deleteShiftPosition: NonNullable<MutationResolvers['deleteShiftPosition']> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();

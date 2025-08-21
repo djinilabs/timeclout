@@ -1,4 +1,5 @@
 import { FC, memo } from "react";
+
 import { TimeSchedule } from "../types";
 
 export interface TimeScheduleVisualizerProps {
@@ -6,7 +7,7 @@ export interface TimeScheduleVisualizerProps {
 }
 
 export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
-  ({ schedules }) => {
+  function TimeScheduleVisualizer({ schedules }) {
     return (
       <div
         className="items-center gap-2 w-full grid grid-cols-6"

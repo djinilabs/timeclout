@@ -1,11 +1,13 @@
-import { database, PERMISSION_LEVELS } from "@/tables";
-import { resourceRef } from "@/utils";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
 import type {
   QueryResolvers,
   ShiftPosition,
 } from "./../../../../types.generated";
+
 import { DayDate } from "@/day-date";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 
 export const shiftPositions: NonNullable<QueryResolvers['shiftPositions']> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();

@@ -1,15 +1,20 @@
-import {
-  canApproveLeaveRequest,
-  approveLeaveRequest as approveLeaveRequestLogic,
-} from "@/business-logic";
 import { forbidden, notFound } from "@hapi/boom";
-import { database } from "@/tables";
-import { getDefined, resourceRef } from "@/utils";
+
+import { requireSession } from "../../../../session/requireSession";
+
 import type {
   LeaveRequest,
   MutationResolvers,
 } from "./../../../../types.generated";
-import { requireSession } from "../../../../session/requireSession";
+
+import {
+  canApproveLeaveRequest,
+  approveLeaveRequest as approveLeaveRequestLogic,
+} from "@/business-logic";
+import { database } from "@/tables";
+import { getDefined, resourceRef } from "@/utils";
+
+
 
 export const approveLeaveRequest: NonNullable<MutationResolvers['approveLeaveRequest']> = async (_parent, arg, ctx) => {
   // get company resource ref

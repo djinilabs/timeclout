@@ -1,10 +1,15 @@
 import { nanoid } from "nanoid";
+
+import { requireSession } from "../../../../session/requireSession";
+
+import type { Company, MutationResolvers } from "./../../../../types.generated";
+import { defaultLeaveTypes } from "./defaultLeaveTypes";
+
+import { giveAuthorization } from "@/business-logic";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { getDefined, resourceRef } from "@/utils";
-import { giveAuthorization } from "@/business-logic";
-import type { Company, MutationResolvers } from "./../../../../types.generated";
-import { requireSession } from "../../../../session/requireSession";
-import { defaultLeaveTypes } from "./defaultLeaveTypes";
+
+
 
 export const createCompany: NonNullable<MutationResolvers['createCompany']> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);

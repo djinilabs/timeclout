@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+
 import { InviteToTeam } from "../components/InviteToTeam";
 
 export const PageNewTeamInvite = () => {

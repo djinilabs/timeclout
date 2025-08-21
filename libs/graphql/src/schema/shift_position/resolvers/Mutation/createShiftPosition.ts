@@ -1,11 +1,13 @@
+import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
 import { nanoid } from "nanoid";
-import { database, PERMISSION_LEVELS } from "@/tables";
-import { resourceRef } from "@/utils";
+
 import type {
   MutationResolvers,
   ShiftPosition,
 } from "./../../../../types.generated";
-import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
+
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 
 export const createShiftPosition: NonNullable<MutationResolvers['createShiftPosition']> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();

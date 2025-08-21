@@ -1,12 +1,12 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const leaveRequestManagementHelp: HelpSection = {
   title: "Comprehensive Leave Request Management",
   description: (
     <>
-      Streamline and optimize your team's{" "}
+      Streamline and optimize your team&apos;s{" "}
       <strong>leave management process</strong>. This comprehensive system
       allows you to submit, track, approve, and manage leave requests
       efficiently while ensuring <em>compliance with company policies</em>

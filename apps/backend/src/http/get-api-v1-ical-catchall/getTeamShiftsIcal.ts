@@ -1,10 +1,14 @@
-import { database } from "@/tables";
-import ical, { ICalCalendarMethod } from "ical-generator";
-import { icalEventFromShift } from "./icalEventFromShift";
-import { DayDate } from "@/day-date";
-import { resourceRef } from "@/utils";
 import { notFound } from "@hapi/boom";
+import ical, { ICalCalendarMethod } from "ical-generator";
+
+import { icalEventFromShift } from "./icalEventFromShift";
 import { userCache } from "./userCache";
+
+import { DayDate } from "@/day-date";
+import { database } from "@/tables";
+import { resourceRef } from "@/utils";
+
+
 
 export const getTeamShiftsIcal = async (teamId: string): Promise<string> => {
   const { entity, shift_positions } = await database();

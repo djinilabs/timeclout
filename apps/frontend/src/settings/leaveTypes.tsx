@@ -1,3 +1,4 @@
+import { type ReactNode } from "react";
 import {
   FaUmbrellaBeach,
   FaSpa,
@@ -16,7 +17,7 @@ import {
   FaHome,
 } from "react-icons/fa";
 import { MdSelfImprovement } from "react-icons/md";
-import { type ReactNode } from "react";
+
 import { type LeaveTypes, colors } from "@/settings";
 
 export const leaveTypeIcons: Record<LeaveTypes[number]["icon"], ReactNode> = {

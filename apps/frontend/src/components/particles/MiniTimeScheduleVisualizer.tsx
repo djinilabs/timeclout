@@ -1,7 +1,9 @@
 import { FC, memo, useMemo } from "react";
-import { toMinutes } from "../../utils/toMinutes";
-import { Hint } from "./Hint";
+
 import { classNames } from "../../utils/classNames";
+import { toMinutes } from "../../utils/toMinutes";
+
+import { Hint } from "./Hint";
 
 export interface TimeSchedule {
   startHourMinutes: [number, number];
@@ -100,13 +102,18 @@ const ScheduleBar: FC<ScheduleBarProps> = ({
   );
 };
 
+ScheduleBar.displayName = "ScheduleBar";
+
 export interface TimeScheduleVisualizerProps {
   schedules: TimeSchedule[];
   marginLeftAccordingToSchedule?: boolean;
 }
 
 export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
-  ({ schedules, marginLeftAccordingToSchedule = true }) => {
+  function MiniTimeScheduleVisualizer({
+    schedules,
+    marginLeftAccordingToSchedule = true,
+  }) {
     const {
       howManyDaysPercentage,
       startPercent,

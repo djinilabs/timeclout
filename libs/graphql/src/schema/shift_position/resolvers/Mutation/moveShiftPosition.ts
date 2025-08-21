@@ -1,11 +1,15 @@
 import { nanoid } from "nanoid";
-import { getResourceRef } from "@/utils";
-import { database, PERMISSION_LEVELS } from "@/tables";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
 import type {
   MutationResolvers,
   ShiftPosition,
 } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { getResourceRef } from "@/utils";
+
 
 export const moveShiftPosition: NonNullable<MutationResolvers['moveShiftPosition']> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();

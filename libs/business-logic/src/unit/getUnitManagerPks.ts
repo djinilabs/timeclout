@@ -1,5 +1,6 @@
-import { ResourceRef, unique } from "@/utils";
 import { getEntitySettings } from "../entity/getEntitySettings";
+
+import { ResourceRef, unique } from "@/utils";
 
 export const getUnitManagersPks = async (
   unitPks: ResourceRef[]

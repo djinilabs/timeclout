@@ -6,21 +6,24 @@ import {
   PlusIcon,
   TrashIcon,
 } from "@heroicons/react/20/solid";
+import { Trans } from "@lingui/react/macro";
+import toast from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
-import toast from "react-hot-toast";
-import { Trans } from "@lingui/react/macro";
-import { getDefined } from "@/utils";
-import teamWithMembersQuery from "@/graphql-client/queries/teamWithMembers.graphql";
-import removeUserFromTeamMutation from "@/graphql-client/mutations/removeUserFromTeam.graphql";
+
 import { QueryTeamArgs, Team, User } from "../../graphql/graphql";
-import { useQuery } from "../../hooks/useQuery";
-import { useMutation } from "../../hooks/useMutation";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
 import { permissionTypeToString } from "../../utils/permissionTypeToString";
-import { TeamMemberQualifications } from "./TeamMemberQualifications";
 import { Avatar } from "../particles/Avatar";
 import { Button } from "../particles/Button";
+
+import { TeamMemberQualifications } from "./TeamMemberQualifications";
+
+import removeUserFromTeamMutation from "@/graphql-client/mutations/removeUserFromTeam.graphql";
+import teamWithMembersQuery from "@/graphql-client/queries/teamWithMembers.graphql";
+import { getDefined } from "@/utils";
 
 export const TeamMembers = () => {
   const { company, unit, team: teamPk } = useParams();
@@ -110,6 +113,7 @@ export const TeamMembers = () => {
                       href={`mailto:${person.email}`}
                       className="truncate hover:underline"
                       aria-label={`Send email to ${person.name} at ${person.email}`}
+                      // eslint-disable-next-line react/no-unknown-property
                       aria-clickable
                       role="link"
                     >
@@ -216,6 +220,7 @@ export const TeamMembers = () => {
                         }}
                         className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2 w-full cursor-pointer whitespace-nowrap"
                         aria-label={`Remove ${person.name} from team`}
+                        // eslint-disable-next-line react/no-unknown-property
                         aria-clickable
                         role="button"
                       >

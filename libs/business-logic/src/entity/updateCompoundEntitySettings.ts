@@ -1,5 +1,5 @@
-import { database } from "@/tables";
 import { settingsTypes } from "@/settings";
+import { database } from "@/tables";
 
 export const updateCompoundEntitySettings = async (
   entityRef: string,

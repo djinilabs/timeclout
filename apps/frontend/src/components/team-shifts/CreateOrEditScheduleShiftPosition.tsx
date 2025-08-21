@@ -1,12 +1,12 @@
+/* eslint-disable react/no-children-prop */
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
+import { dequal } from "dequal";
 import { FC, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useForm } from "@tanstack/react-form";
 import "react-day-picker/style.css";
-import { Trans } from "@lingui/react/macro";
-import { dequal } from "dequal";
-import { DayDate } from "@/day-date";
-import { getDefined } from "@/utils";
-import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
+
 import {
   CreateShiftPositionInput,
   QueryTeamArgs,
@@ -17,16 +17,19 @@ import {
   UpdateShiftPositionInput,
 } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
+import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionTemplates";
 import { calculateShiftPositionSchedulesTotalInconvenience } from "../../utils/calculateShiftPositionSchedulesTotalInconvenience";
-import { TimeSchedulesEditor } from "../team-shifts/TimeSchedulesEditor";
-import { EditQualifications } from "../team/EditQualifications";
-import { SelectUser } from "../atoms/SelectUser";
 import { Color, ColorPicker } from "../atoms/ColorPicker";
+import { DayPicker } from "../atoms/DayPicker";
+import { SelectUser } from "../atoms/SelectUser";
 import { Button } from "../particles/Button";
 import { ListBox } from "../particles/ListBox";
-import { DayPicker } from "../atoms/DayPicker";
-import { i18n } from "@lingui/core";
-import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionTemplates";
+import { EditQualifications } from "../team/EditQualifications";
+import { TimeSchedulesEditor } from "../team-shifts/TimeSchedulesEditor";
+
+import { DayDate } from "@/day-date";
+import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
+import { getDefined } from "@/utils";
 
 export interface CreateOrEditScheduleShiftPositionProps {
   day: DayDate;

@@ -1,9 +1,10 @@
 import { render } from "@react-email/components";
-import { EmailParams } from "./types";
-import { LeaveRequestToManagerEmail } from "./LeaveRequestToManagerEmail";
-import { LeaveRequestRejectedToManagerEmail } from "./LeaveRequestRejectedToManagerEmail";
+
 import { LeaveRequestApprovedToManagerEmail } from "./LeaveRequestApprovedToManagerEmail";
+import { LeaveRequestRejectedToManagerEmail } from "./LeaveRequestRejectedToManagerEmail";
 import { LeaveRequestRejectedToUserEmail } from "./LeaveRequestRejectedToUserEmail";
+import { LeaveRequestToManagerEmail } from "./LeaveRequestToManagerEmail";
+import { EmailParams } from "./types";
 
 const renderReactEmail = (params: EmailParams) => {
   switch (params.type) {

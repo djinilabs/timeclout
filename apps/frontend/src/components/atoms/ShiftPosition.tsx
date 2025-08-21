@@ -1,23 +1,26 @@
-import { memo, useCallback, useEffect, useRef } from "react";
 import { Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { colors } from "@/settings";
+import { i18n } from "@lingui/core";
 import {
   User,
   type ShiftPosition as ShiftPositionType,
 } from "libs/graphql/src/types.generated";
+import { memo, useCallback, useEffect, useRef } from "react";
+
+import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { type ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 import { classNames } from "../../utils/classNames";
+import { toMinutes } from "../../utils/toMinutes";
+import { Avatar } from "../particles/Avatar";
+import { Hint } from "../particles/Hint";
 import {
   type TimeSchedule,
   MiniTimeScheduleVisualizer,
 } from "../particles/MiniTimeScheduleVisualizer";
-import { type ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
-import { Avatar } from "../particles/Avatar";
-import { toMinutes } from "../../utils/toMinutes";
-import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
-import { i18n } from "@lingui/core";
-import { Hint } from "../particles/Hint";
+
 import { ShiftPositionMenu } from "./ShiftPositionMenu";
+
+import { colors } from "@/settings";
 
 export interface ShiftPositionProps {
   teamPk: string;
@@ -418,3 +421,5 @@ export const ShiftPosition = memo(
     );
   }
 );
+
+ShiftPosition.displayName = "ShiftPosition";

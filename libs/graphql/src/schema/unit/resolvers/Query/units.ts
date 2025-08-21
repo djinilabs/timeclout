@@ -1,6 +1,8 @@
-import { database } from "@/tables";
-import type { QueryResolvers, Unit } from "./../../../../types.generated";
 import { getAuthorized } from "libs/graphql/src/auth/getAuthorized";
+
+import type { QueryResolvers, Unit } from "./../../../../types.generated";
+
+import { database } from "@/tables";
 export const units: NonNullable<QueryResolvers['units']> = async (
   _parent,
   _arg,

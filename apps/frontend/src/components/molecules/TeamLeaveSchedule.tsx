@@ -1,16 +1,18 @@
+import { i18n } from "@lingui/core";
 import { memo, useCallback, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { i18n } from "@lingui/core";
-import { DayDate } from "@/day-date";
+
 import { type User } from "../../graphql/graphql";
-import { MemberSchedule } from "../types";
-import { MonthlyCalendarPerMember } from "../atoms/MonthlyCalendarPerMember";
-import { Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
-import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
-import { CalendarHeader } from "../atoms/CalendarHeader";
-import { Button } from "../particles/Button";
 import { months } from "../../utils/months";
+import { CalendarHeader } from "../atoms/CalendarHeader";
+import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
+import { MonthlyCalendarPerMember } from "../atoms/MonthlyCalendarPerMember";
+import { Button } from "../particles/Button";
 import { Hint } from "../particles/Hint";
+import { Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
+import { MemberSchedule } from "../types";
+
+import { DayDate } from "@/day-date";
 
 export interface TeamLeaveScheduleProps {
   year: number;
@@ -209,3 +211,5 @@ export const TeamLeaveSchedule = memo(
     );
   }
 );
+
+TeamLeaveSchedule.displayName = "TeamLeaveSchedule";

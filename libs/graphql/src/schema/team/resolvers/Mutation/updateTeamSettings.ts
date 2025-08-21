@@ -1,8 +1,12 @@
-import { resourceRef } from "@/utils";
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { MutationResolvers, Team } from "./../../../../types.generated";
+
 import { updateEntitySettings } from "@/business-logic";
 import { PERMISSION_LEVELS } from "@/tables";
-import type { MutationResolvers, Team } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { resourceRef } from "@/utils";
+
+
 
 export const updateTeamSettings: NonNullable<MutationResolvers['updateTeamSettings']> = async (_parent, arg, ctx) => {
   const teamRef = resourceRef("teams", arg.teamPk);

@@ -1,6 +1,7 @@
-import { DayDate } from "@/day-date";
 import { generateMonthDays } from "./generateMonthDays";
 import { months } from "./months";
+
+import { DayDate } from "@/day-date";
 
 export type Day = {
   date: string;

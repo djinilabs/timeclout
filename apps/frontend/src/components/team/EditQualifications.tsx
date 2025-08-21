@@ -1,12 +1,14 @@
-import { type FC, useCallback, useEffect, useMemo, useState } from "react";
-import { dequal } from "dequal";
-import { useParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
-import { Qualifications } from "@/settings";
-import { unique } from "@/utils";
+import { dequal } from "dequal";
+import { type FC, useCallback, useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+
 import { Badges } from "../atoms/Badges";
 import { Badge } from "../particles/Badge";
 import { Button } from "../particles/Button";
+
+import { Qualifications } from "@/settings";
+import { unique } from "@/utils";
 
 export interface EditQualificationsProps {
   qualificationSettings: Qualifications;
@@ -108,6 +110,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
             type="button"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="ml-2 inline-flex items-center rounded-full border border-gray-300 bg-white p-1 text-gray-400 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+            // eslint-disable-next-line react/no-unknown-property
             aria-clickable
             role="button"
             aria-expanded={isMenuOpen}
@@ -158,6 +161,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
                         setIsMenuOpen(false);
                         addQualification(qualification.name);
                       }}
+                      // eslint-disable-next-line react/no-unknown-property
                       aria-clickable
                       role="button"
                       aria-label={`Add ${qualification.name} qualification`}

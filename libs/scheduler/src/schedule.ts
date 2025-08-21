@@ -1,12 +1,13 @@
-import { getDefined } from "@/utils";
-import { i18n } from "@/locales";
-import { calculateSlotInconvenience } from "./utils/calculateSlotInconvenience";
+import type { RuleName } from "./rules/types";
+import type { ShiftSchedule, SlotShift, SlotWorker, WorkSlots } from "./types";
 import { calculateMinimumRestMinutesAfterShift } from "./utils/calculateMinimumRestMinutesAfterShift";
+import { calculateSlotInconvenience } from "./utils/calculateSlotInconvenience";
+import { decreasingRandomLinearWeights } from "./utils/decreasingRandomLinearWeights";
 import { isWorkerAvailableToWork } from "./utils/isWorkerAvailableToWork";
 import { selectUniqueRandomWeighted } from "./utils/selectUniqueRandomWeighted";
-import { decreasingRandomLinearWeights } from "./utils/decreasingRandomLinearWeights";
-import type { ShiftSchedule, SlotShift, SlotWorker, WorkSlots } from "./types";
-import type { RuleName } from "./rules/types";
+
+import { i18n } from "@/locales";
+import { getDefined } from "@/utils";
 
 export interface ScheduleOptions {
   startDay: string;

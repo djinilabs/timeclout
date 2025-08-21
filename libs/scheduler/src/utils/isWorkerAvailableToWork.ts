@@ -1,6 +1,7 @@
 import { SlotWorker, SlotWorkHour } from "../types";
-import { isWorkerAvailableToWorkBetween } from "./isWorkerAvailableToWorkBetween";
+
 import { dayAndMinutesToDate } from "./dayAndMinutesToTime";
+import { isWorkerAvailableToWorkBetween } from "./isWorkerAvailableToWorkBetween";
 
 export const isWorkerAvailableToWork = (
   worker: SlotWorker,

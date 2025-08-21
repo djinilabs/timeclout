@@ -1,9 +1,10 @@
 import { FC, ReactNode, useCallback, useRef, useState } from "react";
+
+import { ConfirmDialog } from "../components/molecules/ConfirmDialog";
 import {
   ConfirmDialogContext,
   type ConfirmDialogContextType,
 } from "../contexts/ConfirmDialogContext";
-import { ConfirmDialog } from "../components/molecules/ConfirmDialog";
 
 export const ConfirmDialogProvider: FC<{ children: ReactNode }> = ({
   children,

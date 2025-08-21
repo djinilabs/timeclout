@@ -1,7 +1,8 @@
-import { FC } from "react";
-import { EmailToManagerToApproveLeaveRequestParams } from "./types";
 import { Body, Button, Head, Html, Heading } from "@react-email/components";
 import { Text } from "@react-email/text";
+import { FC } from "react";
+
+import { EmailToManagerToApproveLeaveRequestParams } from "./types";
 
 export const LeaveRequestToManagerEmail: FC<
   EmailToManagerToApproveLeaveRequestParams

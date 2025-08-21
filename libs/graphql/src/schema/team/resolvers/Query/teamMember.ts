@@ -1,10 +1,13 @@
-import { resourceRef } from "@/utils";
-import { database, PERMISSION_LEVELS } from "@/tables";
-import type { QueryResolvers, User } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import { forbidden } from "@hapi/boom";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { QueryResolvers, User } from "./../../../../types.generated";
+
 import { isUserAuthorized } from "@/business-logic";
 import { i18n } from "@/locales";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 
 export const teamMember: NonNullable<QueryResolvers["teamMember"]> = async (
   _parent,

@@ -1,8 +1,9 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { i18n } from "@lingui/core";
 import { render, screen } from "@testing-library/react";
+import { beforeAll, describe, expect, it } from "vitest";
+
 import "@testing-library/jest-dom/vitest";
 import { Avatar } from "../particles/Avatar";
-import { i18n } from "@lingui/core";
 
 describe("Avatar", () => {
   beforeAll(() => {
@@ -20,7 +21,7 @@ describe("Avatar", () => {
     render(<Avatar />);
     const avatar = screen.getByRole("img");
     expect(avatar).toBeInTheDocument();
-    expect(avatar).toHaveAttribute("alt", "’s avatar");
+    await expect(avatar).toHaveAttribute("alt", "’s avatar");
   });
 
   it("renders with name and email", () => {
@@ -33,11 +34,11 @@ describe("Avatar", () => {
 
     const avatar = screen.getByRole("img");
 
-    expect(avatar).toHaveAttribute(
+    await expect(avatar).toHaveAttribute(
       "src",
       "https://www.gravatar.com/avatar/abc123?s=250&d=blank"
     );
-    expect(avatar).toHaveAttribute("alt", "john@example.com’s avatar");
+    await expect(avatar).toHaveAttribute("alt", "john@example.com’s avatar");
   });
 
   it("generates correct initials", () => {

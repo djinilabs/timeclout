@@ -1,18 +1,20 @@
-import { FC, useCallback } from "react";
-import { Trans } from "@lingui/react/macro";
-import { ShiftPosition } from "../atoms/ShiftPosition";
-import { type AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
-import { ScheduleDayTemplate, type SchedulePositionTemplate } from "@/settings";
 import {
   InformationCircleIcon,
   PlusCircleIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "../particles/Button";
-import { Hint } from "../particles/Hint";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { FC, useCallback } from "react";
+
+import { type AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { useTeamDayTemplates } from "../../hooks/useTeamDayTemplates";
+import { ShiftPosition } from "../atoms/ShiftPosition";
+import { Button } from "../particles/Button";
+import { Hint } from "../particles/Hint";
+
+import { ScheduleDayTemplate, type SchedulePositionTemplate } from "@/settings";
 
 export interface TeamDayTemplatesProps {
   teamPk: string;

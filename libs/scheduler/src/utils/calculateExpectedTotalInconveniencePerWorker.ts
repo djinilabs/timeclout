@@ -1,6 +1,7 @@
-import { calculateSlotInconvenience } from "../utils/calculateSlotInconvenience";
-import { countTotalUniqueWorkers } from "./countTotalUniqueWorkers";
 import { ShiftSchedule } from "../types";
+import { calculateSlotInconvenience } from "../utils/calculateSlotInconvenience";
+
+import { countTotalUniqueWorkers } from "./countTotalUniqueWorkers";
 
 export const calculateExpectedTotalInconveniencePerWorker = (
   schedule: ShiftSchedule

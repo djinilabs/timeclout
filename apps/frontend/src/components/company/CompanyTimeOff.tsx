@@ -1,22 +1,13 @@
+import { i18n } from "@lingui/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import {
   useLocation,
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import toast from "react-hot-toast";
-import { i18n } from "@lingui/core";
-import { getDefined } from "@/utils";
-import { DayDate } from "@/day-date";
-import { leaveTypeParser } from "@/settings";
-import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRequest.graphql";
-import myLeaveCalendarQuery from "@/graphql-client/queries/myLeaveCalendar.graphql";
-import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import mySettingsQuery from "@/graphql-client/queries/mySettings.graphql";
-import { useMutation } from "../../hooks/useMutation";
-import { TimeOffYearCalendar } from "./TimeOffYearCalendar";
-import { BookCompanyTimeOff, type TimeOffRequest } from "./BookCompanyTimeOff";
+
 import {
   Calendar,
   CompanySettingsArgs,
@@ -28,12 +19,24 @@ import {
   Query,
   QueryCompanyArgs,
 } from "../../graphql/graphql";
+import { useHolidays } from "../../hooks/useHolidays";
+import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
 import { leaveTypeColors , leaveTypeIcons } from "../../settings/leaveTypes";
-import { useHolidays } from "../../hooks/useHolidays";
 import { Suspense } from "../atoms/Suspense";
-import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
 import { LeaveDay } from "../types";
+
+import { BookCompanyTimeOff, type TimeOffRequest } from "./BookCompanyTimeOff";
+import { MyQuotaFulfilment } from "./MyQuotaFulfilment";
+import { TimeOffYearCalendar } from "./TimeOffYearCalendar";
+
+import { DayDate } from "@/day-date";
+import createLeaveRequestMutation from "@/graphql-client/mutations/createLeaveRequest.graphql";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import myLeaveCalendarQuery from "@/graphql-client/queries/myLeaveCalendar.graphql";
+import mySettingsQuery from "@/graphql-client/queries/mySettings.graphql";
+import { leaveTypeParser } from "@/settings";
+import { getDefined } from "@/utils";
 
 const CompanyTimeOff = () => {
   const { company } = useParams();

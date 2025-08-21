@@ -1,13 +1,14 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const teamInvitationsHelp: HelpSection = {
   title: "Team Invitations",
   description: (
     <>
       <strong>Invite new members</strong> to join your team and manage pending
-      invitations. Control who has access to your team's schedules and data.
+      invitations. Control who has access to your team&apos;s schedules and
+      data.
     </>
   ),
   features: [
@@ -32,7 +33,7 @@ export const teamInvitationsHelp: HelpSection = {
       content: (
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
-            1. Click the <strong>"Invite Member"</strong> button
+            1. Click the <strong>&quot;Invite Member&quot;</strong> button
           </p>
           <p className="text-xs text-gray-600">
             2. Enter their <strong>email address</strong> and select their{" "}
@@ -42,7 +43,7 @@ export const teamInvitationsHelp: HelpSection = {
             3. Choose <strong>permissions</strong> (view, edit, manage)
           </p>
           <p className="text-xs text-gray-600">
-            4. Send invitation - they'll receive an email with setup
+            4. Send invitation - they&apos;ll receive an email with setup
             instructions
           </p>
         </div>

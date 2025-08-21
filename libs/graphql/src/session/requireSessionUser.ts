@@ -1,8 +1,12 @@
+import { unauthorized } from "@hapi/boom";
+
+import { ResolverContext } from "../resolverContext";
+
+import { requireSession } from "./requireSession";
+
 import { database } from "@/tables";
 import { resourceRef } from "@/utils";
-import { requireSession } from "./requireSession";
-import { unauthorized } from "@hapi/boom";
-import { ResolverContext } from "../resolverContext";
+
 
 export const requireSessionUser = async (ctx: ResolverContext) => {
   const session = await requireSession(ctx);

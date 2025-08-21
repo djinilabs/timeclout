@@ -1,9 +1,14 @@
 import { notFound } from "@hapi/boom";
-import { resourceRef, compoundedResourceRef, getResourceRef } from "@/utils";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { MutationResolvers, Team } from "./../../../../types.generated";
+
 import { updateCompoundEntitySettings } from "@/business-logic";
 import { database, PERMISSION_LEVELS } from "@/tables";
-import type { MutationResolvers, Team } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+import { resourceRef, compoundedResourceRef, getResourceRef } from "@/utils";
+
+
 
 export const saveTeamMemberQualifications: NonNullable<
   MutationResolvers["saveTeamMemberQualifications"]

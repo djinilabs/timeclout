@@ -33,3 +33,5 @@ export const PercentageStatCard: FC<PercentageStatCardProps> = memo(
     );
   }
 );
+
+PercentageStatCard.displayName = "PercentageStatCard";

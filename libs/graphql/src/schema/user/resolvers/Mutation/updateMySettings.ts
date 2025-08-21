@@ -1,8 +1,11 @@
 import { notFound } from "@hapi/boom";
+
+import { requireSession } from "../../../../session/requireSession";
+
+import type { MutationResolvers, User } from "./../../../../types.generated";
+
 import { database } from "@/tables";
 import { resourceRef } from "@/utils";
-import type { MutationResolvers, User } from "./../../../../types.generated";
-import { requireSession } from "../../../../session/requireSession";
 
 export const updateMySettings: NonNullable<MutationResolvers['updateMySettings']> = async (_parent, args, ctx) => {
   const session = await requireSession(ctx);

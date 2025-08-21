@@ -1,9 +1,12 @@
-import { describe, expect, it, beforeEach , vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { type LeaveDay } from "../types";
-import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, expect, it, beforeEach , vi } from "vitest";
+
 import { TimeOffCalendarDay } from "../company/TimeOffCalendarDay";
+import { type LeaveDay } from "../types";
+
+
 
 describe("TimeOffCalendarDay", () => {
   const mockDay = {
@@ -66,7 +69,7 @@ describe("TimeOffCalendarDay", () => {
   it("applies current month styling", () => {
     render(<TimeOffCalendarDay {...defaultProps} />);
     const button = screen.getByRole("button");
-    expect(button).toHaveClass("bg-white", "text-gray-900");
+    await expect(button).toHaveClass("bg-white", "text-gray-900");
   });
 
   it("applies other month styling", () => {
@@ -77,7 +80,7 @@ describe("TimeOffCalendarDay", () => {
       />
     );
     const button = screen.getByRole("button");
-    expect(button).toHaveClass("bg-gray-50", "text-gray-400");
+    await expect(button).toHaveClass("bg-gray-50", "text-gray-400");
   });
 
   it("highlights today", () => {
@@ -88,7 +91,7 @@ describe("TimeOffCalendarDay", () => {
       />
     );
     const timeElement = screen.getByText("🌴");
-    expect(timeElement).toHaveClass("bg-teal-600", "text-white");
+    await expect(timeElement).toHaveClass("bg-teal-600", "text-white");
   });
 
   it("displays leave icon when provided", () => {
@@ -105,7 +108,7 @@ describe("TimeOffCalendarDay", () => {
   it("shows holiday indicator", () => {
     render(<TimeOffCalendarDay {...defaultProps} holiday="New Year's Day" />);
     const timeElement = screen.getByRole("time");
-    expect(timeElement).toHaveClass("bg-red-500", "text-white");
+    await expect(timeElement).toHaveClass("bg-red-500", "text-white");
   });
 
   it("handles mouse enter for leave days", () => {
@@ -187,7 +190,7 @@ describe("TimeOffCalendarDay", () => {
     // Verify holiday popover is rendered
     const holidayText = screen.getByText("Christmas Day");
     expect(holidayText).toBeInTheDocument();
-    expect(holidayText.parentElement).toHaveClass(
+    await expect(holidayText.parentElement).toHaveClass(
       "text-xs",
       "bg-white",
       "rounded-lg"

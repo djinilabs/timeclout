@@ -1,6 +1,7 @@
-import { getResourceRef, ResourceRef } from "@/utils";
-import { database, LeaveRequestRecord } from "@/tables";
 import { getCompanyPksTheUserManages } from "../company/getCompanyPksTheUserManages";
+
+import { database, LeaveRequestRecord } from "@/tables";
+import { getResourceRef, ResourceRef } from "@/utils";
 
 export const getUserPendingLeaveRequests = async (
   userPk: ResourceRef<"users">,

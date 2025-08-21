@@ -1,8 +1,11 @@
 import { forbidden } from "@hapi/boom";
+
 import { ResolverContext } from "../resolverContext";
+
 import { isAuthorized } from "./isAuthorized";
-import { ResourceRef } from "@/utils";
+
 import { i18n } from "@/locales";
+import { ResourceRef } from "@/utils";
 
 export const ensureAuthorized = async (
   ctx: ResolverContext,

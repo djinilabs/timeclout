@@ -1,8 +1,11 @@
-import { useMemo } from "react";
 import { ToolSet } from "ai";
-import { tools } from "./tools";
-import { ActivityDebouncer } from "./ActivityDebouncer";
+import { useMemo } from "react";
+
 import { useFetchActivity } from "../../hooks/useFetchActivity";
+
+import { ActivityDebouncer } from "./ActivityDebouncer";
+import { tools } from "./tools";
+
 
 export const useAITools = (): ToolSet => {
   const { monitorFetch } = useFetchActivity();

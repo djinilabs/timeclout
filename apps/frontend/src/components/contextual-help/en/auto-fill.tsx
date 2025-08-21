@@ -1,6 +1,6 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const autoFillHelp: HelpSection = {
   title: "Auto-Fill Scheduling",
@@ -34,7 +34,8 @@ export const autoFillHelp: HelpSection = {
       content: (
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
-            1. Click the <strong>"Auto-Fill"</strong> button in the calendar
+            1. Click the <strong>&quot;Auto-Fill&quot;</strong> button in the
+            calendar
           </p>
           <p className="text-xs text-gray-600">
             2. Select the <strong>date range</strong> you want to fill
@@ -54,7 +55,8 @@ export const autoFillHelp: HelpSection = {
             </p>
           </div>
           <p className="text-xs text-gray-600">
-            4. Click <strong>"Run Auto-Fill"</strong> to generate assignments
+            4. Click <strong>&quot;Run Auto-Fill&quot;</strong> to generate
+            assignments
           </p>
           <p className="text-xs text-gray-600">
             5. <strong>Review</strong> the results and publish if satisfied

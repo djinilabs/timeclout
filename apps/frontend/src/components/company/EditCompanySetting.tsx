@@ -1,10 +1,7 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
 import { i18n } from "@lingui/core";
-import { getDefined } from "@/utils";
-import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
-import { useQuery } from "../../hooks/useQuery";
+import { toast } from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+
 import type {
   CompanySettingsArgs,
   Mutation,
@@ -13,7 +10,12 @@ import type {
   QueryCompanyArgs,
 } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
 import { LeaveTypeEditor } from "../molecules/LeaveTypeEditor";
+
+import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import { getDefined } from "@/utils";
 
 const settingEditor: Record<
   string,

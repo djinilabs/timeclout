@@ -1,8 +1,10 @@
 import { notFound } from "@hapi/boom";
+
+import { ensureAuthorization } from "../auth/ensureAuthorization";
+
+import { i18n } from "@/locales";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef , getDefined } from "@/utils";
-import { ensureAuthorization } from "../auth/ensureAuthorization";
-import { i18n } from "@/locales";
 
 export interface AcceptInvitationArgs {
   user: {

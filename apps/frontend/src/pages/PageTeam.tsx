@@ -1,5 +1,3 @@
-import { useMemo, useState } from "react";
-import { i18n } from "@lingui/core";
 import {
   CalendarDaysIcon,
   Cog6ToothIcon,
@@ -8,14 +6,17 @@ import {
   UsersIcon,
   WrenchScrewdriverIcon,
 } from "@heroicons/react/24/outline";
+import { i18n } from "@lingui/core";
+import { useMemo, useState } from "react";
+
 import { Suspense } from "../components/atoms/Suspense";
 import { type Tab, Tabs } from "../components/molecules/Tabs";
-import { TeamSettings } from "../components/team/TeamSettings";
-import { TeamMembers } from "../components/team/TeamMembers";
+import { TeamCalendarIntegrations } from "../components/team/TeamCalendarIntegrations";
 import { TeamInvites } from "../components/team/TeamInvites";
 import { TeamLeaveSchedule } from "../components/team/TeamLeaveSchedule";
+import { TeamMembers } from "../components/team/TeamMembers";
+import { TeamSettings } from "../components/team/TeamSettings";
 import { TeamShiftsSchedule } from "../components/team-shifts/TeamShiftsSchedule";
-import { TeamCalendarIntegrations } from "../components/team/TeamCalendarIntegrations";
 import { useEntityNavigationContext } from "../hooks/useEntityNavigationContext";
 
 export const PageTeam = () => {

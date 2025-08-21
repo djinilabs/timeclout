@@ -1,11 +1,14 @@
 import { notFound } from "@hapi/boom";
-import { database, PERMISSION_LEVELS } from "@/tables";
-import { getResourceRef } from "@/utils";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
 import type {
   MutationResolvers,
   ResolversTypes,
 } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { getResourceRef } from "@/utils";
 
 export const deleteInvitation: NonNullable<MutationResolvers['deleteInvitation']> = async (_parent, _arg, ctx) => {
   const { invitation } = await database();

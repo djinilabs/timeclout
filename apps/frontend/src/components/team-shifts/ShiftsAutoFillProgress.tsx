@@ -1,14 +1,19 @@
+import { Trans } from "@lingui/react/macro";
+import { ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { Trans } from "@lingui/react/macro";
-import { SchedulerState } from "@/scheduler";
-import { DayDate } from "@/day-date";
-import { ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
-import { getDefined } from "@/utils";
-import { ShiftsAutoFillSolution } from "./ShiftsAutoFillSolution";
+
 import { Attention } from "../particles/Attention";
-import { VerticalTabs } from "../particles/VerticalTabs";
 import { ColorLabel } from "../particles/ColorLabel";
+import { VerticalTabs } from "../particles/VerticalTabs";
+
+import { ShiftsAutoFillSolution } from "./ShiftsAutoFillSolution";
+
+import { DayDate } from "@/day-date";
+import { SchedulerState } from "@/scheduler";
+import { getDefined } from "@/utils";
+
+
 
 export interface ShiftsAutoFillProgressProps {
   startDate?: DayDate;

@@ -1,12 +1,14 @@
-import { getLeavesForDateRange, teamMembers } from "@/business-logic";
-import { DayDate } from "@/day-date";
-import { database, LeaveRecord } from "@/tables";
-import { getDefined, resourceRef } from "@/utils";
 import { notFound } from "@hapi/boom";
 import ical, { ICalCalendarMethod } from "ical-generator";
+
 import { icalEventFromLeave } from "./icalEventFromLeave";
 import { userCache } from "./userCache";
+
+import { getLeavesForDateRange, teamMembers } from "@/business-logic";
+import { DayDate } from "@/day-date";
 import { i18n } from "@/locales";
+import { database, LeaveRecord } from "@/tables";
+import { getDefined, resourceRef } from "@/utils";
 
 export const getTeamLeavesIcal = async (teamId: string) => {
   const { entity } = await database();

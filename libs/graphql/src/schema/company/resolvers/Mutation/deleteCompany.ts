@@ -1,9 +1,14 @@
+import { notFound, badData } from "@hapi/boom";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { Company, MutationResolvers } from "./../../../../types.generated";
+
+import { i18n } from "@/locales";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
-import type { Company, MutationResolvers } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import { notFound, badData } from "@hapi/boom";
-import { i18n } from "@/locales";
+
+
 
 export const deleteCompany: NonNullable<
   MutationResolvers["deleteCompany"]

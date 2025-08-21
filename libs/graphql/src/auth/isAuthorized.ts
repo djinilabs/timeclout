@@ -1,7 +1,8 @@
-import { getDefined, ResourceRef, resourceRef } from "@/utils";
 import { ResolverContext } from "../resolverContext";
 import { requireSession } from "../session/requireSession";
+
 import { isUserAuthorized } from "@/business-logic";
+import { getDefined, ResourceRef, resourceRef } from "@/utils";
 
 export type IsAuthorizedResult = [false] | [true, ResourceRef<"users">, number];
 

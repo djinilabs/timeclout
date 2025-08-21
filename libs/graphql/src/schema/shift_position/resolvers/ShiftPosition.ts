@@ -1,4 +1,5 @@
 import type { ShiftPositionResolvers, User } from "./../../../types.generated";
+
 import { getResourceRef } from "@/utils";
 
 export const ShiftPosition: ShiftPositionResolvers = {

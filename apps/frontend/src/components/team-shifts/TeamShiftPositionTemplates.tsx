@@ -1,19 +1,23 @@
-import { FC, useCallback } from "react";
-import { Trans } from "@lingui/react/macro";
-import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionTemplates";
-import { ShiftPosition } from "../atoms/ShiftPosition";
-import { type AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
-import { type SchedulePositionTemplate } from "@/settings";
 import {
   InformationCircleIcon,
   PlusCircleIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "../particles/Button";
-import { Hint } from "../particles/Hint";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { FC, useCallback } from "react";
+
+import { type AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
+import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionTemplates";
+import { ShiftPosition } from "../atoms/ShiftPosition";
+import { Button } from "../particles/Button";
+import { Hint } from "../particles/Hint";
+
+import { type SchedulePositionTemplate } from "@/settings";
+
+
 
 export interface TeamShiftPositionTemplatesProps {
   teamPk: string;

@@ -1,22 +1,25 @@
+/* eslint-disable react/no-children-prop */
 import "react-day-picker/style.css";
-import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
+import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
+import { dequal } from "dequal";
+import { FC, useEffect, useMemo, useState } from "react";
+
 import {
   QueryTeamArgs,
   Team,
   TeamMembersArgs,
   TeamSettingsArgs,
 } from "../../graphql/graphql";
-import { FC, useEffect, useMemo, useState } from "react";
-import { useForm } from "@tanstack/react-form";
-import { Trans } from "@lingui/react/macro";
-import { dequal } from "dequal";
-import { getDefined } from "@/utils";
-import { calculateShiftPositionSchedulesTotalInconvenience } from "../../utils/calculateShiftPositionSchedulesTotalInconvenience";
-import { TimeSchedulesEditor } from "../team-shifts/TimeSchedulesEditor";
-import { EditQualifications } from "../team/EditQualifications";
-import { Color, ColorPicker } from "../atoms/ColorPicker";
-import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionTemplates";
 import { useQuery } from "../../hooks/useQuery";
+import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionTemplates";
+import { calculateShiftPositionSchedulesTotalInconvenience } from "../../utils/calculateShiftPositionSchedulesTotalInconvenience";
+import { Color, ColorPicker } from "../atoms/ColorPicker";
+import { EditQualifications } from "../team/EditQualifications";
+import { TimeSchedulesEditor } from "../team-shifts/TimeSchedulesEditor";
+
+import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
+import { getDefined } from "@/utils";
 
 export interface CreateShiftPositionTemplateDialogProps {
   onClose: () => void;

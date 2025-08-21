@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 interface AgreementDialogProps {
@@ -80,8 +80,8 @@ export const AgreementDialog = ({
 
               <div className="mt-6 space-y-3">
                 <p className="text-sm text-gray-600">
-                  By clicking "I Agree", you confirm that you have read and
-                  agree to our:
+                  By clicking &quot;I Agree&quot;, you confirm that you have
+                  read and agree to our:
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link

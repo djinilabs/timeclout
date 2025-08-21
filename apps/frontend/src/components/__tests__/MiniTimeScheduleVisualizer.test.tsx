@@ -1,5 +1,7 @@
-import { describe, expect, it } from "vitest";
+/* eslint-disable playwright/no-standalone-expect */
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+
 import {
   MiniTimeScheduleVisualizer,
   type TimeSchedule,
@@ -34,7 +36,7 @@ describe("MiniTimeScheduleVisualizer", () => {
     expect(screen.getByText("22:00")).toBeInTheDocument();
   });
 
-  it("renders total inconvenience score", () => {
+  it("renders total inconvenience score", async () => {
     render(<MiniTimeScheduleVisualizer schedules={mockSchedules} />);
     // Calculate expected inconvenience:
     // First schedule: 0.5 * (17 - 9) = 4
@@ -42,7 +44,10 @@ describe("MiniTimeScheduleVisualizer", () => {
     // Total = 10
     const inconvenienceElement = screen.getByText("10.0");
     expect(inconvenienceElement).toBeInTheDocument();
-    expect(inconvenienceElement).toHaveClass("bg-orange-300", "text-white");
+    await expect(inconvenienceElement).toHaveClass(
+      "bg-orange-300",
+      "text-white"
+    );
   });
 
   it("renders schedule bars with correct styling", () => {

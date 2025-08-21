@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import debounce from "lodash.debounce";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+
 import { type AIMessage, isAiMessageValid } from "./types";
 
 const DB_NAME = "tt3-ai-chat";

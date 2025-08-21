@@ -1,4 +1,5 @@
 import { useMutation } from "./useMutation";
+
 import updateTeamSettingsMutation from "@/graphql-client/mutations/updateTeamSettings.graphql";
 import type { SettingsShape, SettingsTypeKey } from "@/settings";
 

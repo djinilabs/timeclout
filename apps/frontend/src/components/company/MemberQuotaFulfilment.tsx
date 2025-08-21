@@ -1,8 +1,11 @@
-import { FC } from "react";
 import { Trans } from "@lingui/react/macro";
-import memberQuotaFulfilmentQuery from "@/graphql-client/queries/memberQuotaFulfilment.graphql";
-import { useQuery } from "../../hooks/useQuery";
+import { FC } from "react";
+
 import { Query, QueryMemberQuotaFulfilmentArgs } from "../../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+
+import memberQuotaFulfilmentQuery from "@/graphql-client/queries/memberQuotaFulfilment.graphql";
+
 
 export interface MemberQuotaFulfilmentProps {
   companyPk: string;

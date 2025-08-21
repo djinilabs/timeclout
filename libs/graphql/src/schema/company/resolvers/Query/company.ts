@@ -1,9 +1,14 @@
+import { notFound } from "@hapi/boom";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { Company, QueryResolvers } from "./../../../../types.generated";
+
+import { i18n } from "@/locales";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
-import type { Company, QueryResolvers } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import { notFound } from "@hapi/boom";
-import { i18n } from "@/locales";
+
+
 
 export const company: NonNullable<QueryResolvers["company"]> = async (
   _parent,

@@ -1,9 +1,11 @@
-import { Trans } from "@lingui/react/macro";
 import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { Trans } from "@lingui/react/macro";
+
 import { Dialog } from "../atoms/Dialog";
-import { Suspense } from "../atoms/Suspense";
-import { UnassignShiftPositions } from "./UnassignShiftPositions";
 import { HelpPanel } from "../atoms/HelpPanel";
+import { Suspense } from "../atoms/Suspense";
+
+import { UnassignShiftPositions } from "./UnassignShiftPositions";
 
 export interface UnassignShiftPositionsDialogProps {
   isDialogOpen: boolean;

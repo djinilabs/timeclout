@@ -1,9 +1,11 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { TimeOffYearCalendar } from "../company/TimeOffYearCalendar";
-import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
+import { describe, expect, it, vi, beforeEach } from "vitest";
+
+import { TimeOffYearCalendar } from "../company/TimeOffYearCalendar";
+
 
 // Mock ResizeObserver
 class ResizeObserverMock {
@@ -123,7 +125,7 @@ describe("TimeOffYearCalendar", () => {
 
     // Check for grid class on the calendar container
     const gridContainer = marchSection?.querySelector(".grid-cols-7");
-    expect(gridContainer).toHaveClass("grid-cols-7");
+    await expect(gridContainer).toHaveClass("grid-cols-7");
   });
 
   it("handles navigation buttons", () => {

@@ -1,8 +1,9 @@
-import { FC, memo } from "react";
 import { i18n } from "@lingui/core";
-import { type PartialUser, type LeaveDay } from "../types";
+import { FC, memo } from "react";
+
 import { Avatar } from "../particles/Avatar";
 import { Hint } from "../particles/Hint";
+import { type PartialUser, type LeaveDay } from "../types";
 
 export interface MemberLeaveInCalendarProps {
   member: PartialUser;
@@ -58,3 +59,5 @@ export const MemberLeaveInCalendar: FC<MemberLeaveInCalendarProps> = memo(
     );
   }
 );
+
+MemberLeaveInCalendar.displayName = "MemberLeaveInCalendar";

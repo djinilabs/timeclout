@@ -1,10 +1,12 @@
-import { database, PERMISSION_LEVELS } from "@/tables";
-import { getResourceRef } from "@/utils";
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
 import type {
   QueryResolvers,
   ResolversTypes,
 } from "./../../../../types.generated";
+
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { getResourceRef } from "@/utils";
 
 export const invitationsTo: NonNullable<
   QueryResolvers["invitationsTo"]

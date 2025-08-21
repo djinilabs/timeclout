@@ -1,12 +1,15 @@
+import { forbidden, notFound } from "@hapi/boom";
+
+import { requireSession } from "../../../../session/requireSession";
+
 import type {
   LeaveRequest,
   MutationResolvers,
 } from "./../../../../types.generated";
-import { requireSession } from "../../../../session/requireSession";
-import { database } from "@/tables";
-import { forbidden, notFound } from "@hapi/boom";
-import { getDefined, resourceRef } from "@/utils";
+
 import { canApproveLeaveRequest, removeLeaveRequest } from "@/business-logic";
+import { database } from "@/tables";
+import { getDefined, resourceRef } from "@/utils";
 
 export const deleteLeaveRequest: NonNullable<MutationResolvers['deleteLeaveRequest']> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);

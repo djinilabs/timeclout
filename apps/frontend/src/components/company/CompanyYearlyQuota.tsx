@@ -1,11 +1,11 @@
-import { useParams, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+/* eslint-disable react/no-children-prop */
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
-import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
-import { getDefined } from "@/utils";
-import { useQuery } from "../../hooks/useQuery";
+import { useForm } from "@tanstack/react-form";
+import toast from "react-hot-toast";
+import { useParams, useNavigate } from "react-router-dom";
+
 import {
   QueryCompanyArgs,
   CompanySettingsArgs,
@@ -13,11 +13,14 @@ import {
   Mutation,
   MutationUpdateCompanySettingsArgs,
 } from "../../graphql/graphql";
-import { Button } from "../particles/Button";
 import { useMutation } from "../../hooks/useMutation";
-import { useForm } from "@tanstack/react-form";
+import { useQuery } from "../../hooks/useQuery";
+import { Button } from "../particles/Button";
+
+import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
 import { yearlyQuotaParser } from "@/settings";
-import { i18n } from "@lingui/core";
+import { getDefined } from "@/utils";
 
 export const CompanyYearlyQuota = () => {
   const navigate = useNavigate();

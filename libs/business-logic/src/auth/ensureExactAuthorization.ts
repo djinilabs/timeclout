@@ -1,5 +1,6 @@
-import { database } from "@/tables";
 import { giveAuthorization } from "./giveAuthorization";
+
+import { database } from "@/tables";
 
 export const ensureExactAuthorization = async (
   resource: string,

@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+
 import { PendingLeaveRequests } from "./PendingLeaveRequests";
 
 const PendingCompanyLeaveRequests = () => {

@@ -1,10 +1,3 @@
-import { useParams, useSearchParams , Link } from "react-router-dom";
-import { Trans } from "@lingui/react/macro";
-import { useLingui } from "@lingui/react";
-import { useState, useEffect } from "react";
-import { getContextualHelp } from "../contextual-help";
-import { HelpSection } from "../contextual-help/types";
-
 import {
   CalendarIcon,
   UserGroupIcon,
@@ -12,6 +5,14 @@ import {
   DocumentTextIcon,
   ArrowRightIcon,
 } from "@heroicons/react/24/outline";
+import { useLingui } from "@lingui/react";
+import { Trans } from "@lingui/react/macro";
+import { useState, useEffect } from "react";
+import { useParams, useSearchParams , Link } from "react-router-dom";
+
+import { getContextualHelp } from "../contextual-help";
+import { HelpSection } from "../contextual-help/types";
+
 
 export const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();

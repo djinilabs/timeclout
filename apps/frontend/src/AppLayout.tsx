@@ -1,4 +1,3 @@
-import { FC, PropsWithChildren, Suspense, useState, lazy } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -6,21 +5,23 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   QuestionMarkCircleIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/20/solid";
-import { UserTopBarMenu } from "./components/molecules/UserTopBarMenu";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { FC, PropsWithChildren, Suspense, useState, lazy } from "react";
 import { Toaster } from "react-hot-toast";
+
+import { FetchActivityIndicator } from "./components/atoms/FetchActivityIndicator";
+import { HelpPanel } from "./components/atoms/HelpPanel";
+import { UserTopBarMenu } from "./components/molecules/UserTopBarMenu";
+import { BreadcrumbNav } from "./components/particles/BreadcrumbNav";
+import { LocaleSwitcher } from "./components/particles/LocaleSwitcher";
+import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
 import { useLocalPreference } from "./hooks/useLocalPreference";
 import { useWindowSize } from "./hooks/useWindowSize";
-import { BreadcrumbNav } from "./components/particles/BreadcrumbNav";
 import { classNames } from "./utils/classNames";
-import { HelpPanel } from "./components/atoms/HelpPanel";
-import { useAppLocalSettings } from "./contexts/AppLocalSettingsContext";
-import { FetchActivityIndicator } from "./components/atoms/FetchActivityIndicator";
-import { LocaleSwitcher } from "./components/particles/LocaleSwitcher";
 
 const AIChatPanel = lazy(() => import("./components/ai/AIChatPanel"));
 const SideBar = lazy(() => import("./components/molecules/SideBar"));

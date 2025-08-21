@@ -10,6 +10,7 @@ import {
 } from "react-day-picker";
 import { enUS, pt } from "react-day-picker/locale";
 import defaultClassNames from "react-day-picker/style.module.css";
+
 import { LabeledSwitch } from "../particles/LabeledSwitch";
 
 const locales: Record<string, Partial<Locale>> = {
@@ -48,6 +49,8 @@ const DayPickerSelectModeChoice: FC<DayPickerSelectModeChoiceProps> = memo(
     );
   }
 );
+
+DayPickerSelectModeChoice.displayName = "DayPickerSelectModeChoice";
 
 const fixDate = (date: Date): Date => {
   const isUTCMidnight =
@@ -132,3 +135,5 @@ export const DayPicker: FC<OurDayPickerProps> = memo(
     );
   }
 );
+
+DayPicker.displayName = "DayPicker";

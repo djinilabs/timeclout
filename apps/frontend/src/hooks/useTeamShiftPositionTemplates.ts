@@ -1,8 +1,10 @@
 import { useCallback, useMemo, useState } from "react";
-import { getDefined } from "@/utils";
-import { SchedulePositionTemplate } from "@/settings";
-import { useTeamWithSettings } from "./useTeamWithSettings";
+
 import { useSaveTeamSettings } from "./useSaveTeamSettings";
+import { useTeamWithSettings } from "./useTeamWithSettings";
+
+import { SchedulePositionTemplate } from "@/settings";
+import { getDefined } from "@/utils";
 
 export const useTeamShiftPositionTemplates = (teamPk: string) => {
   const { saveTeamSettings: saveTeamTemplates } =

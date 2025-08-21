@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import {
   BuildingOfficeIcon,
   Cog6ToothIcon,
@@ -8,16 +7,19 @@ import {
   UsersIcon,
   ChevronLeftIcon,
 } from "@heroicons/react/24/outline";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useMemo } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
-import allUnitsQuery from "@/graphql-client/queries/allUnits.graphql";
-import allTeamsQuery from "@/graphql-client/queries/allTeams.graphql";
-import { Company, Team, Unit } from "../../graphql/graphql";
-import { classNames } from "../../utils/classNames";
-import { useQuery } from "../../hooks/useQuery";
+
 import { version } from "../../../../../package.json";
+import { Company, Team, Unit } from "../../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+import { classNames } from "../../utils/classNames";
+
+import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
+import allTeamsQuery from "@/graphql-client/queries/allTeams.graphql";
+import allUnitsQuery from "@/graphql-client/queries/allUnits.graphql";
 
 export interface NavigationItem {
   name: string;
@@ -119,6 +121,7 @@ const SideBar = ({
         <a
           href="https://tt3.app"
           aria-label="Team Time Table Home"
+          // eslint-disable-next-line react/no-unknown-property
           aria-clickable
           role="link"
           aria-describedby="tt3-logo-description"

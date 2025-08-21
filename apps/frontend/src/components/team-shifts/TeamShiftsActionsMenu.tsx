@@ -5,8 +5,8 @@ import {
   SparklesIcon,
   UserMinusIcon,
 } from "@heroicons/react/24/outline";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
 
 export interface TeamShiftsActionsMenuProps {
   onAddPosition: () => void;

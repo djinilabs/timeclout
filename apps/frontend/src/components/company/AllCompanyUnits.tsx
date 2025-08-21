@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
   PlusIcon,
   EllipsisVerticalIcon,
@@ -7,17 +7,19 @@ import {
   ClockIcon,
 } from "@heroicons/react/20/solid";
 import { Squares2X2Icon } from "@heroicons/react/24/outline";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
+import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
-import deleteUnitMutation from "@/graphql-client/mutations/deleteUnit.graphql";
+
 import { type Unit } from "../../graphql/graphql";
-import { Button } from "../particles/Button";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 import { useMutation } from "../../hooks/useMutation";
-import { useConfirmDialog } from "../../hooks/useConfirmDialog";
-import { i18n } from "@lingui/core";
-import { toast } from "react-hot-toast";
+import { Button } from "../particles/Button";
+
+import deleteUnitMutation from "@/graphql-client/mutations/deleteUnit.graphql";
 
 const NoUnits = () => {
   const { companyPk } = useEntityNavigationContext();
@@ -179,6 +181,7 @@ const AllCompanyUnits = () => {
                       className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2 w-full"
                       role="menuitem"
                       aria-label={`Remove ${unit.name} unit`}
+                      // eslint-disable-next-line react/no-unknown-property
                       aria-clickable
                       onClick={async () => {
                         if (

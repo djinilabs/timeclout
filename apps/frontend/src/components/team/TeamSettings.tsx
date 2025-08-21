@@ -1,7 +1,9 @@
-import { useMemo, useState } from "react";
-import { i18n } from "@lingui/core";
 import { AcademicCapIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
+import { i18n } from "@lingui/core";
+import { useMemo, useState } from "react";
+
 import { Tabs, type Tab } from "../molecules/Tabs";
+
 import { TeamQualifications } from "./TeamQualifications";
 import { TeamSchedulePositionTemplates } from "./TeamSchedulePositionTemplates";
 

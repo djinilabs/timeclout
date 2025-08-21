@@ -1,21 +1,28 @@
-import { FC } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import toast from "react-hot-toast";
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
-import { getDefined } from "@/utils";
-import invitationBySecretQuery from "@/graphql-client/queries/invitationBySecret.graphql";
-import acceptInvitationMutation from "@/graphql-client/mutations/acceptInvitation.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { permissionTypeToString } from "../utils/permissionTypeToString";
-import { Button } from "./particles/Button";
-import { useMutation } from "../hooks/useMutation";
+import { FC } from "react";
+import toast from "react-hot-toast";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 import {
   Mutation,
   MutationAcceptInvitationArgs,
   Query,
   QueryInvitationArgs,
 } from "../graphql/graphql";
-import { i18n } from "@lingui/core";
+import { useMutation } from "../hooks/useMutation";
+import { useQuery } from "../hooks/useQuery";
+import { permissionTypeToString } from "../utils/permissionTypeToString";
+
+import { Button } from "./particles/Button";
+
+import acceptInvitationMutation from "@/graphql-client/mutations/acceptInvitation.graphql";
+import invitationBySecretQuery from "@/graphql-client/queries/invitationBySecret.graphql";
+import { getDefined } from "@/utils";
+
+
+
+
 
 export const AcceptInvite: FC = () => {
   const [searchParams] = useSearchParams();

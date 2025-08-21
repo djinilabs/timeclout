@@ -1,29 +1,37 @@
+import { CalendarDaysIcon, ChartBarIcon } from "@heroicons/react/24/outline";
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
 import { FC, useCallback, useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import { Trans } from "@lingui/react/macro";
-import { i18n } from "@lingui/core";
-import { SchedulerState, ScoredShiftSchedule } from "@/scheduler";
-import { getDefined } from "@/utils";
-import { DayDate } from "@/day-date";
-import assignShiftPositionsMutation from "@/graphql-client/mutations/assignShiftPositions.graphql";
-import {
-  ShiftPositionWithRowSpan,
-  useTeamShiftPositionsMap,
-} from "../../hooks/useTeamShiftPositionsMap";
-import { useMutation } from "../../hooks/useMutation";
-import { useTeamLeaveSchedule } from "../../hooks/useTeamLeaveSchedule";
+
 import {
   ShiftPosition as ShiftPositionType,
   User,
 } from "../../graphql/graphql";
-import { Button } from "../particles/Button";
-import { Tabs, type Tab } from "../molecules/Tabs";
-import { ShiftAutoFillSolutionStats } from "../molecules/ShiftAutoFillSolutionStats";
-import { ShiftAutoFillSolutionDetailedStats } from "../atoms/ShiftAutoFillSolutionDetailedStats";
-import { ShiftsAutofillSolutionMonthCalendar } from "./ShiftsAutofillSolutionMonthCalendar";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import { useMutation } from "../../hooks/useMutation";
+import { useTeamLeaveSchedule } from "../../hooks/useTeamLeaveSchedule";
+import {
+  ShiftPositionWithRowSpan,
+  useTeamShiftPositionsMap,
+} from "../../hooks/useTeamShiftPositionsMap";
+import { ShiftAutoFillSolutionDetailedStats } from "../atoms/ShiftAutoFillSolutionDetailedStats";
+import { ShiftAutoFillSolutionStats } from "../molecules/ShiftAutoFillSolutionStats";
+import { Tabs, type Tab } from "../molecules/Tabs";
+import { Button } from "../particles/Button";
+
+import { ShiftsAutofillSolutionMonthCalendar } from "./ShiftsAutofillSolutionMonthCalendar";
+
+import { DayDate } from "@/day-date";
+import assignShiftPositionsMutation from "@/graphql-client/mutations/assignShiftPositions.graphql";
 import unassignShiftPositionMutation from "@/graphql-client/mutations/unassignShiftPosition.graphql";
-import { CalendarDaysIcon, ChartBarIcon } from "@heroicons/react/24/outline";
+import { SchedulerState, ScoredShiftSchedule } from "@/scheduler";
+import { getDefined } from "@/utils";
+
+
+
+
+
 
 export interface ShiftsAutoFillSolutionProps {
   team: string;

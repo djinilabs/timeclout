@@ -5,6 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import playwright from 'eslint-plugin-playwright'
 import tseslint from 'typescript-eslint'
+import importPlugin from 'eslint-plugin-import'
 
 export default tseslint.config(
   { ignores: ['dist', 'node_modules', 'apps/frontend/dist', 'apps/backend/dist', '**/*.generated.ts', 'apps/frontend/src/locales', '**/messages.mjs', '**/locales/*/messages.mjs'] },
@@ -16,37 +17,47 @@ export default tseslint.config(
       globals: globals.browser,
       parserOptions: {
         ecmaFeatures: {
-          jsx: true,
-        },
-      },
+          jsx: true
+        }
+      }
     },
     plugins: {
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      playwright,
+      import: importPlugin
     },
     rules: {
       ...react.configs.recommended.rules,
+      ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      ...reactRefresh.configs.recommended.rules,
+      ...playwright.configs.recommended.rules,
+      ...importPlugin.configs.recommended.rules,
+      ...importPlugin.configs.typescript.rules,
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
-      'react/display-name': 'off',
-      'react/no-unescaped-entities': 'off',
-      'react/no-unknown-property': 'off',
-      'react/no-children-prop': 'off',
-    },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-  },
-  {
-    files: ['tests/e2e/**/*.{js,ts}'],
-    ...playwright.configs['flat/recommended'],
-  },
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      'import/order': ['error', {
+        'groups': [
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index'
+        ],
+        'newlines-between': 'always',
+        'alphabetize': {
+          'order': 'asc',
+          'caseInsensitive': true
+        }
+      }],
+      'import/no-unresolved': 'off', // TypeScript handles this
+      'import/no-cycle': 'error',
+      'import/no-duplicates': 'error'
+    }
+  }
 )
