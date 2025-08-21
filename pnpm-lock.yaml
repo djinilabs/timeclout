@@ -159,7 +159,7 @@ importers:
         version: 22.15.33
       '@urql/exchange-graphcache':
         specifier: ^7.2.1
-        version: 7.2.3(@urql/core@5.1.1(graphql@16.11.0))(graphql@16.11.0)
+        version: 7.2.4(@urql/core@5.1.1(graphql@16.11.0))(graphql@16.11.0)
       '@vendia/serverless-express':
         specifier: ^4.12.6
         version: 4.12.6
@@ -392,8 +392,8 @@ importers:
 
 packages:
 
-  '@0no-co/graphql.web@1.1.2':
-    resolution: {integrity: sha512-N2NGsU5FLBhT8NZ+3l2YrzZSHITjNXNuDhC4iDiikv0IujaJ0Xc6xIxQZ/Ek3Cb+rgPjnLHYyJm11tInuJn+cw==}
+  '@0no-co/graphql.web@1.2.0':
+    resolution: {integrity: sha512-/1iHy9TTr63gE1YcR5idjx8UREz1s0kFhydf3bBLCXyqjhkIc6igAzTOx3zPifCwFR87tsh/4Pa9cNts6d2otw==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
     peerDependenciesMeta:
@@ -4150,8 +4150,8 @@ packages:
   '@urql/core@5.1.1':
     resolution: {integrity: sha512-aGh024z5v2oINGD/In6rAtVKTm4VmQ2TxKQBAtk2ZSME5dunZFcjltw4p5ENQg+5CBhZ3FHMzl0Oa+rwqiWqlg==}
 
-  '@urql/exchange-graphcache@7.2.3':
-    resolution: {integrity: sha512-ClxbxlONfcGZOgZQxUIJ2hvy82mwuljQLVd957TgpSDzSCMLWCklWFubnSC5YFvQLR1kZJW+sbhWKd4ZpndF9w==}
+  '@urql/exchange-graphcache@7.2.4':
+    resolution: {integrity: sha512-kiKbT0ZrtyQmmgNLYR0qkZAJjWHQOtrd+6Dt9JMtm3L/A8r3D6ptcJn668BADP6J+vkxcfNFtdI+0OdmBBkRgw==}
     peerDependencies:
       '@urql/core': ^5.0.0
 
@@ -8346,7 +8346,7 @@ packages:
 
 snapshots:
 
-  '@0no-co/graphql.web@1.1.2(graphql@16.11.0)':
+  '@0no-co/graphql.web@1.2.0(graphql@16.11.0)':
     optionalDependencies:
       graphql: 16.11.0
 
@@ -9677,7 +9677,7 @@ snapshots:
 
   '@gql.tada/internal@1.0.8(graphql@16.11.0)(typescript@5.9.2)':
     dependencies:
-      '@0no-co/graphql.web': 1.1.2(graphql@16.11.0)
+      '@0no-co/graphql.web': 1.2.0(graphql@16.11.0)
       graphql: 16.11.0
       typescript: 5.9.2
 
@@ -13040,9 +13040,9 @@ snapshots:
     transitivePeerDependencies:
       - graphql
 
-  '@urql/exchange-graphcache@7.2.3(@urql/core@5.1.1(graphql@16.11.0))(graphql@16.11.0)':
+  '@urql/exchange-graphcache@7.2.4(@urql/core@5.1.1(graphql@16.11.0))(graphql@16.11.0)':
     dependencies:
-      '@0no-co/graphql.web': 1.1.2(graphql@16.11.0)
+      '@0no-co/graphql.web': 1.2.0(graphql@16.11.0)
       '@urql/core': 5.1.1(graphql@16.11.0)
       wonka: 6.3.5
     transitivePeerDependencies:
