@@ -17,14 +17,14 @@ describe("Avatar", () => {
     i18n.activate("en");
   });
 
-  it("renders with minimal props", () => {
+  it("renders with minimal props", async () => {
     render(<Avatar />);
     const avatar = screen.getByRole("img");
     expect(avatar).toBeInTheDocument();
-    await expect(avatar).toHaveAttribute("alt", "’s avatar");
+    await expect(avatar).toHaveAttribute("alt", "'s avatar");
   });
 
-  it("renders with name and email", () => {
+  it("renders with name and email", async () => {
     const props = {
       name: "John Doe",
       email: "john@example.com",
@@ -38,7 +38,7 @@ describe("Avatar", () => {
       "src",
       "https://www.gravatar.com/avatar/abc123?s=250&d=blank"
     );
-    await expect(avatar).toHaveAttribute("alt", "john@example.com’s avatar");
+    await expect(avatar).toHaveAttribute("alt", "john@example.com's avatar");
   });
 
   it("generates correct initials", () => {

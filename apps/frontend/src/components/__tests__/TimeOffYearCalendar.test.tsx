@@ -6,7 +6,6 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { TimeOffYearCalendar } from "../company/TimeOffYearCalendar";
 
-
 // Mock ResizeObserver
 class ResizeObserverMock {
   observe() {}
@@ -116,7 +115,7 @@ describe("TimeOffYearCalendar", () => {
     });
   });
 
-  it("renders calendar grid for each month", () => {
+  it("renders calendar grid for each month", async () => {
     renderWithProviders(<TimeOffYearCalendar {...defaultProps} />);
 
     const marchHeading = screen.getByRole("heading", { name: "March" });

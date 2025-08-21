@@ -79,7 +79,7 @@ describe("MonthCalendar", () => {
     }
   });
 
-  it("applies correct styling for current month and other month days", () => {
+  it("applies correct styling for current month and other month days", async () => {
     renderWithI18n(<MonthDailyCalendar {...defaultProps} />);
 
     // Current month day (March 15)

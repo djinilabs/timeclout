@@ -116,7 +116,7 @@ describe("TeamLeaveSchedule", () => {
     expect(leaveCell).toHaveStyle({ backgroundColor: "#4CAF50" });
   });
 
-  it("renders pending leaves with reduced opacity", () => {
+  it("renders pending leaves with reduced opacity", async () => {
     const propsWithPendingLeave = {
       ...defaultProps,
       schedule: [

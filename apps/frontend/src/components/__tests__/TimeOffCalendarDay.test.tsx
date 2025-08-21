@@ -1,12 +1,10 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, expect, it, beforeEach , vi } from "vitest";
+import { describe, expect, it, beforeEach, vi } from "vitest";
 
 import { TimeOffCalendarDay } from "../company/TimeOffCalendarDay";
 import { type LeaveDay } from "../types";
-
-
 
 describe("TimeOffCalendarDay", () => {
   const mockDay = {
@@ -66,13 +64,13 @@ describe("TimeOffCalendarDay", () => {
     expect(dayElement).toBeInTheDocument();
   });
 
-  it("applies current month styling", () => {
+  it("applies current month styling", async () => {
     render(<TimeOffCalendarDay {...defaultProps} />);
     const button = screen.getByRole("button");
     await expect(button).toHaveClass("bg-white", "text-gray-900");
   });
 
-  it("applies other month styling", () => {
+  it("applies other month styling", async () => {
     render(
       <TimeOffCalendarDay
         {...defaultProps}
@@ -83,7 +81,7 @@ describe("TimeOffCalendarDay", () => {
     await expect(button).toHaveClass("bg-gray-50", "text-gray-400");
   });
 
-  it("highlights today", () => {
+  it("highlights today", async () => {
     render(
       <TimeOffCalendarDay
         {...defaultProps}
@@ -105,7 +103,7 @@ describe("TimeOffCalendarDay", () => {
     expect(screen.getByText("🌴")).toBeInTheDocument();
   });
 
-  it("shows holiday indicator", () => {
+  it("shows holiday indicator", async () => {
     render(<TimeOffCalendarDay {...defaultProps} holiday="New Year's Day" />);
     const timeElement = screen.getByRole("time");
     await expect(timeElement).toHaveClass("bg-red-500", "text-white");
@@ -176,7 +174,7 @@ describe("TimeOffCalendarDay", () => {
     expect(screen.getByText("Leave Request")).toBeInTheDocument();
   });
 
-  it.skip("shows popover on hover for holiday", () => {
+  it.skip("shows popover on hover for holiday", async () => {
     render(
       <I18nProvider i18n={i18n}>
         <TimeOffCalendarDay
