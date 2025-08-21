@@ -27,21 +27,19 @@ on:
         type: string
         default: ""
   workflow_run:
-    workflows: ["Deploy PR"]
+    workflows: ["deploy-pr"]
     types:
       - completed
-    branches:
-      - main
 
 jobs:
   e2e-tests:
     name: Run E2E Tests
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request'
+    if: (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') || github.event_name == 'workflow_dispatch'
 
     # Cancel in-progress runs when new commits are pushed (only for PR runs)
     concurrency:
-      group: e2e-tests-${{ github.event_name == 'workflow_dispatch' && 'manual' || format('pr-{0}', github.event.pull_request.number || github.event.number) }}
+      group: e2e-tests-${{ github.event_name == 'workflow_dispatch' && 'manual' || format('pr-{0}', github.event.workflow_run.head_branch) }}
       cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 
     steps:
@@ -110,9 +108,20 @@ jobs:
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
             # For PR events, always use the PR URL
             echo "url=https://${{ github.event.pull_request.number }}.tt3.app" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" == "workflow_run" ]; then
+            # For automatic PR runs from workflow_run, extract PR number from the workflow run
+            # The workflow run name should contain the PR number (e.g., "PR123")
+            WORKFLOW_RUN_NAME="${{ github.event.workflow_run.name }}"
+            if [[ "$WORKFLOW_RUN_NAME" =~ PR([0-9]+) ]]; then
+              PR_NUMBER="${BASH_REMATCH[1]}"
+              echo "url=https://${PR_NUMBER}.tt3.app" >> $GITHUB_OUTPUT
+              echo "Extracted PR number: ${PR_NUMBER} from workflow run name: ${WORKFLOW_RUN_NAME}"
+            else
+              echo "url=https://staging.tt3.app" >> $GITHUB_OUTPUT
+              echo "Could not extract PR number from workflow run name: ${WORKFLOW_RUN_NAME}"
+            fi
           else
-            # For automatic PR runs from workflow_run, use the PR URL
-            echo "url=https://${{ github.event.pull_request.number }}.tt3.app" >> $GITHUB_OUTPUT
+            echo "url=https://staging.tt3.app" >> $GITHUB_OUTPUT
           fi
           echo "Testing against: ${{ steps.test-url.outputs.url }}"
 
