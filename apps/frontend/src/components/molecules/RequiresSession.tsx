@@ -1,5 +1,6 @@
-import { type FC, type PropsWithChildren } from "react";
 import { useSession } from "next-auth/react";
+import { type FC, type PropsWithChildren } from "react";
+
 import Login from "../atoms/Login";
 import { Loading } from "../particles/Loading";
 

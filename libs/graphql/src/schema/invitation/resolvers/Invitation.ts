@@ -1,13 +1,18 @@
-import { database } from "@/tables";
 import crypto from "crypto";
-import { getResourceRef } from "@/utils";
+
+import { notFound } from "@hapi/boom";
+
 import type {
   InvitationResolvers,
   ResolversTypes,
   ResolversUnionTypes,
   User,
 } from "./../../../types.generated";
-import { notFound } from "@hapi/boom";
+
+import { database } from "@/tables";
+import { getResourceRef } from "@/utils";
+
+
 
 const entityTypeToGraphQlEntityType = {
   companies: "Company",

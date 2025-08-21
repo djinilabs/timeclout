@@ -1,9 +1,11 @@
-import latestAppVersionQuery from "@/graphql-client/queries/latestAppVersion.graphql";
-import { useQuery } from "../../hooks/useQuery";
-import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { Trans } from "@lingui/react/macro";
-import { version } from "../../../../../package.json";
 import { useEffect, useMemo, useRef } from "react";
+
+import { version } from "../../../../../package.json";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import { useQuery } from "../../hooks/useQuery";
+
+import latestAppVersionQuery from "@/graphql-client/queries/latestAppVersion.graphql";
 
 export const CheckLatestAppVersion = () => {
   const [{ data }] = useQuery<{ latestAppVersion: string }>({

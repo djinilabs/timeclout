@@ -1,10 +1,13 @@
-import { useParams } from "react-router-dom";
-import { useForm } from "@tanstack/react-form";
-import { Trans } from "@lingui/react/macro";
-import { LeaveType, leaveTypeParser } from "@/settings";
-import { IconPicker } from "../particles/IconPicker";
-import { ColorPicker } from "../atoms/ColorPicker";
+/* eslint-disable react/no-children-prop */
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
+import { useParams } from "react-router-dom";
+
+import { ColorPicker } from "../atoms/ColorPicker";
+import { IconPicker } from "../particles/IconPicker";
+
+import { LeaveType, leaveTypeParser } from "@/settings";
 
 export type LeaveTypeEditorProps = {
   settings: unknown;
@@ -78,14 +81,14 @@ export const LeaveTypeEditor = ({
             {creating ? (
               <Trans>Create New Leave Type</Trans>
             ) : (
-              <Trans>Leave Type "{leaveType?.name}"</Trans>
+              <Trans>Leave Type &quot;{leaveType?.name}&quot;</Trans>
             )}
           </h2>
           <p className="mt-1 text-sm/6 text-gray-600">
             {creating ? (
               <Trans>Create a new leave type for your company</Trans>
             ) : (
-              <Trans>Edit the leave type "{leaveType?.name}"</Trans>
+              <Trans>Edit the leave type &quot;{leaveType?.name}&quot;</Trans>
             )}
           </p>
 
@@ -353,6 +356,7 @@ export const LeaveTypeEditor = ({
           type="button"
           className="text-sm/6 font-semibold text-gray-900"
           aria-label={i18n.t("Cancel")}
+          // eslint-disable-next-line react/no-unknown-property
           aria-clickable
           role="button"
           onClick={onCancel}
@@ -363,6 +367,7 @@ export const LeaveTypeEditor = ({
           type="submit"
           className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
           aria-label={i18n.t("Save")}
+          // eslint-disable-next-line react/no-unknown-property
           aria-clickable
           role="button"
         >

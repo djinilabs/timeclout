@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
 import {
   Combobox,
   ComboboxButton,
@@ -7,19 +5,23 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
-import toast from "react-hot-toast";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
-import { getDefined } from "@/utils";
-import { Qualifications, qualificationsParser, colorNames } from "@/settings";
-import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
-import updateTeamSettingsMutation from "@/graphql-client/mutations/updateTeamSettings.graphql";
+import { Trans } from "@lingui/react/macro";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+
 import { QueryTeamArgs, Team, TeamSettingsArgs } from "../../graphql/graphql";
-import { useQuery } from "../../hooks/useQuery";
 import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
 import { Badge } from "../particles/Badge";
 import { Button } from "../particles/Button";
+
+import updateTeamSettingsMutation from "@/graphql-client/mutations/updateTeamSettings.graphql";
+import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
+import { Qualifications, qualificationsParser, colorNames } from "@/settings";
+import { getDefined } from "@/utils";
 
 export const TeamQualifications = () => {
   const { team: teamPk } = useParams();

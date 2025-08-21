@@ -1,9 +1,12 @@
 import { useContext } from "react";
+
 import {
   DragAndDropContext,
   type DraggableItem,
 } from "../contexts/DragAndDropContext";
+
 import { type ShiftPositionWithFake } from "./useTeamShiftPositionsMap";
+
 import { ScheduleDayTemplate } from "@/settings";
 
 type DraggableValue<T extends DraggableItem["type"]> = T extends "shiftPosition"

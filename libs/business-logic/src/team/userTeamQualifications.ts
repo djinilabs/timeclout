@@ -1,7 +1,7 @@
-import { compoundedResourceRef } from "@/utils";
-
-import { ResourceRef } from "@/utils";
 import { getEntitySettings } from "../entity";
+
+import { compoundedResourceRef , ResourceRef } from "@/utils";
+
 
 export const userTeamQualifications = async (
   teamId: ResourceRef<"teams">,

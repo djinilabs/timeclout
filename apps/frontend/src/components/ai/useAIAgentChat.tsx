@@ -1,12 +1,14 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
-import { streamText, StreamTextResult, ToolSet } from "ai";
-import { UAParser } from "ua-parser-js";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { useLingui } from "@lingui/react";
-import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
-import { useAIChatHistory } from "./useAIChatHistory";
+import { streamText, StreamTextResult, ToolSet } from "ai";
 import { nanoid } from "nanoid";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { UAParser } from "ua-parser-js";
+
+import { DownloadAILanguageModel } from "../atoms/DownloadAILanguageModel";
+
 import { AIMessage } from "./types";
+import { useAIChatHistory } from "./useAIChatHistory";
 import { useAITools } from "./useAITools";
 import { useTestToolExecutionFromConsole } from "./useTestToolExecutionFromConsole";
 
@@ -128,7 +130,8 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                         Go to this URL{" "}
                         <code>chrome://flags/#prompt-api-for-gemini-nano</code>{" "}
                         <br />
-                        and enable the "Prompt API for Gemini Nano" flag.
+                        and enable the &quot;Prompt API for Gemini Nano&quot;
+                        flag.
                       </li>
                       <li>
                         Go to this URL{" "}
@@ -136,9 +139,10 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                           chrome://flags/#optimization-guide-on-device-model
                         </code>{" "}
                         <br />
-                        and enable the "Optimization Guide On-Device Model" flag
+                        and enable the &quot;Optimization Guide On-Device
+                        Model&quot; flag
                         <br />
-                        and set it to "Enabled BypassPrefRequirement".
+                        and set it to &quot;Enabled BypassPrefRequirement&quot;.
                       </li>
                       <li>Restart your browser</li>
                     </ol>

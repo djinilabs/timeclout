@@ -1,4 +1,10 @@
 import { useMemo } from "react";
+
+
+import { type LeaveRenderInfo } from "./useTeamLeaveSchedule";
+import { type ShiftPositionWithRowSpan } from "./useTeamShiftPositionsMap";
+
+import { DayDate } from "@/day-date";
 import {
   calculateWorkerSlotProximities,
   calculateWorkerSlotMinutes,
@@ -8,10 +14,6 @@ import {
   type Slot,
   type SlotWorker,
 } from "@/scheduler";
-
-import { type ShiftPositionWithRowSpan } from "./useTeamShiftPositionsMap";
-import { type LeaveRenderInfo } from "./useTeamLeaveSchedule";
-import { DayDate } from "@/day-date";
 
 export type AnalyzedShiftPosition = ShiftPositionWithRowSpan & {
   hasLeaveConflict?: boolean;

@@ -1,14 +1,14 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const schedulePositionTemplatesHelp: HelpSection = {
   title: "Schedule Position Templates",
   description: (
     <>
       View and manage <strong>templates for schedule positions</strong>. These
-      templates are created in the <em>"Add Position" dialog</em> of the Shifts
-      Calendar section and are used to maintain{" "}
+      templates are created in the <em>&quot;Add Position&quot; dialog</em> of
+      the Shifts Calendar section and are used to maintain{" "}
       <u>consistency in shift creation</u>. Each template includes a name and
       color for easy identification, making it easier to fill positions with{" "}
       <strong>qualified team members</strong>.
@@ -40,8 +40,8 @@ export const schedulePositionTemplatesHelp: HelpSection = {
       description: (
         <>
           Review and manage <strong>existing position templates</strong>. Note
-          that new templates must be created in the <u>'Add Position' dialog</u>{" "}
-          of the Shifts Calendar section.
+          that new templates must be created in the{" "}
+          <u>&apos;Add Position&apos; dialog</u> of the Shifts Calendar section.
         </>
       ),
     },
@@ -51,7 +51,7 @@ export const schedulePositionTemplatesHelp: HelpSection = {
         <>
           See how each position template appears in the schedule with its{" "}
           <em>assigned color and name</em>. This helps maintain{" "}
-          <strong>consistency</strong> across the team's schedule.
+          <strong>consistency</strong> across the team&apos;s schedule.
         </>
       ),
     },
@@ -67,7 +67,7 @@ export const schedulePositionTemplatesHelp: HelpSection = {
               Navigate to the <strong>Shifts Calendar</strong> section
             </li>
             <li>
-              Click on <em>"Add Position"</em> in the calendar view
+              Click on <em>&quot;Add Position&quot;</em> in the calendar view
             </li>
             <li>
               Enter a <strong>descriptive name</strong> for the position
@@ -119,25 +119,27 @@ export const schedulePositionTemplatesHelp: HelpSection = {
         <>
           <p>
             <strong>Schedule Position Templates</strong> allow you to define
-            reusable roles or positions (e.g., <em>"Nurse"</em>,{" "}
-            <em>"Receptionist"</em>,<em>"Supervisor"</em>) with their own color,{" "}
-            <strong>required skills</strong>, and default shift times. Create
-            these in the <u>"Add Position" dialog</u> in the Shifts Calendar.
-            Use clear names and distinct colors for easy identification.
+            reusable roles or positions (e.g., <em>&quot;Nurse&quot;</em>,{" "}
+            <em>&quot;Receptionist&quot;</em>,<em>&quot;Supervisor&quot;</em>)
+            with their own color, <strong>required skills</strong>, and default
+            shift times. Create these in the{" "}
+            <u>&quot;Add Position&quot; dialog</u> in the Shifts Calendar. Use
+            clear names and distinct colors for easy identification.
           </p>
           <p className="mt-2">
             <strong>Schedule Day Templates</strong> are collections of position
             templates that represent a typical workday (e.g.,{" "}
-            <em>"Standard Weekday"</em>, <em>"Weekend Coverage"</em>). You can
-            create and manage day templates in the{" "}
-            <strong>Day Templates section</strong>. Drag and drop position
-            templates to build a day template, then drag day templates onto the
-            calendar to quickly fill out a <u>week or month</u>.
+            <em>&quot;Standard Weekday&quot;</em>,{" "}
+            <em>&quot;Weekend Coverage&quot;</em>). You can create and manage
+            day templates in the <strong>Day Templates section</strong>. Drag
+            and drop position templates to build a day template, then drag day
+            templates onto the calendar to quickly fill out a{" "}
+            <u>week or month</u>.
           </p>
           <p className="mt-2">
             <strong>Best Practices:</strong> Regularly review your templates to
-            ensure they match your <em>team's needs</em>. Use day templates to{" "}
-            <strong>speed up scheduling</strong> and maintain consistency.
+            ensure they match your <em>team&apos;s needs</em>. Use day templates
+            to <strong>speed up scheduling</strong> and maintain consistency.
           </p>
         </>
       ),

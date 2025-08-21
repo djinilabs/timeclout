@@ -63,3 +63,5 @@ export const ColorLabel: FC<ColorLabelProps> = memo(
     );
   }
 );
+
+ColorLabel.displayName = "ColorLabel";

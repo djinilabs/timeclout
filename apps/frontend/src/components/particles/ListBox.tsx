@@ -1,4 +1,3 @@
-import { FC, memo, useCallback } from "react";
 import {
   Listbox,
   ListboxButton,
@@ -7,6 +6,7 @@ import {
 } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
 import { CheckIcon } from "@heroicons/react/20/solid";
+import { FC, memo, useCallback } from "react";
 
 export interface ListBoxProps<TKey extends string | number = string | number> {
   options: { key: TKey; value: string }[];
@@ -75,3 +75,5 @@ export const ListBox: FC<ListBoxProps> = memo(
     );
   }
 );
+
+ListBox.displayName = "ListBox";

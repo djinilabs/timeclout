@@ -1,7 +1,8 @@
 import { Trans } from "@lingui/react/macro";
-import { LabeledSwitch } from "../particles/LabeledSwitch";
+
 import { User } from "../../graphql/graphql";
 import { SelectUsers } from "../atoms/SelectUsers";
+import { LabeledSwitch } from "../particles/LabeledSwitch";
 
 export interface FilterTeamShiftsCalendarMenuProps {
   filterUsers: boolean;

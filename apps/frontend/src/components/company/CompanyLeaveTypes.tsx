@@ -1,23 +1,25 @@
-import { Link, useParams } from "react-router-dom";
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
-import { LeaveTypes, leaveTypeParser } from "@/settings";
-import { getDefined } from "@/utils";
-import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
-import { useQuery } from "../../hooks/useQuery";
-import { useMutation } from "../../hooks/useMutation";
-import { leaveTypeColors, leaveTypeIcons } from "../../settings/leaveTypes";
+import { useCallback, useMemo } from "react";
+import { toast } from "react-hot-toast";
+import { Link, useParams } from "react-router-dom";
+
 import {
   CompanySettingsArgs,
   Mutation,
   MutationUpdateCompanySettingsArgs,
   Query,
-} from "../../graphql/graphql";
-import { QueryCompanyArgs } from "../../graphql/graphql";
-import { toast } from "react-hot-toast";
-import { i18n } from "@lingui/core";
-import { useCallback, useMemo } from "react";
+ QueryCompanyArgs } from "../../graphql/graphql";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
+import { leaveTypeColors, leaveTypeIcons } from "../../settings/leaveTypes";
+
+import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import { LeaveTypes, leaveTypeParser } from "@/settings";
+import { getDefined } from "@/utils";
+
 
 export const CompanyLeaveTypes = () => {
   const { company: companyPk } = useParams();

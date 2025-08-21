@@ -1,6 +1,8 @@
-import { FC, memo } from "react";
 import { Trans } from "@lingui/react/macro";
+import { FC, memo } from "react";
+
 import { TimePicker } from "../particles/TimePicker";
+
 import { TimeScheduleVisualizer } from "./TimeScheduleVisualizer";
 
 export interface TimeSchedule {
@@ -27,7 +29,7 @@ const ensureTimeContinuity = (schedules: TimeSchedule[]): TimeSchedule[] => {
 };
 
 export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
-  ({ schedules, onChange }) => {
+  function TimeSchedulesEditor({ schedules, onChange }) {
     const handleTimeChange = <
       TLabel extends
         | "startHourMinutes"
@@ -117,6 +119,7 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
                     onChange(ensureTimeContinuity(newSchedules));
                   }}
                   aria-label={`Remove schedule ${index + 1}`}
+                  // eslint-disable-next-line react/no-unknown-property
                   aria-clickable
                   role="button"
                 >
@@ -151,6 +154,7 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
             onChange(ensureTimeContinuity([...schedules, newSchedule]));
           }}
           aria-label="Add new time schedule"
+          // eslint-disable-next-line react/no-unknown-property
           aria-clickable
           role="button"
         >

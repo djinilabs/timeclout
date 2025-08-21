@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+
 import type { AutoFillSlotWorkerResolvers } from "./../../../types.generated";
 
 export const AutoFillSlotWorker: AutoFillSlotWorkerResolvers = {

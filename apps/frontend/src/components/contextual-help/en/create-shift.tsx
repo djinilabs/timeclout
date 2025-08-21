@@ -1,13 +1,13 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const createShiftHelp: HelpSection = {
   title: "Create Shift",
   description: (
     <>
-      <strong>Add a new shift position</strong> to your team's schedule. Use
-      templates for consistency or create from scratch.
+      <strong>Add a new shift position</strong> to your team&apos;s schedule.
+      Use templates for consistency or create from scratch.
     </>
   ),
   features: [
@@ -32,7 +32,7 @@ export const createShiftHelp: HelpSection = {
       content: (
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
-            1. Click <strong>"Add Position"</strong> in the calendar
+            1. Click <strong>&quot;Add Position&quot;</strong> in the calendar
           </p>
           <p className="text-xs text-gray-600">
             2. Choose a <strong>template</strong> or create from scratch
@@ -47,7 +47,7 @@ export const createShiftHelp: HelpSection = {
             5. Add <strong>required qualifications</strong>
           </p>
           <p className="text-xs text-gray-600">
-            6. Click <strong>"Save"</strong> to create the shift
+            6. Click <strong>&quot;Save&quot;</strong> to create the shift
           </p>
         </div>
       ),

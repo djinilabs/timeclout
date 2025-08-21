@@ -1,9 +1,10 @@
 import { FC, memo, useState } from "react";
+
 import { classNames } from "../../utils/classNames";
 import { Day, Month } from "../../utils/generateYearMonthsDays";
-import { type LeaveDay } from "../types";
-import { Popover } from "../particles/Popover";
 import { LeaveRequest } from "../atoms/LeaveRequest";
+import { Popover } from "../particles/Popover";
+import { type LeaveDay } from "../types";
 
 interface TimeOffCalendarDayProps {
   day: Day;
@@ -108,3 +109,5 @@ export const TimeOffCalendarDay: FC<TimeOffCalendarDayProps> = memo(
     return element;
   }
 );
+
+TimeOffCalendarDay.displayName = "TimeOffCalendarDay";

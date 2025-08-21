@@ -1,19 +1,30 @@
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import {
+  BuildingOfficeIcon,
+  PencilIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
-import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { BuildingOfficeIcon } from "@heroicons/react/24/outline";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { Trans } from "@lingui/react/macro";
-import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
-import deleteCompanyMutation from "@/graphql-client/mutations/deleteCompany.graphql";
+
 import { type Company } from "../graphql/graphql";
-import { useQuery } from "../hooks/useQuery";
-import { Button } from "./particles/Button";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useConfirmDialog } from "../hooks/useConfirmDialog";
-import { i18n } from "@lingui/core";
 import { useMutation } from "../hooks/useMutation";
-import toast from "react-hot-toast";
+import { useQuery } from "../hooks/useQuery";
+
+import { Button } from "./particles/Button";
+
+import deleteCompanyMutation from "@/graphql-client/mutations/deleteCompany.graphql";
+import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
+
+
+
+
+
 
 const NoCompanies = () => {
   const navigate = useNavigate();

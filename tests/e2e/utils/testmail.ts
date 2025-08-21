@@ -1,5 +1,6 @@
-import { getDefined } from "../../../libs/utils/src";
 import { customAlphabet } from "nanoid";
+
+import { getDefined } from "../../../libs/utils/src";
 
 export interface MailMessage {
   to: string;

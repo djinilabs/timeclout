@@ -1,13 +1,14 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
+import { describe, expect, it, vi, beforeEach } from "vitest";
+
+import { User } from "../../graphql/graphql";
 import {
   TeamLeaveSchedule,
   TeamLeaveScheduleProps,
 } from "../molecules/TeamLeaveSchedule";
-import { User } from "../../graphql/graphql";
 
 // Mock ResizeObserver
 class ResizeObserverMock {
@@ -115,7 +116,7 @@ describe("TeamLeaveSchedule", () => {
     expect(leaveCell).toHaveStyle({ backgroundColor: "#4CAF50" });
   });
 
-  it("renders pending leaves with reduced opacity", () => {
+  it("renders pending leaves with reduced opacity", async () => {
     const propsWithPendingLeave = {
       ...defaultProps,
       schedule: [
@@ -136,6 +137,6 @@ describe("TeamLeaveSchedule", () => {
 
     renderWithProviders(<TeamLeaveSchedule {...propsWithPendingLeave} />);
     const leaveCell = screen.getByTitle("vacation");
-    expect(leaveCell).toHaveClass("opacity-50");
+    await expect(leaveCell).toHaveClass("opacity-50");
   });
 });

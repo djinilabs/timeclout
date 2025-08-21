@@ -23,3 +23,5 @@ export const Attention: FC<AttentionProps> = memo(({ children, title }) => {
     </div>
   );
 });
+
+Attention.displayName = "Attention";

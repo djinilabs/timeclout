@@ -7,10 +7,11 @@ import {
   DocumentDuplicateIcon,
   FunnelIcon,
 } from "@heroicons/react/24/outline";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
-import { LabeledSwitch } from "../particles/LabeledSwitch";
+import { Trans } from "@lingui/react/macro";
 import { memo } from "react";
+
+import { LabeledSwitch } from "../particles/LabeledSwitch";
 
 export interface TeamShiftsScheduleOptionsMenuProps {
   showLeaveSchedule: boolean;
@@ -30,7 +31,7 @@ export interface TeamShiftsScheduleOptionsMenuProps {
 }
 
 export const TeamShiftsScheduleOptionsMenu = memo(
-  ({
+  function TeamShiftsScheduleOptionsMenu({
     showLeaveSchedule,
     setShowLeaveSchedule,
     showScheduleDetails,
@@ -45,7 +46,7 @@ export const TeamShiftsScheduleOptionsMenu = memo(
     setShowFilters,
     showHolidays,
     setShowHolidays,
-  }: TeamShiftsScheduleOptionsMenuProps) => {
+  }: TeamShiftsScheduleOptionsMenuProps) {
     return (
       <Menu as="div" className="relative">
         <MenuButton

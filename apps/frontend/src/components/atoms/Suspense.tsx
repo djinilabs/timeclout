@@ -5,6 +5,7 @@ import {
   Suspense as ReactSuspense,
   ReactNode,
 } from "react";
+
 import { Loading } from "../particles/Loading";
 
 export interface SuspenseProps extends PropsWithChildren {
@@ -16,3 +17,5 @@ export const Suspense: FC<SuspenseProps> = memo(
     <ReactSuspense fallback={fallback}>{children}</ReactSuspense>
   )
 );
+
+Suspense.displayName = "Suspense";

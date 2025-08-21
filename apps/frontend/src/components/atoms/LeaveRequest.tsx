@@ -1,5 +1,6 @@
-import { memo } from "react";
 import { Trans } from "@lingui/react/macro";
+import { memo } from "react";
+
 import { LeaveRequest as LeaveRequestType } from "../../graphql/graphql";
 import { Avatar } from "../particles/Avatar";
 
@@ -226,3 +227,5 @@ export const LeaveRequest: React.FC<LeaveRequestProps> = memo(
     );
   }
 );
+
+LeaveRequest.displayName = "LeaveRequest";

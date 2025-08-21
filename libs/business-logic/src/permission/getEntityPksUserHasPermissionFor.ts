@@ -1,5 +1,5 @@
-import { getResourceRef, ResourceRef, ResourceType } from "@/utils";
 import { database } from "@/tables";
+import { getResourceRef, ResourceRef, ResourceType } from "@/utils";
 
 export const getEntityPksUserHasPermissionFor = async (
   userRef: ResourceRef,

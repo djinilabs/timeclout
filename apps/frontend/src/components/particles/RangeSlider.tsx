@@ -30,3 +30,5 @@ export const RangeSlider: FC<RangeSliderProps> = memo(
     );
   }
 );
+
+RangeSlider.displayName = "RangeSlider";

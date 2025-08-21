@@ -1,72 +1,75 @@
-import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router";
-import { DayDate } from "@/day-date";
-import { Trans } from "@lingui/react/macro";
-import { i18n } from "@lingui/core";
 import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
   Transition,
 } from "@headlessui/react";
-import { getDefined } from "@/utils";
 import {
   ChevronDownIcon,
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
-import assignShiftPositionsMutation from "@/graphql-client/mutations/assignShiftPositions.graphql";
-import unassignShiftPositionMutation from "@/graphql-client/mutations/unassignShiftPosition.graphql";
-import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
-import { useTeamShiftsClipboard } from "../../hooks/useTeamShiftsClipboard";
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
+import { useSearchParams } from "react-router";
+
+import type {
+  ShiftPosition as ShiftPositionType,
+  User,
+} from "../../graphql/graphql";
+import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
+import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
+import { useHolidays } from "../../hooks/useHolidays";
+import { useLocalPreference } from "../../hooks/useLocalPreference";
+import { useMutation } from "../../hooks/useMutation";
+import { useSearchParam } from "../../hooks/useSearchParam";
+import {
+  LeaveRenderInfo,
+  useTeamLeaveSchedule,
+} from "../../hooks/useTeamLeaveSchedule";
 import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
-import { useTeamShiftsQuery } from "../../hooks/useTeamShiftsQuery";
-import { useTeamShiftsFocusNavigation } from "../../hooks/useTeamShiftsFocusNavigation";
 import {
   type ShiftPositionWithFake,
   type ShiftPositionWithRowSpan,
   useTeamShiftPositionsMap,
 } from "../../hooks/useTeamShiftPositionsMap";
-import type {
-  ShiftPosition as ShiftPositionType,
-  User,
-} from "../../graphql/graphql";
-import {
-  LeaveRenderInfo,
-  useTeamLeaveSchedule,
-} from "../../hooks/useTeamLeaveSchedule";
-import { useLocalPreference } from "../../hooks/useLocalPreference";
-import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
-import { useSearchParam } from "../../hooks/useSearchParam";
-import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCalendar";
-import { toMinutes } from "../../utils/toMinutes";
+import { useTeamShiftsClipboard } from "../../hooks/useTeamShiftsClipboard";
+import { useTeamShiftsDragAndDrop } from "../../hooks/useTeamShiftsDragAndDrop";
+import { useTeamShiftsFocusNavigation } from "../../hooks/useTeamShiftsFocusNavigation";
+import { useTeamShiftsQuery } from "../../hooks/useTeamShiftsQuery";
 import { classNames } from "../../utils/classNames";
+import { shiftPositionKey } from "../../utils/shiftPositionKey";
+import { toMinutes } from "../../utils/toMinutes";
+import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
+import { PublishActions } from "../atoms/PublishActions";
 import { ShiftPosition } from "../atoms/ShiftPosition";
+import { Day } from "../particles/MonthDailyCalendar";
+import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
 import {
   TeamShiftsCalendar,
   TeamShiftsCalendarProps,
 } from "../team-shifts/TeamShiftsCalendar";
-import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
-import { Day } from "../particles/MonthDailyCalendar";
-import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
+
+import { CreateOrEditScheduleDayTemplateDialog } from "./CreateOrEditScheduleDayTemplateDialog";
 import { CreateOrEditScheduleShiftPositionDialog } from "./CreateOrEditScheduleShiftPositionDialog";
-import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
-import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
-import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
-import { shiftPositionKey } from "../../utils/shiftPositionKey";
-import { useMutation } from "../../hooks/useMutation";
-import toast from "react-hot-toast";
-import { PublishActions } from "../atoms/PublishActions";
+import { CreateShiftPositionTemplateDialog } from "./CreateShiftPositionTemplateDialog";
+import { FilterTeamShiftsCalendarMenu } from "./FilterTeamShiftsCalendarMenu";
 import { PublishShiftPositionsDialog } from "./PublishShiftPositionsDialog";
 import { RevertShiftPositionsDialog } from "./RevertShiftPositionsDialog";
-import { TeamShiftsScheduleOptionsMenu } from "./TeamShiftsScheduleOptionsMenu";
-import { TeamShiftsActionsMenu } from "./TeamShiftsActionsMenu";
-import { TeamShiftPositionTemplates } from "./TeamShiftPositionTemplates";
-import { CreateShiftPositionTemplateDialog } from "./CreateShiftPositionTemplateDialog";
+import { ShiftsAutofillDialog } from "./ShiftsAutofillDialog";
 import { TeamDayTemplates } from "./TeamDayTemplates";
-import { CreateOrEditScheduleDayTemplateDialog } from "./CreateOrEditScheduleDayTemplateDialog";
-import { FilterTeamShiftsCalendarMenu } from "./FilterTeamShiftsCalendarMenu";
-import { useHolidays } from "../../hooks/useHolidays";
 import { TeamHolidaysMenu } from "./TeamHolidaysMenu";
+import { TeamShiftPositionTemplates } from "./TeamShiftPositionTemplates";
+import { TeamShiftsActionsMenu } from "./TeamShiftsActionsMenu";
+import { TeamShiftsScheduleOptionsMenu } from "./TeamShiftsScheduleOptionsMenu";
+import { UnassignShiftPositionsDialog } from "./UnassignShiftPositionsDialog";
+
+import { DayDate } from "@/day-date";
+import assignShiftPositionsMutation from "@/graphql-client/mutations/assignShiftPositions.graphql";
+import unassignShiftPositionMutation from "@/graphql-client/mutations/unassignShiftPosition.graphql";
+import { getDefined } from "@/utils";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();

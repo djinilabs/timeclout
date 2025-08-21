@@ -1,6 +1,7 @@
-import { ResourceRef } from "@/utils";
 import { teamMembers } from "./teamMembers";
 import { userTeamQualifications } from "./userTeamQualifications";
+
+import { ResourceRef } from "@/utils";
 
 type TeamMemberQualifications = {
   userPk: ResourceRef;

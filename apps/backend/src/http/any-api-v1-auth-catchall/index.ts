@@ -1,7 +1,10 @@
-import { APIGatewayProxyHandlerV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import serverlessExpress from "@vendia/serverless-express";
-import { createApp } from "./auth-app";
+import { APIGatewayProxyHandlerV2, APIGatewayProxyResultV2 } from "aws-lambda";
+
 import { handlingErrors } from "../../utils/handlingErrors";
+
+import { createApp } from "./auth-app";
+
 
 let cachedHandler: APIGatewayProxyHandlerV2 | undefined;
 

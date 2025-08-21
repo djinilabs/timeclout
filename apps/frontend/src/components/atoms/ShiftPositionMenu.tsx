@@ -1,10 +1,12 @@
-import { DropdownMenu } from "radix-ui";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
-import { AssignableTeamMembers } from "./AssignableTeamMembers";
-import { ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
+import { Trans } from "@lingui/react/macro";
 import { User } from "libs/graphql/src/types.generated";
+import { DropdownMenu } from "radix-ui";
+
+import { ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
+
+import { AssignableTeamMembers } from "./AssignableTeamMembers";
 
 export interface ShiftPositionMenuProps {
   teamPk: string;

@@ -1,5 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import ReactTimeAgo from "react-time-ago";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
   PlusIcon,
   EllipsisVerticalIcon,
@@ -8,16 +7,19 @@ import {
   ClockIcon,
 } from "@heroicons/react/20/solid";
 import { UsersIcon } from "@heroicons/react/24/outline";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { Trans } from "@lingui/react/macro";
-import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
-import deleteTeamMutation from "@/graphql-client/mutations/deleteTeam.graphql";
-import { useQuery } from "../../hooks/useQuery";
-import { Query, Team } from "../../graphql/graphql";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import toast from "react-hot-toast";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import ReactTimeAgo from "react-time-ago";
+
+import { Query, Team } from "../../graphql/graphql";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { useMutation } from "../../hooks/useMutation";
-import toast from "react-hot-toast";
+import { useQuery } from "../../hooks/useQuery";
+
+import deleteTeamMutation from "@/graphql-client/mutations/deleteTeam.graphql";
+import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
 
 const NoTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
@@ -201,6 +203,7 @@ export const AllUnitTeams = () => {
                       type="button"
                       className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2 w-full"
                       aria-label={`Remove ${team.name} team`}
+                      // eslint-disable-next-line react/no-unknown-property
                       aria-clickable
                       onClick={async () => {
                         if (

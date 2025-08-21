@@ -1,16 +1,22 @@
-import { database } from "@/tables";
 import { notFound, forbidden } from "@hapi/boom";
-import { getResourceRef } from "@/utils";
-import {
-  canApproveLeaveRequest,
-  rejectLeaveRequest as rejectLeaveRequestLogic,
-} from "@/business-logic";
+
+import { requireSessionUser } from "../../../../session/requireSessionUser";
+
 import type {
   LeaveRequest,
   MutationResolvers,
 } from "./../../../../types.generated";
+
+import {
+  canApproveLeaveRequest,
+  rejectLeaveRequest as rejectLeaveRequestLogic,
+} from "@/business-logic";
 import { i18n } from "@/locales";
-import { requireSessionUser } from "../../../../session/requireSessionUser";
+import { database } from "@/tables";
+import { getResourceRef } from "@/utils";
+
+
+
 
 export const rejectLeaveRequest: NonNullable<
   MutationResolvers["rejectLeaveRequest"]

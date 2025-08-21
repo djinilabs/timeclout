@@ -1,6 +1,7 @@
-import { config } from "dotenv";
 import { join } from "path";
+
 import type { ScreenshotMode, VideoMode, TraceMode } from "@playwright/test";
+import { config } from "dotenv";
 
 // Load environment variables from .env file in the e2e directory
 // Using relative path from project root since this is a test config

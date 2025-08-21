@@ -1,12 +1,12 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const workScheduleSettingsHelp: HelpSection = {
   title: "Work Schedule Settings",
   description: (
     <>
-      Configure your team's{" "}
+      Configure your team&apos;s{" "}
       <strong>working hours, timezone, and schedule preferences</strong>. These
       settings affect how shifts are displayed and scheduled.
     </>
@@ -55,7 +55,7 @@ export const workScheduleSettingsHelp: HelpSection = {
       content: (
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
-            • Choose your team's <strong>primary timezone</strong> for all
+            • Choose your team&apos;s <strong>primary timezone</strong> for all
             scheduling
           </p>
           <p className="text-xs text-gray-600">

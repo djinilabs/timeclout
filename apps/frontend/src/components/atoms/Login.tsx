@@ -1,9 +1,10 @@
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useSession, signIn } from "next-auth/react";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSession, signIn } from "next-auth/react";
-import { Trans } from "@lingui/react/macro";
+
 import { Button } from "../particles/Button";
-import { i18n } from "@lingui/core";
 
 const Login: FC = () => {
   const { status } = useSession();
@@ -54,7 +55,7 @@ const Login: FC = () => {
             <Trans>Enter your email</Trans>
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            <Trans>We'll send you a secure link to sign in</Trans>
+            <Trans>We&apos;ll send you a secure link to sign in</Trans>
           </p>
         </div>
 
@@ -232,7 +233,8 @@ const Login: FC = () => {
             <div className="text-center">
               <p className="text-xs text-gray-500">
                 <Trans>
-                  We'll send you a secure link to sign in without a password
+                  We&apos;ll send you a secure link to sign in without a
+                  password
                 </Trans>
               </p>
             </div>

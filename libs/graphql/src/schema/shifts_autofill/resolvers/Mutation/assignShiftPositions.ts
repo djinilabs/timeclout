@@ -1,11 +1,13 @@
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
+
 import type {
   MutationResolvers,
   ShiftPosition,
 } from "./../../../../types.generated";
-import { resourceRef } from "@/utils";
-import { PERMISSION_LEVELS } from "@/tables";
+
 import { assignShiftPositions as assignShiftPositionsLogic } from "@/business-logic";
+import { PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 
 export const assignShiftPositions: NonNullable<MutationResolvers['assignShiftPositions']> = async (_parent, arg, ctx) => {
   const {

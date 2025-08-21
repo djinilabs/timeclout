@@ -1,7 +1,9 @@
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
+
 import { Dialog } from "../atoms/Dialog";
 import { Suspense } from "../atoms/Suspense";
-import { i18n } from "@lingui/core";
+
 import { CreateOrEditScheduleDayTemplate } from "./CreateOrEditScheduleDayTemplate";
 
 export interface CreateOrEditScheduleDayTemplateDialogProps {

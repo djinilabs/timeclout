@@ -21,10 +21,10 @@ const PageTermsOfService = () => {
             <div className="mt-8 prose prose-gray max-w-none">
               <h2>1. Acceptance of Terms</h2>
               <p>
-                By accessing and using TT3 ("the Service"), you accept and agree
-                to be bound by the terms and provision of this agreement. If you
-                do not agree to abide by the above, please do not use this
-                service.
+                By accessing and using TT3 (&quot;the Service&quot;), you accept
+                and agree to be bound by the terms and provision of this
+                agreement. If you do not agree to abide by the above, please do
+                not use this service.
               </p>
 
               <h2>2. Description of Service</h2>
@@ -63,7 +63,7 @@ const PageTermsOfService = () => {
                 <li>Transmit harmful, offensive, or inappropriate content</li>
                 <li>
                   Attempt to gain unauthorized access to the Service or other
-                  users' accounts
+                  users&apos; accounts
                 </li>
                 <li>Interfere with or disrupt the Service or servers</li>
                 <li>
@@ -108,12 +108,12 @@ const PageTermsOfService = () => {
 
               <h2>9. Disclaimer</h2>
               <p>
-                The Service is provided on an "AS IS" and "AS AVAILABLE" basis.
-                TT3 makes no warranties, expressed or implied, and hereby
-                disclaims and negates all other warranties including without
-                limitation, implied warranties or conditions of merchantability,
-                fitness for a particular purpose, or non-infringement of
-                intellectual property.
+                The Service is provided on an &quot;AS IS&quot; and &quot;AS
+                AVAILABLE&quot; basis. TT3 makes no warranties, expressed or
+                implied, and hereby disclaims and negates all other warranties
+                including without limitation, implied warranties or conditions
+                of merchantability, fitness for a particular purpose, or
+                non-infringement of intellectual property.
               </p>
 
               <h2>10. Changes to Terms</h2>

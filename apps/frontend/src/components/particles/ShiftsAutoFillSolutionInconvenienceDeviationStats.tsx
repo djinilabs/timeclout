@@ -1,12 +1,14 @@
-import { FC, memo, useCallback, useMemo } from "react";
-import { Slot, SlotWorker, type ScoredShiftSchedule } from "@/scheduler";
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
+import { FC, memo, useCallback, useMemo } from "react";
+
 import { getInitials } from "../../utils/getInitials";
 import {
   DeviationBarPlot,
   DeviationBarPlotDatum,
 } from "../stats/DeviationBarPlot";
-import { i18n } from "@lingui/core";
+
+import { Slot, SlotWorker, type ScoredShiftSchedule } from "@/scheduler";
 
 interface ShiftsAutoFillSolutionInconvenienceDeviationStatsProps {
   schedule: ScoredShiftSchedule;
@@ -151,3 +153,6 @@ export const ShiftsAutoFillSolutionInconvenienceDeviationStats: FC<ShiftsAutoFil
       </div>
     );
   });
+
+ShiftsAutoFillSolutionInconvenienceDeviationStats.displayName =
+  "ShiftsAutoFillSolutionInconvenienceDeviationStats";

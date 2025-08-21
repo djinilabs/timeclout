@@ -1,5 +1,7 @@
 import { FC, memo } from "react";
+
 import { Badge } from "../particles/Badge";
+
 import { type ColorName } from "@/settings";
 
 export interface Badge {
@@ -31,4 +33,6 @@ export const Badges: FC<BadgesProps> = memo(({ badges, onRemove }) => {
       })}
     </div>
   );
+
+  Badges.displayName = "Badges";
 });

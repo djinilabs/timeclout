@@ -1,8 +1,6 @@
 import { createContext, ReactNode, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
-import { useQuery } from "../hooks/useQuery";
-import { teamWithMembers } from "@/graphql-client/queries/teamWithMembers.graphql";
+
 import type {
   Company,
   Query,
@@ -10,6 +8,11 @@ import type {
   Team,
   Unit,
 } from "../graphql/graphql";
+import { useQuery } from "../hooks/useQuery";
+
+import companyQuery from "@/graphql-client/queries/companyQuery.graphql";
+import { teamWithMembers } from "@/graphql-client/queries/teamWithMembers.graphql";
+
 
 export interface EntityNavigationContextType {
   companyPk: string | undefined;

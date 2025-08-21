@@ -1,12 +1,16 @@
-import { DayDate } from "@/day-date";
-import { Trans } from "@lingui/react/macro";
 import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import { Dialog } from "../atoms/Dialog";
-import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
-import { Suspense } from "../atoms/Suspense";
-import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
+import { Trans } from "@lingui/react/macro";
+
 import { ShiftPosition } from "../../graphql/graphql";
+import { useTeamShiftActions } from "../../hooks/useTeamShiftActions";
+import { Dialog } from "../atoms/Dialog";
 import { HelpPanel } from "../atoms/HelpPanel";
+import { Suspense } from "../atoms/Suspense";
+
+import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
+
+
+import { DayDate } from "@/day-date";
 
 export interface CreateOrEditScheduleShiftPositionDialogProps {
   isDialogOpen: boolean;

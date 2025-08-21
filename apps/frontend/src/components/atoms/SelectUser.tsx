@@ -1,6 +1,6 @@
-import { FC, memo, useCallback, useEffect, useMemo, useRef } from "react";
 import { i18n } from "@lingui/core";
 import { useSession } from "next-auth/react";
+import { FC, memo, useCallback, useEffect, useMemo, useRef } from "react";
 
 export interface User {
   pk: string;
@@ -89,3 +89,5 @@ export const SelectUser: FC<SelectUserProps> = memo(
     );
   }
 );
+
+SelectUser.displayName = "SelectUser";

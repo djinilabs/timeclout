@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { DayDate } from "@/day-date";
-import { useKeysNavigation } from "../hooks/useKeysNavigation";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
+import { useState } from "react";
+
+import { useKeysNavigation } from "../hooks/useKeysNavigation";
+
+import { DayDate } from "@/day-date";
 
 type ShiftPositionWithFake = ShiftPositionType & {
   fake?: boolean;

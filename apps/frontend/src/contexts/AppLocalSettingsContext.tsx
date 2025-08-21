@@ -1,3 +1,4 @@
+import debounce from "lodash.debounce";
 import {
   createContext,
   useContext,
@@ -5,7 +6,6 @@ import {
   ReactNode,
   useEffect,
 } from "react";
-import debounce from "lodash.debounce";
 
 interface AppLocalSettings {
   helpSideBarWidth: number;

@@ -4,8 +4,9 @@ import {
   Squares2X2Icon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
+import { Link } from "react-router-dom";
+
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 
 export const BreadcrumbNav = () => {

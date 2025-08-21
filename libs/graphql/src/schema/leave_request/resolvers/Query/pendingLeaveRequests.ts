@@ -1,10 +1,12 @@
-import { getUserPendingLeaveRequests } from "@/business-logic";
-import { getResourceRef, resourceRef } from "@/utils";
 import { requireSessionUser } from "../../../../session/requireSessionUser";
+
 import type {
   LeaveRequest,
   QueryResolvers,
 } from "./../../../../types.generated";
+
+import { getUserPendingLeaveRequests } from "@/business-logic";
+import { getResourceRef, resourceRef } from "@/utils";
 
 export const pendingLeaveRequests: NonNullable<QueryResolvers['pendingLeaveRequests']> = async (_parent, { companyPk }, ctx) => {
   const user = await requireSessionUser(ctx);

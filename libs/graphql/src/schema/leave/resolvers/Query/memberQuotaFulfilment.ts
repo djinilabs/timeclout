@@ -1,11 +1,14 @@
-import { resourceRef } from "@/utils";
-import { PERMISSION_LEVELS } from "@/tables";
+import { forbidden } from "@hapi/boom";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { QueryResolvers } from "./../../../../types.generated";
+
 import { getQuotaFulfilment, isUserAuthorized } from "@/business-logic";
 import { DayDate } from "@/day-date";
-import type { QueryResolvers } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import { forbidden } from "@hapi/boom";
 import { i18n } from "@/locales";
+import { PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 
 export const memberQuotaFulfilment: NonNullable<
   QueryResolvers["memberQuotaFulfilment"]

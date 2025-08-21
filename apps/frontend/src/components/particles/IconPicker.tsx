@@ -1,4 +1,5 @@
 import { FC, memo } from "react";
+
 import { leaveTypeIcons } from "../../settings/leaveTypes";
 
 export interface IconPickerProps {
@@ -36,3 +37,5 @@ export const IconPicker: FC<IconPickerProps> = memo(({ value, onChange }) => {
     </div>
   );
 });
+
+IconPicker.displayName = "IconPicker";

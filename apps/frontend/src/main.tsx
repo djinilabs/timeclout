@@ -1,8 +1,9 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import pt from "javascript-time-ago/locale/pt";
-import TimeAgo from "javascript-time-ago";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
 import "./output.css";
 import { App } from "./App";
 

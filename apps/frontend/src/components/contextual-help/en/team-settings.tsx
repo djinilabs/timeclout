@@ -1,12 +1,12 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const teamSettingsHelp: HelpSection = {
   title: "Team Settings",
   description: (
     <>
-      Configure your team's settings and preferences. Manage team-specific
+      Configure your team&apos;s settings and preferences. Manage team-specific
       policies, member roles, and operational settings.
     </>
   ),

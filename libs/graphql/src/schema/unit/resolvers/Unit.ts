@@ -1,13 +1,17 @@
-import { database, EntityRecord, PERMISSION_LEVELS } from "@/tables";
+import { ensureAuthorized } from "../../../auth/ensureAuthorized";
+import { getAuthorized } from "../../../auth/getAuthorized";
+import { requireSession } from "../../../session/requireSession";
+
+import type { Team, UnitResolvers, User } from "./../../../types.generated";
+
 import {
   getAuthorizedForResource,
   getUserAuthorizationLevelForResource,
 } from "@/business-logic";
+import { database, EntityRecord, PERMISSION_LEVELS } from "@/tables";
 import { getDefined, getResourceRef, resourceRef } from "@/utils";
-import type { Team, UnitResolvers, User } from "./../../../types.generated";
-import { getAuthorized } from "../../../auth/getAuthorized";
-import { ensureAuthorized } from "../../../auth/ensureAuthorized";
-import { requireSession } from "../../../session/requireSession";
+
+
 
 export const Unit: UnitResolvers = {
   createdBy: async (parent, _args, ctx) => {

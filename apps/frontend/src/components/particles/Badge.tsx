@@ -1,4 +1,5 @@
 import { FC, memo } from "react";
+
 import { type ColorName } from "@/settings";
 
 export interface BadgeProps {
@@ -24,6 +25,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-gray-500/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -55,6 +57,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-red-600/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -85,6 +88,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-yellow-600/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -115,6 +119,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-green-600/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -145,6 +150,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-blue-600/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -175,6 +181,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-indigo-600/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -205,6 +212,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-purple-600/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -235,6 +243,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-pink-600/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -265,6 +274,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-orange-600/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -295,6 +305,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-teal-600/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -325,6 +336,7 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
               onClick={() => onRemove()}
               className="group relative -mr-1 size-3.5 rounded-xs hover:bg-lime-600/20"
               aria-label={`Remove ${name} badge`}
+              // eslint-disable-next-line react/no-unknown-property
               aria-clickable
               role="button"
             >
@@ -344,3 +356,5 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
       return null;
   }
 });
+
+Badge.displayName = "Badge";

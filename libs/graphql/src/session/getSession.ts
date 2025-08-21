@@ -1,7 +1,9 @@
-import { APIGatewayProxyEventV2 } from "aws-lambda";
 import { getSession as getExpressSession } from "@auth/express";
+import { APIGatewayProxyEventV2 } from "aws-lambda";
 import { Request } from "express";
+
 import { ResolverContext } from "../resolverContext";
+
 import { authConfig } from "@/auth-config";
 import { getDefined } from "@/utils";
 

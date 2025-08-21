@@ -1,15 +1,20 @@
-import { PERMISSION_LEVELS } from "@/tables";
-import { resourceRef } from "@/utils";
-import {
-  createLeaveRequest as createLeaveRequestLogic,
-  isUserAuthorized,
-} from "@/business-logic";
+import { forbidden } from "@hapi/boom";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
 import type {
   LeaveRequest,
   MutationResolvers,
 } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import { forbidden } from "@hapi/boom";
+
+import {
+  createLeaveRequest as createLeaveRequestLogic,
+  isUserAuthorized,
+} from "@/business-logic";
+import { PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
+
+
 
 export const createLeaveRequestForUser: NonNullable<MutationResolvers['createLeaveRequestForUser']> = async (_parent, { input }, ctx) => {
   const companyResourceRef = resourceRef("companies", input.companyPk);

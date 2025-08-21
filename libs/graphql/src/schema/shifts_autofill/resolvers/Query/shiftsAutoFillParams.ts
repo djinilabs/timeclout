@@ -1,11 +1,13 @@
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
+
 import type {
   QueryResolvers,
   ShiftsAutoFillParams,
 } from "./../../../../types.generated";
-import { resourceRef } from "@/utils";
-import { PERMISSION_LEVELS } from "@/tables";
+
 import { shiftsAutoFillParams as shiftsAutoFillParamsLogic } from "@/business-logic";
+import { PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 
 export const shiftsAutoFillParams: NonNullable<QueryResolvers['shiftsAutoFillParams']> = async (_parent, arg, ctx) => {
   const {

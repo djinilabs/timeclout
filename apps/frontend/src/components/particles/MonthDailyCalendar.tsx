@@ -1,8 +1,10 @@
 import { Trans } from "@lingui/react/macro";
 import { FC, memo, useMemo } from "react";
+
 import { classNames } from "../../utils/classNames";
-import { DayDate } from "@/day-date";
 import { generateMonthDays } from "../../utils/generateMonthDays";
+
+import { DayDate } from "@/day-date";
 
 export interface Day {
   date: string;
@@ -172,3 +174,5 @@ export const MonthDailyCalendar: FC<MonthDailyCalendarProps> = memo(
     );
   }
 );
+
+MonthDailyCalendar.displayName = "MonthDailyCalendar";

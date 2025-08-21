@@ -1,4 +1,5 @@
 import { FC, ReactNode } from "react";
+
 import { type User } from "../graphql/graphql";
 
 export type FieldValue = {
@@ -47,27 +48,6 @@ export interface TimeSchedule {
   startHourMinutes: [number, number];
   endHourMinutes: [number, number];
   inconveniencePerHour: number;
-}
-
-export interface LeaveRequest {
-  startDate: string;
-  endDate: string;
-  type: string;
-  approved?: boolean | null;
-  reason?: string | null;
-  createdAt: string;
-  createdBy: User;
-  approvedBy?: User[] | null;
-  approvedAt?: string[] | null;
-  beneficiary: User;
-  pk: string;
-  sk: string;
-}
-export interface LeaveDay {
-  type: string;
-  icon?: ReactNode;
-  color?: string;
-  leaveRequest?: LeaveRequest;
 }
 
 export interface PartialUser {

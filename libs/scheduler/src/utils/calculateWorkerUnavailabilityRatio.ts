@@ -1,5 +1,5 @@
-import { SlotWorker } from "../types";
-import { ShiftSchedule } from "../types";
+import { SlotWorker , ShiftSchedule } from "../types";
+
 import { countTotalMinutesInSchedule } from "./countTotalMinutesInSchedule";
 import { countTotalUniqueWorkers } from "./countTotalUniqueWorkers";
 import { unavailableForWorkReasonsMinutesCount } from "./unavailableForWorkReasonsMinutesCount";

@@ -1,8 +1,10 @@
-import { database } from "@/tables";
 import { notFound, forbidden } from "@hapi/boom";
-import type { MutationResolvers } from "./../../../../types.generated";
 import { requireSession } from "libs/graphql/src/session/requireSession";
+
+import type { MutationResolvers } from "./../../../../types.generated";
+
 import { i18n } from "@/locales";
+import { database } from "@/tables";
 
 export const deleteLeave: NonNullable<
   MutationResolvers["deleteLeave"]

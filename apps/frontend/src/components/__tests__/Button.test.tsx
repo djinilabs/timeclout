@@ -1,6 +1,7 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { describe, expect, it, vi, beforeEach } from "vitest";
+
 import { Button } from "../particles/Button";
 
 // Mock useNavigate
@@ -42,36 +43,40 @@ describe("Button", () => {
     expect(mockNavigate).toHaveBeenCalledWith("/some-path");
   });
 
-  it("renders a cancel button variant", () => {
+  it("renders a cancel button variant", async () => {
     renderWithRouter(<Button cancel>Cancel</Button>);
     const button = screen.getByText("Cancel");
 
-    expect(button).toHaveClass("text-sm/6", "font-semibold", "text-gray-900");
+    await expect(button).toHaveClass(
+      "text-sm/6",
+      "font-semibold",
+      "text-gray-900"
+    );
   });
 
-  it("can be disabled", () => {
+  it("can be disabled", async () => {
     renderWithRouter(<Button disabled>Disabled</Button>);
 
     const button = screen.getByText("Disabled");
-    expect(button).toBeDisabled();
-    expect(button).toHaveClass(
+    await expect(button).toBeDisabled();
+    await expect(button).toHaveClass(
       "disabled:opacity-50",
       "disabled:cursor-not-allowed"
     );
   });
 
-  it("renders with correct type attribute", () => {
+  it("renders with correct type attribute", async () => {
     renderWithRouter(<Button type="submit">Submit</Button>);
 
     const button = screen.getByText("Submit");
-    expect(button).toHaveAttribute("type", "submit");
+    await expect(button).toHaveAttribute("type", "submit");
   });
 
-  it("applies correct styles for regular button", () => {
+  it("applies correct styles for regular button", async () => {
     renderWithRouter(<Button>Regular</Button>);
 
     const button = screen.getByText("Regular");
-    expect(button).toHaveClass(
+    await expect(button).toHaveClass(
       "bg-teal-600",
       "text-white",
       "rounded-md",

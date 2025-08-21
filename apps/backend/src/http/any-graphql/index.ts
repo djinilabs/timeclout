@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { useSentry } from "@envelop/sentry";
 import {
   APIGatewayProxyEventV2,
   APIGatewayProxyResult,
@@ -10,17 +11,17 @@ import {
   useLogger,
   useErrorHandler,
 } from "graphql-yoga";
-import { useSentry } from "@envelop/sentry";
+
+import { createUserCache } from "../../../../../libs/graphql/src/resolverContext";
 import { resolvers } from "../../../../../libs/graphql/src/resolvers.generated";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import schema from "../../../../../libs/graphql/src/schema.generated.graphqls";
-import { handlingErrors } from "../../utils/handlingErrors";
-import { createUserCache } from "../../../../../libs/graphql/src/resolverContext";
 import {
   getLocaleFromHeaders,
   initI18n,
 } from "../../../../../libs/locales/src";
+import { handlingErrors } from "../../utils/handlingErrors";
 
 const yoga = createYoga({
   graphqlEndpoint: "/graphql",

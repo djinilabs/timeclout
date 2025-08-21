@@ -1,7 +1,9 @@
 import { Trans } from "@lingui/react/macro";
-import myQuotaFulfilmentQuery from "@/graphql-client/queries/myQuotaFulfilment.graphql";
-import { useQuery } from "../../hooks/useQuery";
+
 import { Query, QueryMyQuotaFulfilmentArgs } from "../../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
+
+import myQuotaFulfilmentQuery from "@/graphql-client/queries/myQuotaFulfilment.graphql";
 
 export interface MyQuotaFulfilmentProps {
   companyPk: string;

@@ -1,7 +1,7 @@
+import { i18n } from "@/locales";
 import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
 import { database } from "@/tables";
 import { ResourceRef } from "@/utils";
-import { i18n } from "@/locales";
 
 export const getEntitySettings = async <
   TKey extends SettingsTypeKey,

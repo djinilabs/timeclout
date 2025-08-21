@@ -1,5 +1,7 @@
 import { queues } from "@architect/functions";
+
 import { EventBusEvent } from "./types";
+
 import { once } from "@/utils";
 
 class EventBus {

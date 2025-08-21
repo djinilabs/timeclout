@@ -1,26 +1,26 @@
+import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import { ErrorBoundary, init as initSentry, withProfiler } from "@sentry/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SessionProvider } from "next-auth/react";
 import { FC, useMemo, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Provider as UrqlProvider } from "urql";
-import { SessionProvider } from "next-auth/react";
-import { ErrorBoundary, init as initSentry, withProfiler } from "@sentry/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AppRoutes } from "./Routes";
-import { createClient as createGraphqlClient } from "./graphql/graphql-client";
-import { Suspense } from "./components/atoms/Suspense";
-import { i18n } from "@lingui/core";
-import { I18nProvider } from "@lingui/react";
-import { dynamicActivate } from "./i18n";
+
 import { AnalyticsProvider } from "./AnalyticsProvider";
+import { Suspense } from "./components/atoms/Suspense";
+import { AgreementWrapper } from "./components/molecules/AgreementWrapper";
 import { RequiresSession } from "./components/molecules/RequiresSession";
+import { Loading } from "./components/particles/Loading";
 import { AppLocalSettingsProvider } from "./contexts/AppLocalSettingsContext";
+import { createClient as createGraphqlClient } from "./graphql/graphql-client";
+import { dynamicActivate, locales } from "./i18n";
+import { DragAndDropProvider } from "./providers/DragAndDropProvider";
+import { FetchActivityProvider } from "./providers/FetchActivityProvider";
+import { LocaleProvider } from "./providers/LocaleProvider";
+import { AppRoutes } from "./Routes";
 import "./styles/print.css";
 import { monitorActivityFetch } from "./utils/monitorActivityFetch";
-import { FetchActivityProvider } from "./providers/FetchActivityProvider";
-import { DragAndDropProvider } from "./providers/DragAndDropProvider";
-import { Loading } from "./components/particles/Loading";
-import { locales } from "./i18n";
-import { LocaleProvider } from "./providers/LocaleProvider";
-import { AgreementWrapper } from "./components/molecules/AgreementWrapper";
 
 const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
 

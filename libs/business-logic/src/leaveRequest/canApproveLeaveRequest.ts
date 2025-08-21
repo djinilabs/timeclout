@@ -1,9 +1,12 @@
 import { notFound } from "@hapi/boom";
-import { ResourceRef } from "@/utils";
-import { parseLeaveRequestPk } from "./parseLeaveRequestPk";
+
 import { getUnitManagersPks } from "../unit";
 import { getUserUnits } from "../users/getUserUnits";
+
+import { parseLeaveRequestPk } from "./parseLeaveRequestPk";
+
 import { i18n } from "@/locales";
+import { ResourceRef } from "@/utils";
 
 export const canApproveLeaveRequest = async (
   userPk: ResourceRef,

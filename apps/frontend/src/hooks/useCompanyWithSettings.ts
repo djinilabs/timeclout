@@ -1,12 +1,15 @@
-import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
-import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import { useMemo } from "react";
+
 import {
   Company,
   QueryCompanyArgs,
   CompanySettingsArgs,
 } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { useMemo } from "react";
+
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
+
 
 export interface UseCompanyWithSettingsParams<T extends SettingsTypeKey> {
   companyPk: string;

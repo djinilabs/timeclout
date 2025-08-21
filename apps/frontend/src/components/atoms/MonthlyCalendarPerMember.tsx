@@ -1,7 +1,9 @@
-import { FC, memo } from "react";
 import { Trans } from "@lingui/react/macro";
-import { DayDate } from "@/day-date";
+import { FC, memo } from "react";
+
 import { Avatar } from "../particles/Avatar";
+
+import { DayDate } from "@/day-date";
 
 export interface User {
   pk: string;
@@ -64,7 +66,10 @@ export const MonthlyCalendarPerMember: FC<MonthlyScheduleProps> = memo(
                       { length: new Date(year, month + 1, 0).getDate() },
                       (_, i) => i + 1
                     ).map((dayofTheMonth, dayIndex) => {
-                      const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(dayofTheMonth).padStart(2, "0")}`;
+                      const date = `${year}-${String(month + 1).padStart(
+                        2,
+                        "0"
+                      )}-${String(dayofTheMonth).padStart(2, "0")}`;
                       const dayDate = new DayDate(date);
 
                       return (
@@ -92,3 +97,5 @@ export const MonthlyCalendarPerMember: FC<MonthlyScheduleProps> = memo(
     );
   }
 );
+
+MonthlyCalendarPerMember.displayName = "MonthlyCalendarPerMember";

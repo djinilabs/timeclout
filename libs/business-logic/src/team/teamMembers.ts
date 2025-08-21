@@ -1,5 +1,5 @@
-import { getResourceRef, ResourceRef } from "@/utils";
 import { database } from "@/tables";
+import { getResourceRef, ResourceRef } from "@/utils";
 export const teamMembers = async (
   teamId: ResourceRef<"teams">
 ): Promise<ResourceRef<"users">[]> => {

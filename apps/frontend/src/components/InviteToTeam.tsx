@@ -1,15 +1,19 @@
-import { FC } from "react";
-import { useForm } from "@tanstack/react-form";
-import toast from "react-hot-toast";
+/* eslint-disable react/no-children-prop */
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
-import inviteToTeamMutation from "@/graphql-client/mutations/inviteToTeam.graphql";
-import { useMutation } from "../hooks/useMutation";
+import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
+import { FC } from "react";
+import toast from "react-hot-toast";
+
 import { Mutation, MutationCreateInvitationArgs } from "../graphql/graphql";
-import { Button } from "./particles/Button";
+import { useMutation } from "../hooks/useMutation";
+
 import { PermissionInput } from "./atoms/PermissionInput";
+import { Button } from "./particles/Button";
 import { FieldComponent } from "./types";
+
+import inviteToTeamMutation from "@/graphql-client/mutations/inviteToTeam.graphql";
 
 export interface InviteToTeamProps {
   teamPk: string;
@@ -133,6 +137,7 @@ export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
             type="submit"
             disabled={form.state.isSubmitting}
             aria-label={i18n.t("Send invitation")}
+            // eslint-disable-next-line react/no-unknown-property
             aria-clickable
             role="button"
             className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 sm:ml-3 sm:mt-0 sm:w-auto"

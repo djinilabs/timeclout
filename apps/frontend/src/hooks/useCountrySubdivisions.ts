@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
+
 import { useFetchActivity } from "./useFetchActivity";
 
 const countrySubdivisionsRemoteResponseSchema = z.array(

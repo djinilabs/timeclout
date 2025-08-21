@@ -1,6 +1,8 @@
-import { defineConfig, devices } from "@playwright/test";
-import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+import { defineConfig, devices } from "@playwright/test";
+
 import { e2eConfig } from "./tests/e2e/config/env";
 
 const __filename = fileURLToPath(import.meta.url);

@@ -1,12 +1,14 @@
-import { eventBus } from "@/event-bus";
-import { database, LeaveRequestRecord } from "@/tables";
 import { badRequest } from "@hapi/boom";
-import { isLeaveRequestFullyApproved } from "./isLeaveRequestFullyApproved";
-import { ResourceRef } from "@/utils";
+
 import { approveLeaveRequest } from "./approveLeaveRequest";
 import { getLeaveType } from "./getLeaveType";
+import { isLeaveRequestFullyApproved } from "./isLeaveRequestFullyApproved";
 import { leaveRequestOverlaps } from "./leaveRequestOverlaps";
+
+import { eventBus } from "@/event-bus";
 import { i18n } from "@/locales";
+import { database, LeaveRequestRecord } from "@/tables";
+import { ResourceRef } from "@/utils";
 
 export interface CreateLeaveRequestOptions {
   companyPk: ResourceRef;

@@ -1,11 +1,14 @@
-import { PERMISSION_LEVELS } from "@/tables";
-import { resourceRef } from "@/utils";
-import { createLeaveRequest as createLeaveRequestLogic } from "@/business-logic";
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
 import type {
   LeaveRequest,
   MutationResolvers,
 } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import { createLeaveRequest as createLeaveRequestLogic } from "@/business-logic";
+import { PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
+
 
 export const createLeaveRequest: NonNullable<MutationResolvers['createLeaveRequest']> = async (_parent, arg, ctx) => {
   const companyResourceRef = resourceRef("companies", arg.input.companyPk);

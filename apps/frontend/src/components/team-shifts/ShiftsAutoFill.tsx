@@ -1,16 +1,13 @@
-import { useState, useEffect, FC, useRef, useCallback } from "react";
-import { dequal } from "dequal";
 import { Transition } from "@headlessui/react";
 import { Trans } from "@lingui/react/macro";
-import { SchedulerWorkerClient } from "@/scheduler-worker";
-import { SchedulerState, RuleName } from "@/scheduler";
-import { DayDate, DayDateInterval } from "@/day-date";
-import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
+import { dequal } from "dequal";
+import { useState, useEffect, FC, useRef, useCallback } from "react";
+
 import { ShiftsAutoFillParams } from "../../graphql/graphql";
+import { useLocale } from "../../hooks/useLocale";
+import { useLocalPreference } from "../../hooks/useLocalPreference";
 import { useQuery } from "../../hooks/useQuery";
 import { useTeamShiftsQuery } from "../../hooks/useTeamShiftsQuery";
-import { useLocalPreference } from "../../hooks/useLocalPreference";
-import { useLocale } from "../../hooks/useLocale";
 import { Suspense } from "../atoms/Suspense";
 import { Button } from "../particles/Button";
 import { Loading } from "../particles/Loading";
@@ -19,6 +16,11 @@ import {
   type ShiftAutoFillParamValues,
 } from "../team-shifts/ShiftAutoFillParams";
 import { ShiftsAutoFillProgress } from "../team-shifts/ShiftsAutoFillProgress";
+
+import { DayDate, DayDateInterval } from "@/day-date";
+import shiftsAutoFillParamsQuery from "@/graphql-client/queries/shiftsAutoFillParams.graphql";
+import { SchedulerState, RuleName } from "@/scheduler";
+import { SchedulerWorkerClient } from "@/scheduler-worker";
 
 export interface ShiftsAutoFillWithoutParamsProps {
   isAutoFillRunning: boolean;

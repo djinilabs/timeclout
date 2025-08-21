@@ -1,6 +1,7 @@
-import { useMemo } from "react";
-import { splitShiftPositionForEachDay } from "../utils/splitShiftPositionsForEachDay";
 import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
+import { useMemo } from "react";
+
+import { splitShiftPositionForEachDay } from "../utils/splitShiftPositionsForEachDay";
 
 export type ShiftPositionWithFake = ShiftPositionType & {
   fake?: boolean;

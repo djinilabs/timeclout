@@ -1,11 +1,14 @@
 import { forbidden, notFound } from "@hapi/boom";
-import { database, PERMISSION_LEVELS } from "@/tables";
+
+import { isAuthorized } from "../../../../auth/isAuthorized";
+import { requireSession } from "../../../../session/requireSession";
+
 import type {
   QueryResolvers,
   ResolversTypes,
 } from "./../../../../types.generated";
-import { requireSession } from "../../../../session/requireSession";
-import { isAuthorized } from "../../../../auth/isAuthorized";
+
+import { database, PERMISSION_LEVELS } from "@/tables";
 import { getDefined, getResourceRef } from "@/utils";
 
 export const invitation: NonNullable<QueryResolvers['invitation']> = async (

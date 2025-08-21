@@ -1,24 +1,27 @@
-import { useCallback } from "react";
-import { useParams } from "react-router-dom";
 import { TrashIcon } from "@heroicons/react/20/solid";
-import { Trans } from "@lingui/react/macro";
 import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useCallback } from "react";
 import toast from "react-hot-toast";
-import { managersParser } from "@/settings";
-import { getDefined, unique } from "@/utils";
-import unitWithMembersAndSettingsQuery from "@/graphql-client/queries/unitWithMembersAndSettingsQuery.graphql";
-import updateUnitSettingsMutation from "@/graphql-client/mutations/updateUnitSettings.graphql";
-import { useQuery } from "../../hooks/useQuery";
-import { useMutation } from "../../hooks/useMutation";
-import { Avatar } from "../particles/Avatar";
-import { SelectUser } from "../atoms/SelectUser";
-import { Button } from "../particles/Button";
+import { useParams } from "react-router-dom";
+
 import type {
   QueryUnitArgs,
   Unit,
   UnitSettingsArgs,
   User,
 } from "../../graphql/graphql";
+import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
+import { SelectUser } from "../atoms/SelectUser";
+import { Avatar } from "../particles/Avatar";
+import { Button } from "../particles/Button";
+
+import updateUnitSettingsMutation from "@/graphql-client/mutations/updateUnitSettings.graphql";
+import unitWithMembersAndSettingsQuery from "@/graphql-client/queries/unitWithMembersAndSettingsQuery.graphql";
+import { managersParser } from "@/settings";
+import { getDefined, unique } from "@/utils";
+
 
 export const UnitManagers = () => {
   const { unit: unitPk } = useParams();

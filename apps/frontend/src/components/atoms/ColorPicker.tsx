@@ -1,8 +1,9 @@
-import { FC, memo } from "react";
 import { Radio, RadioGroup } from "@headlessui/react";
-import { classNames } from "../../utils/classNames";
-import { leaveTypeColors } from "../../settings/leaveTypes";
 import { i18n } from "@lingui/core";
+import { FC, memo } from "react";
+
+import { leaveTypeColors } from "../../settings/leaveTypes";
+import { classNames } from "../../utils/classNames";
 
 export type Color = keyof typeof leaveTypeColors;
 
@@ -38,3 +39,5 @@ export const ColorPicker: FC<{
     </RadioGroup>
   );
 });
+
+ColorPicker.displayName = "ColorPicker";

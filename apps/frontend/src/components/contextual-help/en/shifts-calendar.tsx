@@ -1,6 +1,6 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const shiftsCalendarHelp: HelpSection = {
   title: "Shift Management & Scheduling",
@@ -33,8 +33,8 @@ export const shiftsCalendarHelp: HelpSection = {
       content: (
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
-            • <strong>Create Shift:</strong> Click the "+" button or drag from
-            the left panel
+            • <strong>Create Shift:</strong> Click the &quot;+&quot; button or
+            drag from the left panel
           </p>
           <p className="text-xs text-gray-600">
             • <strong>Assign Member:</strong> Use the dropdown menu in the shift
@@ -45,8 +45,8 @@ export const shiftsCalendarHelp: HelpSection = {
             automatically assign members
           </p>
           <p className="text-xs text-gray-600">
-            • <strong>Publish:</strong> Click "Publish" to make changes visible
-            to the team
+            • <strong>Publish:</strong> Click &quot;Publish&quot; to make
+            changes visible to the team
           </p>
         </div>
       ),
@@ -84,13 +84,14 @@ export const shiftsCalendarHelp: HelpSection = {
       content: (
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
-            • Changes are <strong>unpublished</strong> until you click "Publish"
+            • Changes are <strong>unpublished</strong> until you click
+            &quot;Publish&quot;
           </p>
           <p className="text-xs text-gray-600">
             • Published changes become visible to all team members
           </p>
           <p className="text-xs text-gray-600">
-            • Use "Revert to Published" to undo unpublished changes
+            • Use &quot;Revert to Published&quot; to undo unpublished changes
           </p>
         </div>
       ),

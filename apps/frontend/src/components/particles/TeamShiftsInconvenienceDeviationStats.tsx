@@ -1,12 +1,13 @@
-import { FC, memo, useCallback, useMemo } from "react";
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
+import { FC, memo, useCallback, useMemo } from "react";
+
+import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { getInitials } from "../../utils/getInitials";
 import {
   DeviationBarPlot,
   DeviationBarPlotDatum,
 } from "../stats/DeviationBarPlot";
-import { i18n } from "@lingui/core";
-import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 
 interface TeamShiftsInconvenienceDeviationStatsProps {
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
@@ -174,3 +175,6 @@ export const TeamShiftsInconvenienceDeviationStats: FC<TeamShiftsInconvenienceDe
       </div>
     );
   });
+
+TeamShiftsInconvenienceDeviationStats.displayName =
+  "TeamShiftsInconvenienceDeviationStats";

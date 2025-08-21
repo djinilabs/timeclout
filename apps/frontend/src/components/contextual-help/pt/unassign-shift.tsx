@@ -29,8 +29,8 @@ export const unassignShiftHelp: HelpSection = {
             correto
           </p>
           <p>
-            3. Clique em "Desatribuir" para remover todas as atribuições de
-            posições de turno dentro do intervalo selecionado
+            3. Clique em &quot;Desatribuir&quot; para remover todas as
+            atribuições de posições de turno dentro do intervalo selecionado
           </p>
           <p>
             4. Uma mensagem de confirmação aparecerá quando a operação for

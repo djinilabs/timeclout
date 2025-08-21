@@ -1,5 +1,7 @@
-import { FullConfig } from "@playwright/test";
 import { spawn, ChildProcess } from "child_process";
+
+import { FullConfig } from "@playwright/test";
+
 import { validateEnvironment } from "./config/env";
 
 let backendProcess: ChildProcess | null = null;

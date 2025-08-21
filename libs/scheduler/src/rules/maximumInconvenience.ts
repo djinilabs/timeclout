@@ -1,6 +1,7 @@
-import { i18n } from "@/locales";
 import { SlotWorker, ValidationRule } from "../types";
 import { calculateSlotInconvenience } from "../utils/calculateSlotInconvenience";
+
+import { i18n } from "@/locales";
 
 export const maximumInconvenience: ValidationRule = {
   id: "maximumInconvenience",

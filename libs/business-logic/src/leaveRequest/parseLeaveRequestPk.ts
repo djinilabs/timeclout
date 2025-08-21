@@ -1,5 +1,5 @@
-import { resourceRef } from "@/utils";
 import { i18n } from "@/locales";
+import { resourceRef } from "@/utils";
 
 export const parseLeaveRequestPk = (pk: string) => {
   const match = pk.match(/^companies\/(.+?)\/users\/(.+?)$/)!;

@@ -1,4 +1,3 @@
-import { FC, memo, Fragment } from "react";
 import {
   Listbox,
   ListboxButton,
@@ -7,8 +6,10 @@ import {
   Transition,
 } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { Avatar } from "../particles/Avatar";
+import { FC, memo, Fragment } from "react";
+
 import { classNames } from "../../utils/classNames";
+import { Avatar } from "../particles/Avatar";
 
 /**
  * SelectUsers Component
@@ -200,3 +201,5 @@ export const SelectUsers: FC<SelectUsersProps> = memo(
     );
   }
 );
+
+SelectUsers.displayName = "SelectUsers";

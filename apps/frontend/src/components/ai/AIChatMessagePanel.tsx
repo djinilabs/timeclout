@@ -1,11 +1,13 @@
-import { FaSpinner } from "react-icons/fa";
-import { classNames } from "../../utils/classNames";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import Markdown from "react-markdown";
 import { FC, memo, useCallback, useEffect, useRef } from "react";
-import { type AIMessage } from "./types";
+import { FaSpinner } from "react-icons/fa";
+import Markdown from "react-markdown";
 import TimeAgo from "react-time-ago";
+
+import { classNames } from "../../utils/classNames";
 import { Hint } from "../particles/Hint";
+
+import { type AIMessage } from "./types";
 
 export const AIChatMessagePanel: FC<{ messages: AIMessage[] }> = memo(
   ({ messages }) => {
@@ -95,3 +97,5 @@ export const AIChatMessagePanel: FC<{ messages: AIMessage[] }> = memo(
     );
   }
 );
+
+AIChatMessagePanel.displayName = "AIChatMessagePanel";

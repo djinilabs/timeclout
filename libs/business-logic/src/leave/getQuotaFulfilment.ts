@@ -1,9 +1,10 @@
-import { getDefined, ResourceRef } from "@/utils";
-import { DayDate } from "@/day-date";
-import { DayDateInterval } from "@/day-date";
 import { getEntitySettings } from "../entity/getEntitySettings";
-import { getLeaveQuotaPeriods } from "./getLeaveQuotaPeriods";
+
 import { getLeaveFulfilmentForPeriod } from "./getLeaveFulfilmentForPeriod";
+import { getLeaveQuotaPeriods } from "./getLeaveQuotaPeriods";
+
+import { DayDate , DayDateInterval } from "@/day-date";
+import { getDefined, ResourceRef } from "@/utils";
 
 export interface SimulatedLeave {
   type: string;

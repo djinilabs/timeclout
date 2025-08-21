@@ -1,7 +1,7 @@
+import { Placement } from "@popperjs/core";
 import { FC, PropsWithChildren, memo, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePopper } from "react-popper";
-import { Placement } from "@popperjs/core";
 export interface PopoverProps extends PropsWithChildren {
   referenceElement: HTMLElement | null;
   placement?: Placement;
@@ -45,3 +45,5 @@ export const Popover: FC<PopoverProps> = memo(
     );
   }
 );
+
+Popover.displayName = "Popover";

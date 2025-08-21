@@ -1,5 +1,4 @@
-import { testWithUserManagement } from "../fixtures/test-fixtures";
-import { TestUser } from "../fixtures/test-fixtures";
+import { testWithUserManagement , TestUser } from "../fixtures/test-fixtures";
 
 testWithUserManagement.describe("User Management Examples", () => {
   let testUser: TestUser;

@@ -1,9 +1,11 @@
-import { createInvitation as createInvitationLogic } from "@/business-logic";
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
 import type {
   MutationResolvers,
   ResolversTypes,
 } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import { createInvitation as createInvitationLogic } from "@/business-logic";
 import { PERMISSION_LEVELS } from "@/tables";
 import { getResourceRef } from "@/utils";
 

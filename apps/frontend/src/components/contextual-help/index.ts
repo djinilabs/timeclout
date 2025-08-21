@@ -1,59 +1,56 @@
-import { HelpSection, HelpComponentName, LanguageComponentsMap } from "./types";
-import { getHelpSection } from "./utils";
-
 // Import language-specific components (keeping these static for now)
 import { FeatureDependenciesHelp as FeatureDependenciesHelpEn } from "./components/FeatureDependenciesHelp";
-import { RoleBasedHelp as RoleBasedHelpEn } from "./components/RoleBasedHelp";
 import { FeatureDependenciesHelp as FeatureDependenciesHelpPt } from "./components/FeatureDependenciesHelp.pt";
+import { RoleBasedHelp as RoleBasedHelpEn } from "./components/RoleBasedHelp";
 import { RoleBasedHelp as RoleBasedHelpPt } from "./components/RoleBasedHelp.pt";
-
 // Static imports for English help content
-import { shiftsCalendarHelp as shiftsCalendarHelpEn } from "./en/shifts-calendar";
-import { companyDashboardHelp as companyDashboardHelpEn } from "./en/company-dashboard";
-import { unitManagementHelp as unitManagementHelpEn } from "./en/unit-management";
-import { teamManagementHelp as teamManagementHelpEn } from "./en/team-management";
-import { memberManagementHelp as memberManagementHelpEn } from "./en/member-management";
-import { createShiftHelp as createShiftHelpEn } from "./en/create-shift";
 import { autoFillHelp as autoFillHelpEn } from "./en/auto-fill";
-import { teamLeaveCalendarHelp as teamLeaveCalendarHelpEn } from "./en/team-leave-calendar";
-import { newLeaveRequestHelp as newLeaveRequestHelpEn } from "./en/new-leave-request";
-import { timeOffDashboardHelp as timeOffDashboardHelpEn } from "./en/time-off-dashboard";
-import { leaveRequestManagementHelp as leaveRequestManagementHelpEn } from "./en/leave-request-management";
-import { workScheduleSettingsHelp as workScheduleSettingsHelpEn } from "./en/work-schedule-settings";
-import { yearlyQuotaSettingsHelp as yearlyQuotaSettingsHelpEn } from "./en/yearly-quota-settings";
+import { companyDashboardHelp as companyDashboardHelpEn } from "./en/company-dashboard";
 import { companySettingsHelp as companySettingsHelpEn } from "./en/company-settings";
+import { createShiftHelp as createShiftHelpEn } from "./en/create-shift";
+import { defaultHelp as defaultHelpEn } from "./en/default";
 import { leaveApprovalDashboardHelp as leaveApprovalDashboardHelpEn } from "./en/leave-approval-dashboard";
-import { unitSettingsHelp as unitSettingsHelpEn } from "./en/unit-settings";
-import { teamInvitationsHelp as teamInvitationsHelpEn } from "./en/team-invitations";
-import { teamSettingsHelp as teamSettingsHelpEn } from "./en/team-settings";
-import { unassignShiftHelp as unassignShiftHelpEn } from "./en/unassign-shift";
+import { leaveRequestManagementHelp as leaveRequestManagementHelpEn } from "./en/leave-request-management";
+import { memberManagementHelp as memberManagementHelpEn } from "./en/member-management";
+import { newLeaveRequestHelp as newLeaveRequestHelpEn } from "./en/new-leave-request";
 import { qualificationsSettingsHelp as qualificationsSettingsHelpEn } from "./en/qualifications-settings";
 import { schedulePositionTemplatesHelp as schedulePositionTemplatesHelpEn } from "./en/schedule-position-templates";
-import { defaultHelp as defaultHelpEn } from "./en/default";
-
+import { shiftsCalendarHelp as shiftsCalendarHelpEn } from "./en/shifts-calendar";
+import { teamInvitationsHelp as teamInvitationsHelpEn } from "./en/team-invitations";
+import { teamLeaveCalendarHelp as teamLeaveCalendarHelpEn } from "./en/team-leave-calendar";
+import { teamManagementHelp as teamManagementHelpEn } from "./en/team-management";
+import { teamSettingsHelp as teamSettingsHelpEn } from "./en/team-settings";
+import { timeOffDashboardHelp as timeOffDashboardHelpEn } from "./en/time-off-dashboard";
+import { unassignShiftHelp as unassignShiftHelpEn } from "./en/unassign-shift";
+import { unitManagementHelp as unitManagementHelpEn } from "./en/unit-management";
+import { unitSettingsHelp as unitSettingsHelpEn } from "./en/unit-settings";
+import { workScheduleSettingsHelp as workScheduleSettingsHelpEn } from "./en/work-schedule-settings";
+import { yearlyQuotaSettingsHelp as yearlyQuotaSettingsHelpEn } from "./en/yearly-quota-settings";
 // Static imports for Portuguese help content
-import { shiftsCalendarHelp as shiftsCalendarHelpPt } from "./pt/shifts-calendar";
-import { companyDashboardHelp as companyDashboardHelpPt } from "./pt/company-dashboard";
-import { unitManagementHelp as unitManagementHelpPt } from "./pt/unit-management";
-import { teamManagementHelp as teamManagementHelpPt } from "./pt/team-management";
-import { memberManagementHelp as memberManagementHelpPt } from "./pt/member-management";
-import { createShiftHelp as createShiftHelpPt } from "./pt/create-shift";
 import { autoFillHelp as autoFillHelpPt } from "./pt/auto-fill";
-import { teamLeaveCalendarHelp as teamLeaveCalendarHelpPt } from "./pt/team-leave-calendar";
-import { newLeaveRequestHelp as newLeaveRequestHelpPt } from "./pt/new-leave-request";
-import { timeOffDashboardHelp as timeOffDashboardHelpPt } from "./pt/time-off-dashboard";
-import { leaveRequestManagementHelp as leaveRequestManagementHelpPt } from "./pt/leave-request-management";
-import { workScheduleSettingsHelp as workScheduleSettingsHelpPt } from "./pt/work-schedule-settings";
-import { yearlyQuotaSettingsHelp as yearlyQuotaSettingsHelpPt } from "./pt/yearly-quota-settings";
+import { companyDashboardHelp as companyDashboardHelpPt } from "./pt/company-dashboard";
 import { companySettingsHelp as companySettingsHelpPt } from "./pt/company-settings";
+import { createShiftHelp as createShiftHelpPt } from "./pt/create-shift";
+import { defaultHelp as defaultHelpPt } from "./pt/default";
 import { leaveApprovalDashboardHelp as leaveApprovalDashboardHelpPt } from "./pt/leave-approval-dashboard";
-import { unitSettingsHelp as unitSettingsHelpPt } from "./pt/unit-settings";
-import { teamInvitationsHelp as teamInvitationsHelpPt } from "./pt/team-invitations";
-import { teamSettingsHelp as teamSettingsHelpPt } from "./pt/team-settings";
-import { unassignShiftHelp as unassignShiftHelpPt } from "./pt/unassign-shift";
+import { leaveRequestManagementHelp as leaveRequestManagementHelpPt } from "./pt/leave-request-management";
+import { memberManagementHelp as memberManagementHelpPt } from "./pt/member-management";
+import { newLeaveRequestHelp as newLeaveRequestHelpPt } from "./pt/new-leave-request";
 import { qualificationsSettingsHelp as qualificationsSettingsHelpPt } from "./pt/qualifications-settings";
 import { schedulePositionTemplatesHelp as schedulePositionTemplatesHelpPt } from "./pt/schedule-position-templates";
-import { defaultHelp as defaultHelpPt } from "./pt/default";
+import { shiftsCalendarHelp as shiftsCalendarHelpPt } from "./pt/shifts-calendar";
+import { teamInvitationsHelp as teamInvitationsHelpPt } from "./pt/team-invitations";
+import { teamLeaveCalendarHelp as teamLeaveCalendarHelpPt } from "./pt/team-leave-calendar";
+import { teamManagementHelp as teamManagementHelpPt } from "./pt/team-management";
+import { teamSettingsHelp as teamSettingsHelpPt } from "./pt/team-settings";
+import { timeOffDashboardHelp as timeOffDashboardHelpPt } from "./pt/time-off-dashboard";
+import { unassignShiftHelp as unassignShiftHelpPt } from "./pt/unassign-shift";
+import { unitManagementHelp as unitManagementHelpPt } from "./pt/unit-management";
+import { unitSettingsHelp as unitSettingsHelpPt } from "./pt/unit-settings";
+import { workScheduleSettingsHelp as workScheduleSettingsHelpPt } from "./pt/work-schedule-settings";
+import { yearlyQuotaSettingsHelp as yearlyQuotaSettingsHelpPt } from "./pt/yearly-quota-settings";
+import { HelpSection, HelpComponentName, LanguageComponentsMap } from "./types";
+import { getHelpSection } from "./utils";
 
 // Map of language-specific components
 const languageComponents: LanguageComponentsMap = {

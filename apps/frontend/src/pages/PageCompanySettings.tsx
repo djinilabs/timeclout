@@ -1,5 +1,5 @@
-import { EditCompanySetting } from "../components/company/EditCompanySetting";
 import { Suspense } from "../components/atoms/Suspense";
+import { EditCompanySetting } from "../components/company/EditCompanySetting";
 
 export const PageCompanySettings = () => {
   return (

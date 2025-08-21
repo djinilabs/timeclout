@@ -1,5 +1,6 @@
-import { i18n } from "@/locales";
 import { selectRandomWeighted } from "./selectRandomWeighted";
+
+import { i18n } from "@/locales";
 
 export const selectUniqueRandomWeighted = <T>(
   from: Array<T>,

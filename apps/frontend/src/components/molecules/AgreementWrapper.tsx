@@ -1,6 +1,8 @@
 import { FC, PropsWithChildren } from "react";
-import { AgreementDialog } from "./AgreementDialog";
+
 import { useAgreement } from "../../hooks/useAgreement";
+
+import { AgreementDialog } from "./AgreementDialog";
 
 export const AgreementWrapper: FC<PropsWithChildren> = ({ children }) => {
   const { hasAgreed, isDialogOpen, handleAgree, handleDisagree } =

@@ -1,14 +1,15 @@
-import { EventBusEventRejectedLeaveRequest } from "@/event-bus";
-import { database } from "@/tables";
 import { notFound } from "@hapi/boom";
-import { EmailParams, renderEmail } from "@/emails";
-import { sendEmail } from "@/send-email";
-import { getDefined } from "@/utils";
+
 import {
   getUnitManagersPks,
   getUserUnitsPks,
   parseLeaveRequestPk,
 } from "@/business-logic";
+import { EmailParams, renderEmail } from "@/emails";
+import { EventBusEventRejectedLeaveRequest } from "@/event-bus";
+import { sendEmail } from "@/send-email";
+import { database } from "@/tables";
+import { getDefined } from "@/utils";
 
 export const handleRejectLeaveRequest = async ({
   value: { leaveRequest, rejecter },

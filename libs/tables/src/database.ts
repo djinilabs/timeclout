@@ -1,7 +1,9 @@
 import { tables } from "@architect/functions";
-import { once } from "@/utils";
+
 import { DatabaseSchema, TableAPI, TableName, tableSchemas } from "./schema";
 import { tableApi } from "./tableApi";
+
+import { once } from "@/utils";
 
 export const database = once(async (): Promise<DatabaseSchema> => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

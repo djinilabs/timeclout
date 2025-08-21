@@ -1,4 +1,3 @@
-import { memo, useMemo, useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
   ChevronLeftIcon,
@@ -6,9 +5,12 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import { Trans } from "@lingui/react/macro";
+import { memo, useMemo, useState } from "react";
+
 import { generateYearMonthsDays } from "../../utils/generateYearMonthsDays";
-import { TimeOffCalendarDay } from "./TimeOffCalendarDay";
 import { LeaveDay } from "../types";
+
+import { TimeOffCalendarDay } from "./TimeOffCalendarDay";
 
 export interface YearCalendarProps {
   year: number;
@@ -177,3 +179,5 @@ export const TimeOffYearCalendar = memo(
     );
   }
 );
+
+TimeOffYearCalendar.displayName = "TimeOffYearCalendar";

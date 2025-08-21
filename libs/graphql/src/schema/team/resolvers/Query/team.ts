@@ -1,5 +1,7 @@
 import { ensureAuthorized } from "libs/graphql/src/auth/ensureAuthorized";
+
 import type { QueryResolvers, Team } from "./../../../../types.generated";
+
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 

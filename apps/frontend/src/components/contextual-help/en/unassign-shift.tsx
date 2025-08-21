@@ -25,8 +25,8 @@ export const unassignShiftHelp: HelpSection = {
             2. Review the selected dates to ensure they cover the correct period
           </p>
           <p>
-            3. Click "Unassign" to remove all shift position assignments within
-            the selected range
+            3. Click &quot;Unassign&quot; to remove all shift position
+            assignments within the selected range
           </p>
           <p>
             4. A confirmation message will appear when the operation is

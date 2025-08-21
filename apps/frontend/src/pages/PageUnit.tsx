@@ -1,15 +1,17 @@
+import { Cog6ToothIcon, UsersIcon } from "@heroicons/react/24/outline";
+import { i18n } from "@lingui/core";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { i18n } from "@lingui/core";
-import { Cog6ToothIcon, UsersIcon } from "@heroicons/react/24/outline";
-import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
-import { getDefined } from "@/utils";
+
+import { Suspense } from "../components/atoms/Suspense";
+import { Tabs, type Tab } from "../components/molecules/Tabs";
+import { AllUnitTeams } from "../components/unit/AllUnitTeams";
+import { UnitSettings } from "../components/unit/UnitSettings";
 import { Query, QueryUnitArgs } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
-import { AllUnitTeams } from "../components/unit/AllUnitTeams";
-import { Tabs, type Tab } from "../components/molecules/Tabs";
-import { UnitSettings } from "../components/unit/UnitSettings";
-import { Suspense } from "../components/atoms/Suspense";
+
+import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
+import { getDefined } from "@/utils";
 
 export const PageUnit = () => {
   const { unit: unitPk } = useParams();

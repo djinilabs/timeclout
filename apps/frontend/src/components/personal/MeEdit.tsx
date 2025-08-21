@@ -1,24 +1,27 @@
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { useForm } from "@tanstack/react-form";
-import { Trans } from "@lingui/react/macro";
+/* eslint-disable react/no-children-prop */
 import { i18n } from "@lingui/core";
-import meQuery from "@/graphql-client/queries/me.graphql";
-import updateMeMutation from "@/graphql-client/mutations/updateMe.graphql";
+import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 import {
   Mutation,
   MutationUpdateMeArgs,
   MutationUpdateMySettingsArgs,
   Query,
 } from "../../graphql/graphql";
-import { useQuery } from "../../hooks/useQuery";
 // import { useTour } from "../../hooks/useTour";
 import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
 import { Button } from "../particles/Button";
 import { EditCountryAndRegion } from "../particles/EditCountryAndRegion";
 import { FieldComponent } from "../types";
+
+import updateMeMutation from "@/graphql-client/mutations/updateMe.graphql";
+import meQuery from "@/graphql-client/queries/me.graphql";
 
 export const MeEdit = () => {
   const [result] = useQuery<{ me: Query["me"] }>({ query: meQuery });

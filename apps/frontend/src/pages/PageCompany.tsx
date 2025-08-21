@@ -1,13 +1,14 @@
-import { FC, lazy, useMemo, useState } from "react";
-import { i18n } from "@lingui/core";
 import {
   CalendarDaysIcon,
   Cog6ToothIcon,
   DocumentDuplicateIcon,
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
-import { Tabs, type Tab } from "../components/molecules/Tabs";
+import { i18n } from "@lingui/core";
+import { FC, lazy, useMemo, useState } from "react";
+
 import { Suspense } from "../components/atoms/Suspense";
+import { Tabs, type Tab } from "../components/molecules/Tabs";
 import { useEntityNavigationContext } from "../hooks/useEntityNavigationContext";
 
 const PageNotFound = lazy(() => import("./PageNotFound"));

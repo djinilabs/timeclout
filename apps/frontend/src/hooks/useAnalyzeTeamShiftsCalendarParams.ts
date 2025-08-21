@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+
 import { useLocalPreference } from "./useLocalPreference";
 
 export const useAnalyzeTeamShiftsCalendarParams = (analyze: boolean) => {

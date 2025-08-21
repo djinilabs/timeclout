@@ -1,7 +1,8 @@
-import { FC } from "react";
-import { EmailToManagerToNotifyAboutApprovedLeaveRequestParams } from "./types";
 import { Body, Head, Html, Heading } from "@react-email/components";
 import { Text } from "@react-email/text";
+import { FC } from "react";
+
+import { EmailToManagerToNotifyAboutApprovedLeaveRequestParams } from "./types";
 
 export const LeaveRequestApprovedToManagerEmail: FC<
   EmailToManagerToNotifyAboutApprovedLeaveRequestParams
@@ -25,7 +26,7 @@ export const LeaveRequestApprovedToManagerEmail: FC<
           Dear {manager.name ?? manager.email},
           <br />
           {approver.name ?? approver.email} has approved{" "}
-          {requester.name ?? requester.email}'s {leaveRequestType} leave
+          {requester.name ?? requester.email}&apos;s {leaveRequestType} leave
           {leaveRequestReason && ` for ${leaveRequestReason} `} from{" "}
           {leaveRequestStartDate} to {leaveRequestEndDate}.
         </Text>

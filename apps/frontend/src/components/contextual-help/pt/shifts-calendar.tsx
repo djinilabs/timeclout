@@ -1,6 +1,6 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp.pt";
 import { RoleBasedHelp } from "../components/RoleBasedHelp.pt";
+import { HelpSection } from "../types";
 
 export const shiftsCalendarHelp: HelpSection = {
   title: "Gestão e Agendamento de Turnos",
@@ -34,8 +34,8 @@ export const shiftsCalendarHelp: HelpSection = {
       content: (
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
-            • <strong>Criar Turno:</strong> Clique no botão "+" ou arraste do
-            painel esquerdo
+            • <strong>Criar Turno:</strong> Clique no botão &quot;+&quot; ou
+            arraste do painel esquerdo
           </p>
           <p className="text-xs text-gray-600">
             • <strong>Atribuir Membro:</strong> Use o menu pendente no diálogo
@@ -46,8 +46,8 @@ export const shiftsCalendarHelp: HelpSection = {
             para atribuir automaticamente membros
           </p>
           <p className="text-xs text-gray-600">
-            • <strong>Publicar:</strong> Clique em "Publicar" para tornar as
-            alterações visíveis à equipa
+            • <strong>Publicar:</strong> Clique em &quot;Publicar&quot; para
+            tornar as alterações visíveis à equipa
           </p>
         </div>
       ),
@@ -86,15 +86,15 @@ export const shiftsCalendarHelp: HelpSection = {
         <div className="space-y-2">
           <p className="text-xs text-gray-600">
             • As alterações ficam <strong>não publicadas</strong> até clicar em
-            "Publicar"
+            &quot;Publicar&quot;
           </p>
           <p className="text-xs text-gray-600">
             • Alterações publicadas tornam-se visíveis a todos os membros da
             equipa
           </p>
           <p className="text-xs text-gray-600">
-            • Use "Reverter para Publicado" para desfazer alterações não
-            publicadas
+            • Use &quot;Reverter para Publicado&quot; para desfazer alterações
+            não publicadas
           </p>
         </div>
       ),

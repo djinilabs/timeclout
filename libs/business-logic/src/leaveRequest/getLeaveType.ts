@@ -1,8 +1,9 @@
+import { notFound } from "@hapi/boom";
+
+import { i18n } from "@/locales";
 import { leaveTypeParser } from "@/settings";
 import { database } from "@/tables";
 import { ResourceRef } from "@/utils";
-import { notFound } from "@hapi/boom";
-import { i18n } from "@/locales";
 
 export const getLeaveType = async (
   companyRef: ResourceRef,

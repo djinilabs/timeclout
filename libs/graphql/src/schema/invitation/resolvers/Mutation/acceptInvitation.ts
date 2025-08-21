@@ -1,13 +1,16 @@
 import { notFound } from "@hapi/boom";
-import { database, PERMISSION_LEVELS } from "@/tables";
-import { resourceRef } from "@/utils";
-import { ensureAuthorization } from "@/business-logic";
+
+import { requireSession } from "../../../../session/requireSession";
+
 import type {
   MutationResolvers,
   ResolversTypes,
 } from "./../../../../types.generated";
-import { requireSession } from "../../../../session/requireSession";
-import { getDefined } from "@/utils";
+
+import { ensureAuthorization } from "@/business-logic";
+import { database, PERMISSION_LEVELS } from "@/tables";
+import { resourceRef , getDefined } from "@/utils";
+
 
 export const acceptInvitation: NonNullable<
   MutationResolvers["acceptInvitation"]

@@ -1,13 +1,16 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useForm } from "@tanstack/react-form";
+/* eslint-disable react/no-children-prop */
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { Mutation, MutationCreateUnitArgs } from "../graphql/graphql";
+import { useMutation } from "../hooks/useMutation";
+
 import createUnitMutation from "@/graphql-client/mutations/createUnit.graphql";
 import { getDefined } from "@/utils";
-import { useMutation } from "../hooks/useMutation";
-import { Mutation, MutationCreateUnitArgs } from "../graphql/graphql";
-import { Trans } from "@lingui/react/macro";
-import { i18n } from "@lingui/core";
 
 export const PageNewUnit = () => {
   const { company: companyPk } = useParams();
@@ -62,7 +65,7 @@ export const PageNewUnit = () => {
             <p className="mt-1 text-sm/6 text-gray-600">
               <Trans>
                 To create a new unit you just have to fill in the unit name and
-                click on "Create".
+                click on &quot;Create&quot;.
               </Trans>
             </p>
           </div>
@@ -138,6 +141,7 @@ export const PageNewUnit = () => {
           type="button"
           className="text-sm/6 font-semibold text-gray-900"
           aria-label={i18n.t("Cancel")}
+          // eslint-disable-next-line react/no-unknown-property
           aria-clickable
           role="button"
         >
@@ -148,6 +152,7 @@ export const PageNewUnit = () => {
           disabled={form.state.isSubmitting}
           className="unit-submit-button rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
           aria-label={i18n.t("Create unit")}
+          // eslint-disable-next-line react/no-unknown-property
           aria-clickable
           role="button"
         >

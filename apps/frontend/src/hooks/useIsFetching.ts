@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { useFetchActivity } from "./useFetchActivity";
 
 export const useIsFetching = () => {

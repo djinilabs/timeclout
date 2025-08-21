@@ -1,6 +1,7 @@
-import { getDefined, ResourceRef } from "@/utils";
-import { LeaveType } from "@/settings";
 import { getEntitySettings } from "../entity/getEntitySettings";
+
+import { LeaveType } from "@/settings";
+import { getDefined, ResourceRef } from "@/utils";
 
 export const getCompanyLeaveTypes = async (
   companyRef: ResourceRef

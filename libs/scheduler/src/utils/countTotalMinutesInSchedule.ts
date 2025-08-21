@@ -1,4 +1,5 @@
 import { ShiftSchedule } from "../types";
+
 import { countTotalMinutesInSlot } from "./countTotalMinutesInSlot";
 
 export const countTotalMinutesInSchedule = (schedule: ShiftSchedule): number =>

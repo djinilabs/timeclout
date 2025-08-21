@@ -1,6 +1,7 @@
+import { SlotWorker, ValidationRule } from "../types";
+
 import { DayDate } from "@/day-date";
 import { i18n } from "@/locales";
-import { SlotWorker, ValidationRule } from "../types";
 
 export const minimumShiftsInStandardWorkdayPerWeek: ValidationRule = {
   id: "minimumShiftsInStandardWorkdayPerWeek",

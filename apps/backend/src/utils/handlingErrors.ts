@@ -1,4 +1,5 @@
 import { boomify } from "@hapi/boom";
+import { init, wrapHandler } from "@sentry/aws-serverless";
 import {
   APIGatewayProxyHandlerV2,
   APIGatewayProxyEventV2,
@@ -6,7 +7,6 @@ import {
   Callback,
   APIGatewayProxyResult,
 } from "aws-lambda";
-import { init, wrapHandler } from "@sentry/aws-serverless";
 
 if (process.env.NODE_ENV === "production") {
   init({

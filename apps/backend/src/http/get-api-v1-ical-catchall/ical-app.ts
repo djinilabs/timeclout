@@ -1,6 +1,7 @@
 import express from "express";
-import { getTeamShiftsIcal } from "./getTeamShiftsIcal";
+
 import { getTeamLeavesIcal } from "./getTeamLeavesIcal";
+import { getTeamShiftsIcal } from "./getTeamShiftsIcal";
 
 export const createApp: () => Promise<express.Application> = async () => {
   const app = express();

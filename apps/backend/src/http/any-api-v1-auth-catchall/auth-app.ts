@@ -1,5 +1,6 @@
 import { ExpressAuth } from "@auth/express";
 import express from "express";
+
 import { authConfig } from "@/auth-config";
 
 export const createApp: () => Promise<express.Application> = async () => {

@@ -1,9 +1,10 @@
-import { FC, memo, useCallback, useMemo } from "react";
-import { Trans } from "@lingui/react/macro";
-import { getInitials } from "../../utils/getInitials";
 import { i18n } from "@lingui/core";
-import { StackedBarPlot } from "../stats/StackedBarPlot";
+import { Trans } from "@lingui/react/macro";
+import { FC, memo, useCallback, useMemo } from "react";
+
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
+import { getInitials } from "../../utils/getInitials";
+import { StackedBarPlot } from "../stats/StackedBarPlot";
 
 interface TeamShiftsScheduleTypeDistributionStatsProps {
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
@@ -108,3 +109,6 @@ export const TeamShiftsScheduleTypeDistributionStats: FC<TeamShiftsScheduleTypeD
       </div>
     );
   });
+
+TeamShiftsScheduleTypeDistributionStats.displayName =
+  "TeamShiftsScheduleTypeDistributionStats";

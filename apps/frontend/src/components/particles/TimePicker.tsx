@@ -1,5 +1,5 @@
-import { FC, memo } from "react";
 import { Trans } from "@lingui/react/macro";
+import { FC, memo } from "react";
 
 export interface TimePickerProps {
   min?: [number, number];
@@ -147,3 +147,5 @@ export const TimePicker: FC<TimePickerProps> = memo(
     );
   }
 );
+
+TimePicker.displayName = "TimePicker";

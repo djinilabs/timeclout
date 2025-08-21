@@ -1,4 +1,10 @@
 import {
+  PaperAirplaneIcon,
+  TrashIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
+import debounce from "lodash.debounce";
+import {
   FC,
   useState,
   KeyboardEvent,
@@ -7,15 +13,11 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import {
-  PaperAirplaneIcon,
-  TrashIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/solid";
-import { useAIAgentChat } from "./useAIAgentChat";
-import debounce from "lodash.debounce";
-import { AIChatMessagePanel } from "./AIChatMessagePanel";
+
 import { Hint } from "../particles/Hint";
+
+import { AIChatMessagePanel } from "./AIChatMessagePanel";
+import { useAIAgentChat } from "./useAIAgentChat";
 
 export interface AIChatPanelProps {
   onClose: () => unknown;

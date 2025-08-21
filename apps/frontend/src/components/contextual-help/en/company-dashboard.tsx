@@ -1,6 +1,6 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const companyDashboardHelp: HelpSection = {
   title: "Company Management Dashboard",
@@ -11,8 +11,8 @@ export const companyDashboardHelp: HelpSection = {
       <em>comprehensive oversight</em> of all units, teams, and company-wide
       operations. From <strong>strategic planning</strong> to{" "}
       <em>operational monitoring</em>, this powerful interface gives you{" "}
-      <u>complete visibility and control</u> over your organization's workforce
-      management, ensuring
+      <u>complete visibility and control</u> over your organization&apos;s
+      workforce management, ensuring
       <strong>consistency, efficiency, and compliance</strong> across all
       levels.
     </>

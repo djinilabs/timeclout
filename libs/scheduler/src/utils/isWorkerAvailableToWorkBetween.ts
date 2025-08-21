@@ -1,4 +1,5 @@
 import { SlotWorker, SlotWorkerLeave } from "../types";
+
 import { dayAndMinutesToDate } from "./dayAndMinutesToTime";
 
 const leaveDoesNotConflictWithWork = (

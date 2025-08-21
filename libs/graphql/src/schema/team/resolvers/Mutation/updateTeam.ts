@@ -1,9 +1,11 @@
 import { notFound } from "@hapi/boom";
-import { database } from "@/tables";
-import { PERMISSION_LEVELS } from "@/tables";
-import { resourceRef } from "@/utils";
-import type { MutationResolvers, Team } from "./../../../../types.generated";
+
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { MutationResolvers, Team } from "./../../../../types.generated";
+
+import { database , PERMISSION_LEVELS } from "@/tables";
+import { resourceRef } from "@/utils";
 
 export const updateTeam: NonNullable<MutationResolvers['updateTeam']> = async (
   _parent,

@@ -1,9 +1,11 @@
 import { type ToolSet } from "ai";
-import z from "zod";
-import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
+import { z } from "zod";
+
 import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
+import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
 import { printAOM } from "../../accessibility/printAOM";
 import { AccessibleElement } from "../../accessibility/types";
+
 import { timeout } from "@/utils";
 
 const clickableRoles = ["button", "link", "checkbox", "radio", "combobox"];

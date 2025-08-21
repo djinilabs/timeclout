@@ -1,5 +1,7 @@
-import { i18n } from "@lingui/core";
+/* eslint-disable react/no-children-prop */
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
+import { i18n } from "@lingui/core";
+
 import { ListBox } from "../particles/ListBox";
 import { FieldComponent } from "../types";
 

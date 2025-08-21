@@ -1,18 +1,22 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { ClockIcon } from "@heroicons/react/24/outline";
+import { Trans } from "@lingui/react/macro";
 import { useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
-import { Trans } from "@lingui/react/macro";
-import invitationsToTeamQuery from "@/graphql-client/queries/invitationsToTeam.graphql";
-import deleteInvitationMutation from "@/graphql-client/mutations/deleteInvitation.graphql";
+
+
 import { Invitation, QueryInvitationsToArgs } from "../../graphql/graphql";
-import { useQuery } from "../../hooks/useQuery";
-import { useMutation } from "../../hooks/useMutation";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
-import { Button } from "../particles/Button";
-import { Avatar } from "../particles/Avatar";
+import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
 import { permissionTypeToString } from "../../utils/permissionTypeToString";
-import { ClockIcon } from "@heroicons/react/24/outline";
+import { Avatar } from "../particles/Avatar";
+import { Button } from "../particles/Button";
+
+import deleteInvitationMutation from "@/graphql-client/mutations/deleteInvitation.graphql";
+import invitationsToTeamQuery from "@/graphql-client/queries/invitationsToTeam.graphql";
+
 
 export const TeamInvites = () => {
   const { company, unit, team } = useParams();

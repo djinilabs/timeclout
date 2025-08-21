@@ -1,10 +1,15 @@
-import { nanoid } from "nanoid";
 import { notFound } from "@hapi/boom";
+import { nanoid } from "nanoid";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { MutationResolvers, Team } from "./../../../../types.generated";
+
+import { giveAuthorization } from "@/business-logic";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
-import { giveAuthorization } from "@/business-logic";
-import type { MutationResolvers, Team } from "./../../../../types.generated";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+
 
 export const createTeam: NonNullable<MutationResolvers["createTeam"]> = async (
   _parent,

@@ -1,14 +1,10 @@
-import { useParams } from "react-router-dom";
+/* eslint-disable react/no-children-prop */
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
 import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
-import { Trans } from "@lingui/react/macro";
-import { getDefined } from "@/utils";
-import { worksScheduleParser } from "@/settings";
-import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
-import { useQuery } from "../../hooks/useQuery";
-import { useMutation } from "../../hooks/useMutation";
-import { Button } from "../particles/Button";
+import { useParams } from "react-router-dom";
+
 import {
   QueryCompanyArgs,
   CompanySettingsArgs,
@@ -16,7 +12,14 @@ import {
   Mutation,
   MutationUpdateCompanySettingsArgs,
 } from "../../graphql/graphql";
-import { i18n } from "@lingui/core";
+import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
+import { Button } from "../particles/Button";
+
+import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import { worksScheduleParser } from "@/settings";
+import { getDefined } from "@/utils";
 
 const workDays = [
   "monday",

@@ -1,25 +1,28 @@
-import { FC, ReactNode, useEffect, useMemo, useState } from "react";
+/* eslint-disable react/no-children-prop */
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
 import { useForm } from "@tanstack/react-form";
+import { FC, ReactNode, useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { useParams, useSearchParams } from "react-router-dom";
 import "react-day-picker/style.css";
-import toast from "react-hot-toast";
-import { Trans } from "@lingui/react/macro";
-import { i18n } from "@lingui/core";
-import { getDefined } from "@/utils";
-import { leaveTypeParser } from "@/settings";
-import { DayDate } from "@/day-date";
-import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
-import { Button } from "../particles/Button";
-import { useQuery } from "../../hooks/useQuery";
-import { leaveTypeColors, leaveTypeIcons } from "../../settings/leaveTypes";
-import { useHolidays } from "../../hooks/useHolidays";
+
 import {
   CompanySettingsArgs,
   Query,
   QueryCompanyArgs,
 } from "../../graphql/graphql";
-import { Suspense } from "../atoms/Suspense";
+import { useHolidays } from "../../hooks/useHolidays";
+import { useQuery } from "../../hooks/useQuery";
+import { leaveTypeColors, leaveTypeIcons } from "../../settings/leaveTypes";
 import { DayPicker } from "../atoms/DayPicker";
+import { Suspense } from "../atoms/Suspense";
+import { Button } from "../particles/Button";
+
+import { DayDate } from "@/day-date";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import { leaveTypeParser } from "@/settings";
+import { getDefined } from "@/utils";
 
 export type DateRange = [startDate?: string, endDate?: string];
 

@@ -1,4 +1,12 @@
-import { database, EntityRecord } from "@/tables";
+import { requireSession } from "../../../session/requireSession";
+
+import type {
+  Team as TeamType,
+  TeamResolvers,
+  User,
+  UserSchedule,
+} from "./../../../types.generated";
+
 import {
   teamSchedule,
   getEntitySettings,
@@ -6,16 +14,12 @@ import {
   teamMembersQualifications,
   getUserAuthorizationLevelForResource,
 } from "@/business-logic";
-import { getDefined, getResourceRef, resourceRef, ResourceRef } from "@/utils";
 import { DayDate } from "@/day-date";
 import { SettingsTypeKey } from "@/settings";
-import type {
-  Team as TeamType,
-  TeamResolvers,
-  User,
-  UserSchedule,
-} from "./../../../types.generated";
-import { requireSession } from "../../../session/requireSession";
+import { database, EntityRecord } from "@/tables";
+import { getDefined, getResourceRef, resourceRef, ResourceRef } from "@/utils";
+
+
 
 export const Team: TeamResolvers = {
   createdBy: async (parent, _args, ctx) => {

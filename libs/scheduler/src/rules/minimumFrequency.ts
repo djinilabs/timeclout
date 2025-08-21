@@ -1,5 +1,6 @@
-import { i18n } from "@/locales";
 import { SlotWorker, ValidationRule } from "../types";
+
+import { i18n } from "@/locales";
 
 const workerUnavailablityInSecondsBetween = (
   worker: SlotWorker,

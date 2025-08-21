@@ -1,33 +1,36 @@
-import { FC, memo, useCallback, useMemo, useState } from "react";
-import { DayDate } from "@/day-date";
 import { Transition } from "@headlessui/react";
-import { i18n } from "@lingui/core";
-import { Trans } from "@lingui/react/macro";
-import { SchedulerState } from "@/scheduler";
-import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
-import { LeaveRenderInfo } from "../../hooks/useTeamLeaveSchedule";
-import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCalendar";
-import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
-import { classNames } from "../../utils/classNames";
-import { Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
-import { ShiftPosition } from "../atoms/ShiftPosition";
-import { Avatar } from "../particles/Avatar";
-import { Tabs, type Tab } from "../molecules/Tabs";
-import { LabeledSwitch } from "../particles/LabeledSwitch";
-import {
-  MonthlyCalendarPerMember,
-  User,
-} from "../atoms/MonthlyCalendarPerMember";
-import { TeamShiftsSummary } from "./TeamShiftsSummary";
-import { CalendarHeader } from "../atoms/CalendarHeader";
-import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
-import { AnalyzeTeamShiftsCalendarMenu } from "./AnalyzeTeamShiftsCalendarMenu";
-import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
 import {
   CalendarDaysIcon,
   ClockIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.generated";
+import { FC, memo, useCallback, useMemo, useState } from "react";
+
+import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCalendar";
+import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
+import { LeaveRenderInfo } from "../../hooks/useTeamLeaveSchedule";
+import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
+import { classNames } from "../../utils/classNames";
+import { CalendarHeader } from "../atoms/CalendarHeader";
+import { MemberLeaveInCalendar } from "../atoms/MemberLeaveInCalendar";
+import {
+  MonthlyCalendarPerMember,
+  User,
+} from "../atoms/MonthlyCalendarPerMember";
+import { ShiftPosition } from "../atoms/ShiftPosition";
+import { Tabs, type Tab } from "../molecules/Tabs";
+import { Avatar } from "../particles/Avatar";
+import { LabeledSwitch } from "../particles/LabeledSwitch";
+import { Day, MonthDailyCalendar } from "../particles/MonthDailyCalendar";
+
+import { AnalyzeTeamShiftsCalendarMenu } from "./AnalyzeTeamShiftsCalendarMenu";
+import { TeamShiftsSummary } from "./TeamShiftsSummary";
+
+import { DayDate } from "@/day-date";
+import { SchedulerState } from "@/scheduler";
 
 export interface ShiftsAutofillSolutionMonthCalendarProps {
   teamPk: string;
@@ -51,7 +54,7 @@ export interface ShiftsAutofillSolutionMonthCalendarProps {
 }
 
 export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonthCalendarProps> =
-  memo((props) => {
+  memo(function ShiftsAutofillSolutionMonthCalendar(props) {
     const {
       teamPk,
       startDate,

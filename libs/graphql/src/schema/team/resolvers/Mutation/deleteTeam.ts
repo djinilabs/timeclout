@@ -1,8 +1,11 @@
 import { notFound } from "@hapi/boom";
+
+import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
+
+import type { MutationResolvers, Team } from "./../../../../types.generated";
+
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
-import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
-import type { MutationResolvers, Team } from "./../../../../types.generated";
 
 export const deleteTeam: NonNullable<MutationResolvers["deleteTeam"]> = async (
   _parent,

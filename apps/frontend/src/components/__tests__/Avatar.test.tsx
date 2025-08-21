@@ -1,29 +1,30 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { i18n } from "@lingui/core";
 import { render, screen } from "@testing-library/react";
+import { beforeAll, describe, expect, it } from "vitest";
+
 import "@testing-library/jest-dom/vitest";
 import { Avatar } from "../particles/Avatar";
-import { i18n } from "@lingui/core";
 
 describe("Avatar", () => {
   beforeAll(() => {
     i18n.load({
       en: {
         messages: {
-          "’s avatar": { message: "’s avatar" },
+          "'s avatar": { message: "'s avatar" },
         },
       },
     });
     i18n.activate("en");
   });
 
-  it("renders with minimal props", () => {
+  it("renders with minimal props", async () => {
     render(<Avatar />);
     const avatar = screen.getByRole("img");
     expect(avatar).toBeInTheDocument();
-    expect(avatar).toHaveAttribute("alt", "’s avatar");
+    await expect(avatar).toHaveAttribute("alt", "\u2019s avatar");
   });
 
-  it("renders with name and email", () => {
+  it("renders with name and email", async () => {
     const props = {
       name: "John Doe",
       email: "john@example.com",
@@ -33,11 +34,11 @@ describe("Avatar", () => {
 
     const avatar = screen.getByRole("img");
 
-    expect(avatar).toHaveAttribute(
+    await expect(avatar).toHaveAttribute(
       "src",
       "https://www.gravatar.com/avatar/abc123?s=250&d=blank"
     );
-    expect(avatar).toHaveAttribute("alt", "john@example.com’s avatar");
+    await expect(avatar).toHaveAttribute("alt", "john@example.com\u2019s avatar");
   });
 
   it("generates correct initials", () => {

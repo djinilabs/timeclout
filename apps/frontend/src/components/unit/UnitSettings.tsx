@@ -1,6 +1,8 @@
-import { useMemo, useState } from "react";
 import { UsersIcon } from "@heroicons/react/24/outline";
+import { useMemo, useState } from "react";
+
 import { Tabs, type Tab } from "../molecules/Tabs";
+
 import { UnitManagers } from "./UnitManagers";
 
 export const UnitSettings = () => {

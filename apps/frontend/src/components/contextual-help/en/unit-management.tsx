@@ -1,14 +1,14 @@
-import { HelpSection } from "../types";
 import { FeatureDependenciesHelp } from "../components/FeatureDependenciesHelp";
 import { RoleBasedHelp } from "../components/RoleBasedHelp";
+import { HelpSection } from "../types";
 
 export const unitManagementHelp: HelpSection = {
   title: "Unit Management",
   description: (
     <>
       Manage your business units effectively. Create, organize, and maintain
-      units to structure your company's operations. Each unit can have multiple
-      teams with specific roles and responsibilities.
+      units to structure your company&apos;s operations. Each unit can have
+      multiple teams with specific roles and responsibilities.
     </>
   ),
   features: [

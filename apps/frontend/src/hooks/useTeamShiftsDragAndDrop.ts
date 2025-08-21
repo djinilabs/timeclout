@@ -1,8 +1,11 @@
-import { useCallback, useState } from "react";
 import { nanoid } from "nanoid";
-import { useTeamShiftActions } from "./useTeamShiftActions";
+import { useCallback, useState } from "react";
+
+
 import { ShiftPosition } from "../graphql/graphql";
+
 import { useDragAndDrop } from "./useDragAndDrop";
+import { useTeamShiftActions } from "./useTeamShiftActions";
 import { ShiftPositionWithFake } from "./useTeamShiftPositionsMap";
 
 export const useTeamShiftsDragAndDrop = (
