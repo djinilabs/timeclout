@@ -29,6 +29,15 @@ async function createCompany(
   companyName: string
 ): Promise<void> {
   console.log("🏢 Step 2: Creating company...");
+
+  // First, ensure the user's profile is complete
+  const currentUrl = page.url();
+  if (currentUrl.includes("/me/edit")) {
+    console.log("🔄 User profile not complete, completing profile first...");
+    await completeUserProfile(page, pageObjects);
+    console.log("✅ User profile completed");
+  }
+
   await page.goto("/companies/new");
 
   // Wait for the company creation form to load
@@ -51,6 +60,63 @@ async function createCompany(
   // Wait for the company page to load
   await pageObjects.waitForElementStable(".new-unit-button", 15000);
   console.log("✅ Successfully entered company");
+}
+
+/**
+ * Helper function to complete user profile
+ */
+async function completeUserProfile(
+  page: Page,
+  pageObjects: PageObjects
+): Promise<void> {
+  console.log("🔄 Completing user profile...");
+
+  // Fill in the professional name
+  const nameInput = page
+    .locator(
+      'input[name="name"], .name-input, input[placeholder*="name"], input[placeholder*="Name"]'
+    )
+    .first();
+  await nameInput.waitFor({ state: "visible", timeout: 10000 });
+  await nameInput.fill("Company Setup User");
+  console.log("✅ Filled in professional name");
+
+  // Select a country (required field)
+  const countrySelect = page
+    .locator(
+      'select[name="country"], select[aria-label*="country"], select[aria-label*="Country"]'
+    )
+    .first();
+  if (await countrySelect.isVisible()) {
+    await countrySelect.selectOption("Portugal"); // Select a valid country
+    console.log("✅ Selected country");
+
+    // Wait a bit for the region options to update based on country selection
+    await page.waitForTimeout(1000);
+  }
+
+  // Select a region (appears to be required)
+  const regionSelect = page
+    .locator(
+      'select[name="region"], select[aria-label*="region"], select[aria-label*="Region"]'
+    )
+    .first();
+  if (await regionSelect.isVisible()) {
+    await regionSelect.selectOption("Lisbon"); // Select a valid region
+    console.log("✅ Selected region");
+  }
+
+  // Save the profile
+  const saveButton = page
+    .locator('button:has-text("Save"), button[type="submit"]')
+    .first();
+  await saveButton.click();
+  console.log("✅ Clicked save button");
+
+  // Wait for the profile to be saved and redirect to complete
+  await page.waitForURL(/^(?!.*\/me\/edit)/, { timeout: 15000 });
+  await page.waitForLoadState("load");
+  console.log("✅ Profile saved and redirected");
 }
 
 /**
