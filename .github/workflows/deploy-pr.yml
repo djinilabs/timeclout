@@ -66,3 +66,15 @@ jobs:
           pnpm build
           cd apps/backend
           pnpm arc deploy --name "PR${{ github.event.pull_request.number }}" --staging --no-hydrate --verbose
+
+      - name: Trigger E2E Tests
+        if: success()
+        run: |
+          echo "Deployment successful, triggering E2E tests..."
+          gh workflow run e2e-tests.yml \
+            --field environment=pr \
+            --field pull_request_number=${{ github.event.pull_request.number }} \
+            --field run_specific_tests="" \
+            --ref ${{ github.head_ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

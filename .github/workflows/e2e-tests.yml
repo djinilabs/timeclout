@@ -13,6 +13,10 @@ on:
           - production
           - custom
           - pr
+      pull_request_number:
+        description: "Pull request number (required when environment is 'pr')"
+        required: false
+        type: string
       custom_url:
         description: "Custom URL to test against (only used if environment is custom)"
         required: false
@@ -75,6 +79,16 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm test:e2e:install
 
+      - name: Validate inputs
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ github.event.inputs.environment }}" == "pr" ]; then
+            if [ -z "${{ github.event.inputs.pull_request_number }}" ]; then
+              echo "Error: pull_request_number is required when environment is 'pr'"
+              exit 1
+            fi
+            echo "PR environment validated with PR number: ${{ github.event.inputs.pull_request_number }}"
+          fi
+
       - name: Determine test URL
         id: test-url
         run: |
@@ -84,9 +98,9 @@ jobs:
             elif [ "${{ github.event.inputs.environment }}" == "production" ]; then
               echo "url=https://tt3.app" >> $GITHUB_OUTPUT
             elif [ "${{ github.event.inputs.environment }}" == "pr" ]; then
-              # For manual PR runs, use the PR URL if we're on a PR branch
-              if [ -n "${{ github.event.pull_request.number }}" ]; then
-                echo "url=https://${{ github.event.pull_request.number }}.tt3.app" >> $GITHUB_OUTPUT
+              # For manual PR runs, use the PR URL from the input parameter
+              if [ -n "${{ github.event.inputs.pull_request_number }}" ]; then
+                echo "url=https://${{ github.event.inputs.pull_request_number }}.tt3.app" >> $GITHUB_OUTPUT
               else
                 echo "url=https://staging.tt3.app" >> $GITHUB_OUTPUT
               fi
