@@ -44,8 +44,8 @@ importers:
         specifier: ^2.7.4
         version: 2.10.0(@aws-sdk/client-dynamodb@3.835.0)(@aws-sdk/lib-dynamodb@3.835.0(@aws-sdk/client-dynamodb@3.835.0))(@simplewebauthn/browser@9.0.1)(@simplewebauthn/server@9.0.3)
       '@auth/express':
-        specifier: ^0.10.0
-        version: 0.10.1(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@9.0.1)(@simplewebauthn/server@9.0.3)(express@4.21.2)
+        specifier: ^0.11.0
+        version: 0.11.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@9.0.1)(@simplewebauthn/server@9.0.3)(express@4.21.2)
       '@aws-lite/apigatewaymanagementapi-types':
         specifier: ^0.0.13
         version: 0.0.13
@@ -581,8 +581,8 @@ packages:
       '@aws-sdk/client-dynamodb': ^3.36.1
       '@aws-sdk/lib-dynamodb': ^3.36.1
 
-  '@auth/express@0.10.1':
-    resolution: {integrity: sha512-P+W32En+p85aL0kKO12a+m0uv7j3bCnWkzaD35l+JJT+PSvLI0pndYaUdCxTeW/dcyZhTyHooPesQfAAE1sBjg==}
+  '@auth/express@0.11.0':
+    resolution: {integrity: sha512-IOw4U5qMNHdSMCRwMMDGW9rEi/bcUaoEj142C1bJg/Uc3LKqoezOXqf23trZT8KkK9u/IH80K42RzAboa4J4Bw==}
     peerDependencies:
       express: ^4.18.2 || ^5.0.0
 
@@ -8749,9 +8749,9 @@ snapshots:
       - '@simplewebauthn/server'
       - nodemailer
 
-  '@auth/express@0.10.1(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@9.0.1)(@simplewebauthn/server@9.0.3)(express@4.21.2)':
+  '@auth/express@0.11.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@9.0.1)(@simplewebauthn/server@9.0.3)(express@4.21.2)':
     dependencies:
-      '@auth/core': 0.39.1(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@9.0.1)(@simplewebauthn/server@9.0.3)
+      '@auth/core': 0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@9.0.1)(@simplewebauthn/server@9.0.3)
       express: 4.21.2
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
