@@ -127,7 +127,7 @@ async function createUnit(
   page: Page,
   pageObjects: PageObjects,
   unitName: string
-): Promise<string> {
+): Promise<{ companyPk: string; unitPk: string }> {
   console.log("🏗️ Step 3: Creating unit...");
 
   // Click the "Create new Unit" button
@@ -163,7 +163,12 @@ async function createUnit(
   await unitLink.waitFor({ state: "visible", timeout: 15000 });
   console.log("✅ Unit appears in the units list");
 
-  return companyPk;
+  // Extract unitPk from the unit link
+  const unitHref = await unitLink.getAttribute("href");
+  const unitPk = unitHref?.split("/").pop() || "";
+  console.log(`Extracted unitPk: ${unitPk}`);
+
+  return { companyPk, unitPk };
 }
 
 /**
@@ -174,7 +179,7 @@ async function createTeam(
   pageObjects: PageObjects,
   unitName: string,
   teamName: string
-): Promise<void> {
+): Promise<string> {
   console.log("👥 Step 4: Creating team...");
 
   // Click on the unit to enter it
@@ -201,6 +206,17 @@ async function createTeam(
   await page.waitForURL(/\/companies\/.*\/units\/.*$/, { timeout: 15000 });
   await page.waitForLoadState("domcontentloaded");
   console.log("✅ Team created successfully, redirected back to unit page");
+
+  // Wait for the team to appear in the teams list on the unit page
+  const teamLink = pageObjects.getTeamLink(teamName);
+  await teamLink.waitFor({ state: "visible", timeout: 15000 });
+  console.log("✅ Team appears in teams list");
+
+  const teamHref = await teamLink.getAttribute("href");
+  const teamPk = teamHref?.split("/").pop() || "";
+  console.log(`Extracted teamPk: ${teamPk}`);
+
+  return teamPk;
 }
 
 /**
@@ -808,7 +824,9 @@ async function setupTeamMemberLeaveSchedules(
   page: Page,
   _pageObjects: PageObjects,
   _teamName: string,
-  companyPk: string
+  companyPk: string,
+  unitPk: string,
+  teamPk: string
 ): Promise<void> {
   console.log("📅 Step 4.9: Setting up team member leave schedules...");
 
@@ -898,12 +916,8 @@ async function setupTeamMemberLeaveSchedules(
   // Verify the leave schedule shows the created leave request
   console.log("🔍 Verifying leave schedule...");
 
-  // Navigate back to leave schedule view
-  await page.goto(`/companies/${companyPk}/units/*/teams/*?tab=leave-schedule`);
-  await page.waitForLoadState("domcontentloaded");
-  console.log("✅ Navigated back to leave schedule view");
-
-  // Wait for the leave schedule to load and look for the created leave request
+  // We're already on the leave schedule tab, so no need to navigate
+  // Just wait for the leave schedule to load and look for the created leave request
   const leaveRequestElement = page.locator(
     "text=Team member vacation request, text=Vacation"
   );
@@ -987,9 +1001,13 @@ testWithUserManagement.describe(
 
         await createCompany(page, pageObjects, companyName);
 
-        const companyPk = await createUnit(page, pageObjects, unitName);
+        const { companyPk, unitPk } = await createUnit(
+          page,
+          pageObjects,
+          unitName
+        );
 
-        await createTeam(page, pageObjects, unitName, teamName);
+        const teamPk = await createTeam(page, pageObjects, unitName, teamName);
 
         await configureUnitSettings(page, pageObjects, unitName);
         await configureTeamSettings(page, pageObjects, teamName);
@@ -1011,7 +1029,9 @@ testWithUserManagement.describe(
           page,
           pageObjects,
           teamName,
-          companyPk
+          companyPk,
+          unitPk,
+          teamPk
         );
 
         // Navigate back to company page to access company settings
