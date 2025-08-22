@@ -53,7 +53,7 @@ runs:
     - name: Send Discord notification
       shell: bash
       run: |
-        # Prepare Discord message with proper escaping
+        # Prepare Discord message
         WORKFLOW_NAME="${{ inputs.workflow_name }}"
         RUN_STATUS="${{ inputs.job_status }}"
         RUN_ID="${{ inputs.run_id }}"
@@ -68,37 +68,17 @@ runs:
         REF_NAME="${{ inputs.ref_name }}"
         REPO_NAME="${{ inputs.repository }}"
 
-        # Validate and sanitize inputs
-        if [ -z "$COMMIT_SHA" ]; then
-          echo "Error: Commit SHA is empty"
-          exit 1
-        fi
-
         # Safely truncate commit SHA to 8 characters
         COMMIT_SHA_SHORT=$(echo "$COMMIT_SHA" | cut -c1-8)
-        
-        # Escape special characters in commit message
-        COMMIT_MESSAGE_ESCAPED=$(echo "$COMMIT_MESSAGE" | sed 's/"/\\"/g' | sed 's/\\/\\\\/g')
-
-        # Debug information
-        echo "Debug: EVENT_NAME=$EVENT_NAME"
-        echo "Debug: WORKFLOW_RUN_NAME=$WORKFLOW_RUN_NAME"
-        echo "Debug: ref_name=$REF_NAME"
-        echo "Debug: COMMIT_SHA=$COMMIT_SHA"
-        echo "Debug: COMMIT_SHA_SHORT=$COMMIT_SHA_SHORT"
 
         # Determine PR information
         if [ "$EVENT_NAME" == "pull_request" ] && [ -n "$PR_NUMBER" ]; then
           PR_INFO="🔗 **PR #$PR_NUMBER**: [$PR_TITLE]($PR_URL)"
         elif [ "$EVENT_NAME" == "workflow_run" ] && [ -n "$WORKFLOW_RUN_NAME" ]; then
-          # Extract PR number from workflow_run event name
-          echo "Debug: Processing workflow_run event with name: $WORKFLOW_RUN_NAME"
           if echo "$WORKFLOW_RUN_NAME" | grep -q 'PR[0-9]*'; then
             EXTRACTED_PR_NUMBER=$(echo "$WORKFLOW_RUN_NAME" | grep -o 'PR[0-9]*' | grep -o '[0-9]*')
-            echo "Debug: Extracted PR number: $EXTRACTED_PR_NUMBER"
             PR_INFO="🔗 **PR #$EXTRACTED_PR_NUMBER**: From workflow run"
           else
-            echo "Debug: No PR number found in workflow name"
             PR_INFO="📋 **Workflow Run**: $WORKFLOW_RUN_NAME"
           fi
         elif [ "$EVENT_NAME" == "workflow_dispatch" ]; then
@@ -117,42 +97,30 @@ runs:
           PR_INFO="📋 **Event**: $EVENT_NAME"
         fi
 
-        echo "Debug: PR_INFO set to: $PR_INFO"
-
         # Set status emoji and color
-        echo "Debug: Setting status for RUN_STATUS: $RUN_STATUS"
         if [ "$RUN_STATUS" == "success" ]; then
           STATUS_EMOJI="✅"
-          STATUS_COLOR="3066993" # Green
+          STATUS_COLOR="3066993"
           STATUS_TEXT="SUCCESS"
         elif [ "$RUN_STATUS" == "failure" ]; then
           STATUS_EMOJI="❌"
-          STATUS_COLOR="15158332" # Red
+          STATUS_COLOR="15158332"
           STATUS_TEXT="FAILED"
         elif [ "$RUN_STATUS" == "cancelled" ]; then
           STATUS_EMOJI="⏹️"
-          STATUS_COLOR="7506394" # Gray
+          STATUS_COLOR="7506394"
           STATUS_TEXT="CANCELLED"
         else
           STATUS_EMOJI="🔄"
-          STATUS_COLOR="3447003" # Blue
+          STATUS_COLOR="3447003"
           STATUS_TEXT="$RUN_STATUS"
         fi
 
-        echo "Debug: Status set - Emoji: $STATUS_EMOJI, Color: $STATUS_COLOR, Text: $STATUS_TEXT"
-
-        # Create Discord embed with proper JSON escaping
-        echo "Debug: Creating Discord payload..."
-        
-        # Generate timestamp
+        # Create Discord payload
         TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-        echo "Debug: Timestamp generated: $TIMESTAMP"
-        
-        # Create JSON payload using jq for proper escaping
+
+        # Create JSON payload using jq if available
         if command -v jq >/dev/null 2>&1; then
-          echo "Debug: Using jq for JSON construction"
-          
-          # Create the JSON payload with jq
           DISCORD_PAYLOAD=$(jq -n \
             --arg title "$STATUS_EMOJI $WORKFLOW_NAME - $STATUS_TEXT" \
             --arg color "$STATUS_COLOR" \
@@ -160,7 +128,7 @@ runs:
             --arg workflow "$WORKFLOW_NAME" \
             --arg run_id "[#$RUN_ID]($RUN_URL)" \
             --arg pr_info "$PR_INFO" \
-            --arg commit "[`$COMMIT_SHA_SHORT`]($RUN_URL) - $COMMIT_MESSAGE_ESCAPED" \
+            --arg commit "[`$COMMIT_SHA_SHORT`]($RUN_URL) - $COMMIT_MESSAGE" \
             --arg repo "$REPO_NAME" \
             --arg branch "$REF_NAME" \
             --arg timestamp "$TIMESTAMP" \
@@ -170,135 +138,24 @@ runs:
                 "description": "Workflow execution completed",
                 "color": ($color | tonumber),
                 "fields": [
-                  {
-                    "name": "Status",
-                    "value": $status,
-                    "inline": true
-                  },
-                  {
-                    "name": "Workflow",
-                    "value": $workflow,
-                    "inline": true
-                  },
-                  {
-                    "name": "Run ID",
-                    "value": $run_id,
-                    "inline": true
-                  },
-                  {
-                    "name": "PR/Event",
-                    "value": $pr_info,
-                    "inline": false
-                  },
-                  {
-                    "name": "Commit",
-                    "value": $commit,
-                    "inline": false
-                  },
-                  {
-                    "name": "Repository",
-                    "value": $repo,
-                    "inline": true
-                  },
-                  {
-                    "name": "Branch",
-                    "value": $branch,
-                    "inline": true
-                  }
+                  {"name": "Status", "value": $status, "inline": true},
+                  {"name": "Workflow", "value": $workflow, "inline": true},
+                  {"name": "Run ID", "value": $run_id, "inline": true},
+                  {"name": "PR/Event", "value": $pr_info, "inline": false},
+                  {"name": "Commit", "value": $commit, "inline": false},
+                  {"name": "Repository", "value": $repo, "inline": true},
+                  {"name": "Branch", "value": $branch, "inline": true}
                 ],
                 "timestamp": $timestamp,
-                "footer": {
-                  "text": "GitHub Actions"
-                }
+                "footer": {"text": "GitHub Actions"}
               }]
             }')
         else
-          echo "Debug: jq not available, using fallback JSON construction"
-          
-          # Fallback: Create JSON payload with proper escaping
-          cat > /tmp/discord_payload.json << 'EOF'
-{
-  "embeds": [{
-    "title": "TITLE_PLACEHOLDER",
-    "description": "Workflow execution completed",
-    "color": COLOR_PLACEHOLDER,
-    "fields": [
-      {
-        "name": "Status",
-        "value": "STATUS_PLACEHOLDER",
-        "inline": true
-      },
-      {
-        "name": "Workflow",
-        "value": "WORKFLOW_PLACEHOLDER",
-        "inline": true
-      },
-      {
-        "name": "Run ID",
-        "value": "RUN_ID_PLACEHOLDER",
-        "inline": true
-      },
-      {
-        "name": "PR/Event",
-        "value": "PR_INFO_PLACEHOLDER",
-        "inline": false
-      },
-      {
-        "name": "Commit",
-        "value": "COMMIT_PLACEHOLDER",
-        "inline": false
-      },
-      {
-        "name": "Repository",
-        "value": "REPO_PLACEHOLDER",
-        "inline": true
-      },
-      {
-        "name": "Branch",
-        "value": "BRANCH_PLACEHOLDER",
-        "inline": true
-      }
-    ],
-    "timestamp": "TIMESTAMP_PLACEHOLDER",
-    "footer": {
-      "text": "GitHub Actions"
-    }
-  }]
-}
-EOF
-
-          # Escape special characters for sed replacements
-          TITLE_ESCAPED=$(echo "$STATUS_EMOJI $WORKFLOW_NAME - $STATUS_TEXT" | sed 's/[[\.*^$()+?{|]/\\&/g')
-          STATUS_ESCAPED=$(echo "$STATUS_EMOJI $STATUS_TEXT" | sed 's/[[\.*^$()+?{|]/\\&/g')
-          WORKFLOW_ESCAPED=$(echo "$WORKFLOW_NAME" | sed 's/[[\.*^$()+?{|]/\\&/g')
-          RUN_ID_ESCAPED=$(echo "[#$RUN_ID]($RUN_URL)" | sed 's/[[\.*^$()+?{|]/\\&/g')
-          PR_INFO_ESCAPED=$(echo "$PR_INFO" | sed 's/[[\.*^$()+?{|]/\\&/g')
-          COMMIT_ESCAPED=$(echo "[`$COMMIT_SHA_SHORT`]($RUN_URL) - $COMMIT_MESSAGE_ESCAPED" | sed 's/[[\.*^$()+?{|]/\\&/g')
-          REPO_ESCAPED=$(echo "$REPO_NAME" | sed 's/[[\.*^$()+?{|]/\\&/g')
-          BRANCH_ESCAPED=$(echo "$REF_NAME" | sed 's/[[\.*^$()+?{|]/\\&/g')
-
-          # Replace placeholders with escaped values
-          sed -i "s/TITLE_PLACEHOLDER/$TITLE_ESCAPED/g" /tmp/discord_payload.json
-          sed -i "s/COLOR_PLACEHOLDER/$STATUS_COLOR/g" /tmp/discord_payload.json
-          sed -i "s/STATUS_PLACEHOLDER/$STATUS_ESCAPED/g" /tmp/discord_payload.json
-          sed -i "s/WORKFLOW_PLACEHOLDER/$WORKFLOW_ESCAPED/g" /tmp/discord_payload.json
-          sed -i "s|RUN_ID_PLACEHOLDER|$RUN_ID_ESCAPED|g" /tmp/discord_payload.json
-          sed -i "s|PR_INFO_PLACEHOLDER|$PR_INFO_ESCAPED|g" /tmp/discord_payload.json
-          sed -i "s|COMMIT_PLACEHOLDER|$COMMIT_ESCAPED|g" /tmp/discord_payload.json
-          sed -i "s/REPO_PLACEHOLDER/$REPO_ESCAPED/g" /tmp/discord_payload.json
-          sed -i "s/BRANCH_PLACEHOLDER/$BRANCH_ESCAPED/g" /tmp/discord_payload.json
-          sed -i "s/TIMESTAMP_PLACEHOLDER/$TIMESTAMP/g" /tmp/discord_payload.json
-
-          # Read the final payload
-          DISCORD_PAYLOAD=$(cat /tmp/discord_payload.json)
+          # Fallback: simple JSON construction
+          DISCORD_PAYLOAD="{\"embeds\":[{\"title\":\"$STATUS_EMOJI $WORKFLOW_NAME - $STATUS_TEXT\",\"description\":\"Workflow execution completed\",\"color\":$STATUS_COLOR,\"fields\":[{\"name\":\"Status\",\"value\":\"$STATUS_EMOJI $STATUS_TEXT\",\"inline\":true},{\"name\":\"Workflow\",\"value\":\"$WORKFLOW_NAME\",\"inline\":true},{\"name\":\"Run ID\",\"value\":\"[#$RUN_ID]($RUN_URL)\",\"inline\":true},{\"name\":\"PR/Event\",\"value\":\"$PR_INFO\",\"inline\":false},{\"name\":\"Commit\",\"value\":\"[`$COMMIT_SHA_SHORT`]($RUN_URL) - $COMMIT_MESSAGE\",\"inline\":false},{\"name\":\"Repository\",\"value\":\"$REPO_NAME\",\"inline\":true},{\"name\":\"Branch\",\"value\":\"$REF_NAME\",\"inline\":true}],\"timestamp\":\"$TIMESTAMP\",\"footer\":{\"text\":\"GitHub Actions\"}}]}"
         fi
 
-        # Debug payload (without sensitive info)
-        echo "Debug: Payload prepared successfully"
-        echo "Debug: Payload length: ${#DISCORD_PAYLOAD} characters"
-
         # Send to Discord webhook
-        echo "Debug: About to check webhook URL and send notification..."
         if [ -n "${{ inputs.webhook_url }}" ]; then
           echo "Sending Discord notification..."
           HTTP_RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" -H "Content-Type: application/json" \
@@ -317,9 +174,4 @@ EOF
           fi
         else
           echo "Webhook URL not provided, skipping Discord notification"
-        fi
-
-        # Clean up
-        if [ -f /tmp/discord_payload.json ]; then
-          rm -f /tmp/discord_payload.json
         fi
