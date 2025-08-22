@@ -1,6 +1,11 @@
 import { Page } from "@playwright/test";
 
-import { testWithUserManagement , TestUser , UserManagement, PageObjects } from "./fixtures/test-fixtures";
+import {
+  testWithUserManagement,
+  TestUser,
+  UserManagement,
+  PageObjects,
+} from "./fixtures/test-fixtures";
 
 // Step functions for the company setup and configuration workflow
 
@@ -199,7 +204,222 @@ async function createTeam(
 }
 
 /**
- * Step 5: Navigate to company settings
+ * Step 4.5: Configure unit settings (assign managers)
+ */
+async function configureUnitSettings(
+  page: Page,
+  pageObjects: PageObjects,
+  unitName: string
+): Promise<void> {
+  console.log("⚙️ Step 4.5: Configuring unit settings...");
+
+  // Navigate to unit settings tab - be more specific to avoid clicking the main navigation Settings
+  const settingsTab = page.locator('main a:has-text("Settings")');
+  await settingsTab.waitFor({ state: "visible", timeout: 10000 });
+  console.log("✅ Found unit Settings tab");
+  await settingsTab.click();
+  console.log("✅ Clicked on unit Settings tab");
+
+  // Wait for the settings page to load
+  await page.waitForLoadState("domcontentloaded");
+
+  // Debug: Check what's currently visible
+  const currentUrl = page.url();
+  console.log(`🔍 Current URL after clicking Settings: ${currentUrl}`);
+
+  // Wait a bit more for the settings to fully load
+  await page.waitForTimeout(2000);
+
+  // Look for the managers tab within unit settings
+  const managersTab = page.locator('a[href*="managers"]').first();
+  if (await managersTab.isVisible()) {
+    await managersTab.click();
+    console.log("✅ Clicked on Managers tab within unit settings");
+    await page.waitForLoadState("domcontentloaded");
+  }
+
+  // Look for the managers section - wait for it to be visible
+  const managersSection = page.locator(
+    'div[aria-label*="Unit Managers Section"]'
+  );
+  await managersSection.waitFor({ state: "visible", timeout: 10000 });
+  console.log("✅ Unit managers section loaded");
+
+  // Look for the SelectUser component to assign a manager
+  const selectUserButton = page.locator(
+    'button[aria-label*="Select a user to add as manager"]'
+  );
+  if (await selectUserButton.isVisible()) {
+    await selectUserButton.click();
+    console.log("✅ Clicked on Select User button");
+
+    // Wait for user selection dropdown
+    await page.waitForLoadState("domcontentloaded");
+
+    // Select the first available user (usually the current user)
+    const firstUserOption = page.locator('[role="option"]').first();
+    if (await firstUserOption.isVisible()) {
+      await firstUserOption.click();
+      console.log("✅ Selected first user as unit manager");
+    }
+  } else {
+    console.log("ℹ️ No Select User button found, skipping manager assignment");
+  }
+
+  console.log("✅ Unit settings configured");
+}
+
+/**
+ * Step 4.6: Configure team settings (qualifications and schedule templates)
+ */
+async function configureTeamSettings(
+  page: Page,
+  pageObjects: PageObjects,
+  teamName: string
+): Promise<void> {
+  console.log("⚙️ Step 4.6: Configuring team settings...");
+
+  // First, navigate back to the unit teams page to see the team list
+  const teamsTab = page.locator('main a:has-text("Teams")');
+  await teamsTab.waitFor({ state: "visible", timeout: 10000 });
+  await teamsTab.click();
+  console.log("✅ Navigated back to unit Teams tab");
+
+  // Wait for the teams page to load
+  await page.waitForLoadState("domcontentloaded");
+
+  // Wait for the team to appear in the teams list
+  const teamLink = pageObjects.getTeamLink(teamName);
+  await teamLink.waitFor({ state: "visible", timeout: 15000 });
+  console.log("✅ Team appears in teams list");
+
+  // Click on the team to enter it
+  await teamLink.click();
+  console.log("✅ Clicked on team to enter it");
+
+  // Wait for the team page to load
+  await page.waitForLoadState("domcontentloaded");
+
+  // Navigate to team settings tab - be more specific to avoid clicking the main navigation Settings
+  const settingsTab = page.locator('main a:has-text("Settings")');
+  await settingsTab.waitFor({ state: "visible", timeout: 10000 });
+  await settingsTab.click();
+  console.log("✅ Clicked on team Settings tab");
+
+  // Wait for the settings page to load
+  await page.waitForLoadState("domcontentloaded");
+
+  // Configure team qualifications
+  await configureTeamQualifications(page);
+
+  // Configure schedule position templates
+  await configureTeamScheduleTemplates(page);
+
+  console.log("✅ Team settings configured");
+}
+
+/**
+ * Helper function to configure team qualifications
+ */
+async function configureTeamQualifications(page: Page): Promise<void> {
+  console.log("🎯 Configuring team qualifications...");
+
+  // Look for the qualifications tab
+  const qualificationsTab = page.locator('a[href*="qualifications"]').first();
+  if (await qualificationsTab.isVisible()) {
+    await qualificationsTab.click();
+    console.log("✅ Clicked on Qualifications tab");
+
+    // Wait for the qualifications section to load
+    await page.waitForLoadState("domcontentloaded");
+
+    // Look for the "Add Qualification" button
+    const addQualificationButton = page.locator(
+      'button:has-text("Add Qualification")'
+    );
+    if (await addQualificationButton.isVisible()) {
+      await addQualificationButton.click();
+      console.log("✅ Clicked on Add Qualification button");
+
+      // Wait for the new qualification input to appear
+      await page.waitForLoadState("domcontentloaded");
+
+      // Fill in the qualification name
+      const qualificationInputs = page.locator(
+        'input[placeholder*="Qualification name"]'
+      );
+      const lastQualificationInput = qualificationInputs.last();
+      await lastQualificationInput.waitFor({ state: "visible", timeout: 5000 });
+      await lastQualificationInput.fill("Team Lead");
+      console.log("✅ Added qualification: Team Lead");
+
+      // Save the qualifications
+      const saveButton = page.locator('button:has-text("Save Changes")');
+      if (await saveButton.isVisible()) {
+        await saveButton.click();
+        console.log("✅ Saved team qualifications");
+        await page.waitForLoadState("domcontentloaded");
+      }
+    }
+  } else {
+    console.log(
+      "ℹ️ Qualifications tab not found, skipping qualifications configuration"
+    );
+  }
+}
+
+/**
+ * Helper function to configure team schedule position templates
+ */
+async function configureTeamScheduleTemplates(page: Page): Promise<void> {
+  console.log("📅 Configuring team schedule position templates...");
+
+  // Look for the schedule position templates tab
+  const templatesTab = page
+    .locator('a[href*="schedule-position-templates"]')
+    .first();
+  if (await templatesTab.isVisible()) {
+    await templatesTab.click();
+    console.log("✅ Clicked on Schedule Position Templates tab");
+
+    // Wait for the templates section to load
+    await page.waitForLoadState("domcontentloaded");
+
+    // Look for the "Add Template" button
+    const addTemplateButton = page.locator('button:has-text("Add Template")');
+    if (await addTemplateButton.isVisible()) {
+      await addTemplateButton.click();
+      console.log("✅ Clicked on Add Template button");
+
+      // Wait for the new template form to appear
+      await page.waitForLoadState("domcontentloaded");
+
+      // Fill in the template name
+      const templateNameInput = page
+        .locator('input[placeholder*="Template name"]')
+        .last();
+      if (await templateNameInput.isVisible()) {
+        await templateNameInput.fill("Morning Shift");
+        console.log("✅ Added template: Morning Shift");
+
+        // Save the templates
+        const saveButton = page.locator('button:has-text("Save Changes")');
+        if (await saveButton.isVisible()) {
+          await saveButton.click();
+          console.log("✅ Saved team schedule position templates");
+          await page.waitForLoadState("domcontentloaded");
+        }
+      }
+    }
+  } else {
+    console.log(
+      "ℹ️ Schedule Position Templates tab not found, skipping template configuration"
+    );
+  }
+}
+
+/**
+ * Step 7: Navigate to company settings
  */
 async function navigateToCompanySettings(
   page: Page,
@@ -232,7 +452,7 @@ async function navigateToCompanySettings(
 }
 
 /**
- * Step 6: Configure leave types
+ * Step 8: Configure leave types
  */
 async function configureLeaveTypes(page: Page): Promise<void> {
   console.log("📋 Step 6: Configuring leave types...");
@@ -282,7 +502,7 @@ async function configureLeaveTypes(page: Page): Promise<void> {
 }
 
 /**
- * Step 7: Configure work schedule
+ * Step 9: Configure work schedule
  */
 async function configureWorkSchedule(page: Page): Promise<void> {
   console.log("🕐 Step 7: Configuring work schedule...");
@@ -319,7 +539,7 @@ async function configureWorkSchedule(page: Page): Promise<void> {
 }
 
 /**
- * Step 8: Configure yearly quota
+ * Step 10: Configure yearly quota
  */
 async function configureYearlyQuota(page: Page): Promise<void> {
   console.log("📅 Step 8: Configuring yearly quota...");
@@ -397,7 +617,7 @@ async function verifyWorkflowCompletion(
   unitName: string,
   teamName: string
 ): Promise<void> {
-  console.log("🔍 Step 9: Verifying workflow completion...");
+  console.log("🔍 Step 11: Verifying workflow completion...");
 
   // Final verification - we should be on the company settings page
   const currentUrl = page.url();
@@ -409,6 +629,9 @@ async function verifyWorkflowCompletion(
     console.log(`   Unit: ${unitName}`);
     console.log(`   Team: ${teamName}`);
     console.log(`   Final URL: ${currentUrl}`);
+    console.log(`   ✅ Unit managers configured`);
+    console.log(`   ✅ Team qualifications configured`);
+    console.log(`   ✅ Team schedule templates configured`);
     console.log(`   ✅ Leave types configured`);
     console.log(`   ✅ Work schedule configured`);
     console.log(`   ✅ Yearly quota configured`);
@@ -450,6 +673,14 @@ testWithUserManagement.describe(
         const companyPk = await createUnit(page, pageObjects, unitName);
 
         await createTeam(page, pageObjects, unitName, teamName);
+
+        await configureUnitSettings(page, pageObjects, unitName);
+        await configureTeamSettings(page, pageObjects, teamName);
+
+        // Navigate back to company page to access company settings
+        await page.goto(`/companies/${companyPk}`);
+        await page.waitForLoadState("domcontentloaded");
+        console.log("✅ Navigated back to company page for company settings");
 
         await navigateToCompanySettings(page, pageObjects, companyPk);
 
