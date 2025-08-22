@@ -127,7 +127,7 @@ async function createUnit(
   page: Page,
   pageObjects: PageObjects,
   unitName: string
-): Promise<{ companyPk: string; unitPk: string }> {
+): Promise<{ companyPk: string }> {
   console.log("🏗️ Step 3: Creating unit...");
 
   // Click the "Create new Unit" button
@@ -168,7 +168,7 @@ async function createUnit(
   const unitPk = unitHref?.split("/").pop() || "";
   console.log(`Extracted unitPk: ${unitPk}`);
 
-  return { companyPk, unitPk };
+  return { companyPk };
 }
 
 /**
@@ -179,7 +179,7 @@ async function createTeam(
   pageObjects: PageObjects,
   unitName: string,
   teamName: string
-): Promise<string> {
+): Promise<void> {
   console.log("👥 Step 4: Creating team...");
 
   // Click on the unit to enter it
@@ -211,22 +211,12 @@ async function createTeam(
   const teamLink = pageObjects.getTeamLink(teamName);
   await teamLink.waitFor({ state: "visible", timeout: 15000 });
   console.log("✅ Team appears in teams list");
-
-  const teamHref = await teamLink.getAttribute("href");
-  const teamPk = teamHref?.split("/").pop() || "";
-  console.log(`Extracted teamPk: ${teamPk}`);
-
-  return teamPk;
 }
 
 /**
  * Step 4.5: Configure unit settings (assign managers)
  */
-async function configureUnitSettings(
-  page: Page,
-  _pageObjects: PageObjects,
-  _unitName: string
-): Promise<void> {
+async function configureUnitSettings(page: Page): Promise<void> {
   console.log("⚙️ Step 4.5: Configuring unit settings...");
 
   // Navigate to unit settings tab - be more specific to avoid clicking the main navigation Settings
@@ -243,16 +233,15 @@ async function configureUnitSettings(
   const currentUrl = page.url();
   console.log(`🔍 Current URL after clicking Settings: ${currentUrl}`);
 
-  // Wait a bit more for the settings to fully load
-  await page.waitForTimeout(2000);
-
-  // Look for the managers tab within unit settings
+  // Wait for the settings to fully load by waiting for a specific element
   const managersTab = page.locator('a[href*="managers"]').first();
-  if (await managersTab.isVisible()) {
-    await managersTab.click();
-    console.log("✅ Clicked on Managers tab within unit settings");
-    await page.waitForLoadState("domcontentloaded");
-  }
+  await managersTab.waitFor({ state: "visible", timeout: 10000 });
+  console.log("✅ Found managers tab");
+
+  // Click on the managers tab within unit settings
+  await managersTab.click();
+  console.log("✅ Clicked on Managers tab within unit settings");
+  await page.waitForLoadState("domcontentloaded");
 
   // Look for the managers section - wait for it to be visible
   const managersSection = page.locator(
@@ -288,11 +277,7 @@ async function configureUnitSettings(
 /**
  * Step 4.6: Configure team settings (qualifications and schedule templates)
  */
-async function configureTeamSettings(
-  page: Page,
-  _pageObjects: PageObjects,
-  _teamName: string
-): Promise<void> {
+async function configureTeamSettings(page: Page): Promise<void> {
   console.log("⚙️ Step 4.6: Configuring team settings...");
 
   // First, navigate back to the unit teams page to see the team list
@@ -777,13 +762,7 @@ async function createTeamMembers(
 /**
  * Step 4.8: Set up team member qualifications
  */
-async function setupTeamMemberQualifications(
-  page: Page,
-  _pageObjects: PageObjects,
-  _teamName: string,
-  _member1Pk: string,
-  _member2Pk: string
-): Promise<void> {
+async function setupTeamMemberQualifications(page: Page): Promise<void> {
   console.log("🎯 Step 4.8: Setting up team member qualifications...");
 
   // Navigate to team settings to configure qualifications
@@ -820,14 +799,7 @@ async function setupTeamMemberQualifications(
 /**
  * Step 4.9: Set up and verify team member leave schedules
  */
-async function setupTeamMemberLeaveSchedules(
-  page: Page,
-  _pageObjects: PageObjects,
-  _teamName: string,
-  companyPk: string,
-  unitPk: string,
-  teamPk: string
-): Promise<void> {
+async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
   console.log("📅 Step 4.9: Setting up team member leave schedules...");
 
   // Navigate to team leave schedule tab
@@ -1001,38 +973,17 @@ testWithUserManagement.describe(
 
         await createCompany(page, pageObjects, companyName);
 
-        const { companyPk, unitPk } = await createUnit(
-          page,
-          pageObjects,
-          unitName
-        );
+        const { companyPk } = await createUnit(page, pageObjects, unitName);
 
-        const teamPk = await createTeam(page, pageObjects, unitName, teamName);
+        await createTeam(page, pageObjects, unitName, teamName);
 
-        await configureUnitSettings(page, pageObjects, unitName);
-        await configureTeamSettings(page, pageObjects, teamName);
+        await configureUnitSettings(page);
+        await configureTeamSettings(page);
 
         // Create team members and set up their qualifications and leave schedules
-        const { member1, member2 } = await createTeamMembers(
-          page,
-          pageObjects,
-          teamName
-        );
-        await setupTeamMemberQualifications(
-          page,
-          pageObjects,
-          teamName,
-          member1,
-          member2
-        );
-        await setupTeamMemberLeaveSchedules(
-          page,
-          pageObjects,
-          teamName,
-          companyPk,
-          unitPk,
-          teamPk
-        );
+        await createTeamMembers(page, pageObjects, teamName);
+        await setupTeamMemberQualifications(page);
+        await setupTeamMemberLeaveSchedules(page);
 
         // Navigate back to company page to access company settings
         await page.goto(`/companies/${companyPk}`);
