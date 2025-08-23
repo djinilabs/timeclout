@@ -1,0 +1,133 @@
+name: Auto Merge
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  check_suite:
+    types: [completed]
+
+jobs:
+  auto-merge:
+    name: Auto Merge PR
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'check_suite' && 
+      github.event.check_suite.conclusion == 'success' &&
+      github.event.check_suite.pull_requests.length > 0
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+      statuses: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get PR details
+        id: pr
+        run: |
+          # Get the first PR from the check suite
+          PR_NUMBER=$(echo '${{ toJSON(github.event.check_suite.pull_requests) }}' | jq -r '.[0].number')
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+          echo "PR number: $PR_NUMBER"
+
+      - name: Check if PR is ready for merge
+        id: check-status
+        run: |
+          PR_NUMBER="${{ steps.pr.outputs.pr_number }}"
+
+          # Get the PR details
+          PR_INFO=$(gh pr view $PR_NUMBER --json mergeable,mergeStateStatus,reviewDecision,labels)
+          echo "PR info: $PR_INFO"
+
+          # Check if PR is mergeable
+          MERGEABLE=$(echo "$PR_INFO" | jq -r '.mergeable')
+          MERGE_STATE=$(echo "$PR_INFO" | jq -r '.mergeStateStatus')
+          REVIEW_DECISION=$(echo "$PR_INFO" | jq -r '.reviewDecision')
+
+          echo "Mergeable: $MERGEABLE"
+          echo "Merge state: $MERGE_STATE"
+          echo "Review decision: $REVIEW_DECISION"
+
+          # Check if PR has required labels (if any)
+          LABELS=$(echo "$PR_INFO" | jq -r '.labels[].name' | tr '\n' ' ')
+          echo "Labels: $LABELS"
+
+          # Check if PR is ready for merge
+          if [ "$MERGEABLE" == "MERGEABLE" ] && [ "$MERGE_STATE" == "CLEAN" ]; then
+            echo "ready=true" >> $GITHUB_OUTPUT
+            echo "PR is ready for merge"
+          else
+            echo "ready=false" >> $GITHUB_OUTPUT
+            echo "PR is not ready for merge"
+            echo "Mergeable: $MERGEABLE, Merge state: $MERGE_STATE"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Wait for all required checks to complete
+        if: steps.check-status.outputs.ready == 'true'
+        run: |
+          PR_NUMBER="${{ steps.pr.outputs.pr_number }}"
+
+          echo "Waiting for all required checks to complete..."
+
+          # Define the required checks based on your workflow structure
+          REQUIRED_CHECKS=("Test" "Deploy PR" "E2E Tests")
+
+          echo "Required checks: ${REQUIRED_CHECKS[*]}"
+
+          # Wait for each required check to complete
+          for check in "${REQUIRED_CHECKS[@]}"; do
+            echo "Waiting for check: $check"
+            
+            # Wait for the check to complete
+            while true; do
+              # Get the latest status for this check
+              STATUS=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }}/statuses | jq -r ".[] | select(.context == \"$check\") | .state" | head -1)
+              
+              if [ "$STATUS" == "success" ]; then
+                echo "✅ Check $check passed"
+                break
+              elif [ "$STATUS" == "failure" ] || [ "$STATUS" == "error" ]; then
+                echo "❌ Check $check failed"
+                exit 1
+              else
+                echo "⏳ Check $check still running (status: $STATUS)"
+                sleep 30
+              fi
+            done
+          done
+
+          echo "All required checks completed successfully"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto merge PR
+        if: steps.check-status.outputs.ready == 'true'
+        run: |
+          PR_NUMBER="${{ steps.pr.outputs.pr_number }}"
+
+          echo "Attempting to merge PR $PR_NUMBER..."
+
+          # Try to merge the PR with squash strategy
+          gh pr merge $PR_NUMBER --auto --squash
+
+          if [ $? -eq 0 ]; then
+            echo "✅ PR $PR_NUMBER merged successfully"
+          else
+            echo "❌ Failed to merge PR $PR_NUMBER"
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on PR
+        if: steps.check-status.outputs.ready == 'true'
+        run: |
+          PR_NUMBER="${{ steps.pr.outputs.pr_number }}"
+
+          gh pr comment $PR_NUMBER --body "🤖 **Auto-merge completed!** This PR has been automatically merged after all required checks passed."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
