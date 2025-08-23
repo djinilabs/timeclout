@@ -328,13 +328,13 @@ jobs:
                 -f state=success \
                 -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
                 -f description="E2E Tests Passed" \
-                -f context="E2E Tests (PR $PR_NUMBER)"
+                -f context="E2E Tests"
             else
               gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
                 -f state=failure \
                 -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
                 -f description="E2E Tests Failed" \
-                -f context="E2E Tests (PR $PR_NUMBER)"
+                -f context="E2E Tests"
             fi
           fi
         env:
