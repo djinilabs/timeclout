@@ -1,0 +1,43 @@
+# Mergify configuration for automatic PR merging
+# This will auto-merge PRs when all required status checks pass
+
+pull_request_rules:
+  - name: Auto-merge when all checks pass
+    conditions:
+      - base=main
+      - check-success=test  # GitHub Actions check name
+      - check-success=deploy  # GitHub Actions check name
+      - status-success~=^E2E Tests.*$  # Status context (handles dynamic naming)
+      - "#approved-reviews-by>=0"  # No approval required for personal repos
+      - "#changes-requested-reviews-by=0"  # No changes requested
+      - "#review-requested=0"  # No pending review requests
+    actions:
+      merge:
+        method: squash
+        commit_message_template: "{{title}} (#{{number}})"
+        delete_branch: true
+
+  - name: Auto-merge with basic checks (fallback)
+    conditions:
+      - base=main
+      - check-success=test
+      - check-success=deploy
+      - "#approved-reviews-by>=0"
+      - "#changes-requested-reviews-by=0"
+      - "#review-requested=0"
+    actions:
+      merge:
+        method: squash
+        commit_message_template: "{{title}} (#{{number}})"
+        delete_branch: true
+
+# Queue configuration for handling multiple PRs
+queue_rules:
+  - name: main-queue
+    conditions:
+      - base=main
+    queue_conditions:
+      - check-success=test
+      - check-success=deploy
+      - status-success~=^E2E Tests.*$
+    speculative_checks: 3  # Run checks on multiple PRs in parallel
