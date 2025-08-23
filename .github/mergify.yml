@@ -5,8 +5,7 @@ pull_request_rules:
   - name: Auto-merge when all checks pass
     conditions:
       - base=main
-      - check-success=Test
-      - check-success=Deploy PR
+      - check-success=test
     actions:
       merge:
         method: squash
