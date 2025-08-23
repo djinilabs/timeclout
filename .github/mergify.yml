@@ -17,11 +17,9 @@ pull_request_rules:
         method: squash
         commit_message_template: "{{title}} (#{{number}})"
 
-# Simple queue rule for testing
+# Queue configuration for handling multiple PRs
 queue_rules:
   - name: main-queue
-    conditions:
-      - base=main
     queue_conditions:
       - check-success=test # GitHub Actions check name
       - check-success=deploy # GitHub Actions check name
