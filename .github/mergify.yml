@@ -2,16 +2,16 @@
 # This will auto-merge PRs when all required status checks pass
 #
 # Status check names from your workflows:
-# - GitHub Actions: check-success=Test, check-success=Deploy PR (workflow names)
-# - E2E Tests: status-success~=^E2E Tests.*$ (pattern for dynamic naming)
+# - GitHub Actions: check-success=test, check-success=deploy, check-success=Run E2E Tests
+# - All checks are GitHub Actions CheckRuns (not StatusContexts)
 
 pull_request_rules:
   - name: Auto-merge when all checks pass
     conditions:
       - base=main
-      - check-success=Test / test # GitHub Actions workflow / job name
-      - check-success=Deploy PR / deploy # GitHub Actions workflow / job name
-      - status-success~=^E2E Tests.*$ # Status context pattern
+      - check-success=test # GitHub Actions check name
+      - check-success=deploy # GitHub Actions check name
+      - check-success=Run E2E Tests # GitHub Actions check name
     actions:
       merge:
         method: squash
@@ -21,6 +21,6 @@ pull_request_rules:
 queue_rules:
   - name: main-queue
     queue_conditions:
-      - check-success=Test / test # GitHub Actions workflow / job name
-      - check-success=Deploy PR / deploy # GitHub Actions workflow / job name
-      - status-success~=^E2E Tests.*$ # Status context pattern
+      - check-success=test # GitHub Actions check name
+      - check-success=deploy # GitHub Actions check name
+      - check-success=Run E2E Tests # GitHub Actions check name
