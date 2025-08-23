@@ -1,26 +1,14 @@
 # Mergify configuration for automatic PR merging
 # This will auto-merge PRs when all required status checks pass
-#
-# Status check names from your workflows:
-# - GitHub Actions: check-success=Test, check-success=Deploy PR, check-success=E2E Tests
-# - Using workflow names instead of check names
 
 pull_request_rules:
   - name: Auto-merge when all checks pass
     conditions:
       - base=main
-      - check-success=Test # GitHub Actions workflow name
-      - check-success=Deploy PR # GitHub Actions workflow name
-      - check-success=E2E Tests # GitHub Actions workflow name
+      - check-success=Test
+      - check-success=Deploy PR
+      - check-success=E2E Tests
     actions:
       merge:
         method: squash
         commit_message_template: "{{title}} (#{{number}})"
-
-# Queue configuration for handling multiple PRs
-queue_rules:
-  - name: main-queue
-    queue_conditions:
-      - check-success=Test # GitHub Actions workflow name
-      - check-success=Deploy PR # GitHub Actions workflow name
-      - check-success=E2E Tests # GitHub Actions workflow name
