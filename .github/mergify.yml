@@ -5,9 +5,9 @@ pull_request_rules:
   - name: Auto-merge when all checks pass
     conditions:
       - base=main
-      - status-success=test
-      - status-success=deploy
-      - status-success=Run E2E Tests
+      - check-success=test
+      - check-success=deploy
+      - status-success=E2E Tests (PR 199)
     actions:
       merge:
         method: squash
