@@ -35,6 +35,7 @@ jobs:
     permissions:
       checks: write
       pull-requests: write
+      contents: read
 
     # Cancel in-progress runs when new commits are pushed (only for PR runs)
     concurrency:
