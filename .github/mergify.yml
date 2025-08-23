@@ -9,14 +9,13 @@ pull_request_rules:
   - name: Auto-merge when all checks pass
     conditions:
       - base=main
-      - check-success=test  # GitHub Actions check name (not workflow name)
-      - check-success=deploy  # GitHub Actions check name (not workflow name)
-      - status-success~=^E2E Tests.*$  # Status context pattern
+      - check-success=test # GitHub Actions check name (not workflow name)
+      - check-success=deploy # GitHub Actions check name (not workflow name)
+      - status-success~=^E2E Tests.*$ # Status context pattern
     actions:
       merge:
         method: squash
         commit_message_template: "{{title}} (#{{number}})"
-        delete_branch: true
 
 # Simple queue rule for testing
 queue_rules:
@@ -24,6 +23,6 @@ queue_rules:
     conditions:
       - base=main
     queue_conditions:
-      - check-success=test  # GitHub Actions check name
-      - check-success=deploy  # GitHub Actions check name
-      - status-success~=^E2E Tests.*$  # Status context pattern
+      - check-success=test # GitHub Actions check name
+      - check-success=deploy # GitHub Actions check name
+      - status-success~=^E2E Tests.*$ # Status context pattern
