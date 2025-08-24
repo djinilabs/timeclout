@@ -102,6 +102,8 @@ export const CreateOrEditScheduleDayTemplate: FC<
     undefined,
     undefined,
     undefined,
+    undefined,
+    undefined,
     undefined
   >({
     defaultValues: useMemo(

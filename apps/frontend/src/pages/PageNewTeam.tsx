@@ -19,18 +19,10 @@ export const PageNewTeam = () => {
     Mutation["createTeam"],
     MutationCreateTeamArgs
   >(createTeamMutation);
-  const form = useForm<
-    { "team-name": string },
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined
-  >({
+  const form = useForm({
+    defaultValues: {
+      "team-name": "",
+    },
     onSubmit: async ({ value }) => {
       const response = await createTeam({
         unitPk: getDefined(unitPk, "No unit provided"),
