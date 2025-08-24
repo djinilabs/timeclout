@@ -1,194 +1,105 @@
 # GitHub Workflows
 
-This directory contains GitHub Actions workflows for automated testing and deployment.
+This directory contains GitHub Actions workflows for the tt3 project.
 
-## E2E Tests Workflow
+## Workflows
 
-The `e2e-tests.yml` workflow automatically runs end-to-end tests on pull requests and pushes to main/develop branches.
+### Test (`test.yml`)
+Runs on every push to main and pull request. Executes:
+- Type checking
+- Linting
+- Unit tests
+- Build verification
 
-### What it does
+### Deploy PR (`deploy-pr.yml`)
+Runs on pull request events. Deploys the PR to a preview environment and triggers E2E tests.
 
-- **Triggers**: Runs on PR creation, updates, and pushes to main/develop branches
-- **Environment**: Ubuntu latest with Node.js 20 and pnpm 8
-- **Tests**: Executes Playwright e2e tests against the built frontend
-- **Reporting**: Uploads test results and generates PR comments with test summaries
+### E2E Tests (`e2e-tests.yml`)
+Runs end-to-end tests against the deployed PR environment. Can be triggered manually or automatically by the Deploy PR workflow.
 
-### Setup Requirements
+### Deploy Production (`deploy-prod.yml`)
+Deploys to production when changes are merged to main.
 
-#### 1. Repository Secrets
+### PR Undeploy (`pr-undeploy.yml`)
+Cleans up PR deployments when PRs are closed.
 
-You need to add the following secret to your GitHub repository:
+### Auto Merge (`auto-merge.yml`)
+Automatically merges pull requests when all required checks pass.
 
-- **`MAILSLURP_API_KEY`**: Your Mailslurp API key for email testing
-  - Get a free API key from [Mailslurp](https://www.mailslurp.com/)
-  - This is required for magic link login tests
+## Auto-Merge Setup
 
-#### 2. Setting up the secret
+To enable automatic merging of pull requests, follow these steps:
 
-1. Go to your GitHub repository
-2. Click on **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret**
-4. Name: `MAILSLURP_API_KEY`
-5. Value: Your Mailslurp API key
-6. Click **Add secret**
+### 1. Branch Protection Rules
 
-### Workflow Features
+In your GitHub repository settings, go to **Settings > Branches** and add a branch protection rule for the `main` branch:
 
-#### Concurrency Control
+- **Require a pull request before merging**: ✅ Enabled
+- **Require approvals**: Set to at least 1 (or your preferred number)
+- **Dismiss stale PR approvals when new commits are pushed**: ✅ Enabled
+- **Require status checks to pass before merging**: ✅ Enabled
+- **Require branches to be up to date before merging**: ✅ Enabled
 
-- Cancels in-progress runs when new commits are pushed
-- Prevents multiple test runs from conflicting
+**Required status checks** (add these in order):
+1. `Test` - The main test workflow
+2. `Deploy PR` - The PR deployment workflow  
+3. `E2E Tests` - The E2E testing workflow
 
-#### Caching
+### 2. Workflow Permissions
 
-- Caches pnpm dependencies for faster builds
-- Caches Playwright browsers between runs
+The auto-merge workflow requires these permissions:
+- `contents: write` - To merge PRs
+- `pull-requests: write` - To update PR status
+- `checks: read` - To read check statuses
+- `statuses: read` - To read commit statuses
 
-#### Test Results
+### 3. How It Works
 
-- Uploads test artifacts (screenshots, videos, traces)
-- Generates detailed test reports
-- Comments on PRs with test summaries
+1. When a PR is opened, the `Test` workflow runs
+2. If tests pass, the `Deploy PR` workflow runs and deploys the PR
+3. The `Deploy PR` workflow triggers the `E2E Tests` workflow
+4. When all three workflows pass, the `Auto Merge` workflow runs
+5. The `Auto Merge` workflow waits for all required status checks to complete
+6. If all checks pass and the PR is mergeable, it automatically merges the PR
 
-#### Environment Configuration
+### 4. Required Checks
 
-- Automatically sets up test environment variables
-- Configures CI-specific settings (headless mode, timeouts, etc.)
+The auto-merge workflow expects these status checks to pass:
+- **Test**: Type checking, linting, unit tests, and build
+- **Deploy PR**: PR deployment to preview environment
+- **E2E Tests**: End-to-end tests against the deployed PR
 
-### Workflow Steps
+### 5. Troubleshooting
 
-1. **Checkout**: Gets the latest code
-2. **Setup**: Installs Node.js, pnpm, and dependencies
-3. **Build**: Builds the frontend application
-4. **Configure**: Sets up test environment variables
-5. **Test**: Runs Playwright e2e tests
-6. **Report**: Uploads results and comments on PRs
+If auto-merge isn't working:
 
-### Test Configuration
+1. **Check branch protection rules**: Ensure all required status checks are properly configured
+2. **Verify workflow names**: The status check names must exactly match: "Test", "Deploy PR", "E2E Tests"
+3. **Check permissions**: Ensure the workflow has the necessary permissions
+4. **Review PR status**: The PR must be mergeable and have a clean merge state
+5. **Check for conflicts**: The PR must not have merge conflicts
 
-The workflow automatically configures:
+### 6. Manual Override
 
-- `CI=true` for CI-specific behavior
-- `HEADLESS=true` for headless browser execution
-- `BROWSER=chromium` for consistent testing
-- Appropriate timeouts for CI environment
-- Mailslurp API key from repository secrets
+If you need to manually merge a PR that has passed all checks:
+1. Go to the PR page
+2. Click the merge button
+3. The auto-merge workflow will not interfere with manual merges
 
-### Troubleshooting
+## Workflow Dependencies
 
-#### Tests failing in CI
-
-- Check that `MAILSLURP_API_KEY` secret is properly set
-- Verify the frontend builds successfully
-- Check test logs for specific error messages
-
-#### Missing test results
-
-- Ensure tests are completing (not timing out)
-- Check that test output directories exist
-- Verify Playwright configuration is correct
-
-#### Performance issues
-
-- The workflow uses caching to speed up builds
-- Consider adjusting timeouts if tests are slow in CI
-- Monitor resource usage on GitHub Actions runners
-
-### Customization
-
-You can modify the workflow to:
-
-- Add more test environments (different browsers, OS)
-- Include additional build steps
-- Modify test execution parameters
-- Add notifications (Slack, email, etc.)
-- Change trigger conditions
-
-## Discord Notifications
-
-All workflows now include automatic Discord notifications via the reusable `discord-notification` action.
-
-### What it does
-
-- **Automatic Notifications**: Sends notifications for all workflow runs (success, failure, cancelled)
-- **Rich Information**: Includes workflow status, PR details, commit information, and run links
-- **Smart Context**: Automatically detects PR information and event types
-- **Consistent Format**: Uses standardized Discord embeds across all workflows
-
-### Setup Requirements
-
-#### 1. Discord Webhook
-
-You need to create a Discord webhook and add it as a repository secret:
-
-1. **Create Discord Webhook**:
-
-   - Go to your Discord server
-   - Right-click on a channel → "Edit Channel"
-   - Go to "Integrations" → "Webhooks"
-   - Click "New Webhook"
-   - Copy the webhook URL
-
-2. **Add Repository Secret**:
-   - Go to your GitHub repository
-   - Click on **Settings** → **Secrets and variables** → **Actions**
-   - Click **New repository secret**
-   - Name: `DISCORD_CI_WEBHOOK_URL`
-   - Value: Your Discord webhook URL
-   - Click **Add secret**
-
-### Integration
-
-The Discord notification action is automatically integrated into:
-
-- **`e2e-tests.yml`** - E2E test results
-- **`deploy-pr.yml`** - PR deployment status
-- **`deploy-prod.yml`** - Production deployment status
-- **`test.yml`** - Test workflow results
-- **`pr-undeploy.yml`** - PR cleanup status
-
-### Notification Features
-
-- **Status Colors**:
-
-  - ✅ Success (Green)
-  - ❌ Failure (Red)
-  - ⏹️ Cancelled (Gray)
-  - 🔄 Other (Blue)
-
-- **Information Displayed**:
-  - Workflow name and status
-  - Run ID with GitHub Actions link
-  - PR details (when applicable)
-  - Commit information
-  - Repository and branch details
-  - Timestamp
-
-### Customization
-
-The action supports various event types and automatically adapts:
-
-- Pull request events
-- Push events
-- Manual workflow dispatches
-- Workflow run events
-
-For custom workflows, you can use the action directly:
-
-```yaml
-- name: Send Discord notification
-  if: always()
-  uses: ./.github/actions/discord-notification
-  with:
-    webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
-    workflow_name: ${{ github.workflow }}
-    job_status: ${{ job.status }}
-    # ... other required inputs
+```
+Pull Request → Test → Deploy PR → E2E Tests → Auto Merge
+     ↓           ↓         ↓         ↓         ↓
+   Opened    Typecheck  Deploy   Run Tests  Merge PR
+             Lint       Preview  Validate   (if all pass)
+             Test       PR       Functionality
+             Build      Environment
 ```
 
-### Security Notes
+## Security Considerations
 
-- Never commit API keys or sensitive data
-- Use repository secrets for all sensitive configuration
-- The workflow runs in isolated environments
-- Test artifacts are automatically cleaned up after 30 days
+- The auto-merge workflow only runs when all required checks pass
+- It respects branch protection rules and required approvals
+- It won't merge PRs with conflicts or failed checks
+- The workflow logs all actions for audit purposes
