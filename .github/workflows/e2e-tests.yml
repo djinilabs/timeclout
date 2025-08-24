@@ -357,7 +357,7 @@ jobs:
           # Trigger the auto-merge workflow
           gh workflow run auto-merge.yml \
             --field pr_number="$PR_NUMBER" \
-            --ref ${{ github.head_ref }}
+            --ref main
 
           echo "Auto-merge workflow triggered successfully"
         env:
