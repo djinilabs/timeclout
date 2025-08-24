@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.event == 'pull_request'
+      github.event.workflow_run.event == 'workflow_dispatch'
     permissions:
       contents: write
       pull-requests: write
@@ -20,6 +20,23 @@ jobs:
       actions: read
 
     steps:
+      - name: Debug workflow run event
+        run: |
+          echo "=== Workflow Run Event Debug ==="
+          echo "Event name: ${{ github.event_name }}"
+          echo "Workflow run ID: ${{ github.event.workflow_run.id }}"
+          echo "Workflow run name: ${{ github.event.workflow_run.name }}"
+          echo "Workflow run conclusion: ${{ github.event.workflow_run.conclusion }}"
+          echo "Workflow run event: ${{ github.event.workflow_run.event }}"
+          echo "Workflow run head SHA: ${{ github.event.workflow_run.head_sha }}"
+          echo "Workflow run head branch: ${{ github.event.workflow_run.head_branch }}"
+          echo "Workflow run repository: ${{ github.event.workflow_run.repository.full_name }}"
+          echo "Workflow run head repository: ${{ github.event.workflow_run.head_repository.full_name }}"
+          echo "Workflow run actor: ${{ github.event.workflow_run.actor.login }}"
+          echo "Workflow run created at: ${{ github.event.workflow_run.created_at }}"
+          echo "Workflow run updated at: ${{ github.event.workflow_run.updated_at }}"
+          echo "================================="
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -31,7 +48,19 @@ jobs:
 
           # Get the PR details from the workflow run
           WORKFLOW_RUN_INFO=$(gh api repos/${{ github.repository }}/actions/runs/$WORKFLOW_RUN_ID)
-          PR_NUMBER=$(echo "$WORKFLOW_RUN_INFO" | jq -r '.pull_requests[0].number // empty')
+          echo "Workflow run info: $WORKFLOW_RUN_INFO"
+
+          # Try to get PR number from the workflow run inputs
+          PR_NUMBER=$(echo "$WORKFLOW_RUN_INFO" | jq -r '.inputs.pull_request_number // empty')
+
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No PR number found in workflow inputs, trying to find PR by head SHA..."
+            HEAD_SHA="${{ github.event.workflow_run.head_sha }}"
+            
+            # Find PR by head SHA
+            PR_INFO=$(gh api repos/${{ github.repository }}/commits/$HEAD_SHA/pulls)
+            PR_NUMBER=$(echo "$PR_INFO" | jq -r '.[0].number // empty')
+          fi
 
           if [ -z "$PR_NUMBER" ]; then
             echo "No PR found for this workflow run"
