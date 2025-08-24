@@ -2,7 +2,7 @@ import { FC, memo, ReactNode, useCallback } from "react";
 
 import { Dialog } from "../atoms/Dialog";
 
-export interface ConfirmDialogProps {
+export interface ConfirmDialogProperties {
   open: boolean;
   onClose: () => void;
   onConfirm?: () => void;
@@ -12,7 +12,7 @@ export interface ConfirmDialogProps {
   cancelText?: ReactNode;
 }
 
-export const ConfirmDialog: FC<ConfirmDialogProps> = memo(
+export const ConfirmDialog: FC<ConfirmDialogProperties> = memo(
   ({
     open,
     onClose,

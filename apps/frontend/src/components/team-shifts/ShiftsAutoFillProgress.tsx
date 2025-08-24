@@ -15,7 +15,7 @@ import { getDefined } from "@/utils";
 
 
 
-export interface ShiftsAutoFillProgressProps {
+export interface ShiftsAutoFillProgressProperties {
   startDate?: DayDate;
   endDate?: DayDate;
   progress: SchedulerState;
@@ -31,24 +31,24 @@ export const ShiftsAutoFillProgress = ({
   shiftPositions,
   canAssignShiftPositions,
   onAssignShiftPositions,
-}: ShiftsAutoFillProgressProps) => {
+}: ShiftsAutoFillProgressProperties) => {
   const { team, company } = useParams();
 
   // problematic slots
   const { computed, problemInSlotIds, discardedReasons } = progress;
 
   const totalDiscarded = useMemo(() => {
-    return Array.from(discardedReasons.values()).reduce(
-      (acc, count) => acc + count,
+    return [...discardedReasons.values()].reduce(
+      (accumulator, count) => accumulator + count,
       0
     );
   }, [discardedReasons]);
 
   const problemInShiftPosition = useMemo(() => {
     if (computed > totalDiscarded) {
-      return undefined;
+      return;
     }
-    const mostProblematicShiftPositionId = Array.from(problemInSlotIds).reduce<
+    const mostProblematicShiftPositionId = [...problemInSlotIds].reduce<
       [number, string]
     >(
       ([maxCount, maxId], [id, count]) => {
@@ -71,7 +71,7 @@ export const ShiftsAutoFillProgress = ({
   }, [problemInShiftPosition]);
 
   const discardedReasonsList = useMemo(() => {
-    return Array.from(discardedReasons.entries()).map(([reason, count]) => ({
+    return [...discardedReasons.entries()].map(([reason, count]) => ({
       reason,
       count,
     }));

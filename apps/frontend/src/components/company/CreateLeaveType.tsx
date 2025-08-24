@@ -3,11 +3,11 @@ import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
-  CompanySettingsArgs,
+  CompanySettingsArgs as CompanySettingsArguments,
   Mutation,
-  MutationUpdateCompanySettingsArgs,
+  MutationUpdateCompanySettingsArgs as MutationUpdateCompanySettingsArguments,
   Query,
- QueryCompanyArgs } from "../../graphql/graphql";
+ QueryCompanyArgs as QueryCompanyArguments } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
 import { LeaveTypeEditor } from "../molecules/LeaveTypeEditor";
@@ -23,7 +23,7 @@ export const CreateLeaveType = () => {
   const navigate = useNavigate();
   const [companyWithSettingsQueryResponse] = useQuery<
     { company: Query["company"] },
-    QueryCompanyArgs & CompanySettingsArgs
+    QueryCompanyArguments & CompanySettingsArguments
   >({
     query: companyWithSettingsQuery,
     variables: {
@@ -34,7 +34,7 @@ export const CreateLeaveType = () => {
 
   const [, updateCompanySettings] = useMutation<
     Mutation["updateCompanySettings"],
-    MutationUpdateCompanySettingsArgs
+    MutationUpdateCompanySettingsArguments
   >(updateCompanySettingsMutation);
 
   const company = companyWithSettingsQueryResponse?.data?.company;

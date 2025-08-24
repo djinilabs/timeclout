@@ -7,12 +7,12 @@ import ReactTimeAgo from "react-time-ago";
 import { LeaveRequest } from "../../graphql/graphql";
 import { Avatar } from "../particles/Avatar";
 
-export interface LeaveRequestsProps {
+export interface LeaveRequestsProperties {
   leaveRequests?: LeaveRequest[];
   showState?: boolean;
 }
 
-export const LeaveRequests: FC<LeaveRequestsProps> = ({
+export const LeaveRequests: FC<LeaveRequestsProperties> = ({
   leaveRequests,
   showState,
 }) => {

@@ -11,10 +11,10 @@ import { resourceRef } from "@/utils";
 
 
 
-export const publishShiftPositions: NonNullable<MutationResolvers['publishShiftPositions']> = async (_parent, { input }, ctx) => {
+export const publishShiftPositions: NonNullable<MutationResolvers['publishShiftPositions']> = async (_parent, { input }, context) => {
   const { team, startDay, endDay } = input;
   const pk = resourceRef("teams", team);
-  await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
+  await ensureAuthorized(context, pk, PERMISSION_LEVELS.WRITE);
 
   console.log("unassign shift positions", pk, startDay, endDay);
 

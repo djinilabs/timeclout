@@ -6,7 +6,7 @@ import { i18n } from "@/locales";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef , getDefined } from "@/utils";
 
-export interface AcceptInvitationArgs {
+export interface AcceptInvitationArguments {
   user: {
     pk: string;
     email: string;
@@ -17,7 +17,7 @@ export interface AcceptInvitationArgs {
 export const acceptInvitation = async ({
   user,
   secret,
-}: AcceptInvitationArgs) => {
+}: AcceptInvitationArguments) => {
   const { invitation, entity } = await database();
   const { items: invitations } = await invitation.query({
     IndexName: "bySecret",

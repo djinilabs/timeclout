@@ -14,14 +14,14 @@ export const evaluateSchedule = (
   }));
 
   const priorityMultiplierSum = heuristicScores.reduce(
-    (acc, { priorityMultiplier }) => acc + (priorityMultiplier ?? 1),
+    (accumulator, { priorityMultiplier }) => accumulator + (priorityMultiplier ?? 1),
     0
   );
 
   const finalScore =
     heuristicScores.reduce(
-      (acc, { score, priorityMultiplier }) =>
-        acc + score * (priorityMultiplier ?? 1),
+      (accumulator, { score, priorityMultiplier }) =>
+        accumulator + score * (priorityMultiplier ?? 1),
       0
     ) / priorityMultiplierSum;
 

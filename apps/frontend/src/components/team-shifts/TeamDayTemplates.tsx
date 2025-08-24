@@ -16,7 +16,7 @@ import { Hint } from "../particles/Hint";
 
 import { ScheduleDayTemplate, type SchedulePositionTemplate } from "@/settings";
 
-export interface TeamDayTemplatesProps {
+export interface TeamDayTemplatesProperties {
   teamPk: string;
   onCreateTemplate: () => void;
 }
@@ -54,7 +54,7 @@ const convertTemplateToAnalyzedShiftPosition = (
   };
 };
 
-export const TeamDayTemplates: FC<TeamDayTemplatesProps> = ({
+export const TeamDayTemplates: FC<TeamDayTemplatesProperties> = ({
   teamPk,
   onCreateTemplate,
 }) => {

@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 
-import { QueryTeamArgs, Team, User } from "../../graphql/graphql";
+import { QueryTeamArgs as QueryTeamArguments, Team, User } from "../../graphql/graphql";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
@@ -28,7 +28,7 @@ import { getDefined } from "@/utils";
 export const TeamMembers = () => {
   const { company, unit, team: teamPk } = useParams();
 
-  const [queryResponse] = useQuery<{ team: Team }, QueryTeamArgs>({
+  const [queryResponse] = useQuery<{ team: Team }, QueryTeamArguments>({
     query: teamWithMembersQuery,
     variables: {
       teamPk: getDefined(teamPk, "No team provided"),

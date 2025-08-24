@@ -12,7 +12,7 @@ import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPo
 
 import { DayDate } from "@/day-date";
 
-export interface CreateOrEditScheduleShiftPositionDialogProps {
+export interface CreateOrEditScheduleShiftPositionDialogProperties {
   isDialogOpen: boolean;
   setIsDialogOpen: (isDialogOpen: boolean) => void;
   isHelpPanelOpen: boolean;
@@ -34,7 +34,7 @@ export const CreateOrEditScheduleShiftPositionDialog = ({
   setIsHelpPanelOpen,
   helpPanelOpen,
   setHelpPanelOpen,
-}: CreateOrEditScheduleShiftPositionDialogProps) => {
+}: CreateOrEditScheduleShiftPositionDialogProperties) => {
   const { createShiftPosition, updateShiftPosition } = useTeamShiftActions();
 
   return (
@@ -58,13 +58,13 @@ export const CreateOrEditScheduleShiftPositionDialog = ({
             editingShiftPosition={editingShiftPosition}
             day={focusedDay ?? selectedMonth}
             onCancel={() => setIsDialogOpen(false)}
-            onCreate={async (params) => {
-              if (await createShiftPosition(params)) {
+            onCreate={async (parameters) => {
+              if (await createShiftPosition(parameters)) {
                 setIsDialogOpen(false);
               }
             }}
-            onUpdate={async (params) => {
-              if (await updateShiftPosition(params)) {
+            onUpdate={async (parameters) => {
+              if (await updateShiftPosition(parameters)) {
                 setIsDialogOpen(false);
               }
             }}

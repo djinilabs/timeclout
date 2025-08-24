@@ -14,7 +14,7 @@ import { ShiftPosition } from "../atoms/ShiftPosition";
 import { ScheduleDayTemplate, SchedulePositionTemplate } from "@/settings";
 import { getDefined } from "@/utils";
 
-export interface CreateOrEditScheduleDayTemplateDialogProps {
+export interface CreateOrEditScheduleDayTemplateDialogProperties {
   onClose: () => void;
   teamPk: string;
 }
@@ -79,7 +79,7 @@ const convertTemplateToAnalyzedShiftPosition = (
 };
 
 export const CreateOrEditScheduleDayTemplate: FC<
-  CreateOrEditScheduleDayTemplateDialogProps
+  CreateOrEditScheduleDayTemplateDialogProperties
 > = ({ onClose, teamPk }) => {
   const { teamShiftPositionTemplates } = useTeamShiftPositionTemplates(teamPk);
   const [dragging, setDragging] = useState<SchedulePositionTemplate | null>(
@@ -168,7 +168,7 @@ export const CreateOrEditScheduleDayTemplate: FC<
             contains.length + 1
           })`;
         }
-        setSelectedTemplates((prev) => [...prev, draggedTemplate]);
+        setSelectedTemplates((previous) => [...previous, draggedTemplate]);
       }
       setDragging(null);
     },
@@ -177,8 +177,8 @@ export const CreateOrEditScheduleDayTemplate: FC<
 
   const removeTemplate = useCallback(
     (templateToRemove: SchedulePositionTemplate) => {
-      setSelectedTemplates((prev) =>
-        prev.filter((t) => t.name !== templateToRemove.name)
+      setSelectedTemplates((previous) =>
+        previous.filter((t) => t.name !== templateToRemove.name)
       );
     },
     []
@@ -187,8 +187,8 @@ export const CreateOrEditScheduleDayTemplate: FC<
   return (
     <div>
       <form
-        onSubmit={(ev) => {
-          ev.preventDefault();
+        onSubmit={(event_) => {
+          event_.preventDefault();
           form.handleSubmit();
         }}
         role="form"

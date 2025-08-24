@@ -12,16 +12,16 @@ import { resourceRef } from "@/utils";
 export const teamMember: NonNullable<QueryResolvers["teamMember"]> = async (
   _parent,
   { teamPk, memberPk },
-  ctx
+  context
 ) => {
-  const teamRef = resourceRef("teams", teamPk);
+  const teamReference = resourceRef("teams", teamPk);
   // ensure user has write access to team
-  await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
+  await ensureAuthorized(context, teamReference, PERMISSION_LEVELS.WRITE);
   const { entity } = await database();
-  const userRef = resourceRef("users", memberPk);
+  const userReference = resourceRef("users", memberPk);
   const [isAuthorized, , permission] = await isUserAuthorized(
-    userRef,
-    teamRef,
+    userReference,
+    teamReference,
     PERMISSION_LEVELS.READ
   );
   if (!isAuthorized) {
@@ -29,7 +29,7 @@ export const teamMember: NonNullable<QueryResolvers["teamMember"]> = async (
   }
 
   return {
-    ...((await entity.get(userRef)) as unknown as User),
+    ...((await entity.get(userReference)) as unknown as User),
     resourcePermission: permission,
   };
 };

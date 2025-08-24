@@ -22,7 +22,7 @@ export const generateAccessibilityObjectModel = (
 
     // Process children first
     const children: AccessibleElement[] = [];
-    for (const child of Array.from(element.children)) {
+    for (const child of element.children) {
       children.push(...traverseElement(child));
     }
 
@@ -32,24 +32,26 @@ export const generateAccessibilityObjectModel = (
       const ariaAttributes: Record<string, string> = {};
       const ariaPrefix = "aria-";
       let hidden = false;
-      for (const attr of element.attributes) {
-        if (attr.name.startsWith(ariaPrefix)) {
+      for (const attribute of element.attributes) {
+        if (attribute.name.startsWith(ariaPrefix)) {
           // Remove 'aria-' prefix and use the rest as the property name
-          const propertyName = attr.name.slice(ariaPrefix.length);
+          const propertyName = attribute.name.slice(ariaPrefix.length);
           if (propertyName === "hidden") {
             hidden = true;
             break;
           }
-          const value = element.getAttribute(attr.name);
-          if (value && !avoidAriaAttributes.has(propertyName)) {
-            if (propertyName !== "label" || value !== description) {
-              ariaAttributes[propertyName] = value;
-            }
+          const value = element.getAttribute(attribute.name);
+          if (
+            value &&
+            !avoidAriaAttributes.has(propertyName) &&
+            (propertyName !== "label" || value !== description)
+          ) {
+            ariaAttributes[propertyName] = value;
           }
-        } else if (relevantNonARIAAttributes.has(attr.name)) {
-          const value = element.getAttribute(attr.name);
+        } else if (relevantNonARIAAttributes.has(attribute.name)) {
+          const value = element.getAttribute(attribute.name);
           if (value !== null) {
-            ariaAttributes[attr.name] = value;
+            ariaAttributes[attribute.name] = value;
           }
         }
       }
@@ -74,18 +76,16 @@ export const generateAccessibilityObjectModel = (
 
   // Start traversal from document body
   const accessibleChildren = traverseElement(document.body);
-  let rootElement: AccessibleElement;
-  if (accessibleChildren.length === 1) {
-    rootElement = accessibleChildren[0];
-  } else {
-    rootElement = {
-      role: "root",
-      description: "root",
-      attributes: {},
-      children: accessibleChildren.length > 0 ? accessibleChildren : null,
-      domElement: includeDomElement ? document.body : undefined,
-    };
-  }
+  const rootElement: AccessibleElement =
+    accessibleChildren.length === 1
+      ? accessibleChildren[0]
+      : {
+          role: "root",
+          description: "root",
+          attributes: {},
+          children: accessibleChildren.length > 0 ? accessibleChildren : null,
+          domElement: includeDomElement ? document.body : undefined,
+        };
 
   return {
     root: rootElement,

@@ -8,14 +8,14 @@ import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { FC, memo, useCallback } from "react";
 
-export interface ListBoxProps<TKey extends string | number = string | number> {
+export interface ListBoxProperties<TKey extends string | number = string | number> {
   options: { key: TKey; value: string }[];
   selected: TKey | undefined;
   onChange: (option: TKey) => void;
   label?: string;
 }
 
-export const ListBox: FC<ListBoxProps> = memo(
+export const ListBox: FC<ListBoxProperties> = memo(
   ({ options, selected, onChange, label = "Select an option" }) => {
     const selectedOption = options.find((option) => option.key == selected);
 

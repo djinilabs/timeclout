@@ -10,10 +10,10 @@ import { resourceRef } from "@/utils";
 
 export const me: NonNullable<QueryResolvers["me"]> = async (
   _parent,
-  _arg,
-  _ctx
+  _argument,
+  _context
 ) => {
-  const session = await requireSession(_ctx);
+  const session = await requireSession(_context);
   const userId = session.user?.id;
   if (!userId) {
     throw notFound(i18n._("User not found"));

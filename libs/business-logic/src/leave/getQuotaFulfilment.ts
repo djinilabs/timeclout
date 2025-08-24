@@ -12,7 +12,7 @@ export interface SimulatedLeave {
   endDate: DayDate;
 }
 
-export interface QuotaFulfilmentParams {
+export interface QuotaFulfilmentParameters {
   companyRef: ResourceRef<"companies">;
   userRef: ResourceRef<"users">;
   startDate: DayDate;
@@ -58,7 +58,7 @@ export const getQuotaFulfilment = async ({
   endDate,
   simulatesLeave,
   simulatesLeaveType,
-}: QuotaFulfilmentParams): Promise<QuotaFulfilment[]> => {
+}: QuotaFulfilmentParameters): Promise<QuotaFulfilment[]> => {
   const defaultYearlyQuota = getDefined(
     await getEntitySettings<"yearlyQuota">(companyRef, "yearlyQuota"),
     "No yearly quota found in company settings"

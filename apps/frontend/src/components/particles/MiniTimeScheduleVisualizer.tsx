@@ -14,9 +14,9 @@ export interface TimeSchedule {
 const getPercentageOfDays = (schedules: TimeSchedule[]) => {
   const finalHour =
     toMinutes(schedules[0]?.startHourMinutes) +
-    schedules.reduce((acc, schedule) => {
+    schedules.reduce((accumulator, schedule) => {
       return (
-        acc +
+        accumulator +
         toMinutes(schedule.endHourMinutes) -
         toMinutes(schedule.startHourMinutes)
       );
@@ -28,13 +28,13 @@ const getPrintableEndHour = (endHour: number) => {
   return endHour === 0 ? 24 : endHour;
 };
 
-interface ScheduleBarProps {
+interface ScheduleBarProperties {
   schedules: TimeSchedule[];
   totalMinutes: number;
   marginLeftAccordingToSchedule?: boolean;
 }
 
-const ScheduleBar: FC<ScheduleBarProps> = ({
+const ScheduleBar: FC<ScheduleBarProperties> = ({
   schedules,
   totalMinutes,
   marginLeftAccordingToSchedule = true,
@@ -104,12 +104,12 @@ const ScheduleBar: FC<ScheduleBarProps> = ({
 
 ScheduleBar.displayName = "ScheduleBar";
 
-export interface TimeScheduleVisualizerProps {
+export interface TimeScheduleVisualizerProperties {
   schedules: TimeSchedule[];
   marginLeftAccordingToSchedule?: boolean;
 }
 
-export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
+export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProperties> = memo(
   function MiniTimeScheduleVisualizer({
     schedules,
     marginLeftAccordingToSchedule = true,
@@ -124,14 +124,14 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
 
       const startTime = toMinutes(schedules[0]?.startHourMinutes);
       const latestTime = toMinutes(
-        schedules[schedules.length - 1]?.endHourMinutes
+        schedules.at(-1)?.endHourMinutes
       );
       const totalMinutes = latestTime;
       const startPercent = Math.round((startTime / totalMinutes) * 100);
 
       const totalInconvenience = schedules.reduce(
-        (acc, schedule) =>
-          acc +
+        (accumulator, schedule) =>
+          accumulator +
           schedule.inconveniencePerHour *
             (schedule.endHourMinutes[0] +
               schedule.endHourMinutes[1] / 60 -
@@ -153,7 +153,7 @@ export const MiniTimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
     }
 
     const firstSchedule = schedules[0];
-    const lastSchedule = schedules[schedules.length - 1];
+    const lastSchedule = schedules.at(-1);
 
     return (
       <div

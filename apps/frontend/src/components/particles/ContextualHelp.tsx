@@ -16,17 +16,17 @@ import { HelpSection } from "../contextual-help/types";
 
 export const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();
-  const [searchParams] = useSearchParams();
+  const [searchParameters] = useSearchParams();
   const { i18n } = useLingui();
 
   const [helpContent, setHelpContent] = useState<HelpSection | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const tab = searchParams.get("tab") || undefined;
-  const settingsTab = searchParams.get("settingsTab") || undefined;
-  const dialog = searchParams.get("dialog") || undefined;
+  const tab = searchParameters.get("tab") || undefined;
+  const settingsTab = searchParameters.get("settingsTab") || undefined;
+  const dialog = searchParameters.get("dialog") || undefined;
   const teamShiftScheduleDialog =
-    searchParams.get("team-shift-schedule-dialog") || undefined;
+    searchParameters.get("team-shift-schedule-dialog") || undefined;
 
   useEffect(() => {
     const loadHelpContent = async () => {
@@ -350,12 +350,12 @@ export const ContextualHelpContent = () => {
   );
 };
 
-export interface ContextualHelpProps {
+export interface ContextualHelpProperties {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
 
-const ContextualHelp = ({ isOpen }: ContextualHelpProps) => {
+const ContextualHelp = ({ isOpen }: ContextualHelpProperties) => {
   return (
     <div className="fixed bottom-4 right-4 z-500">
       {isOpen && (

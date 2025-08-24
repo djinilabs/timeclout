@@ -6,24 +6,24 @@ import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { getInitials } from "../../utils/getInitials";
 import { BoxPlot } from "../stats/BoxPlot";
 
-interface TeamShiftsTimeDistributionStatsProps {
+interface TeamShiftsTimeDistributionStatsProperties {
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
 }
 
-export const TeamShiftsTimeDistributionStats: FC<TeamShiftsTimeDistributionStatsProps> =
+export const TeamShiftsTimeDistributionStats: FC<TeamShiftsTimeDistributionStatsProperties> =
   memo(({ shiftPositionsMap }) => {
     const { workerTimeIntervals, workerById } = useMemo(() => {
       // Group shifts by worker
       const shiftsByWorker = Object.values(shiftPositionsMap)
         .flat()
-        .reduce((acc, shiftPosition) => {
-          if (!shiftPosition.assignedTo) return acc;
+        .reduce((accumulator, shiftPosition) => {
+          if (!shiftPosition.assignedTo) return accumulator;
 
-          if (!acc[shiftPosition.assignedTo.pk]) {
-            acc[shiftPosition.assignedTo.pk] = [];
+          if (!accumulator[shiftPosition.assignedTo.pk]) {
+            accumulator[shiftPosition.assignedTo.pk] = [];
           }
-          acc[shiftPosition.assignedTo.pk].push(shiftPosition);
-          return acc;
+          accumulator[shiftPosition.assignedTo.pk].push(shiftPosition);
+          return accumulator;
         }, {} as Record<string, ShiftPositionWithRowSpan[]>);
 
       // For each worker, sort their shifts by day and calculate intervals
@@ -58,11 +58,11 @@ export const TeamShiftsTimeDistributionStats: FC<TeamShiftsTimeDistributionStats
 
       const workerById = Object.values(shiftPositionsMap)
         .flat()
-        .reduce((acc, shiftPosition) => {
+        .reduce((accumulator, shiftPosition) => {
           if (shiftPosition.assignedTo) {
-            acc[shiftPosition.assignedTo.pk] = shiftPosition.assignedTo;
+            accumulator[shiftPosition.assignedTo.pk] = shiftPosition.assignedTo;
           }
-          return acc;
+          return accumulator;
         }, {} as Record<string, NonNullable<ShiftPositionWithRowSpan["assignedTo"]>>);
 
       return {

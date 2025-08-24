@@ -9,12 +9,12 @@ import type {
 import { database , PERMISSION_LEVELS } from "@/tables";
 import { getResourceRef } from "@/utils";
 
-export const deleteShiftPosition: NonNullable<MutationResolvers['deleteShiftPosition']> = async (_parent, arg, ctx) => {
+export const deleteShiftPosition: NonNullable<MutationResolvers['deleteShiftPosition']> = async (_parent, argument, context) => {
   const { shift_positions } = await database();
-  const { input } = arg;
+  const { input } = argument;
   const { pk: team, sk } = input;
   const pk = getResourceRef(team, "teams");
-  await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
+  await ensureAuthorized(context, pk, PERMISSION_LEVELS.WRITE);
   const shiftPosition = await shift_positions.get(pk, sk, "staging");
   if (!shiftPosition) {
     throw notFound("Shift position not found");

@@ -15,7 +15,7 @@ const getColorAndBackground = (md5?: string | null) => {
   }
   const matches = md5.match(/.{2}/g)!;
 
-  const [red, green, blue] = matches.map((hex) => parseInt(hex, 16));
+  const [red, green, blue] = matches.map((hex) => Number.parseInt(hex, 16));
 
   const luminance = (red * 0.299 + green * 0.587 + blue * 0.114) / 255;
 
@@ -27,7 +27,7 @@ const getColorAndBackground = (md5?: string | null) => {
   };
 };
 
-export interface AvatarProps {
+export interface AvatarProperties {
   name?: string;
   email?: string | null;
   emailMd5?: string | null;
@@ -35,7 +35,7 @@ export interface AvatarProps {
   className?: string;
 }
 
-export const Avatar: FC<AvatarProps> = memo(
+export const Avatar: FC<AvatarProperties> = memo(
   ({ name, emailMd5, email, size = 50, className = "" }) => {
     const url = `https://www.gravatar.com/avatar/${emailMd5}?s=${String(
       Math.max(size, 250)

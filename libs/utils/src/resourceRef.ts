@@ -52,15 +52,13 @@ export const getCompoundedResourceRef =
     if (!constituents) {
       throw new Error(`Invalid compounded resource reference: ${r}`);
     }
-    const types = constituents.filter((_, i) => i % 2 === 0);
+    const types = constituents.filter((_, index) => index % 2 === 0);
     if (!types.every((t) => validResourceTypes.has(t as ResourceType))) {
       throw new Error(`Invalid compounded resource reference: ${r}`);
     }
-    if (resourceTypes) {
-      if (!types.every((t, i) => resourceTypes[i] === t)) {
+    if (resourceTypes && !types.every((t, index) => resourceTypes[index] === t)) {
         throw new Error(`Invalid compounded resource reference: ${r}`);
       }
-    }
     return r as ResourceRef;
   };
 
@@ -72,13 +70,13 @@ export const getCompoundedResourceRefConstituents = (
     throw new Error(`Invalid compounded resource reference: ${r}`);
   }
 
-  const refs: ResourceRef[] = [];
-  for (let i = 0; i < constituents.length; i += 2) {
-    refs.push(
-      resourceRef(constituents[i] as ResourceType, constituents[i + 1])
+  const references: ResourceRef[] = [];
+  for (let index = 0; index < constituents.length; index += 2) {
+    references.push(
+      resourceRef(constituents[index] as ResourceType, constituents[index + 1])
     );
   }
-  return refs;
+  return references;
 };
 
 export const resourceRef = <T extends ResourceType = ResourceType>(
@@ -93,5 +91,5 @@ export const resourceRef = <T extends ResourceType = ResourceType>(
 };
 
 export const compoundedResourceRef = (
-  ...args: Array<ResourceRef>
-): ResourceRef => args.join("/") as ResourceRef;
+  ...arguments_: Array<ResourceRef>
+): ResourceRef => arguments_.join("/") as ResourceRef;

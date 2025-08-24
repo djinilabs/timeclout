@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 import {
   Mutation,
-  MutationUpdateMeArgs,
-  MutationUpdateMySettingsArgs,
+  MutationUpdateMeArgs as MutationUpdateMeArguments,
+  MutationUpdateMySettingsArgs as MutationUpdateMySettingsArguments,
   Query,
 } from "../../graphql/graphql";
 // import { useTour } from "../../hooks/useTour";
@@ -35,7 +35,7 @@ export const MeEdit = () => {
 
   const [, updateMe] = useMutation<
     Mutation["updateMe"],
-    MutationUpdateMeArgs & MutationUpdateMySettingsArgs
+    MutationUpdateMeArguments & MutationUpdateMySettingsArguments
   >(updateMeMutation);
 
   const { update: updateSession } = useSession();
@@ -76,9 +76,9 @@ export const MeEdit = () => {
 
   return (
     <form
-      onSubmit={(ev) => {
-        ev.preventDefault();
-        ev.stopPropagation();
+      onSubmit={(event_) => {
+        event_.preventDefault();
+        event_.stopPropagation();
         form.handleSubmit();
       }}
       role="form"
@@ -120,7 +120,7 @@ export const MeEdit = () => {
                       autoFocus
                       placeholder="John Doe"
                       value={field.state.value}
-                      onChange={(ev) => field.handleChange(ev.target.value)}
+                      onChange={(event_) => field.handleChange(event_.target.value)}
                       id={field.name}
                       type="text"
                       autoComplete="given-name"

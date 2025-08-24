@@ -67,18 +67,25 @@ export const PageCompany: FC = () => {
         className="company-header company-settings-button"
       >
         {(() => {
-          if (tab.href === "units") {
+          switch (tab.href) {
+          case "units": {
             return <AllCompanyUnits />;
-          } else if (tab.href === "settings") {
+          }
+          case "settings": {
             return <CompanySettings />;
-          } else if (tab.href === "time-off") {
+          }
+          case "time-off": {
             return <CompanyTimeOff />;
-          } else if (tab.href === "my-leave-requests") {
+          }
+          case "my-leave-requests": {
             return <MyLeaveRequests />;
-          } else if (tab.href === "pending-leave-requests") {
+          }
+          case "pending-leave-requests": {
             return <PendingCompanyLeaveRequests />;
-          } else {
+          }
+          default: {
             return <PageNotFound />;
+          }
           }
         })()}
       </Tabs>

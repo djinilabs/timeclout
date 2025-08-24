@@ -10,27 +10,27 @@ import { resourceRef } from "@/utils";
 
 
 
-export const updateUserSettings: NonNullable<MutationResolvers['updateUserSettings']> = async (_parent, args, ctx) => {
-  const teamPk = resourceRef("teams", args.teamPk);
-  const userPk = await ensureAuthorized(ctx, teamPk, PERMISSION_LEVELS.WRITE);
+export const updateUserSettings: NonNullable<MutationResolvers['updateUserSettings']> = async (_parent, arguments_, context) => {
+  const teamPk = resourceRef("teams", arguments_.teamPk);
+  const userPk = await ensureAuthorized(context, teamPk, PERMISSION_LEVELS.WRITE);
   const { entity, entity_settings } = await database();
-  const userRef = resourceRef("users", args.userPk);
+  const userReference = resourceRef("users", arguments_.userPk);
   const [isAuthorized] = await isUserAuthorized(
-    userRef,
+    userReference,
     teamPk,
     PERMISSION_LEVELS.READ
   );
   if (!isAuthorized) {
     throw forbidden("User is not in the team");
   }
-  const user = await entity.get(userRef);
+  const user = await entity.get(userReference);
   if (!user) {
     throw notFound("User not found");
   }
   await entity_settings.upsert({
-    pk: userRef,
-    sk: args.name,
-    settings: args.settings,
+    pk: userReference,
+    sk: arguments_.name,
+    settings: arguments_.settings,
     createdAt: new Date().toISOString(),
     createdBy: userPk,
     updatedAt: new Date().toISOString(),

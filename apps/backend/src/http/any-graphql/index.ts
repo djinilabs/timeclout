@@ -60,14 +60,14 @@ const yoga = createYoga({
         if (event == "execute-start") {
           console.log(
             `[graphql] [${event}] [${args.operationName}] %s`,
-            JSON.stringify(args.variableValues, null, 2)
+            JSON.stringify(args.variableValues, undefined, 2)
           );
         } else if (event == "execute-end") {
           console.log(
             `[graphql] [${event}] [${args.operationName}] %s`,
             JSON.stringify(
               { args: args.variableValues, result: result.data },
-              null,
+              undefined,
               2
             )
           );

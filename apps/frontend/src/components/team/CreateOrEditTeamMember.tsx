@@ -7,12 +7,12 @@ import toast from "react-hot-toast";
 
 import {
   Mutation,
-  MutationCreateTeamMemberArgs,
-  MutationUpdateUserSettingsArgs,
-  MutationUpdateTeamMemberArgs,
-  QueryTeamMemberArgs,
+  MutationCreateTeamMemberArgs as MutationCreateTeamMemberArguments,
+  MutationUpdateUserSettingsArgs as MutationUpdateUserSettingsArguments,
+  MutationUpdateTeamMemberArgs as MutationUpdateTeamMemberArguments,
+  QueryTeamMemberArgs as QueryTeamMemberArguments,
   Query,
-  UserSettingsArgs,
+  UserSettingsArgs as UserSettingsArguments,
 } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
@@ -27,20 +27,20 @@ import updateUserSettingsMutation from "@/graphql-client/mutations/updateUserSet
 import teamMemberWithSettingsQuery from "@/graphql-client/queries/teamMemberWithSettings.graphql";
 import { getDefined } from "@/utils";
 
-interface CreateOrEditTeamMemberProps {
+interface CreateOrEditTeamMemberProperties {
   teamPk: string;
   memberPk?: string;
   onDone: () => void;
 }
 
-export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
+export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProperties> = ({
   teamPk,
   memberPk,
   onDone,
 }) => {
   const [teamMemberQueryResponse] = useQuery<
     { teamMember: Query["teamMember"] },
-    QueryTeamMemberArgs & UserSettingsArgs
+    QueryTeamMemberArguments & UserSettingsArguments
   >({
     query: teamMemberWithSettingsQuery,
     variables: { teamPk, memberPk: memberPk ?? "", name: "location" },
@@ -48,17 +48,17 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
   });
   const [, createTeamMember] = useMutation<
     { createTeamMember: Mutation["createTeamMember"] },
-    MutationCreateTeamMemberArgs
+    MutationCreateTeamMemberArguments
   >(createTeamMemberMutation);
 
   const [, updateTeamMember] = useMutation<
     { updateTeamMember: Mutation["updateTeamMember"] },
-    MutationUpdateTeamMemberArgs
+    MutationUpdateTeamMemberArguments
   >(updateTeamMemberMutation);
 
   const [, updateUserSettings] = useMutation<
     Mutation["updateUserSettings"],
-    MutationUpdateUserSettingsArgs
+    MutationUpdateUserSettingsArguments
   >(updateUserSettingsMutation);
 
   const locationSettings = teamMemberQueryResponse.data?.teamMember
@@ -134,9 +134,9 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
 
   return (
     <form
-      onSubmit={(ev) => {
-        ev.preventDefault();
-        ev.stopPropagation();
+      onSubmit={(event_) => {
+        event_.preventDefault();
+        event_.stopPropagation();
         form.handleSubmit();
       }}
       role="form"
@@ -193,7 +193,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                       autoFocus
                       placeholder="John Doe"
                       value={field.state.value}
-                      onChange={(ev) => field.handleChange(ev.target.value)}
+                      onChange={(event_) => field.handleChange(event_.target.value)}
                       id={field.name}
                       type="text"
                       required
@@ -240,7 +240,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
                   <div className="mt-2">
                     <input
                       value={field.state.value}
-                      onChange={(ev) => field.handleChange(ev.target.value)}
+                      onChange={(event_) => field.handleChange(event_.target.value)}
                       id={field.name}
                       type="email"
                       autoComplete="email"

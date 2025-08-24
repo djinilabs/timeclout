@@ -7,13 +7,13 @@ import { PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
 
-export const updateUnitSettings: NonNullable<MutationResolvers['updateUnitSettings']> = async (_parent, arg, ctx) => {
-  const unitRef = resourceRef("units", arg.unitPk);
-  const userPk = await ensureAuthorized(ctx, unitRef, PERMISSION_LEVELS.WRITE);
+export const updateUnitSettings: NonNullable<MutationResolvers['updateUnitSettings']> = async (_parent, argument, context) => {
+  const unitReference = resourceRef("units", argument.unitPk);
+  const userPk = await ensureAuthorized(context, unitReference, PERMISSION_LEVELS.WRITE);
   return updateEntitySettings(
-    unitRef,
-    arg.name,
-    arg.settings,
+    unitReference,
+    argument.name,
+    argument.settings,
     userPk
   ) as unknown as Promise<Unit>;
 };

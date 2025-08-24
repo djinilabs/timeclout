@@ -23,9 +23,9 @@ export const schedulePositionTemplatesParser = {
   parse: (item: unknown) => {
     try {
       return schedulePositionTemplatesSchema.parse(item);
-    } catch (err) {
+    } catch (error) {
       throw new Error(
-        `Error parsing schedule position templates: ${err.message}`
+        `Error parsing schedule position templates: ${error.message}`
       );
     }
   },

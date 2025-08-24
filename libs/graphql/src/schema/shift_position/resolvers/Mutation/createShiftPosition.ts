@@ -9,13 +9,13 @@ import type {
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const createShiftPosition: NonNullable<MutationResolvers['createShiftPosition']> = async (_parent, arg, ctx) => {
+export const createShiftPosition: NonNullable<MutationResolvers['createShiftPosition']> = async (_parent, argument, context) => {
   const { shift_positions } = await database();
-  const { input } = arg;
+  const { input } = argument;
   const { team, day, name, color, requiredSkills, schedules, assignedTo } =
     input;
   const pk = resourceRef("teams", team);
-  const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
+  const userPk = await ensureAuthorized(context, pk, PERMISSION_LEVELS.WRITE);
   const sk = `${day}/${nanoid()}`;
   const shiftPosition = {
     pk,

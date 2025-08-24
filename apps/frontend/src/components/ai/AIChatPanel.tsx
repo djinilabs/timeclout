@@ -19,15 +19,15 @@ import { Hint } from "../particles/Hint";
 import { AIChatMessagePanel } from "./AIChatMessagePanel";
 import { useAIAgentChat } from "./useAIAgentChat";
 
-export interface AIChatPanelProps {
+export interface AIChatPanelProperties {
   onClose: () => unknown;
 }
 
-const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
+const AIChatPanel: FC<AIChatPanelProperties> = ({ onClose }) => {
   const { messages, handleUserMessageSubmit, clearMessages } = useAIAgentChat();
 
   const [inputValue, setInputValue] = useState("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const textareaReference = useRef<HTMLTextAreaElement>(null);
 
   const isLoading = useMemo(
     () => messages.some((message) => message.isLoading),
@@ -36,7 +36,7 @@ const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
 
   const adjustTextareaHeight = useMemo(() => {
     return debounce(() => {
-      const textarea = textareaRef.current;
+      const textarea = textareaReference.current;
       if (textarea) {
         textarea.style.height = "auto";
         textarea.style.height = `${textarea.scrollHeight}px`;
@@ -47,8 +47,8 @@ const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
   const focusOnTextarea = useMemo(() => {
     return debounce(() => {
       setTimeout(() => {
-        if (textareaRef.current) {
-          textareaRef.current.focus();
+        if (textareaReference.current) {
+          textareaReference.current.focus();
         }
       }, 100);
     }, 100);
@@ -127,7 +127,7 @@ const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
         >
           <div className="flex items-center gap-2">
             <textarea
-              ref={textareaRef}
+              ref={textareaReference}
               autoFocus
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}

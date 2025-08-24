@@ -1,6 +1,6 @@
 import { classNames } from "../../utils/classNames";
 
-interface ProgressBarProps {
+interface ProgressBarProperties {
   value: number;
   max?: number;
   className?: string;
@@ -14,7 +14,7 @@ export const ProgressBar = ({
   className,
   showPercentage = false,
   label = "Progress",
-}: ProgressBarProps) => {
+}: ProgressBarProperties) => {
   const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
 
   return (

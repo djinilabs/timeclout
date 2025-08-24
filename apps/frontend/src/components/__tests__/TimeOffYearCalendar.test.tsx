@@ -12,7 +12,7 @@ class ResizeObserverMock {
   unobserve() {}
   disconnect() {}
 }
-global.ResizeObserver = ResizeObserverMock;
+globalThis.ResizeObserver = ResizeObserverMock;
 
 describe("TimeOffYearCalendar", () => {
   const defaultProps = {
@@ -86,9 +86,9 @@ describe("TimeOffYearCalendar", () => {
       "December",
     ];
 
-    months.forEach((month) => {
+    for (const month of months) {
       expect(screen.getByRole("heading", { name: month })).toBeInTheDocument();
-    });
+    }
   });
 
   it("renders weekday headers for each month", () => {
@@ -96,23 +96,23 @@ describe("TimeOffYearCalendar", () => {
 
     const months = screen.getAllByRole("heading", { level: 2 });
 
-    months.forEach((monthHeading) => {
+    for (const monthHeading of months) {
       const monthSection = monthHeading.parentElement;
-      if (!monthSection) return;
+      if (!monthSection) continue;
 
       // Find the weekday container div
       const weekdayContainer = monthSection.querySelector(".grid-cols-7");
       expect(weekdayContainer).toBeInTheDocument();
 
       // Check for weekday letters
-      ["M", "T", "W", "T", "F", "S", "S"].forEach((day) => {
+      for (const day of ["M", "T", "W", "T", "F", "S", "S"]) {
         const dayElements = monthSection.querySelectorAll("div");
-        const hasDay = Array.from(dayElements).some(
-          (el) => el.textContent === day
+        const hasDay = [...dayElements].some(
+          (element) => element.textContent === day
         );
         expect(hasDay).toBe(true);
-      });
-    });
+      }
+    }
   });
 
   it("renders calendar grid for each month", async () => {
@@ -131,8 +131,8 @@ describe("TimeOffYearCalendar", () => {
     renderWithProviders(<TimeOffYearCalendar {...defaultProps} />);
 
     // Previous year
-    const prevButton = screen.getByRole("button", { name: /previous year/i });
-    prevButton.click();
+    const previousButton = screen.getByRole("button", { name: /previous year/i });
+    previousButton.click();
     expect(defaultProps.goToYear).toHaveBeenCalledWith(2023);
 
     // Next year

@@ -1,25 +1,25 @@
-import { test, expect } from "@playwright/test";
+import { test,  } from "@playwright/test";
 
 import { PageObjects, createPageObjects } from "../utils/page-objects";
 import { TestHelpers, createTestHelpers } from "../utils/test-helpers";
 import {
   UserManagement,
   createUserManagement,
-  TestUser,
+  
 } from "../utils/user-management";
 
 // Export the test object and expect
-export { test, expect };
+
 
 // Export user management types and utilities
-export { UserManagement, createUserManagement };
-export type { TestUser };
+
+
 
 // Export test helpers
-export { TestHelpers, createTestHelpers };
+
 
 // Export page objects
-export { PageObjects, createPageObjects };
+
 
 // Helper functions for common test operations
 export async function setupTestEnvironment(): Promise<void> {
@@ -54,3 +54,8 @@ export const testWithUserManagement = test.extend<{
     await use(pageObjects);
   },
 });
+
+export {expect, test} from "@playwright/test";
+export {type TestUser, UserManagement, createUserManagement} from "../utils/user-management";
+export {TestHelpers, createTestHelpers} from "../utils/test-helpers";
+export {PageObjects, createPageObjects} from "../utils/page-objects";

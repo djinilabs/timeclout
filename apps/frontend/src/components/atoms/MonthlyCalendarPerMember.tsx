@@ -12,7 +12,7 @@ export interface User {
   emailMd5?: string | null;
 }
 
-export interface MonthlyScheduleProps {
+export interface MonthlyScheduleProperties {
   year: number;
   month: number;
   members: User[];
@@ -23,9 +23,9 @@ export interface MonthlyScheduleProps {
   ) => React.ReactNode;
 }
 
-export const MonthlyCalendarPerMember: FC<MonthlyScheduleProps> = memo(
-  (props) => {
-    const { year, month, members, renderMemberDay } = props;
+export const MonthlyCalendarPerMember: FC<MonthlyScheduleProperties> = memo(
+  (properties) => {
+    const { year, month, members, renderMemberDay } = properties;
     return (
       <div className="flex flex-col h-[calc(100vh-64px)]">
         <div className="flex-1 relative">
@@ -41,7 +41,7 @@ export const MonthlyCalendarPerMember: FC<MonthlyScheduleProps> = memo(
                   </th>
                   {Array.from(
                     { length: new Date(year, month + 1, 0).getDate() },
-                    (_, i) => i + 1
+                    (_, index) => index + 1
                   ).map((day) => (
                     <th
                       key={day}
@@ -64,7 +64,7 @@ export const MonthlyCalendarPerMember: FC<MonthlyScheduleProps> = memo(
                     </th>
                     {Array.from(
                       { length: new Date(year, month + 1, 0).getDate() },
-                      (_, i) => i + 1
+                      (_, index) => index + 1
                     ).map((dayofTheMonth, dayIndex) => {
                       const date = `${year}-${String(month + 1).padStart(
                         2,

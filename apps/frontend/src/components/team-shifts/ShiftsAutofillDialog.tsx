@@ -11,7 +11,7 @@ import { ShiftsAutoFill } from "./ShiftsAutoFill";
 
 import { DayDate, DayDateInterval } from "@/day-date";
 
-export interface ShiftsAutofillDialogProps {
+export interface ShiftsAutofillDialogProperties {
   isDialogOpen: boolean;
   onClose: () => void;
   helpPanelOpen: boolean;
@@ -27,7 +27,7 @@ export const ShiftsAutofillDialog = ({
   setHelpPanelOpen,
   teamPk,
   selectedMonth,
-}: ShiftsAutofillDialogProps) => {
+}: ShiftsAutofillDialogProperties) => {
   return (
     <Dialog
       open={isDialogOpen}

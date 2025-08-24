@@ -7,7 +7,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { User } from "../../graphql/graphql";
 import {
   TeamLeaveSchedule,
-  TeamLeaveScheduleProps,
+  TeamLeaveScheduleProps as TeamLeaveScheduleProperties,
 } from "../molecules/TeamLeaveSchedule";
 
 // Mock ResizeObserver
@@ -16,7 +16,7 @@ class ResizeObserverMock {
   unobserve() {}
   disconnect() {}
 }
-global.ResizeObserver = ResizeObserverMock;
+globalThis.ResizeObserver = ResizeObserverMock;
 
 // Mock useParams from react-router-dom
 vi.mock("react-router-dom", async () => {
@@ -32,7 +32,7 @@ vi.mock("react-router-dom", async () => {
 });
 
 describe("TeamLeaveSchedule", () => {
-  const defaultProps: TeamLeaveScheduleProps = {
+  const defaultProps: TeamLeaveScheduleProperties = {
     year: 2024,
     month: 2, // March (0-based)
     goTo: vi.fn(),
@@ -99,9 +99,8 @@ describe("TeamLeaveSchedule", () => {
     renderWithProviders(<TeamLeaveSchedule {...defaultProps} />);
     // March 2024 has 31 days
     for (let day = 1; day <= 31; day++) {
-      expect(
-        (await screen.findAllByText(day.toString())).length
-      ).toBeGreaterThanOrEqual(1);
+      const dayElements = await screen.findAllByText(day.toString());
+      expect(dayElements.length).toBeGreaterThanOrEqual(1);
     }
   });
 
@@ -117,7 +116,7 @@ describe("TeamLeaveSchedule", () => {
   });
 
   it("renders pending leaves with reduced opacity", async () => {
-    const propsWithPendingLeave = {
+    const propertiesWithPendingLeave = {
       ...defaultProps,
       schedule: [
         {
@@ -135,7 +134,7 @@ describe("TeamLeaveSchedule", () => {
       ],
     };
 
-    renderWithProviders(<TeamLeaveSchedule {...propsWithPendingLeave} />);
+    renderWithProviders(<TeamLeaveSchedule {...propertiesWithPendingLeave} />);
     const leaveCell = screen.getByTitle("vacation");
     await expect(leaveCell).toHaveClass("opacity-50");
   });

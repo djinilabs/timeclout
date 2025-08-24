@@ -26,7 +26,7 @@ const eventToRequest = (event: APIGatewayProxyEventV2): Request => {
   } as Request;
 };
 
-export const getSession = async (ctx: ResolverContext) => {
-  const request = eventToRequest(ctx.event);
+export const getSession = async (context: ResolverContext) => {
+  const request = eventToRequest(context.event);
   return getExpressSession(request, await authConfig());
 };

@@ -7,11 +7,11 @@ import { resourceRef } from "@/utils";
 
 export const team: NonNullable<QueryResolvers['team']> = async (
   _parent,
-  arg,
-  ctx
+  argument,
+  context
 ) => {
-  const teamRef = resourceRef("teams", arg.teamPk);
-  await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.READ);
+  const teamReference = resourceRef("teams", argument.teamPk);
+  await ensureAuthorized(context, teamReference, PERMISSION_LEVELS.READ);
   const { entity } = await database();
-  return entity.get(teamRef) as unknown as Team;
+  return entity.get(teamReference) as unknown as Team;
 };

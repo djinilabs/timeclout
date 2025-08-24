@@ -6,8 +6,8 @@ export const userQualificationsParser = {
   parse: (item: unknown) => {
     try {
       return userQualificationsSchema.parse(item);
-    } catch (err) {
-      throw new Error(`Error parsing user qualifications: ${err.message}`);
+    } catch (error) {
+      throw new Error(`Error parsing user qualifications: ${error.message}`);
     }
   },
 };

@@ -48,7 +48,7 @@ export const CheckLatestAppVersion = () => {
             cancelText,
           })
         ) {
-          window.location.reload();
+          globalThis.location.reload();
         }
       }
     })();

@@ -9,11 +9,11 @@ import { resourceRef } from "@/utils";
 
 export const deleteUnit: NonNullable<MutationResolvers['deleteUnit']> = async (
   _parent,
-  _arg,
-  _ctx
+  _argument,
+  _context
 ) => {
-  const unitPk = resourceRef("units", _arg.pk);
-  await ensureAuthorized(_ctx, unitPk, PERMISSION_LEVELS.OWNER);
+  const unitPk = resourceRef("units", _argument.pk);
+  await ensureAuthorized(_context, unitPk, PERMISSION_LEVELS.OWNER);
 
   const { entity, permission } = await database();
   const unit = await entity.get(unitPk);

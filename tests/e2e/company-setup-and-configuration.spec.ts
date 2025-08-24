@@ -54,7 +54,7 @@ async function createCompany(
   // Wait for the company to appear in the companies list
   console.log("🏢 Waiting for company to appear in companies list...");
   const companyLink = pageObjects.getCompanyLink(companyName);
-  await companyLink.waitFor({ state: "visible", timeout: 15000 });
+  await companyLink.waitFor({ state: "visible", timeout: 15_000 });
   console.log("✅ Company appears in companies list");
 
   // Click on the company to enter it
@@ -62,7 +62,7 @@ async function createCompany(
   console.log("✅ Clicked on company to enter it");
 
   // Wait for the company page to load
-  await pageObjects.waitForElementStable(".new-unit-button", 15000);
+  await pageObjects.waitForElementStable(".new-unit-button", 15_000);
   console.log("✅ Successfully entered company");
 }
 
@@ -78,7 +78,7 @@ async function completeUserProfile(page: Page): Promise<void> {
       'input[name="name"], .name-input, input[placeholder*="name"], input[placeholder*="Name"]'
     )
     .first();
-  await nameInput.waitFor({ state: "visible", timeout: 10000 });
+  await nameInput.waitFor({ state: "visible", timeout: 10_000 });
   await nameInput.fill("Company Setup User");
   console.log("✅ Filled in professional name");
 
@@ -115,7 +115,7 @@ async function completeUserProfile(page: Page): Promise<void> {
   console.log("✅ Clicked save button");
 
   // Wait for the profile to be saved and redirect to complete
-  await page.waitForURL(/^(?!.*\/me\/edit)/, { timeout: 15000 });
+  await page.waitForURL(/^(?!.*\/me\/edit)/, { timeout: 15_000 });
   await page.waitForLoadState("load");
   console.log("✅ Profile saved and redirected");
 }
@@ -131,7 +131,7 @@ async function createUnit(
   console.log("🏗️ Step 3: Creating unit...");
 
   // Click the "Create new Unit" button
-  await pageObjects.clickButton(".new-unit-button", 15000);
+  await pageObjects.clickButton(".new-unit-button", 15_000);
   console.log("✅ Clicked 'Create new Unit' button");
 
   // Wait for the unit creation form to load
@@ -142,7 +142,7 @@ async function createUnit(
   console.log(`✅ Created unit: ${unitName}`);
 
   // Wait for navigation back to company page
-  await page.waitForURL(/\/companies\/.*$/, { timeout: 15000 });
+  await page.waitForURL(/\/companies\/.*$/, { timeout: 15_000 });
   await page.waitForLoadState("domcontentloaded");
   console.log("✅ Unit created successfully, redirected back to company page");
 
@@ -160,7 +160,7 @@ async function createUnit(
 
   // Wait for the unit to appear in the units list
   const unitLink = pageObjects.getUnitLink(unitName);
-  await unitLink.waitFor({ state: "visible", timeout: 15000 });
+  await unitLink.waitFor({ state: "visible", timeout: 15_000 });
   console.log("✅ Unit appears in the units list");
 
   // Extract unitPk from the unit link
@@ -188,11 +188,11 @@ async function createTeam(
   console.log("✅ Clicked on unit to enter it");
 
   // Wait for the unit page to load
-  await pageObjects.waitForElementStable(".new-team-button", 15000);
+  await pageObjects.waitForElementStable(".new-team-button", 15_000);
   console.log("✅ Successfully entered unit");
 
   // Click the "Create new team" button
-  await pageObjects.clickButton(".new-team-button", 15000);
+  await pageObjects.clickButton(".new-team-button", 15_000);
   console.log("✅ Clicked 'Create new team' button");
 
   // Wait for the team creation form to load
@@ -203,13 +203,13 @@ async function createTeam(
   console.log(`✅ Created team: ${teamName}`);
 
   // Wait for navigation back to unit page
-  await page.waitForURL(/\/companies\/.*\/units\/.*$/, { timeout: 15000 });
+  await page.waitForURL(/\/companies\/.*\/units\/.*$/, { timeout: 15_000 });
   await page.waitForLoadState("domcontentloaded");
   console.log("✅ Team created successfully, redirected back to unit page");
 
   // Wait for the team to appear in the teams list on the unit page
   const teamLink = pageObjects.getTeamLink(teamName);
-  await teamLink.waitFor({ state: "visible", timeout: 15000 });
+  await teamLink.waitFor({ state: "visible", timeout: 15_000 });
   console.log("✅ Team appears in teams list");
 }
 
@@ -221,7 +221,7 @@ async function configureUnitSettings(page: Page): Promise<void> {
 
   // Navigate to unit settings tab - be more specific to avoid clicking the main navigation Settings
   const settingsTab = page.locator('main a:has-text("Settings")');
-  await settingsTab.waitFor({ state: "visible", timeout: 10000 });
+  await settingsTab.waitFor({ state: "visible", timeout: 10_000 });
   console.log("✅ Found unit Settings tab");
   await settingsTab.click();
   console.log("✅ Clicked on unit Settings tab");
@@ -235,7 +235,7 @@ async function configureUnitSettings(page: Page): Promise<void> {
 
   // Wait for the settings to fully load by waiting for a specific element
   const managersTab = page.locator('a[href*="managers"]').first();
-  await managersTab.waitFor({ state: "visible", timeout: 10000 });
+  await managersTab.waitFor({ state: "visible", timeout: 10_000 });
   console.log("✅ Found managers tab");
 
   // Click on the managers tab within unit settings
@@ -247,7 +247,7 @@ async function configureUnitSettings(page: Page): Promise<void> {
   const managersSection = page.locator(
     'div[aria-label*="Unit Managers Section"]'
   );
-  await managersSection.waitFor({ state: "visible", timeout: 10000 });
+  await managersSection.waitFor({ state: "visible", timeout: 10_000 });
   console.log("✅ Unit managers section loaded");
 
   // Look for the SelectUser component to assign a manager
@@ -282,7 +282,7 @@ async function configureTeamSettings(page: Page): Promise<void> {
 
   // First, navigate back to the unit teams page to see the team list
   const teamsTab = page.locator('main a:has-text("Teams")');
-  await teamsTab.waitFor({ state: "visible", timeout: 10000 });
+  await teamsTab.waitFor({ state: "visible", timeout: 10_000 });
   await teamsTab.click();
   console.log("✅ Navigated back to unit Teams tab");
 
@@ -300,7 +300,7 @@ async function configureTeamSettings(page: Page): Promise<void> {
 
   // Navigate to team settings tab - be more specific to avoid clicking the main navigation Settings
   const settingsTab = page.locator('main a:has-text("Settings")');
-  await settingsTab.waitFor({ state: "visible", timeout: 10000 });
+  await settingsTab.waitFor({ state: "visible", timeout: 10_000 });
   await settingsTab.click();
   console.log("✅ Clicked on team Settings tab");
 
@@ -434,13 +434,13 @@ async function navigateToCompanySettings(
   // Wait for the company page to load and look for the settings tab
   await pageObjects.waitForElementStable(
     'a:has-text("Company Settings")',
-    15000
+    15_000
   );
   console.log("✅ Company page loaded with settings tab");
 
   // Click on the Company Settings tab
   const settingsTab = page.locator('a:has-text("Company Settings")');
-  await settingsTab.waitFor({ state: "visible", timeout: 10000 });
+  await settingsTab.waitFor({ state: "visible", timeout: 10_000 });
   await settingsTab.click();
   console.log("✅ Clicked on Company Settings tab");
 
@@ -457,7 +457,7 @@ async function configureLeaveTypes(page: Page): Promise<void> {
 
   // Wait for the leave types tab to be visible
   const leaveTypesTab = page.locator('a[href*="leave-types"]').first();
-  await leaveTypesTab.waitFor({ state: "visible", timeout: 10000 });
+  await leaveTypesTab.waitFor({ state: "visible", timeout: 10_000 });
   await leaveTypesTab.click();
   console.log("✅ Clicked on Leave Types tab");
 
@@ -470,7 +470,7 @@ async function configureLeaveTypes(page: Page): Promise<void> {
   );
   await createLeaveTypeButton.waitFor({
     state: "visible",
-    timeout: 10000,
+    timeout: 10_000,
   });
   console.log("✅ Leave types section loaded");
 
@@ -483,7 +483,7 @@ async function configureLeaveTypes(page: Page): Promise<void> {
 
   // Fill in the leave type form
   const leaveTypeNameInput = page.locator('input[name="name"]');
-  await leaveTypeNameInput.waitFor({ state: "visible", timeout: 10000 });
+  await leaveTypeNameInput.waitFor({ state: "visible", timeout: 10_000 });
   await leaveTypeNameInput.fill("Vacation");
   console.log(
     "✅ Filled in leave type name, using default values for other fields"
@@ -507,7 +507,7 @@ async function configureWorkSchedule(page: Page): Promise<void> {
 
   // Click on the Work Schedule tab
   const workScheduleTab = page.locator('a[href*="work-schedule"]').first();
-  await workScheduleTab.waitFor({ state: "visible", timeout: 10000 });
+  await workScheduleTab.waitFor({ state: "visible", timeout: 10_000 });
   await workScheduleTab.click();
   console.log("✅ Clicked on Work Schedule tab");
 
@@ -520,7 +520,7 @@ async function configureWorkSchedule(page: Page): Promise<void> {
   );
   const mondayEndInput = page.locator('input[aria-label="End time"]').first();
 
-  await mondayStartInput.waitFor({ state: "visible", timeout: 10000 });
+  await mondayStartInput.waitFor({ state: "visible", timeout: 10_000 });
 
   // Modify Monday work hours
   await mondayStartInput.fill("08:00");
@@ -544,7 +544,7 @@ async function configureYearlyQuota(page: Page): Promise<void> {
 
   // Click on the Yearly Quota tab
   const yearlyQuotaTab = page.locator('a[href*="yearly-quota"]').first();
-  await yearlyQuotaTab.waitFor({ state: "visible", timeout: 10000 });
+  await yearlyQuotaTab.waitFor({ state: "visible", timeout: 10_000 });
   await yearlyQuotaTab.click();
   console.log("✅ Clicked on Yearly Quota tab");
 
@@ -555,7 +555,7 @@ async function configureYearlyQuota(page: Page): Promise<void> {
   const resetMonthSelect = page.locator('select[name="resetMonth"]');
   const defaultQuotaInput = page.locator('input[name="defaultQuota"]');
 
-  await resetMonthSelect.waitFor({ state: "visible", timeout: 10000 });
+  await resetMonthSelect.waitFor({ state: "visible", timeout: 10_000 });
 
   // Modify yearly quota settings
   await resetMonthSelect.selectOption("3"); // March
@@ -618,7 +618,7 @@ async function createTeamMembers(
 
   // First, navigate back to the unit teams list
   const teamsTab = page.locator('main a:has-text("Teams")');
-  await teamsTab.waitFor({ state: "visible", timeout: 10000 });
+  await teamsTab.waitFor({ state: "visible", timeout: 10_000 });
   await teamsTab.click();
   console.log("✅ Navigated back to unit Teams tab");
 
@@ -627,7 +627,7 @@ async function createTeamMembers(
 
   // Wait for the team to appear in the teams list
   const teamLink = pageObjects.getTeamLink(teamName);
-  await teamLink.waitFor({ state: "visible", timeout: 15000 });
+  await teamLink.waitFor({ state: "visible", timeout: 15_000 });
   console.log("✅ Team appears in teams list");
 
   // Click on the team to enter it
@@ -640,7 +640,7 @@ async function createTeamMembers(
   // Create first team member
   console.log("👤 Creating first team member...");
   const createMemberButton = page.locator(".new-team-member-button");
-  await createMemberButton.waitFor({ state: "visible", timeout: 10000 });
+  await createMemberButton.waitFor({ state: "visible", timeout: 10_000 });
   await createMemberButton.click();
   console.log("✅ Clicked on Create member user button");
 
@@ -657,7 +657,7 @@ async function createTeamMembers(
   const countrySelect = page.locator('select[aria-label="Select a country"]');
   const permissionButton = page.locator('button:has-text("Select an option")');
 
-  await nameInput.waitFor({ state: "visible", timeout: 10000 });
+  await nameInput.waitFor({ state: "visible", timeout: 10_000 });
   await nameInput.fill("Team Member One");
   await emailInput.fill("member1@testmail.com");
 
@@ -688,14 +688,14 @@ async function createTeamMembers(
 
   // Wait for navigation back to team page
   await page.waitForURL(/\/companies\/.*\/units\/.*\/teams\/.*$/, {
-    timeout: 15000,
+    timeout: 15_000,
   });
   await page.waitForLoadState("domcontentloaded");
   console.log("✅ First team member created successfully");
 
   // Create second team member
   console.log("👤 Creating second team member...");
-  await createMemberButton.waitFor({ state: "visible", timeout: 10000 });
+  await createMemberButton.waitFor({ state: "visible", timeout: 10_000 });
   await createMemberButton.click();
   console.log("✅ Clicked on Create member user button for second member");
 
@@ -703,7 +703,7 @@ async function createTeamMembers(
   await page.waitForLoadState("domcontentloaded");
 
   // Fill in the second team member details
-  await nameInput.waitFor({ state: "visible", timeout: 10000 });
+  await nameInput.waitFor({ state: "visible", timeout: 10_000 });
   await nameInput.fill("Team Member Two");
   await emailInput.fill("member2@testmail.com");
 
@@ -731,7 +731,7 @@ async function createTeamMembers(
 
   // Wait for navigation back to team page
   await page.waitForURL(/\/companies\/.*\/units\/.*\/teams\/.*$/, {
-    timeout: 15000,
+    timeout: 15_000,
   });
   await page.waitForLoadState("domcontentloaded");
   console.log("✅ Second team member created successfully");
@@ -740,8 +740,8 @@ async function createTeamMembers(
   const member1Name = page.locator("text=Team Member One");
   const member2Name = page.locator("text=Team Member Two");
 
-  await member1Name.waitFor({ state: "visible", timeout: 15000 });
-  await member2Name.waitFor({ state: "visible", timeout: 15000 });
+  await member1Name.waitFor({ state: "visible", timeout: 15_000 });
+  await member2Name.waitFor({ state: "visible", timeout: 15_000 });
   console.log("✅ Both team members appear in the team members list");
 
   // Extract member PKs for later use
@@ -767,7 +767,7 @@ async function setupTeamMemberQualifications(page: Page): Promise<void> {
 
   // Navigate to team settings to configure qualifications
   const settingsTab = page.locator('main a:has-text("Settings")');
-  await settingsTab.waitFor({ state: "visible", timeout: 10000 });
+  await settingsTab.waitFor({ state: "visible", timeout: 10_000 });
   await settingsTab.click();
   console.log("✅ Clicked on team Settings tab");
 
@@ -779,7 +779,7 @@ async function setupTeamMemberQualifications(page: Page): Promise<void> {
 
   // Navigate back to team members to set individual qualifications
   const membersTab = page.locator('main a:has-text("Members")');
-  await membersTab.waitFor({ state: "visible", timeout: 10000 });
+  await membersTab.waitFor({ state: "visible", timeout: 10_000 });
   await membersTab.click();
   console.log("✅ Navigated to team Members tab");
 
@@ -804,7 +804,7 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
 
   // Navigate to team leave schedule tab
   const leaveScheduleTab = page.locator('main a:has-text("Leave Schedule")');
-  await leaveScheduleTab.waitFor({ state: "visible", timeout: 10000 });
+  await leaveScheduleTab.waitFor({ state: "visible", timeout: 10_000 });
   await leaveScheduleTab.click();
   console.log("✅ Clicked on Leave Schedule tab");
 
@@ -894,7 +894,7 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
     "text=Team member vacation request, text=Vacation"
   );
   try {
-    await leaveRequestElement.waitFor({ state: "visible", timeout: 10000 });
+    await leaveRequestElement.waitFor({ state: "visible", timeout: 10_000 });
     console.log("✅ Leave request appears in leave schedule");
   } catch {
     console.log(

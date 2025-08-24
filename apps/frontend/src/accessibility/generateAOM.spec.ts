@@ -4,26 +4,26 @@ import { describe, it, expect } from "vitest";
 import { generateAccessibilityObjectModel } from "./generateAOM";
 
 function createTestDocument(html: string): Document {
-  return new window.DOMParser().parseFromString(html, "text/html");
+  return new globalThis.DOMParser().parseFromString(html, "text/html");
 }
 
 describe("generateAccessibilityObjectModel", () => {
   it("should return an empty root if no elements have roles", () => {
-    const doc = createTestDocument("<div><span>No roles here</span></div>");
-    const aom = generateAccessibilityObjectModel(doc);
+    const document_ = createTestDocument("<div><span>No roles here</span></div>");
+    const aom = generateAccessibilityObjectModel(document_);
     expect(aom.root.role).toBe("root");
     expect(aom.root.children).toBeNull();
   });
 
   it("should include only elements with explicit roles", () => {
-    const doc = createTestDocument(`
+    const document_ = createTestDocument(`
       <div>
         <button role="button" aria-label="Click me">Click me</button>
         <span>No role</span>
         <section role="region" aria-label="Section">Section</section>
       </div>
     `);
-    const aom = generateAccessibilityObjectModel(doc);
+    const aom = generateAccessibilityObjectModel(document_);
     expect(aom.root.children).toHaveLength(2);
     expect(aom.root.children?.[0].role).toBe("button");
     expect(aom.root.children?.[0].description).toBe("Click me");
@@ -32,7 +32,7 @@ describe("generateAccessibilityObjectModel", () => {
   });
 
   it("should bypass nodes without roles and attach their children to the parent", () => {
-    const doc = createTestDocument(`
+    const document_ = createTestDocument(`
       <div>
         <div>
           <button role="button" aria-label="Btn1">Btn1</button>
@@ -41,14 +41,14 @@ describe("generateAccessibilityObjectModel", () => {
         </div>
       </div>
     `);
-    const aom = generateAccessibilityObjectModel(doc);
+    const aom = generateAccessibilityObjectModel(document_);
     expect(aom.root.children).toHaveLength(2);
     expect(aom.root.children?.[0].description).toBe("Btn1");
     expect(aom.root.children?.[1].description).toBe("Btn2");
   });
 
   it("should handle nested roles and bypass intermediate nodes without roles", () => {
-    const doc = createTestDocument(`
+    const document_ = createTestDocument(`
       <div>
         <div>
           <section role="region" aria-label="Outer">
@@ -59,7 +59,7 @@ describe("generateAccessibilityObjectModel", () => {
         </div>
       </div>
     `);
-    const aom = generateAccessibilityObjectModel(doc);
+    const aom = generateAccessibilityObjectModel(document_);
     expect(aom.root.children).toHaveLength(1);
     expect(aom.root.role).toBe("region");
     const region = aom.root;
@@ -69,21 +69,21 @@ describe("generateAccessibilityObjectModel", () => {
   });
 
   it("should use aria-label, aria-description, or text content for description", () => {
-    const doc = createTestDocument(`
+    const document_ = createTestDocument(`
       <div>
         <button role="button" aria-label="Labelled">Text</button>
         <button role="button" aria-description="Described">Text</button>
         <button role="button">TextContent</button>
       </div>
     `);
-    const aom = generateAccessibilityObjectModel(doc);
+    const aom = generateAccessibilityObjectModel(document_);
     expect(aom.root.children?.[0].description).toBe("Labelled");
     expect(aom.root.children?.[1].description).toBe("Described");
     expect(aom.root.children?.[2]).toBe(undefined);
   });
 
   it("should include all aria-* attributes as properties without the aria- prefix", () => {
-    const doc = createTestDocument(`
+    const document_ = createTestDocument(`
       <div role="generic">
         <button 
           role="button" 
@@ -98,7 +98,7 @@ describe("generateAccessibilityObjectModel", () => {
         </button>
       </div>
     `);
-    const aom = generateAccessibilityObjectModel(doc);
+    const aom = generateAccessibilityObjectModel(document_);
     console.log("Test - AOM:", aom);
     const button = aom.root;
 

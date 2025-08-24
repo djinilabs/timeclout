@@ -19,12 +19,12 @@ import type {
   User,
 } from "../../graphql/graphql";
 import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCalendar";
-import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
+import { useAnalyzeTeamShiftsCalendarParams as useAnalyzeTeamShiftsCalendarParameters } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
 import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
 import { useHolidays } from "../../hooks/useHolidays";
 import { useLocalPreference } from "../../hooks/useLocalPreference";
 import { useMutation } from "../../hooks/useMutation";
-import { useSearchParam } from "../../hooks/useSearchParam";
+import { useSearchParam as useSearchParameter } from "../../hooks/useSearchParam";
 import {
   LeaveRenderInfo,
   useTeamLeaveSchedule,
@@ -49,7 +49,7 @@ import { Day } from "../particles/MonthDailyCalendar";
 import { AnalyzeTeamShiftsCalendarMenu } from "../team-shifts/AnalyzeTeamShiftsCalendarMenu";
 import {
   TeamShiftsCalendar,
-  TeamShiftsCalendarProps,
+  TeamShiftsCalendarProps as TeamShiftsCalendarProperties,
 } from "../team-shifts/TeamShiftsCalendar";
 
 import { CreateOrEditScheduleDayTemplateDialog } from "./CreateOrEditScheduleDayTemplateDialog";
@@ -73,19 +73,19 @@ import { getDefined } from "@/utils";
 
 export const TeamShiftsSchedule = () => {
   const { companyPk, teamPk, team } = useEntityNavigationContext();
-  const { current: isDialogOpen, set: setIsDialogOpen } = useSearchParam(
+  const { current: isDialogOpen, set: setIsDialogOpen } = useSearchParameter(
     "team-shift-schedule-dialog"
   );
   const [helpPanelOpen, setHelpPanelOpen] = useState(false);
 
-  const [params, setParams] = useSearchParams();
+  const [parameters, setParameters] = useSearchParams();
   const selectedMonth = useMemo(() => {
-    const month = params.get("month");
+    const month = parameters.get("month");
     if (!month) {
       return DayDate.today();
     }
     return new DayDate(month);
-  }, [params]);
+  }, [parameters]);
 
   const [previouslySelectedMonth, setPreviouslySelectedMonth] =
     useState<DayDate>(selectedMonth);
@@ -95,11 +95,11 @@ export const TeamShiftsSchedule = () => {
       const month = _month.firstOfMonth();
       if (!selectedMonth.isSameMonth(month)) {
         setPreviouslySelectedMonth(selectedMonth);
-        params.set("month", month.toString());
-        setParams(params);
+        parameters.set("month", month.toString());
+        setParameters(parameters);
       }
     },
-    [params, selectedMonth, setParams]
+    [parameters, selectedMonth, setParameters]
   );
 
   const calendarStartDay = useMemo(() => {
@@ -133,11 +133,11 @@ export const TeamShiftsSchedule = () => {
 
   const [holidaysCountry, setHolidaysCountry] = useLocalPreference<
     string | undefined
-  >("team-shifts-calendar-holidays-country", undefined);
+  >("team-shifts-calendar-holidays-country");
 
   const [holidaysRegion, setHolidaysRegion] = useLocalPreference<
     string | undefined
-  >("team-shifts-calendar-holidays-region", undefined);
+  >("team-shifts-calendar-holidays-region");
 
   const { data: holidays } = useHolidays({
     country: holidaysCountry,
@@ -157,7 +157,7 @@ export const TeamShiftsSchedule = () => {
     team: getDefined(teamPk),
     startDay: calendarStartDay,
     endDay: calendarEndDay,
-    pollingIntervalMs: 30000,
+    pollingIntervalMs: 30_000,
     pause: !!isDialogOpen,
     restrictToUsers: showFilters && filterUsers ? filteredUsers : undefined,
   });
@@ -242,8 +242,8 @@ export const TeamShiftsSchedule = () => {
   >([]);
 
   const onShiftPositionClick = useCallback(
-    (shiftPosition: ShiftPositionWithFake, ev: MouseEvent) => {
-      if (ev.shiftKey) {
+    (shiftPosition: ShiftPositionWithFake, event_: MouseEvent) => {
+      if (event_.shiftKey) {
         if (
           selectedShiftPositionKeys.includes(shiftPositionKey(shiftPosition))
         ) {
@@ -254,7 +254,7 @@ export const TeamShiftsSchedule = () => {
           );
         } else {
           setSelectedShiftPositionKeys((selectedShiftPositionKeys) =>
-            selectedShiftPositionKeys.concat([shiftPositionKey(shiftPosition)])
+            [...selectedShiftPositionKeys, shiftPositionKey(shiftPosition)]
           );
         }
       } else {
@@ -306,7 +306,7 @@ export const TeamShiftsSchedule = () => {
   // editing shift position
   const [editingShiftPosition, setEditingShiftPosition] = useState<
     ShiftPositionType | undefined
-  >(undefined);
+  >();
 
   const handleEditShiftPosition = useCallback(
     (shiftPosition: ShiftPositionWithFake) => {
@@ -359,7 +359,7 @@ export const TeamShiftsSchedule = () => {
     setAnalyzeWorkerSlotEquality,
     analyzeWorkerSlotProximity,
     setAnalyzeWorkerSlotProximity,
-  } = useAnalyzeTeamShiftsCalendarParams(analyze);
+  } = useAnalyzeTeamShiftsCalendarParameters(analyze);
 
   const { analyzedShiftPositionsMap } = useAnalyzeTeamShiftsCalendar(
     useMemo(
@@ -437,7 +437,7 @@ export const TeamShiftsSchedule = () => {
     ).sort()) {
       const week = new DayDate(day).getWeekNumber();
       const dayShiftPositionsRows = shiftPositions.reduce(
-        (acc, shiftPosition) => acc + shiftPosition.rowSpan,
+        (accumulator, shiftPosition) => accumulator + shiftPosition.rowSpan,
         0
       );
       weekNumbers[week] = Math.max(
@@ -530,9 +530,9 @@ export const TeamShiftsSchedule = () => {
                 {holidaysForDay}
               </div>
             </div>
-          ) : weekHasHolidays ? (
+          ) : (weekHasHolidays ? (
             <div className="p-2 border-gray-100 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0"></div>
-          ) : null}
+          ) : null)}
           {leaves?.map((leave, leaveIndex) => (
             <Transition show={showLeaveSchedule} appear key={leaveIndex}>
               <div
@@ -557,7 +557,7 @@ export const TeamShiftsSchedule = () => {
           ))}
           {shiftPositions?.map((shiftPosition, shiftPositionIndex) => {
             const hasConflict =
-              shiftPosition.assignedTo != null &&
+              shiftPosition.assignedTo != undefined &&
               (leaves?.some(
                 (leave) => leave.user.pk === shiftPosition.assignedTo?.pk
               ) ||
@@ -597,10 +597,10 @@ export const TeamShiftsSchedule = () => {
               <div
                 key={`shift-position-${shiftPositionIndex}`}
                 className="transition-all duration-300 ease-in"
-                onClick={(ev) => {
-                  onShiftPositionClick(shiftPosition, ev);
-                  ev.preventDefault();
-                  ev.stopPropagation();
+                onClick={(event_) => {
+                  onShiftPositionClick(shiftPosition, event_);
+                  event_.preventDefault();
+                  event_.stopPropagation();
                 }}
               >
                 <ShiftPosition
@@ -666,14 +666,14 @@ export const TeamShiftsSchedule = () => {
 
   // render per member and per day
   const members = useMemo(() => {
-    return Object.values(shiftPositionsMap).reduce((acc, shiftPositions) => {
+    return Object.values(shiftPositionsMap).reduce((accumulator, shiftPositions) => {
       for (const shiftPosition of shiftPositions) {
         const user = shiftPosition.assignedTo;
-        if (user && !acc.find((m) => m.pk === user.pk)) {
-          acc.push(user);
+        if (user && !accumulator.find((m) => m.pk === user.pk)) {
+          accumulator.push(user);
         }
       }
-      return acc;
+      return accumulator;
     }, [] as User[]);
   }, [shiftPositionsMap]);
 
@@ -690,13 +690,13 @@ export const TeamShiftsSchedule = () => {
               (shiftPosition) => shiftPosition.assignedTo?.pk === member.pk
             )
           )
-          .reduce((acc, shiftPosition) => {
+          .reduce((accumulator, shiftPosition) => {
             const day = shiftPosition.day;
-            if (!acc[day]) {
-              acc[day] = [];
+            if (!accumulator[day]) {
+              accumulator[day] = [];
             }
-            acc[day].push(shiftPosition);
-            return acc;
+            accumulator[day].push(shiftPosition);
+            return accumulator;
           }, {} as Record<string, ShiftPositionWithRowSpan[]>),
       ])
     );
@@ -760,10 +760,10 @@ export const TeamShiftsSchedule = () => {
             <div
               key={`shift-position-${shiftPositionIndex}`}
               className="transition-all duration-300 ease-in"
-              onClick={(ev) => {
-                onShiftPositionClick(shiftPosition, ev);
-                ev.preventDefault();
-                ev.stopPropagation();
+              onClick={(event_) => {
+                onShiftPositionClick(shiftPosition, event_);
+                event_.preventDefault();
+                event_.stopPropagation();
               }}
             >
               <ShiftPosition
@@ -822,7 +822,7 @@ export const TeamShiftsSchedule = () => {
     ]
   );
 
-  const additionalActions: TeamShiftsCalendarProps["additionalActions"] =
+  const additionalActions: TeamShiftsCalendarProperties["additionalActions"] =
     useMemo(
       () => [
         ...((team?.resourcePermission ?? -1) >= 2 // WRITE
@@ -945,7 +945,7 @@ export const TeamShiftsSchedule = () => {
         <div role="status" aria-live="polite">
           <Trans>Loading calendar...</Trans>
         </div>
-      ) : error ? (
+      ) : (error ? (
         <div role="alert" aria-live="assertive">
           <Trans>Error loading calendar data</Trans>
         </div>
@@ -963,7 +963,7 @@ export const TeamShiftsSchedule = () => {
           helpPanelOpen={helpPanelOpen}
           setHelpPanelOpen={setHelpPanelOpen}
         />
-      )}
+      ))}
       <ShiftsAutofillDialog
         isDialogOpen={isDialogOpen === "autoFill"}
         onClose={() => {

@@ -8,7 +8,7 @@ import { ScoredShiftSchedule, type SchedulerState } from "@/scheduler";
 
 
 
-export interface ShiftAutoFillSolutionStatsProps {
+export interface ShiftAutoFillSolutionStatsProperties {
   solution: ScoredShiftSchedule;
   progress: SchedulerState;
 }
@@ -16,7 +16,7 @@ export interface ShiftAutoFillSolutionStatsProps {
 export const ShiftAutoFillSolutionStats = ({
   solution,
   progress,
-}: ShiftAutoFillSolutionStatsProps) => {
+}: ShiftAutoFillSolutionStatsProperties) => {
   const stats = useMemo(() => {
     return [
       ...(solution
@@ -49,12 +49,12 @@ export const ShiftAutoFillSolutionStats = ({
   }, [progress.topSolutions, solution]);
 
   const discardedStats = useMemo(() => {
-    const total = Array.from(progress.discardedReasons.values()).reduce(
+    const total = [...progress.discardedReasons.values()].reduce(
       (sum, count) => sum + count,
       0
     );
 
-    return Array.from(progress.discardedReasons.entries()).map(
+    return [...progress.discardedReasons.entries()].map(
       ([reason, count]) => ({
         name: reason,
         stat: `${Math.round((count / total) * 100).toLocaleString()}%`,

@@ -22,7 +22,7 @@ import { ShiftPositionMenu } from "./ShiftPositionMenu";
 
 import { colors } from "@/settings";
 
-export interface ShiftPositionProps {
+export interface ShiftPositionProperties {
   teamPk: string;
   shiftPosition: AnalyzedShiftPosition;
   hideName?: boolean;
@@ -85,7 +85,7 @@ const calculateAverageDeviation = (
 
   if (validDeviations.length === 0) return undefined;
 
-  const sum = validDeviations.reduce((acc, val) => acc + val, 0);
+  const sum = validDeviations.reduce((accumulator, value) => accumulator + value, 0);
   return sum / validDeviations.length;
 };
 
@@ -137,7 +137,7 @@ export const ShiftPosition = memo(
     marginLeftAccordingToSchedule = true,
     onShiftPositionDragStart,
     onShiftPositionDragEnd,
-  }: ShiftPositionProps) => {
+  }: ShiftPositionProperties) => {
     const conflicts =
       originalConflicts ||
       shiftPosition.hasLeaveConflict ||
@@ -151,18 +151,18 @@ export const ShiftPosition = memo(
       schedules[0].startHourMinutes as [number, number]
     );
     const latestTime = toMinutes(
-      schedules[schedules.length - 1].endHourMinutes as [number, number]
+      schedules.at(-1).endHourMinutes as [number, number]
     );
     const totalMinutes = latestTime;
     const startPercent = Math.round((startTime / totalMinutes) * 100);
 
-    const ref = useRef<HTMLDivElement>(null);
+    const reference = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       const persistFocus = (tries = 0) => {
-        if (ref.current) {
-          if (!ref.current.contains(document.activeElement)) {
-            ref.current.focus();
+        if (reference.current) {
+          if (!reference.current.contains(document.activeElement)) {
+            reference.current.focus();
           }
         } else if (tries < 5) {
           setTimeout(() => {
@@ -176,7 +176,7 @@ export const ShiftPosition = memo(
     }, [focus, shiftPosition.day]);
 
     const draggable =
-      onShiftPositionDragStart != null || onShiftPositionDragEnd != null;
+      onShiftPositionDragStart != undefined || onShiftPositionDragEnd != undefined;
 
     const onDragStart = useCallback(
       (e: React.DragEvent<HTMLDivElement>) => {
@@ -204,7 +204,7 @@ export const ShiftPosition = memo(
           <div key={index} className="h-full w-full"></div>
         ))}
         <div
-          ref={ref}
+          ref={reference}
           onFocus={() => setFocusedShiftPosition?.(shiftPosition)}
           autoFocus={autoFocus}
           tabIndex={tabIndex}

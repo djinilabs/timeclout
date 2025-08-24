@@ -2,7 +2,7 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-interface AgreementDialogProps {
+interface AgreementDialogProperties {
   isOpen: boolean;
   onAgree: () => void;
   onDisagree: () => void;
@@ -12,7 +12,7 @@ export const AgreementDialog = ({
   isOpen,
   onAgree,
   onDisagree,
-}: AgreementDialogProps) => {
+}: AgreementDialogProperties) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAgree = async () => {

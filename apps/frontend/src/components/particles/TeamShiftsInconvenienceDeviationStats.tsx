@@ -9,44 +9,44 @@ import {
   DeviationBarPlotDatum,
 } from "../stats/DeviationBarPlot";
 
-interface TeamShiftsInconvenienceDeviationStatsProps {
+interface TeamShiftsInconvenienceDeviationStatsProperties {
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
 }
 
-export const TeamShiftsInconvenienceDeviationStats: FC<TeamShiftsInconvenienceDeviationStatsProps> =
+export const TeamShiftsInconvenienceDeviationStats: FC<TeamShiftsInconvenienceDeviationStatsProperties> =
   memo(({ shiftPositionsMap }) => {
     const { workerById, inconvenienceByWorker, expectedInconvenience } =
       useMemo(() => {
         // Group shifts by worker
         const workerShifts = Object.values(shiftPositionsMap)
           .flat()
-          .reduce((acc, shiftPosition) => {
-            if (!shiftPosition.assignedTo) return acc;
+          .reduce((accumulator, shiftPosition) => {
+            if (!shiftPosition.assignedTo) return accumulator;
 
             const workerPk = shiftPosition.assignedTo.pk;
-            if (!acc[workerPk]) {
-              acc[workerPk] = [];
+            if (!accumulator[workerPk]) {
+              accumulator[workerPk] = [];
             }
-            acc[workerPk].push(shiftPosition);
-            return acc;
+            accumulator[workerPk].push(shiftPosition);
+            return accumulator;
           }, {} as Record<string, ShiftPositionWithRowSpan[]>);
 
         // Calculate total inconvenience across all shifts
         const totalInconvenience = Object.values(workerShifts).reduce(
-          (acc, shifts) =>
-            acc +
+          (accumulator, shifts) =>
+            accumulator +
             shifts.reduce(
-              (shiftAcc, shift) =>
-                shiftAcc +
+              (shiftAccumulator, shift) =>
+                shiftAccumulator +
                 shift.schedules.reduce(
-                  (scheduleAcc, schedule) =>
-                    scheduleAcc +
+                  (scheduleAccumulator, schedule) =>
+                    scheduleAccumulator +
                     schedule.startHourMinutes.reduce(
-                      (hourAcc, startMinute, index) => {
+                      (hourAccumulator, startMinute, index) => {
                         const endMinute = schedule.endHourMinutes[index];
                         const durationHours = (endMinute - startMinute) / 60;
                         return (
-                          hourAcc +
+                          hourAccumulator +
                           durationHours * schedule.inconveniencePerHour
                         );
                       },
@@ -68,17 +68,17 @@ export const TeamShiftsInconvenienceDeviationStats: FC<TeamShiftsInconvenienceDe
           .map(([workerPk, shifts]) => ({
             workerPk,
             totalInconvenience: shifts.reduce(
-              (acc, shift) =>
-                acc +
+              (accumulator, shift) =>
+                accumulator +
                 shift.schedules.reduce(
-                  (scheduleAcc, schedule) =>
-                    scheduleAcc +
+                  (scheduleAccumulator, schedule) =>
+                    scheduleAccumulator +
                     schedule.startHourMinutes.reduce(
-                      (hourAcc, startMinute, index) => {
+                      (hourAccumulator, startMinute, index) => {
                         const endMinute = schedule.endHourMinutes[index];
                         const durationHours = (endMinute - startMinute) / 60;
                         return (
-                          hourAcc +
+                          hourAccumulator +
                           durationHours * schedule.inconveniencePerHour
                         );
                       },
@@ -95,11 +95,11 @@ export const TeamShiftsInconvenienceDeviationStats: FC<TeamShiftsInconvenienceDe
         // Collect worker info by id
         const workerById = Object.values(shiftPositionsMap)
           .flat()
-          .reduce((acc, shiftPosition) => {
+          .reduce((accumulator, shiftPosition) => {
             if (shiftPosition.assignedTo) {
-              acc[shiftPosition.assignedTo.pk] = shiftPosition.assignedTo;
+              accumulator[shiftPosition.assignedTo.pk] = shiftPosition.assignedTo;
             }
-            return acc;
+            return accumulator;
           }, {} as Record<string, NonNullable<ShiftPositionWithRowSpan["assignedTo"]>>);
 
         return {

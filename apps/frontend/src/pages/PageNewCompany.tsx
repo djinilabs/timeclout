@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "../components/particles/Button";
-import { Mutation, MutationCreateCompanyArgs } from "../graphql/graphql";
+import { Mutation, MutationCreateCompanyArgs as MutationCreateCompanyArguments } from "../graphql/graphql";
 import { useMutation } from "../hooks/useMutation";
 
 import createCompanyMutation from "@/graphql-client/mutations/createCompany.graphql";
@@ -17,7 +17,7 @@ export const PageNewCompany = () => {
 
   const [, createCompany] = useMutation<
     Mutation["createCompany"],
-    MutationCreateCompanyArgs
+    MutationCreateCompanyArguments
   >(createCompanyMutation);
 
   const form = useForm<

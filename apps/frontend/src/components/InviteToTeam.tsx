@@ -6,7 +6,7 @@ import { useForm } from "@tanstack/react-form";
 import { FC } from "react";
 import toast from "react-hot-toast";
 
-import { Mutation, MutationCreateInvitationArgs } from "../graphql/graphql";
+import { Mutation, MutationCreateInvitationArgs as MutationCreateInvitationArguments } from "../graphql/graphql";
 import { useMutation } from "../hooks/useMutation";
 
 import { PermissionInput } from "./atoms/PermissionInput";
@@ -15,15 +15,15 @@ import { FieldComponent } from "./types";
 
 import inviteToTeamMutation from "@/graphql-client/mutations/inviteToTeam.graphql";
 
-export interface InviteToTeamProps {
+export interface InviteToTeamProperties {
   teamPk: string;
   onDone: () => void;
 }
 
-export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
+export const InviteToTeam: FC<InviteToTeamProperties> = ({ teamPk, onDone }) => {
   const [, inviteToTeam] = useMutation<
     Mutation["createInvitation"],
-    MutationCreateInvitationArgs
+    MutationCreateInvitationArguments
   >(inviteToTeamMutation);
   const form = useForm({
     defaultValues: {

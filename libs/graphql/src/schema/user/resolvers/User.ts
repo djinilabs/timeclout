@@ -19,26 +19,27 @@ export const User: UserResolvers = {
       ""
     );
   },
-  settings: async (parent, args) => {
+  settings: async (parent, arguments_) => {
     const { entity_settings } = await database();
-    return (await entity_settings.get(parent.pk, args.name))?.settings;
+    const result = await entity_settings.get(parent.pk, arguments_.name);
+    return result?.settings;
   },
-  createdBy: async (parent, _args, ctx) => {
+  createdBy: async (parent, _arguments, context) => {
     // Cast to access the raw database field where createdBy is a string
-    const userRef = (parent as unknown as { createdBy?: string }).createdBy;
-    if (!userRef) {
+    const userReference = (parent as unknown as { createdBy?: string }).createdBy;
+    if (!userReference) {
       return null;
     }
-    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    const user = await context.userCache.getUser(getResourceRef(userReference));
     return user as unknown as UserType;
   },
-  updatedBy: async (parent, _args, ctx) => {
+  updatedBy: async (parent, _arguments, context) => {
     // Cast to access the raw database field where updatedBy is a string
-    const userRef = (parent as unknown as { updatedBy?: string }).updatedBy;
-    if (!userRef) {
+    const userReference = (parent as unknown as { updatedBy?: string }).updatedBy;
+    if (!userReference) {
       return null;
     }
-    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    const user = await context.userCache.getUser(getResourceRef(userReference));
     return user as unknown as UserType;
   },
 };

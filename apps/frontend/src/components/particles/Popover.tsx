@@ -2,13 +2,13 @@ import { Placement } from "@popperjs/core";
 import { FC, PropsWithChildren, memo, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePopper } from "react-popper";
-export interface PopoverProps extends PropsWithChildren {
+export interface PopoverProperties extends PropsWithChildren {
   referenceElement: HTMLElement | null;
   placement?: Placement;
   ariaLabel?: string;
 }
 
-export const Popover: FC<PopoverProps> = memo(
+export const Popover: FC<PopoverProperties> = memo(
   ({ children, referenceElement, placement, ariaLabel }) => {
     const [popperElement, setPopperElement] = useState<HTMLElement | null>(
       null
@@ -41,7 +41,7 @@ export const Popover: FC<PopoverProps> = memo(
         />
         {children}
       </div>,
-      document.getElementById("popper-container")!
+      document.querySelector("#popper-container")!
     );
   }
 );

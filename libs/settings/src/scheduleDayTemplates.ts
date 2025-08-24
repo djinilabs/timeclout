@@ -11,8 +11,8 @@ export const scheduleDayTemplatesParser = {
   parse: (item: unknown) => {
     try {
       return scheduleDayTemplatesSchema.parse(item);
-    } catch (err) {
-      throw new Error(`Error parsing schedule day templates: ${err.message}`);
+    } catch (error) {
+      throw new Error(`Error parsing schedule day templates: ${error.message}`);
     }
   },
 };

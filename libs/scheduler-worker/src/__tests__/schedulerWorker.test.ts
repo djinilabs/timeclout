@@ -8,7 +8,7 @@ import type { SchedulerState, SchedulerOptions } from "@/scheduler";
 vi.mock("../schedulerWorker?worker", () => {
   return {
     default: class MockWorker {
-      onmessage: ((ev: MessageEvent) => void) | null = null;
+      onmessage: ((event_: MessageEvent) => void) | null = null;
       private intervalId: NodeJS.Timeout | null = null;
 
       constructor() {
@@ -38,8 +38,8 @@ vi.mock("../schedulerWorker?worker", () => {
                               id: "slot1",
                               workHours: [
                                 {
-                                  start: 32400,
-                                  end: 61200,
+                                  start: 32_400,
+                                  end: 61_200,
                                   inconvenienceMultiplier: 1,
                                 },
                               ],
@@ -102,8 +102,8 @@ const mockSlots = [
     id: "slot1",
     workHours: [
       {
-        start: 32400,
-        end: 61200,
+        start: 32_400,
+        end: 61_200,
         inconvenienceMultiplier: 1,
       },
     ],
@@ -115,8 +115,8 @@ const mockSlots = [
     id: "slot2",
     workHours: [
       {
-        start: 32400,
-        end: 61200,
+        start: 32_400,
+        end: 61_200,
         inconvenienceMultiplier: 1,
       },
     ],
@@ -160,8 +160,8 @@ describe("SchedulerWorkerClient", () => {
   afterEach(() => {
     try {
       client.stop();
-    } catch (e) {
-      console.error("Error stopping worker", e);
+    } catch (error) {
+      console.error("Error stopping worker", error);
       // Ignore errors if worker wasn't started
     }
   });
@@ -187,13 +187,13 @@ describe("SchedulerWorkerClient", () => {
       client.stop();
 
       expect(progressUpdates.length).toBeGreaterThanOrEqual(2);
-      progressUpdates.forEach((update) => {
+      for (const update of progressUpdates) {
         expect(update).toHaveProperty("cycleCount");
         expect(update).toHaveProperty("computed");
         expect(update).toHaveProperty("topSolutions");
-      });
+      }
     },
-    { timeout: 10000 }
+    { timeout: 10_000 }
   );
 
   it("should throw when starting an already started worker", async () => {
@@ -212,7 +212,7 @@ describe("SchedulerWorkerClient", () => {
         await new Promise<void>((resolve) => {
           client.start(defaultOptions, (progress) => {
             progressUpdates.push(progress);
-            if (progressUpdates.length >= 1) {
+            if (progressUpdates.length > 0) {
               resolve();
             }
           });
@@ -223,12 +223,12 @@ describe("SchedulerWorkerClient", () => {
       };
 
       // Run three cycles
-      for (let i = 0; i < 3; i++) {
+      for (let index = 0; index < 3; index++) {
         const updates = await runCycle();
         expect(updates.length).toBeGreaterThanOrEqual(1);
       }
     },
-    { timeout: 10000 }
+    { timeout: 10_000 }
   );
 
   it(
@@ -255,13 +255,13 @@ describe("SchedulerWorkerClient", () => {
       expect(solution.schedule).toHaveProperty("shifts");
       expect(solution.schedule.shifts.length).toBeGreaterThan(0);
 
-      solution.schedule.shifts.forEach((shift) => {
+      for (const shift of solution.schedule.shifts) {
         expect(shift).toHaveProperty("slot");
         expect(shift).toHaveProperty("assigned");
         expect(shift.slot).toHaveProperty("workHours");
         expect(shift.slot.workHours).toBeInstanceOf(Array);
-      });
+      }
     },
-    { timeout: 10000 }
+    { timeout: 10_000 }
   );
 });

@@ -2,7 +2,7 @@ import { FC, memo, ReactNode, useEffect, useState } from "react";
 
 import { classNames } from "../../utils/classNames";
 
-export interface VerticalTabsProps {
+export interface VerticalTabsProperties {
   tabs: {
     id: string;
     label: ReactNode;
@@ -10,7 +10,7 @@ export interface VerticalTabsProps {
   }[];
 }
 
-export const VerticalTabs: FC<VerticalTabsProps> = memo(({ tabs }) => {
+export const VerticalTabs: FC<VerticalTabsProperties> = memo(({ tabs }) => {
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0]?.id ?? "");
 
   useEffect(() => {

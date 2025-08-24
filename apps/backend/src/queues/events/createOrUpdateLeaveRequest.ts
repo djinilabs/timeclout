@@ -90,7 +90,7 @@ export const handleCreateOrUpdateLeaveRequest = async ({
     }
     // get approving manager emails
     // send emails to approving managers
-    const emailParams: EmailParams = {
+    const emailParameters: EmailParams = {
       type: "leaveRequestToManager",
       leaveRequestType: leaveRequest.type,
       leaveRequestReason: leaveRequest.reason,
@@ -101,7 +101,7 @@ export const handleCreateOrUpdateLeaveRequest = async ({
       manager: manager,
       continueUrl: `${process.env.BASE_URL}/${leaveRequest.pk}/leave-requests/${leaveRequest.sk}`,
     };
-    const emailBody = await renderEmail(emailParams);
+    const emailBody = await renderEmail(emailParameters);
     await sendEmail({
       to: getDefined(manager.email, "Manager has no email"),
       subject: `[${company.name}] Leave Request`,

@@ -9,19 +9,19 @@ import { resourceRef } from "@/utils";
 
 
 
-export const myQuotaFulfilment: NonNullable<QueryResolvers['myQuotaFulfilment']> = async (_parent, arg, ctx) => {
+export const myQuotaFulfilment: NonNullable<QueryResolvers['myQuotaFulfilment']> = async (_parent, argument, context) => {
   const { companyPk, startDate, endDate, simulatesLeave, simulatesLeaveType } =
-    arg;
-  const companyRef = resourceRef("companies", companyPk);
-  const userRef = await ensureAuthorized(
-    ctx,
-    companyRef,
+    argument;
+  const companyReference = resourceRef("companies", companyPk);
+  const userReference = await ensureAuthorized(
+    context,
+    companyReference,
     PERMISSION_LEVELS.READ
   );
 
   const quotaFulfilment = await getQuotaFulfilment({
-    companyRef,
-    userRef,
+    companyRef: companyReference,
+    userRef: userReference,
     startDate: new DayDate(startDate),
     endDate: new DayDate(endDate),
     simulatesLeave: simulatesLeave ?? undefined,

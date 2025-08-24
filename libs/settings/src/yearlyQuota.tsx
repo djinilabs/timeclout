@@ -9,8 +9,8 @@ export const yearlyQuotaParser = {
   parse: (item: unknown) => {
     try {
       return yearlyQuotaSchema.parse(item);
-    } catch (err) {
-      throw new Error(`Error parsing leave type: ${err.message}`);
+    } catch (error) {
+      throw new Error(`Error parsing leave type: ${error.message}`);
     }
   },
 };

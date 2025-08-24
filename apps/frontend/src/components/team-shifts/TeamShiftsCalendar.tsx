@@ -23,7 +23,7 @@ import { TeamShiftsSummary } from "./TeamShiftsSummary";
 
 import { DayDate } from "@/day-date";
 
-export interface TeamShiftsCalendarProps {
+export interface TeamShiftsCalendarProperties {
   shiftPositionsMap: Record<string, AnalyzedShiftPosition[]>;
   show?: boolean;
   onDayFocus?: (day: string) => void;
@@ -54,8 +54,8 @@ export interface TeamShiftsCalendarProps {
 }
 
 export const TeamShiftsCalendar: FC<
-  PropsWithChildren<TeamShiftsCalendarProps>
-> = ({ children, ...props }) => {
+  PropsWithChildren<TeamShiftsCalendarProperties>
+> = ({ children, ...properties }) => {
   const tabs = useMemo<Tab[]>(
     () => [
       { name: i18n.t("By day"), href: "by-day", icon: CalendarDaysIcon },
@@ -69,7 +69,7 @@ export const TeamShiftsCalendar: FC<
 
   return (
     <div>
-      <CalendarHeader {...props} />
+      <CalendarHeader {...properties} />
       <Tabs
         tabs={tabs}
         tabPropName="shiftsCalendarTab"
@@ -79,15 +79,15 @@ export const TeamShiftsCalendar: FC<
         {children}
         <div className="mt-8 flex flex-row gap-4">
           <div className="flex-1">
-            {tab.href === "by-day" && <MonthDailyCalendar {...props} />}
+            {tab.href === "by-day" && <MonthDailyCalendar {...properties} />}
             {tab.href === "by-member" && (
-              <MonthlyCalendarPerMember {...props} />
+              <MonthlyCalendarPerMember {...properties} />
             )}
-            {tab.href === "by-duration" && <TeamShiftsSummary {...props} />}
-            {tab.href === "stats" && <TeamShiftsStats {...props} />}
+            {tab.href === "by-duration" && <TeamShiftsSummary {...properties} />}
+            {tab.href === "stats" && <TeamShiftsStats {...properties} />}
           </div>
           <Suspense>
-            <div className="h-full overflow-y-auto relative">{props.tools}</div>
+            <div className="h-full overflow-y-auto relative">{properties.tools}</div>
           </Suspense>
         </div>
       </Tabs>

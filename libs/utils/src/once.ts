@@ -1,10 +1,10 @@
-export const once = <T>(fn: () => T): (() => T) => {
+export const once = <T>(function_: () => T): (() => T) => {
   let called = false;
   let result: T | null = null;
   return () => {
     if (!called) {
       called = true;
-      result = fn();
+      result = function_();
     }
     return result as T;
   };

@@ -28,7 +28,7 @@ export const useTeamDayTemplates = (teamPk: string) => {
       }
       setCreatingTeamScheduleDayTemplate(true);
       await saveTeamDayTemplates({
-        ...(scheduleDayTemplates ?? {}),
+        ...scheduleDayTemplates,
         [name]: template,
       });
       setCreatingTeamScheduleDayTemplate(false);

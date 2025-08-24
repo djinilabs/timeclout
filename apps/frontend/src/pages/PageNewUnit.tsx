@@ -6,7 +6,7 @@ import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Mutation, MutationCreateUnitArgs } from "../graphql/graphql";
+import { Mutation, MutationCreateUnitArgs as MutationCreateUnitArguments } from "../graphql/graphql";
 import { useMutation } from "../hooks/useMutation";
 
 import createUnitMutation from "@/graphql-client/mutations/createUnit.graphql";
@@ -17,7 +17,7 @@ export const PageNewUnit = () => {
   const navigate = useNavigate();
   const [, createUnit] = useMutation<
     Mutation["createUnit"],
-    MutationCreateUnitArgs
+    MutationCreateUnitArguments
   >(createUnitMutation);
   const form = useForm<
     { "unit-name": string },

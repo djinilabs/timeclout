@@ -13,36 +13,36 @@ import { resourceRef } from "@/utils";
 
 export const createTeam: NonNullable<MutationResolvers["createTeam"]> = async (
   _parent,
-  arg,
-  _ctx
+  argument,
+  _context
 ) => {
-  const unitRef = resourceRef("units", arg.unitPk);
-  const userRef = await ensureAuthorized(
-    _ctx,
-    unitRef,
+  const unitReference = resourceRef("units", argument.unitPk);
+  const userReference = await ensureAuthorized(
+    _context,
+    unitReference,
     PERMISSION_LEVELS.WRITE
   );
   const { entity } = await database();
-  const unit = await entity.get(unitRef);
+  const unit = await entity.get(unitReference);
   if (!unit) {
     throw notFound("Unit with pk ${arg.unitPk} not found");
   }
   const teamPk = resourceRef("teams", nanoid());
   const team = {
     pk: teamPk,
-    parentPk: unitRef,
-    createdBy: userRef,
+    parentPk: unitReference,
+    createdBy: userReference,
     createdAt: new Date().toISOString(),
-    name: arg.name,
+    name: argument.name,
   };
   await entity.create(team);
 
   await giveAuthorization(
     teamPk,
-    userRef,
+    userReference,
     PERMISSION_LEVELS.OWNER,
-    userRef,
-    unitRef
+    userReference,
+    unitReference
   );
   return team as unknown as Team;
 };

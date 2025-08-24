@@ -1,6 +1,6 @@
 import { SelectCountryAndRegion } from "../particles/SelectCountryAndRegion";
 
-export interface TeamHolidaysMenuProps {
+export interface TeamHolidaysMenuProperties {
   selectedCountryIsoCode: string | undefined;
   selectedRegionIsoCode: string | undefined;
   onChangeCountry: (country: string) => void;
@@ -12,7 +12,7 @@ export const TeamHolidaysMenu = ({
   selectedRegionIsoCode,
   onChangeCountry,
   onChangeRegion,
-}: TeamHolidaysMenuProps) => {
+}: TeamHolidaysMenuProperties) => {
   return (
     <div>
       <SelectCountryAndRegion

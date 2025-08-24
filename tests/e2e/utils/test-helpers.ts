@@ -17,7 +17,7 @@ export class TestHelpers {
    */
   async waitForCondition(
     condition: () => Promise<boolean>,
-    maxWaitTime: number = 30000,
+    maxWaitTime: number = 30_000,
     checkInterval: number = 1000
   ): Promise<void> {
     const startTime = Date.now();
@@ -38,7 +38,7 @@ export class TestHelpers {
   async waitForElementStable(
     page: Page,
     selector: string,
-    timeout: number = 10000
+    timeout: number = 10_000
   ): Promise<void> {
     const locator = page.locator(selector);
     await locator.waitFor({ state: "visible", timeout });
@@ -106,9 +106,9 @@ export class TestHelpers {
 
     const teamMembers: TestUser[] = [];
 
-    for (let i = 1; i <= teamSize; i++) {
+    for (let index = 1; index <= teamSize; index++) {
       const member = await this.userManagement.createAndLoginUser(
-        `Team Member ${i}`
+        `Team Member ${index}`
       );
       teamMembers.push(member);
     }
@@ -187,7 +187,7 @@ export class TestHelpers {
    */
   async createUserWithCustomTimeout(
     professionalName: string,
-    emailTimeout: number = 180000
+    emailTimeout: number = 180_000
   ): Promise<TestUser> {
     console.log(
       `Creating user ${professionalName} with ${emailTimeout}ms email timeout...`
@@ -229,7 +229,7 @@ export class TestHelpers {
   async createUserAndWaitForCondition(
     professionalName: string,
     condition: () => Promise<boolean>,
-    maxWaitTime: number = 30000
+    maxWaitTime: number = 30_000
   ): Promise<TestUser> {
     console.log(
       `Creating user ${professionalName} and waiting for condition...`
@@ -264,7 +264,7 @@ export class TestHelpers {
   async waitForNavigationAndVerify(
     page: Page,
     expectedUrlPattern: string | RegExp,
-    timeout: number = 10000
+    timeout: number = 10_000
   ): Promise<void> {
     await page.waitForURL(expectedUrlPattern, { timeout });
 
@@ -279,7 +279,7 @@ export class TestHelpers {
     page: Page,
     selector: string,
     value: string,
-    timeout: number = 10000
+    timeout: number = 10_000
   ): Promise<void> {
     await this.retryWithBackoff(async () => {
       const field = page.locator(selector);
@@ -302,7 +302,7 @@ export class TestHelpers {
   async clickButton(
     page: Page,
     selector: string,
-    timeout: number = 10000
+    timeout: number = 10_000
   ): Promise<void> {
     await this.retryWithBackoff(async () => {
       const button = page.locator(selector);

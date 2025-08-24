@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useCallback, memo } from "react";
 import { useNavigate } from "react-router-dom";
 
-export interface ButtonProps {
+export interface ButtonProperties {
   onClick?: () => void;
   to?: string;
   cancel?: boolean;
@@ -11,7 +11,7 @@ export interface ButtonProps {
   "aria-label"?: string;
 }
 
-const CancelButton: FC<PropsWithChildren<ButtonProps>> = memo(
+const CancelButton: FC<PropsWithChildren<ButtonProperties>> = memo(
   function CancelButton({
     onClick,
     children,
@@ -37,7 +37,7 @@ const CancelButton: FC<PropsWithChildren<ButtonProps>> = memo(
   }
 );
 
-export const Button: FC<PropsWithChildren<ButtonProps>> = memo(function Button({
+export const Button: FC<PropsWithChildren<ButtonProperties>> = memo(function Button({
   onClick: _onClick,
   to,
   children,
@@ -69,7 +69,7 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = memo(function Button({
         }
         return children;
       }
-      return undefined;
+      return;
     })();
 
   if (cancel) {

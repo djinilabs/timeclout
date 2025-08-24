@@ -12,7 +12,7 @@ class ResizeObserverMock {
   unobserve() {}
   disconnect() {}
 }
-global.ResizeObserver = ResizeObserverMock;
+globalThis.ResizeObserver = ResizeObserverMock;
 
 describe("MonthCalendar", () => {
   beforeEach(() => {
@@ -57,10 +57,10 @@ describe("MonthCalendar", () => {
   it("renders weekday headers", () => {
     renderWithI18n(<MonthDailyCalendar {...defaultProps} />);
     const weekdays = ["M", "T", "W", "T", "F", "S", "S"];
-    weekdays.forEach((day) => {
+    for (const day of weekdays) {
       const elements = screen.getAllByText(day);
       expect(elements.length).toBeGreaterThan(0);
-    });
+    }
   });
 
   it("calls onDayFocus when a day cell receives focus", () => {
@@ -89,10 +89,10 @@ describe("MonthCalendar", () => {
     await expect(currentMonthDay).toHaveClass("bg-white");
 
     // Previous month day (if visible)
-    const prevMonthDay = screen
+    const previousMonthDay = screen
       .getByTestId("day-2024-02-29")
       .closest("div[tabindex]");
-    await expect(prevMonthDay).toHaveClass("bg-gray-50");
+    await expect(previousMonthDay).toHaveClass("bg-gray-50");
   });
 
   it("renders custom day content", () => {

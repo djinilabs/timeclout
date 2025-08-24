@@ -12,7 +12,7 @@ import { resourceRef } from "@/utils";
 
 export const memberQuotaFulfilment: NonNullable<
   QueryResolvers["memberQuotaFulfilment"]
-> = async (_parent, arg, ctx) => {
+> = async (_parent, argument, context) => {
   const {
     companyPk,
     teamPk,
@@ -21,17 +21,17 @@ export const memberQuotaFulfilment: NonNullable<
     endDate,
     simulatesLeave,
     simulatesLeaveType,
-  } = arg;
-  const companyRef = resourceRef("companies", companyPk);
-  await ensureAuthorized(ctx, companyRef, PERMISSION_LEVELS.READ);
-  const teamRef = resourceRef("teams", teamPk);
-  await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
+  } = argument;
+  const companyReference = resourceRef("companies", companyPk);
+  await ensureAuthorized(context, companyReference, PERMISSION_LEVELS.READ);
+  const teamReference = resourceRef("teams", teamPk);
+  await ensureAuthorized(context, teamReference, PERMISSION_LEVELS.WRITE);
 
   // make sure user is on the team
-  const userRef = resourceRef("users", userPk);
+  const userReference = resourceRef("users", userPk);
   const [isAuthorized] = await isUserAuthorized(
-    userRef,
-    teamRef,
+    userReference,
+    teamReference,
     PERMISSION_LEVELS.READ
   );
   if (!isAuthorized) {
@@ -39,8 +39,8 @@ export const memberQuotaFulfilment: NonNullable<
   }
 
   const quotaFulfilment = await getQuotaFulfilment({
-    companyRef,
-    userRef,
+    companyRef: companyReference,
+    userRef: userReference,
     startDate: new DayDate(startDate),
     endDate: new DayDate(endDate),
     simulatesLeave: simulatesLeave ?? undefined,

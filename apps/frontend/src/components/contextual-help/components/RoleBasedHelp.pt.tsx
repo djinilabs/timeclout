@@ -1,15 +1,15 @@
 import { ReactElement } from "react";
 
-export interface RoleBasedHelpProps {
+export interface RoleBasedHelpProperties {
   context?: string;
 }
 
 export const RoleBasedHelp = ({
   context,
-}: RoleBasedHelpProps): ReactElement => {
+}: RoleBasedHelpProperties): ReactElement => {
   const getRoleBasedContent = () => {
     switch (context) {
-      case "shifts-calendar":
+      case "shifts-calendar": {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -42,7 +42,8 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
-      case "new-leave-request":
+      }
+      case "new-leave-request": {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -74,7 +75,8 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
-      case "leave-request-management":
+      }
+      case "leave-request-management": {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -107,7 +109,8 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
-      case "work-schedule-settings":
+      }
+      case "work-schedule-settings": {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -139,7 +142,8 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
-      case "yearly-quota-settings":
+      }
+      case "yearly-quota-settings": {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -171,7 +175,8 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
-      case "company-settings":
+      }
+      case "company-settings": {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -203,7 +208,8 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
-      case "leave-approval-dashboard":
+      }
+      case "leave-approval-dashboard": {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -235,7 +241,8 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
-      case "unit-settings":
+      }
+      case "unit-settings": {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -267,7 +274,8 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
-      case "team-invitations":
+      }
+      case "team-invitations": {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -299,7 +307,8 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
-      case "team-settings":
+      }
+      case "team-settings": {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -331,7 +340,8 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
-      default:
+      }
+      default: {
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Acesso Baseado em Função</h3>
@@ -344,6 +354,7 @@ export const RoleBasedHelp = ({
             </div>
           </div>
         );
+      }
     }
   };
 

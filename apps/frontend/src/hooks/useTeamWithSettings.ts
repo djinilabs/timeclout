@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 
-import { QueryTeamArgs, Team, TeamSettingsArgs } from "../graphql/graphql";
+import { QueryTeamArgs as QueryTeamArguments, Team, TeamSettingsArgs as TeamSettingsArguments } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
 
 import teamWithSettingsQuery from "@/graphql-client/queries/teamWithSettings.graphql";
 import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
 
 
-export interface UseTeamWithSettingsParams<T extends SettingsTypeKey> {
+export interface UseTeamWithSettingsParameters<T extends SettingsTypeKey> {
   teamPk: string;
   settingsName: T;
 }
@@ -20,10 +20,10 @@ export interface useTeamWithSettingsResponse<T extends SettingsTypeKey> {
 export const useTeamWithSettings = <T extends SettingsTypeKey>({
   teamPk,
   settingsName,
-}: UseTeamWithSettingsParams<T>): useTeamWithSettingsResponse<T> => {
+}: UseTeamWithSettingsParameters<T>): useTeamWithSettingsResponse<T> => {
   const [teamWithSettingsQueryResponse] = useQuery<
     { team: Team },
-    QueryTeamArgs & TeamSettingsArgs
+    QueryTeamArguments & TeamSettingsArguments
   >({
     query: teamWithSettingsQuery,
     variables: {

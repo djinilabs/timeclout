@@ -1,7 +1,7 @@
 import { ReactNode, ReactElement, ComponentType } from "react";
 
-import { FeatureDependenciesHelpProps } from "./components/FeatureDependenciesHelp";
-import { RoleBasedHelpProps } from "./components/RoleBasedHelp";
+import { FeatureDependenciesHelpProps as FeatureDependenciesHelpProperties } from "./components/FeatureDependenciesHelp";
+import { RoleBasedHelpProps as RoleBasedHelpProperties } from "./components/RoleBasedHelp";
 
 export interface HelpSection {
   title: string;
@@ -26,8 +26,8 @@ export interface HelpSection {
 
 export type HelpComponentName = "FeatureDependenciesHelp" | "RoleBasedHelp";
 export type HelpComponentProps =
-  | FeatureDependenciesHelpProps
-  | RoleBasedHelpProps;
+  | FeatureDependenciesHelpProperties
+  | RoleBasedHelpProperties;
 
 export type LanguageComponents = {
   [K in HelpComponentName]: ComponentType<HelpComponentProps>;

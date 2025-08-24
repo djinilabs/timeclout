@@ -14,14 +14,14 @@ import { resourceRef , getDefined } from "@/utils";
 
 export const acceptInvitation: NonNullable<
   MutationResolvers["acceptInvitation"]
-> = async (_parent, arg, ctx) => {
-  const session = await requireSession(ctx);
+> = async (_parent, argument, context) => {
+  const session = await requireSession(context);
   const { invitation, entity } = await database();
   const { items: invitations } = await invitation.query({
     IndexName: "bySecret",
     KeyConditionExpression: "secret = :secret",
     ExpressionAttributeValues: {
-      ":secret": arg.secret,
+      ":secret": argument.secret,
     },
   });
 

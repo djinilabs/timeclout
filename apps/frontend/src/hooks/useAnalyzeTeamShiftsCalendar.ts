@@ -25,7 +25,7 @@ export type AnalyzedShiftPosition = ShiftPositionWithRowSpan & {
   workerSlotProximityDeviation?: number;
 };
 
-export interface AnalyzeTeamShiftsCalendarProps {
+export interface AnalyzeTeamShiftsCalendarProperties {
   teamPk: string;
   startDate: DayDate;
   endDate: DayDate;
@@ -57,7 +57,7 @@ export interface AnalyzeTeamShiftsCalendarReturn {
 const doAnalyzeLeaveConflicts = ({
   shiftPositionsMap: originalShiftPositionsMap,
   leaveSchedule,
-}: AnalyzeTeamShiftsCalendarProps) => {
+}: AnalyzeTeamShiftsCalendarProperties) => {
   return Object.fromEntries(
     Object.entries(originalShiftPositionsMap).map(([day, shiftPositions]) => {
       const analyzedShiftPositions = shiftPositions.map(
@@ -93,7 +93,7 @@ const doAnalyzeLeaveConflicts = ({
 const doAnalyzeMaximumIntervalBetweenShifts = ({
   shiftPositionsMap: originalShiftPositionsMap,
   maximumIntervalBetweenShiftsInDays,
-}: AnalyzeTeamShiftsCalendarProps) => {
+}: AnalyzeTeamShiftsCalendarProperties) => {
   // Get all days sorted chronologically
   const days = Object.keys(originalShiftPositionsMap).sort();
 
@@ -120,9 +120,9 @@ const doAnalyzeMaximumIntervalBetweenShifts = ({
             if (lastShift) {
               // Get the end time of the last shift (last schedule's end time)
               const lastShiftEndTime =
-                lastShift.shiftPosition.schedules[
-                  lastShift.shiftPosition.schedules.length - 1
-                ].endHourMinutes;
+                lastShift.shiftPosition.schedules.at(
+                  -1
+                ).endHourMinutes;
               const lastShiftEndDate = new Date(lastShift.day);
               lastShiftEndDate.setHours(
                 lastShiftEndTime[0],
@@ -166,7 +166,7 @@ const doAnalyzeMaximumIntervalBetweenShifts = ({
 const doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday = ({
   shiftPositionsMap: originalShiftPositionsMap,
   minimumNumberOfShiftsPerWeekInStandardWorkday,
-}: AnalyzeTeamShiftsCalendarProps) => {
+}: AnalyzeTeamShiftsCalendarProperties) => {
   // Get all days sorted chronologically
   const days = Object.keys(originalShiftPositionsMap).sort();
 
@@ -177,14 +177,14 @@ const doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday = ({
   >();
 
   // First pass: group shifts by week and worker
-  days.forEach((day) => {
+  for (const day of days) {
     const shiftPositions = originalShiftPositionsMap[day];
     const date = new Date(day);
     const weekStart = new Date(date);
     weekStart.setDate(date.getDate() - date.getDay()); // Start of week (Sunday)
     const weekKey = weekStart.toISOString().split("T")[0];
 
-    shiftPositions.forEach((shiftPosition) => {
+    for (const shiftPosition of shiftPositions) {
       if (shiftPosition.assignedTo) {
         const workerPk = shiftPosition.assignedTo.pk;
         if (!shiftsPerWeekByWorker.has(workerPk)) {
@@ -196,8 +196,8 @@ const doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday = ({
         }
         workerWeeks.get(weekKey)!.push({ day, shiftPosition });
       }
-    });
-  });
+    }
+  }
 
   // Second pass: analyze and mark shifts that don't meet the minimum requirement
   return Object.fromEntries(
@@ -250,7 +250,7 @@ const doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday = ({
 const doAnalyzeMinimumRestSlotsAfterShift = ({
   shiftPositionsMap: originalShiftPositionsMap,
   minimumRestSlotsAfterShift,
-}: AnalyzeTeamShiftsCalendarProps) => {
+}: AnalyzeTeamShiftsCalendarProperties) => {
   // Get all days sorted chronologically
   const days = Object.keys(originalShiftPositionsMap).sort();
 
@@ -277,9 +277,9 @@ const doAnalyzeMinimumRestSlotsAfterShift = ({
             if (lastShift) {
               // Get the end time of the last shift (last schedule's end time)
               const lastShiftEndTime =
-                lastShift.shiftPosition.schedules[
-                  lastShift.shiftPosition.schedules.length - 1
-                ].endHourMinutes;
+                lastShift.shiftPosition.schedules.at(
+                  -1
+                ).endHourMinutes;
               const lastShiftEndDate = new Date(lastShift.day);
               lastShiftEndDate.setHours(
                 lastShiftEndTime[0],
@@ -348,10 +348,10 @@ const doAnalyzeMinimumRestSlotsAfterShift = ({
 const normalizeValues = <T>(values: [T, number][]): [T, number][] => {
   // first, calculate the average
   const average =
-    values.reduce((acc, [, value]) => acc + value, 0) / values.length;
+    values.reduce((accumulator, [, value]) => accumulator + value, 0) / values.length;
   // then, calculate the standard deviation
   const standardDeviation = Math.sqrt(
-    values.reduce((acc, [, value]) => acc + Math.pow(value - average, 2), 0) /
+    values.reduce((accumulator, [, value]) => accumulator + Math.pow(value - average, 2), 0) /
       values.length
   );
   // normalize the values
@@ -366,7 +366,7 @@ const doAnalyzeHeuristics = ({
   analyzeWorkerInconvenienceEquality,
   analyzeWorkerSlotEquality,
   analyzeWorkerSlotProximity,
-}: AnalyzeTeamShiftsCalendarProps) => {
+}: AnalyzeTeamShiftsCalendarProperties) => {
   if (
     !analyzeWorkerInconvenienceEquality &&
     !analyzeWorkerSlotEquality &&
@@ -381,7 +381,7 @@ const doAnalyzeHeuristics = ({
   // Convert shiftPositionsMap to a ShiftSchedule format
   const schedule: ShiftSchedule = {
     startDay: days[0],
-    endDay: days[days.length - 1],
+    endDay: days.at(-1),
     shifts: days.flatMap((day) =>
       shiftPositionsMap[day]
         .filter((position) => position.assignedTo) // Only include shifts with assigned workers
@@ -423,26 +423,24 @@ const doAnalyzeHeuristics = ({
   if (analyzeWorkerSlotProximity) {
     // Process worker slot proximities
     const workerSlotProximities = calculateWorkerSlotProximities(schedule);
-    normalizeValues(Array.from(workerSlotProximities.entries())).forEach(
-      ([key, value]) => {
+    for (const [key, value] of normalizeValues([...workerSlotProximities.entries()])) {
         const [workerPk, slotPk, slotSk] = key.split("//");
         if (!workerProximitiesMap.has(workerPk)) {
           workerProximitiesMap.set(workerPk, new Map());
         }
         workerProximitiesMap.get(workerPk)!.set(slotPk + "//" + slotSk, value);
       }
-    );
+    
   }
 
   const workerSlotMinutesMap = new Map<string, number>();
   if (analyzeWorkerSlotEquality) {
     // Process worker slot minutes
     const workerSlotMinutes = calculateWorkerSlotMinutes(schedule);
-    normalizeValues(Array.from(workerSlotMinutes.entries())).forEach(
-      ([workerPk, value]) => {
+    for (const [workerPk, value] of normalizeValues([...workerSlotMinutes.entries()])) {
         workerSlotMinutesMap.set(workerPk, value);
       }
-    );
+    
   }
 
   const workerInconvenienceMap = new Map<string, number>();
@@ -450,11 +448,10 @@ const doAnalyzeHeuristics = ({
     const workerInconveniences = calculateWorkerInconveniences(schedule);
 
     // Process worker inconveniences
-    normalizeValues(Array.from(workerInconveniences.entries())).forEach(
-      ([workerPk, value]) => {
+    for (const [workerPk, value] of normalizeValues([...workerInconveniences.entries()])) {
         workerInconvenienceMap.set(workerPk, value);
       }
-    );
+    
   }
 
   return Object.fromEntries(
@@ -504,30 +501,30 @@ const doAnalyzeHeuristics = ({
   );
 };
 
-const doAnalyzeRules = (props: AnalyzeTeamShiftsCalendarProps) => {
-  let { shiftPositionsMap } = props;
+const doAnalyzeRules = (properties: AnalyzeTeamShiftsCalendarProperties) => {
+  let { shiftPositionsMap } = properties;
 
-  if (props.analyzeLeaveConflicts) {
-    shiftPositionsMap = doAnalyzeLeaveConflicts(props);
+  if (properties.analyzeLeaveConflicts) {
+    shiftPositionsMap = doAnalyzeLeaveConflicts(properties);
   }
 
-  if (props.requireMaximumIntervalBetweenShifts) {
+  if (properties.requireMaximumIntervalBetweenShifts) {
     shiftPositionsMap = doAnalyzeMaximumIntervalBetweenShifts({
-      ...props,
+      ...properties,
       shiftPositionsMap,
     });
   }
 
-  if (props.requireMinimumNumberOfShiftsPerWeekInStandardWorkday) {
+  if (properties.requireMinimumNumberOfShiftsPerWeekInStandardWorkday) {
     shiftPositionsMap = doAnalyzeMinimumNumberOfShiftsPerWeekInStandardWorkday({
-      ...props,
+      ...properties,
       shiftPositionsMap,
     });
   }
 
-  if (props.requireMinimumRestSlotsAfterShift) {
+  if (properties.requireMinimumRestSlotsAfterShift) {
     shiftPositionsMap = doAnalyzeMinimumRestSlotsAfterShift({
-      ...props,
+      ...properties,
       shiftPositionsMap,
     });
   }
@@ -536,21 +533,21 @@ const doAnalyzeRules = (props: AnalyzeTeamShiftsCalendarProps) => {
 };
 
 export const useAnalyzeTeamShiftsCalendar = (
-  props: AnalyzeTeamShiftsCalendarProps
+  properties: AnalyzeTeamShiftsCalendarProperties
 ): AnalyzeTeamShiftsCalendarReturn => {
   // ------- Rules -------
   let analyzedShiftPositionsMap = useMemo(() => {
-    return doAnalyzeRules(props);
-  }, [props]);
+    return doAnalyzeRules(properties);
+  }, [properties]);
 
   // ------- Heuristics -------
   analyzedShiftPositionsMap = useMemo(
     () =>
       doAnalyzeHeuristics({
-        ...props,
+        ...properties,
         shiftPositionsMap: analyzedShiftPositionsMap,
       }),
-    [analyzedShiftPositionsMap, props]
+    [analyzedShiftPositionsMap, properties]
   );
 
   return {

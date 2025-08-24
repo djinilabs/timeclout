@@ -1,5 +1,6 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 import { ResultOf, DocumentTypeDecoration } from '@graphql-typed-document-node/core';
+
 import { Incremental, TypedDocumentString } from './graphql';
 
 

@@ -6,12 +6,12 @@ import { ShiftsAutoFillSolutionTimeDistributionStats } from "../particles/Shifts
 
 import { type ScoredShiftSchedule } from "@/scheduler";
 
-export interface ShiftAutoFillSolutionDetailedStatsProps {
+export interface ShiftAutoFillSolutionDetailedStatsProperties {
   schedule: ScoredShiftSchedule;
 }
 
-export const ShiftAutoFillSolutionDetailedStats: FC<ShiftAutoFillSolutionDetailedStatsProps> =
-  memo(({ schedule }: ShiftAutoFillSolutionDetailedStatsProps) => {
+export const ShiftAutoFillSolutionDetailedStats: FC<ShiftAutoFillSolutionDetailedStatsProperties> =
+  memo(({ schedule }: ShiftAutoFillSolutionDetailedStatsProperties) => {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
         <ShiftsAutoFillSolutionInconvenienceDeviationStats

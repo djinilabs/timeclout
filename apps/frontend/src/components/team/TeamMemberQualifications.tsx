@@ -13,12 +13,12 @@ import { EditQualifications } from "./EditQualifications";
 import updateTeamMemberQualificationsMutation from "@/graphql-client/mutations/updateTeamMemberQualifications.graphql";
 import { getDefined } from "@/utils";
 
-export interface TeamMemberQualificationsProps {
+export interface TeamMemberQualificationsProperties {
   qualifications: string[];
   memberPk: string;
 }
 
-const InternalTeamMemberQualifications: FC<TeamMemberQualificationsProps> = ({
+const InternalTeamMemberQualifications: FC<TeamMemberQualificationsProperties> = ({
   qualifications,
   memberPk,
 }) => {
@@ -56,12 +56,12 @@ const InternalTeamMemberQualifications: FC<TeamMemberQualificationsProps> = ({
   );
 };
 
-export const TeamMemberQualifications: FC<TeamMemberQualificationsProps> = (
-  props
+export const TeamMemberQualifications: FC<TeamMemberQualificationsProperties> = (
+  properties
 ) => {
   return (
     <Suspense>
-      <InternalTeamMemberQualifications {...props} />
+      <InternalTeamMemberQualifications {...properties} />
     </Suspense>
   );
 };

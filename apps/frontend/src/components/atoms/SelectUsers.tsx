@@ -60,7 +60,7 @@ export interface User {
   emailMd5: string;
 }
 
-export interface SelectUsersProps {
+export interface SelectUsersProperties {
   onChange: (users: User[]) => void;
   users: User[];
   selectedUsers?: User[];
@@ -68,7 +68,7 @@ export interface SelectUsersProps {
   className?: string;
 }
 
-export const SelectUsers: FC<SelectUsersProps> = memo(
+export const SelectUsers: FC<SelectUsersProperties> = memo(
   ({
     onChange,
     users,
@@ -78,13 +78,7 @@ export const SelectUsers: FC<SelectUsersProps> = memo(
   }) => {
     const toggleUser = (user: User) => {
       const isSelected = selectedUsers.some((u) => u.pk === user.pk);
-      let newSelection: User[];
-
-      if (isSelected) {
-        newSelection = selectedUsers.filter((u) => u.pk !== user.pk);
-      } else {
-        newSelection = [...selectedUsers, user];
-      }
+      const newSelection: User[] = isSelected ? selectedUsers.filter((u) => u.pk !== user.pk) : [...selectedUsers, user];
 
       onChange(newSelection);
     };

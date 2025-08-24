@@ -6,7 +6,7 @@ export interface DeviationBarPlotDatum extends BarDatum {
   deviation: number;
 }
 
-export interface DeviationBarPlotProps {
+export interface DeviationBarPlotProperties {
   data: DeviationBarPlotDatum[];
   maxDeviation: number;
   label: (data: DeviationBarPlotDatum) => string;
@@ -16,7 +16,7 @@ export interface DeviationBarPlotProps {
   ariaLabel: string;
 }
 
-export const DeviationBarPlot: FC<DeviationBarPlotProps> = memo(
+export const DeviationBarPlot: FC<DeviationBarPlotProperties> = memo(
   function DeviationBarPlot({
     data,
     label,

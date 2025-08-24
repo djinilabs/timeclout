@@ -2,10 +2,10 @@ import { Body, Head, Html, Heading } from "@react-email/components";
 import { Text } from "@react-email/text";
 import { FC } from "react";
 
-import { EmailToUserToNotifyAboutRejectedLeaveRequestParams } from "./types";
+import { EmailToUserToNotifyAboutRejectedLeaveRequestParams as EmailToUserToNotifyAboutRejectedLeaveRequestParameters } from "./types";
 
 export const LeaveRequestRejectedToUserEmail: FC<
-  EmailToUserToNotifyAboutRejectedLeaveRequestParams
+  EmailToUserToNotifyAboutRejectedLeaveRequestParameters
 > = ({
   leaveRequestType,
   leaveRequestReason,

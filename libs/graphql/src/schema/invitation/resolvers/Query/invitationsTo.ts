@@ -10,20 +10,19 @@ import { getResourceRef } from "@/utils";
 
 export const invitationsTo: NonNullable<
   QueryResolvers["invitationsTo"]
-> = async (_parent, arg, ctx) => {
+> = async (_parent, argument, context) => {
   await ensureAuthorized(
-    ctx,
-    getResourceRef(arg.toEntityPk),
+    context,
+    getResourceRef(argument.toEntityPk),
     PERMISSION_LEVELS.READ
   );
   const { invitation } = await database();
-  const invitations = (
-    await invitation.query({
-      KeyConditionExpression: "pk = :pk",
-      ExpressionAttributeValues: {
-        ":pk": arg.toEntityPk,
-      },
-    })
-  ).items as unknown as ResolversTypes["Invitation"][];
+  const result = await invitation.query({
+    KeyConditionExpression: "pk = :pk",
+    ExpressionAttributeValues: {
+      ":pk": argument.toEntityPk,
+    },
+  });
+  const invitations = result.items as unknown as ResolversTypes["Invitation"][];
   return invitations;
 };

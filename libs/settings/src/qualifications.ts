@@ -13,8 +13,8 @@ export const qualificationsParser = {
   parse: (item: unknown) => {
     try {
       return qualificationsSchema.parse(item);
-    } catch (err) {
-      throw new Error(`Error parsing qualifications: ${err.message}`);
+    } catch (error) {
+      throw new Error(`Error parsing qualifications: ${error.message}`);
     }
   },
 };

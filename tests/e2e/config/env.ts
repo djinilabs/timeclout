@@ -1,12 +1,12 @@
-import { join } from "path";
+import path from "path";
 
 import type { ScreenshotMode, VideoMode, TraceMode } from "@playwright/test";
 import { config } from "dotenv";
 
 // Load environment variables from .env file in the e2e directory
 // Using relative path from project root since this is a test config
-const envPath = join(process.cwd(), "tests", "e2e", ".env");
-config({ path: envPath });
+const environmentPath = path.join(process.cwd(), "tests", "e2e", ".env");
+config({ path: environmentPath });
 
 // Environment variable configuration with defaults
 export const e2eConfig = {
@@ -23,8 +23,8 @@ export const e2eConfig = {
 
   // Test configuration
   test: {
-    timeout: parseInt(process.env.TEST_TIMEOUT || "180000"),
-    actionTimeout: parseInt(process.env.ACTION_TIMEOUT || "60000"),
+    timeout: Number.parseInt(process.env.TEST_TIMEOUT || "180000"),
+    actionTimeout: Number.parseInt(process.env.ACTION_TIMEOUT || "60000"),
     ci: process.env.CI === "true",
     headless: process.env.HEADLESS === "true",
   },
@@ -44,12 +44,12 @@ export const e2eConfig = {
 
 // Validate required environment variables
 export function validateEnvironment(): void {
-  const requiredVars = ["TESTMAIL_NAMESPACE"];
-  const missingVars = requiredVars.filter((varName) => !process.env[varName]);
+  const requiredVariables = ["TESTMAIL_NAMESPACE"];
+  const missingVariables = requiredVariables.filter((variableName) => !process.env[variableName]);
 
-  if (missingVars.length > 0) {
+  if (missingVariables.length > 0) {
     throw new Error(
-      `Missing required environment variables: ${missingVars.join(", ")}\n` +
+      `Missing required environment variables: ${missingVariables.join(", ")}\n` +
         `Please create a .env file in the tests/e2e directory with these variables.\n` +
         `See .env.example for reference.`
     );

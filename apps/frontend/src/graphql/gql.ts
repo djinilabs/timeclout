@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 const documents = {};
 export function graphql(source: string) {

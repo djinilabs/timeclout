@@ -8,9 +8,9 @@ import { useParams, useSearchParams } from "react-router-dom";
 import "react-day-picker/style.css";
 
 import {
-  CompanySettingsArgs,
+  CompanySettingsArgs as CompanySettingsArguments,
   Query,
-  QueryCompanyArgs,
+  QueryCompanyArgs as QueryCompanyArguments,
 } from "../../graphql/graphql";
 import { useHolidays } from "../../hooks/useHolidays";
 import { useQuery } from "../../hooks/useQuery";
@@ -34,7 +34,7 @@ export interface TimeOffRequest {
   reason: string;
 }
 
-export interface QuotaFulfilmentProps {
+export interface QuotaFulfilmentProperties {
   companyPk: string;
   simulatesLeave: boolean;
   simulatesLeaveType: string;
@@ -46,7 +46,7 @@ export type BookCompanyTimeOffProps = {
   onSubmit: (values: TimeOffRequest) => void;
   onCancel: () => void;
   location: { country: string; region: string };
-  quotaFulfilment: (props: QuotaFulfilmentProps) => ReactNode;
+  quotaFulfilment: (properties: QuotaFulfilmentProperties) => ReactNode;
 };
 
 export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
@@ -58,7 +58,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
   const { company } = useParams();
   const [companyWithSettings] = useQuery<
     { company: Query["company"] },
-    QueryCompanyArgs & CompanySettingsArgs
+    QueryCompanyArguments & CompanySettingsArguments
   >({
     query: companyWithSettingsQuery,
     variables: {
@@ -75,10 +75,10 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
     [companyWithSettings]
   );
 
-  const [searchParams] = useSearchParams();
-  const startDateParam = searchParams.get("date");
+  const [searchParameters] = useSearchParams();
+  const startDateParameter = searchParameters.get("date");
   const [startDate, setStartDate] = useState(
-    () => new DayDate(startDateParam ?? new Date())
+    () => new DayDate(startDateParameter ?? new Date())
   );
   const [dateMode, setDateMode] = useState<"range" | "multiple">("range");
 
@@ -87,8 +87,8 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
       mode: dateMode,
       type: leaveTypes[0].name,
       dates: [],
-      dateRange: (startDateParam
-        ? [startDateParam, startDateParam]
+      dateRange: (startDateParameter
+        ? [startDateParameter, startDateParameter]
         : []) satisfies DateRange,
       reason: "",
     } satisfies TimeOffRequest,
@@ -265,7 +265,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                 const holidaysDates = Object.keys(holidays ?? {}).map(
                   (date) => new Date(date + "T00:00:00Z")
                 );
-                const refDate = startDate ?? new Date();
+                const referenceDate = startDate ?? new Date();
                 return (
                   <div>
                     <label
@@ -302,7 +302,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                       }}
                       numberOfMonths={2}
                       captionLayout="dropdown"
-                      startMonth={refDate}
+                      startMonth={referenceDate}
                       onSelectRange={(range) =>
                         field.handleChange([
                           range?.from?.toISOString().split("T")[0] ?? "",
@@ -337,7 +337,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                 const holidaysDates = Object.keys(holidays ?? {}).map(
                   (date) => new Date(date + "T00:00:00Z")
                 );
-                const refDate = startDate?.toDate() ?? new Date();
+                const referenceDate = startDate?.toDate() ?? new Date();
                 return (
                   <div>
                     <label
@@ -361,7 +361,7 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
                       }}
                       numberOfMonths={2}
                       captionLayout="dropdown"
-                      startMonth={refDate}
+                      startMonth={referenceDate}
                       onSelectMultiple={(dates) =>
                         field.handleChange(
                           dates.map((d) => new DayDate(d).toString())
@@ -396,8 +396,8 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
           );
           const disabled =
             form.state.isSubmitting ||
-            (!state.values.dateRange.filter(Boolean).length &&
-              !state.values.dates.length);
+            (state.values.dateRange.filter(Boolean).length === 0 &&
+              state.values.dates.length === 0);
           return (
             <div className="mt-6 flex items-center justify-end gap-x-6">
               <Button cancel onClick={() => onCancel()}>
@@ -414,14 +414,14 @@ export const BookCompanyTimeOff: FC<BookCompanyTimeOffProps> = ({
               >
                 {disabled ? (
                   <Trans>Fill in all the form fields</Trans>
-                ) : selectedLeaveType?.needsManagerApproval ? (
+                ) : (selectedLeaveType?.needsManagerApproval ? (
                   <Trans>
                     Submit request for {selectedLeaveType.name} and wait for
                     approval
                   </Trans>
                 ) : (
                   <Trans>Create {selectedLeaveType?.name} leave</Trans>
-                )}
+                ))}
               </button>
             </div>
           );

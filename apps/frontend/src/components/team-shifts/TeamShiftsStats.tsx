@@ -5,14 +5,14 @@ import { TeamShiftsInconvenienceDeviationStats } from "../particles/TeamShiftsIn
 import { TeamShiftsScheduleTypeDistributionStats } from "../particles/TeamShiftsScheduleTypeDistributionStats";
 import { TeamShiftsTimeDistributionStats } from "../particles/TeamShiftsTimeDistributionStats";
 
-export interface TeamShiftsStatsProps {
+export interface TeamShiftsStatsProperties {
   year: number;
   month: number;
   goTo?: (year: number, month: number) => void;
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
 }
 
-export const TeamShiftsStats: FC<TeamShiftsStatsProps> = memo(
+export const TeamShiftsStats: FC<TeamShiftsStatsProperties> = memo(
   function TeamShiftsStats({ shiftPositionsMap }) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">

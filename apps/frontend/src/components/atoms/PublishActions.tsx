@@ -7,7 +7,7 @@ import { Trans } from "@lingui/react/macro";
 
 import { Button } from "../particles/Button";
 
-export interface PublishActionsProps {
+export interface PublishActionsProperties {
   areAnyUnpublished: boolean;
   onPublishChanges: () => void;
   onRevertToPublished: () => void;
@@ -17,7 +17,7 @@ export const PublishActions = ({
   areAnyUnpublished,
   onPublishChanges,
   onRevertToPublished,
-}: PublishActionsProps) => {
+}: PublishActionsProperties) => {
   return (
     <Menu as="div" className="relative">
       <div className="inline-flex divide-x divide-teal-700 rounded-md outline-none">

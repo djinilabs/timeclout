@@ -37,13 +37,13 @@ export const useAppLocalSettings = () => {
   return context;
 };
 
-interface AppLocalSettingsProviderProps {
+interface AppLocalSettingsProviderProperties {
   children: ReactNode;
 }
 
 export const AppLocalSettingsProvider = ({
   children,
-}: AppLocalSettingsProviderProps) => {
+}: AppLocalSettingsProviderProperties) => {
   // Load initial settings from localStorage
   const [settings, setSettings] = useState<AppLocalSettings>(() => {
     const savedSettings = localStorage.getItem(STORAGE_KEY);
@@ -64,7 +64,7 @@ export const AppLocalSettingsProvider = ({
   }, [debouncedSave, settings]);
 
   const setHelpSideBarWidth = (width: number) => {
-    setSettings((prev) => ({ ...prev, helpSideBarWidth: width }));
+    setSettings((previous) => ({ ...previous, helpSideBarWidth: width }));
   };
 
   return (

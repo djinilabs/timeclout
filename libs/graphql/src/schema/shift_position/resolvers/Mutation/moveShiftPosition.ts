@@ -11,12 +11,12 @@ import { database, PERMISSION_LEVELS } from "@/tables";
 import { getResourceRef } from "@/utils";
 
 
-export const moveShiftPosition: NonNullable<MutationResolvers['moveShiftPosition']> = async (_parent, arg, ctx) => {
+export const moveShiftPosition: NonNullable<MutationResolvers['moveShiftPosition']> = async (_parent, argument, context) => {
   const { shift_positions } = await database();
-  const { input } = arg;
+  const { input } = argument;
   const { pk: team, sk, day } = input;
   const pk = getResourceRef(team, "teams");
-  const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
+  const userPk = await ensureAuthorized(context, pk, PERMISSION_LEVELS.WRITE);
   const shiftPosition = await shift_positions.get(pk, sk, "staging");
   if (!shiftPosition) {
     throw new Error("Shift position not found");

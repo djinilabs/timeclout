@@ -56,7 +56,7 @@ export const handleRejectLeaveRequest = async ({
     }
     // get approving manager emails
     // send emails to approving managers
-    const emailParams: EmailParams = {
+    const emailParameters: EmailParams = {
       type: "leaveRequestRejectedToManager",
       leaveRequestType: leaveRequest.type,
       leaveRequestReason: leaveRequest.reason,
@@ -67,7 +67,7 @@ export const handleRejectLeaveRequest = async ({
       manager: manager,
       rejecter: rejecter,
     };
-    const emailBody = await renderEmail(emailParams);
+    const emailBody = await renderEmail(emailParameters);
     await sendEmail({
       to: getDefined(manager.email, "Manager has no email"),
       subject: `[${company.name}] Leave Request Rejected`,
@@ -77,7 +77,7 @@ export const handleRejectLeaveRequest = async ({
   }
 
   // send email to user
-  const emailParams: EmailParams = {
+  const emailParameters: EmailParams = {
     type: "leaveRequestRejectedToUser",
     leaveRequestType: leaveRequest.type,
     leaveRequestReason: leaveRequest.reason,
@@ -87,7 +87,7 @@ export const handleRejectLeaveRequest = async ({
     rejecter: rejecter,
     requester: user,
   };
-  const emailBody = await renderEmail(emailParams);
+  const emailBody = await renderEmail(emailParameters);
   await sendEmail({
     to: getDefined(user.email, "User has no email"),
     subject: `[${company.name}] Leave Request Rejected`,

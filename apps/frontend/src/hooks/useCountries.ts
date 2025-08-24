@@ -30,11 +30,11 @@ const getCountries = async (language: string, fetch: Fetch) => {
   }));
 };
 
-export interface UseCountriesProps {
+export interface UseCountriesProperties {
   language: "EN"; // only English is supported for now
 }
 
-export const useCountries = ({ language }: UseCountriesProps) => {
+export const useCountries = ({ language }: UseCountriesProperties) => {
   const { monitorFetch } = useFetchActivity();
   const { data, error } = useQuery({
     queryKey: ["countries", language],

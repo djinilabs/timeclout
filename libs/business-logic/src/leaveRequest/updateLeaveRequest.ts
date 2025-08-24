@@ -58,19 +58,13 @@ export const updateLeaveRequest = async ({
 
   const leaveType = await getLeaveType(companyRef, newLeaveRequest.type);
 
-  if (
-    !leaveType.needsManagerApproval ||
-    (await isLeaveRequestFullyApproved(leaveRequest))
-  ) {
-    await approveLeaveRequest(leaveRequest, userPk);
-  } else {
-    await eventBus().emit({
+  await (!leaveType.needsManagerApproval ||
+    (await isLeaveRequestFullyApproved(leaveRequest)) ? approveLeaveRequest(leaveRequest, userPk) : eventBus().emit({
       key: "createOrUpdateLeaveRequest",
       value: {
         leaveRequest,
       },
-    });
-  }
+    }));
 
   return newLeaveRequest;
 };

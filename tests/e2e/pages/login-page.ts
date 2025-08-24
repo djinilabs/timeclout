@@ -87,9 +87,9 @@ export class LoginPage extends BasePage {
   async waitForMagicLinkRequest(): Promise<void> {
     // Wait for either success message or error message
     await Promise.race([
-      this.successMessage.waitFor({ state: "visible", timeout: 10000 }),
-      this.errorMessage.waitFor({ state: "visible", timeout: 10000 }),
-      this.emailSentMessage.waitFor({ state: "visible", timeout: 10000 }),
+      this.successMessage.waitFor({ state: "visible", timeout: 10_000 }),
+      this.errorMessage.waitFor({ state: "visible", timeout: 10_000 }),
+      this.emailSentMessage.waitFor({ state: "visible", timeout: 10_000 }),
     ]);
   }
 
@@ -97,9 +97,9 @@ export class LoginPage extends BasePage {
    * Check if the magic link request was successful
    */
   async isMagicLinkRequestSuccessful(): Promise<boolean> {
-    const successMsg = await this.getSuccessMessage();
-    const emailSentMsg = await this.getEmailSentMessage();
-    return successMsg.length > 0 || emailSentMsg.length > 0;
+    const successMessage = await this.getSuccessMessage();
+    const emailSentMessage = await this.getEmailSentMessage();
+    return successMessage.length > 0 || emailSentMessage.length > 0;
   }
 
   /**

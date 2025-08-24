@@ -31,7 +31,7 @@ export class TestmailClient {
   /**
    * Wait for a message to arrive with a timeout
    */
-  async waitForMessage(timeoutMs: number = 60000): Promise<MailMessage> {
+  async waitForMessage(timeoutMs: number = 60_000): Promise<MailMessage> {
     console.log(
       `Waiting for message in ${this.emailAddress} with ${timeoutMs}ms timeout...`
     );

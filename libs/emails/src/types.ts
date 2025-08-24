@@ -5,7 +5,7 @@ export interface User {
   email?: string;
 }
 
-export interface EmailToManagerToApproveLeaveRequestParams {
+export interface EmailToManagerToApproveLeaveRequestParameters {
   type: "leaveRequestToManager";
   leaveRequestType: LeaveRequest["type"];
   leaveRequestReason?: string;
@@ -17,7 +17,7 @@ export interface EmailToManagerToApproveLeaveRequestParams {
   continueUrl: string;
 }
 
-export interface EmailToManagerToNotifyAboutRejectedLeaveRequestParams {
+export interface EmailToManagerToNotifyAboutRejectedLeaveRequestParameters {
   type: "leaveRequestRejectedToManager";
   leaveRequestType: LeaveRequest["type"];
   leaveRequestReason?: string;
@@ -29,7 +29,7 @@ export interface EmailToManagerToNotifyAboutRejectedLeaveRequestParams {
   rejecter: User;
 }
 
-export interface EmailToManagerToNotifyAboutApprovedLeaveRequestParams {
+export interface EmailToManagerToNotifyAboutApprovedLeaveRequestParameters {
   type: "leaveRequestApprovedToManager";
   leaveRequestType: LeaveRequest["type"];
   leaveRequestReason?: string;
@@ -41,7 +41,7 @@ export interface EmailToManagerToNotifyAboutApprovedLeaveRequestParams {
   approver: User;
 }
 
-export interface EmailToUserToNotifyAboutRejectedLeaveRequestParams {
+export interface EmailToUserToNotifyAboutRejectedLeaveRequestParameters {
   type: "leaveRequestRejectedToUser";
   leaveRequestType: LeaveRequest["type"];
   leaveRequestReason?: string;
@@ -53,7 +53,7 @@ export interface EmailToUserToNotifyAboutRejectedLeaveRequestParams {
 }
 
 export type EmailParams =
-  | EmailToManagerToApproveLeaveRequestParams
-  | EmailToManagerToNotifyAboutRejectedLeaveRequestParams
-  | EmailToManagerToNotifyAboutApprovedLeaveRequestParams
-  | EmailToUserToNotifyAboutRejectedLeaveRequestParams;
+  | EmailToManagerToApproveLeaveRequestParameters
+  | EmailToManagerToNotifyAboutRejectedLeaveRequestParameters
+  | EmailToManagerToNotifyAboutApprovedLeaveRequestParameters
+  | EmailToUserToNotifyAboutRejectedLeaveRequestParameters;

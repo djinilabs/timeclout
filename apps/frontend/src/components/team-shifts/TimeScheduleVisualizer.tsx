@@ -2,11 +2,11 @@ import { FC, memo } from "react";
 
 import { TimeSchedule } from "../types";
 
-export interface TimeScheduleVisualizerProps {
+export interface TimeScheduleVisualizerProperties {
   schedules: TimeSchedule[];
 }
 
-export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
+export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProperties> = memo(
   function TimeScheduleVisualizer({ schedules }) {
     return (
       <div
@@ -40,8 +40,8 @@ export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
               schedules[0].startHourMinutes[0] * 60 +
               schedules[0].startHourMinutes[1];
             const latestTime =
-              schedules[schedules.length - 1].endHourMinutes[0] * 60 +
-              schedules[schedules.length - 1].endHourMinutes[1];
+              schedules.at(-1).endHourMinutes[0] * 60 +
+              schedules.at(-1).endHourMinutes[1];
             const totalMinutes = latestTime - earliestTime;
 
             const startPercent =
@@ -94,11 +94,11 @@ export const TimeScheduleVisualizer: FC<TimeScheduleVisualizerProps> = memo(
         >
           {schedules.length > 0
             ? `${String(
-                schedules[schedules.length - 1].endHourMinutes[0] % 24
+                schedules.at(-1).endHourMinutes[0] % 24
               ).padStart(2, "0")}:${String(
-                schedules[schedules.length - 1].endHourMinutes[1]
+                schedules.at(-1).endHourMinutes[1]
               ).padStart(2, "0")}${
-                schedules[schedules.length - 1].endHourMinutes[0] >= 24
+                schedules.at(-1).endHourMinutes[0] >= 24
                   ? " next day"
                   : ""
               }`

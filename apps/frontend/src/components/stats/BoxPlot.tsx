@@ -1,7 +1,7 @@
 import { ResponsiveBoxPlot } from "@nivo/boxplot";
 import { FC, memo, useCallback } from "react";
 
-export interface BoxPlotProps {
+export interface BoxPlotProperties {
   data: {
     group: string;
     value: number;
@@ -11,12 +11,12 @@ export interface BoxPlotProps {
   axisLeftLabel?: string;
 }
 
-export const BoxPlot: FC<BoxPlotProps> = memo(function BoxPlot({
+export const BoxPlot: FC<BoxPlotProperties> = memo(function BoxPlot({
   data,
   tickLabel,
   axisBottomLabel,
   axisLeftLabel,
-}: BoxPlotProps) {
+}: BoxPlotProperties) {
   return (
     <ResponsiveBoxPlot
       data={data}

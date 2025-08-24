@@ -7,24 +7,24 @@ import { BoxPlot } from "../stats/BoxPlot";
 
 import { type ScoredShiftSchedule } from "@/scheduler";
 
-interface ShiftsAutoFillSolutionTimeDistributionStatsProps {
+interface ShiftsAutoFillSolutionTimeDistributionStatsProperties {
   schedule: ScoredShiftSchedule;
 }
 
-export const ShiftsAutoFillSolutionTimeDistributionStats: FC<ShiftsAutoFillSolutionTimeDistributionStatsProps> =
+export const ShiftsAutoFillSolutionTimeDistributionStats: FC<ShiftsAutoFillSolutionTimeDistributionStatsProperties> =
   memo(({ schedule }) => {
     const { schedule: shiftSchedule } = schedule;
 
     const { workerTimeIntervals, workerById } = useMemo(() => {
       // Group shifts by worker
-      const shiftsByWorker = shiftSchedule.shifts.reduce((acc, shift) => {
-        if (!shift.assigned) return acc;
+      const shiftsByWorker = shiftSchedule.shifts.reduce((accumulator, shift) => {
+        if (!shift.assigned) return accumulator;
 
-        if (!acc[shift.assigned.pk]) {
-          acc[shift.assigned.pk] = [];
+        if (!accumulator[shift.assigned.pk]) {
+          accumulator[shift.assigned.pk] = [];
         }
-        acc[shift.assigned.pk].push(shift);
-        return acc;
+        accumulator[shift.assigned.pk].push(shift);
+        return accumulator;
       }, {} as Record<string, typeof shiftSchedule.shifts>);
 
       // For each worker, sort their shifts by start time and calculate intervals
@@ -39,7 +39,7 @@ export const ShiftsAutoFillSolutionTimeDistributionStats: FC<ShiftsAutoFillSolut
           const intervals = sortedShifts.slice(0, -1).map((shift, index) => {
             const nextShift = sortedShifts[index + 1];
             const currentEnd =
-              shift.slot.workHours[shift.slot.workHours.length - 1].end;
+              shift.slot.workHours.at(-1).end;
             const nextStart = nextShift.slot.workHours[0].start;
             return {
               interval: (nextStart - currentEnd) / 60, // Convert minutes to hours
@@ -53,11 +53,11 @@ export const ShiftsAutoFillSolutionTimeDistributionStats: FC<ShiftsAutoFillSolut
         }
       );
 
-      const workerById = shiftSchedule.shifts.reduce((acc, shift) => {
+      const workerById = shiftSchedule.shifts.reduce((accumulator, shift) => {
         if (shift.assigned) {
-          acc[shift.assigned.pk] = shift.assigned;
+          accumulator[shift.assigned.pk] = shift.assigned;
         }
-        return acc;
+        return accumulator;
       }, {} as Record<string, (typeof shiftSchedule.shifts)[number]["assigned"]>);
 
       return {

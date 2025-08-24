@@ -18,13 +18,13 @@ const locales: Record<string, Partial<Locale>> = {
   pt: pt,
 };
 
-interface DayPickerSelectModeChoiceProps {
+interface DayPickerSelectModeChoiceProperties {
   modes: Mode[];
   selected: Mode;
   setMode: (mode: Mode) => unknown;
 }
 
-const DayPickerSelectModeChoice: FC<DayPickerSelectModeChoiceProps> = memo(
+const DayPickerSelectModeChoice: FC<DayPickerSelectModeChoiceProperties> = memo(
   ({ modes, selected, setMode }) => {
     return (
       <div
@@ -80,22 +80,22 @@ export type OurDayPickerProps = Omit<
 >;
 
 export const DayPicker: FC<OurDayPickerProps> = memo(
-  ({ modes, mode, onChangeMode, ...props }) => {
+  ({ modes, mode, onChangeMode, ...properties }) => {
     const locale = locales[i18n.locale];
-    const dayPickerProps = {
-      ...props,
+    const dayPickerProperties = {
+      ...properties,
       mode,
-      onSelect: (arg: unknown) => {
-        if (!arg) {
+      onSelect: (argument: unknown) => {
+        if (!argument) {
           return;
         }
-        if (props.onSelectSingle) {
-          props.onSelectSingle(fixDate(arg as Date));
-        } else if (props.onSelectMultiple) {
-          props.onSelectMultiple((arg as Date[]).map(fixDate));
-        } else if (props.onSelectRange) {
-          const range = arg as DateRange;
-          props.onSelectRange({
+        if (properties.onSelectSingle) {
+          properties.onSelectSingle(fixDate(argument as Date));
+        } else if (properties.onSelectMultiple) {
+          properties.onSelectMultiple((argument as Date[]).map(fixDate));
+        } else if (properties.onSelectRange) {
+          const range = argument as DateRange;
+          properties.onSelectRange({
             from: fixDate(range.from as Date),
             to: range.to ? fixDate(range.to as Date) : undefined,
           });
@@ -112,7 +112,7 @@ export const DayPicker: FC<OurDayPickerProps> = memo(
           />
         ) : null}
         <DayPickerComponent
-          {...dayPickerProps}
+          {...dayPickerProperties}
           locale={locale}
           timeZone="UTC"
           ISOWeek

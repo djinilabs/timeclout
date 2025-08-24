@@ -58,7 +58,7 @@ export const useAgreement = () => {
   const handleDisagree = () => {
     // Close the session by redirecting to logout or clearing session
     // For now, we'll redirect to a logout endpoint
-    window.location.href = "/api/v1/auth/signout";
+    globalThis.location.href = "/api/v1/auth/signout";
   };
 
   const resetAgreement = () => {

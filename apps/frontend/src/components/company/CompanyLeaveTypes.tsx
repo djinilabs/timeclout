@@ -5,11 +5,11 @@ import { toast } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 
 import {
-  CompanySettingsArgs,
+  CompanySettingsArgs as CompanySettingsArguments,
   Mutation,
-  MutationUpdateCompanySettingsArgs,
+  MutationUpdateCompanySettingsArgs as MutationUpdateCompanySettingsArguments,
   Query,
- QueryCompanyArgs } from "../../graphql/graphql";
+ QueryCompanyArgs as QueryCompanyArguments } from "../../graphql/graphql";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
@@ -25,7 +25,7 @@ export const CompanyLeaveTypes = () => {
   const { company: companyPk } = useParams();
   const [companyWithSettingsQueryResponse, refetch] = useQuery<
     { company: Query["company"] },
-    QueryCompanyArgs & CompanySettingsArgs
+    QueryCompanyArguments & CompanySettingsArguments
   >({
     query: companyWithSettingsQuery,
     variables: {
@@ -36,7 +36,7 @@ export const CompanyLeaveTypes = () => {
 
   const [, updateCompanySettings] = useMutation<
     Mutation["updateCompanySettings"],
-    MutationUpdateCompanySettingsArgs
+    MutationUpdateCompanySettingsArguments
   >(updateCompanySettingsMutation);
 
   const leaveTypes: LeaveTypes | undefined = useMemo(() => {

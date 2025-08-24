@@ -10,20 +10,20 @@ import { PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
 
-export const createLeaveRequest: NonNullable<MutationResolvers['createLeaveRequest']> = async (_parent, arg, ctx) => {
-  const companyResourceRef = resourceRef("companies", arg.input.companyPk);
+export const createLeaveRequest: NonNullable<MutationResolvers['createLeaveRequest']> = async (_parent, argument, context) => {
+  const companyResourceReference = resourceRef("companies", argument.input.companyPk);
   const userPk = await ensureAuthorized(
-    ctx,
-    companyResourceRef,
+    context,
+    companyResourceReference,
     PERMISSION_LEVELS.READ
   );
 
   return createLeaveRequestLogic({
-    companyPk: companyResourceRef,
+    companyPk: companyResourceReference,
     userPk,
-    leaveTypeName: arg.input.type,
-    startDateAsString: arg.input.startDate,
-    endDateAsString: arg.input.endDate,
-    reason: arg.input.reason,
+    leaveTypeName: argument.input.type,
+    startDateAsString: argument.input.startDate,
+    endDateAsString: argument.input.endDate,
+    reason: argument.input.reason,
   }) as unknown as Promise<LeaveRequest>;
 };

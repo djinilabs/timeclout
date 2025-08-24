@@ -25,12 +25,12 @@ describe("Avatar", () => {
   });
 
   it("renders with name and email", async () => {
-    const props = {
+    const properties = {
       name: "John Doe",
       email: "john@example.com",
       emailMd5: "abc123",
     };
-    render(<Avatar {...props} />);
+    render(<Avatar {...properties} />);
 
     const avatar = screen.getByRole("img");
 
@@ -49,11 +49,11 @@ describe("Avatar", () => {
       { email: "john.doe@example.com", expected: "JD" },
     ];
 
-    testCases.forEach(({ name, email, expected }) => {
+    for (const { name, email, expected } of testCases) {
       const { container } = render(<Avatar name={name} email={email} />);
       const initialsElement = container.querySelector('[aria-hidden="true"]');
       expect(initialsElement?.textContent).toBe(expected);
-    });
+    }
   });
 
   it("applies custom size", () => {

@@ -2,8 +2,8 @@ import { useMemo } from "react";
 
 import {
   Company,
-  QueryCompanyArgs,
-  CompanySettingsArgs,
+  QueryCompanyArgs as QueryCompanyArguments,
+  CompanySettingsArgs as CompanySettingsArguments,
 } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
 
@@ -11,7 +11,7 @@ import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettin
 import { SettingsShape, SettingsTypeKey, settingsTypes } from "@/settings";
 
 
-export interface UseCompanyWithSettingsParams<T extends SettingsTypeKey> {
+export interface UseCompanyWithSettingsParameters<T extends SettingsTypeKey> {
   companyPk: string;
   settingsName: T;
 }
@@ -24,10 +24,10 @@ export interface useCompanyWithSettingsResponse<T extends SettingsTypeKey> {
 export const useCompanyWithSettings = <T extends SettingsTypeKey>({
   companyPk,
   settingsName,
-}: UseCompanyWithSettingsParams<T>): useCompanyWithSettingsResponse<T> => {
+}: UseCompanyWithSettingsParameters<T>): useCompanyWithSettingsResponse<T> => {
   const [companyWithSettingsQueryResponse] = useQuery<
     { company: Company },
-    QueryCompanyArgs & CompanySettingsArgs
+    QueryCompanyArguments & CompanySettingsArguments
   >({
     query: companyWithSettingsQuery,
     variables: {

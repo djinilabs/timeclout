@@ -30,9 +30,9 @@ describe("UserCache", () => {
   });
 
   it("should cache user entities and avoid repeated database calls", async () => {
-    const userRef = resourceRef("users", "user123");
+    const userReference = resourceRef("users", "user123");
     const mockUser = {
-      pk: userRef,
+      pk: userReference,
       name: "Test User",
       email: "test@example.com",
     };
@@ -44,32 +44,32 @@ describe("UserCache", () => {
     userCache = await createUserCache();
 
     // First call should hit the database
-    const user1 = await userCache.getUser(userRef);
+    const user1 = await userCache.getUser(userReference);
     expect(user1).toEqual(mockUser);
     expect(mockEntity.get).toHaveBeenCalledTimes(1);
-    expect(mockEntity.get).toHaveBeenCalledWith(userRef);
+    expect(mockEntity.get).toHaveBeenCalledWith(userReference);
 
     // Second call should use cache
-    const user2 = await userCache.getUser(userRef);
+    const user2 = await userCache.getUser(userReference);
     expect(user2).toEqual(mockUser);
     expect(mockEntity.get).toHaveBeenCalledTimes(1); // Still only 1 call
 
     // Third call should also use cache
-    const user3 = await userCache.getUser(userRef);
+    const user3 = await userCache.getUser(userReference);
     expect(user3).toEqual(mockUser);
     expect(mockEntity.get).toHaveBeenCalledTimes(1); // Still only 1 call
   });
 
   it("should handle different user references separately", async () => {
-    const userRef1 = resourceRef("users", "user123");
-    const userRef2 = resourceRef("users", "user456");
+    const userReference1 = resourceRef("users", "user123");
+    const userReference2 = resourceRef("users", "user456");
     const mockUser1 = {
-      pk: userRef1,
+      pk: userReference1,
       name: "User 1",
       email: "user1@example.com",
     };
     const mockUser2 = {
-      pk: userRef2,
+      pk: userReference2,
       name: "User 2",
       email: "user2@example.com",
     };
@@ -83,45 +83,45 @@ describe("UserCache", () => {
     userCache = await createUserCache();
 
     // First user
-    const user1 = await userCache.getUser(userRef1);
+    const user1 = await userCache.getUser(userReference1);
     expect(user1).toEqual(mockUser1);
     expect(mockEntity.get).toHaveBeenCalledTimes(1);
 
     // Second user
-    const user2 = await userCache.getUser(userRef2);
+    const user2 = await userCache.getUser(userReference2);
     expect(user2).toEqual(mockUser2);
     expect(mockEntity.get).toHaveBeenCalledTimes(2);
 
     // Cache hits for both users
-    const cachedUser1 = await userCache.getUser(userRef1);
-    const cachedUser2 = await userCache.getUser(userRef2);
+    const cachedUser1 = await userCache.getUser(userReference1);
+    const cachedUser2 = await userCache.getUser(userReference2);
     expect(cachedUser1).toEqual(mockUser1);
     expect(cachedUser2).toEqual(mockUser2);
     expect(mockEntity.get).toHaveBeenCalledTimes(2); // No additional calls
   });
 
   it("should handle non-existent users", async () => {
-    const userRef = resourceRef("users", "nonexistent");
+    const userReference = resourceRef("users", "nonexistent");
 
     // Mock the database to return undefined
-    mockEntity.get.mockResolvedValue(undefined);
+    mockEntity.get.mockResolvedValue();
 
     // Create cache
     userCache = await createUserCache();
 
     // First call should hit the database
-    const user1 = await userCache.getUser(userRef);
+    const user1 = await userCache.getUser(userReference);
     expect(user1).toBeUndefined();
     expect(mockEntity.get).toHaveBeenCalledTimes(1);
 
     // Second call should use cache (undefined is also cached)
-    const user2 = await userCache.getUser(userRef);
+    const user2 = await userCache.getUser(userReference);
     expect(user2).toBeUndefined();
     expect(mockEntity.get).toHaveBeenCalledTimes(1); // Still only 1 call
   });
 
   it("should handle database errors", async () => {
-    const userRef = resourceRef("users", "user123");
+    const userReference = resourceRef("users", "user123");
     const error = new Error("Database error");
 
     // Mock the database to throw an error
@@ -131,7 +131,7 @@ describe("UserCache", () => {
     userCache = await createUserCache();
 
     // Call should throw the error
-    await expect(userCache.getUser(userRef)).rejects.toThrow("Database error");
+    await expect(userCache.getUser(userReference)).rejects.toThrow("Database error");
     expect(mockEntity.get).toHaveBeenCalledTimes(1);
   });
 });

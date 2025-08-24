@@ -10,10 +10,10 @@ import { resourceRef } from "@/utils";
 
 export const updateMe: NonNullable<MutationResolvers["updateMe"]> = async (
   _parent,
-  args,
-  ctx
+  arguments_,
+  context
 ) => {
-  const session = await requireSession(ctx);
+  const session = await requireSession(context);
   const userId = session.user?.id;
   if (!userId) {
     throw notFound(i18n._("User not found"));
@@ -23,7 +23,7 @@ export const updateMe: NonNullable<MutationResolvers["updateMe"]> = async (
   if (!user) {
     throw notFound(i18n._("User not found"));
   }
-  const name = args.input.name;
+  const name = arguments_.input.name;
   if (!name) {
     throw badRequest(i18n._("Name is required"));
   }

@@ -1,11 +1,11 @@
 import { Trans } from "@lingui/react/macro";
 
-import { Query, QueryMyQuotaFulfilmentArgs } from "../../graphql/graphql";
+import { Query, QueryMyQuotaFulfilmentArgs as QueryMyQuotaFulfilmentArguments } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
 
 import myQuotaFulfilmentQuery from "@/graphql-client/queries/myQuotaFulfilment.graphql";
 
-export interface MyQuotaFulfilmentProps {
+export interface MyQuotaFulfilmentProperties {
   companyPk: string;
   simulatesLeave: boolean;
   simulatesLeaveType: string;
@@ -19,10 +19,10 @@ export const MyQuotaFulfilment = ({
   endDate,
   simulatesLeave,
   simulatesLeaveType,
-}: MyQuotaFulfilmentProps) => {
+}: MyQuotaFulfilmentProperties) => {
   const [myQuotaFulfilment] = useQuery<
     { myQuotaFulfilment: Query["myQuotaFulfilment"] },
-    QueryMyQuotaFulfilmentArgs
+    QueryMyQuotaFulfilmentArguments
   >({
     query: myQuotaFulfilmentQuery,
     pause: !startDate || !endDate,

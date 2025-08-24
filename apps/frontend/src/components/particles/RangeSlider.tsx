@@ -1,6 +1,6 @@
 import { FC, memo } from "react";
 
-export interface RangeSliderProps {
+export interface RangeSliderProperties {
   min: number;
   max: number;
   value: number;
@@ -8,7 +8,7 @@ export interface RangeSliderProps {
   label?: string; // Optional label for the slider
 }
 
-export const RangeSlider: FC<RangeSliderProps> = memo(
+export const RangeSlider: FC<RangeSliderProperties> = memo(
   ({ min, max, value, onChange, label = "Range slider" }) => {
     return (
       <input

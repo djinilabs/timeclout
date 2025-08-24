@@ -7,11 +7,11 @@ import toast from "react-hot-toast";
 import { useParams, useNavigate } from "react-router-dom";
 
 import {
-  QueryCompanyArgs,
-  CompanySettingsArgs,
+  QueryCompanyArgs as QueryCompanyArguments,
+  CompanySettingsArgs as CompanySettingsArguments,
   Query,
   Mutation,
-  MutationUpdateCompanySettingsArgs,
+  MutationUpdateCompanySettingsArgs as MutationUpdateCompanySettingsArguments,
 } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
@@ -27,7 +27,7 @@ export const CompanyYearlyQuota = () => {
   const { company: companyPk } = useParams();
   const [companyWithSettingsQueryResponse] = useQuery<
     { company: Query["company"] },
-    QueryCompanyArgs & CompanySettingsArgs
+    QueryCompanyArguments & CompanySettingsArguments
   >({
     query: companyWithSettingsQuery,
     variables: {
@@ -46,7 +46,7 @@ export const CompanyYearlyQuota = () => {
 
   const [, updateSettings] = useMutation<
     Mutation["updateCompanySettings"],
-    MutationUpdateCompanySettingsArgs
+    MutationUpdateCompanySettingsArguments
   >(updateCompanySettingsMutation);
 
   const form = useForm({

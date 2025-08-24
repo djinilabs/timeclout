@@ -42,7 +42,7 @@ export interface AutoFillSlot {
   typeName: string;
 }
 
-export interface ShiftsAutoFillParams {
+export interface ShiftsAutoFillParameters {
   workers: AutoFillSlotWorker[];
   slots: AutoFillSlot[];
 }
@@ -61,7 +61,7 @@ export const shiftsAutoFillParams = async (
   team: ResourceRef<"teams">,
   _startDay: string,
   _endDay: string
-): Promise<ShiftsAutoFillParams> => {
+): Promise<ShiftsAutoFillParameters> => {
   const startDay = new DayDate(_startDay);
   const endDay = new DayDate(_endDay);
   const { shift_positions, entity } = await database();
@@ -92,24 +92,23 @@ export const shiftsAutoFillParams = async (
 
   const leaveTypes = await getEntitySettings(companyPk, "leaveTypes");
   const leaveTypesByName = getDefined(
-    leaveTypes?.reduce((acc, leaveType) => {
-      acc[leaveType.name] = leaveType;
-      return acc;
+    leaveTypes?.reduce((accumulator, leaveType) => {
+      accumulator[leaveType.name] = leaveType;
+      return accumulator;
     }, {} as Record<string, LeaveType>),
     "Leave types not found for company"
   );
 
   // get approved leaves for each worker
   const approvedLeaves = await Promise.all(
-    workers.map(async (worker) =>
-      (
-        await getLeaveRequestsForDateRange(
-          companyPk,
-          worker.pk,
-          startDay,
-          endDay
-        )
-      )
+    workers.map(async (worker) => {
+      const leaveRequests = await getLeaveRequestsForDateRange(
+        companyPk,
+        worker.pk,
+        startDay,
+        endDay
+      );
+      return leaveRequests
         .filter((leave) => leave.approved)
         .map((leave) => ({
           start: diffInMinutes(startDay, new DayDate(leave.startDate)),
@@ -122,14 +121,14 @@ export const shiftsAutoFillParams = async (
               leaveTypesByName[leave.type],
               `Leave type ${leave.type} not found`
             ).isPersonal ?? false,
-        }))
-    )
+        }));
+    })
   );
 
   // set the approvedLeaves attribyte in the workers array by iterating over the approvedLeaves array and setting the approvedLeaves attribute in the workers array
-  workers.forEach((worker, index) => {
+  for (const [index, worker] of workers.entries()) {
     worker.approvedLeaves = approvedLeaves[index];
-  });
+  }
 
   const { items: shiftPositions } = await shift_positions.query(
     {

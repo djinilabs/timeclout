@@ -4,12 +4,11 @@ export const getAuthorizedForResource = async (
   resourcePk: ResourceRef
 ): Promise<PermissionRecord[]> => {
   const { permission } = await database();
-  return (
-    await permission.query({
-      KeyConditionExpression: "pk = :pk",
-      ExpressionAttributeValues: {
-        ":pk": resourcePk,
-      },
-    })
-  ).items;
+  const result = await permission.query({
+    KeyConditionExpression: "pk = :pk",
+    ExpressionAttributeValues: {
+      ":pk": resourcePk,
+    },
+  });
+  return result.items;
 };

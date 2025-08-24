@@ -15,7 +15,7 @@ describe("TimeOffCalendarDay", () => {
 
   const mockMonth = {
     name: "March",
-    days: Array(35).fill(mockDay), // Simulating a month's worth of days
+    days: Array.from({length: 35}).fill(mockDay), // Simulating a month's worth of days
   };
 
   const mockUser = {
@@ -93,13 +93,13 @@ describe("TimeOffCalendarDay", () => {
   });
 
   it("displays leave icon when provided", () => {
-    const leaveProps: LeaveDay = {
+    const leaveProperties: LeaveDay = {
       type: "vacation",
       icon: "🌴",
       color: "#ff0000",
       leaveRequest: defaultLeaveRequest,
     };
-    render(<TimeOffCalendarDay {...defaultProps} isLeave={leaveProps} />);
+    render(<TimeOffCalendarDay {...defaultProps} isLeave={leaveProperties} />);
     expect(screen.getByText("🌴")).toBeInTheDocument();
   });
 
@@ -111,7 +111,7 @@ describe("TimeOffCalendarDay", () => {
 
   it("handles mouse enter for leave days", () => {
     const setHoveringDay = vi.fn();
-    const leaveProps: LeaveDay = {
+    const leaveProperties: LeaveDay = {
       type: "vacation",
       icon: "🌴",
       color: "#ff0000",
@@ -120,7 +120,7 @@ describe("TimeOffCalendarDay", () => {
     render(
       <TimeOffCalendarDay
         {...defaultProps}
-        isLeave={leaveProps}
+        isLeave={leaveProperties}
         setHoveringDay={setHoveringDay}
       />
     );
@@ -131,7 +131,7 @@ describe("TimeOffCalendarDay", () => {
 
   it("handles mouse leave for leave days", () => {
     const setHoveringDay = vi.fn();
-    const leaveProps: LeaveDay = {
+    const leaveProperties: LeaveDay = {
       type: "vacation",
       icon: "🌴",
       color: "#ff0000",
@@ -140,7 +140,7 @@ describe("TimeOffCalendarDay", () => {
     render(
       <TimeOffCalendarDay
         {...defaultProps}
-        isLeave={leaveProps}
+        isLeave={leaveProperties}
         setHoveringDay={setHoveringDay}
       />
     );
@@ -150,7 +150,7 @@ describe("TimeOffCalendarDay", () => {
   });
 
   it.skip("shows popover on hover for leave request", () => {
-    const leaveProps: LeaveDay = {
+    const leaveProperties: LeaveDay = {
       type: "vacation",
       icon: "🌴",
       color: "#ff0000",
@@ -158,12 +158,12 @@ describe("TimeOffCalendarDay", () => {
     };
     const popperContainer = document.createElement("div");
     popperContainer.id = "popper-container";
-    document.body.appendChild(popperContainer);
+    document.body.append(popperContainer);
     render(
       <I18nProvider i18n={i18n}>
         <TimeOffCalendarDay
           {...defaultProps}
-          isLeave={leaveProps}
+          isLeave={leaveProperties}
           isHovering={true}
         />
       </I18nProvider>

@@ -2,7 +2,7 @@ import chalk from "chalk";
 
 export const logger = (tableName: string) => {
   if (
-    process.env.NODE_ENV != null &&
+    process.env.NODE_ENV != undefined &&
     process.env.NODE_ENV !== "development" &&
     process.env.NODE_ENV !== "production"
   ) {
@@ -14,28 +14,28 @@ export const logger = (tableName: string) => {
     };
   }
   return {
-    debug: (...args: unknown[]) => {
+    debug: (...arguments_: unknown[]) => {
       console.debug(
         chalk.gray(`[${new Date().toISOString()}] [${tableName}] [DEBUG]`),
-        ...args
+        ...arguments_
       );
     },
-    info: (...args: unknown[]) => {
+    info: (...arguments_: unknown[]) => {
       console.info(
         chalk.green(`[${new Date().toISOString()}] [${tableName}] [INFO]`),
-        ...args
+        ...arguments_
       );
     },
-    warn: (...args: unknown[]) => {
+    warn: (...arguments_: unknown[]) => {
       console.warn(
         chalk.yellow(`[${new Date().toISOString()}] [${tableName}] [WARN]`),
-        ...args
+        ...arguments_
       );
     },
-    error: (...args: unknown[]) => {
+    error: (...arguments_: unknown[]) => {
       console.error(
         chalk.red(`[${new Date().toISOString()}] [${tableName}] [ERROR]`),
-        ...args
+        ...arguments_
       );
     },
   };

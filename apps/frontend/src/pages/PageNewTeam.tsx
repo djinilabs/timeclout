@@ -6,7 +6,7 @@ import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Mutation, MutationCreateTeamArgs } from "../graphql/graphql";
+import { Mutation, MutationCreateTeamArgs as MutationCreateTeamArguments } from "../graphql/graphql";
 import { useMutation } from "../hooks/useMutation";
 
 import createTeamMutation from "@/graphql-client/mutations/createTeam.graphql";
@@ -17,7 +17,7 @@ export const PageNewTeam = () => {
   const navigate = useNavigate();
   const [, createTeam] = useMutation<
     Mutation["createTeam"],
-    MutationCreateTeamArgs
+    MutationCreateTeamArguments
   >(createTeamMutation);
   const form = useForm<
     { "team-name": string },

@@ -13,12 +13,12 @@ import { useAppLocalSettings } from "../../contexts/AppLocalSettingsContext";
 
 const ContextualHelp = lazy(() => import("../particles/ContextualHelp"));
 
-export interface HelpPanelProps {
+export interface HelpPanelProperties {
   isHelpPanelOpen: boolean;
   setHelpPanelOpen: (isOpen: boolean) => unknown;
 }
 
-export const HelpPanel: FC<HelpPanelProps> = ({
+export const HelpPanel: FC<HelpPanelProperties> = ({
   isHelpPanelOpen,
   setHelpPanelOpen,
 }) => {
@@ -28,15 +28,15 @@ export const HelpPanel: FC<HelpPanelProps> = ({
   } = useAppLocalSettings();
 
   const [isResizing, setIsResizing] = useState(false);
-  const startXRef = useRef<number>(0);
-  const startWidthRef = useRef<number>(0);
+  const startXReference = useRef<number>(0);
+  const startWidthReference = useRef<number>(0);
 
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault(); // Prevent text selection during drag
       setIsResizing(true);
-      startXRef.current = e.clientX;
-      startWidthRef.current = helpSideBarWidth;
+      startXReference.current = e.clientX;
+      startWidthReference.current = helpSideBarWidth;
     },
     [helpSideBarWidth]
   );
@@ -44,10 +44,10 @@ export const HelpPanel: FC<HelpPanelProps> = ({
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
       if (!isResizing) return;
-      const deltaX = startXRef.current - e.clientX;
+      const deltaX = startXReference.current - e.clientX;
       const newWidth = Math.max(
         288,
-        Math.min(800, startWidthRef.current + deltaX)
+        Math.min(800, startWidthReference.current + deltaX)
       );
       setHelpSideBarWidth(newWidth);
     },
@@ -60,12 +60,12 @@ export const HelpPanel: FC<HelpPanelProps> = ({
 
   useEffect(() => {
     if (isResizing) {
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mouseup", handleMouseUp);
+      globalThis.addEventListener("mousemove", handleMouseMove);
+      globalThis.addEventListener("mouseup", handleMouseUp);
     }
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      globalThis.removeEventListener("mousemove", handleMouseMove);
+      globalThis.removeEventListener("mouseup", handleMouseUp);
     };
   }, [isResizing, handleMouseMove, handleMouseUp]);
 
@@ -100,7 +100,6 @@ export const HelpPanel: FC<HelpPanelProps> = ({
         <h2 className="text-lg font-medium text-gray-900">Help</h2>
         <button
           type="button"
-          role="button"
           aria-label="Close help panel"
           aria-hidden
           onClick={() => setHelpPanelOpen(false)}

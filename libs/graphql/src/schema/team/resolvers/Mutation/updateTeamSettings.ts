@@ -8,13 +8,13 @@ import { resourceRef } from "@/utils";
 
 
 
-export const updateTeamSettings: NonNullable<MutationResolvers['updateTeamSettings']> = async (_parent, arg, ctx) => {
-  const teamRef = resourceRef("teams", arg.teamPk);
-  const userPk = await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
+export const updateTeamSettings: NonNullable<MutationResolvers['updateTeamSettings']> = async (_parent, argument, context) => {
+  const teamReference = resourceRef("teams", argument.teamPk);
+  const userPk = await ensureAuthorized(context, teamReference, PERMISSION_LEVELS.WRITE);
   return updateEntitySettings(
-    teamRef,
-    arg.name,
-    arg.settings,
+    teamReference,
+    argument.name,
+    argument.settings,
     userPk
   ) as unknown as Promise<Team>;
 };

@@ -16,7 +16,7 @@ export interface SimulatedLeave {
   endDate: DayDate;
 }
 
-export interface LeaveFulfilmentForPeriodParams {
+export interface LeaveFulfilmentForPeriodParameters {
   companyRef: ResourceRef<"companies">;
   userRef: ResourceRef<"users">;
   startDate: DayDate;
@@ -44,7 +44,7 @@ export const getLeaveFulfilmentForPeriod = async ({
   startDate,
   endDate,
   simulation,
-}: LeaveFulfilmentForPeriodParams): Promise<LeaveFulfilmentForPeriod> => {
+}: LeaveFulfilmentForPeriodParameters): Promise<LeaveFulfilmentForPeriod> => {
   const leaveTypes = await getCompanyLeaveTypes(companyRef);
   const workSchedule = getDefined(
     await getEntitySettings<"workSchedule">(companyRef, "workSchedule")
@@ -65,9 +65,8 @@ export const getLeaveFulfilmentForPeriod = async ({
     return isWeekWorkDay(date) && !isHoliday(date);
   };
 
-  const approvedUsedLeaves = (
-    await getLeavesForDateRange(companyRef, userRef, startDate, endDate)
-  ).filter((leave) => leaveTypes[leave.type].deductsFromAnnualAllowance);
+  const leavesResult = await getLeavesForDateRange(companyRef, userRef, startDate, endDate);
+  const approvedUsedLeaves = leavesResult.filter((leave) => leaveTypes[leave.type].deductsFromAnnualAllowance);
 
   const approvedUsed = approvedUsedLeaves.filter((leave) => {
     const holiday = holidays[leave.sk];
@@ -77,14 +76,13 @@ export const getLeaveFulfilmentForPeriod = async ({
     return true;
   }).length;
 
-  const pendingApprovalLeaveRequests = (
-    await getLeaveRequestsForDateRange(companyRef, userRef, startDate, endDate)
-  ).filter(
+  const leaveRequestsResult = await getLeaveRequestsForDateRange(companyRef, userRef, startDate, endDate);
+  const pendingApprovalLeaveRequests = leaveRequestsResult.filter(
     (leaveRequest) => leaveTypes[leaveRequest.type].deductsFromAnnualAllowance
   );
 
   const pendingApprovalUsed = pendingApprovalLeaveRequests.reduce(
-    (acc, leaveRequest) => {
+    (accumulator, leaveRequest) => {
       const startDate = new DayDate(leaveRequest.startDate);
       const endDate = new DayDate(leaveRequest.endDate);
       for (
@@ -93,11 +91,11 @@ export const getLeaveFulfilmentForPeriod = async ({
         date = date.nextDay()
       ) {
         if (!isWorkDay(date)) {
-          return acc;
+          return accumulator;
         }
-        acc++;
+        accumulator++;
       }
-      return acc;
+      return accumulator;
     },
     0
   );
@@ -109,16 +107,16 @@ export const getLeaveFulfilmentForPeriod = async ({
           simulation.endDate
         )
           .getDays()
-          .reduce((acc, day) => {
+          .reduce((accumulator, day) => {
             if (!leaveTypes[simulation.type].deductsFromAnnualAllowance) {
-              return acc;
+              return accumulator;
             }
             const deducts = isWorkDay(day);
             console.log("deducts", deducts, day.toString());
             if (!deducts) {
-              return acc;
+              return accumulator;
             }
-            return acc + 1;
+            return accumulator + 1;
           }, 0),
         simulatedType: simulation.type,
         simulatedStartDate: simulation.startDate,

@@ -5,25 +5,25 @@ import toast from "react-hot-toast";
 
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { useMutation } from "../../hooks/useMutation";
-import { useSearchParam } from "../../hooks/useSearchParam";
+import { useSearchParam as useSearchParameter } from "../../hooks/useSearchParam";
 import { DayPicker } from "../atoms/DayPicker";
 import { Button } from "../particles/Button";
 
 import { DayDate } from "@/day-date";
 import publishShiftPositionsMutation from "@/graphql-client/mutations/publishShiftPositions.graphql";
 
-export interface PublishShiftPositionsProps {
+export interface PublishShiftPositionsProperties {
   team: string;
   onClose: () => void;
   onPublish?: () => void;
 }
 
-export const PublishShiftPositions: FC<PublishShiftPositionsProps> = ({
+export const PublishShiftPositions: FC<PublishShiftPositionsProperties> = ({
   team,
   onClose,
   onPublish,
 }) => {
-  const { current: month } = useSearchParam("month");
+  const { current: month } = useSearchParameter("month");
   const [dateRange, setDateRange] = useState<{
     from: DayDate;
     to: DayDate;

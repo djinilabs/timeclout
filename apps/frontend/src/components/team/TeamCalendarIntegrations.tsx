@@ -13,8 +13,8 @@ export const TeamCalendarIntegrations = () => {
   const { team: teamPk } = useParams();
   const urls = useMemo(() => {
     return {
-      shifts: `${window.location.origin}/api/v1/ical/teams/${teamPk}/shifts`,
-      leaves: `${window.location.origin}/api/v1/ical/teams/${teamPk}/leaves`,
+      shifts: `${globalThis.location.origin}/api/v1/ical/teams/${teamPk}/shifts`,
+      leaves: `${globalThis.location.origin}/api/v1/ical/teams/${teamPk}/leaves`,
     };
   }, [teamPk]);
   return (

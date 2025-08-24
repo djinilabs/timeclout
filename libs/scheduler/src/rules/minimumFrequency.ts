@@ -11,11 +11,11 @@ const workerUnavailablityInSecondsBetween = (
     throw new TypeError(i18n._("startTime must be less than endTime"));
   }
   // counts the amount of seconds the worker is unavailable between the start and end time
-  return worker.approvedLeaves.reduce((acc, leave) => {
+  return worker.approvedLeaves.reduce((accumulator, leave) => {
     if (leave.start <= endTime && leave.end >= startTime) {
-      return acc + (leave.end - leave.start);
+      return accumulator + (leave.end - leave.start);
     }
-    return acc;
+    return accumulator;
   }, 0);
 };
 
@@ -36,7 +36,7 @@ export const minimumFrequency: ValidationRule = {
     const isShiftValid = (worker: SlotWorker, startTime: number) => {
       const previousShiftStartTime = previousShifts.get(worker);
       if (
-        previousShiftStartTime != null &&
+        previousShiftStartTime != undefined &&
         startTime -
           previousShiftStartTime -
           workerUnavailablityInSecondsBetween(

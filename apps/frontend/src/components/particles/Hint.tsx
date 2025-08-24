@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 
-interface HintProps {
+interface HintProperties {
   children?: ReactNode;
   hint: string;
   role?: string;
@@ -18,7 +18,7 @@ interface HintProps {
   as?: ElementType;
 }
 
-export const Hint: React.FC<HintProps> = ({
+export const Hint: React.FC<HintProperties> = ({
   children,
   hint,
   role = "hint",
@@ -32,13 +32,13 @@ export const Hint: React.FC<HintProps> = ({
   const [calculatedPosition, setCalculatedPosition] = useState<
     "top" | "bottom" | "left" | "right"
   >("top");
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
+  const triggerReference = useRef<HTMLDivElement>(null);
+  const tooltipReference = useRef<HTMLDivElement>(null);
 
   const calculateBestPosition = useCallback(() => {
-    if (!triggerRef.current || !tooltipRef.current) return "top";
+    if (!triggerReference.current || !tooltipReference.current) return "top";
 
-    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const triggerRect = triggerReference.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
     const viewportWidth = window.innerWidth;
 
@@ -62,32 +62,36 @@ export const Hint: React.FC<HintProps> = ({
   }, []);
 
   const updatePosition = useCallback(() => {
-    if (!triggerRef.current || !tooltipRef.current) return;
+    if (!triggerReference.current || !tooltipReference.current) return;
 
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    const triggerRect = triggerReference.current.getBoundingClientRect();
+    const tooltipRect = tooltipReference.current.getBoundingClientRect();
 
     let top = 0;
     let left = 0;
     const actualPosition = position === "auto" ? calculatedPosition : position;
 
     switch (actualPosition) {
-      case "top":
+      case "top": {
         top = triggerRect.top - tooltipRect.height - 8;
         left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
         break;
-      case "bottom":
+      }
+      case "bottom": {
         top = triggerRect.bottom + 8;
         left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
         break;
-      case "left":
+      }
+      case "left": {
         top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
         left = triggerRect.left - tooltipRect.width - 8;
         break;
-      case "right":
+      }
+      case "right": {
         top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
         left = triggerRect.right + 8;
         break;
+      }
     }
 
     setTooltipPosition({ top, left });
@@ -118,7 +122,7 @@ export const Hint: React.FC<HintProps> = ({
     isVisible &&
     createPortal(
       <div
-        ref={tooltipRef}
+        ref={tooltipReference}
         className={`
         fixed z-[9999]
         px-3 py-2
@@ -163,7 +167,7 @@ export const Hint: React.FC<HintProps> = ({
 
   return (
     <Component
-      ref={triggerRef}
+      ref={triggerReference}
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
       className={className}

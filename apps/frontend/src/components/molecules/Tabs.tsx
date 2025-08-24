@@ -2,7 +2,7 @@ import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { FC, PropsWithChildren, useCallback, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import { useSearchParam } from "../../hooks/useSearchParam";
+import { useSearchParam as useSearchParameter } from "../../hooks/useSearchParam";
 import { classNames } from "../../utils/classNames";
 import { Suspense } from "../atoms/Suspense";
 
@@ -14,7 +14,7 @@ export interface Tab {
   icon?: React.ElementType;
 }
 
-export interface TabsProps {
+export interface TabsProperties {
   tabPropName?: string;
   tabs: Tab[];
   onChange?: (tab: Tab) => void;
@@ -22,15 +22,15 @@ export interface TabsProps {
   ariaLabel?: string;
 }
 
-export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
+export const Tabs: FC<PropsWithChildren<TabsProperties>> = ({
   tabs,
   onChange,
-  tabPropName = "tab",
+  tabPropName: tabPropertyName = "tab",
   className = "",
   children,
   ariaLabel = "Tabs navigation",
 }) => {
-  const { current: currentTabName, set, params } = useSearchParam(tabPropName);
+  const { current: currentTabName, set, params } = useSearchParameter(tabPropertyName);
 
   const onTabChange = useCallback(
     (tab: Tab | undefined) => {
@@ -96,7 +96,7 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
                   pathname: location.pathname,
                   search: new URLSearchParams({
                     ...Object.fromEntries(params),
-                    [tabPropName]: tab.href,
+                    [tabPropertyName]: tab.href,
                   }).toString(),
                 }}
                 role="tab"

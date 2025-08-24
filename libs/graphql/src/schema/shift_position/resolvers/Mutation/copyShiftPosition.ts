@@ -14,12 +14,12 @@ import { getResourceRef } from "@/utils";
 
 export const copyShiftPosition: NonNullable<
   MutationResolvers["copyShiftPosition"]
-> = async (_parent, arg, ctx) => {
+> = async (_parent, argument, context) => {
   const { shift_positions } = await database();
-  const { input } = arg;
+  const { input } = argument;
   const { pk: team, sk, day } = input;
   const pk = getResourceRef(team, "teams");
-  const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
+  const userPk = await ensureAuthorized(context, pk, PERMISSION_LEVELS.WRITE);
   const shiftPosition = await shift_positions.get(pk, sk, "staging");
   if (!shiftPosition) {
     throw notFound(i18n._("Shift position not found"));

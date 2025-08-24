@@ -7,11 +7,11 @@ import { StackedBarPlot } from "../stats/StackedBarPlot";
 
 import { type ScoredShiftSchedule } from "@/scheduler";
 
-interface ShiftsAutoFillSolutionScheduleTypeDistributionStatsProps {
+interface ShiftsAutoFillSolutionScheduleTypeDistributionStatsProperties {
   schedule: ScoredShiftSchedule;
 }
 
-export const ShiftsAutoFillSolutionScheduleTypeDistributionStats: FC<ShiftsAutoFillSolutionScheduleTypeDistributionStatsProps> =
+export const ShiftsAutoFillSolutionScheduleTypeDistributionStats: FC<ShiftsAutoFillSolutionScheduleTypeDistributionStatsProperties> =
   memo(({ schedule }) => {
     const { schedule: shiftSchedule } = schedule;
 
@@ -29,11 +29,11 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats: FC<ShiftsAutoF
 
       // Count assignments per worker per type
       const workerTypeAssignments: Record<string, WorkerAssignment> =
-        shiftSchedule.shifts.reduce((acc, shift) => {
-          if (!shift.assigned) return acc;
+        shiftSchedule.shifts.reduce((accumulator, shift) => {
+          if (!shift.assigned) return accumulator;
 
-          if (!acc[shift.assigned.pk]) {
-            acc[shift.assigned.pk] = {
+          if (!accumulator[shift.assigned.pk]) {
+            accumulator[shift.assigned.pk] = {
               workerName: shift.assigned.pk,
               ...typeNames.reduce(
                 (types, type) => ({ ...types, [type]: 0 }),
@@ -42,8 +42,8 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats: FC<ShiftsAutoF
             };
           }
 
-          (acc[shift.assigned.pk][shift.slot.typeName] as number)++;
-          return acc;
+          (accumulator[shift.assigned.pk][shift.slot.typeName] as number)++;
+          return accumulator;
         }, {} as Record<string, WorkerAssignment>);
 
       console.log({ workerTypeAssignments });
@@ -56,11 +56,11 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats: FC<ShiftsAutoF
         );
       });
 
-      const workerById = shiftSchedule.shifts.reduce((acc, shift) => {
+      const workerById = shiftSchedule.shifts.reduce((accumulator, shift) => {
         if (shift.assigned) {
-          acc[shift.assigned.pk] = shift.assigned;
+          accumulator[shift.assigned.pk] = shift.assigned;
         }
-        return acc;
+        return accumulator;
       }, {} as Record<string, (typeof shiftSchedule.shifts)[number]["assigned"]>);
 
       return {

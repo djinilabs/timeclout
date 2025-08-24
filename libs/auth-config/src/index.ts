@@ -34,8 +34,8 @@ async function isUserAllowedToSignIn(email: string): Promise<boolean> {
   const { entity, invitation } = await database();
 
   // Check if user already exists in the system
-  const userRef = resourceRef("users", email);
-  const existingUser = await entity.get(userRef);
+  const userReference = resourceRef("users", email);
+  const existingUser = await entity.get(userReference);
   if (existingUser) {
     console.log("User already exists, allowing sign in:", email);
     return true;
@@ -79,10 +79,10 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     awsjsonUnmarshall: { convertWithoutMapWrapper: false },
   });
   const tableName = await client.name("next-auth");
-  const clientDoc: DynamoDBDocument =
+  const clientDocument: DynamoDBDocument =
     client._doc as unknown as DynamoDBDocument;
 
-  const databaseAdapter = DynamoDBAdapter(clientDoc, {
+  const databaseAdapter = DynamoDBAdapter(clientDocument, {
     tableName,
     indexPartitionKey: "pk",
     indexSortKey: "sk",
@@ -95,12 +95,12 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     name: "Email",
     from: "info@tt3.app",
     maxAge: 24 * 60 * 60,
-    async sendVerificationRequest(req: {
+    async sendVerificationRequest(request: {
       identifier: string;
       url: string;
       theme: { brandColor?: string; buttonText?: string };
     }) {
-      const { identifier: to, url } = req;
+      const { identifier: to, url } = request;
       const { host } = new URL(url);
 
       // Use the working sendEmail function instead of trying to fix Mailgun
@@ -181,9 +181,9 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
           token.id = token.sub;
 
           // Try to get existing user data
-          const userRef = resourceRef("users", token.id as string);
+          const userReference = resourceRef("users", token.id as string);
           const { entity } = await database();
-          const userRecord = await entity.get(userRef);
+          const userRecord = await entity.get(userReference);
           if (userRecord) {
             token.name = userRecord.name;
             // Note: image property is not available in EntityRecord type
@@ -219,9 +219,9 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     },
     events: {
       session: async ({ session, token }) => {
-        const userRef = resourceRef("users", token.id as string);
+        const userReference = resourceRef("users", token.id as string);
         const { entity } = await database();
-        const user = await entity.get(userRef);
+        const user = await entity.get(userReference);
         if (user) {
           session.user = {
             ...session.user,
@@ -232,15 +232,15 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
       signIn: async ({ user, isNewUser, account }) => {
         console.log("signIn event", { user, isNewUser, account });
         const { entity } = await database();
-        const userRef = resourceRef("users", getDefined(user.id));
+        const userReference = resourceRef("users", getDefined(user.id));
 
         if (isNewUser) {
           const newUser = {
-            pk: userRef,
+            pk: userReference,
             name: user.name || user.email || "Unknown",
             email: user.email,
             createdAt: new Date().toISOString(),
-            createdBy: userRef,
+            createdBy: userReference,
             // Add provider-specific data as additional properties
             ...user,
           };
@@ -248,7 +248,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
           await entity.create(newUser as unknown as EntityRecord);
         } else {
           console.log("updating user", user);
-          const officialUser = await entity.get(userRef);
+          const officialUser = await entity.get(userReference);
           console.log("officialUser", officialUser);
 
           // Update user data if it has changed

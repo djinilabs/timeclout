@@ -11,9 +11,9 @@ import { type AIMessage } from "./types";
 
 export const AIChatMessagePanel: FC<{ messages: AIMessage[] }> = memo(
   ({ messages }) => {
-    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const messagesEndReference = useRef<HTMLDivElement>(null);
     const scrollToBottom = useCallback(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      messagesEndReference.current?.scrollIntoView({ behavior: "smooth" });
     }, []);
 
     useEffect(() => {
@@ -70,7 +70,7 @@ export const AIChatMessagePanel: FC<{ messages: AIMessage[] }> = memo(
                     <span className="inline-block bg-black text-white rounded px-2 py-1 text-xs font-semibold">
                       tool&nbsp;call
                     </span>
-                  ) : typeof message.content === "string" ? (
+                  ) : (typeof message.content === "string" ? (
                     <div
                       className={classNames(
                         "prose prose-sm",
@@ -86,13 +86,13 @@ export const AIChatMessagePanel: FC<{ messages: AIMessage[] }> = memo(
                     <span className="flex items-start whitespace-pre-wrap text-sm">
                       {message.content}
                     </span>
-                  )}
+                  ))}
                 </span>
               </div>
             </div>
           </div>
         ))}
-        <div ref={messagesEndRef} />
+        <div ref={messagesEndReference} />
       </div>
     );
   }

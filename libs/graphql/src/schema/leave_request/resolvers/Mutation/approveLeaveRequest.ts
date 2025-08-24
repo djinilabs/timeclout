@@ -16,15 +16,15 @@ import { getDefined, resourceRef } from "@/utils";
 
 
 
-export const approveLeaveRequest: NonNullable<MutationResolvers['approveLeaveRequest']> = async (_parent, arg, ctx) => {
+export const approveLeaveRequest: NonNullable<MutationResolvers['approveLeaveRequest']> = async (_parent, argument, context) => {
   // get company resource ref
-  const session = await requireSession(ctx);
+  const session = await requireSession(context);
   if (!session.user) {
     throw forbidden();
   }
   const userPk = resourceRef("users", getDefined(session.user.id));
 
-  const { pk, sk } = arg.input;
+  const { pk, sk } = argument.input;
 
   // make sure user has permission to approve leave request
   if (!(await canApproveLeaveRequest(userPk, pk))) {

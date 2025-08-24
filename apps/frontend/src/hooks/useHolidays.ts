@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { DayDate } from "@/day-date";
 import { getHolidays } from "@/holidays";
 
-export interface UseHolidaysProps {
+export interface UseHolidaysProperties {
   country?: string;
   region?: string;
   startDate: DayDate;
@@ -15,7 +15,7 @@ export const useHolidays = ({
   region,
   startDate,
   endDate,
-}: UseHolidaysProps) =>
+}: UseHolidaysProperties) =>
   useQuery({
     queryKey: ["holidays", country, region, startDate, endDate],
     queryFn: () => {

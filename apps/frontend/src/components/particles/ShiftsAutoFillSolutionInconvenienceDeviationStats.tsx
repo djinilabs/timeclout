@@ -10,37 +10,37 @@ import {
 
 import { Slot, SlotWorker, type ScoredShiftSchedule } from "@/scheduler";
 
-interface ShiftsAutoFillSolutionInconvenienceDeviationStatsProps {
+interface ShiftsAutoFillSolutionInconvenienceDeviationStatsProperties {
   schedule: ScoredShiftSchedule;
 }
 
-export const ShiftsAutoFillSolutionInconvenienceDeviationStats: FC<ShiftsAutoFillSolutionInconvenienceDeviationStatsProps> =
+export const ShiftsAutoFillSolutionInconvenienceDeviationStats: FC<ShiftsAutoFillSolutionInconvenienceDeviationStatsProperties> =
   memo(({ schedule }) => {
     const { schedule: shiftSchedule } = schedule;
 
     const { workerById, inconvenienceByWorker, expectedInconvenience } =
       useMemo(() => {
         // Group shifts by worker
-        const workerShifts = shiftSchedule.shifts.reduce((acc, shift) => {
+        const workerShifts = shiftSchedule.shifts.reduce((accumulator, shift) => {
           const workerPk = shift.assigned.pk;
-          if (!acc[workerPk]) {
-            acc[workerPk] = [];
+          if (!accumulator[workerPk]) {
+            accumulator[workerPk] = [];
           }
-          acc[workerPk].push(shift.slot);
-          return acc;
+          accumulator[workerPk].push(shift.slot);
+          return accumulator;
         }, {} as Record<string, Slot[]>);
 
         // calculate expected inconvenience
         // Calculate total inconvenience across all slots
         const totalInconvenience = Object.values(workerShifts).reduce(
-          (acc, slots) =>
-            acc +
+          (accumulator, slots) =>
+            accumulator +
             slots.reduce(
-              (slotAcc, slot) =>
-                slotAcc +
+              (slotAccumulator, slot) =>
+                slotAccumulator +
                 slot.workHours.reduce(
-                  (hourAcc, workHour) =>
-                    hourAcc +
+                  (hourAccumulator, workHour) =>
+                    hourAccumulator +
                     (workHour.end - workHour.start) *
                       workHour.inconvenienceMultiplier,
                   0
@@ -59,8 +59,8 @@ export const ShiftsAutoFillSolutionInconvenienceDeviationStats: FC<ShiftsAutoFil
           ([workerPk, slots]) => ({
             workerPk,
             totalInconvenience: slots.reduce(
-              (acc, slot) =>
-                acc +
+              (accumulator, slot) =>
+                accumulator +
                 slot.workHours.reduce(
                   (sum, workHour) =>
                     sum +
@@ -75,9 +75,9 @@ export const ShiftsAutoFillSolutionInconvenienceDeviationStats: FC<ShiftsAutoFil
         );
 
         // Collect worker info by id
-        const workerById = shiftSchedule.shifts.reduce((acc, shift) => {
-          acc[shift.assigned.pk] = shift.assigned;
-          return acc;
+        const workerById = shiftSchedule.shifts.reduce((accumulator, shift) => {
+          accumulator[shift.assigned.pk] = shift.assigned;
+          return accumulator;
         }, {} as Record<string, SlotWorker>);
 
         return {

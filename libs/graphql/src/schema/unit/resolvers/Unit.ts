@@ -14,29 +14,30 @@ import { getDefined, getResourceRef, resourceRef } from "@/utils";
 
 
 export const Unit: UnitResolvers = {
-  createdBy: async (parent, _args, ctx) => {
+  createdBy: async (parent, _arguments, context) => {
     // Cast to access the raw database field where createdBy is a string
-    const userRef = (parent as unknown as { createdBy: string }).createdBy;
-    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    const userReference = (parent as unknown as { createdBy: string }).createdBy;
+    const user = await context.userCache.getUser(getResourceRef(userReference));
     return user as unknown as User;
   },
-  updatedBy: async (parent, _args, ctx) => {
+  updatedBy: async (parent, _arguments, context) => {
     // Cast to access the raw database field where updatedBy is a string
-    const userRef = (parent as unknown as { updatedBy?: string }).updatedBy;
-    if (!userRef) {
+    const userReference = (parent as unknown as { updatedBy?: string }).updatedBy;
+    if (!userReference) {
       return null;
     }
-    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    const user = await context.userCache.getUser(getResourceRef(userReference));
     return user as unknown as User;
   },
-  teams: async (_parent, _args, ctx) => {
-    const permissions = await getAuthorized(ctx, "teams");
+  teams: async (_parent, _arguments, context) => {
+    const permissions = await getAuthorized(context, "teams");
     const { entity } = await database();
-    return entity.batchGet(permissions.map((p) => p.pk)) as unknown as Team[];
+    const teams = await entity.batchGet(permissions.map((p) => p.pk));
+    return teams as unknown as Team[];
   },
-  members: async (parent, _args, ctx) => {
+  members: async (parent, _arguments, context) => {
     await ensureAuthorized(
-      ctx,
+      context,
       getResourceRef(parent.pk),
       PERMISSION_LEVELS.WRITE
     );
@@ -44,18 +45,20 @@ export const Unit: UnitResolvers = {
       getResourceRef(parent.pk)
     );
     const { entity } = await database();
-    const users = (await entity.batchGet(
+    const usersResult = await entity.batchGet(
       permissions.map((p) => p.sk)
-    )) as unknown as User[];
+    );
+    const users = usersResult as unknown as User[];
     console.log("members of unit:", users);
     return users;
   },
-  settings: async (parent, args) => {
+  settings: async (parent, arguments_) => {
     const { entity_settings } = await database();
-    return (await entity_settings.get(parent.pk, args.name))?.settings;
+    const result = await entity_settings.get(parent.pk, arguments_.name);
+    return result?.settings;
   },
-  resourcePermission: async (parent, _, ctx) => {
-    const session = await requireSession(ctx);
+  resourcePermission: async (parent, _, context) => {
+    const session = await requireSession(context);
     return session.user?.id
       ? getUserAuthorizationLevelForResource(
           resourceRef("units", parent.pk),

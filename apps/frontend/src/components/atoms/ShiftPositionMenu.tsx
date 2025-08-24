@@ -8,7 +8,7 @@ import { ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
 
 import { AssignableTeamMembers } from "./AssignableTeamMembers";
 
-export interface ShiftPositionMenuProps {
+export interface ShiftPositionMenuProperties {
   teamPk: string;
   shiftPosition: ShiftPositionWithFake;
   handleEditShiftPosition?: (shiftPosition: ShiftPositionWithFake) => void;
@@ -31,7 +31,7 @@ export const ShiftPositionMenu = ({
   hasCopiedShiftPosition,
   pasteShiftPositionFromClipboard,
   deleteShiftPosition,
-}: ShiftPositionMenuProps) => {
+}: ShiftPositionMenuProperties) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>

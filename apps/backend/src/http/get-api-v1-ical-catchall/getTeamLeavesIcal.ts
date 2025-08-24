@@ -29,24 +29,23 @@ export const getTeamLeavesIcal = async (teamId: string) => {
 
   const companyPk = getDefined(unit.parentPk, "unit has no company");
 
-  const memberRefs = await teamMembers(resourceRef("teams", team.pk));
+  const memberReferences = await teamMembers(resourceRef("teams", team.pk));
 
   const today = new DayDate(new Date());
   const startDate = today.previousMonth();
   const endDate = today.nextYear();
 
-  const memberLeaves: LeaveRecord[] = (
-    await Promise.all(
-      memberRefs.map(async (memberRef) => {
-        return getLeavesForDateRange(
-          resourceRef("companies", companyPk),
-          memberRef,
-          startDate,
-          endDate
-        );
-      })
-    )
-  ).flat();
+  const memberLeavesPromises = await Promise.all(
+    memberReferences.map(async (memberReference) => {
+      return getLeavesForDateRange(
+        resourceRef("companies", companyPk),
+        memberReference,
+        startDate,
+        endDate
+      );
+    })
+  );
+  const memberLeaves: LeaveRecord[] = memberLeavesPromises.flat();
 
   const calendar = ical({
     name: `${team.name} Leaves`,

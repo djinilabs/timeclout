@@ -6,10 +6,10 @@ import { database } from "@/tables";
 
 export const companies: NonNullable<QueryResolvers['companies']> = async (
   _parent,
-  _arg,
-  _ctx
+  _argument,
+  _context
 ) => {
-  const permissions = await getAuthorized(_ctx, "companies");
+  const permissions = await getAuthorized(_context, "companies");
   const { entity } = await database();
   return entity.batchGet(permissions.map((p) => p.pk)) as unknown as Promise<
     Company[]

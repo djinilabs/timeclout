@@ -11,7 +11,7 @@ type ShiftPositionWithFake = ShiftPositionType & {
   original?: ShiftPositionType;
 };
 
-export interface UseTeamShiftsFocusNavigationProps {
+export interface UseTeamShiftsFocusNavigationProperties {
   shiftPositionsMap: Record<string, ShiftPositionWithFake[]>;
   selectedMonth: DayDate;
   previouslySelectedMonth: DayDate | null;
@@ -22,7 +22,7 @@ export const useTeamShiftsFocusNavigation = ({
   shiftPositionsMap,
   selectedMonth,
   goToMonth,
-}: UseTeamShiftsFocusNavigationProps) => {
+}: UseTeamShiftsFocusNavigationProperties) => {
   const [focusedShiftPosition, setFocusedShiftPosition] =
     useState<ShiftPositionWithFake | null>(null);
 
@@ -49,9 +49,9 @@ export const useTeamShiftsFocusNavigation = ({
           const nextIndex =
             nextSelectionPreference === "same"
               ? Math.min(initialIndex, nextShiftPositions.length - 1)
-              : nextSelectionPreference === "first"
+              : (nextSelectionPreference === "first"
                 ? 0
-                : nextShiftPositions.length - 1;
+                : nextShiftPositions.length - 1);
 
           const nextShiftPosition = nextShiftPositions[nextIndex];
           if (nextShiftPosition) {

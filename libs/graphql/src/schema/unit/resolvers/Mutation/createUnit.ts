@@ -12,12 +12,12 @@ import { resourceRef } from "@/utils";
 
 export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
   _parent,
-  arg,
-  ctx
+  argument,
+  context
 ) => {
-  const companyPk = resourceRef("companies", arg.companyPk);
+  const companyPk = resourceRef("companies", argument.companyPk);
   const userPk = await ensureAuthorized(
-    ctx,
+    context,
     companyPk,
     PERMISSION_LEVELS.WRITE
   );
@@ -33,7 +33,7 @@ export const createUnit: NonNullable<MutationResolvers['createUnit']> = async (
     parentPk: companyPk,
     createdBy: userPk,
     createdAt: new Date().toISOString(),
-    name: arg.name,
+    name: argument.name,
   };
   await entity.create(unit);
 

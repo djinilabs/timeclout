@@ -45,14 +45,18 @@ const mapContent = (
     return content;
   }
   switch (content.type) {
-    case "text":
+    case "text": {
       return content.text;
-    case "tool-call":
+    }
+    case "tool-call": {
       return JSON.stringify(content, null, 2);
-    case "tool-result":
+    }
+    case "tool-result": {
       return JSON.stringify(content, null, 2);
-    default:
+    }
+    default: {
       throw new Error(`Unsupported content type: ${content.type}`);
+    }
   }
 };
 
@@ -69,30 +73,38 @@ const mapMessage = (message: LanguageModelV1Message): string => {
   }
   const content = mapAllContent(message.content);
   switch (message.role) {
-    case "system":
+    case "system": {
       return content;
-    case "assistant":
+    }
+    case "assistant": {
       return `you said:\n${content}\n`;
-    case "tool":
+    }
+    case "tool": {
       return `tool responded:\n${content}\n`;
+    }
     case "user":
-    default:
+    default: {
       return `user said:\n${content}\n`;
+    }
   }
 };
 
 const mapInitialPrompt = (prompt: LanguageModelMessage): string => {
   const content = prompt.content.map((c) => c.value).join("\n\n");
   switch (prompt.role) {
-    case "system":
+    case "system": {
       return content;
-    case "assistant":
+    }
+    case "assistant": {
       return `assistant\n${content}\n`;
-    case "tool":
+    }
+    case "tool": {
       return `tool\n${content}\n`;
+    }
     case "user":
-    default:
+    default: {
       return `user\n${content}\n`;
+    }
   }
 };
 
@@ -195,8 +207,8 @@ export class ChromeLocalLanguageModel implements LanguageModelV1 {
     this.modelId = modelId;
     this.options = options;
     const languageModel =
-      "LanguageModel" in window
-        ? (window.LanguageModel as LanguageModel)
+      "LanguageModel" in globalThis
+        ? (globalThis.LanguageModel as LanguageModel)
         : undefined;
     if (!languageModel) {
       throw new Error("LanguageModel is not available");

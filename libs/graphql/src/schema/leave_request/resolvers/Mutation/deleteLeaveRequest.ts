@@ -11,10 +11,10 @@ import { canApproveLeaveRequest, removeLeaveRequest } from "@/business-logic";
 import { database } from "@/tables";
 import { getDefined, resourceRef } from "@/utils";
 
-export const deleteLeaveRequest: NonNullable<MutationResolvers['deleteLeaveRequest']> = async (_parent, arg, ctx) => {
-  const session = await requireSession(ctx);
+export const deleteLeaveRequest: NonNullable<MutationResolvers['deleteLeaveRequest']> = async (_parent, argument, context) => {
+  const session = await requireSession(context);
   const { leave_request } = await database();
-  const leaveRequest = await leave_request.get(arg.input.pk, arg.input.sk);
+  const leaveRequest = await leave_request.get(argument.input.pk, argument.input.sk);
   if (!leaveRequest) {
     throw notFound("Leave request not found");
   }

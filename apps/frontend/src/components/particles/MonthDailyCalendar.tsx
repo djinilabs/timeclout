@@ -13,7 +13,7 @@ export interface Day {
   isSelected?: boolean;
 }
 
-export interface MonthDailyCalendarProps {
+export interface MonthDailyCalendarProperties {
   show?: boolean;
   year: number;
   month: number;
@@ -26,7 +26,7 @@ export interface MonthDailyCalendarProps {
   onDayFocus?: (day: string) => void;
 }
 
-export const MonthDailyCalendar: FC<MonthDailyCalendarProps> = memo(
+export const MonthDailyCalendar: FC<MonthDailyCalendarProperties> = memo(
   ({
     show = true,
     year,
@@ -138,7 +138,7 @@ export const MonthDailyCalendar: FC<MonthDailyCalendarProps> = memo(
                   role="gridcell"
                   aria-current={day.isToday ? "date" : undefined}
                   aria-label={`${day.date}${day.isToday ? " (Today)" : ""}${
-                    !day.isCurrentMonth ? " (Not in current month)" : ""
+                    day.isCurrentMonth ? "" : " (Not in current month)"
                   }`}
                   className={classNames(
                     day.isCurrentMonth ? "bg-white" : "bg-gray-50",

@@ -15,7 +15,7 @@ export const minimumShiftsInStandardWorkdayPerWeek: ValidationRule = {
   },
   function: (schedule, workers, minimumStandardWorkDayShiftCount) => {
     if (
-      minimumStandardWorkDayShiftCount == null ||
+      minimumStandardWorkDayShiftCount == undefined ||
       typeof minimumStandardWorkDayShiftCount !== "number"
     ) {
       throw new TypeError(

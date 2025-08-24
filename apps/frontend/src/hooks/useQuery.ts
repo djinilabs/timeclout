@@ -5,7 +5,7 @@ import { AnyVariables, useQuery as urqlUseQuery, UseQueryArgs } from "urql";
 
 import { useIsFetching } from "./useIsFetching";
 
-type ExtendedUseQueryProps<
+type ExtendedUseQueryProperties<
   TData = unknown,
   TVariables extends AnyVariables = AnyVariables
 > = UseQueryArgs<TVariables, TData> & {
@@ -19,12 +19,12 @@ export const useQuery = <
 >({
   pollingIntervalMs,
   toastIfError = true,
-  ...props
-}: ExtendedUseQueryProps<TData, TVariables>): ReturnType<
+  ...properties
+}: ExtendedUseQueryProperties<TData, TVariables>): ReturnType<
   typeof urqlUseQuery<TData, TVariables>
 > => {
   const [result, reexecuteQuery] = urqlUseQuery<TData, TVariables>(
-    props as UseQueryArgs<TVariables, TData>
+    properties as UseQueryArgs<TVariables, TData>
   );
   useEffect(() => {
     let handle: string | undefined;

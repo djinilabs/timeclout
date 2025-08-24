@@ -18,7 +18,7 @@ export class SchedulerWorkerClient {
       name: "SchedulerWorker",
     });
     this.worker.onerror = (event) => {
-      console.error("SchedulerWorker error: ", event.error);
+      console.error("SchedulerWorker error:", event.error);
     };
     this.worker.onmessage = (event) => {
       onProgress?.(event.data);

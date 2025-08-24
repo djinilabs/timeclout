@@ -6,11 +6,11 @@ import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { getInitials } from "../../utils/getInitials";
 import { StackedBarPlot } from "../stats/StackedBarPlot";
 
-interface TeamShiftsScheduleTypeDistributionStatsProps {
+interface TeamShiftsScheduleTypeDistributionStatsProperties {
   shiftPositionsMap: Record<string, ShiftPositionWithRowSpan[]>;
 }
 
-export const TeamShiftsScheduleTypeDistributionStats: FC<TeamShiftsScheduleTypeDistributionStatsProps> =
+export const TeamShiftsScheduleTypeDistributionStats: FC<TeamShiftsScheduleTypeDistributionStatsProperties> =
   memo(({ shiftPositionsMap }) => {
     const { typeNames, workerStats, workerById } = useMemo(() => {
       // Get unique type names from shifts (using name field)
@@ -33,12 +33,12 @@ export const TeamShiftsScheduleTypeDistributionStats: FC<TeamShiftsScheduleTypeD
       const workerTypeAssignments: Record<string, WorkerAssignment> =
         Object.values(shiftPositionsMap)
           .flat()
-          .reduce((acc, shiftPosition) => {
-            if (!shiftPosition.assignedTo) return acc;
+          .reduce((accumulator, shiftPosition) => {
+            if (!shiftPosition.assignedTo) return accumulator;
 
             const typeName = shiftPosition.name || "Unnamed";
-            if (!acc[shiftPosition.assignedTo.pk]) {
-              acc[shiftPosition.assignedTo.pk] = {
+            if (!accumulator[shiftPosition.assignedTo.pk]) {
+              accumulator[shiftPosition.assignedTo.pk] = {
                 workerName: shiftPosition.assignedTo.pk,
                 ...typeNames.reduce(
                   (types, type) => ({ ...types, [type]: 0 }),
@@ -47,8 +47,8 @@ export const TeamShiftsScheduleTypeDistributionStats: FC<TeamShiftsScheduleTypeD
               };
             }
 
-            (acc[shiftPosition.assignedTo.pk][typeName] as number)++;
-            return acc;
+            (accumulator[shiftPosition.assignedTo.pk][typeName] as number)++;
+            return accumulator;
           }, {} as Record<string, WorkerAssignment>);
 
       const workerStats = Object.entries(workerTypeAssignments)
@@ -63,11 +63,11 @@ export const TeamShiftsScheduleTypeDistributionStats: FC<TeamShiftsScheduleTypeD
 
       const workerById = Object.values(shiftPositionsMap)
         .flat()
-        .reduce((acc, shiftPosition) => {
+        .reduce((accumulator, shiftPosition) => {
           if (shiftPosition.assignedTo) {
-            acc[shiftPosition.assignedTo.pk] = shiftPosition.assignedTo;
+            accumulator[shiftPosition.assignedTo.pk] = shiftPosition.assignedTo;
           }
-          return acc;
+          return accumulator;
         }, {} as Record<string, NonNullable<ShiftPositionWithRowSpan["assignedTo"]>>);
 
       return {

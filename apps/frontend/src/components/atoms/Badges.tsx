@@ -9,17 +9,17 @@ export interface Badge {
   color: ColorName;
 }
 
-export interface BadgesProps {
+export interface BadgesProperties {
   badges: Array<Badge>;
   onRemove?: (badge: Badge) => void;
 }
 
-export interface BadgeRemoveButtonProps {
+export interface BadgeRemoveButtonProperties {
   onClick: () => void;
   color?: string;
 }
 
-export const Badges: FC<BadgesProps> = memo(({ badges, onRemove }) => {
+export const Badges: FC<BadgesProperties> = memo(({ badges, onRemove }) => {
   return (
     <div className="flex flex-wrap gap-2">
       {badges.map((badge) => {

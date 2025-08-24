@@ -13,13 +13,13 @@ import { getDefined, resourceRef, ResourceRef } from "@/utils";
 export async function createHash(message: string) {
   const data = new TextEncoder().encode(message);
   const hash = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(hash))
+  return [...new Uint8Array(hash)]
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("")
     .toString();
 }
 
-export interface CreateInvitationArgs {
+export interface CreateInvitationArguments {
   toEntityPk: ResourceRef;
   invitedUserEmail: string;
   permissionType: number;
@@ -33,22 +33,21 @@ export const createInvitation = async ({
   permissionType,
   actingUserPk,
   origin,
-}: CreateInvitationArgs) => {
+}: CreateInvitationArguments) => {
   const { entity, invitation, "next-auth": nextAuth } = await database();
   const invitedTo = await entity.get(toEntityPk);
   if (!invitedTo) {
     throw notFound(i18n._("Invited to entity not found"));
   }
 
-  const user = (
-    await nextAuth.query({
-      KeyConditionExpression: "pk = :pk and sk = :sk",
-      ExpressionAttributeValues: {
-        ":pk": `USER#${invitedUserEmail}`,
-        ":sk": `USER#${invitedUserEmail}`,
-      },
-    })
-  ).items[0];
+  const userResult = await nextAuth.query({
+    KeyConditionExpression: "pk = :pk and sk = :sk",
+    ExpressionAttributeValues: {
+      ":pk": `USER#${invitedUserEmail}`,
+      ":sk": `USER#${invitedUserEmail}`,
+    },
+  });
+  const user = userResult.items[0];
   if (user) {
     // verify uf the user is already a member of the entity
     const isMember = await getUserAuthorizationLevelForResource(

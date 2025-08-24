@@ -4,7 +4,7 @@ import { User } from "../../graphql/graphql";
 import { SelectUsers } from "../atoms/SelectUsers";
 import { LabeledSwitch } from "../particles/LabeledSwitch";
 
-export interface FilterTeamShiftsCalendarMenuProps {
+export interface FilterTeamShiftsCalendarMenuProperties {
   filterUsers: boolean;
   setFilterUsers: (filterUsers: boolean) => void;
   allUsers: User[];
@@ -18,7 +18,7 @@ export const FilterTeamShiftsCalendarMenu = ({
   allUsers,
   filteredUsers,
   setFilteredUsers,
-}: FilterTeamShiftsCalendarMenuProps) => {
+}: FilterTeamShiftsCalendarMenuProperties) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col lg:flex-row gap-4">

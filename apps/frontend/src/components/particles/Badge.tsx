@@ -2,15 +2,15 @@ import { FC, memo } from "react";
 
 import { type ColorName } from "@/settings";
 
-export interface BadgeProps {
+export interface BadgeProperties {
   name: string;
   color: ColorName;
   onRemove?: () => void;
 }
 
-export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
+export const Badge: FC<BadgeProperties> = memo(({ name, color, onRemove }) => {
   switch (color) {
-    case "gray":
+    case "gray": {
       return (
         <span
           key={name}
@@ -42,7 +42,8 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    case "red":
+    }
+    case "red": {
       return (
         <span
           key={name}
@@ -73,7 +74,8 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    case "yellow":
+    }
+    case "yellow": {
       return (
         <span
           key={name}
@@ -104,7 +106,8 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    case "green":
+    }
+    case "green": {
       return (
         <span
           key={name}
@@ -135,7 +138,8 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    case "blue":
+    }
+    case "blue": {
       return (
         <span
           key={name}
@@ -166,7 +170,8 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    case "indigo":
+    }
+    case "indigo": {
       return (
         <span
           key={name}
@@ -197,7 +202,8 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    case "purple":
+    }
+    case "purple": {
       return (
         <span
           key={name}
@@ -228,7 +234,8 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    case "pink":
+    }
+    case "pink": {
       return (
         <span
           key={name}
@@ -259,7 +266,8 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    case "orange":
+    }
+    case "orange": {
       return (
         <span
           key={name}
@@ -290,7 +298,8 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    case "teal":
+    }
+    case "teal": {
       return (
         <span
           key={name}
@@ -321,7 +330,8 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    case "lime":
+    }
+    case "lime": {
       return (
         <span
           key={name}
@@ -352,8 +362,10 @@ export const Badge: FC<BadgeProps> = memo(({ name, color, onRemove }) => {
           )}
         </span>
       );
-    default:
+    }
+    default: {
       return null;
+    }
   }
 });
 

@@ -17,7 +17,7 @@ const countrySubdivisionsRemoteResponseSchema = z.array(
 
 export type Fetch = typeof fetch;
 
-export interface GetCountrySubdivisionsProps {
+export interface GetCountrySubdivisionsProperties {
   countryIsoCode?: string;
   languageIsoCode: "EN"; // only English is supported for now
   fetch: Fetch;
@@ -27,7 +27,7 @@ const getCountrySubdivisions = async ({
   countryIsoCode,
   languageIsoCode,
   fetch,
-}: GetCountrySubdivisionsProps) => {
+}: GetCountrySubdivisionsProperties) => {
   if (!countryIsoCode) {
     return [];
   }
@@ -46,17 +46,17 @@ const getCountrySubdivisions = async ({
   }));
 };
 
-export const useCountrySubdivisions = (props: GetCountrySubdivisionsProps) => {
+export const useCountrySubdivisions = (properties: GetCountrySubdivisionsProperties) => {
   const { monitorFetch } = useFetchActivity();
   const { data, error } = useQuery({
     queryKey: [
       "countrySubdivisions",
-      props.countryIsoCode,
-      props.languageIsoCode,
+      properties.countryIsoCode,
+      properties.languageIsoCode,
     ],
     queryFn: () =>
-      getCountrySubdivisions({ ...props, fetch: monitorFetch.fetch }),
-    enabled: props.countryIsoCode != null,
+      getCountrySubdivisions({ ...properties, fetch: monitorFetch.fetch }),
+    enabled: properties.countryIsoCode != undefined,
   });
   return { data, error };
 };

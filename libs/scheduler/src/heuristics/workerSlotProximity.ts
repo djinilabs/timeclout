@@ -1,6 +1,6 @@
 import { ShiftScheduleHeuristic, ShiftSchedule, Slot } from "../types";
 import { countTotalUniqueWorkers } from "../utils/countTotalUniqueWorkers";
-import { stdDev } from "../utils/standardDeviation";
+import { stdDev as standardDeviation } from "../utils/standardDeviation";
 
 export const calculateExpectedWorkerSlotProximity = (
   schedule: ShiftSchedule
@@ -18,14 +18,14 @@ export const calculateWorkerSlotProximities = (schedule: ShiftSchedule) => {
     new Map();
 
   // Group shifts by worker and sort by start time
-  schedule.shifts.forEach((shift, shiftIndex) => {
+  for (const [shiftIndex, shift] of schedule.shifts.entries()) {
     const shifts = workerShifts.get(shift.assigned.pk) ?? [];
     shifts.push({
       shiftIndex,
       slot: shift.slot,
     });
     workerShifts.set(shift.assigned.pk, shifts);
-  });
+  }
 
   // Sort shifts for each worker by start time
   for (const shifts of workerShifts.values()) {
@@ -36,10 +36,10 @@ export const calculateWorkerSlotProximities = (schedule: ShiftSchedule) => {
 
   // Calculate proximities between consecutive shifts for each worker
   for (const [worker, shifts] of workerShifts.entries()) {
-    for (let i = 1; i < shifts.length; i++) {
-      const currentSlot = shifts[i].slot;
+    for (let index = 1; index < shifts.length; index++) {
+      const currentSlot = shifts[index].slot;
       const proximityInShiftIndex =
-        shifts[i].shiftIndex - shifts[i - 1].shiftIndex;
+        shifts[index].shiftIndex - shifts[index - 1].shiftIndex;
       const key = `${worker}//${currentSlot.id}`;
       if (proximities.has(key)) {
         console.warn(`Duplicate for slot ${currentSlot.id} key: ${key}`);
@@ -58,7 +58,7 @@ export const calculateWorkerSlotProximityDeviation = (
   schedule: ShiftSchedule
 ) => {
   const proximities = calculateWorkerSlotProximities(schedule);
-  return stdDev(1, Array.from(proximities.values()));
+  return standardDeviation(1, [...proximities.values()]);
 };
 
 export const workerSlotProximityHeuristic: ShiftScheduleHeuristic = {

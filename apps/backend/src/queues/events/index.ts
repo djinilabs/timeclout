@@ -10,11 +10,13 @@ import { EventBusEvent } from "@/event-bus";
 export const handler = async (event: SQSEvent): Promise<SQSBatchResponse> =>
   handleQueueEvent<EventBusEvent>(event, async (payload: EventBusEvent) => {
     switch (payload.key) {
-      case "createOrUpdateLeaveRequest":
+      case "createOrUpdateLeaveRequest": {
         await handleCreateOrUpdateLeaveRequest(payload);
         break;
-      case "rejectLeaveRequest":
+      }
+      case "rejectLeaveRequest": {
         await handleRejectLeaveRequest(payload);
         break;
+      }
     }
   });

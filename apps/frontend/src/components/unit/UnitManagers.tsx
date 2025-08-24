@@ -6,9 +6,9 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 
 import type {
-  QueryUnitArgs,
+  QueryUnitArgs as QueryUnitArguments,
   Unit,
-  UnitSettingsArgs,
+  UnitSettingsArgs as UnitSettingsArguments,
   User,
 } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
@@ -28,7 +28,7 @@ export const UnitManagers = () => {
   const [
     unitWithMembersAndSettingsQueryResponse,
     reexecuteUnitWithMembersAndSettingsQuery,
-  ] = useQuery<{ unit: Unit }, QueryUnitArgs & UnitSettingsArgs>({
+  ] = useQuery<{ unit: Unit }, QueryUnitArguments & UnitSettingsArguments>({
     query: unitWithMembersAndSettingsQuery,
     variables: {
       unitPk: getDefined(unitPk, "No unit provided"),

@@ -7,8 +7,8 @@ export interface GetLeaveRequestsForDateRangeOptions {
 }
 
 export const getLeaveRequestsForDateRange = async (
-  companyRef: ResourceRef<"companies">,
-  userRef: ResourceRef<"users">,
+  companyReference: ResourceRef<"companies">,
+  userReference: ResourceRef<"users">,
   startDate: DayDate,
   endDate: DayDate,
   { approved }: GetLeaveRequestsForDateRangeOptions = {}
@@ -16,20 +16,19 @@ export const getLeaveRequestsForDateRange = async (
   const { leave_request } = await database();
   let filterExpression = "endDate >= :startDate";
   const expressionAttributeValues: Record<string, unknown> = {
-    ":pk": `${companyRef}/${userRef}`,
+    ":pk": `${companyReference}/${userReference}`,
     ":startDate": startDate.toString(),
     ":endDate": endDate.toString(),
   };
-  if (approved != null) {
+  if (approved != undefined) {
     filterExpression += " AND approved = :approved";
     expressionAttributeValues[":approved"] = approved;
   }
-  return (
-    await leave_request.query({
-      IndexName: "byPkAndStartDate",
-      KeyConditionExpression: "pk = :pk AND startDate <= :endDate",
-      FilterExpression: filterExpression,
-      ExpressionAttributeValues: expressionAttributeValues,
-    })
-  ).items;
+  const result = await leave_request.query({
+    IndexName: "byPkAndStartDate",
+    KeyConditionExpression: "pk = :pk AND startDate <= :endDate",
+    FilterExpression: filterExpression,
+    ExpressionAttributeValues: expressionAttributeValues,
+  });
+  return result.items;
 };

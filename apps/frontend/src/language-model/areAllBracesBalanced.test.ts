@@ -70,7 +70,7 @@ describe("areAllBracesBalanced", () => {
   });
 
   it("should handle escaped quotes in strings", () => {
-    expect(areAllBracesBalanced('{"text": "Hello \\"World\\""}')).toBe(true);
-    expect(areAllBracesBalanced('{"text": "Hello \\"World\\""')).toBe(false);
+    expect(areAllBracesBalanced(String.raw`{"text": "Hello \"World\""}`)).toBe(true);
+    expect(areAllBracesBalanced(String.raw`{"text": "Hello \"World\""`)).toBe(false);
   });
 });

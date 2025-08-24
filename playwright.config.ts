@@ -1,4 +1,4 @@
-import { dirname, join } from "path";
+import path from "path";
 import { fileURLToPath } from "url";
 
 import { defineConfig, devices } from "@playwright/test";
@@ -6,7 +6,7 @@ import { defineConfig, devices } from "@playwright/test";
 import { e2eConfig } from "./tests/e2e/config/env";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(__filename);
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -42,7 +42,7 @@ export default defineConfig({
     actionTimeout: e2eConfig.test.actionTimeout,
 
     /* Add navigation timeout */
-    navigationTimeout: 30000,
+    navigationTimeout: 30_000,
   },
 
   /* Global test timeout */
@@ -69,8 +69,8 @@ export default defineConfig({
   ],
 
   /* Global setup and teardown */
-  globalSetup: join(__dirname, "./tests/e2e/global-setup.ts"),
-  globalTeardown: join(__dirname, "./tests/e2e/global-teardown.ts"),
+  globalSetup: path.join(__dirname, "./tests/e2e/global-setup.ts"),
+  globalTeardown: path.join(__dirname, "./tests/e2e/global-teardown.ts"),
 
   /* Add test retry configuration */
   workers: process.env.CI ? 1 : undefined, // Reduce workers in CI to avoid resource conflicts

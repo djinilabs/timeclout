@@ -1,13 +1,13 @@
 import { Trans } from "@lingui/react/macro";
 import { FC } from "react";
 
-import { Query, QueryMemberQuotaFulfilmentArgs } from "../../graphql/graphql";
+import { Query, QueryMemberQuotaFulfilmentArgs as QueryMemberQuotaFulfilmentArguments } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
 
 import memberQuotaFulfilmentQuery from "@/graphql-client/queries/memberQuotaFulfilment.graphql";
 
 
-export interface MemberQuotaFulfilmentProps {
+export interface MemberQuotaFulfilmentProperties {
   companyPk: string;
   teamPk: string;
   userPk: string;
@@ -17,7 +17,7 @@ export interface MemberQuotaFulfilmentProps {
   endDate: string;
 }
 
-export const MemberQuotaFulfilment: FC<MemberQuotaFulfilmentProps> = ({
+export const MemberQuotaFulfilment: FC<MemberQuotaFulfilmentProperties> = ({
   companyPk,
   teamPk,
   userPk,
@@ -28,7 +28,7 @@ export const MemberQuotaFulfilment: FC<MemberQuotaFulfilmentProps> = ({
 }) => {
   const [memberQuotaFulfilment] = useQuery<
     { memberQuotaFulfilment: Query["memberQuotaFulfilment"] },
-    QueryMemberQuotaFulfilmentArgs
+    QueryMemberQuotaFulfilmentArguments
   >({
     query: memberQuotaFulfilmentQuery,
     pause: !startDate || !endDate,

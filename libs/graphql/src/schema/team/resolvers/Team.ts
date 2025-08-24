@@ -22,25 +22,25 @@ import { getDefined, getResourceRef, resourceRef, ResourceRef } from "@/utils";
 
 
 export const Team: TeamResolvers = {
-  createdBy: async (parent, _args, ctx) => {
+  createdBy: async (parent, _arguments, context) => {
     // Cast to access the raw database field where createdBy is a string
-    const userRef = (parent as unknown as { createdBy: string }).createdBy;
-    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    const userReference = (parent as unknown as { createdBy: string }).createdBy;
+    const user = await context.userCache.getUser(getResourceRef(userReference));
     return user as unknown as User;
   },
-  updatedBy: async (parent, _args, ctx) => {
+  updatedBy: async (parent, _arguments, context) => {
     // Cast to access the raw database field where updatedBy is a string
-    const userRef = (parent as unknown as { updatedBy?: string }).updatedBy;
-    if (!userRef) {
+    const userReference = (parent as unknown as { updatedBy?: string }).updatedBy;
+    if (!userReference) {
       return null;
     }
-    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    const user = await context.userCache.getUser(getResourceRef(userReference));
     return user as unknown as User;
   },
-  members: async (parent, args) => {
+  members: async (parent, arguments_) => {
     return teamMembersUsers(
       parent.pk as ResourceRef,
-      args.qualifications ?? undefined
+      arguments_.qualifications ?? undefined
     ) as unknown as Promise<User[]>;
   },
   schedule: async (parent, { startDate, endDate }) => {
@@ -102,17 +102,17 @@ export const Team: TeamResolvers = {
       })) as unknown as UserSchedule[],
     };
   },
-  settings: async (parent, args) => {
+  settings: async (parent, arguments_) => {
     return getEntitySettings(
       getResourceRef(parent.pk),
-      args.name as SettingsTypeKey
+      arguments_.name as SettingsTypeKey
     );
   },
   teamMembersQualifications: async (parent) => {
     return teamMembersQualifications(getResourceRef(parent.pk));
   },
-  resourcePermission: async (parent, _, ctx) => {
-    const session = await requireSession(ctx);
+  resourcePermission: async (parent, _, context) => {
+    const session = await requireSession(context);
     return session.user?.id
       ? getUserAuthorizationLevelForResource(
           resourceRef("teams", parent.pk),

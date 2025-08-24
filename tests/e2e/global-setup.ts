@@ -64,7 +64,7 @@ async function globalSetup(config: FullConfig) {
     await new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
         reject(new Error("Backend startup timeout"));
-      }, 30000); // 30 second timeout
+      }, 30_000); // 30 second timeout
 
       if (backendProcess?.stdout) {
         backendProcess.stdout.on("data", (data: Buffer) => {
@@ -130,7 +130,7 @@ async function globalSetup(config: FullConfig) {
   await new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       reject(new Error("Frontend startup timeout"));
-    }, 30000); // 30 second timeout
+    }, 30_000); // 30 second timeout
 
     if (frontendProcess?.stdout) {
       frontendProcess.stdout.on("data", (data: Buffer) => {

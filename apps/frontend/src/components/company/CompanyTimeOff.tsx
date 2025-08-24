@@ -10,14 +10,14 @@ import {
 
 import {
   Calendar,
-  CompanySettingsArgs,
+  CompanySettingsArgs as CompanySettingsArguments,
   Leave,
   LeaveRequest,
   Mutation,
-  MutationCreateLeaveRequestArgs,
-  MutationCreateSingleDayLeaveRequestsArgs,
+  MutationCreateLeaveRequestArgs as MutationCreateLeaveRequestArguments,
+  MutationCreateSingleDayLeaveRequestsArgs as MutationCreateSingleDayLeaveRequestsArguments,
   Query,
-  QueryCompanyArgs,
+  QueryCompanyArgs as QueryCompanyArguments,
 } from "../../graphql/graphql";
 import { useHolidays } from "../../hooks/useHolidays";
 import { useMutation } from "../../hooks/useMutation";
@@ -42,12 +42,12 @@ const CompanyTimeOff = () => {
   const { company } = useParams();
   const [year, setYear] = useState(new Date().getFullYear());
   const location = useLocation();
-  const [params] = useSearchParams();
+  const [parameters] = useSearchParams();
   const navigate = useNavigate();
 
   const [companyWithSettingsQueryResponse] = useQuery<
     { company: Query["company"] },
-    QueryCompanyArgs & CompanySettingsArgs
+    QueryCompanyArguments & CompanySettingsArguments
   >({
     query: companyWithSettingsQuery,
     variables: {
@@ -103,28 +103,28 @@ const CompanyTimeOff = () => {
     const approvedLeaveRequests: Record<string, LeaveRequest> = {};
     return {
       ...myLeaveCalendar.data?.myLeaveCalendar.leaveRequests.reduce(
-        (acc, leaveRequest) => {
-          if (!leaveRequest.approved) {
+        (accumulator, leaveRequest) => {
+          if (leaveRequest.approved) {
+            approvedLeaveRequests[`${leaveRequest.pk}/${leaveRequest.sk}`] =
+              leaveRequest;
+          } else {
             const startDate = new Date(leaveRequest.startDate);
             const endDate = new Date(leaveRequest.endDate);
             while (startDate <= endDate) {
-              acc[startDate.toISOString().split("T")[0]] = leaveTypeForCalendar(
+              accumulator[startDate.toISOString().split("T")[0]] = leaveTypeForCalendar(
                 leaveRequest,
                 approvedLeaveRequests
               );
               startDate.setDate(startDate.getDate() + 1);
             }
-          } else {
-            approvedLeaveRequests[`${leaveRequest.pk}/${leaveRequest.sk}`] =
-              leaveRequest;
           }
-          return acc;
+          return accumulator;
         },
         {} as Record<string, LeaveDay>
       ),
-      ...myLeaveCalendar.data?.myLeaveCalendar.leaves.reduce((acc, leave) => {
-        acc[leave.sk] = leaveTypeForCalendar(leave, approvedLeaveRequests);
-        return acc;
+      ...myLeaveCalendar.data?.myLeaveCalendar.leaves.reduce((accumulator, leave) => {
+        accumulator[leave.sk] = leaveTypeForCalendar(leave, approvedLeaveRequests);
+        return accumulator;
       }, {} as Record<string, LeaveDay>),
     };
   }, [
@@ -135,19 +135,19 @@ const CompanyTimeOff = () => {
 
   const [, createLeaveRequest] = useMutation<
     Mutation["createLeaveRequest"],
-    MutationCreateLeaveRequestArgs
+    MutationCreateLeaveRequestArguments
   >(createLeaveRequestMutation);
 
   const [, createSingleDayLeaveRequests] = useMutation<
     Mutation["createSingleDayLeaveRequests"],
-    MutationCreateSingleDayLeaveRequestsArgs
+    MutationCreateSingleDayLeaveRequestsArguments
   >(createLeaveRequestMutation);
 
   const onSubmit = useCallback(
     async (values: TimeOffRequest) => {
       const [startDate, endDate] = values.dateRange;
       const dates = values.dates;
-      if (!dates.length && (!startDate || !endDate)) {
+      if (dates.length === 0 && (!startDate || !endDate)) {
         return;
       }
       if (values.mode === "range" && startDate && endDate) {
@@ -165,7 +165,7 @@ const CompanyTimeOff = () => {
         }
       }
 
-      if (values.mode === "multiple" && dates.length) {
+      if (values.mode === "multiple" && dates.length > 0) {
         const result = await createSingleDayLeaveRequests({
           input: {
             companyPk: getDefined(company, "No company provided"),
@@ -184,7 +184,7 @@ const CompanyTimeOff = () => {
       navigate({
         pathname: location.pathname,
         search: new URLSearchParams({
-          ...Object.fromEntries(params),
+          ...Object.fromEntries(parameters),
           bookTimeOff: "false",
         }).toString(),
       });
@@ -195,7 +195,7 @@ const CompanyTimeOff = () => {
       createSingleDayLeaveRequests,
       location.pathname,
       navigate,
-      params,
+      parameters,
       refreshMyLeaveCalendar,
     ]
   );
@@ -233,14 +233,14 @@ const CompanyTimeOff = () => {
 
   return (
     <Suspense>
-      {params.get("bookTimeOff") === "true" && userLocationSettings ? (
+      {parameters.get("bookTimeOff") === "true" && userLocationSettings ? (
         <BookCompanyTimeOff
           onSubmit={onSubmit}
           onCancel={() => {
             navigate({
               pathname: location.pathname,
               search: new URLSearchParams({
-                ...Object.fromEntries(params),
+                ...Object.fromEntries(parameters),
                 bookTimeOff: "false",
               }).toString(),
             });
@@ -272,7 +272,7 @@ const CompanyTimeOff = () => {
             navigate({
               pathname: location.pathname,
               search: new URLSearchParams({
-                ...Object.fromEntries(params),
+                ...Object.fromEntries(parameters),
                 bookTimeOff: "true",
               }).toString(),
             });

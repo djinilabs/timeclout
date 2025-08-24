@@ -29,7 +29,7 @@ export interface NavigationItem {
   sepAfter?: boolean;
 }
 
-export interface SideBarProps {
+export interface SideBarProperties {
   expanded: boolean;
   alwaysExpanded?: boolean;
   setExpanded: (expanded: boolean) => void;
@@ -41,7 +41,7 @@ const SideBar = ({
   alwaysExpanded,
   setExpanded,
   onSelect,
-}: SideBarProps) => {
+}: SideBarProperties) => {
   const { company } = useParams();
   const [allCompaniesResult] = useQuery<{ companies: Company[] }>({
     query: allCompaniesQuery,
@@ -55,7 +55,7 @@ const SideBar = ({
   const [allUnitsResult] = useQuery<{ units: Unit[] }>({
     query: allUnitsQuery,
     variables: {
-      pause: company == null,
+      pause: company == undefined,
     },
   });
 
@@ -67,7 +67,7 @@ const SideBar = ({
   const [allTeamsResult] = useQuery<{ allTeams: Team[] }>({
     query: allTeamsQuery,
     variables: {
-      pause: company == null,
+      pause: company == undefined,
     },
   });
 
@@ -169,7 +169,7 @@ const SideBar = ({
                       item.sepBefore && "mt-4",
                       item.sepAfter && "mb-4"
                     )}
-                    title={!expanded ? item.name : undefined}
+                    title={expanded ? undefined : item.name}
                     onClick={onSelect}
                     aria-current={
                       location.pathname === item.href ? "page" : undefined
@@ -179,7 +179,7 @@ const SideBar = ({
                     role="link"
                     aria-describedby={`nav-${item.name
                       .toLowerCase()
-                      .replace(/\s+/g, "-")}-description`}
+                      .replaceAll(/\s+/g, "-")}-description`}
                   >
                     <item.icon
                       aria-hidden="true"
@@ -193,7 +193,7 @@ const SideBar = ({
                     <span
                       id={`nav-${item.name
                         .toLowerCase()
-                        .replace(/\s+/g, "-")}-description`}
+                        .replaceAll(/\s+/g, "-")}-description`}
                       className={`transition-opacity duration-300 ${
                         expanded
                           ? "opacity-100"
@@ -211,7 +211,7 @@ const SideBar = ({
             <Link
               to="/me/edit"
               className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-teal-200 hover:bg-teal-700 hover:text-white animate duration-200"
-              title={!expanded ? "Settings" : undefined}
+              title={expanded ? undefined : "Settings"}
               onClick={onSelect}
               aria-label="Settings"
               aria-clickable

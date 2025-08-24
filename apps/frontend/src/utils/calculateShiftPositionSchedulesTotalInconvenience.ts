@@ -3,9 +3,9 @@ import { ShiftPositionSchedule } from "../graphql/graphql";
 export const calculateShiftPositionSchedulesTotalInconvenience = (
   schedules: ShiftPositionSchedule[]
 ) => {
-  return schedules.reduce((acc, schedule) => {
+  return schedules.reduce((accumulator, schedule) => {
     return (
-      acc +
+      accumulator +
       schedule.inconveniencePerHour *
         (schedule.endHourMinutes[0] +
           schedule.endHourMinutes[1] / 60 -

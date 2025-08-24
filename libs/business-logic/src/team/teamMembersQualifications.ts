@@ -12,14 +12,13 @@ export const teamMembersQualifications = async (
   teamId: ResourceRef<"teams">
 ) => {
   const memberPks = await teamMembers(teamId);
-  return (
-    await Promise.all(
-      memberPks.map(async (userPk) => ({
-        userPk,
-        qualifications: await userTeamQualifications(teamId, userPk),
-      }))
-    )
-  ).filter(
+  const results = await Promise.all(
+    memberPks.map(async (userPk) => ({
+      userPk,
+      qualifications: await userTeamQualifications(teamId, userPk),
+    }))
+  );
+  return results.filter(
     ({ qualifications }) => qualifications !== undefined
   ) as TeamMemberQualifications[];
 };

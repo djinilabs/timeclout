@@ -33,7 +33,7 @@ import { getDefined } from "@/utils";
 
 
 
-export interface ShiftsAutoFillSolutionProps {
+export interface ShiftsAutoFillSolutionProperties {
   team: string;
   company: string;
   startDate?: DayDate;
@@ -45,7 +45,7 @@ export interface ShiftsAutoFillSolutionProps {
   onAssignShiftPositions: () => void;
 }
 
-export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
+export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProperties> = ({
   team,
   company,
   startDate,
@@ -150,18 +150,7 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
 
   const handleAssignShiftPosition = useCallback(
     async (shiftPosition: ShiftPositionType, member: User | null) => {
-      if (!member) {
-        const result = await unassignShiftPosition({
-          input: {
-            team: getDefined(team),
-            shiftPositionId: shiftPosition.sk,
-          },
-        });
-        if (!result.error) {
-          toast.success(i18n.t("Shift position unassigned successfully"));
-          onAssignShiftPositions();
-        }
-      } else {
+      if (member) {
         const result = await assignShiftPositions({
           input: {
             team: getDefined(team),
@@ -175,6 +164,17 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
         });
         if (!result.error) {
           toast.success(i18n.t("Shift positions assigned successfully"));
+          onAssignShiftPositions();
+        }
+      } else {
+        const result = await unassignShiftPosition({
+          input: {
+            team: getDefined(team),
+            shiftPositionId: shiftPosition.sk,
+          },
+        });
+        if (!result.error) {
+          toast.success(i18n.t("Shift position unassigned successfully"));
           onAssignShiftPositions();
         }
       }

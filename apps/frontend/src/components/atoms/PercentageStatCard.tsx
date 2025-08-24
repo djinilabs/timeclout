@@ -1,11 +1,11 @@
 import { FC, memo } from "react";
 
-export interface PercentageStatCardProps {
+export interface PercentageStatCardProperties {
   name: string;
   value: number;
 }
 
-export const PercentageStatCard: FC<PercentageStatCardProps> = memo(
+export const PercentageStatCard: FC<PercentageStatCardProperties> = memo(
   ({ name, value }) => {
     return (
       <div

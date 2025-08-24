@@ -13,12 +13,12 @@ import { resourceRef } from "@/utils";
 
 export const unassignShiftPosition: NonNullable<
   MutationResolvers["unassignShiftPosition"]
-> = async (_parent, arg, ctx) => {
+> = async (_parent, argument, context) => {
   const { shift_positions } = await database();
-  const { input } = arg;
+  const { input } = argument;
   const { team, shiftPositionSk } = input;
   const pk = resourceRef("teams", team);
-  const userPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
+  const userPk = await ensureAuthorized(context, pk, PERMISSION_LEVELS.WRITE);
 
   console.log("unassign shift position", pk, shiftPositionSk);
 

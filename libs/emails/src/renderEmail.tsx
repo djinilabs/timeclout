@@ -4,20 +4,24 @@ import { LeaveRequestApprovedToManagerEmail } from "./LeaveRequestApprovedToMana
 import { LeaveRequestRejectedToManagerEmail } from "./LeaveRequestRejectedToManagerEmail";
 import { LeaveRequestRejectedToUserEmail } from "./LeaveRequestRejectedToUserEmail";
 import { LeaveRequestToManagerEmail } from "./LeaveRequestToManagerEmail";
-import { EmailParams } from "./types";
+import { EmailParams as EmailParameters } from "./types";
 
-const renderReactEmail = (params: EmailParams) => {
-  switch (params.type) {
-    case "leaveRequestToManager":
-      return <LeaveRequestToManagerEmail {...params} />;
-    case "leaveRequestRejectedToManager":
-      return <LeaveRequestRejectedToManagerEmail {...params} />;
-    case "leaveRequestApprovedToManager":
-      return <LeaveRequestApprovedToManagerEmail {...params} />;
-    case "leaveRequestRejectedToUser":
-      return <LeaveRequestRejectedToUserEmail {...params} />;
+const renderReactEmail = (parameters: EmailParameters) => {
+  switch (parameters.type) {
+    case "leaveRequestToManager": {
+      return <LeaveRequestToManagerEmail {...parameters} />;
+    }
+    case "leaveRequestRejectedToManager": {
+      return <LeaveRequestRejectedToManagerEmail {...parameters} />;
+    }
+    case "leaveRequestApprovedToManager": {
+      return <LeaveRequestApprovedToManagerEmail {...parameters} />;
+    }
+    case "leaveRequestRejectedToUser": {
+      return <LeaveRequestRejectedToUserEmail {...parameters} />;
+    }
   }
 };
 
-export const renderEmail = (params: EmailParams) =>
-  render(renderReactEmail(params));
+export const renderEmail = (parameters: EmailParameters) =>
+  render(renderReactEmail(parameters));

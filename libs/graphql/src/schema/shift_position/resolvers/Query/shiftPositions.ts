@@ -9,12 +9,12 @@ import { DayDate } from "@/day-date";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const shiftPositions: NonNullable<QueryResolvers['shiftPositions']> = async (_parent, arg, ctx) => {
+export const shiftPositions: NonNullable<QueryResolvers['shiftPositions']> = async (_parent, argument, context) => {
   const { shift_positions } = await database();
-  const { input } = arg;
+  const { input } = argument;
   const { team, startDay, endDay, version } = input;
   const pk = resourceRef("teams", team);
-  await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.READ);
+  await ensureAuthorized(context, pk, PERMISSION_LEVELS.READ);
   const result = await shift_positions.query(
     {
       KeyConditionExpression: "pk = :pk AND sk BETWEEN :startDay AND :endDay",

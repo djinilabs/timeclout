@@ -8,12 +8,12 @@ import { i18n } from "@/locales";
 import { ResourceRef } from "@/utils";
 
 export const ensureAuthorized = async (
-  ctx: ResolverContext,
+  context: ResolverContext,
   resource: ResourceRef,
   minimumPermission: number
 ): Promise<ResourceRef<"users">> => {
   const [authorized, userPk] = await isAuthorized(
-    ctx,
+    context,
     resource,
     minimumPermission
   );

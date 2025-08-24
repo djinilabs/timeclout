@@ -36,4 +36,6 @@ export const useDragAndDrop = <T extends DraggableItem["type"]>(
   };
 };
 
-export type { DraggableItem };
+
+
+export {type DraggableItem} from "../contexts/DragAndDropContext";

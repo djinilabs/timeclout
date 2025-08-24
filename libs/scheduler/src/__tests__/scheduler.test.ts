@@ -29,8 +29,8 @@ describe("Scheduler", () => {
       id: "slot1",
       workHours: [
         {
-          start: 32400, // 9:00 AM in seconds
-          end: 61200, // 5:00 PM in seconds
+          start: 32_400, // 9:00 AM in seconds
+          end: 61_200, // 5:00 PM in seconds
           inconvenienceMultiplier: 1,
         },
       ],
@@ -42,8 +42,8 @@ describe("Scheduler", () => {
       id: "slot2",
       workHours: [
         {
-          start: 32400,
-          end: 61200,
+          start: 32_400,
+          end: 61_200,
           inconvenienceMultiplier: 1,
         },
       ],
@@ -118,11 +118,11 @@ describe("Scheduler", () => {
     expect(schedule.shifts.length).toBe(mockSlots.length);
 
     // Verify each shift has required properties
-    schedule.shifts.forEach((shift) => {
+    for (const shift of schedule.shifts) {
       expect(shift).toHaveProperty("slot");
       expect(shift).toHaveProperty("assigned");
       expect(mockWorkers).toContainEqual(shift.assigned);
-    });
+    }
   });
 
   it("should respect minimum rest periods", async () => {
@@ -158,9 +158,9 @@ describe("Scheduler", () => {
     });
 
     // Check that consecutive shifts for the same worker respect rest period
-    for (let i = 0; i < sortedShifts.length - 1; i++) {
-      const currentShift = sortedShifts[i];
-      const nextShift = sortedShifts[i + 1];
+    for (let index = 0; index < sortedShifts.length - 1; index++) {
+      const currentShift = sortedShifts[index];
+      const nextShift = sortedShifts[index + 1];
 
       if (currentShift.assigned.pk === nextShift.assigned.pk) {
         const currentEnd = currentShift.slot.workHours[0].end;

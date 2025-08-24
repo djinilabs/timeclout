@@ -11,20 +11,20 @@ import { database, PERMISSION_LEVELS } from "@/tables";
 import { getDefined, resourceRef } from "@/utils";
 
 
-export const updateTeamMember: NonNullable<MutationResolvers['updateTeamMember']> = async (_parent, { input }, ctx) => {
-  const teamRef = resourceRef("teams", input.teamPk);
+export const updateTeamMember: NonNullable<MutationResolvers['updateTeamMember']> = async (_parent, { input }, context) => {
+  const teamReference = resourceRef("teams", input.teamPk);
   // ensure user has write access to team
-  await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
-  const session = await requireSession(ctx);
+  await ensureAuthorized(context, teamReference, PERMISSION_LEVELS.WRITE);
+  const session = await requireSession(context);
   const createdByPk = session.user?.id;
   if (!createdByPk) {
     throw notFound("User not found");
   }
   const updatedBy = resourceRef("users", createdByPk);
-  const userRef = resourceRef("users", input.memberPk);
+  const userReference = resourceRef("users", input.memberPk);
 
   const { entity } = await database();
-  if (!(await isUserAuthorized(userRef, teamRef, PERMISSION_LEVELS.READ))) {
+  if (!(await isUserAuthorized(userReference, teamReference, PERMISSION_LEVELS.READ))) {
     throw forbidden("User is not a member of this team");
   }
 
@@ -36,14 +36,14 @@ export const updateTeamMember: NonNullable<MutationResolvers['updateTeamMember']
   });
 
   const user = {
-    pk: userRef,
+    pk: userReference,
     name: input.name,
     email: input.email,
     updatedBy,
   };
   (await entity.update(user)) as unknown as Promise<User>;
 
-  await ensureExactAuthorization(teamRef, userRef, input.permission, updatedBy);
+  await ensureExactAuthorization(teamReference, userReference, input.permission, updatedBy);
 
   return user as unknown as User;
 };

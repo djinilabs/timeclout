@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import {
   LeaveRequest as LeaveRequestType,
-  QueryLeaveRequestArgs,
+  QueryLeaveRequestArgs as QueryLeaveRequestArguments,
 } from "../graphql/graphql";
 import { useConfirmDialog } from "../hooks/useConfirmDialog";
 import { useMutation } from "../hooks/useMutation";
@@ -30,7 +30,7 @@ export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
   const { company, user, startDate, endDate, leaveType } = useParams();
   const backTo = useMemo(() => {
     const url = new URL(
-      window.origin + (callbackUrl ?? `/companies/${company}`)
+      globalThis.origin + (callbackUrl ?? `/companies/${company}`)
     );
     return {
       pathname: url.pathname,
@@ -40,7 +40,7 @@ export const LeaveRequest = ({ callbackUrl }: { callbackUrl?: string }) => {
 
   const [queryResult] = useQuery<
     { leaveRequest: LeaveRequestType },
-    QueryLeaveRequestArgs
+    QueryLeaveRequestArguments
   >({
     query: leaveRequestQuery,
     variables: {

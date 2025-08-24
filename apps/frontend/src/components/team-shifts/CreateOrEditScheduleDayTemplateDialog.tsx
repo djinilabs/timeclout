@@ -6,7 +6,7 @@ import { Suspense } from "../atoms/Suspense";
 
 import { CreateOrEditScheduleDayTemplate } from "./CreateOrEditScheduleDayTemplate";
 
-export interface CreateOrEditScheduleDayTemplateDialogProps {
+export interface CreateOrEditScheduleDayTemplateDialogProperties {
   isDialogOpen: boolean;
   onClose: () => void;
   teamPk: string;
@@ -16,7 +16,7 @@ export const CreateOrEditScheduleDayTemplateDialog = ({
   isDialogOpen,
   onClose,
   teamPk,
-}: CreateOrEditScheduleDayTemplateDialogProps) => {
+}: CreateOrEditScheduleDayTemplateDialogProperties) => {
   return (
     <Dialog
       open={isDialogOpen}

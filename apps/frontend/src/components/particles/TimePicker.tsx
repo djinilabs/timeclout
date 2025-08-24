@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/react/macro";
 import { FC, memo } from "react";
 
-export interface TimePickerProps {
+export interface TimePickerProperties {
   min?: [number, number];
   value: [number, number];
   onChange: (value: [number, number]) => void;
@@ -9,8 +9,8 @@ export interface TimePickerProps {
 
 const changeTime = (time: string, change: "increase" | "decrease") => {
   const [hours, minutes] = time.split(":");
-  let newMinutes = parseInt(minutes) + (change === "increase" ? 15 : -15);
-  let newHours = parseInt(hours);
+  let newMinutes = Number.parseInt(minutes) + (change === "increase" ? 15 : -15);
+  let newHours = Number.parseInt(hours);
   if (newMinutes < 0) {
     newMinutes = 45;
     newHours = newHours - 1;
@@ -25,7 +25,7 @@ const changeTime = (time: string, change: "increase" | "decrease") => {
 
 const parseTime = (time: string): [number, number] => {
   const [hours, minutes] = time.split(":");
-  return [parseInt(hours), parseInt(minutes)];
+  return [Number.parseInt(hours), Number.parseInt(minutes)];
 };
 
 const encodeTime = (time: [number, number]): string => {
@@ -34,7 +34,7 @@ const encodeTime = (time: [number, number]): string => {
     .padStart(2, "0")}`;
 };
 
-export const TimePicker: FC<TimePickerProps> = memo(
+export const TimePicker: FC<TimePickerProperties> = memo(
   ({ value, min, onChange }) => {
     const isNextDay = value[0] >= 24;
     const displayValue: [number, number] = isNextDay
@@ -51,8 +51,8 @@ export const TimePicker: FC<TimePickerProps> = memo(
             value={encodeTime(displayValue)}
             min={min ? encodeTime(min) : undefined}
             aria-label="Select time"
-            onChange={(ev) => {
-              const newTime = parseTime(ev.target.value);
+            onChange={(event_) => {
+              const newTime = parseTime(event_.target.value);
               const adjustedTime: [number, number] = isNextDay
                 ? [newTime[0] + 24, newTime[1]]
                 : newTime;

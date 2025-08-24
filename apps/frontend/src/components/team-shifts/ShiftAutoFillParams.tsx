@@ -9,7 +9,7 @@ import { RangeSlider } from "../particles/RangeSlider";
 import { DayDate } from "@/day-date";
 
 
-export interface ShiftAutoFillParamValues {
+export interface ShiftAutoFillParameterValues {
   startDate?: DayDate;
   endDate?: DayDate;
   workerInconvenienceEquality: number;
@@ -26,33 +26,33 @@ export interface ShiftAutoFillParamValues {
   }[];
 }
 
-export interface ShiftAutoFillParamsProps extends ShiftAutoFillParamValues {
-  onChange: (params: ShiftAutoFillParamValues) => void;
+export interface ShiftAutoFillParametersProperties extends ShiftAutoFillParameterValues {
+  onChange: (parameters: ShiftAutoFillParameterValues) => void;
 }
 
-export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
+export const ShiftAutoFillParams: FC<ShiftAutoFillParametersProperties> = ({
   onChange,
-  ...params
+  ...parameters
 }) => {
-  const setProp = useCallback(
-    <TKey extends keyof ShiftAutoFillParamValues>(key: TKey) =>
-      (value: ShiftAutoFillParamValues[TKey]) => {
+  const setProperty = useCallback(
+    <TKey extends keyof ShiftAutoFillParameterValues>(key: TKey) =>
+      (value: ShiftAutoFillParameterValues[TKey]) => {
         onChange({
-          ...params,
+          ...parameters,
           [key]: value,
         });
       },
-    [onChange, params]
+    [onChange, parameters]
   );
 
   const setPartial = useCallback(
-    (newProps: Partial<ShiftAutoFillParamValues>) => {
+    (newProperties: Partial<ShiftAutoFillParameterValues>) => {
       onChange({
-        ...params,
-        ...newProps,
+        ...parameters,
+        ...newProperties,
       });
     },
-    [onChange, params]
+    [onChange, parameters]
   );
 
   return (
@@ -78,11 +78,11 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
           <DayPicker
             mode="range"
             numberOfMonths={2}
-            defaultMonth={params.startDate?.toDate()}
+            defaultMonth={parameters.startDate?.toDate()}
             required
             selected={{
-              from: params.startDate?.toDate(),
-              to: params.endDate?.toDate(),
+              from: parameters.startDate?.toDate(),
+              to: parameters.endDate?.toDate(),
             }}
             onSelectRange={(range) => {
               setPartial({
@@ -115,8 +115,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
           >
             <LabeledSwitch
               label={<Trans>Respect leave schedule</Trans>}
-              checked={params.respectLeaveSchedule}
-              onChange={setProp("respectLeaveSchedule")}
+              checked={parameters.respectLeaveSchedule}
+              onChange={setProperty("respectLeaveSchedule")}
               aria-label="Respect leave schedule"
             />
             <div>
@@ -128,20 +128,20 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                       (in days)
                     </Trans>
                   }
-                  checked={params.requireMaximumIntervalBetweenShifts}
-                  onChange={setProp("requireMaximumIntervalBetweenShifts")}
+                  checked={parameters.requireMaximumIntervalBetweenShifts}
+                  onChange={setProperty("requireMaximumIntervalBetweenShifts")}
                   aria-label="Require maximum interval between shifts"
                 />
-                {params.requireMaximumIntervalBetweenShifts && (
+                {parameters.requireMaximumIntervalBetweenShifts && (
                   <input
                     type="number"
-                    value={params.maximumIntervalBetweenShifts}
+                    value={parameters.maximumIntervalBetweenShifts}
                     min={1}
                     className="w-16 text-center"
-                    disabled={!params.requireMaximumIntervalBetweenShifts}
+                    disabled={!parameters.requireMaximumIntervalBetweenShifts}
                     onChange={(e) =>
-                      setProp("maximumIntervalBetweenShifts")(
-                        parseInt(e.target.value)
+                      setProperty("maximumIntervalBetweenShifts")(
+                        Number.parseInt(e.target.value)
                       )
                     }
                     aria-label="Maximum interval between shifts in days"
@@ -159,25 +159,25 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                     </Trans>
                   }
                   checked={
-                    params.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+                    parameters.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
                   }
-                  onChange={setProp(
+                  onChange={setProperty(
                     "requireMinimumNumberOfShiftsPerWeekInStandardWorkday"
                   )}
                   aria-label="Require minimum number of shifts per week"
                 />
-                {params.requireMinimumNumberOfShiftsPerWeekInStandardWorkday && (
+                {parameters.requireMinimumNumberOfShiftsPerWeekInStandardWorkday && (
                   <input
                     type="number"
-                    value={params.minimumNumberOfShiftsPerWeekInStandardWorkday}
+                    value={parameters.minimumNumberOfShiftsPerWeekInStandardWorkday}
                     min={1}
                     className="w-16 text-center"
                     disabled={
-                      !params.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
+                      !parameters.requireMinimumNumberOfShiftsPerWeekInStandardWorkday
                     }
                     onChange={(e) =>
-                      setProp("minimumNumberOfShiftsPerWeekInStandardWorkday")(
-                        parseInt(e.target.value)
+                      setProperty("minimumNumberOfShiftsPerWeekInStandardWorkday")(
+                        Number.parseInt(e.target.value)
                       )
                     }
                     aria-label="Minimum number of shifts per week"
@@ -195,31 +195,31 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                         inconvenience scores
                       </Trans>
                     }
-                    checked={params.minimumRestSlotsAfterShift?.length > 0}
+                    checked={parameters.minimumRestSlotsAfterShift?.length > 0}
                     onChange={(checked) => {
                       if (checked) {
-                        setProp("minimumRestSlotsAfterShift")([
+                        setProperty("minimumRestSlotsAfterShift")([
                           {
                             inconvenienceLessOrEqualThan: 50,
                             minimumRestMinutes: 480,
                           },
                         ]);
                       } else {
-                        setProp("minimumRestSlotsAfterShift")([]);
+                        setProperty("minimumRestSlotsAfterShift")([]);
                       }
                     }}
                     aria-label="Require minimum rest periods between shifts"
                   />
                 </div>
 
-                {params.minimumRestSlotsAfterShift &&
-                  params.minimumRestSlotsAfterShift.length > 0 && (
+                {parameters.minimumRestSlotsAfterShift &&
+                  parameters.minimumRestSlotsAfterShift.length > 0 && (
                     <div
                       className="ml-8 space-y-4"
                       role="group"
                       aria-label="Rest period rules"
                     >
-                      {params.minimumRestSlotsAfterShift.map((rule, index) => (
+                      {parameters.minimumRestSlotsAfterShift.map((rule, index) => (
                         <div key={index} className="flex items-center gap-4">
                           <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">
@@ -234,15 +234,15 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                               value={rule.inconvenienceLessOrEqualThan}
                               onChange={(e) => {
                                 const newRules = [
-                                  ...params.minimumRestSlotsAfterShift,
+                                  ...parameters.minimumRestSlotsAfterShift,
                                 ];
                                 newRules[index] = {
                                   ...rule,
-                                  inconvenienceLessOrEqualThan: parseInt(
+                                  inconvenienceLessOrEqualThan: Number.parseInt(
                                     e.target.value
                                   ),
                                 };
-                                setProp("minimumRestSlotsAfterShift")(newRules);
+                                setProperty("minimumRestSlotsAfterShift")(newRules);
                               }}
                               className="w-16 text-center"
                               aria-label={`Inconvenience score threshold for rule ${
@@ -258,14 +258,14 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                               value={rule.minimumRestMinutes / 60}
                               onChange={(e) => {
                                 const newRules = [
-                                  ...params.minimumRestSlotsAfterShift,
+                                  ...parameters.minimumRestSlotsAfterShift,
                                 ];
                                 newRules[index] = {
                                   ...rule,
                                   minimumRestMinutes:
-                                    parseInt(e.target.value) * 60,
+                                    Number.parseInt(e.target.value) * 60,
                                 };
-                                setProp("minimumRestSlotsAfterShift")(newRules);
+                                setProperty("minimumRestSlotsAfterShift")(newRules);
                               }}
                               className="w-16 text-center"
                               aria-label={`Minimum rest hours for rule ${
@@ -279,10 +279,10 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                           <button
                             onClick={() => {
                               const newRules =
-                                params.minimumRestSlotsAfterShift.filter(
-                                  (_, i) => i !== index
+                                parameters.minimumRestSlotsAfterShift.filter(
+                                  (_, index_) => index_ !== index
                                 );
-                              setProp("minimumRestSlotsAfterShift")(newRules);
+                              setProperty("minimumRestSlotsAfterShift")(newRules);
                             }}
                             className="inline-flex items-center justify-center rounded-full w-6 h-6 bg-red-600 hover:bg-red-800 text-white"
                             aria-label={`Remove rest period rule ${index + 1}`}
@@ -294,8 +294,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
 
                       <button
                         onClick={() => {
-                          setProp("minimumRestSlotsAfterShift")([
-                            ...params.minimumRestSlotsAfterShift,
+                          setProperty("minimumRestSlotsAfterShift")([
+                            ...parameters.minimumRestSlotsAfterShift,
                             {
                               inconvenienceLessOrEqualThan: 50,
                               minimumRestMinutes: 480,
@@ -359,8 +359,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                 <RangeSlider
                   min={0}
                   max={100}
-                  value={params.workerInconvenienceEquality}
-                  onChange={setProp("workerInconvenienceEquality")}
+                  value={parameters.workerInconvenienceEquality}
+                  onChange={setProperty("workerInconvenienceEquality")}
                   aria-labelledby="inconvenience-equality-label"
                   aria-describedby="inconvenience-equality-description"
                 />
@@ -368,7 +368,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                   className="text-3xl font-semibold tracking-tight text-gray-900 text-right"
                   aria-live="polite"
                 >
-                  {params.workerInconvenienceEquality}%
+                  {parameters.workerInconvenienceEquality}%
                 </div>
               </dd>
             </div>
@@ -396,8 +396,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
               <RangeSlider
                 min={0}
                 max={100}
-                value={params.workerSlotEquality}
-                onChange={setProp("workerSlotEquality")}
+                value={parameters.workerSlotEquality}
+                onChange={setProperty("workerSlotEquality")}
                 aria-labelledby="slot-equality-label"
                 aria-describedby="slot-equality-description"
               />
@@ -405,7 +405,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                 className="text-3xl font-semibold tracking-tight text-gray-900 text-right"
                 aria-live="polite"
               >
-                {params.workerSlotEquality}%
+                {parameters.workerSlotEquality}%
               </div>
             </div>
           </div>
@@ -432,8 +432,8 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
               <RangeSlider
                 min={0}
                 max={100}
-                value={params.workerSlotProximity}
-                onChange={setProp("workerSlotProximity")}
+                value={parameters.workerSlotProximity}
+                onChange={setProperty("workerSlotProximity")}
                 aria-labelledby="slot-proximity-label"
                 aria-describedby="slot-proximity-description"
               />
@@ -441,7 +441,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                 className="text-3xl font-semibold tracking-tight text-gray-900 text-right"
                 aria-live="polite"
               >
-                {params.workerSlotProximity}%
+                {parameters.workerSlotProximity}%
               </div>
             </div>
           </div>

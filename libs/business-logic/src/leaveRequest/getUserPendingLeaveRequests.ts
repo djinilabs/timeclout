@@ -14,19 +14,18 @@ export const getUserPendingLeaveRequests = async (
     );
   }
   const { leave_request } = await database();
-  return (
-    await Promise.all(
-      companyPksUserManages.map((companyPk) =>
-        leave_request.query({
-          IndexName: "byCompanyPk",
-          KeyConditionExpression: "companyPk = :companyPk",
-          FilterExpression: "approved = :approved",
-          ExpressionAttributeValues: {
-            ":companyPk": getResourceRef(companyPk),
-            ":approved": false,
-          },
-        })
-      )
+  const results = await Promise.all(
+    companyPksUserManages.map((companyPk) =>
+      leave_request.query({
+        IndexName: "byCompanyPk",
+        KeyConditionExpression: "companyPk = :companyPk",
+        FilterExpression: "approved = :approved",
+        ExpressionAttributeValues: {
+          ":companyPk": getResourceRef(companyPk),
+          ":approved": false,
+        },
+      })
     )
-  ).flatMap(({ items }) => items);
+  );
+  return results.flatMap(({ items }) => items);
 };

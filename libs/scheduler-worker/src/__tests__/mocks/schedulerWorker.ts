@@ -1,7 +1,7 @@
 export class MockWorker {
-  onmessage: ((ev: MessageEvent) => void) | null = null;
-  onmessageerror: ((ev: MessageEvent) => void) | null = null;
-  onerror: ((ev: ErrorEvent) => void) | null = null;
+  onmessage: ((event_: MessageEvent) => void) | null = null;
+  onmessageerror: ((event_: MessageEvent) => void) | null = null;
+  onerror: ((event_: ErrorEvent) => void) | null = null;
 
   private intervalId: NodeJS.Timeout | null = null;
 
@@ -34,8 +34,8 @@ export class MockWorker {
                           id: "slot1",
                           workHours: [
                             {
-                              start: 32400,
-                              end: 61200,
+                              start: 32_400,
+                              end: 61_200,
                               inconvenienceMultiplier: 1,
                             },
                           ],

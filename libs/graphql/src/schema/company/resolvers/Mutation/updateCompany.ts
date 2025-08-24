@@ -12,22 +12,22 @@ import { resourceRef } from "@/utils";
 
 export const updateCompany: NonNullable<
   MutationResolvers["updateCompany"]
-> = async (_parent, _arg, ctx) => {
+> = async (_parent, _argument, context) => {
   await ensureAuthorized(
-    ctx,
-    resourceRef("companies", _arg.pk),
+    context,
+    resourceRef("companies", _argument.pk),
     PERMISSION_LEVELS.WRITE
   );
   const { entity } = await database();
-  const c = await entity.get(resourceRef("companies", _arg.pk));
+  const c = await entity.get(resourceRef("companies", _argument.pk));
   if (!c) {
     throw notFound(
-      i18n._("Company with pk {companyPk} not found", { companyPk: _arg.pk })
+      i18n._("Company with pk {companyPk} not found", { companyPk: _argument.pk })
     );
   }
   const updatedCompany = await entity.upsert({
     ...c,
-    name: _arg.name,
+    name: _argument.name,
   });
   return updatedCompany as unknown as Company;
 };

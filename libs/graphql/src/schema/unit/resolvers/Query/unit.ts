@@ -12,16 +12,16 @@ import { resourceRef } from "@/utils";
 
 export const unit: NonNullable<QueryResolvers["unit"]> = async (
   _parent,
-  arg,
-  ctx
+  argument,
+  context
 ) => {
   await ensureAuthorized(
-    ctx,
-    resourceRef("units", arg.unitPk),
+    context,
+    resourceRef("units", argument.unitPk),
     PERMISSION_LEVELS.READ
   );
   const { entity } = await database();
-  const unit = await entity.get(resourceRef("units", arg.unitPk));
+  const unit = await entity.get(resourceRef("units", argument.unitPk));
   if (!unit) {
     throw notFound(i18n._("Unit not found"));
   }

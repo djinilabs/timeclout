@@ -5,15 +5,12 @@ import { ResourceRef, unique } from "@/utils";
 export const getUnitManagersPks = async (
   unitPks: ResourceRef[]
 ): Promise<ResourceRef[]> => {
-  return unique(
-    (
-      await Promise.all(
-        unitPks.map(async (unitPk) =>
-          getEntitySettings<"managers">(unitPk, "managers")
-        )
-      )
+  const results = await Promise.all(
+    unitPks.map(async (unitPk) =>
+      getEntitySettings<"managers">(unitPk, "managers")
     )
-      .flat()
-      .filter(Boolean)
+  );
+  return unique(
+    results.flat().filter(Boolean)
   ) as ResourceRef[];
 };

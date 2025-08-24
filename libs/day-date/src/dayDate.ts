@@ -44,7 +44,7 @@ const fixNumberDate = ([year, month, day]: [number, number, number]): [
   d.setUTCMonth(adjustedMonth - 1);
   d.setUTCDate(day);
   if (Number.isNaN(d.getTime())) {
-    throw new Error("Invalid date: " + JSON.stringify([year, month, day]));
+    throw new TypeError("Invalid date: " + JSON.stringify([year, month, day]));
   }
   return [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()];
 };
@@ -56,20 +56,20 @@ export class DayDate {
     return new DayDate(new Date());
   }
 
-  constructor(...args: [number, number, number] | [Date | string]) {
+  constructor(...arguments_: [number, number, number] | [Date | string]) {
     let numberDate: [number, number, number] | undefined;
-    if (args.length === 3) {
-      numberDate = args;
+    if (arguments_.length === 3) {
+      numberDate = arguments_;
     } else {
-      const [arg] = args;
-      if (typeof arg === "string") {
-        const [year, month, day] = arg.split("-").map(Number);
+      const [argument] = arguments_;
+      if (typeof argument === "string") {
+        const [year, month, day] = argument.split("-").map(Number);
         numberDate = [year, month, day];
       } else {
         numberDate = [
-          arg.getUTCFullYear(),
-          arg.getUTCMonth() + 1,
-          arg.getUTCDate(),
+          argument.getUTCFullYear(),
+          argument.getUTCMonth() + 1,
+          argument.getUTCDate(),
         ];
       }
     }
@@ -81,9 +81,9 @@ export class DayDate {
       `${numberDate[0]}-${numberDate[1].toString().padStart(2, "0")}-${numberDate[2].toString().padStart(2, "0")}T00:00:00Z`
     );
     if (Number.isNaN(this.date.getTime())) {
-      throw new Error(
+      throw new TypeError(
         "Invalid date" +
-          JSON.stringify(args) +
+          JSON.stringify(arguments_) +
           ", number date = " +
           JSON.stringify(numberDate)
       );
@@ -107,7 +107,7 @@ export class DayDate {
     return (
       1 +
       Math.round(
-        ((date.getTime() - week1.getTime()) / 86400000 -
+        ((date.getTime() - week1.getTime()) / 86_400_000 -
           3 +
           ((week1.getUTCDay() + 6) % 7)) /
           7
@@ -203,7 +203,7 @@ export class DayDate {
   }
 
   diffInMinutes(dayDate: DayDate) {
-    return (this.date.getTime() - dayDate.date.getTime()) / 60000;
+    return (this.date.getTime() - dayDate.date.getTime()) / 60_000;
   }
 
   isSameDay(dayDate: DayDate) {

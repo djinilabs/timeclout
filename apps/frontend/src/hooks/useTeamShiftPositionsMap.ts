@@ -10,7 +10,7 @@ export type ShiftPositionWithFake = ShiftPositionType & {
   original: ShiftPositionType;
 };
 
-export interface UseTeamShiftPositionsMapParams {
+export interface UseTeamShiftPositionsMapParameters {
   draggingShiftPosition?: ShiftPositionType | null;
   shiftPositionsResult: ShiftPositionType[];
   spillTime?: boolean;
@@ -30,7 +30,7 @@ export const useTeamShiftPositionsMap = ({
   shiftPositionsResult,
   draggingShiftPosition,
   spillTime = true,
-}: UseTeamShiftPositionsMapParams): UseTeamShiftPositionsMapResult => {
+}: UseTeamShiftPositionsMapParameters): UseTeamShiftPositionsMapResult => {
   const shiftPositions = useMemo(() => {
     if (draggingShiftPosition) {
       const shiftPositions = [...(shiftPositionsResult ?? [])];
@@ -58,9 +58,9 @@ export const useTeamShiftPositionsMap = ({
       );
     });
 
-    const map = entries?.reduce((acc, [day, shiftPosition]) => {
-      const dayPositions = acc[day] ?? [];
-      acc[day] = dayPositions;
+    const map = entries?.reduce((accumulator, [day, shiftPosition]) => {
+      const dayPositions = accumulator[day] ?? [];
+      accumulator[day] = dayPositions;
       const pos =
         draggingShiftPosition &&
         shiftPosition.sk ===
@@ -71,7 +71,7 @@ export const useTeamShiftPositionsMap = ({
             }
           : shiftPosition;
       dayPositions.push(pos);
-      return acc;
+      return accumulator;
     }, {} as Record<string, ShiftPositionWithFake[]>);
 
     const newMap = {} as Record<string, Array<ShiftPositionWithRowSpan>>;
@@ -89,9 +89,9 @@ export const useTeamShiftPositionsMap = ({
           (previousDayPos) => previousDayPos?.sk === originalPos.sk
         );
         let newDayIndex =
-          previousDayIndex >= 0
-            ? previousDayIndex
-            : newDayPositions.findIndex((p) => p == null);
+          previousDayIndex === -1
+            ? newDayPositions.findIndex((p) => p == undefined)
+            : previousDayIndex;
         if (newDayIndex < 0) {
           newDayIndex = newDayPositions.length;
         }
@@ -101,21 +101,21 @@ export const useTeamShiftPositionsMap = ({
       // now we fill in the rowSpan
       let previousRowSpan = 0;
 
-      const finalDayPositions = newDayPositions.reduce((acc, dayPos, index) => {
+      const finalDayPositions = newDayPositions.reduce((accumulator, dayPos, index) => {
         if (!dayPos) {
-          return acc;
+          return accumulator;
         }
-        if (dayPos != null) {
+        if (dayPos != undefined) {
           const rowSpan = index - previousRowSpan + 1;
           previousRowSpan += rowSpan;
-          acc.push({
+          accumulator.push({
             ...dayPos,
             rowSpan,
             rowStart: previousRowSpan,
             rowEnd: previousRowSpan + rowSpan - 1,
           });
         }
-        return acc;
+        return accumulator;
       }, [] as Array<ShiftPositionWithRowSpan>);
 
       newMap[day] = finalDayPositions;

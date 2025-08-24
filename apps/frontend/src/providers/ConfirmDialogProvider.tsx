@@ -14,30 +14,30 @@ export const ConfirmDialogProvider: FC<{ children: ReactNode }> = ({
   const [confirmText, setConfirmText] = useState<ReactNode>();
   const [cancelText, setCancelText] = useState<ReactNode>();
 
-  const resolveRef = useRef<((value: boolean) => void) | null>(null);
+  const resolveReference = useRef<((value: boolean) => void) | null>(null);
 
   const onConfirm = useCallback(() => {
     setOpen(false);
-    resolveRef.current?.(true);
+    resolveReference.current?.(true);
   }, []);
 
   const onCancel = useCallback(() => {
     setOpen(false);
-    resolveRef.current?.(false);
+    resolveReference.current?.(false);
   }, []);
 
   const showConfirmDialog = useCallback(
-    (props: Omit<ConfirmDialogContextType, "open">): Promise<boolean> => {
+    (properties: Omit<ConfirmDialogContextType, "open">): Promise<boolean> => {
       return new Promise((resolve) => {
         if (open) {
           resolve(false);
           return;
         }
         setOpen(true);
-        resolveRef.current = resolve;
-        setText(props.text);
-        setConfirmText(props.confirmText);
-        setCancelText(props.cancelText);
+        resolveReference.current = resolve;
+        setText(properties.text);
+        setConfirmText(properties.confirmText);
+        setCancelText(properties.cancelText);
       });
     },
     [open]

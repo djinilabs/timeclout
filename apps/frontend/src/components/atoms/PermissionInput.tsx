@@ -5,11 +5,11 @@ import { i18n } from "@lingui/core";
 import { ListBox } from "../particles/ListBox";
 import { FieldComponent } from "../types";
 
-export interface PermissionInputProps {
+export interface PermissionInputProperties {
   Field: FieldComponent;
 }
 
-export const PermissionInput = ({ Field }: PermissionInputProps) => {
+export const PermissionInput = ({ Field }: PermissionInputProperties) => {
   return (
     <Field
       name="permission"

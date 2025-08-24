@@ -6,12 +6,12 @@ import { database } from "@/tables";
 import { ResourceRef } from "@/utils";
 
 export const getLeaveType = async (
-  companyRef: ResourceRef,
+  companyReference: ResourceRef,
   leaveTypeName: string
 ) => {
   const { entity_settings } = await database();
   const leaveTypeSettingsUnparsed = await entity_settings.get(
-    companyRef,
+    companyReference,
     "leaveTypes"
   );
 

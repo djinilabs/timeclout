@@ -142,7 +142,7 @@ export class PageObjects {
 
   async waitForNavigation(
     urlPattern: string | RegExp,
-    timeout = 15000
+    timeout = 15_000
   ): Promise<void> {
     await this.page.waitForURL(urlPattern, { timeout });
     await this.page.waitForLoadState("domcontentloaded");
@@ -168,7 +168,7 @@ export class PageObjects {
   }
 
   // Wait for element to be stable (not changing)
-  async waitForElementStable(selector: string, timeout = 10000): Promise<void> {
+  async waitForElementStable(selector: string, timeout = 10_000): Promise<void> {
     const locator = this.page.locator(selector);
     await locator.waitFor({ state: "visible", timeout });
     // Wait for the element to be stable (not moving/changing)
@@ -179,7 +179,7 @@ export class PageObjects {
   async fillFormField(
     selector: string,
     value: string,
-    timeout = 10000
+    timeout = 10_000
   ): Promise<void> {
     const field = this.page.locator(selector);
     await field.waitFor({ state: "visible", timeout });
@@ -195,7 +195,7 @@ export class PageObjects {
   }
 
   // Click button with retry logic
-  async clickButton(selector: string, timeout = 10000): Promise<void> {
+  async clickButton(selector: string, timeout = 10_000): Promise<void> {
     const button = this.page.locator(selector);
     await button.waitFor({ state: "visible", timeout });
     await button.click();

@@ -10,9 +10,9 @@ export const selectUniqueRandom = <T>(
     throw new TypeError(i18n._("count must be smaller or equal to from array"));
   }
   const selected: Array<T> = [];
-  for (let i = 0; i < count; i++) {
+  for (let index = 0; index < count; index++) {
     const tryFrom = selectRandom(from.filter((v) => !selected.includes(v)));
-    if (tryFrom == null) {
+    if (tryFrom == undefined) {
       throw new TypeError(i18n._("tryFrom is undefined"));
     }
     selected.push(tryFrom);

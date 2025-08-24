@@ -9,14 +9,14 @@ import { useCountrySubdivisions } from "../../hooks/useCountrySubdivisions";
 import { useFetchActivity } from "../../hooks/useFetchActivity";
 
 
-interface SelectCountryAndRegionProps {
+interface SelectCountryAndRegionProperties {
   selectedCountryIsoCode: string | undefined;
   selectedRegionIsoCode: string | undefined;
   onChangeCountry: (country: string) => void;
   onChangeRegion: (region: string) => void;
 }
 
-export const SelectCountryAndRegion: FC<SelectCountryAndRegionProps> = ({
+export const SelectCountryAndRegion: FC<SelectCountryAndRegionProperties> = ({
   selectedCountryIsoCode,
   selectedRegionIsoCode,
   onChangeCountry,
@@ -60,8 +60,8 @@ export const SelectCountryAndRegion: FC<SelectCountryAndRegionProps> = ({
           <select
             value={selectedCountryIsoCode || ""}
             id="country-select"
-            onChange={(ev) => {
-              onChangeCountry(ev.target.value);
+            onChange={(event_) => {
+              onChangeCountry(event_.target.value);
             }}
             className="w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
             role="select"
@@ -88,7 +88,7 @@ export const SelectCountryAndRegion: FC<SelectCountryAndRegionProps> = ({
           />
         </div>
       </div>
-      {selectedCountryIsoCode != null && countrySubdivisions?.length ? (
+      {selectedCountryIsoCode != undefined && countrySubdivisions?.length ? (
         <div className="flex flex-row items-center gap-2">
           <label
             htmlFor="region-select"
@@ -100,8 +100,8 @@ export const SelectCountryAndRegion: FC<SelectCountryAndRegionProps> = ({
             <select
               value={selectedRegionIsoCode || ""}
               id="region-select"
-              onChange={(ev) => {
-                onChangeRegion(ev.target.value);
+              onChange={(event_) => {
+                onChangeRegion(event_.target.value);
               }}
               className="appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               role="select"

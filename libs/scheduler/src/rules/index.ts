@@ -21,7 +21,7 @@ export const isScheduleValid = (
   _workers: SlotWorker[],
   ruleOptions: Partial<Record<RuleName, unknown>>
 ): [valid: true] | [valid: false, reason: string, problemInSlotId?: string] => {
-  const workers = Array.from(getUniqueWorkers(schedule));
+  const workers = [...getUniqueWorkers(schedule)];
   for (const [ruleName, ruleValue] of Object.entries(ruleOptions)) {
     const rule = rules.find((rule) => rule.id === ruleName);
     if (!rule) {

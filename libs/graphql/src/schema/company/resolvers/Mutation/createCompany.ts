@@ -11,8 +11,8 @@ import { getDefined, resourceRef } from "@/utils";
 
 
 
-export const createCompany: NonNullable<MutationResolvers['createCompany']> = async (_parent, arg, ctx) => {
-  const session = await requireSession(ctx);
+export const createCompany: NonNullable<MutationResolvers['createCompany']> = async (_parent, argument, context) => {
+  const session = await requireSession(context);
   const userPk = resourceRef(
     "users",
     getDefined(session.user?.id, "User ID is required")
@@ -22,7 +22,7 @@ export const createCompany: NonNullable<MutationResolvers['createCompany']> = as
     pk: companyPk,
     createdBy: userPk,
     createdAt: new Date().toISOString(),
-    name: arg.name,
+    name: argument.name,
   };
   console.log("company", company);
   const { entity, entity_settings } = await database();

@@ -75,7 +75,7 @@ export class StreamAI extends TransformStream<
   public constructor(options: LanguageModelV1CallOptions) {
     let buffer = "";
     let transforming = false;
-    let toolCall: ToolCall | false | undefined = undefined;
+    let toolCall: ToolCall | false | undefined;
     let enqueuedToolCall = false;
     let finished = false;
 
@@ -101,28 +101,31 @@ export class StreamAI extends TransformStream<
           transforming =
             newBuffer.startsWith(objectStartSequence) &&
             !newBuffer.endsWith(objectStopSequence);
-          newBuffer = newBuffer.replace(
+          newBuffer = newBuffer.replaceAll(
             new RegExp("^" + objectStartSequence, "ig"),
             ""
           );
-          newBuffer = newBuffer.replace(
+          newBuffer = newBuffer.replaceAll(
             new RegExp(objectStopSequence + "$", "ig"),
             ""
           );
         } else if (toolCall === undefined) {
           const toolCallResult = isToolCall(newBuffer);
           switch (toolCallResult) {
-            case false:
+            case false: {
               transforming = true;
               toolCall = false;
               chunk = newBuffer;
               break;
-            case undefined:
+            }
+            case undefined: {
               break;
-            default:
+            }
+            default: {
               toolCall = toolCallResult;
               transforming = true;
               break;
+            }
           }
         }
         if (transforming) {

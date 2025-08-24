@@ -13,7 +13,7 @@ import { Suspense } from "./Suspense";
 import assignableTeamMembers from "@/graphql-client/queries/assignableTeamMembers.graphql";
 
 
-export interface AssignableTeamMembersProps {
+export interface AssignableTeamMembersProperties {
   teamPk: string;
   shiftPosition: ShiftPosition;
   onSelect: (member: User) => void;
@@ -23,7 +23,7 @@ const AssignableTeamMembersContent = ({
   teamPk,
   shiftPosition,
   onSelect,
-}: AssignableTeamMembersProps) => {
+}: AssignableTeamMembersProperties) => {
   const [abc] = useQuery<
     { assignableTeamMembers: User[] },
     { input: AssignableTeamMembersInput }
@@ -53,9 +53,9 @@ const AssignableTeamMembersContent = ({
         <button
           key={member.pk}
           className="w-full text-left px-4 py-2 text-sm text-gray-700 flex items-center gap-2 cursor-pointer hover:bg-gray-100"
-          onClick={(ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
+          onClick={(event_) => {
+            event_.stopPropagation();
+            event_.preventDefault();
             onSelect(member);
           }}
         >
@@ -67,10 +67,10 @@ const AssignableTeamMembersContent = ({
   );
 };
 
-export const AssignableTeamMembers = (props: AssignableTeamMembersProps) => {
+export const AssignableTeamMembers = (properties: AssignableTeamMembersProperties) => {
   return (
     <Suspense>
-      <AssignableTeamMembersContent {...props} />
+      <AssignableTeamMembersContent {...properties} />
     </Suspense>
   );
 };

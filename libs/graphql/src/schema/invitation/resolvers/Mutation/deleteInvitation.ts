@@ -10,14 +10,14 @@ import type {
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { getResourceRef } from "@/utils";
 
-export const deleteInvitation: NonNullable<MutationResolvers['deleteInvitation']> = async (_parent, _arg, ctx) => {
+export const deleteInvitation: NonNullable<MutationResolvers['deleteInvitation']> = async (_parent, _argument, context) => {
   const { invitation } = await database();
-  const invitationToDelete = await invitation.get(_arg.pk, _arg.sk);
+  const invitationToDelete = await invitation.get(_argument.pk, _argument.sk);
   if (!invitationToDelete) {
     throw notFound("Invitation not found");
   }
   await ensureAuthorized(
-    ctx,
+    context,
     getResourceRef(invitationToDelete.pk),
     PERMISSION_LEVELS.OWNER
   );

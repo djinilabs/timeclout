@@ -6,11 +6,14 @@ export const permissionTypeToString = (permissionType?: number | null) => {
   }
 
   switch (permissionType) {
-    case 1:
+    case 1: {
       return i18n.t("Member");
-    case 2:
+    }
+    case 2: {
       return i18n.t("Admin");
-    case 3:
+    }
+    case 3: {
       return i18n.t("Owner");
+    }
   }
 };

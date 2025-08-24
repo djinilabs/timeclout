@@ -35,7 +35,7 @@ export interface LeaveRenderInfo {
   color: string;
 }
 
-export interface UseTeamLeaveScheduleParams {
+export interface UseTeamLeaveScheduleParameters {
   company: string;
   team: string;
   calendarStartDay: DayDate;
@@ -51,7 +51,7 @@ export const useTeamLeaveSchedule = ({
   calendarEndDay,
   pause,
   restrictToUsers,
-}: UseTeamLeaveScheduleParams): {
+}: UseTeamLeaveScheduleParameters): {
   leaveSchedule: Record<string, LeaveRenderInfo[]>;
 } => {
   const { settings: leaveTypesSettings } = useCompanyWithSettings({
@@ -82,7 +82,7 @@ export const useTeamLeaveSchedule = ({
           restrictToUsers?.some((user) => user.pk === userSchedule.user.pk) ??
           true
       )
-      .map((userSchedule) => {
+      .flatMap((userSchedule) => {
         return userSchedule.leaves.map((leave): [string, LeaveInfo] => {
           return [
             leave.sk,
@@ -93,7 +93,6 @@ export const useTeamLeaveSchedule = ({
           ];
         });
       })
-      .flat()
       .map(([sk, leave]): [string, LeaveRenderInfo] => {
         return [
           sk,
@@ -113,10 +112,10 @@ export const useTeamLeaveSchedule = ({
           },
         ];
       })
-      .reduce((acc, [sk, leave]) => {
-        const existingLeaves = acc[sk] ?? [];
-        acc[sk] = [...existingLeaves, leave];
-        return acc;
+      .reduce((accumulator, [sk, leave]) => {
+        const existingLeaves = accumulator[sk] ?? [];
+        accumulator[sk] = [...existingLeaves, leave];
+        return accumulator;
       }, {} as Record<string, LeaveRenderInfo[]>);
   }, [
     leaveTypesSettings,

@@ -16,12 +16,12 @@ import { resourceRef } from "@/utils";
 
 
 
-export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = async (_parent, arg, ctx) => {
-  const { companyPk, year } = arg;
-  const companyRef = resourceRef("companies", companyPk);
-  const userRef = await ensureAuthorized(
-    ctx,
-    companyRef,
+export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = async (_parent, argument, context) => {
+  const { companyPk, year } = argument;
+  const companyReference = resourceRef("companies", companyPk);
+  const userReference = await ensureAuthorized(
+    context,
+    companyReference,
     PERMISSION_LEVELS.READ
   );
 
@@ -38,15 +38,15 @@ export const myLeaveCalendar: NonNullable<QueryResolvers['myLeaveCalendar']> = a
   );
 
   const leaveRequests = await getLeaveRequestsForDateRange(
-    companyRef,
-    userRef,
+    companyReference,
+    userReference,
     new DayDate(firstDayOfFirstWeek),
     new DayDate(lastDayOfLastWeek)
   );
 
   const leaves = await getLeavesForDateRange(
-    companyRef,
-    userRef,
+    companyReference,
+    userReference,
     new DayDate(firstDayOfFirstWeek),
     new DayDate(lastDayOfLastWeek)
   );

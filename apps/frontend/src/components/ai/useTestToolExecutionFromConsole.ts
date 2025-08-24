@@ -8,7 +8,7 @@ export const useTestToolExecutionFromConsole = (tools: ToolSet) => {
       globalThis as unknown as {
         run_tool: (
           toolName: string,
-          args?: Record<string, unknown>
+          arguments_?: Record<string, unknown>
         ) => Promise<void>;
       }
     ).run_tool;
@@ -16,11 +16,11 @@ export const useTestToolExecutionFromConsole = (tools: ToolSet) => {
       globalThis as unknown as {
         run_tool: (
           toolName: string,
-          args?: Record<string, unknown>
+          arguments_?: Record<string, unknown>
         ) => Promise<void>;
       }
-    ).run_tool = async (toolName: string, args?: Record<string, unknown>) => {
-      console.log("running tool", toolName, args);
+    ).run_tool = async (toolName: string, arguments_?: Record<string, unknown>) => {
+      console.log("running tool", toolName, arguments_);
       const tool = tools[toolName];
       if (!tool) {
         console.error("Tool not found", toolName);
@@ -30,7 +30,7 @@ export const useTestToolExecutionFromConsole = (tools: ToolSet) => {
         console.error("Tool does not have an execute function", toolName);
         return;
       }
-      const result = await tool.execute(args as unknown, {
+      const result = await tool.execute(arguments_ as unknown, {
         toolCallId: nanoid(),
         messages: [],
         abortSignal: new AbortController().signal,
@@ -43,7 +43,7 @@ export const useTestToolExecutionFromConsole = (tools: ToolSet) => {
         globalThis as unknown as {
           run_tool: (
             toolName: string,
-            args?: Record<string, unknown>
+            arguments_?: Record<string, unknown>
           ) => Promise<void>;
         }
       ).run_tool = previousRunTool;

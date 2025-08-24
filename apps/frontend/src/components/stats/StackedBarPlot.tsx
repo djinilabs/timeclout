@@ -1,14 +1,14 @@
 import { BarDatum, ComputedDatum, ResponsiveBar } from "@nivo/bar";
 import { FC, useCallback } from "react";
 
-export interface StackedBarPlotProps {
+export interface StackedBarPlotProperties {
   data: Record<string, number | string>[];
   groupNames: string[];
   legend: string;
   tickLabel: (data: string) => string;
 }
 
-export const StackedBarPlot: FC<StackedBarPlotProps> = ({
+export const StackedBarPlot: FC<StackedBarPlotProperties> = ({
   data,
   groupNames,
   legend,

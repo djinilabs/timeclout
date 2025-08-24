@@ -7,11 +7,11 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import {
   LeaveRequest,
-  MutationCreateLeaveRequestForUserArgs,
-  MutationCreateSingleDayLeaveRequestsForUserArgs,
-  QueryTeamArgs,
+  MutationCreateLeaveRequestForUserArgs as MutationCreateLeaveRequestForUserArguments,
+  MutationCreateSingleDayLeaveRequestsForUserArgs as MutationCreateSingleDayLeaveRequestsForUserArguments,
+  QueryTeamArgs as QueryTeamArguments,
   Team,
-  TeamSettingsArgs,
+  TeamSettingsArgs as TeamSettingsArguments,
   User,
 } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
@@ -30,7 +30,7 @@ export const CreateTeamMemberLeaveRequest = () => {
   const { team: teamPk, company, unit } = useParams();
   const [queryResponse] = useQuery<
     { team: Team },
-    QueryTeamArgs & TeamSettingsArgs
+    QueryTeamArguments & TeamSettingsArguments
   >({
     query: teamWithMemberAndTheirSettingsQuery,
     variables: {
@@ -44,8 +44,8 @@ export const CreateTeamMemberLeaveRequest = () => {
   );
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
-  const [searchParams] = useSearchParams();
-  const userPk = searchParams.get("user");
+  const [searchParameters] = useSearchParams();
+  const userPk = searchParameters.get("user");
 
   useEffect(() => {
     if (userPk && users && !selectedUser) {
@@ -55,12 +55,12 @@ export const CreateTeamMemberLeaveRequest = () => {
 
   const [, createLeaveRequestForUser] = useMutation<
     { createLeaveRequestForUser: LeaveRequest },
-    MutationCreateLeaveRequestForUserArgs
+    MutationCreateLeaveRequestForUserArguments
   >(createLeaveRequestForUserMutation);
 
   const [, createSingleDayLeaveRequestsForUser] = useMutation<
     { createSingleDayLeaveRequestsForUser: LeaveRequest },
-    MutationCreateSingleDayLeaveRequestsForUserArgs
+    MutationCreateSingleDayLeaveRequestsForUserArguments
   >(createSingleDayLeaveRequestsForUserMutation);
 
   const navigate = useNavigate();
@@ -133,7 +133,7 @@ export const CreateTeamMemberLeaveRequest = () => {
               }
             }
 
-            if (request.mode === "multiple" && request.dates.length) {
+            if (request.mode === "multiple" && request.dates.length > 0) {
               const response = await createSingleDayLeaveRequestsForUser({
                 input: {
                   companyPk: getDefined(company, "No company provided"),

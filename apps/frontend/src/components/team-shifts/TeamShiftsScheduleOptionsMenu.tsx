@@ -13,7 +13,7 @@ import { memo } from "react";
 
 import { LabeledSwitch } from "../particles/LabeledSwitch";
 
-export interface TeamShiftsScheduleOptionsMenuProps {
+export interface TeamShiftsScheduleOptionsMenuProperties {
   showLeaveSchedule: boolean;
   setShowLeaveSchedule: (show: boolean) => void;
   showScheduleDetails: boolean;
@@ -46,7 +46,7 @@ export const TeamShiftsScheduleOptionsMenu = memo(
     setShowFilters,
     showHolidays,
     setShowHolidays,
-  }: TeamShiftsScheduleOptionsMenuProps) {
+  }: TeamShiftsScheduleOptionsMenuProperties) {
     return (
       <Menu as="div" className="relative">
         <MenuButton

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 
 
-import { Invitation, QueryInvitationsToArgs } from "../../graphql/graphql";
+import { Invitation, QueryInvitationsToArgs as QueryInvitationsToArguments } from "../../graphql/graphql";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
@@ -22,13 +22,13 @@ export const TeamInvites = () => {
   const { company, unit, team } = useParams();
   const [allInvitations] = useQuery<
     { invitationsTo: Invitation[] },
-    QueryInvitationsToArgs
+    QueryInvitationsToArguments
   >({
     query: invitationsToTeamQuery,
     variables: {
       toEntityPk: `teams/${team}`,
     },
-    pollingIntervalMs: 10000,
+    pollingIntervalMs: 10_000,
   });
 
   const [, deleteInvitation] = useMutation(deleteInvitationMutation);

@@ -71,9 +71,7 @@ const AllCompanyUnits = () => {
   return (
     <div>
       <div className="mt-4">
-        {!company?.units?.length ? (
-          <NoUnits />
-        ) : (
+        {company?.units?.length ? (
           <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
             <div className="mt-2 ml-auto shrink-0">
               <Button
@@ -84,6 +82,8 @@ const AllCompanyUnits = () => {
               </Button>
             </div>
           </div>
+        ) : (
+          <NoUnits />
         )}
       </div>
 

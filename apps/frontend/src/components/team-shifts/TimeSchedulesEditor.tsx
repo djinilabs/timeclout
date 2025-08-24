@@ -11,7 +11,7 @@ export interface TimeSchedule {
   inconveniencePerHour: number;
 }
 
-export interface TimeSchedulesEditorProps {
+export interface TimeSchedulesEditorProperties {
   schedules: TimeSchedule[];
   onChange: (schedules: TimeSchedule[]) => void;
 }
@@ -28,7 +28,7 @@ const ensureTimeContinuity = (schedules: TimeSchedule[]): TimeSchedule[] => {
   });
 };
 
-export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
+export const TimeSchedulesEditor: FC<TimeSchedulesEditorProperties> = memo(
   function TimeSchedulesEditor({ schedules, onChange }) {
     const handleTimeChange = <
       TLabel extends
@@ -96,11 +96,11 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
                   min={0}
                   required
                   step={0.1}
-                  onChange={(ev) =>
+                  onChange={(event_) =>
                     handleTimeChange(
                       index,
                       "inconveniencePerHour",
-                      Number(ev.target.value)
+                      Number(event_.target.value)
                     )
                   }
                   role="spinbutton"
@@ -143,11 +143,11 @@ export const TimeSchedulesEditor: FC<TimeSchedulesEditorProps> = memo(
             const newSchedule: TimeSchedule = {
               startHourMinutes:
                 schedules.length > 0
-                  ? schedules[schedules.length - 1].endHourMinutes
+                  ? schedules.at(-1).endHourMinutes
                   : [9, 0],
               endHourMinutes:
                 schedules.length > 0
-                  ? [schedules[schedules.length - 1].endHourMinutes[0] + 8, 0]
+                  ? [schedules.at(-1).endHourMinutes[0] + 8, 0]
                   : [17, 0],
               inconveniencePerHour: 1,
             };

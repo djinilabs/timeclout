@@ -9,17 +9,17 @@ import { DayDate } from "@/day-date";
 const minutesInDay = 24 * 60;
 
 const splitSchedule = <T extends Pick<ShiftPosition, "day" | "schedules">>(
-  acc: T[],
+  accumulator: T[],
   shiftPosition: T,
   schedule: TimeSchedule
 ): T[] => {
   const firstDay = new DayDate(shiftPosition.day);
   const startMinutes = toMinutes(schedule.startHourMinutes);
   const startDayIndex = Math.floor(startMinutes / minutesInDay);
-  while (acc.length <= startDayIndex) {
-    acc.push({
+  while (accumulator.length <= startDayIndex) {
+    accumulator.push({
       ...shiftPosition,
-      day: firstDay.nextDay(acc.length).toString(),
+      day: firstDay.nextDay(accumulator.length).toString(),
       schedules: [],
     });
   }
@@ -29,7 +29,7 @@ const splitSchedule = <T extends Pick<ShiftPosition, "day" | "schedules">>(
   const dayRelativeEndMinutes = endMinutes - startDayIndex * minutesInDay;
   const thisDayEndMinutes = Math.min(dayRelativeEndMinutes, minutesInDay);
 
-  const currentDay = acc[startDayIndex];
+  const currentDay = accumulator[startDayIndex];
 
   currentDay.schedules.push({
     ...schedule,
@@ -44,7 +44,7 @@ const splitSchedule = <T extends Pick<ShiftPosition, "day" | "schedules">>(
   });
 
   if (dayRelativeEndMinutes > minutesInDay) {
-    acc = acc.concat(
+    accumulator = accumulator.concat(
       splitSchedule(
         [],
         {
@@ -63,7 +63,7 @@ const splitSchedule = <T extends Pick<ShiftPosition, "day" | "schedules">>(
       )
     );
   }
-  return acc;
+  return accumulator;
 };
 
 export const splitShiftPositionForEachDay = <
@@ -73,7 +73,7 @@ export const splitShiftPositionForEachDay = <
 ): T[] => {
   const schedules = shiftPosition.schedules as Array<TimeSchedule>;
 
-  return schedules.reduce<T[]>((acc, schedule) => {
-    return splitSchedule(acc, shiftPosition, schedule);
+  return schedules.reduce<T[]>((accumulator, schedule) => {
+    return splitSchedule(accumulator, shiftPosition, schedule);
   }, []);
 };

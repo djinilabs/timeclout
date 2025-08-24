@@ -10,7 +10,7 @@ import { type ShiftPosition as ShiftPositionType } from "libs/graphql/src/types.
 import { FC, memo, useCallback, useMemo, useState } from "react";
 
 import { useAnalyzeTeamShiftsCalendar } from "../../hooks/useAnalyzeTeamShiftsCalendar";
-import { useAnalyzeTeamShiftsCalendarParams } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
+import { useAnalyzeTeamShiftsCalendarParams as useAnalyzeTeamShiftsCalendarParameters } from "../../hooks/useAnalyzeTeamShiftsCalendarParams";
 import { LeaveRenderInfo } from "../../hooks/useTeamLeaveSchedule";
 import { ShiftPositionWithRowSpan } from "../../hooks/useTeamShiftPositionsMap";
 import { classNames } from "../../utils/classNames";
@@ -32,7 +32,7 @@ import { TeamShiftsSummary } from "./TeamShiftsSummary";
 import { DayDate } from "@/day-date";
 import { SchedulerState } from "@/scheduler";
 
-export interface ShiftsAutofillSolutionMonthCalendarProps {
+export interface ShiftsAutofillSolutionMonthCalendarProperties {
   teamPk: string;
   startDate: DayDate;
   endDate: DayDate;
@@ -53,8 +53,8 @@ export interface ShiftsAutofillSolutionMonthCalendarProps {
   ) => void;
 }
 
-export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonthCalendarProps> =
-  memo(function ShiftsAutofillSolutionMonthCalendar(props) {
+export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonthCalendarProperties> =
+  memo(function ShiftsAutofillSolutionMonthCalendar(properties) {
     const {
       teamPk,
       startDate,
@@ -70,9 +70,9 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
       leaveSchedule,
       progress,
       handleAssignShiftPosition,
-    } = props;
+    } = properties;
 
-    let assignedShiftPositions = props.assignedShiftPositions;
+    let assignedShiftPositions = properties.assignedShiftPositions;
 
     // analyze
     const {
@@ -96,7 +96,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
       setAnalyzeWorkerSlotEquality,
       analyzeWorkerSlotProximity,
       setAnalyzeWorkerSlotProximity,
-    } = useAnalyzeTeamShiftsCalendarParams(analyze);
+    } = useAnalyzeTeamShiftsCalendarParameters(analyze);
 
     assignedShiftPositions = useAnalyzeTeamShiftsCalendar({
       shiftPositionsMap: assignedShiftPositions,
@@ -123,7 +123,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
         assignedShiftPositions
       ).sort()) {
         const dayShiftPositionsRows = shiftPositions.reduce(
-          (acc, shiftPosition) => acc + shiftPosition.rowSpan,
+          (accumulator, shiftPosition) => accumulator + shiftPosition.rowSpan,
           0
         );
         const dayLeaveRows = showLeaveSchedule
@@ -265,13 +265,13 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
                 (shiftPosition) => shiftPosition.assignedTo?.pk === member.pk
               )
             )
-            .reduce((acc, shiftPosition) => {
+            .reduce((accumulator, shiftPosition) => {
               const day = shiftPosition.day;
-              if (!acc[day]) {
-                acc[day] = [];
+              if (!accumulator[day]) {
+                accumulator[day] = [];
               }
-              acc[day].push(shiftPosition);
-              return acc;
+              accumulator[day].push(shiftPosition);
+              return accumulator;
             }, {} as Record<string, ShiftPositionWithRowSpan[]>),
         ])
       );
@@ -404,7 +404,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
     return (
       <div role="region" aria-label={i18n.t("Team shifts calendar")}>
         <CalendarHeader
-          {...props}
+          {...properties}
           monthIsZeroBased={false}
           additionalActions={additionalActions}
         />
@@ -478,7 +478,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
                 renderDay={renderDay}
                 aria-label={i18n.t("Calendar view by day")}
               />
-            ) : tab.href === "by-member" ? (
+            ) : (tab.href === "by-member" ? (
               <MonthlyCalendarPerMember
                 year={year}
                 month={month - 1}
@@ -493,7 +493,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
                 shiftPositionsMap={assignedShiftPositions}
                 aria-label={i18n.t("Team shifts summary")}
               />
-            )}
+            ))}
           </div>
         </Tabs>
       </div>

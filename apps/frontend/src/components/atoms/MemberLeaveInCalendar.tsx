@@ -5,7 +5,7 @@ import { Avatar } from "../particles/Avatar";
 import { Hint } from "../particles/Hint";
 import { type PartialUser, type LeaveDay } from "../types";
 
-export interface MemberLeaveInCalendarProps {
+export interface MemberLeaveInCalendarProperties {
   member: PartialUser;
   leave: LeaveDay;
   leaveIndex: number;
@@ -13,7 +13,7 @@ export interface MemberLeaveInCalendarProps {
   showAvatar?: boolean;
 }
 
-export const MemberLeaveInCalendar: FC<MemberLeaveInCalendarProps> = memo(
+export const MemberLeaveInCalendar: FC<MemberLeaveInCalendarProperties> = memo(
   ({ member, leave, leaveIndex, showName = true, showAvatar = true }) => {
     return (
       <Hint

@@ -12,22 +12,22 @@ import { resourceRef, compoundedResourceRef, getResourceRef } from "@/utils";
 
 export const saveTeamMemberQualifications: NonNullable<
   MutationResolvers["saveTeamMemberQualifications"]
-> = async (_parent, arg, ctx) => {
-  const teamRef = resourceRef("teams", arg.teamPk);
+> = async (_parent, argument, context) => {
+  const teamReference = resourceRef("teams", argument.teamPk);
   const { entity } = await database();
-  const team = await entity.get(teamRef);
+  const team = await entity.get(teamReference);
   if (!team) {
     throw notFound("Team not found");
   }
-  const userPk = await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
-  const userInTeamRef = compoundedResourceRef(
-    teamRef,
-    getResourceRef(arg.userPk, "users")
+  const userPk = await ensureAuthorized(context, teamReference, PERMISSION_LEVELS.WRITE);
+  const userInTeamReference = compoundedResourceRef(
+    teamReference,
+    getResourceRef(argument.userPk, "users")
   );
   await updateCompoundEntitySettings(
-    userInTeamRef,
+    userInTeamReference,
     "userQualifications",
-    arg.qualifications,
+    argument.qualifications,
     userPk
   );
 

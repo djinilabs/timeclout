@@ -1,7 +1,7 @@
 import { Field, Label, Switch } from "@headlessui/react";
 import { FC, memo, ReactNode } from "react";
 
-export interface LabeledSwitchProps {
+export interface LabeledSwitchProperties {
   id?: string;
   label: ReactNode;
   checked: boolean;
@@ -9,7 +9,7 @@ export interface LabeledSwitchProps {
   "aria-label"?: string;
 }
 
-export const LabeledSwitch: FC<LabeledSwitchProps> = memo(
+export const LabeledSwitch: FC<LabeledSwitchProperties> = memo(
   ({ id, label, checked, onChange, "aria-label": ariaLabel }) => {
     return (
       <Field className="flex items-center">

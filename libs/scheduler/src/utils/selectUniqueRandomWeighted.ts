@@ -11,12 +11,12 @@ export const selectUniqueRandomWeighted = <T>(
     throw new TypeError(i18n._("not enough items to select"));
   }
   const selected: Array<T> = [];
-  for (let i = 0; i < count; i++) {
+  for (let index = 0; index < count; index++) {
     const tryFrom = selectRandomWeighted(
       from.filter((v) => !selected.includes(v)),
       weights.filter((_, index) => !selected.includes(from[index] as T))
     );
-    if (tryFrom == null) {
+    if (tryFrom == undefined) {
       throw new TypeError(i18n._("tryFrom is undefined"));
     }
     selected.push(tryFrom);

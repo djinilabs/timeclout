@@ -5,7 +5,7 @@ import { Suspense } from "../atoms/Suspense";
 
 import { PublishShiftPositions } from "./PublishShiftPositions";
 
-export interface PublishShiftPositionsDialogProps {
+export interface PublishShiftPositionsDialogProperties {
   isDialogOpen: boolean;
   onClose: () => void;
   onPublish: () => void;
@@ -17,7 +17,7 @@ export const PublishShiftPositionsDialog = ({
   onClose,
   onPublish,
   teamPk,
-}: PublishShiftPositionsDialogProps) => {
+}: PublishShiftPositionsDialogProperties) => {
   return (
     <Dialog
       open={isDialogOpen}

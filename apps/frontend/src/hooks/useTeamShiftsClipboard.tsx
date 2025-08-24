@@ -62,28 +62,26 @@ export const useTeamShiftsClipboard = (
   useEffect(() => {
     const handleCopy = (e: KeyboardEvent) => {
       if (e.metaKey && e.key === "c") {
-        if (selectedShiftPositionKeys.length) {
+        if (selectedShiftPositionKeys.length > 0) {
           setCopyingShiftPositionKeys(selectedShiftPositionKeys);
         }
         setCuttingShiftPositionKeys([]);
       }
     };
-    window.addEventListener("keydown", handleCopy);
-    return () => window.removeEventListener("keydown", handleCopy);
+    globalThis.addEventListener("keydown", handleCopy);
+    return () => globalThis.removeEventListener("keydown", handleCopy);
   }, [selectedShiftPositionKeys]);
 
   // catch command-x
   useEffect(() => {
     const handleCopy = (e: KeyboardEvent) => {
-      if (e.metaKey && e.key === "x") {
-        if (selectedShiftPositionKeys.length) {
+      if (e.metaKey && e.key === "x" && selectedShiftPositionKeys.length > 0) {
           setCuttingShiftPositionKeys(selectedShiftPositionKeys);
           setCopyingShiftPositionKeys([]);
         }
-      }
     };
-    window.addEventListener("keydown", handleCopy);
-    return () => window.removeEventListener("keydown", handleCopy);
+    globalThis.addEventListener("keydown", handleCopy);
+    return () => globalThis.removeEventListener("keydown", handleCopy);
   }, [selectedShiftPositionKeys]);
 
   // catch command-v
@@ -93,8 +91,8 @@ export const useTeamShiftsClipboard = (
         pasteShiftPositionFromClipboard(selectedDay);
       }
     };
-    window.addEventListener("keydown", handlePaste);
-    return () => window.removeEventListener("keydown", handlePaste);
+    globalThis.addEventListener("keydown", handlePaste);
+    return () => globalThis.removeEventListener("keydown", handlePaste);
   }, [selectedDay, pasteShiftPositionFromClipboard]);
 
   const handleDelete = useCallback(
@@ -126,8 +124,8 @@ export const useTeamShiftsClipboard = (
 
   // catch delete
   useEffect(() => {
-    window.addEventListener("keydown", handleDelete);
-    return () => window.removeEventListener("keydown", handleDelete);
+    globalThis.addEventListener("keydown", handleDelete);
+    return () => globalThis.removeEventListener("keydown", handleDelete);
   }, [
     selectedDay,
     pasteShiftPositionFromClipboard,

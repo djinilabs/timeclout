@@ -59,7 +59,7 @@ export const randomSchedule = ({
         })
         .sort(sortByPastWorkLoad);
 
-      if (!slot.assignedWorkerPk && availableWorkers.length < 1) {
+      if (!slot.assignedWorkerPk && availableWorkers.length === 0) {
         throw new Error(
           i18n._(
             "Of {workersCount} workers, none is available to work on day {day} for shift {shiftType}. For this shift we had {qualifiedWorkersCount} workers with at least one of the required qualifications and {availableWorkersCount} available.",
@@ -97,7 +97,7 @@ export const randomSchedule = ({
           minimumRestSlotsAfterShift
         );
       const firstMinuteOfShift = slot.workHours[0].start;
-      const lastMinuteOfShift = slot.workHours[slot.workHours.length - 1].end;
+      const lastMinuteOfShift = slot.workHours.at(-1).end;
       const pastBusy = busy.get(worker) ?? [];
       pastBusy.push([firstMinuteOfShift, lastMinuteOfShift]);
       if (thisSlotMinimumRestMinutesAfterShift > 0) {

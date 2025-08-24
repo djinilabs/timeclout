@@ -3,7 +3,7 @@ import { Trans } from "@lingui/react/macro";
 
 import { LabeledSwitch } from "../particles/LabeledSwitch";
 
-export interface AnalyzeTeamShiftsCalendarMenuProps {
+export interface AnalyzeTeamShiftsCalendarMenuProperties {
   analyzeLeaveConflicts: boolean;
   setAnalyzeLeaveConflicts: (analyzeLeaveConflicts: boolean) => void;
   requireMaximumIntervalBetweenShifts: boolean;
@@ -67,7 +67,7 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
   setAnalyzeWorkerSlotEquality,
   analyzeWorkerSlotProximity,
   setAnalyzeWorkerSlotProximity,
-}: AnalyzeTeamShiftsCalendarMenuProps) => {
+}: AnalyzeTeamShiftsCalendarMenuProperties) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col lg:flex-row gap-4">
@@ -97,7 +97,7 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
                 disabled={!requireMaximumIntervalBetweenShifts}
                 onChange={(e) =>
                   setMaximumIntervalBetweenShiftsInDays(
-                    parseInt(e.target.value)
+                    Number.parseInt(e.target.value)
                   )
                 }
               />
@@ -123,7 +123,7 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
                 disabled={!requireMinimumNumberOfShiftsPerWeekInStandardWorkday}
                 onChange={(e) =>
                   setMinimumNumberOfShiftsPerWeekInStandardWorkday(
-                    parseInt(e.target.value)
+                    Number.parseInt(e.target.value)
                   )
                 }
               />
@@ -173,7 +173,7 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
                               const newRules = [...minimumRestSlotsAfterShift];
                               newRules[index] = {
                                 ...rule,
-                                inconvenienceLessOrEqualThan: parseInt(
+                                inconvenienceLessOrEqualThan: Number.parseInt(
                                   e.target.value
                                 ),
                               };
@@ -193,7 +193,7 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
                               newRules[index] = {
                                 ...rule,
                                 minimumRestMinutes:
-                                  parseInt(e.target.value) * 60,
+                                  Number.parseInt(e.target.value) * 60,
                               };
                               setMinimumRestSlotsAfterShift(newRules);
                             }}
@@ -206,7 +206,7 @@ export const AnalyzeTeamShiftsCalendarMenu = ({
                         <button
                           onClick={() => {
                             const newRules = minimumRestSlotsAfterShift.filter(
-                              (_, i) => i !== index
+                              (_, index_) => index_ !== index
                             );
                             setMinimumRestSlotsAfterShift(newRules);
                           }}

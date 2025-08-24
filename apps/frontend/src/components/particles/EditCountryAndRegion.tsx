@@ -10,12 +10,12 @@ import { useCountrySubdivisions } from "../../hooks/useCountrySubdivisions";
 import { useFetchActivity } from "../../hooks/useFetchActivity";
 import { FieldComponent } from "../types";
 
-interface EditCountryAndRegionProps {
+interface EditCountryAndRegionProperties {
   Field: FieldComponent;
   selectedCountryIsoCode: string | undefined;
 }
 
-export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
+export const EditCountryAndRegion: FC<EditCountryAndRegionProperties> = ({
   Field,
   selectedCountryIsoCode,
 }) => {
@@ -60,8 +60,8 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
               <select
                 value={field.state.value}
                 id={field.name}
-                onChange={(ev) => {
-                  field.handleChange(ev.target.value);
+                onChange={(event_) => {
+                  field.handleChange(event_.target.value);
                 }}
                 className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 role="select"
@@ -97,7 +97,7 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
         )}
       />
 
-      {selectedCountryIsoCode != null && countrySubdivisions?.length ? (
+      {selectedCountryIsoCode != undefined && countrySubdivisions?.length ? (
         <Field
           name="region"
           children={(field) => (
@@ -112,9 +112,9 @@ export const EditCountryAndRegion: FC<EditCountryAndRegionProps> = ({
                 <select
                   value={field.state.value}
                   id={field.name}
-                  onChange={(ev) => {
-                    console.log("region", ev.target.value);
-                    field.handleChange(ev.target.value);
+                  onChange={(event_) => {
+                    console.log("region", event_.target.value);
+                    field.handleChange(event_.target.value);
                   }}
                   className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   role="select"

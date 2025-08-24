@@ -74,7 +74,7 @@ export const AllUnitTeams = () => {
     variables: {
       unitPk,
     },
-    pollingIntervalMs: 10000,
+    pollingIntervalMs: 10_000,
   });
 
   const unit = queryResponse.data?.unit;
@@ -84,9 +84,7 @@ export const AllUnitTeams = () => {
   return (
     <div role="region" aria-label="Unit teams list">
       <div className="mt-4">
-        {!unit?.teams.length ? (
-          <NoTeams />
-        ) : (
+        {unit?.teams.length ? (
           <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
             <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
               <div className="ml-4 mt-2"></div>
@@ -102,6 +100,8 @@ export const AllUnitTeams = () => {
               </button>
             </div>
           </div>
+        ) : (
+          <NoTeams />
         )}
       </div>
 

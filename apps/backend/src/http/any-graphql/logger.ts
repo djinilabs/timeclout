@@ -2,17 +2,17 @@ import chalk from "chalk";
 
 export const logger = () => {
   return {
-    debug: (...args: unknown[]) => {
-      console.debug(chalk.gray(`[graphql] [DEBUG]`), ...args);
+    debug: (...arguments_: unknown[]) => {
+      console.debug(chalk.gray(`[graphql] [DEBUG]`), ...arguments_);
     },
-    info: (...args: unknown[]) => {
-      console.info(chalk.green(`[graphql] [INFO]`), ...args);
+    info: (...arguments_: unknown[]) => {
+      console.info(chalk.green(`[graphql] [INFO]`), ...arguments_);
     },
-    warn: (...args: unknown[]) => {
-      console.warn(chalk.yellow(`[graphql] [WARN]`), ...args);
+    warn: (...arguments_: unknown[]) => {
+      console.warn(chalk.yellow(`[graphql] [WARN]`), ...arguments_);
     },
-    error: (...args: unknown[]) => {
-      console.error(chalk.red(`[graphql] [ERROR]`), ...args);
+    error: (...arguments_: unknown[]) => {
+      console.error(chalk.red(`[graphql] [ERROR]`), ...arguments_);
     },
   };
 };

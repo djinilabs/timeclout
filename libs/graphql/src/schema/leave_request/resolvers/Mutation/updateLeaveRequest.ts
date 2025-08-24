@@ -17,10 +17,10 @@ import { getDefined, resourceRef } from "@/utils";
 
 export const updateLeaveRequest: NonNullable<
   MutationResolvers["updateLeaveRequest"]
-> = async (_parent, arg, ctx) => {
-  const session = await requireSession(ctx);
+> = async (_parent, argument, context) => {
+  const session = await requireSession(context);
   const { leave_request } = await database();
-  const leaveRequest = await leave_request.get(arg.input.pk, arg.input.sk);
+  const leaveRequest = await leave_request.get(argument.input.pk, argument.input.sk);
   if (!leaveRequest) {
     throw notFound(i18n._("Leave request not found"));
   }
@@ -34,9 +34,9 @@ export const updateLeaveRequest: NonNullable<
   return updateLeaveRequestLogic({
     leaveRequest,
     userPk,
-    leaveTypeName: arg.input.type,
-    startDateAsString: arg.input.startDate,
-    endDateAsString: arg.input.endDate,
-    reason: arg.input.reason,
+    leaveTypeName: argument.input.type,
+    startDateAsString: argument.input.startDate,
+    endDateAsString: argument.input.endDate,
+    reason: argument.input.reason,
   }) as unknown as Promise<LeaveRequest>;
 };

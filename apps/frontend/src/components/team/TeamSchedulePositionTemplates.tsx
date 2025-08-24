@@ -12,7 +12,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 
-import { QueryTeamArgs, Team, TeamSettingsArgs } from "../../graphql/graphql";
+import { QueryTeamArgs as QueryTeamArguments, Team, TeamSettingsArgs as TeamSettingsArguments } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
 import { Badge } from "../particles/Badge";
@@ -31,7 +31,7 @@ export const TeamSchedulePositionTemplates = () => {
   const { team: teamPk } = useParams();
   const [teamWithMembersAndSettingsQueryResponse] = useQuery<
     { team: Team },
-    QueryTeamArgs & TeamSettingsArgs
+    QueryTeamArguments & TeamSettingsArguments
   >({
     query: teamWithSettingsQuery,
     variables: {
@@ -48,7 +48,7 @@ export const TeamSchedulePositionTemplates = () => {
 
   const handleRemoveSchedulePositionTemplate = (index: number) => {
     setLocalSchedulePositionTemplates(
-      localSchedulePositionTemplates.filter((_, i) => i !== index)
+      localSchedulePositionTemplates.filter((_, index_) => index_ !== index)
     );
   };
 
@@ -58,8 +58,8 @@ export const TeamSchedulePositionTemplates = () => {
     value: string
   ) => {
     setLocalSchedulePositionTemplates(
-      localSchedulePositionTemplates.map((qual, i) =>
-        i === index ? { ...qual, [field]: value } : qual
+      localSchedulePositionTemplates.map((qual, index_) =>
+        index_ === index ? { ...qual, [field]: value } : qual
       )
     );
   };

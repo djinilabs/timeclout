@@ -12,17 +12,17 @@ import { resourceRef } from "@/utils";
 
 export const deleteCompany: NonNullable<
   MutationResolvers["deleteCompany"]
-> = async (_parent, _arg, ctx) => {
+> = async (_parent, _argument, context) => {
   await ensureAuthorized(
-    ctx,
-    resourceRef("companies", _arg.pk),
+    context,
+    resourceRef("companies", _argument.pk),
     PERMISSION_LEVELS.WRITE
   );
   const { entity } = await database();
-  const company = await entity.get(resourceRef("companies", _arg.pk));
+  const company = await entity.get(resourceRef("companies", _argument.pk));
   if (!company) {
     throw notFound(
-      i18n._("Company with pk {companyPk} not found", { companyPk: _arg.pk })
+      i18n._("Company with pk {companyPk} not found", { companyPk: _argument.pk })
     );
   }
 

@@ -2,7 +2,7 @@ import type { ShiftScheduleHeuristic, ShiftSchedule } from "../types";
 import { calculateExpectedTotalInconveniencePerWorker } from "../utils/calculateExpectedTotalInconveniencePerWorker";
 import { calculateSlotInconvenience } from "../utils/calculateSlotInconvenience";
 import { calculateWorkerUnavailabilityRatio } from "../utils/calculateWorkerUnavailabilityRatio";
-import { stdDev } from "../utils/standardDeviation";
+import { stdDev as standardDeviation } from "../utils/standardDeviation";
 
 export const calculateExpectedWorkerInconvenienceEquality = (
   schedule: ShiftSchedule
@@ -52,7 +52,7 @@ export const calculateWorkerInconvenienceEqualityDeviation = (
   schedule: ShiftSchedule
 ) => {
   const inconveniences = calculateWorkerInconveniences(schedule);
-  return stdDev(1, Array.from(inconveniences.values()));
+  return standardDeviation(1, [...inconveniences.values()]);
 };
 
 export const workerInconvenienceEqualityHeuristic: ShiftScheduleHeuristic = {

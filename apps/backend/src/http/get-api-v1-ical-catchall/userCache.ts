@@ -2,7 +2,7 @@ import { database, EntityRecord } from "@/tables";
 import { ResourceRef } from "@/utils";
 
 export interface UserCache {
-  getUser(userRef: ResourceRef<"users">): Promise<EntityRecord | undefined>;
+  getUser(userReference: ResourceRef<"users">): Promise<EntityRecord | undefined>;
 }
 
 export const userCache = async (): Promise<UserCache> => {
@@ -10,16 +10,16 @@ export const userCache = async (): Promise<UserCache> => {
   const { entity } = await database();
 
   return {
-    getUser: async (userRef) => {
-      let user = cache.get(userRef);
+    getUser: async (userReference) => {
+      let user = cache.get(userReference);
       if (user) {
         return user;
       }
-      user = await entity.get(userRef);
+      user = await entity.get(userReference);
       if (!user) {
-        return undefined;
+        return;
       }
-      cache.set(userRef, user);
+      cache.set(userReference, user);
       return user;
     },
   };

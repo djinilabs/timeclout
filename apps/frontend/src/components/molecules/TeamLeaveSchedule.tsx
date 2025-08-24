@@ -14,7 +14,7 @@ import { MemberSchedule } from "../types";
 
 import { DayDate } from "@/day-date";
 
-export interface TeamLeaveScheduleProps {
+export interface TeamLeaveScheduleProperties {
   year: number;
   month: number;
   goTo: (year: number, month: number) => void;
@@ -22,7 +22,7 @@ export interface TeamLeaveScheduleProps {
 }
 
 export const TeamLeaveSchedule = memo(
-  ({ year, month, goTo, schedule = [] }: TeamLeaveScheduleProps) => {
+  ({ year, month, goTo, schedule = [] }: TeamLeaveScheduleProperties) => {
     const { company, unit, team } = useParams();
     const navigate = useNavigate();
     const [view, setView] = useState<"calendar" | "linear">("linear");
@@ -39,11 +39,11 @@ export const TeamLeaveSchedule = memo(
 
     const leavesPerDay: Record<string, MemberSchedule[]> = useMemo(() => {
       const leavesPerDay: Record<string, MemberSchedule[]> = {};
-      schedule.forEach((memberSchedule) => {
-        Object.keys(memberSchedule.leaves).forEach((day) => {
+      for (const memberSchedule of schedule) {
+        for (const day of Object.keys(memberSchedule.leaves)) {
           leavesPerDay[day] = [...(leavesPerDay[day] || []), memberSchedule];
-        });
-      });
+        }
+      }
       return leavesPerDay;
     }, [schedule]);
 
@@ -61,7 +61,7 @@ export const TeamLeaveSchedule = memo(
         const leave = leavesPerMember[member.pk]?.leaves[dayString];
         return (
           <>
-            {!leave?.leaveRequest ? (
+            {leave?.leaveRequest ? null : (
               <Link
                 to={`/companies/${company}/units/${unit}/teams/${team}/leave-requests/new?date=${dayString}&user=${encodeURIComponent(
                   member.pk
@@ -72,7 +72,7 @@ export const TeamLeaveSchedule = memo(
                   <span className="text-gray-600">+</span>
                 </span>
               </Link>
-            ) : null}
+            )}
 
             {leave &&
               (leave.leaveRequest ? (
@@ -90,7 +90,7 @@ export const TeamLeaveSchedule = memo(
                   to={`/${leave.leaveRequest.pk}/leave-requests/${
                     leave.leaveRequest.sk
                   }?callbackUrl=${encodeURIComponent(
-                    window.location.pathname + window.location.search
+                    globalThis.location.pathname + globalThis.location.search
                   )}`}
                   title={leave.leaveRequest.type}
                   className={`inline-flex items-center rounded-full px-2 py-2 ${

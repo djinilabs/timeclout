@@ -12,7 +12,7 @@ const DEBOUNCE_TIME = 500;
 export const useAIChatHistory = () => {
   const [messages, setMessages] = useState<AIMessage[]>([]);
 
-  const dbPromise: Promise<IDBDatabase> = useMemo(() => {
+  const databasePromise: Promise<IDBDatabase> = useMemo(() => {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(DB_NAME, DB_VERSION);
 
@@ -35,11 +35,11 @@ export const useAIChatHistory = () => {
     });
   }, []);
 
-  const upsertMessageInDb = useMemo(
+  const upsertMessageInDatabase = useMemo(
     () =>
       async (message: AIMessage): Promise<void> => {
-        const db = await dbPromise;
-        const transaction = db.transaction([STORE_NAME], "readwrite");
+        const database = await databasePromise;
+        const transaction = database.transaction([STORE_NAME], "readwrite");
         const store = transaction.objectStore(STORE_NAME);
         const request = store.get(message.id);
 
@@ -64,7 +64,7 @@ export const useAIChatHistory = () => {
           request.onerror = () => reject(request.error);
         });
       },
-    [dbPromise]
+    [databasePromise]
   );
 
   const changedMessages = useRef<Array<AIMessage>>([]);
@@ -72,7 +72,7 @@ export const useAIChatHistory = () => {
   const saveChangedMessages = useCallback(async (): Promise<void> => {
     for (const message of changedMessages.current) {
       try {
-        await upsertMessageInDb(message);
+        await upsertMessageInDatabase(message);
       } catch (error) {
         console.error("Error saving message", error);
         toast.error("Error saving message");
@@ -82,7 +82,7 @@ export const useAIChatHistory = () => {
         );
       }
     }
-  }, [upsertMessageInDb]);
+  }, [upsertMessageInDatabase]);
 
   const saveChangedMessagesDebounced = useMemo(
     () => debounce(saveChangedMessages, DEBOUNCE_TIME),
@@ -95,10 +95,10 @@ export const useAIChatHistory = () => {
       const existingMessageIndex = changedMessages.current.findIndex(
         (m) => m.id === message.id
       );
-      if (existingMessageIndex !== -1) {
-        changedMessages.current[existingMessageIndex] = message;
-      } else {
+      if (existingMessageIndex === -1) {
         changedMessages.current.push(message);
+      } else {
+        changedMessages.current[existingMessageIndex] = message;
       }
       saveChangedMessagesDebounced();
     },
@@ -106,13 +106,9 @@ export const useAIChatHistory = () => {
   );
 
   const saveNewMessage = (message: AIMessage): void => {
-    setMessages((prev) => {
-      const exists = prev.some((m) => m.id === message.id);
-      if (exists) {
-        return prev.map((m) => (m.id === message.id ? message : m));
-      } else {
-        return [...prev, message];
-      }
+    setMessages((previous) => {
+      const exists = previous.some((m) => m.id === message.id);
+      return exists ? previous.map((m) => (m.id === message.id ? message : m)) : [...previous, message];
     });
 
     upsertMessage(message);
@@ -121,21 +117,21 @@ export const useAIChatHistory = () => {
   const [loading, setLoading] = useState(false);
 
   const loadMessages = useCallback(async (): Promise<void> => {
-    const db = await dbPromise;
+    const database = await databasePromise;
     return new Promise<void>((resolve, reject) => {
-      const transaction = db.transaction([STORE_NAME], "readonly");
+      const transaction = database.transaction([STORE_NAME], "readonly");
       const store = transaction.objectStore(STORE_NAME);
       const request = store.getAll();
 
       request.onsuccess = () => {
         const messages = request.result
           .filter(isAiMessageValid)
-          .map((msg: AIMessage) => ({
-            ...msg,
-            timestamp: new Date(msg.timestamp),
+          .map((message: AIMessage) => ({
+            ...message,
+            timestamp: new Date(message.timestamp),
             isLoading: false,
-            isWarning: msg.isWarning || msg.isLoading,
-            content: msg.isLoading ? "Interrupted" : msg.content,
+            isWarning: message.isWarning || message.isLoading,
+            content: message.isLoading ? "Interrupted" : message.content,
           }))
           .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
         setMessages(messages);
@@ -144,20 +140,20 @@ export const useAIChatHistory = () => {
 
       request.onerror = () => reject(request.error);
     });
-  }, [dbPromise]);
+  }, [databasePromise]);
 
   const clearMessages = useCallback(async (): Promise<void> => {
-    const db = await dbPromise;
+    const database = await databasePromise;
     setMessages([]);
     return new Promise<void>((resolve, reject) => {
-      const transaction = db.transaction([STORE_NAME], "readwrite");
+      const transaction = database.transaction([STORE_NAME], "readwrite");
       const store = transaction.objectStore(STORE_NAME);
       const request = store.clear();
 
       request.onsuccess = () => resolve();
       request.onerror = () => reject(request.error);
     });
-  }, [dbPromise]);
+  }, [databasePromise]);
 
   useEffect(() => {
     setLoading(true);

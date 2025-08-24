@@ -10,68 +10,90 @@ export const getHelpSection = (
   // First check for team-shift-schedule-dialog parameter
   if (teamShiftScheduleDialog) {
     switch (teamShiftScheduleDialog) {
-      case "create":
+      case "create": {
         return "create-shift";
-      case "autoFill":
+      }
+      case "autoFill": {
         return "auto-fill";
-      case "unassign":
+      }
+      case "unassign": {
         return "unassign-shift";
-      default:
+      }
+      default: {
         break;
+      }
     }
   }
 
   // Then check for dialog parameter
   if (dialog) {
     switch (dialog) {
-      case "new-leave-request":
+      case "new-leave-request": {
         return "new-leave-request";
-      case "team-invitations":
+      }
+      case "team-invitations": {
         return "team-invitations";
-      default:
+      }
+      default: {
         break;
+      }
     }
   }
 
   // Then check for specific pages
   if (tab) {
     switch (tab) {
-      case "shifts-calendar":
+      case "shifts-calendar": {
         return "shifts-calendar";
-      case "leave-schedule":
+      }
+      case "leave-schedule": {
         return "team-leave-calendar";
-      case "members":
+      }
+      case "members": {
         return "member-management";
-      case "invitations":
+      }
+      case "invitations": {
         return "team-invitations";
-      case "time-off":
+      }
+      case "time-off": {
         return "time-off-dashboard";
-      case "my-leave-requests":
+      }
+      case "my-leave-requests": {
         return "leave-request-management";
-      case "pending-leave-requests":
+      }
+      case "pending-leave-requests": {
         return "leave-approval-dashboard";
-      case "units":
+      }
+      case "units": {
         return "unit-management";
-      case "teams":
+      }
+      case "teams": {
         return "team-management";
-      default:
+      }
+      default: {
         break;
+      }
     }
   }
 
   // Then check for settings pages
   if (settingsTab) {
     switch (settingsTab) {
-      case "work-schedule":
+      case "work-schedule": {
         return "work-schedule-settings";
-      case "yearly-quota":
+      }
+      case "yearly-quota": {
         return "yearly-quota-settings";
-      case "qualifications":
+      }
+      case "qualifications": {
         return "qualifications-settings";
-      case "schedule-position-templates":
+      }
+      case "schedule-position-templates": {
         return "schedule-position-templates";
-      default:
+      }
+      default: {
         break;
+      }
     }
   }
 

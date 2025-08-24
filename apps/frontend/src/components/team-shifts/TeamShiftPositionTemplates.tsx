@@ -19,7 +19,7 @@ import { type SchedulePositionTemplate } from "@/settings";
 
 
 
-export interface TeamShiftPositionTemplatesProps {
+export interface TeamShiftPositionTemplatesProperties {
   teamPk: string;
   onCreateTemplate: () => void;
 }
@@ -58,7 +58,7 @@ const convertTemplateToAnalyzedShiftPosition = (
 };
 
 export const TeamShiftPositionTemplates: FC<
-  TeamShiftPositionTemplatesProps
+  TeamShiftPositionTemplatesProperties
 > = ({ teamPk, onCreateTemplate }) => {
   const { teamShiftPositionTemplates, deleteTeamShiftPositionTemplate } =
     useTeamShiftPositionTemplates(teamPk);

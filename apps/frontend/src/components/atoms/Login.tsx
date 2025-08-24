@@ -21,7 +21,7 @@ const Login: FC = () => {
 
   const handleGoogleSignIn = () => {
     signIn("google", {
-      callbackUrl: window.location.href,
+      callbackUrl: globalThis.location.href,
     });
   };
 
@@ -32,7 +32,7 @@ const Login: FC = () => {
     setIsSubmitting(true);
     signIn("email", {
       email: email.trim(),
-      callbackUrl: window.location.href,
+      callbackUrl: globalThis.location.href,
     })
       .finally(() => {
         setIsSubmitting(false);

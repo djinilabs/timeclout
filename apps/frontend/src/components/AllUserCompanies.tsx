@@ -75,7 +75,7 @@ const NoCompanies = () => {
 export const AllUserCompanies = () => {
   const [allCompanies] = useQuery<{ companies: Company[] }>({
     query: allCompaniesQuery,
-    pollingIntervalMs: 10000,
+    pollingIntervalMs: 10_000,
   });
 
   const [, deleteCompany] = useMutation(deleteCompanyMutation);

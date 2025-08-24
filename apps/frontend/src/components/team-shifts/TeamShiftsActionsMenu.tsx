@@ -8,7 +8,7 @@ import {
 import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
 
-export interface TeamShiftsActionsMenuProps {
+export interface TeamShiftsActionsMenuProperties {
   onAddPosition: () => void;
   onAutoFill: () => void;
   onUnassignPositions: () => void;
@@ -18,7 +18,7 @@ export const TeamShiftsActionsMenu = ({
   onAddPosition,
   onAutoFill,
   onUnassignPositions,
-}: TeamShiftsActionsMenuProps) => {
+}: TeamShiftsActionsMenuProperties) => {
   return (
     <Menu as="div" className="relative">
       <MenuButton

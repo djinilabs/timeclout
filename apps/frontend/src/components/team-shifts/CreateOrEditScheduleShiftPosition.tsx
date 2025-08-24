@@ -9,11 +9,11 @@ import "react-day-picker/style.css";
 
 import {
   CreateShiftPositionInput,
-  QueryTeamArgs,
+  QueryTeamArgs as QueryTeamArguments,
   ShiftPosition,
   Team,
-  TeamMembersArgs,
-  TeamSettingsArgs,
+  TeamMembersArgs as TeamMembersArguments,
+  TeamSettingsArgs as TeamSettingsArguments,
   UpdateShiftPositionInput,
 } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
@@ -31,7 +31,7 @@ import { DayDate } from "@/day-date";
 import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
 import { getDefined } from "@/utils";
 
-export interface CreateOrEditScheduleShiftPositionProps {
+export interface CreateOrEditScheduleShiftPositionProperties {
   day: DayDate;
   onCancel: () => void;
   onCreate: (input: CreateShiftPositionInput) => void;
@@ -62,7 +62,7 @@ export interface CreateOrEditScheduleShiftPositionForm {
 }
 
 export const CreateOrEditScheduleShiftPosition: FC<
-  CreateOrEditScheduleShiftPositionProps
+  CreateOrEditScheduleShiftPositionProperties
 > = ({ day, onCancel, onCreate, onUpdate, editingShiftPosition }) => {
   const form = useForm<
     CreateOrEditScheduleShiftPositionForm,
@@ -97,9 +97,10 @@ export const CreateOrEditScheduleShiftPosition: FC<
       [day, editingShiftPosition]
     ),
     onSubmit: async ({ value }) => {
-      if (!editingShiftPosition) {
-        onCreate({
-          team: getDefined(teamPk, "No team provided"),
+      if (editingShiftPosition) {
+        onUpdate({
+          pk: editingShiftPosition.pk,
+          sk: editingShiftPosition.sk,
           day: value.day.toString(),
           name: value.name,
           color: value.color,
@@ -108,9 +109,8 @@ export const CreateOrEditScheduleShiftPosition: FC<
           assignedTo: value.assignedTo?.pk,
         });
       } else {
-        onUpdate({
-          pk: editingShiftPosition.pk,
-          sk: editingShiftPosition.sk,
+        onCreate({
+          team: getDefined(teamPk, "No team provided"),
           day: value.day.toString(),
           name: value.name,
           color: value.color,
@@ -127,7 +127,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
 
   const [{ data: teamWithMembersAndSettings }] = useQuery<
     { team: Team },
-    QueryTeamArgs & TeamMembersArgs & TeamSettingsArgs
+    QueryTeamArguments & TeamMembersArguments & TeamSettingsArguments
   >({
     query: teamWithMembersAndSettingsQuery,
     variables: {
@@ -166,7 +166,7 @@ export const CreateOrEditScheduleShiftPosition: FC<
   const [usingTemplate, setUsingTemplate] = useState(false);
   const [usingWhichTemplate, setUsingWhichTemplate] = useState<
     string | undefined
-  >(undefined);
+  >();
 
   const {
     teamShiftPositionTemplates: schedulePositionTemplates,
@@ -199,8 +199,8 @@ export const CreateOrEditScheduleShiftPosition: FC<
   return (
     <div>
       <form
-        onSubmit={(ev) => {
-          ev.preventDefault();
+        onSubmit={(event_) => {
+          event_.preventDefault();
           form.handleSubmit();
         }}
         role="form"

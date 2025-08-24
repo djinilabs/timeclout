@@ -2,14 +2,14 @@ import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import {
-  CompanySettingsArgs,
+  CompanySettingsArgs as CompanySettingsArguments,
   Leave,
   LeaveRequest,
   Query,
-  QueryCompanyArgs,
-  QueryTeamArgs,
+  QueryCompanyArgs as QueryCompanyArguments,
+  QueryTeamArgs as QueryTeamArguments,
   Team,
-  TeamScheduleArgs,
+  TeamScheduleArgs as TeamScheduleArguments,
 } from "../../graphql/graphql";
 import { useLocalPreference } from "../../hooks/useLocalPreference";
 import { useQuery } from "../../hooks/useQuery";
@@ -28,7 +28,7 @@ export const TeamLeaveSchedule = () => {
 
   const [companyWithSettingsQueryResponse] = useQuery<
     { company: Query["company"] },
-    QueryCompanyArgs & CompanySettingsArgs
+    QueryCompanyArguments & CompanySettingsArguments
   >({
     query: companyWithSettingsQuery,
     variables: {
@@ -58,7 +58,7 @@ export const TeamLeaveSchedule = () => {
 
   const [teamScheduleResponse] = useQuery<
     { team: Team },
-    TeamScheduleArgs & QueryTeamArgs
+    TeamScheduleArguments & QueryTeamArguments
   >({
     query: teamScheduleQuery,
     variables: {

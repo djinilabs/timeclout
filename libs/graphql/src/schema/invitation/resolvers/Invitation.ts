@@ -28,19 +28,19 @@ export const Invitation: InvitationResolvers = {
   emailMd5: (parent) => {
     return crypto.createHash("md5").update(parent.sk).digest("hex");
   },
-  createdBy: async (parent, _args, ctx) => {
+  createdBy: async (parent, _arguments, context) => {
     // Cast to access the raw database field where createdBy is a string
-    const userRef = (parent as unknown as { createdBy: string }).createdBy;
-    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    const userReference = (parent as unknown as { createdBy: string }).createdBy;
+    const user = await context.userCache.getUser(getResourceRef(userReference));
     return user as unknown as User;
   },
-  updatedBy: async (parent, _args, ctx) => {
+  updatedBy: async (parent, _arguments, context) => {
     // Cast to access the raw database field where updatedBy is a string
-    const userRef = (parent as unknown as { updatedBy?: string }).updatedBy;
-    if (!userRef) {
+    const userReference = (parent as unknown as { updatedBy?: string }).updatedBy;
+    if (!userReference) {
       return null;
     }
-    const user = await ctx.userCache.getUser(getResourceRef(userRef));
+    const user = await context.userCache.getUser(getResourceRef(userReference));
     return user as unknown as User;
   },
   toEntity: async (parent) => {

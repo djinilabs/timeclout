@@ -10,7 +10,7 @@ import { App } from "./App";
 TimeAgo.addLocale(en);
 TimeAgo.addDefaultLocale(pt);
 
-createRoot(document.getElementById("root")!).render(
+createRoot(document.querySelector("#root")!).render(
   <StrictMode>
     <App />
   </StrictMode>

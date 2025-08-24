@@ -9,7 +9,7 @@ const startDate = (shift: ShiftPositionsRecord) => {
   const start = new Date(shift.day);
   const firstSchedule = shift.schedules[0];
   if (!firstSchedule) {
-    return undefined;
+    return;
   }
   const [hour, minute] = firstSchedule.startHourMinutes;
   start.setHours(hour);
@@ -19,9 +19,9 @@ const startDate = (shift: ShiftPositionsRecord) => {
 
 const endDate = (shift: ShiftPositionsRecord) => {
   const start = new Date(shift.day);
-  const lastSchedule = shift.schedules[shift.schedules.length - 1];
+  const lastSchedule = shift.schedules.at(-1);
   if (!lastSchedule) {
-    return undefined;
+    return;
   }
   const [hour, minute] = lastSchedule.endHourMinutes;
   start.setHours(hour);

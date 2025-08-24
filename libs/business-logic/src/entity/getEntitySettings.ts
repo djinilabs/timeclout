@@ -13,12 +13,16 @@ export const getEntitySettings = async <
   let settings: TShape | undefined;
   try {
     const { entity_settings } = await database();
-    settings = (await entity_settings.get(entityPk, settingsKey))?.settings;
-    if (settings == null) {
+    const entitySettingsResult = await entity_settings.get(
+      entityPk,
+      settingsKey
+    );
+    settings = entitySettingsResult?.settings;
+    if (settings == undefined) {
       return undefined;
     }
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     throw new Error(
       i18n._(
         "Error getting entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}",
@@ -26,18 +30,18 @@ export const getEntitySettings = async <
           entityPk: String(entityPk),
           settingsKey: String(settingsKey),
           settings: JSON.stringify(settings),
-          errorMessage: err.message,
+          errorMessage: error.message,
         }
       )
     );
   }
-  if (settings == null) {
+  if (settings == undefined) {
     return undefined;
   }
   try {
     return settingsTypes[settingsKey].parse(settings) as TShape;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     throw new Error(
       i18n._(
         "Error parsing entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}",
@@ -45,7 +49,7 @@ export const getEntitySettings = async <
           entityPk: String(entityPk),
           settingsKey: String(settingsKey),
           settings: JSON.stringify(settings),
-          errorMessage: err.message,
+          errorMessage: error.message,
         }
       )
     );

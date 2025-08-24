@@ -130,12 +130,15 @@ export const PERMISSION_LEVELS = {
 
 export const permissionLevelToName = (level: number) => {
   switch (level) {
-    case PERMISSION_LEVELS.READ:
+    case PERMISSION_LEVELS.READ: {
       return "Member";
-    case PERMISSION_LEVELS.WRITE:
+    }
+    case PERMISSION_LEVELS.WRITE: {
       return "Administrator";
-    case PERMISSION_LEVELS.OWNER:
+    }
+    case PERMISSION_LEVELS.OWNER: {
       return "Owner";
+    }
   }
 };
 

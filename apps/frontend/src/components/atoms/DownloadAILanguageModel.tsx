@@ -5,10 +5,10 @@ import { ProgressBar } from "../particles/ProgressBar";
 
 export const DownloadAILanguageModel = () => {
   const languageModel = useMemo(() => {
-    if ("LanguageModel" in window) {
-      return window.LanguageModel as LanguageModel | undefined;
+    if ("LanguageModel" in globalThis) {
+      return globalThis.LanguageModel as LanguageModel | undefined;
     }
-    return undefined;
+    return;
   }, []);
 
   const [downloading, setDownloading] = useState(false);

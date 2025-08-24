@@ -6,7 +6,7 @@ import { Suspense } from "../atoms/Suspense";
 
 import { CreateShiftPositionTemplate } from "./CreateShiftPositionTemplate";
 
-export interface CreateShiftPositionTemplateDialogProps {
+export interface CreateShiftPositionTemplateDialogProperties {
   isDialogOpen: boolean;
   onClose: () => void;
   teamPk: string;
@@ -16,7 +16,7 @@ export const CreateShiftPositionTemplateDialog = ({
   isDialogOpen,
   onClose,
   teamPk,
-}: CreateShiftPositionTemplateDialogProps) => {
+}: CreateShiftPositionTemplateDialogProperties) => {
   return (
     <Dialog
       open={isDialogOpen}

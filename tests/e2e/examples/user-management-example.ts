@@ -13,7 +13,7 @@ testWithUserManagement.describe("User Management Examples", () => {
 
       // Example 2: Create a manager user with custom options
       managerUser = await userManagement.createAndLoginUser("Manager User", {
-        waitForEmailTimeout: 180000, // 3 minutes timeout
+        waitForEmailTimeout: 180_000, // 3 minutes timeout
       });
       console.log(`✅ Created and logged in: ${managerUser.professionalName}`);
 

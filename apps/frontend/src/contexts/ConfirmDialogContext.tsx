@@ -11,7 +11,7 @@ export interface ConfirmDialogContextType {
 
 export interface ConfirmDialogContextValue extends ConfirmDialogContextType {
   showConfirmDialog: (
-    props: Omit<ConfirmDialogContextType, "open">
+    properties: Omit<ConfirmDialogContextType, "open">
   ) => Promise<boolean>;
 }
 

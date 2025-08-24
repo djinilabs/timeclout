@@ -9,12 +9,12 @@ import { assignShiftPositions as assignShiftPositionsLogic } from "@/business-lo
 import { PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const assignShiftPositions: NonNullable<MutationResolvers['assignShiftPositions']> = async (_parent, arg, ctx) => {
+export const assignShiftPositions: NonNullable<MutationResolvers['assignShiftPositions']> = async (_parent, argument, context) => {
   const {
     input: { team, assignments },
-  } = arg;
+  } = argument;
   const pk = resourceRef("teams", team);
-  const actorPk = await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
+  const actorPk = await ensureAuthorized(context, pk, PERMISSION_LEVELS.WRITE);
   return assignShiftPositionsLogic(
     pk,
     assignments,

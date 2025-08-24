@@ -6,10 +6,10 @@ import { dequal } from "dequal";
 import { FC, useEffect, useMemo, useState } from "react";
 
 import {
-  QueryTeamArgs,
+  QueryTeamArgs as QueryTeamArguments,
   Team,
-  TeamMembersArgs,
-  TeamSettingsArgs,
+  TeamMembersArgs as TeamMembersArguments,
+  TeamSettingsArgs as TeamSettingsArguments,
 } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
 import { useTeamShiftPositionTemplates } from "../../hooks/useTeamShiftPositionTemplates";
@@ -21,7 +21,7 @@ import { TimeSchedulesEditor } from "../team-shifts/TimeSchedulesEditor";
 import teamWithMembersAndSettingsQuery from "@/graphql-client/queries/teamWithMembersAndSettings.graphql";
 import { getDefined } from "@/utils";
 
-export interface CreateShiftPositionTemplateDialogProps {
+export interface CreateShiftPositionTemplateDialogProperties {
   onClose: () => void;
   teamPk: string;
 }
@@ -47,7 +47,7 @@ export interface CreateShiftPositionTemplateForm {
 }
 
 export const CreateShiftPositionTemplate: FC<
-  CreateShiftPositionTemplateDialogProps
+  CreateShiftPositionTemplateDialogProperties
 > = ({ onClose, teamPk }) => {
   const { creatingTeamShiftPositionTemplate, createTeamShiftPositionTemplate } =
     useTeamShiftPositionTemplates(getDefined(teamPk, "No team provided"));
@@ -56,7 +56,7 @@ export const CreateShiftPositionTemplate: FC<
 
   const [{ data: teamWithMembersAndSettings }] = useQuery<
     { team: Team },
-    QueryTeamArgs & TeamMembersArgs & TeamSettingsArgs
+    QueryTeamArguments & TeamMembersArguments & TeamSettingsArguments
   >({
     query: teamWithMembersAndSettingsQuery,
     variables: {
@@ -128,8 +128,8 @@ export const CreateShiftPositionTemplate: FC<
   return (
     <div>
       <form
-        onSubmit={(ev) => {
-          ev.preventDefault();
+        onSubmit={(event_) => {
+          event_.preventDefault();
           form.handleSubmit();
         }}
         role="form"

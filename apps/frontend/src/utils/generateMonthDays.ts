@@ -20,8 +20,8 @@ export const generateMonthDays = (
   const firstDayOfWeek = firstOfMonth.getWeekDayNumber();
 
   // Add days from previous month
-  for (let i = firstDayOfWeek; i > 0; i--) {
-    const date = firstOfMonth.previousDay(i);
+  for (let index = firstDayOfWeek; index > 0; index--) {
+    const date = firstOfMonth.previousDay(index);
     days.push({
       date: date.toString(),
       isCurrentMonth: false,
@@ -47,8 +47,8 @@ export const generateMonthDays = (
   const targetDays = weeksNeeded * 7;
   const remainingDays = targetDays - days.length;
 
-  for (let i = 1; i <= remainingDays; i++) {
-    const date = new DayDate(year, month + 2, i);
+  for (let index = 1; index <= remainingDays; index++) {
+    const date = new DayDate(year, month + 2, index);
     days.push({
       date: date.toString(),
       isCurrentMonth: false,

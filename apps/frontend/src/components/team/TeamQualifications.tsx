@@ -12,7 +12,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 
-import { QueryTeamArgs, Team, TeamSettingsArgs } from "../../graphql/graphql";
+import { QueryTeamArgs as QueryTeamArguments, Team, TeamSettingsArgs as TeamSettingsArguments } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
 import { Badge } from "../particles/Badge";
@@ -27,7 +27,7 @@ export const TeamQualifications = () => {
   const { team: teamPk } = useParams();
   const [teamWithMembersAndSettingsQueryResponse] = useQuery<
     { team: Team },
-    QueryTeamArgs & TeamSettingsArgs
+    QueryTeamArguments & TeamSettingsArguments
   >({
     query: teamWithSettingsQuery,
     variables: {
@@ -50,7 +50,7 @@ export const TeamQualifications = () => {
   };
 
   const handleRemoveQualification = (index: number) => {
-    setLocalQualifications(localQualifications.filter((_, i) => i !== index));
+    setLocalQualifications(localQualifications.filter((_, index_) => index_ !== index));
   };
 
   const handleUpdateQualification = (
@@ -59,8 +59,8 @@ export const TeamQualifications = () => {
     value: string
   ) => {
     setLocalQualifications(
-      localQualifications.map((qual, i) =>
-        i === index ? { ...qual, [field]: value } : qual
+      localQualifications.map((qual, index_) =>
+        index_ === index ? { ...qual, [field]: value } : qual
       )
     );
   };

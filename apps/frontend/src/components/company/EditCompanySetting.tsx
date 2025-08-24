@@ -3,11 +3,11 @@ import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
 import type {
-  CompanySettingsArgs,
+  CompanySettingsArgs as CompanySettingsArguments,
   Mutation,
-  MutationUpdateCompanySettingsArgs,
+  MutationUpdateCompanySettingsArgs as MutationUpdateCompanySettingsArguments,
   Query,
-  QueryCompanyArgs,
+  QueryCompanyArgs as QueryCompanyArguments,
 } from "../../graphql/graphql";
 import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
@@ -32,7 +32,7 @@ export const EditCompanySetting = () => {
   const { company: companyPk, settingName } = useParams();
   const [companyWithSettingsQueryResponse] = useQuery<
     { company: Query["company"] },
-    QueryCompanyArgs & CompanySettingsArgs
+    QueryCompanyArguments & CompanySettingsArguments
   >({
     query: companyWithSettingsQuery,
     variables: {
@@ -46,7 +46,7 @@ export const EditCompanySetting = () => {
 
   const [, updateCompanySettings] = useMutation<
     Mutation["updateCompanySettings"],
-    MutationUpdateCompanySettingsArgs
+    MutationUpdateCompanySettingsArguments
   >(updateCompanySettingsMutation);
   const navigate = useNavigate();
   const onSubmit = async (values: unknown) => {

@@ -8,8 +8,8 @@ import { database } from "@/tables";
 import { resourceRef } from "@/utils";
 
 
-export const requireSessionUser = async (ctx: ResolverContext) => {
-  const session = await requireSession(ctx);
+export const requireSessionUser = async (context: ResolverContext) => {
+  const session = await requireSession(context);
   if (!session.user?.id) {
     throw unauthorized();
   }

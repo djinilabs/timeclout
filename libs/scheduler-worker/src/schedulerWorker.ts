@@ -12,7 +12,7 @@ i18n.loadAndActivate({
   messages: {},
 });
 
-self.onmessage = (event) => {
+globalThis.onmessage = (event) => {
   console.log("SchedulerWorker: onmessage", event.data);
 
   // Initialize i18n with the locale from options, fallback to "en"

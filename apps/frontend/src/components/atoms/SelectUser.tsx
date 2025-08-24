@@ -9,7 +9,7 @@ export interface User {
   emailMd5: string;
 }
 
-export interface SelectUserProps {
+export interface SelectUserProperties {
   onChange: (user: User | null) => void;
   users: User[];
   user?: User | null;
@@ -17,7 +17,7 @@ export interface SelectUserProps {
   autoFocus?: boolean;
 }
 
-export const SelectUser: FC<SelectUserProps> = memo(
+export const SelectUser: FC<SelectUserProperties> = memo(
   ({ onChange, users: _users, user: selectedUser = null, autoFocus }) => {
     const { data: session } = useSession();
 
@@ -31,11 +31,11 @@ export const SelectUser: FC<SelectUserProps> = memo(
       [session?.user?.id]
     );
 
-    const ref = useRef<HTMLDivElement>(null);
+    const reference = useRef<HTMLDivElement>(null);
     useEffect(() => {
       setTimeout(() => {
         if (autoFocus) {
-          ref.current?.focus();
+          reference.current?.focus();
         }
       }, 100);
     }, [autoFocus]);

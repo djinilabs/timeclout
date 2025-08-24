@@ -1,31 +1,31 @@
 import { useMemo } from "react";
 import { useSearchParams } from "react-router";
 
-export interface UseSearchParamReturnValue<T extends string> {
+export interface UseSearchParameterReturnValue<T extends string> {
   current: T | null;
   set: (newValue: T | null) => unknown;
   params: URLSearchParams;
 }
 
 export const useSearchParam = <T extends string>(
-  paramName: string
-): UseSearchParamReturnValue<T> => {
-  const [params, setParams] = useSearchParams();
+  parameterName: string
+): UseSearchParameterReturnValue<T> => {
+  const [parameters, setParameters] = useSearchParams();
   return useMemo(
     () => ({
-      current: params.get(paramName) as T | null,
+      current: parameters.get(parameterName) as T | null,
       set: (newValue: T | null) => {
         if (newValue === null) {
-          params.delete(paramName);
-          setParams(params);
+          parameters.delete(parameterName);
+          setParameters(parameters);
         } else {
-          console.log("setting params", params);
-          params.set(paramName, newValue);
-          setParams(params);
+          console.log("setting params", parameters);
+          parameters.set(parameterName, newValue);
+          setParameters(parameters);
         }
       },
-      params,
+      params: parameters,
     }),
-    [params, paramName, setParams]
+    [parameters, parameterName, setParameters]
   );
 };

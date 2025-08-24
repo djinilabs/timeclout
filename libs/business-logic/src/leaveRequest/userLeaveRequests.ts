@@ -6,13 +6,12 @@ export const userLeaveRequests = async (
   userPk: ResourceRef<"users">
 ): Promise<LeaveRequestRecord[]> => {
   const { leave_request } = await database();
-  return (
-    await leave_request.query({
-      KeyConditionExpression: "pk = :pk",
-      ExpressionAttributeValues: {
-        ":pk": `${companyPk}/${userPk}`,
-      },
-      ScanIndexForward: false,
-    })
-  ).items;
+  const result = await leave_request.query({
+    KeyConditionExpression: "pk = :pk",
+    ExpressionAttributeValues: {
+      ":pk": `${companyPk}/${userPk}`,
+    },
+    ScanIndexForward: false,
+  });
+  return result.items;
 };

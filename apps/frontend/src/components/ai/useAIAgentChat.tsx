@@ -34,7 +34,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
     loading,
   } = useAIChatHistory();
 
-  const usedLanguageRef = useRef<string | undefined>(undefined);
+  const usedLanguageReference = useRef<string | undefined>(undefined);
 
   const { i18n } = useLingui();
   const initialSystemPrompt = useMemo(
@@ -60,10 +60,10 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   );
 
   const messages: AIMessage[] = useMemo(() => {
-    usedLanguageRef.current = i18n.locale;
+    usedLanguageReference.current = i18n.locale;
     return loading
       ? [...loadedMessages]
-      : loadedMessages.length === 0
+      : (loadedMessages.length === 0
       ? [
           {
             id: nanoid(),
@@ -76,11 +76,11 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           },
           ...loadedMessages,
         ]
-      : loadedMessages;
+      : loadedMessages);
   }, [GREETING_MESSAGE, i18n.locale, loadedMessages, loading]);
 
   useEffect(() => {
-    if (usedLanguageRef.current !== i18n.locale) {
+    if (usedLanguageReference.current !== i18n.locale) {
       if (loadedMessages.length > 0) {
         const greetingMessage = loadedMessages[0];
         if (greetingMessage.message.content !== GREETING_MESSAGE) {
@@ -88,7 +88,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           greetingMessage.content = GREETING_MESSAGE;
         }
       }
-      usedLanguageRef.current = i18n.locale;
+      usedLanguageReference.current = i18n.locale;
     }
   }, [loadedMessages, i18n.locale, GREETING_MESSAGE]);
 
@@ -111,7 +111,61 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             // The browser is Chrome version 127 or greater
 
             // Is the LanguageModel object available?
-            if (!("LanguageModel" in window)) {
+            if ("LanguageModel" in globalThis) {
+              await saveNewMessage({
+                id: messageId,
+                message: {
+                  role: "assistant",
+                  content: "Thinking...",
+                },
+                content: (
+                  <p>
+                    Even though your browser is Chrome, it currently does not
+                    support AI, but you can start using it if you upgrade to
+                    Chrome 127 or greater.
+                  </p>
+                ),
+                isWarning: true,
+                timestamp: new Date(),
+              });
+              console.log("LanguageModel object is available");
+              // The LanguageModel object is available
+              const languageModel = globalThis.LanguageModel as
+                | LanguageModel
+                | undefined;
+              if (languageModel) {
+                // Let's query its availability
+                const availability = await languageModel.availability();
+                console.log("availability", availability);
+                if (
+                  availability === "downloadable" ||
+                  availability === "downloading"
+                ) {
+                  await saveNewMessage({
+                    id: messageId,
+                    message: {
+                      role: "assistant",
+                      content: "Thinking...",
+                    },
+                    content: (
+                      <div>
+                        <p>
+                          {availability === "downloadable"
+                            ? "Your browser currently does not support AI, but you can start using it if you download it:"
+                            : (availability === "downloading"
+                            ? "Downloading the model..."
+                            : null)}
+                        </p>
+                        <DownloadAILanguageModel />
+                      </div>
+                    ),
+                    isWarning: true,
+                    timestamp: new Date(),
+                  });
+                  return;
+                }
+              }
+            } else {
               // Let's show a message to the user
               await saveNewMessage({
                 id: messageId,
@@ -152,60 +206,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
                 timestamp: new Date(),
               });
               return;
-            } else {
-              await saveNewMessage({
-                id: messageId,
-                message: {
-                  role: "assistant",
-                  content: "Thinking...",
-                },
-                content: (
-                  <p>
-                    Even though your browser is Chrome, it currently does not
-                    support AI, but you can start using it if you upgrade to
-                    Chrome 127 or greater.
-                  </p>
-                ),
-                isWarning: true,
-                timestamp: new Date(),
-              });
-              console.log("LanguageModel object is available");
-              // The LanguageModel object is available
-              const languageModel = window.LanguageModel as
-                | LanguageModel
-                | undefined;
-              if (languageModel) {
-                // Let's query its availability
-                const availability = await languageModel.availability();
-                console.log("availability", availability);
-                if (
-                  availability === "downloadable" ||
-                  availability === "downloading"
-                ) {
-                  await saveNewMessage({
-                    id: messageId,
-                    message: {
-                      role: "assistant",
-                      content: "Thinking...",
-                    },
-                    content: (
-                      <div>
-                        <p>
-                          {availability === "downloadable"
-                            ? "Your browser currently does not support AI, but you can start using it if you download it:"
-                            : availability === "downloading"
-                            ? "Downloading the model..."
-                            : null}
-                        </p>
-                        <DownloadAILanguageModel />
-                      </div>
-                    ),
-                    isWarning: true,
-                    timestamp: new Date(),
-                  });
-                  return;
-                }
-              }
             }
           }
         } else {

@@ -9,16 +9,16 @@ import { ResourceRef } from "@/utils";
 
 
 export const getHolidaysForDateRange = async (
-  userRef: ResourceRef,
+  userReference: ResourceRef,
   startDate: DayDate,
   endDate: DayDate
 ): Promise<Record<string, string>> => {
   // get user country and region
   const locationSettings = await getEntitySettings<"location">(
-    userRef,
+    userReference,
     "location"
   );
-  if (locationSettings == null) {
+  if (locationSettings == undefined) {
     throw notFound(i18n._("User location settings not found"));
   }
   const { country, region } = locationSettings;

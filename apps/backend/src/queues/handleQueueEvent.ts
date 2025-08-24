@@ -13,9 +13,9 @@ export const handleQueueEvent = async <T extends object>(
         try {
           handler(payload)
             .then((result) => resolve(result))
-            .catch((err) => {
-              console.error("Error processing event", payload, err);
-              reject(err);
+            .catch((error) => {
+              console.error("Error processing event", payload, error);
+              reject(error);
             });
         } catch (error) {
           console.error("Error processing event", payload, error);

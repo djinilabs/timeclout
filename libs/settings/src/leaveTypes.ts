@@ -36,8 +36,8 @@ export const leaveTypeParser = {
   parse: (item: unknown): LeaveTypes => {
     try {
       return leaveTypesSchema.parse(item);
-    } catch (err) {
-      throw new Error(`Error parsing leave type: ${err.message}`);
+    } catch (error) {
+      throw new Error(`Error parsing leave type: ${error.message}`);
     }
   },
 };

@@ -9,7 +9,7 @@ const getColorAndBackground = (md5?: string | null) => {
   }
   const matches = md5.match(/.{2}/g)!;
 
-  const [red, green, blue] = matches.map((hex) => parseInt(hex, 16));
+  const [red, green, blue] = matches.map((hex) => Number.parseInt(hex, 16));
 
   const luminance = (red * 0.299 + green * 0.587 + blue * 0.114) / 255;
 
@@ -21,14 +21,14 @@ const getColorAndBackground = (md5?: string | null) => {
   };
 };
 
-export interface ColorLabelProps {
+export interface ColorLabelProperties {
   randomString: string;
   label: ReactNode;
   size?: number;
   ariaLabel?: string;
 }
 
-export const ColorLabel: FC<ColorLabelProps> = memo(
+export const ColorLabel: FC<ColorLabelProperties> = memo(
   ({ randomString, label, size = 30, ariaLabel }) => {
     const dimensions = {
       width: `${size}px`,

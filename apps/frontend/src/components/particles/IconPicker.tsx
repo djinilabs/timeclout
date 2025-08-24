@@ -2,11 +2,11 @@ import { FC, memo } from "react";
 
 import { leaveTypeIcons } from "../../settings/leaveTypes";
 
-export interface IconPickerProps {
+export interface IconPickerProperties {
   value?: string;
   onChange: (value: keyof typeof leaveTypeIcons) => void;
 }
-export const IconPicker: FC<IconPickerProps> = memo(({ value, onChange }) => {
+export const IconPicker: FC<IconPickerProperties> = memo(({ value, onChange }) => {
   return (
     <div
       className="w-full"

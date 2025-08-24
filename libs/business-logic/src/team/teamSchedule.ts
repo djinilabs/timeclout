@@ -13,31 +13,31 @@ export interface TeamScheduleOptions {
 }
 
 export const teamSchedule = async (
-  companyRef: ResourceRef<"companies">,
-  teamRef: ResourceRef<"teams">,
+  companyReference: ResourceRef<"companies">,
+  teamReference: ResourceRef<"teams">,
   startDate: DayDate,
   endDate: DayDate,
   options?: TeamScheduleOptions
 ) => {
   const { entity } = await database();
-  const memberRefs = await teamMembers(teamRef);
+  const memberReferences = await teamMembers(teamReference);
   const userSchedules = await Promise.all(
-    memberRefs.map(async (memberRef) => {
+    memberReferences.map(async (memberReference) => {
       const leaves = await getLeavesForDateRange(
-        companyRef,
-        memberRef,
+        companyReference,
+        memberReference,
         startDate,
         endDate
       );
       const leaveRequests = await getLeaveRequestsForDateRange(
-        companyRef,
-        memberRef,
+        companyReference,
+        memberReference,
         startDate,
         endDate,
         options
       );
       return {
-        user: await entity.get(memberRef),
+        user: await entity.get(memberReference),
         startDate,
         endDate,
         leaves,
@@ -47,7 +47,7 @@ export const teamSchedule = async (
   );
 
   return {
-    team: getDefined(await entity.get(teamRef)),
+    team: getDefined(await entity.get(teamReference)),
     startDate,
     endDate,
     userSchedules: userSchedules

@@ -14,7 +14,7 @@ const MyLeaveRequests = () => {
   }>({
     query: myLeaveRequestsQuery,
     variables: { companyPk: company },
-    pollingIntervalMs: 10000,
+    pollingIntervalMs: 10_000,
   });
   const myLeaveRequests = myLeaveRequestResult.data?.myLeaveRequests;
   return <LeaveRequests leaveRequests={myLeaveRequests} showState />;

@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 
-export interface UseKeysNavigationProps {
+export interface UseKeysNavigationProperties {
   onUp: () => void;
   onDown: () => void;
   onLeft: () => void;
@@ -12,7 +12,7 @@ export const useKeysNavigation = ({
   onDown,
   onLeft,
   onRight,
-}: UseKeysNavigationProps) => {
+}: UseKeysNavigationProperties) => {
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === "ArrowUp") {
@@ -32,7 +32,7 @@ export const useKeysNavigation = ({
   );
 
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    globalThis.addEventListener("keydown", handleKeyDown);
+    return () => globalThis.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 };

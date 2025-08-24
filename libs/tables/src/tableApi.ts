@@ -35,9 +35,9 @@ const parsingItem =
   (item: unknown, operation: string): T => {
     try {
       return clean(schema.parse(item));
-    } catch (err) {
-      err.message = `Error parsing item when ${operation} in ${tableName}: ${err.message}`;
-      throw err;
+    } catch (error) {
+      error.message = `Error parsing item when ${operation} in ${tableName}: ${error.message}`;
+      throw error;
     }
   };
 
@@ -78,11 +78,11 @@ const getVersion = <
   if (userVersionMeta.deleted) {
     return { item: undefined, isUnpublished: true };
   }
-  const userVersionProps = userVersionMeta.newProps;
+  const userVersionProperties = userVersionMeta.newProps;
   return {
     item: {
       ...keySubset(item),
-      ...userVersionProps,
+      ...userVersionProperties,
       userVersion: version,
     } as T,
     isUnpublished: true,
@@ -212,9 +212,9 @@ export const tableApi = <
         }
         await lowLevelTable.delete(sk ? { pk, sk } : { pk });
         return item;
-      } catch (err) {
-        console.error("Error deleting item", tableName, pk, sk, err);
-        throw err;
+      } catch (error) {
+        console.error("Error deleting item", tableName, pk, sk, error);
+        throw error;
       }
     },
 
@@ -229,19 +229,18 @@ export const tableApi = <
       // console.info("deleteAll", { pk, version });
       try {
         console.debug("deleteAll:Going to get all items", tableName, { pk });
-        const items = (
-          await lowLevelTable.query({
-            KeyConditionExpression: "pk = :pk",
-            ExpressionAttributeValues: { ":pk": pk },
-          })
-        ).Items;
+        const result = await lowLevelTable.query({
+          KeyConditionExpression: "pk = :pk",
+          ExpressionAttributeValues: { ":pk": pk },
+        });
+        const items = result.Items;
 
         await Promise.all(
           items.map((item) => self.delete(item.pk, item.sk, version))
         );
-      } catch (err) {
-        console.error("Error deleting all items", tableName, pk, err);
-        throw err;
+      } catch (error) {
+        console.error("Error deleting all items", tableName, pk, error);
+        throw error;
       }
     },
 
@@ -259,12 +258,12 @@ export const tableApi = <
       try {
         const item = await self.get(pk, sk, version);
         if (!item) {
-          return undefined;
+          return;
         }
         return await self.delete(pk, sk, version);
-      } catch (err) {
-        console.error("Error deleting item", tableName, pk, sk, err);
-        throw err;
+      } catch (error) {
+        console.error("Error deleting item", tableName, pk, sk, error);
+        throw error;
       }
     },
 
@@ -280,12 +279,12 @@ export const tableApi = <
     get: async (pk: string, sk?: string, version?: string) => {
       // console.info("get", { pk, sk, version });
       try {
-        const args = keySubset({ pk, sk });
-        const item = schema.optional().parse(await lowLevelTable.get(args));
+        const arguments_ = keySubset({ pk, sk });
+        const item = schema.optional().parse(await lowLevelTable.get(arguments_));
         return getVersion(item, version).item;
-      } catch (err) {
-        console.error("Error getting item", tableName, pk, sk, err);
-        throw err;
+      } catch (error) {
+        console.error("Error getting item", tableName, pk, sk, error);
+        throw error;
       }
     },
 
@@ -303,21 +302,18 @@ export const tableApi = <
         return [];
       }
       try {
-        const items = getDefined(
-          (
-            await lowLevelClient.BatchGetItem({
-              RequestItems: {
-                [lowLevelTableName]: { Keys: keys.map((key) => ({ pk: key })) },
-              },
-            })
-          ).Responses
-        )[lowLevelTableName];
+        const result = await lowLevelClient.BatchGetItem({
+          RequestItems: {
+            [lowLevelTableName]: { Keys: keys.map((key) => ({ pk: key })) },
+          },
+        });
+        const items = getDefined(result.Responses)[lowLevelTableName];
         return items
           .map((item) => getVersion(parseItem(item, "batchGet"), version).item)
           .filter(Boolean) as TTableRecord[];
-      } catch (err) {
-        console.error("Error batch getting items", tableName, keys, err);
-        throw err;
+      } catch (error) {
+        console.error("Error batch getting items", tableName, keys, error);
+        throw error;
       }
     },
 
@@ -377,14 +373,14 @@ export const tableApi = <
           ExpressionAttributeNames: { "#version": "version" },
         });
         return newItem;
-      } catch (err: unknown) {
+      } catch (error: unknown) {
         if (
-          err instanceof Error &&
-          err.message.toLowerCase().includes("conditional request failed")
+          error instanceof Error &&
+          error.message.toLowerCase().includes("conditional request failed")
         ) {
           throw conflict("Item was outdated");
         }
-        throw err;
+        throw error;
       }
     },
 
@@ -463,14 +459,14 @@ export const tableApi = <
           ConditionExpression: "attribute_not_exists(pk)",
         });
         return parsedItem as TTableRecord;
-      } catch (err: unknown) {
+      } catch (error: unknown) {
         if (
-          err instanceof Error &&
-          err.message.toLowerCase().includes("conditional request failed")
+          error instanceof Error &&
+          error.message.toLowerCase().includes("conditional request failed")
         ) {
           throw conflict("Item already exists");
         }
-        throw err;
+        throw error;
       }
     },
 
@@ -516,9 +512,9 @@ export const tableApi = <
           "version",
         ]) as TTableRecord;
         return self.create(rest, version);
-      } catch (err) {
-        console.error("Error upserting item", tableName, item, err);
-        throw err;
+      } catch (error) {
+        console.error("Error upserting item", tableName, item, error);
+        throw error;
       }
     },
 
@@ -534,7 +530,7 @@ export const tableApi = <
       // console.info("query", { query, version });
       try {
         let items: TTableRecord[] = [];
-        let lastEvaluatedKey: Record<string, unknown> | undefined = undefined;
+        let lastEvaluatedKey: Record<string, unknown> | undefined;
 
         // Handle pagination by continuing to query until no more results
         do {
@@ -561,10 +557,10 @@ export const tableApi = <
             .filter(Boolean) as TTableRecord[],
           areAnyUnpublished: versionedItems.some((item) => item.isUnpublished),
         };
-      } catch (err) {
-        console.error("Error querying table", tableName, query, err);
-        err.message = `Error querying table ${tableName}: ${err.message}`;
-        throw err;
+      } catch (error) {
+        console.error("Error querying table", tableName, query, error);
+        error.message = `Error querying table ${tableName}: ${error.message}`;
+        throw error;
       }
     },
 

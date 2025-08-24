@@ -13,31 +13,30 @@ import { getDefined, getResourceRef } from "@/utils";
 
 export const invitation: NonNullable<QueryResolvers['invitation']> = async (
   _parent,
-  _arg,
-  ctx
+  _argument,
+  context
 ) => {
   const { invitation } = await database();
   const { items: invitations } = await invitation.query({
     IndexName: "bySecret",
     KeyConditionExpression: "secret = :secret",
     ExpressionAttributeValues: {
-      ":secret": _arg.secret,
+      ":secret": _argument.secret,
     },
   });
   if (invitations.length === 0) {
     throw notFound("Invitation not found");
   }
   const invitationToGet = getDefined(invitations[0]);
-  const user = await requireSession(ctx);
+  const user = await requireSession(context);
+  const authResult = await isAuthorized(
+    context,
+    getResourceRef(invitationToGet.sk),
+    PERMISSION_LEVELS.READ
+  );
   if (
     user.user?.email === invitationToGet.sk ||
-    (
-      await isAuthorized(
-        ctx,
-        getResourceRef(invitationToGet.sk),
-        PERMISSION_LEVELS.READ
-      )
-    )[0]
+    authResult[0]
   ) {
     return invitationToGet as unknown as ResolversTypes["Invitation"];
   }

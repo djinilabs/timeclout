@@ -12,7 +12,7 @@ import { LeaveDay } from "../types";
 
 import { TimeOffCalendarDay } from "./TimeOffCalendarDay";
 
-export interface YearCalendarProps {
+export interface YearCalendarProperties {
   year: number;
   goToYear: (year: number) => void;
   bookTimeOff: () => void;
@@ -27,7 +27,7 @@ export const TimeOffYearCalendar = memo(
     bookTimeOff,
     calendarDateMap,
     holidays,
-  }: YearCalendarProps) => {
+  }: YearCalendarProperties) => {
     const months = useMemo(() => generateYearMonthsDays(year), [year]);
     const [hoveringDay, setHoveringDay] = useState<string | null>(null);
     return (
@@ -154,14 +154,14 @@ export const TimeOffYearCalendar = memo(
                   </div>
                 </div>
                 <div className="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm ring-1 shadow-xs ring-gray-200">
-                  {month.days.map((day, dayIdx) => {
+                  {month.days.map((day, dayIndex) => {
                     const isLeave = calendarDateMap[day.date];
                     const isHovering = hoveringDay === day.date;
                     return (
                       <TimeOffCalendarDay
                         key={day.date}
                         day={day}
-                        dayIdx={dayIdx}
+                        dayIdx={dayIndex}
                         month={month}
                         isLeave={isLeave}
                         isHovering={isHovering}

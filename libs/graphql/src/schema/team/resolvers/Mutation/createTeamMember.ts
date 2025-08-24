@@ -17,11 +17,11 @@ import { getDefined, resourceRef } from "@/utils";
 
 export const createTeamMember: NonNullable<
   MutationResolvers["createTeamMember"]
-> = async (_parent, { input }, ctx) => {
-  const teamRef = resourceRef("teams", input.teamPk);
+> = async (_parent, { input }, context) => {
+  const teamReference = resourceRef("teams", input.teamPk);
   // ensure user has write access to team
-  await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
-  const session = await requireSession(ctx);
+  await ensureAuthorized(context, teamReference, PERMISSION_LEVELS.WRITE);
+  const session = await requireSession(context);
   const createdByPk = session.user?.id;
   if (!createdByPk) {
     throw notFound("User not found");
@@ -30,23 +30,24 @@ export const createTeamMember: NonNullable<
 
   const { entity } = await database();
 
-  const team = await entity.get(teamRef);
+  const team = await entity.get(teamReference);
   if (!team) {
     throw notFound("Team not found");
   }
 
   const tables = await database();
   let userPk;
-  const authUser = (
-    await tables["next-auth"].query({
-      KeyConditionExpression: "pk = :pk and sk = :sk",
-      ExpressionAttributeValues: {
-        ":pk": `USER#${input.email}`,
-        ":sk": `USER#${input.email}`,
-      },
-    })
-  ).items[0];
-  if (!authUser) {
+  const authResult = await tables["next-auth"].query({
+    KeyConditionExpression: "pk = :pk and sk = :sk",
+    ExpressionAttributeValues: {
+      ":pk": `USER#${input.email}`,
+      ":sk": `USER#${input.email}`,
+    },
+  });
+  const authUser = authResult.items[0];
+  if (authUser) {
+    userPk = authUser.id;
+  } else {
     userPk = nanoid();
     await tables["next-auth"].create({
       pk: `USER#${input.email}`,
@@ -56,24 +57,22 @@ export const createTeamMember: NonNullable<
       id: userPk,
       createdBy,
     });
-  } else {
-    userPk = authUser.id;
   }
 
-  const userRef = resourceRef("users", userPk);
+  const userReference = resourceRef("users", userPk);
 
   const userHasAccessToTeam = await getUserAuthorizationLevelForResource(
     resourceRef("teams", team.pk),
-    userRef
+    userReference
   );
   if (userHasAccessToTeam) {
     throw conflict("User already is a member of the team");
   }
 
-  let systemUser = await tables.entity.get(userRef);
+  let systemUser = await tables.entity.get(userReference);
   if (!systemUser) {
     systemUser = {
-      pk: userRef,
+      pk: userReference,
       name: input.name,
       email: input.email,
       createdBy,
@@ -102,7 +101,7 @@ export const createTeamMember: NonNullable<
   // ensure user has permissions to the company
   await ensureAuthorization(
     company.pk,
-    userRef,
+    userReference,
     PERMISSION_LEVELS.READ,
     createdBy
   );
@@ -110,7 +109,7 @@ export const createTeamMember: NonNullable<
   // ensure user has permissions to the unit
   await ensureAuthorization(
     unit.pk,
-    userRef,
+    userReference,
     PERMISSION_LEVELS.READ,
     createdBy,
     company.pk
@@ -119,7 +118,7 @@ export const createTeamMember: NonNullable<
   // ensure user has permissions to the team
   await ensureAuthorization(
     team.pk,
-    userRef,
+    userReference,
     input.permission,
     createdBy,
     unit.pk

@@ -8,11 +8,11 @@ import {
 
 import { Loading } from "../particles/Loading";
 
-export interface SuspenseProps extends PropsWithChildren {
+export interface SuspenseProperties extends PropsWithChildren {
   fallback?: ReactNode;
 }
 
-export const Suspense: FC<SuspenseProps> = memo(
+export const Suspense: FC<SuspenseProperties> = memo(
   ({ fallback = <Loading />, children }) => (
     <ReactSuspense fallback={fallback}>{children}</ReactSuspense>
   )

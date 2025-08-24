@@ -8,7 +8,7 @@ import { Avatar } from "../particles/Avatar";
 
 import { DayDate } from "@/day-date";
 
-export interface TeamShiftsSummaryProps {
+export interface TeamShiftsSummaryProperties {
   year: number;
   month: number;
   goTo?: (year: number, month: number) => void;
@@ -22,8 +22,8 @@ interface Summary {
   >;
 }
 
-export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
-  const { year, month, shiftPositionsMap: shiftsPerDay } = props;
+export const TeamShiftsSummary: FC<TeamShiftsSummaryProperties> = (properties) => {
+  const { year, month, shiftPositionsMap: shiftsPerDay } = properties;
   const summary: Summary = useMemo(() => {
     // here we need to group the shifts by day, and then organize them
     // into columns based on the shift length (in hours)
@@ -41,7 +41,7 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
         }
         const shiftLengthInMinutes =
           toMinutes(
-            shift.schedules[shift.schedules.length - 1].endHourMinutes as [
+            shift.schedules.at(-1).endHourMinutes as [
               number,
               number
             ]
@@ -84,7 +84,7 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
     () =>
       Array.from(
         { length: new Date(year, month + 1, 0).getDate() },
-        (_, i) => i + 1
+        (_, index) => index + 1
       ).map((dayofTheMonth) => dayofTheMonth.toString()),
     [year, month]
   );
@@ -183,7 +183,7 @@ export const TeamShiftsSummary: FC<TeamShiftsSummaryProps> = (props) => {
                 ) : (
                   <td
                     colSpan={lengths.reduce(
-                      (acc, length) => acc + lengthsMaxPopulation[length],
+                      (accumulator, length) => accumulator + lengthsMaxPopulation[length],
                       0
                     )}
                     className={`border border-gray-200 ${

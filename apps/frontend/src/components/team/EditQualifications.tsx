@@ -10,13 +10,13 @@ import { Button } from "../particles/Button";
 import { Qualifications } from "@/settings";
 import { unique } from "@/utils";
 
-export interface EditQualificationsProps {
+export interface EditQualificationsProperties {
   qualificationSettings: Qualifications;
   qualifications: string[];
   onChange: (qualifications: string[]) => void;
 }
 
-export const EditQualifications: FC<EditQualificationsProps> = ({
+export const EditQualifications: FC<EditQualificationsProperties> = ({
   qualificationSettings,
   qualifications,
   onChange,
@@ -132,7 +132,7 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
                 d="M12 4.5v15m7.5-7.5h-15"
               />
             </svg>
-            {badges.length == 0 ? (
+            {badges.length === 0 ? (
               <span className="text-xs">
                 <Trans>Add qualification</Trans>
               </span>
@@ -155,9 +155,9 @@ export const EditQualifications: FC<EditQualificationsProps> = ({
                   >
                     <button
                       type="button"
-                      onClick={(ev) => {
+                      onClick={(event_) => {
                         console.log("clicked add button");
-                        ev.stopPropagation();
+                        event_.stopPropagation();
                         setIsMenuOpen(false);
                         addQualification(qualification.name);
                       }}

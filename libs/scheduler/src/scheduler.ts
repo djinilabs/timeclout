@@ -50,8 +50,8 @@ export interface SchedulerOptions {
 }
 
 const hex = (uint8: Uint8Array) => {
-  return Array.from(uint8)
-    .map((i) => i.toString(16).padStart(2, "0"))
+  return [...uint8]
+    .map((index) => index.toString(16).padStart(2, "0"))
     .join("");
 };
 
@@ -142,9 +142,9 @@ export class Scheduler {
           .sort(sortByScore)
           .slice(0, this.options.keepTopSolutionsCount);
       }
-    } catch (err) {
+    } catch (error) {
       // console.error(err);
-      const reason = `Error: ${(err as Error).message}`;
+      const reason = `Error: ${(error as Error).message}`;
       this.discardedReasons.set(
         reason,
         (this.discardedReasons.get(reason) ?? 0) + 1
@@ -178,12 +178,10 @@ export class Scheduler {
     this._stop = false;
     while (!this._stop) {
       await this.cycle();
-      if (this.cycleCount % 10 === 0) {
-        if (this.timeSinceLastBreak() > 1000) {
+      if (this.cycleCount % 10 === 0 && this.timeSinceLastBreak() > 1000) {
           this.lastBreaks = Date.now();
           await timeout(20);
         }
-      }
     }
   }
 

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import type {
   Company,
   Query,
-  QueryCompanyArgs,
+  QueryCompanyArgs as QueryCompanyArguments,
   Team,
   Unit,
 } from "../graphql/graphql";
@@ -38,7 +38,7 @@ export const EntityNavigationContextProvider = ({
 
   const [queryResponse, refetchCompany] = useQuery<
     { company: Query["company"] },
-    QueryCompanyArgs
+    QueryCompanyArguments
   >({
     query: companyQuery,
     variables: {

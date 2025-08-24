@@ -9,17 +9,17 @@ import { resourceRef } from "@/utils";
 
 export const deleteTeam: NonNullable<MutationResolvers["deleteTeam"]> = async (
   _parent,
-  _arg,
-  _ctx
+  _argument,
+  _context
 ) => {
-  const teamRef = resourceRef("teams", _arg.pk);
-  await ensureAuthorized(_ctx, teamRef, PERMISSION_LEVELS.OWNER);
+  const teamReference = resourceRef("teams", _argument.pk);
+  await ensureAuthorized(_context, teamReference, PERMISSION_LEVELS.OWNER);
   const { entity, permission } = await database();
-  const team = await entity.get(teamRef);
+  const team = await entity.get(teamReference);
   if (!team) {
     throw notFound("Team with pk ${_arg.pk} not found");
   }
-  await entity.delete(teamRef);
-  await permission.deleteAll(teamRef);
+  await entity.delete(teamReference);
+  await permission.deleteAll(teamReference);
   return team as unknown as Team;
 };

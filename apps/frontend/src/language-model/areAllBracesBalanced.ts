@@ -2,13 +2,13 @@ export const areAllBracesBalanced = (content: string) => {
   const stack: string[] = [];
   for (const char of content) {
     if (char === '"') {
-      if (stack.length > 0 && stack[stack.length - 1] === '"') {
+      if (stack.length > 0 && stack.at(-1) === '"') {
         stack.pop();
       } else {
         stack.push(char);
       }
     } else {
-      if (stack.length > 0 && stack[stack.length - 1] === '"') {
+      if (stack.length > 0 && stack.at(-1) === '"') {
         // inside a string, ignore braces
         continue;
       }

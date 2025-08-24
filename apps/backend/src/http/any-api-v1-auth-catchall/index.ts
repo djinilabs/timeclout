@@ -23,7 +23,7 @@ const createHandler = async (): Promise<APIGatewayProxyHandlerV2> => {
   return handler;
 };
 
-export const handler: APIGatewayProxyHandlerV2 = async (...args) => {
+export const handler: APIGatewayProxyHandlerV2 = async (...arguments_) => {
   const h: APIGatewayProxyHandlerV2 = await createHandler();
-  return h(...args) as Promise<APIGatewayProxyResultV2>;
+  return h(...arguments_) as Promise<APIGatewayProxyResultV2>;
 };

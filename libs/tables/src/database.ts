@@ -9,9 +9,7 @@ export const database = once(async (): Promise<DatabaseSchema> => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const client = await tables();
-  const existingTables = Array.from(
-    Object.entries(await client.reflect())
-  ) as Array<[TableName, string]>;
+  const existingTables = [...Object.entries(await client.reflect())] as Array<[TableName, string]>;
   const lowLevelClient = client._client;
   return Object.fromEntries(
     existingTables.map(([tableName, lowLevelTableName]) => {

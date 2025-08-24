@@ -52,10 +52,10 @@ const detectLocale = () => {
   }
   // then, try to load preference from browser
   for (const language of navigator.languages) {
-    const localeStr = language.split("-")[0];
-    if (Object.keys(locales).includes(localeStr)) {
-      console.log("detected locale", localeStr);
-      return localeStr;
+    const localeString = language.split("-")[0];
+    if (Object.keys(locales).includes(localeString)) {
+      console.log("detected locale", localeString);
+      return localeString;
     }
   }
   return null;

@@ -10,9 +10,11 @@ export const getCompanyPksTheUserManages = async (
   console.log("unitPks", unitPks);
 
   const { entity } = await database();
-  return (
-    await Promise.all(
-      unitPks.map(async (unitPk) => (await entity.get(unitPk))?.parentPk)
-    )
-  ).map((r) => getResourceRef(getDefined(r)));
+  const unitResults = await Promise.all(
+    unitPks.map(async (unitPk) => {
+      const unit = await entity.get(unitPk);
+      return unit?.parentPk;
+    })
+  );
+  return unitResults.map((r) => getResourceRef(getDefined(r)));
 };

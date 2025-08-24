@@ -6,7 +6,7 @@ import { LeaveRequest } from "../atoms/LeaveRequest";
 import { Popover } from "../particles/Popover";
 import { type LeaveDay } from "../types";
 
-interface TimeOffCalendarDayProps {
+interface TimeOffCalendarDayProperties {
   day: Day;
   dayIdx: number;
   month: Month;
@@ -16,7 +16,7 @@ interface TimeOffCalendarDayProps {
   holiday: string | undefined;
 }
 
-export const TimeOffCalendarDay: FC<TimeOffCalendarDayProps> = memo(
+export const TimeOffCalendarDay: FC<TimeOffCalendarDayProperties> = memo(
   ({ day, dayIdx, month, isLeave, isHovering, setHoveringDay, holiday }) => {
     const [referenceElement, setReferenceElement] =
       useState<HTMLElement | null>(null);
@@ -53,9 +53,9 @@ export const TimeOffCalendarDay: FC<TimeOffCalendarDayProps> = memo(
             "mx-auto flex size-7 items-center justify-center rounded-full",
             isLeave && !isLeave?.leaveRequest?.approved
               ? "opacity-50"
-              : holiday
+              : (holiday
               ? "bg-red-500 text-white"
-              : ""
+              : "")
           )}
           style={
             isLeave

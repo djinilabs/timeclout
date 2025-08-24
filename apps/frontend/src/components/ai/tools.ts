@@ -8,10 +8,10 @@ import { AccessibleElement } from "../../accessibility/types";
 
 import { timeout } from "@/utils";
 
-const clickableRoles = ["button", "link", "checkbox", "radio", "combobox"];
+const clickableRoles = new Set(["button", "link", "checkbox", "radio", "combobox"]);
 const isElementClickable = (element: AccessibleElement) => {
   return (
-    !!element.attributes.clickable || clickableRoles.includes(element.role)
+    !!element.attributes.clickable || clickableRoles.has(element.role)
   );
 };
 
@@ -87,9 +87,9 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
         return { success: true };
       }
       console.log(
-        "Element with the following role and description not found: role: ",
+        "Element with the following role and description not found: role:",
         role,
-        "description: ",
+        "description:",
         description
       );
       return {
@@ -117,9 +117,9 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
 
       if (!element) {
         console.log(
-          "Element with the following role and description not found: role: ",
+          "Element with the following role and description not found: role:",
           role,
-          "description: ",
+          "description:",
           description
         );
         return {

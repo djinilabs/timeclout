@@ -7,7 +7,7 @@ import { Suspense } from "../atoms/Suspense";
 
 import { UnassignShiftPositions } from "./UnassignShiftPositions";
 
-export interface UnassignShiftPositionsDialogProps {
+export interface UnassignShiftPositionsDialogProperties {
   isDialogOpen: boolean;
   onClose: () => void;
   isHelpPanelOpen: boolean;
@@ -21,7 +21,7 @@ export const UnassignShiftPositionsDialog = ({
   isHelpPanelOpen,
   teamPk,
   setHelpPanelOpen,
-}: UnassignShiftPositionsDialogProps) => {
+}: UnassignShiftPositionsDialogProperties) => {
   return (
     <Dialog
       open={isDialogOpen}

@@ -8,10 +8,10 @@ import { database } from "@/tables";
 
 export const deleteLeave: NonNullable<
   MutationResolvers["deleteLeave"]
-> = async (_parent, _arg, _ctx) => {
-  const user = await requireSession(_ctx);
+> = async (_parent, _argument, _context) => {
+  const user = await requireSession(_context);
   const { leave } = await database();
-  const leaveToDelete = await leave.get(_arg.input.pk);
+  const leaveToDelete = await leave.get(_argument.input.pk);
   if (!leaveToDelete) {
     throw notFound(i18n._("Leave not found"));
   }

@@ -74,7 +74,7 @@ export class UserManagement {
    */
   async waitForMagicLink(
     user: TestUser,
-    timeout: number = 120000
+    timeout: number = 120_000
   ): Promise<string> {
     console.log(`Fetching magic link email from Testmail for: ${user.email}`);
 
@@ -118,7 +118,7 @@ export class UserManagement {
       console.log("On auth callback URL, waiting for redirect...");
       // Wait for redirect to complete
       await this.page.waitForURL(/^(?!.*\/api\/v1\/auth\/callback)/, {
-        timeout: 15000,
+        timeout: 15_000,
       });
       await this.page.waitForLoadState("load");
       // Wait for any dynamic content to settle
@@ -154,7 +154,7 @@ export class UserManagement {
 
     // Wait for the button to be visible with a longer timeout
     try {
-      await termsButton.waitFor({ state: "visible", timeout: 15000 });
+      await termsButton.waitFor({ state: "visible", timeout: 15_000 });
       console.log("✅ Found terms acceptance button");
       await termsButton.click();
       console.log("✅ Clicked terms acceptance button");
@@ -202,7 +202,7 @@ export class UserManagement {
     // Wait for the input to be visible with a longer timeout
     if (
       await nameInput
-        .waitFor({ state: "visible", timeout: 10000 })
+        .waitFor({ state: "visible", timeout: 10_000 })
         .catch(() => false)
     ) {
       console.log("✅ Found professional name input");
@@ -282,7 +282,10 @@ export class UserManagement {
       );
 
       // If that's not visible, try looking for the email in the menu items
-      if (!(await userNameSpan.isVisible())) {
+      if (await userNameSpan.isVisible()) {
+        console.log("✅ User name span found and visible");
+        return;
+      } else {
         console.log("User name span not visible, checking menu items...");
 
         // Look for the Profile menu item in the dropdown (more specific selector)
@@ -300,9 +303,6 @@ export class UserManagement {
           console.log("✅ User email found on page, user is authenticated");
           return;
         }
-      } else {
-        console.log("✅ User name span found and visible");
-        return;
       }
     } else {
       // If user menu button is not visible, check if we're on a profile completion page
@@ -345,7 +345,7 @@ export class UserManagement {
     user: TestUser,
     options: LoginOptions = {}
   ): Promise<void> {
-    const { waitForEmailTimeout = 120000 } = options;
+    const { waitForEmailTimeout = 120_000 } = options;
 
     try {
       // Step 1: Initiate magic link login

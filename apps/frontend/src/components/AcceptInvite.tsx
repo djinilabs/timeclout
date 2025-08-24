@@ -6,9 +6,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
   Mutation,
-  MutationAcceptInvitationArgs,
+  MutationAcceptInvitationArgs as MutationAcceptInvitationArguments,
   Query,
-  QueryInvitationArgs,
+  QueryInvitationArgs as QueryInvitationArguments,
 } from "../graphql/graphql";
 import { useMutation } from "../hooks/useMutation";
 import { useQuery } from "../hooks/useQuery";
@@ -25,26 +25,26 @@ import { getDefined } from "@/utils";
 
 
 export const AcceptInvite: FC = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParameters] = useSearchParams();
   const navigate = useNavigate();
   const [invitationQueryResponse] = useQuery<
     { invitation: Query["invitation"] },
-    QueryInvitationArgs
+    QueryInvitationArguments
   >({
     query: invitationBySecretQuery,
     variables: {
-      secret: getDefined(searchParams.get("secret"), "No secret provided"),
+      secret: getDefined(searchParameters.get("secret"), "No secret provided"),
     },
   });
   const invitation = invitationQueryResponse?.data?.invitation;
 
   const [{ fetching }, acceptInvitation] = useMutation<
     Mutation["acceptInvitation"],
-    MutationAcceptInvitationArgs
+    MutationAcceptInvitationArguments
   >(acceptInvitationMutation);
   const handleAcceptInvitation = async () => {
     const result = await acceptInvitation({
-      secret: getDefined(searchParams.get("secret"), "No secret provided"),
+      secret: getDefined(searchParameters.get("secret"), "No secret provided"),
     });
     if (!result.error) {
       toast.success(i18n.t("Invitation accepted"));

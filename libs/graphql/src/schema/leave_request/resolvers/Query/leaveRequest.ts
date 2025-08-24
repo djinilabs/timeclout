@@ -14,12 +14,12 @@ import { getDefined, resourceRef } from "@/utils";
 
 export const leaveRequest: NonNullable<QueryResolvers["leaveRequest"]> = async (
   _parent,
-  arg,
-  ctx
+  argument,
+  context
 ) => {
-  const session = await requireSession(ctx);
+  const session = await requireSession(context);
   const { leave_request } = await database();
-  const leaveRequest = await leave_request.get(arg.pk, arg.sk);
+  const leaveRequest = await leave_request.get(argument.pk, argument.sk);
   if (!leaveRequest) {
     throw notFound(i18n._("Leave request not found"));
   }

@@ -7,7 +7,7 @@ import { Suspense } from "../components/atoms/Suspense";
 import { Tabs, type Tab } from "../components/molecules/Tabs";
 import { AllUnitTeams } from "../components/unit/AllUnitTeams";
 import { UnitSettings } from "../components/unit/UnitSettings";
-import { Query, QueryUnitArgs } from "../graphql/graphql";
+import { Query, QueryUnitArgs as QueryUnitArguments } from "../graphql/graphql";
 import { useQuery } from "../hooks/useQuery";
 
 import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
@@ -15,7 +15,7 @@ import { getDefined } from "@/utils";
 
 export const PageUnit = () => {
   const { unit: unitPk } = useParams();
-  const [queryResponse] = useQuery<{ unit: Query["unit"] }, QueryUnitArgs>({
+  const [queryResponse] = useQuery<{ unit: Query["unit"] }, QueryUnitArguments>({
     query: unitQuery,
     variables: {
       unitPk: getDefined(unitPk, "No unit provided"),

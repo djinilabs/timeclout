@@ -13,10 +13,10 @@ export interface AdditionalClientOptions {
   additionalExchanges?: Exchange[];
 }
 
-const defaultClientOpts = ({
+const defaultClientOptions = ({
   additionalExchanges = [],
 }: AdditionalClientOptions = {}): ClientOptions => ({
-  url: new URL(`/graphql`, window.location.origin).toString(),
+  url: new URL(`/graphql`, globalThis.location.origin).toString(),
   fetchOptions: {
     credentials: "same-origin",
     headers: {},
@@ -31,7 +31,7 @@ const defaultClientOpts = ({
         User: (u: Data) => u.pk as string,
         Unit: (u: Data) => u.pk as string,
         Team: (t: Data) => t.pk as string,
-        Invitation: (i: Data) => `${i.pk}:${i.email}`,
+        Invitation: (index: Data) => `${index.pk}:${index.email}`,
         Leave: (l: Data) => `${l.pk}:${l.sk}`,
         LeaveRequest: (l: Data) => `${l.pk}:${l.sk}`,
         Calendar: (c: Data) => c.year?.toString() ?? "",
@@ -48,10 +48,10 @@ const defaultClientOpts = ({
       },
       updates: {
         Mutation: {
-          deleteShiftPosition: (result, _args, cache) => {
+          deleteShiftPosition: (result, _arguments, cache) => {
             cache.invalidate(result.deleteShiftPosition as Entity);
           },
-          createUnit: (result, _args, cache) => {
+          createUnit: (result, _arguments, cache) => {
             // Invalidate the units query to refresh the units list
             cache.invalidate("Query", "units");
             // Also invalidate the company query to refresh the company's units
@@ -68,7 +68,7 @@ const defaultClientOpts = ({
               cache.invalidate("Company", createUnitResult.companyPk as string);
             }
           },
-          updateUnit: (result, _args, cache) => {
+          updateUnit: (result, _arguments, cache) => {
             // Invalidate the units query to refresh the units list
             cache.invalidate("Query", "units");
             // Also invalidate the specific unit
@@ -81,7 +81,7 @@ const defaultClientOpts = ({
               cache.invalidate("Unit", updateUnitResult.pk as string);
             }
           },
-          deleteUnit: (result, _args, cache) => {
+          deleteUnit: (result, _arguments, cache) => {
             // Invalidate the units query to refresh the units list
             cache.invalidate("Query", "units");
             // Also invalidate the company query to refresh the company's units
@@ -94,7 +94,7 @@ const defaultClientOpts = ({
               cache.invalidate("Company", deleteUnitResult.companyPk as string);
             }
           },
-          createTeam: (result, _args, cache) => {
+          createTeam: (result, _arguments, cache) => {
             // Invalidate the teams query to refresh the teams list
             cache.invalidate("Query", "allTeams");
             // Also invalidate the unit query to refresh the unit's teams
@@ -107,7 +107,7 @@ const defaultClientOpts = ({
               cache.invalidate("Unit", createTeamResult.pk as string);
             }
           },
-          updateTeam: (result, _args, cache) => {
+          updateTeam: (result, _arguments, cache) => {
             // Invalidate the teams query to refresh the teams list
             cache.invalidate("Query", "allTeams");
             // Also invalidate the specific team
@@ -120,7 +120,7 @@ const defaultClientOpts = ({
               cache.invalidate("Team", updateTeamResult.pk as string);
             }
           },
-          deleteTeam: (result, _args, cache) => {
+          deleteTeam: (result, _arguments, cache) => {
             // Invalidate the teams query to refresh the teams list
             cache.invalidate("Query", "allTeams");
             // Also invalidate the unit query to refresh the unit's teams
@@ -133,11 +133,11 @@ const defaultClientOpts = ({
               cache.invalidate("Unit", deleteTeamResult.pk as string);
             }
           },
-          createCompany: (_result, _args, cache) => {
+          createCompany: (_result, _arguments, cache) => {
             // Invalidate the companies query to refresh the companies list
             cache.invalidate("Query", "companies");
           },
-          updateCompany: (result, _args, cache) => {
+          updateCompany: (result, _arguments, cache) => {
             // Invalidate the companies query to refresh the companies list
             cache.invalidate("Query", "companies");
             // Also invalidate the specific company
@@ -150,7 +150,7 @@ const defaultClientOpts = ({
               cache.invalidate("Company", updateCompanyResult.pk as string);
             }
           },
-          deleteCompany: (_result, _args, cache) => {
+          deleteCompany: (_result, _arguments, cache) => {
             // Invalidate the companies query to refresh the companies list
             cache.invalidate("Query", "companies");
           },
@@ -166,7 +166,7 @@ export const clientOptions = ({
   additionalExchanges,
   ...options
 }: Partial<ClientOptions & AdditionalClientOptions>): ClientOptions =>
-  merge(defaultClientOpts({ additionalExchanges }), options);
+  merge(defaultClientOptions({ additionalExchanges }), options);
 
 export const createClient = (
   options: Partial<
@@ -175,7 +175,7 @@ export const createClient = (
 ): Client => {
   const { locale, ...restOptions } = options;
 
-  const clientOpts = clientOptions({
+  const clientOptions_ = clientOptions({
     ...restOptions,
     fetchOptions: () => {
       const baseFetchOptions =
@@ -193,5 +193,5 @@ export const createClient = (
     },
   });
 
-  return urqlCreateClient(clientOpts);
+  return urqlCreateClient(clientOptions_);
 };

@@ -5,7 +5,7 @@ import { Suspense } from "../atoms/Suspense";
 
 import { RevertShiftPositions } from "./RevertShiftPositions";
 
-export interface RevertShiftPositionsDialogProps {
+export interface RevertShiftPositionsDialogProperties {
   isDialogOpen: boolean;
   onClose: () => void;
   onRevert: () => void;
@@ -17,7 +17,7 @@ export const RevertShiftPositionsDialog = ({
   onClose,
   onRevert,
   teamPk,
-}: RevertShiftPositionsDialogProps) => {
+}: RevertShiftPositionsDialogProperties) => {
   return (
     <Dialog
       open={isDialogOpen}

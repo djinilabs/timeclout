@@ -11,10 +11,10 @@ import { resourceRef } from "@/utils";
 
 export const assignableTeamMembers: NonNullable<
   QueryResolvers["assignableTeamMembers"]
-> = async (_parent, { input }, ctx) => {
+> = async (_parent, { input }, context) => {
   const { shiftPositionPk, shiftPositionSk, teamPk } = input;
   const pk = resourceRef("teams", teamPk);
-  await ensureAuthorized(ctx, pk, PERMISSION_LEVELS.WRITE);
+  await ensureAuthorized(context, pk, PERMISSION_LEVELS.WRITE);
   const { shift_positions } = await database();
   const shiftPosition = await shift_positions.get(
     shiftPositionPk,

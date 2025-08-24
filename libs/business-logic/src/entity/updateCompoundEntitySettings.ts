@@ -2,7 +2,7 @@ import { settingsTypes } from "@/settings";
 import { database } from "@/tables";
 
 export const updateCompoundEntitySettings = async (
-  entityRef: string,
+  entityReference: string,
   name: string,
   unparsedSettings: unknown,
   actingUserPk: string
@@ -11,7 +11,7 @@ export const updateCompoundEntitySettings = async (
   const settings =
     settingsTypes[name as keyof typeof settingsTypes].parse(unparsedSettings);
   await entity_settings.upsert({
-    pk: entityRef,
+    pk: entityReference,
     sk: name,
     settings,
     createdBy: actingUserPk,

@@ -9,9 +9,9 @@ export const locationParser = {
   parse: (item: unknown) => {
     try {
       return locationSchema.parse(item);
-    } catch (err) {
-      err.message = `Error parsing location: ${err.message}`;
-      throw err;
+    } catch (error) {
+      error.message = `Error parsing location: ${error.message}`;
+      throw error;
     }
   },
 };

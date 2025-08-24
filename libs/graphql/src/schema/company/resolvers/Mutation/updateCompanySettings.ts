@@ -10,27 +10,27 @@ import { resourceRef } from "@/utils";
 
 export const updateCompanySettings: NonNullable<
   MutationResolvers["updateCompanySettings"]
-> = async (_parent, arg, _ctx) => {
-  console.log("updateCompanySettings", arg);
-  const companyRef = resourceRef("companies", arg.companyPk);
+> = async (_parent, argument, _context) => {
+  console.log("updateCompanySettings", argument);
+  const companyReference = resourceRef("companies", argument.companyPk);
   const userPk = await ensureAuthorized(
-    _ctx,
-    companyRef,
+    _context,
+    companyReference,
     PERMISSION_LEVELS.WRITE
   );
   const { entity, entity_settings } = await database();
-  const company = await entity.get(companyRef);
+  const company = await entity.get(companyReference);
   if (!company) {
     throw notFound(
       i18n._("Company with pk {companyPk} not found", {
-        companyPk: arg.companyPk,
+        companyPk: argument.companyPk,
       })
     );
   }
   await entity_settings.upsert({
-    pk: companyRef,
-    sk: arg.name,
-    settings: arg.settings,
+    pk: companyReference,
+    sk: argument.name,
+    settings: argument.settings,
     createdBy: userPk,
     createdAt: new Date().toISOString(),
     updatedBy: userPk,

@@ -7,7 +7,7 @@ import {
 import { FC, PropsWithChildren, ReactNode, memo } from "react";
 
 import { classNames } from "../../utils/classNames";
-export interface DialogProps {
+export interface DialogProperties {
   className?: string;
   open: boolean;
   title: ReactNode;
@@ -15,7 +15,7 @@ export interface DialogProps {
   onClose: () => void;
 }
 
-export const Dialog: FC<PropsWithChildren<DialogProps>> = memo(
+export const Dialog: FC<PropsWithChildren<DialogProperties>> = memo(
   ({ open, title, footer, onClose, children, className }) => {
     return (
       <HeadlessDialog open={open} onClose={onClose} className="relative">
