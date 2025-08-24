@@ -1,0 +1,14 @@
+# Mergify configuration for automatic PR merging
+# This will auto-merge PRs when all required status checks pass
+
+pull_request_rules:
+  - name: Auto-merge when all checks pass
+    conditions:
+      - base=main
+      - check-success=Test
+      - check-success=Deploy PR
+      - check-success=E2E tests
+    actions:
+      merge:
+        method: squash
+        commit_message_template: "{{title}} (#{{number}})"

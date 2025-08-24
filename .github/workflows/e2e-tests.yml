@@ -32,6 +32,11 @@ jobs:
     name: Run E2E Tests
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
+      statuses: write
 
     # Cancel in-progress runs when new commits are pushed (only for PR runs)
     concurrency:
@@ -328,13 +333,13 @@ jobs:
                 -f state=success \
                 -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
                 -f description="E2E Tests Passed" \
-                -f context="E2E Tests (PR $PR_NUMBER)"
+                -f context="E2E Tests"
             else
               gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
                 -f state=failure \
                 -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
                 -f description="E2E Tests Failed" \
-                -f context="E2E Tests (PR $PR_NUMBER)"
+                -f context="E2E Tests"
             fi
           fi
         env:
