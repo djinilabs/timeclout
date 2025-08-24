@@ -1,9 +1,8 @@
 name: Auto Merge
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
-  check_suite:
+  workflow_run:
+    workflows: ["E2E Tests"]
     types: [completed]
 
 jobs:
@@ -11,14 +10,14 @@ jobs:
     name: Auto Merge PR
     runs-on: ubuntu-latest
     if: |
-      github.event_name == 'check_suite' && 
-      github.event.check_suite.conclusion == 'success' &&
-      github.event.check_suite.pull_requests.length > 0
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request'
     permissions:
       contents: write
       pull-requests: write
       checks: read
       statuses: read
+      actions: read
 
     steps:
       - name: Checkout code
@@ -27,8 +26,18 @@ jobs:
       - name: Get PR details
         id: pr
         run: |
-          # Get the first PR from the check suite
-          PR_NUMBER=$(echo '${{ toJSON(github.event.check_suite.pull_requests) }}' | jq -r '.[0].number')
+          # Get the PR number from the workflow run event
+          WORKFLOW_RUN_ID="${{ github.event.workflow_run.id }}"
+
+          # Get the PR details from the workflow run
+          WORKFLOW_RUN_INFO=$(gh api repos/${{ github.repository }}/actions/runs/$WORKFLOW_RUN_ID)
+          PR_NUMBER=$(echo "$WORKFLOW_RUN_INFO" | jq -r '.pull_requests[0].number // empty')
+
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No PR found for this workflow run"
+            exit 1
+          fi
+
           echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
           echo "PR number: $PR_NUMBER"
 
@@ -66,15 +75,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Wait for all required checks to complete
+      - name: Wait for other required checks to complete
         if: steps.check-status.outputs.ready == 'true'
         run: |
           PR_NUMBER="${{ steps.pr.outputs.pr_number }}"
+          echo "Waiting for other required checks to complete..."
 
-          echo "Waiting for all required checks to complete..."
-
-          # Define the required checks based on your workflow structure
-          REQUIRED_CHECKS=("Test" "Deploy PR" "E2E Tests")
+          # Define the other required checks (excluding E2E Tests since we already know it passed)
+          REQUIRED_CHECKS=("Test" "Deploy PR")
 
           echo "Required checks: ${REQUIRED_CHECKS[*]}"
 
@@ -128,6 +136,6 @@ jobs:
         run: |
           PR_NUMBER="${{ steps.pr.outputs.pr_number }}"
 
-          gh pr comment $PR_NUMBER --body "🤖 **Auto-merge completed!** This PR has been automatically merged after all required checks passed."
+          gh pr comment $PR_NUMBER --body "🤖 **Auto-merge completed!** This PR has been automatically merged after all required checks passed, including E2E Tests."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
