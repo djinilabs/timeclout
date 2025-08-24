@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     # Only run if the PR was merged or closed (not just synchronized)
     if: github.event.pull_request.merged == true || github.event.pull_request.state == 'closed'
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: read
 
     steps:
       - name: Configure AWS credentials
