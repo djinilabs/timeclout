@@ -37,6 +37,7 @@ jobs:
       pull-requests: write
       contents: read
       statuses: write
+      actions: write
 
     # Cancel in-progress runs when new commits are pushed (only for PR runs)
     concurrency:
