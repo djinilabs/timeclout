@@ -28,7 +28,7 @@ jobs:
           echo "================================="
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Check if PR is ready for merge
         id: check-status
