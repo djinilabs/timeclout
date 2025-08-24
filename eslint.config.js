@@ -6,6 +6,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import playwright from 'eslint-plugin-playwright'
 import tseslint from 'typescript-eslint'
 import importPlugin from 'eslint-plugin-import'
+import promisePlugin from 'eslint-plugin-promise'
 
 export default tseslint.config(
   { ignores: ['dist', 'node_modules', 'apps/frontend/dist', 'apps/backend/dist', '**/*.generated.ts', 'apps/frontend/src/locales', '**/messages.mjs', '**/locales/*/messages.mjs'] },
@@ -26,7 +27,8 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       playwright,
-      import: importPlugin
+      import: importPlugin,
+      promise: promisePlugin
     },
     rules: {
       ...react.configs.recommended.rules,
@@ -36,6 +38,7 @@ export default tseslint.config(
       ...playwright.configs.recommended.rules,
       ...importPlugin.configs.recommended.rules,
       ...importPlugin.configs.typescript.rules,
+      ...promisePlugin.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',

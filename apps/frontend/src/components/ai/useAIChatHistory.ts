@@ -161,14 +161,22 @@ export const useAIChatHistory = () => {
 
   useEffect(() => {
     setLoading(true);
-    loadMessages()
-      .catch((error) => {
-        console.error("Error loading messages", error);
-        toast.error("Error loading messages");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    // Store the promise to handle it properly
+    (async () => {
+      await loadMessages()
+        .catch((error) => {
+          console.error("Error loading messages", error);
+          toast.error("Error loading messages");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    })();
+
+    // Return cleanup function that can be used if needed
+    return () => {
+      // Cleanup if component unmounts
+    };
   }, [loadMessages]);
 
   return {

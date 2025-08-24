@@ -33,9 +33,14 @@ const Login: FC = () => {
     signIn("email", {
       email: email.trim(),
       callbackUrl: window.location.href,
-    }).finally(() => {
-      setIsSubmitting(false);
-    });
+    })
+      .finally(() => {
+        setIsSubmitting(false);
+      })
+      .catch((error) => {
+        console.error("Sign in error:", error);
+        setIsSubmitting(false);
+      });
   };
 
   const handleEmailButtonClick = () => {

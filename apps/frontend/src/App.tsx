@@ -87,9 +87,14 @@ const AppComponent: FC = () => {
   const queryClient = useMemo(() => new QueryClient(), []);
   useEffect(() => {
     setIsLocaleActivated(false);
-    dynamicActivate(locale).finally(() => {
-      setIsLocaleActivated(true);
-    });
+    dynamicActivate(locale)
+      .finally(() => {
+        setIsLocaleActivated(true);
+      })
+      .catch((error) => {
+        console.error("Failed to activate locale:", error);
+        setIsLocaleActivated(true); // Set to true even on error to prevent infinite loading
+      });
   }, [locale]);
 
   const setLocaleAndSave = (locale: string) => {
