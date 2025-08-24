@@ -344,3 +344,21 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger Auto-Merge Workflow
+        if: |
+          success() && 
+          github.event_name == 'workflow_dispatch' && 
+          github.event.inputs.environment == 'pr'
+        run: |
+          PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
+          echo "E2E Tests passed for PR $PR_NUMBER, triggering auto-merge workflow..."
+
+          # Trigger the auto-merge workflow
+          gh workflow run auto-merge.yml \
+            --field pr_number="$PR_NUMBER" \
+            --ref ${{ github.head_ref }}
+
+          echo "Auto-merge workflow triggered successfully"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

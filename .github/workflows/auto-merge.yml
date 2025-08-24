@@ -1,79 +1,40 @@
 name: Auto Merge
 
 on:
-  workflow_run:
-    workflows: ["E2E Tests"]
-    types: [completed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Pull request number to auto-merge"
+        required: true
+        type: string
 
 jobs:
   auto-merge:
     name: Auto Merge PR
     runs-on: ubuntu-latest
-    if: |
-      github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.event == 'workflow_dispatch'
+    if: github.event.inputs.pr_number != ''
     permissions:
       contents: write
       pull-requests: write
       checks: read
       statuses: read
-      actions: read
 
     steps:
-      - name: Debug workflow run event
+      - name: Debug inputs
         run: |
-          echo "=== Workflow Run Event Debug ==="
+          echo "=== Auto-Merge Inputs Debug ==="
+          echo "PR Number: ${{ github.event.inputs.pr_number }}"
           echo "Event name: ${{ github.event_name }}"
-          echo "Workflow run ID: ${{ github.event.workflow_run.id }}"
-          echo "Workflow run name: ${{ github.event.workflow_run.name }}"
-          echo "Workflow run conclusion: ${{ github.event.workflow_run.conclusion }}"
-          echo "Workflow run event: ${{ github.event.workflow_run.event }}"
-          echo "Workflow run head SHA: ${{ github.event.workflow_run.head_sha }}"
-          echo "Workflow run head branch: ${{ github.event.workflow_run.head_branch }}"
-          echo "Workflow run repository: ${{ github.event.workflow_run.repository.full_name }}"
-          echo "Workflow run head repository: ${{ github.event.workflow_run.head_repository.full_name }}"
-          echo "Workflow run actor: ${{ github.event.workflow_run.actor.login }}"
-          echo "Workflow run created at: ${{ github.event.workflow_run.created_at }}"
-          echo "Workflow run updated at: ${{ github.event.workflow_run.updated_at }}"
           echo "================================="
 
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get PR details
-        id: pr
-        run: |
-          # Get the PR number from the workflow run event
-          WORKFLOW_RUN_ID="${{ github.event.workflow_run.id }}"
-
-          # Get the PR details from the workflow run
-          WORKFLOW_RUN_INFO=$(gh api repos/${{ github.repository }}/actions/runs/$WORKFLOW_RUN_ID)
-          echo "Workflow run info: $WORKFLOW_RUN_INFO"
-
-          # Try to get PR number from the workflow run inputs
-          PR_NUMBER=$(echo "$WORKFLOW_RUN_INFO" | jq -r '.inputs.pull_request_number // empty')
-
-          if [ -z "$PR_NUMBER" ]; then
-            echo "No PR number found in workflow inputs, trying to find PR by head SHA..."
-            HEAD_SHA="${{ github.event.workflow_run.head_sha }}"
-            
-            # Find PR by head SHA
-            PR_INFO=$(gh api repos/${{ github.repository }}/commits/$HEAD_SHA/pulls)
-            PR_NUMBER=$(echo "$PR_INFO" | jq -r '.[0].number // empty')
-          fi
-
-          if [ -z "$PR_NUMBER" ]; then
-            echo "No PR found for this workflow run"
-            exit 1
-          fi
-
-          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
-          echo "PR number: $PR_NUMBER"
-
       - name: Check if PR is ready for merge
         id: check-status
         run: |
-          PR_NUMBER="${{ steps.pr.outputs.pr_number }}"
+          PR_NUMBER="${{ github.event.inputs.pr_number }}"
+          echo "Checking if PR $PR_NUMBER is ready for merge..."
 
           # Get the PR details
           PR_INFO=$(gh pr view $PR_NUMBER --json mergeable,mergeStateStatus,reviewDecision,labels)
@@ -107,7 +68,7 @@ jobs:
       - name: Wait for other required checks to complete
         if: steps.check-status.outputs.ready == 'true'
         run: |
-          PR_NUMBER="${{ steps.pr.outputs.pr_number }}"
+          PR_NUMBER="${{ github.event.inputs.pr_number }}"
           echo "Waiting for other required checks to complete..."
 
           # Define the other required checks (excluding E2E Tests since we already know it passed)
@@ -144,7 +105,7 @@ jobs:
       - name: Auto merge PR
         if: steps.check-status.outputs.ready == 'true'
         run: |
-          PR_NUMBER="${{ steps.pr.outputs.pr_number }}"
+          PR_NUMBER="${{ github.event.inputs.pr_number }}"
 
           echo "Attempting to merge PR $PR_NUMBER..."
 
@@ -163,7 +124,7 @@ jobs:
       - name: Comment on PR
         if: steps.check-status.outputs.ready == 'true'
         run: |
-          PR_NUMBER="${{ steps.pr.outputs.pr_number }}"
+          PR_NUMBER="${{ github.event.inputs.pr_number }}"
 
           gh pr comment $PR_NUMBER --body "🤖 **Auto-merge completed!** This PR has been automatically merged after all required checks passed, including E2E Tests."
         env:
