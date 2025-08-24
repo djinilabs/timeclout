@@ -37,6 +37,7 @@ jobs:
       pull-requests: write
       contents: read
       statuses: write
+      actions: write
 
     # Cancel in-progress runs when new commits are pushed (only for PR runs)
     concurrency:
@@ -342,5 +343,23 @@ jobs:
                 -f context="E2E Tests"
             fi
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger Auto-Merge Workflow
+        if: |
+          success() && 
+          github.event_name == 'workflow_dispatch' && 
+          github.event.inputs.environment == 'pr'
+        run: |
+          PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
+          echo "E2E Tests passed for PR $PR_NUMBER, triggering auto-merge workflow..."
+
+          # Trigger the auto-merge workflow
+          gh workflow run auto-merge.yml \
+            --field pr_number="$PR_NUMBER" \
+            --ref main
+
+          echo "Auto-merge workflow triggered successfully"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
