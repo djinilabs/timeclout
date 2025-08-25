@@ -76,6 +76,8 @@ export const CreateShiftPositionTemplate: FC<
     undefined,
     undefined,
     undefined,
+    undefined,
+    undefined,
     undefined
   >({
     defaultValues: useMemo(

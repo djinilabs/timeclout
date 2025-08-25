@@ -74,6 +74,8 @@ export const CreateOrEditScheduleShiftPosition: FC<
     undefined,
     undefined,
     undefined,
+    undefined,
+    undefined,
     undefined
   >({
     defaultValues: useMemo(

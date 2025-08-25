@@ -65,24 +65,20 @@ runs:
         PR_TITLE="${{ inputs.pull_request_title }}"
         PR_URL="${{ inputs.pull_request_url }}"
         WORKFLOW_RUN_NAME="${{ inputs.workflow_run_name }}"
+        REF_NAME="${{ inputs.ref_name }}"
+        REPO_NAME="${{ inputs.repository }}"
 
-        # Debug information
-        echo "Debug: EVENT_NAME=$EVENT_NAME"
-        echo "Debug: WORKFLOW_RUN_NAME=$WORKFLOW_RUN_NAME"
-        echo "Debug: ref_name=${{ inputs.ref_name }}"
+        # Safely truncate commit SHA to 8 characters
+        COMMIT_SHA_SHORT=$(echo "$COMMIT_SHA" | cut -c1-8)
 
         # Determine PR information
         if [ "$EVENT_NAME" == "pull_request" ] && [ -n "$PR_NUMBER" ]; then
           PR_INFO="🔗 **PR #$PR_NUMBER**: [$PR_TITLE]($PR_URL)"
         elif [ "$EVENT_NAME" == "workflow_run" ] && [ -n "$WORKFLOW_RUN_NAME" ]; then
-          # Extract PR number from workflow_run event name
-          echo "Debug: Processing workflow_run event with name: $WORKFLOW_RUN_NAME"
           if echo "$WORKFLOW_RUN_NAME" | grep -q 'PR[0-9]*'; then
             EXTRACTED_PR_NUMBER=$(echo "$WORKFLOW_RUN_NAME" | grep -o 'PR[0-9]*' | grep -o '[0-9]*')
-            echo "Debug: Extracted PR number: $EXTRACTED_PR_NUMBER"
             PR_INFO="🔗 **PR #$EXTRACTED_PR_NUMBER**: From workflow run"
           else
-            echo "Debug: No PR number found in workflow name"
             PR_INFO="📋 **Workflow Run**: $WORKFLOW_RUN_NAME"
           fi
         elif [ "$EVENT_NAME" == "workflow_dispatch" ]; then
@@ -92,7 +88,7 @@ runs:
             PR_INFO="🔧 **Manual Dispatch**: Manual workflow trigger"
           fi
         elif [ "$EVENT_NAME" == "push" ]; then
-          if [ "${{ inputs.ref_name }}" == "main" ] || [ "${{ inputs.ref_name }}" == "refs/heads/main" ]; then
+          if [ "$REF_NAME" == "main" ] || [ "$REF_NAME" == "refs/heads/main" ]; then
             PR_INFO="🚀 **Push to Main**: Direct commit"
           else
             PR_INFO="📝 **Push**: Branch update"
@@ -101,92 +97,65 @@ runs:
           PR_INFO="📋 **Event**: $EVENT_NAME"
         fi
 
-        echo "Debug: PR_INFO set to: $PR_INFO"
-
         # Set status emoji and color
-        echo "Debug: Setting status for RUN_STATUS: $RUN_STATUS"
         if [ "$RUN_STATUS" == "success" ]; then
           STATUS_EMOJI="✅"
-          STATUS_COLOR="3066993" # Green
+          STATUS_COLOR="3066993"
           STATUS_TEXT="SUCCESS"
         elif [ "$RUN_STATUS" == "failure" ]; then
           STATUS_EMOJI="❌"
-          STATUS_COLOR="15158332" # Red
+          STATUS_COLOR="15158332"
           STATUS_TEXT="FAILED"
         elif [ "$RUN_STATUS" == "cancelled" ]; then
           STATUS_EMOJI="⏹️"
-          STATUS_COLOR="7506394" # Gray
+          STATUS_COLOR="7506394"
           STATUS_TEXT="CANCELLED"
         else
           STATUS_EMOJI="🔄"
-          STATUS_COLOR="3447003" # Blue
+          STATUS_COLOR="3447003"
           STATUS_TEXT="$RUN_STATUS"
         fi
 
-        echo "Debug: Status set - Emoji: $STATUS_EMOJI, Color: $STATUS_COLOR, Text: $STATUS_TEXT"
+        # Create Discord payload
+        TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-        # Create Discord embed
-        echo "Debug: Creating Discord payload..."
-        DISCORD_PAYLOAD=$(cat << EOF
-        {
-          "embeds": [{
-            "title": "$STATUS_EMOJI $WORKFLOW_NAME - $STATUS_TEXT",
-            "description": "Workflow execution completed",
-            "color": $STATUS_COLOR,
-            "fields": [
-              {
-                "name": "Status",
-                "value": "$STATUS_EMOJI $STATUS_TEXT",
-                "inline": true
-              },
-              {
-                "name": "Workflow",
-                "value": "$WORKFLOW_NAME",
-                "inline": true
-              },
-              {
-                "name": "Run ID",
-                "value": "[#$RUN_ID]($RUN_URL)",
-                "inline": true
-              },
-              {
-                "name": "PR/Event",
-                "value": "$PR_INFO",
-                "inline": false
-              },
-              {
-                "name": "Commit",
-                "value": "[`${COMMIT_SHA:0:8}`]($RUN_URL) - $COMMIT_MESSAGE",
-                "inline": false
-              },
-              {
-                "name": "Repository",
-                "value": "${{ inputs.repository }}",
-                "inline": true
-              },
-              {
-                "name": "Branch",
-                "value": "${{ inputs.ref_name }}",
-                "inline": true
-              }
-            ],
-            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-            "footer": {
-              "text": "GitHub Actions"
-            }
-          }]
-        }
-        EOF
-        )
-
-        echo "Debug: Timestamp generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
-        # Debug payload (without sensitive info)
-        echo "Debug: Payload prepared successfully"
-        echo "Debug: Payload length: ${#DISCORD_PAYLOAD} characters"
+        # Create JSON payload using jq if available
+        if command -v jq >/dev/null 2>&1; then
+          DISCORD_PAYLOAD=$(jq -n \
+            --arg title "$STATUS_EMOJI $WORKFLOW_NAME - $STATUS_TEXT" \
+            --arg color "$STATUS_COLOR" \
+            --arg status "$STATUS_EMOJI $STATUS_TEXT" \
+            --arg workflow "$WORKFLOW_NAME" \
+            --arg run_id "[#$RUN_ID]($RUN_URL)" \
+            --arg pr_info "$PR_INFO" \
+            --arg commit "[`$COMMIT_SHA_SHORT`]($RUN_URL) - $COMMIT_MESSAGE" \
+            --arg repo "$REPO_NAME" \
+            --arg branch "$REF_NAME" \
+            --arg timestamp "$TIMESTAMP" \
+            '{
+              "embeds": [{
+                "title": $title,
+                "description": "Workflow execution completed",
+                "color": ($color | tonumber),
+                "fields": [
+                  {"name": "Status", "value": $status, "inline": true},
+                  {"name": "Workflow", "value": $workflow, "inline": true},
+                  {"name": "Run ID", "value": $run_id, "inline": true},
+                  {"name": "PR/Event", "value": $pr_info, "inline": false},
+                  {"name": "Commit", "value": $commit, "inline": false},
+                  {"name": "Repository", "value": $repo, "inline": true},
+                  {"name": "Branch", "value": $branch, "inline": true}
+                ],
+                "timestamp": $timestamp,
+                "footer": {"text": "GitHub Actions"}
+              }]
+            }')
+        else
+          # Fallback: simple JSON construction
+          DISCORD_PAYLOAD="{\"embeds\":[{\"title\":\"$STATUS_EMOJI $WORKFLOW_NAME - $STATUS_TEXT\",\"description\":\"Workflow execution completed\",\"color\":$STATUS_COLOR,\"fields\":[{\"name\":\"Status\",\"value\":\"$STATUS_EMOJI $STATUS_TEXT\",\"inline\":true},{\"name\":\"Workflow\",\"value\":\"$WORKFLOW_NAME\",\"inline\":true},{\"name\":\"Run ID\",\"value\":\"[#$RUN_ID]($RUN_URL)\",\"inline\":true},{\"name\":\"PR/Event\",\"value\":\"$PR_INFO\",\"inline\":false},{\"name\":\"Commit\",\"value\":\"[`$COMMIT_SHA_SHORT`]($RUN_URL) - $COMMIT_MESSAGE\",\"inline\":false},{\"name\":\"Repository\",\"value\":\"$REPO_NAME\",\"inline\":true},{\"name\":\"Branch\",\"value\":\"$REF_NAME\",\"inline\":true}],\"timestamp\":\"$TIMESTAMP\",\"footer\":{\"text\":\"GitHub Actions\"}}]}"
+        fi
 
         # Send to Discord webhook
-        echo "Debug: About to check webhook URL and send notification..."
         if [ -n "${{ inputs.webhook_url }}" ]; then
           echo "Sending Discord notification..."
           HTTP_RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" -H "Content-Type: application/json" \

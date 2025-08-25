@@ -30,6 +30,8 @@ export const PageNewCompany = () => {
     undefined,
     undefined,
     undefined,
+    undefined,
+    undefined,
     undefined
   >({
     onSubmit: async ({ value }) => {

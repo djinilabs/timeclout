@@ -33,7 +33,7 @@ export default defineConfig({
   },
 
   server: {
-    open: process.env.E2E_NO_UI === "true" ? false : true,
+    open: process.env.E2E_NO_UI !== "true",
   },
 
   worker: {
