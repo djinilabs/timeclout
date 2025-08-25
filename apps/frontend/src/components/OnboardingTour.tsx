@@ -196,7 +196,7 @@ const tourSteps = once(
         placement: "bottom",
       },
       {
-        target: ".member-submit-button",
+        target: 'button[type="submit"]',
         content: i18n._("Click here to add the member to your team."),
         placement: "bottom",
       },

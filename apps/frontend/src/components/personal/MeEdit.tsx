@@ -226,7 +226,15 @@ export const MeEdit = () => {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <Button type="submit">
+        <Button
+          type="button"
+          cancel
+          onClick={() => navigate("/")}
+          aria-label={i18n.t("Cancel profile changes")}
+        >
+          <Trans>Cancel</Trans>
+        </Button>
+        <Button type="submit" aria-label={i18n.t("Save profile changes")}>
           <Trans>Save</Trans>
         </Button>
       </div>
