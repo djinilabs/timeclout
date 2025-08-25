@@ -27,7 +27,7 @@ importers:
         version: 1.15.0(graphql@16.11.0)(typescript@5.9.2)
       '@ai-sdk/google':
         specifier: ^1.2.19
-        version: 1.2.22(zod@3.25.76)
+        version: 1.2.22(zod@4.1.1)
       '@ai-sdk/provider':
         specifier: ^1.1.3
         version: 1.1.3
@@ -165,7 +165,7 @@ importers:
         version: 4.12.6
       ai:
         specifier: ^4.3.16
-        version: 4.3.19(react@19.1.1)(zod@3.25.76)
+        version: 4.3.19(react@19.1.1)(zod@4.1.1)
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -263,8 +263,8 @@ importers:
         specifier: ^4.2.1
         version: 4.2.2(@urql/core@5.1.1(graphql@16.11.0))(react@19.1.1)
       zod:
-        specifier: ^3.24.1
-        version: 3.25.76
+        specifier: ^4.0.0
+        version: 4.1.1
     devDependencies:
       '@architect/architect':
         specifier: ^11.1.0
@@ -8659,8 +8659,8 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+  zod@4.1.1:
+    resolution: {integrity: sha512-SgMZK/h8Tigt9nnKkfJMvB/mKjiJXaX26xegP4sa+0wHIFVFWVlsQGdhklDmuargBD3Hsi3rsQRIzwJIhTPJHA==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -8679,39 +8679,39 @@ snapshots:
 
   '@adobe/css-tools@4.4.4': {}
 
-  '@ai-sdk/google@1.2.22(zod@3.25.76)':
+  '@ai-sdk/google@1.2.22(zod@4.1.1)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.76)
-      zod: 3.25.76
+      '@ai-sdk/provider-utils': 2.2.8(zod@4.1.1)
+      zod: 4.1.1
 
-  '@ai-sdk/provider-utils@2.2.8(zod@3.25.76)':
+  '@ai-sdk/provider-utils@2.2.8(zod@4.1.1)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
       nanoid: 3.3.11
       secure-json-parse: 2.7.0
-      zod: 3.25.76
+      zod: 4.1.1
 
   '@ai-sdk/provider@1.1.3':
     dependencies:
       json-schema: 0.4.0
 
-  '@ai-sdk/react@1.2.12(react@19.1.1)(zod@3.25.76)':
+  '@ai-sdk/react@1.2.12(react@19.1.1)(zod@4.1.1)':
     dependencies:
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.76)
-      '@ai-sdk/ui-utils': 1.2.11(zod@3.25.76)
+      '@ai-sdk/provider-utils': 2.2.8(zod@4.1.1)
+      '@ai-sdk/ui-utils': 1.2.11(zod@4.1.1)
       react: 19.1.1
       swr: 2.3.6(react@19.1.1)
       throttleit: 2.1.0
     optionalDependencies:
-      zod: 3.25.76
+      zod: 4.1.1
 
-  '@ai-sdk/ui-utils@1.2.11(zod@3.25.76)':
+  '@ai-sdk/ui-utils@1.2.11(zod@4.1.1)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.76)
-      zod: 3.25.76
-      zod-to-json-schema: 3.24.6(zod@3.25.76)
+      '@ai-sdk/provider-utils': 2.2.8(zod@4.1.1)
+      zod: 4.1.1
+      zod-to-json-schema: 3.24.6(zod@4.1.1)
 
   '@ampproject/remapping@2.3.0':
     dependencies:
@@ -13951,15 +13951,15 @@ snapshots:
       clean-stack: 2.2.0
       indent-string: 4.0.0
 
-  ai@4.3.19(react@19.1.1)(zod@3.25.76):
+  ai@4.3.19(react@19.1.1)(zod@4.1.1):
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.76)
-      '@ai-sdk/react': 1.2.12(react@19.1.1)(zod@3.25.76)
-      '@ai-sdk/ui-utils': 1.2.11(zod@3.25.76)
+      '@ai-sdk/provider-utils': 2.2.8(zod@4.1.1)
+      '@ai-sdk/react': 1.2.12(react@19.1.1)(zod@4.1.1)
+      '@ai-sdk/ui-utils': 1.2.11(zod@4.1.1)
       '@opentelemetry/api': 1.9.0
       jsondiffpatch: 0.6.0
-      zod: 3.25.76
+      zod: 4.1.1
     optionalDependencies:
       react: 19.1.1
 
@@ -18617,10 +18617,10 @@ snapshots:
       insync: 2.1.1
       yazl: 2.5.1
 
-  zod-to-json-schema@3.24.6(zod@3.25.76):
+  zod-to-json-schema@3.24.6(zod@4.1.1):
     dependencies:
-      zod: 3.25.76
+      zod: 4.1.1
 
-  zod@3.25.76: {}
+  zod@4.1.1: {}
 
   zwitch@2.0.4: {}

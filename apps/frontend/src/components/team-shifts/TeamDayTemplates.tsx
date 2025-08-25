@@ -122,7 +122,7 @@ export const TeamDayTemplates: FC<TeamDayTemplatesProps> = ({
           </div>
         ) : (
           Object.entries(teamDayTemplates).map(
-            ([templateName, shiftTemplates]) => (
+            ([templateName, shiftTemplates]: [string, SchedulePositionTemplate[]]) => (
               <div
                 key={templateName}
                 draggable
@@ -150,7 +150,7 @@ export const TeamDayTemplates: FC<TeamDayTemplatesProps> = ({
                   </div>
 
                   <div className="space-y-2">
-                    {shiftTemplates.map((template, index) => {
+                    {shiftTemplates.map((template: SchedulePositionTemplate, index: number) => {
                       const analyzedShiftPosition =
                         convertTemplateToAnalyzedShiftPosition(template, index);
 
@@ -169,7 +169,7 @@ export const TeamDayTemplates: FC<TeamDayTemplatesProps> = ({
 
                           <div className="mt-2">
                             <div className="flex flex-wrap gap-1">
-                              {template.requiredSkills.map((skill) => (
+                              {template.requiredSkills.map((skill: string) => (
                                 <span
                                   key={skill}
                                   className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
