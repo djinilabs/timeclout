@@ -80,7 +80,7 @@
     "@tanstack/react-query": "^5.64.1",
     "@types/lodash.omit": "^4.5.9",
     "@types/node": "^22.10.2",
-    "@urql/exchange-graphcache": "^7.2.4",
+    "@urql/exchange-graphcache": "^8.0.0",
     "@vendia/serverless-express": "^4.12.6",
     "ai": "^4.3.16",
     "aws-lambda": "^1.0.7",
