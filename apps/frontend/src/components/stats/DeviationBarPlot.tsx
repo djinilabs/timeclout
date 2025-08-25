@@ -33,8 +33,11 @@ export const DeviationBarPlot: FC<DeviationBarPlotProps> = memo(
           (datum: ComputedDatum<DeviationBarPlotDatum>) => label(datum.data),
           [label]
         )}
-        minValue={-maxDeviation}
-        maxValue={maxDeviation}
+        valueScale={{
+          type: "linear",
+          min: -maxDeviation,
+          max: maxDeviation,
+        }}
         data={data}
         keys={["deviation"]}
         indexBy="group"
