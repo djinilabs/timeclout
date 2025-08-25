@@ -19,7 +19,8 @@ export const updateMe: NonNullable<MutationResolvers["updateMe"]> = async (
     throw notFound(i18n._("User not found"));
   }
   const { entity } = await database();
-  const user = await entity.get(resourceRef("users", userId));
+  const userPk = resourceRef("users", userId);
+  const user = await entity.get(userPk);
   if (!user) {
     throw notFound(i18n._("User not found"));
   }
@@ -30,6 +31,7 @@ export const updateMe: NonNullable<MutationResolvers["updateMe"]> = async (
   const updatedUser = await entity.upsert({
     ...user,
     name,
+    updatedBy: userPk,
   });
   return updatedUser as unknown as User;
 };
