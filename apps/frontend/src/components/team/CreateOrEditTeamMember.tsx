@@ -312,7 +312,6 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
         </Button>
         <Button
           type="submit"
-          className="member-submit-button"
           aria-label={
             memberPk
               ? i18n.t("Save team member changes")

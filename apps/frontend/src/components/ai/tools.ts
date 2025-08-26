@@ -39,7 +39,7 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
   describe_app_ui: {
     description:
       "Describes the current app UI. Use this to answer user queries and read the application state, like the list of companies, units or teams. You can also use this to read the item being displayed on the page.",
-    parameters: z.object({}),
+    inputSchema: z.object({}),
     execute: async () => {
       console.log("tool call: describe_app_ui");
       const aom = generateAccessibilityObjectModel(document);
@@ -49,7 +49,7 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
   click_element: {
     description:
       'Click on the first element that matches the role and the description (or label) for that element that you got from the describe_app_ui tool. Can be used to navigate the application state to answer user queries. The element needs the "clickable" attribute to be "true".',
-    parameters: z.object({
+    inputSchema: z.object({
       "element-role": z.string(),
       "element-description": z.string(),
     }),
@@ -101,7 +101,7 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
   fill_form_element: {
     description:
       "Fill in a form element (textarea, input, select, radio, checkbox) with a value. Use this to interact with form elements in the UI. The element needs to be found by its role and description.",
-    parameters: z.object({
+    inputSchema: z.object({
       "element-role": z.string(),
       "element-description": z.string(),
       value: z.string(),

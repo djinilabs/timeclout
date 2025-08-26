@@ -25,14 +25,73 @@ async function authenticateUser(
 }
 
 /**
- * Step 2: Create a new company
+ * Step 2: Edit user profile to test profile update functionality
+ */
+async function editUserProfile(
+  page: Page,
+  _pageObjects: PageObjects,
+  newName: string
+): Promise<void> {
+  console.log("✏️ Step 2: Editing user profile...");
+
+  // Navigate to profile edit page
+  await page.goto("/me/edit");
+  await page.waitForLoadState("domcontentloaded");
+  console.log("✅ Navigated to profile edit page");
+
+  // Wait for the profile form to load
+  const profileForm = page.locator(
+    'form[aria-label*="Personal information form"]'
+  );
+  await profileForm.waitFor({ state: "visible", timeout: 10000 });
+  console.log("✅ Profile form loaded");
+
+  // Clear and fill the name field with a new name
+  const nameInput = page.locator('input[aria-label="Professional name"]');
+  await nameInput.waitFor({ state: "visible", timeout: 10000 });
+  await nameInput.clear();
+  await nameInput.fill(newName);
+  console.log(`✅ Updated name to: ${newName}`);
+
+  // Ensure country and region are still set (required fields)
+  const countrySelect = page.locator('select[aria-label*="country"]');
+  if (await countrySelect.isVisible()) {
+    const currentCountry = await countrySelect.inputValue();
+    if (!currentCountry) {
+      await countrySelect.selectOption("Portugal");
+      console.log("✅ Set country to Portugal");
+    }
+  }
+
+  const regionSelect = page.locator('select[aria-label*="region"]');
+  if (await regionSelect.isVisible()) {
+    const currentRegion = await regionSelect.inputValue();
+    if (!currentRegion) {
+      await regionSelect.selectOption("Lisbon");
+      console.log("✅ Set region to Lisbon");
+    }
+  }
+
+  // Submit the profile form
+  const saveButton = page.locator('button:has-text("Save")');
+  await saveButton.click();
+  console.log("✅ Clicked save button to update profile");
+
+  // Wait for the save operation to complete and redirect
+  await page.waitForURL(/^(?!.*\/me\/edit)/, { timeout: 15000 });
+  await page.waitForLoadState("domcontentloaded");
+  console.log("✅ Profile updated successfully and redirected");
+}
+
+/**
+ * Step 3: Create a new company
  */
 async function createCompany(
   page: Page,
   pageObjects: PageObjects,
   companyName: string
 ): Promise<void> {
-  console.log("🏢 Step 2: Creating company...");
+  console.log("🏢 Step 3: Creating company...");
 
   // First, ensure the user's profile is complete
   const currentUrl = page.url();
@@ -121,14 +180,14 @@ async function completeUserProfile(page: Page): Promise<void> {
 }
 
 /**
- * Step 3: Create a unit within the company
+ * Step 4: Create a unit within the company
  */
 async function createUnit(
   page: Page,
   pageObjects: PageObjects,
   unitName: string
 ): Promise<{ companyPk: string }> {
-  console.log("🏗️ Step 3: Creating unit...");
+  console.log("🏗️ Step 4: Creating unit...");
 
   // Click the "Create new Unit" button
   await pageObjects.clickButton(".new-unit-button", 15000);
@@ -172,7 +231,7 @@ async function createUnit(
 }
 
 /**
- * Step 4: Create a team within the unit
+ * Step 5: Create a team within the unit
  */
 async function createTeam(
   page: Page,
@@ -180,7 +239,7 @@ async function createTeam(
   unitName: string,
   teamName: string
 ): Promise<void> {
-  console.log("👥 Step 4: Creating team...");
+  console.log("👥 Step 5: Creating team...");
 
   // Click on the unit to enter it
   const unitLink = pageObjects.getUnitLink(unitName);
@@ -214,10 +273,10 @@ async function createTeam(
 }
 
 /**
- * Step 4.5: Configure unit settings (assign managers)
+ * Step 5.5: Configure unit settings (assign managers)
  */
 async function configureUnitSettings(page: Page): Promise<void> {
-  console.log("⚙️ Step 4.5: Configuring unit settings...");
+  console.log("⚙️ Step 5.5: Configuring unit settings...");
 
   // Navigate to unit settings tab - be more specific to avoid clicking the main navigation Settings
   const settingsTab = page.locator('main a:has-text("Settings")');
@@ -275,10 +334,10 @@ async function configureUnitSettings(page: Page): Promise<void> {
 }
 
 /**
- * Step 4.6: Configure team settings (qualifications and schedule templates)
+ * Step 5.6: Configure team settings (qualifications and schedule templates)
  */
 async function configureTeamSettings(page: Page): Promise<void> {
-  console.log("⚙️ Step 4.6: Configuring team settings...");
+  console.log("⚙️ Step 5.6: Configuring team settings...");
 
   // First, navigate back to the unit teams page to see the team list
   const teamsTab = page.locator('main a:has-text("Teams")');
@@ -417,14 +476,14 @@ async function configureTeamScheduleTemplates(page: Page): Promise<void> {
 }
 
 /**
- * Step 7: Navigate to company settings
+ * Step 6: Navigate to company settings
  */
 async function navigateToCompanySettings(
   page: Page,
   pageObjects: PageObjects,
   companyPk: string
 ): Promise<void> {
-  console.log("⚙️ Step 5: Navigating to company settings...");
+  console.log("⚙️ Step 6: Navigating to company settings...");
 
   // Navigate back to the company page
   await page.goto(`/companies/${companyPk}`);
@@ -450,10 +509,10 @@ async function navigateToCompanySettings(
 }
 
 /**
- * Step 8: Configure leave types
+ * Step 7: Configure leave types
  */
 async function configureLeaveTypes(page: Page): Promise<void> {
-  console.log("📋 Step 6: Configuring leave types...");
+  console.log("📋 Step 7: Configuring leave types...");
 
   // Wait for the leave types tab to be visible
   const leaveTypesTab = page.locator('a[href*="leave-types"]').first();
@@ -500,10 +559,10 @@ async function configureLeaveTypes(page: Page): Promise<void> {
 }
 
 /**
- * Step 9: Configure work schedule
+ * Step 8: Configure work schedule
  */
 async function configureWorkSchedule(page: Page): Promise<void> {
-  console.log("🕐 Step 7: Configuring work schedule...");
+  console.log("🕐 Step 8: Configuring work schedule...");
 
   // Click on the Work Schedule tab
   const workScheduleTab = page.locator('a[href*="work-schedule"]').first();
@@ -537,10 +596,10 @@ async function configureWorkSchedule(page: Page): Promise<void> {
 }
 
 /**
- * Step 10: Configure yearly quota
+ * Step 9: Configure yearly quota
  */
 async function configureYearlyQuota(page: Page): Promise<void> {
-  console.log("📅 Step 8: Configuring yearly quota...");
+  console.log("📅 Step 9: Configuring yearly quota...");
 
   // Click on the Yearly Quota tab
   const yearlyQuotaTab = page.locator('a[href*="yearly-quota"]').first();
@@ -607,14 +666,14 @@ async function handleCacheInvalidation(page: Page): Promise<void> {
 }
 
 /**
- * Step 4.7: Create team members
+ * Step 5.7: Create team members
  */
 async function createTeamMembers(
   page: Page,
   pageObjects: PageObjects,
   teamName: string
 ): Promise<{ member1: string; member2: string }> {
-  console.log("👥 Step 4.7: Creating team members...");
+  console.log("👥 Step 5.7: Creating team members...");
 
   // First, navigate back to the unit teams list
   const teamsTab = page.locator('main a:has-text("Teams")');
@@ -760,10 +819,90 @@ async function createTeamMembers(
 }
 
 /**
- * Step 4.8: Set up team member qualifications
+ * Step 5.8: Update a team member's profile to test updateTeamMember functionality
+ */
+async function updateTeamMemberProfile(
+  page: Page,
+  _pageObjects: PageObjects,
+  _teamName: string
+): Promise<void> {
+  console.log("✏️ Step 5.8: Updating team member profile...");
+
+  // Navigate to team members list
+  const membersTab = page.locator('main a:has-text("Members")');
+  await membersTab.waitFor({ state: "visible", timeout: 10000 });
+  await membersTab.click();
+  console.log("✅ Navigated to team Members tab");
+
+  // Wait for the members page to load
+  await page.waitForLoadState("domcontentloaded");
+
+  // Find the first team member and click the options menu
+  // Note: The team member might already be named "Updated Team Member One" from previous runs
+  const firstMemberRow = page
+    .locator("li")
+    .filter({ hasText: /Team Member One|Updated Team Member One/ });
+  await firstMemberRow.waitFor({ state: "visible", timeout: 10000 });
+
+  const optionsButton = firstMemberRow.locator(
+    'button[aria-label*="Open options menu"]'
+  );
+  await optionsButton.click();
+  console.log("✅ Clicked options menu for first team member");
+
+  // Click the Edit link (use a more generic selector)
+  const editLink = page.locator('a[aria-label*="Edit"]:has-text("Edit")');
+  await editLink.waitFor({ state: "visible", timeout: 5000 });
+  await editLink.click();
+  console.log("✅ Clicked Edit link for team member");
+
+  // Wait for the edit form to load
+  await page.waitForLoadState("domcontentloaded");
+
+  // Update the team member's name
+  const nameInput = page.locator(
+    'input[aria-label="Professional name"], input[placeholder*="Professional name"]'
+  );
+  await nameInput.waitFor({ state: "visible", timeout: 10000 });
+  await nameInput.clear();
+  await nameInput.fill("Updated Team Member One");
+  console.log("✅ Updated team member name to: Updated Team Member One");
+
+  // Ensure country and region are still set (required fields)
+  const countrySelect = page.locator('select[aria-label*="country"]');
+  if (await countrySelect.isVisible()) {
+    const currentCountry = await countrySelect.inputValue();
+    if (!currentCountry) {
+      await countrySelect.selectOption("Portugal");
+      console.log("✅ Set country to Portugal");
+    }
+  }
+
+  // Submit the form
+  const saveButton = page.locator(
+    'button:has-text("Save"), button[type="submit"]'
+  );
+  await saveButton.click();
+  console.log("✅ Clicked save button to update team member profile");
+
+  // Wait for the save operation to complete and redirect back to team page
+  await page.waitForURL(/\/companies\/.*\/units\/.*\/teams\/.*$/, {
+    timeout: 15000,
+  });
+  await page.waitForLoadState("domcontentloaded");
+  console.log("✅ Team member profile updated successfully and redirected");
+
+  // Verify the updated name appears in the team members list
+  const updatedMemberName = page.locator("text=Updated Team Member One");
+  await updatedMemberName.waitFor({ state: "visible", timeout: 10000 });
+  console.log("✅ Updated team member name appears in the team members list");
+}
+
+/**
+ * Step 5.9: Set up team member qualifications
  */
 async function setupTeamMemberQualifications(page: Page): Promise<void> {
-  console.log("🎯 Step 4.8: Setting up team member qualifications...");
+  console.log("🎯 Step 5.9: Setting up team member qualifications...");
 
   // Navigate to team settings to configure qualifications
   const settingsTab = page.locator('main a:has-text("Settings")');
@@ -797,10 +936,10 @@ async function setupTeamMemberQualifications(page: Page): Promise<void> {
 }
 
 /**
- * Step 4.9: Set up and verify team member leave schedules
+ * Step 5.10: Set up and verify team member leave schedules
  */
 async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
-  console.log("📅 Step 4.9: Setting up team member leave schedules...");
+  console.log("📅 Step 5.10: Setting up team member leave schedules...");
 
   // Navigate to team leave schedule tab
   const leaveScheduleTab = page.locator('main a:has-text("Leave Schedule")');
@@ -914,7 +1053,7 @@ async function verifyWorkflowCompletion(
   unitName: string,
   teamName: string
 ): Promise<void> {
-  console.log("🔍 Step 12: Verifying workflow completion...");
+  console.log("🔍 Step 10: Verifying workflow completion...");
 
   // Final verification - we should be on the company settings page after completing all configurations
   const currentUrl = page.url();
@@ -971,6 +1110,8 @@ testWithUserManagement.describe(
         // Execute the workflow steps in sequence
         testUser = await authenticateUser(userManagement, "Company Setup User");
 
+        await editUserProfile(page, pageObjects, "Updated User Name");
+
         await createCompany(page, pageObjects, companyName);
 
         const { companyPk } = await createUnit(page, pageObjects, unitName);
@@ -982,6 +1123,7 @@ testWithUserManagement.describe(
 
         // Create team members and set up their qualifications and leave schedules
         await createTeamMembers(page, pageObjects, teamName);
+        await updateTeamMemberProfile(page, pageObjects, teamName);
         await setupTeamMemberQualifications(page);
         await setupTeamMemberLeaveSchedules(page);
 

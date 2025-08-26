@@ -5,13 +5,13 @@ import { requireSession } from "../../../../session/requireSession";
 
 import type { MutationResolvers, User } from "./../../../../types.generated";
 
-import { authConfig } from "@/auth-config";
 import { isUserAuthorized, ensureExactAuthorization } from "@/business-logic";
 import { database, PERMISSION_LEVELS } from "@/tables";
-import { getDefined, resourceRef } from "@/utils";
+import { resourceRef } from "@/utils";
 
-
-export const updateTeamMember: NonNullable<MutationResolvers['updateTeamMember']> = async (_parent, { input }, ctx) => {
+export const updateTeamMember: NonNullable<
+  MutationResolvers["updateTeamMember"]
+> = async (_parent, { input }, ctx) => {
   const teamRef = resourceRef("teams", input.teamPk);
   // ensure user has write access to team
   await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);
@@ -28,22 +28,43 @@ export const updateTeamMember: NonNullable<MutationResolvers['updateTeamMember']
     throw forbidden("User is not a member of this team");
   }
 
-  const auth = await authConfig();
-  await getDefined(auth.adapter?.updateUser)({
-    id: input.memberPk,
-    email: input.email,
-    name: input.name,
-  });
+  // Get the existing user data to preserve required fields
+  const existingUser = await entity.get(userRef);
+  if (!existingUser) {
+    throw notFound("User not found in database");
+  }
 
-  const user = {
-    pk: userRef,
+  // Update our application user entity
+  const updatedUser = await entity.upsert({
+    ...existingUser,
     name: input.name,
     email: input.email,
     updatedBy,
-  };
-  (await entity.update(user)) as unknown as Promise<User>;
+  });
+
+  // Also update the NextAuth user record
+  const { "next-auth": nextAuthTable } = await database();
+  try {
+    // Find the NextAuth user record by user ID
+    const nextAuthUser = await nextAuthTable.get(
+      `USER#${input.memberPk}`,
+      `USER#${input.memberPk}`
+    );
+
+    if (nextAuthUser) {
+      // Update the NextAuth user record
+      await nextAuthTable.upsert({
+        ...nextAuthUser,
+        name: input.name,
+        email: input.email,
+      });
+    }
+  } catch (error) {
+    // Log the error but don't fail the operation since the main user entity was updated
+    console.warn("Failed to update NextAuth user record:", error);
+  }
 
   await ensureExactAuthorization(teamRef, userRef, input.permission, updatedBy);
 
-  return user as unknown as User;
+  return updatedUser as unknown as User;
 };
