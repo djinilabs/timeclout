@@ -1,21 +1,18 @@
 import {
-  LanguageModelV1,
-  LanguageModelV1CallOptions,
-  LanguageModelV1CallWarning,
-  LanguageModelV1FilePart,
-  LanguageModelV1FinishReason,
-  LanguageModelV1FunctionToolCall,
-  LanguageModelV1ImagePart,
-  LanguageModelV1LogProbs,
-  LanguageModelV1Message,
-  LanguageModelV1ProviderMetadata,
-  LanguageModelV1ReasoningPart,
-  LanguageModelV1RedactedReasoningPart,
-  LanguageModelV1Source,
-  LanguageModelV1StreamPart,
-  LanguageModelV1TextPart,
-  LanguageModelV1ToolCallPart,
-  LanguageModelV1ToolResultPart,
+  LanguageModelV2,
+  LanguageModelV2CallOptions,
+  LanguageModelV2CallWarning,
+  LanguageModelV2FilePart,
+  LanguageModelV2FinishReason,
+  LanguageModelV2Message,
+  LanguageModelV2ReasoningPart,
+  LanguageModelV2StreamPart,
+  LanguageModelV2TextPart,
+  LanguageModelV2ToolCallPart,
+  LanguageModelV2ToolResultPart,
+  LanguageModelV2Content,
+  LanguageModelV2Usage,
+  SharedV2ProviderMetadata,
 } from "@ai-sdk/provider";
 
 import { StreamAI } from "./StreamAI";
@@ -33,13 +30,11 @@ export type ChromeAIChatSettings = ChromeAIAssistantCreateOptions;
 const mapContent = (
   content:
     | string
-    | LanguageModelV1TextPart
-    | LanguageModelV1ImagePart
-    | LanguageModelV1FilePart
-    | LanguageModelV1ReasoningPart
-    | LanguageModelV1RedactedReasoningPart
-    | LanguageModelV1ToolCallPart
-    | LanguageModelV1ToolResultPart
+    | LanguageModelV2TextPart
+    | LanguageModelV2FilePart
+    | LanguageModelV2ReasoningPart
+    | LanguageModelV2ToolCallPart
+    | LanguageModelV2ToolResultPart
 ): string => {
   if (typeof content === "string") {
     return content;
@@ -56,14 +51,14 @@ const mapContent = (
   }
 };
 
-const mapAllContent = (content: LanguageModelV1Message["content"]): string => {
+const mapAllContent = (content: LanguageModelV2Message["content"]): string => {
   if (Array.isArray(content)) {
     return content.map(mapContent).join("\n\n");
   }
   return mapContent(content);
 };
 
-const mapMessage = (message: LanguageModelV1Message): string => {
+const mapMessage = (message: LanguageModelV2Message): string => {
   if (!message.content) {
     return "";
   }
@@ -97,9 +92,9 @@ const mapInitialPrompt = (prompt: LanguageModelMessage): string => {
 };
 
 const formatMessages = (
-  options: LanguageModelV1CallOptions,
+  options: LanguageModelV2CallOptions,
   initialPrompts: LanguageModelMessage[],
-  messages: LanguageModelV1Message[]
+  messages: LanguageModelV2Message[]
 ): string => {
   const additionalSystemPrompts: LanguageModelMessage[] = [];
 
@@ -143,10 +138,7 @@ const formatMessages = (
     }
   }
 
-  if (
-    options.mode.type === "regular" &&
-    (options.mode.tools ?? []).length > 0
-  ) {
+  if ((options.tools ?? []).length > 0) {
     additionalSystemPrompts.push({
       role: "system",
       content: [
@@ -157,7 +149,7 @@ const formatMessages = (
         },
       ],
     });
-    for (const tool of options.mode.tools!) {
+    for (const tool of options.tools!) {
       additionalSystemPrompts.push({
         role: "system",
         content: [
@@ -177,13 +169,14 @@ const formatMessages = (
   ].join("\n\n");
 };
 
-export class ChromeLocalLanguageModel implements LanguageModelV1 {
-  specificationVersion = "v1" as const;
+export class ChromeLocalLanguageModel implements LanguageModelV2 {
+  specificationVersion = "v2" as const;
   provider = "chrome-local" as const;
   modelId: ChromeAIChatModelId;
   defaultObjectGenerationMode = "json" as const;
   supportsImageUrls = false;
   supportsStructuredOutputs = false;
+  supportedUrls = {} as Record<string, RegExp[]>;
   options: ChromeAIChatSettings;
   initialPrompts: LanguageModelMessage[];
   session: Promise<LanguageModelSession>;
@@ -218,36 +211,27 @@ export class ChromeLocalLanguageModel implements LanguageModelV1 {
   supportsUrl() {
     return false;
   }
-  doGenerate(): PromiseLike<{
-    text?: string;
-    reasoning?:
-      | string
-      | Array<
-          | { type: "text"; text: string; signature?: string }
-          | { type: "redacted"; data: string }
-        >;
-    files?: Array<{ data: string | Uint8Array; mimeType: string }>;
-    toolCalls?: Array<LanguageModelV1FunctionToolCall>;
-    finishReason: LanguageModelV1FinishReason;
-    usage: { promptTokens: number; completionTokens: number };
-    rawCall: { rawPrompt: unknown; rawSettings: Record<string, unknown> };
-    rawResponse?: { headers?: Record<string, string>; body?: unknown };
-    request?: { body?: string };
-    response?: { id?: string; timestamp?: Date; modelId?: string };
-    warnings?: LanguageModelV1CallWarning[];
-    providerMetadata?: LanguageModelV1ProviderMetadata;
-    sources?: LanguageModelV1Source[];
-    logprobs?: LanguageModelV1LogProbs;
+  doGenerate(_options: LanguageModelV2CallOptions): PromiseLike<{
+    content: Array<LanguageModelV2Content>;
+    finishReason: LanguageModelV2FinishReason;
+    usage: LanguageModelV2Usage;
+    providerMetadata?: SharedV2ProviderMetadata;
+    request?: { body?: unknown };
+    response?: {
+      headers?: Record<string, string>;
+      body?: unknown;
+    };
+    warnings: LanguageModelV2CallWarning[];
   }> {
     throw new Error("doGenerate Method not implemented.");
   }
 
-  async doStream(options: LanguageModelV1CallOptions): Promise<{
-    stream: ReadableStream<LanguageModelV1StreamPart>;
+  async doStream(options: LanguageModelV2CallOptions): Promise<{
+    stream: ReadableStream<LanguageModelV2StreamPart>;
     rawCall: { rawPrompt: unknown; rawSettings: Record<string, unknown> };
     rawResponse?: { headers?: Record<string, string> };
     request?: { body?: string };
-    warnings?: Array<LanguageModelV1CallWarning>;
+    warnings?: Array<LanguageModelV2CallWarning>;
   }> {
     const session = await this.session;
     const messages = formatMessages(

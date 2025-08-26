@@ -1,7 +1,7 @@
 import {
-  LanguageModelV1CallOptions,
-  LanguageModelV1FunctionToolCall,
-  LanguageModelV1StreamPart,
+  LanguageModelV2CallOptions,
+  LanguageModelV2ToolCall,
+  LanguageModelV2StreamPart,
 } from "@ai-sdk/provider";
 import { nanoid } from "nanoid";
 
@@ -10,7 +10,7 @@ import { areAllBracesBalanced } from "./areAllBracesBalanced";
 export const objectStartSequence = " ```json\n";
 export const objectStopSequence = "\n```";
 
-export type ToolCall = LanguageModelV1FunctionToolCall;
+export type ToolCall = LanguageModelV2ToolCall;
 
 /**
  * Detects if the buffered content is starting to look like a JSON object with a tool_name attribute.
@@ -44,10 +44,10 @@ export function isToolCall(
     const json = JSON.parse(cleanContent);
     if (typeof json === "object" && json !== null && "toolName" in json) {
       return {
-        toolCallType: "function",
+        type: "tool-call",
         toolCallId: nanoid(),
         toolName: json.toolName,
-        args: json.args ? JSON.stringify(json.args) : "",
+        input: json.args ? JSON.stringify(json.args) : "",
       };
     }
   } catch {
@@ -70,9 +70,9 @@ const cleanChunk = (chunk: string, bufferedContent: string) => {
 
 export class StreamAI extends TransformStream<
   string,
-  LanguageModelV1StreamPart
+  LanguageModelV2StreamPart
 > {
-  public constructor(options: LanguageModelV1CallOptions) {
+  public constructor(options: LanguageModelV2CallOptions) {
     let buffer = "";
     let transforming = false;
     let toolCall: ToolCall | false | undefined = undefined;
@@ -97,7 +97,7 @@ export class StreamAI extends TransformStream<
         }
         let chunk = cleanChunk(_chunk, buffer); // See: https://github.com/jeasonstudio/chrome-ai/issues/11
         let newBuffer = buffer + chunk;
-        if (options.mode.type === "object-json") {
+        if (options.responseFormat?.type === "json") {
           transforming =
             newBuffer.startsWith(objectStartSequence) &&
             !newBuffer.endsWith(objectStopSequence);
@@ -130,14 +130,11 @@ export class StreamAI extends TransformStream<
             if (!enqueuedToolCall) {
               enqueuedToolCall = true;
               console.log("enqueueing tool call", toolCall);
-              controller.enqueue({
-                type: "tool-call",
-                ...toolCall,
-              });
+              controller.enqueue(toolCall);
             }
             return;
           } else {
-            controller.enqueue({ type: "text-delta", textDelta: chunk });
+            controller.enqueue({ type: "text-delta", delta: chunk, id: nanoid() });
           }
         }
         buffer = newBuffer;
@@ -148,7 +145,7 @@ export class StreamAI extends TransformStream<
           controller.enqueue({
             type: "finish",
             finishReason: "stop",
-            usage: { completionTokens: 0, promptTokens: 0 },
+            usage: { inputTokens: 0, outputTokens: 0, totalTokens: 0 },
           });
         }
       },
