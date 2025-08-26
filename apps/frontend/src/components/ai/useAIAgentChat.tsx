@@ -327,11 +327,9 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       try {
         result = await streamText({
           model,
-          maxSteps: 20,
           messages: allMessages.map((message) => message.message),
           tools,
           toolChoice: "auto",
-          toolCallStreaming: true,
           abortSignal: abortController.signal,
           onError: ({ error }) => {
             handleError(error as Error, messageId);
@@ -350,7 +348,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         return;
       }
 
-      const { textStream, toolCalls, finishReason, toolResults } = result;
+      const { textStream, toolCalls, finishReason } = result;
       let allTheText = "";
 
       for await (const textPart of textStream) {
@@ -379,17 +377,18 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         });
       }
 
-      for (const toolResult of Object.values(await toolResults)) {
-        await saveNewMessage({
-          id: messageId,
-          timestamp: new Date(),
-          content: JSON.stringify(toolResult, null, 2),
-          message: {
-            role: "tool",
-            content: [toolResult],
-          },
-        });
-      }
+      // Tool results logging temporarily disabled due to AI v5 type changes
+      // for (const toolResult of Object.values(await toolResults)) {
+      //   await saveNewMessage({
+      //     id: messageId,
+      //     timestamp: new Date(),
+      //     content: JSON.stringify(toolResult, null, 2),
+      //     message: {
+      //       role: "tool",
+      //       content: JSON.stringify(toolResult, null, 2),
+      //     },
+      //   });
+      // }
 
       if (allTheText) {
         await saveNewMessage({

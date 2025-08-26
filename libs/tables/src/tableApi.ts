@@ -2,7 +2,7 @@ import { ArcTable } from "@architect/functions/types/tables";
 import { AwsLiteDynamoDB } from "@aws-lite/dynamodb-types";
 import { conflict, notFound } from "@hapi/boom";
 import omit from "lodash.omit";
-import { z, ZodSchema } from "zod";
+import { z } from "zod";
 
 import { logger } from "./logger";
 import {
@@ -18,10 +18,10 @@ import { getDefined } from "@/utils";
  * Removes undefined values from an object to ensure clean data for DynamoDB storage
  * DynamoDB doesn't accept undefined values, so we filter them out
  */
-const clean = <T extends object>(item: T): T => {
+const clean = (item: any): any => {
   return Object.fromEntries(
     Object.entries(item).filter(([, value]) => value !== undefined)
-  ) as T;
+  );
 };
 
 /**
@@ -31,11 +31,12 @@ const clean = <T extends object>(item: T): T => {
  * @returns A function that parses and validates items for the specified operation
  */
 const parsingItem =
-  <T extends TableBaseSchemaType>(schema: ZodSchema, tableName: string) =>
-  (item: unknown, operation: string): T => {
+  (schema: any, tableName: string) =>
+  (item: unknown, operation: string): any => {
     try {
-      return clean(schema.parse(item));
-    } catch (err) {
+      const parsed = schema.parse(item);
+      return clean(parsed);
+    } catch (err: any) {
       err.message = `Error parsing item when ${operation} in ${tableName}: ${err.message}`;
       throw err;
     }
@@ -167,10 +168,7 @@ export const tableApi = <
   schema: TTableSchema
 ): TableAPI<TTableName> => {
   const console = logger(tableName);
-  const parseItem = parsingItem(schema, tableName) as (
-    item: unknown,
-    operation: string
-  ) => TTableRecord;
+  const parseItem = parsingItem(schema, tableName);
 
   const self: TableAPI<TTableName> = {
     /**
@@ -277,12 +275,12 @@ export const tableApi = <
      * @param version - Version to retrieve (optional)
      * @returns The item or undefined if not found
      */
-    get: async (pk: string, sk?: string, version?: string) => {
+    get: async (pk: string, sk?: string, version?: string | null) => {
       // console.info("get", { pk, sk, version });
       try {
         const args = keySubset({ pk, sk });
         const item = schema.optional().parse(await lowLevelTable.get(args));
-        return getVersion(item, version).item;
+        return getVersion(item, version).item as z.output<typeof schema> | undefined;
       } catch (err) {
         console.error("Error getting item", tableName, pk, sk, err);
         throw err;

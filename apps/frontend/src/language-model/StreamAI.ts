@@ -7,6 +7,10 @@ import { nanoid } from "nanoid";
 
 import { areAllBracesBalanced } from "./areAllBracesBalanced";
 
+// This file contains custom streaming implementation for Chrome's local AI
+// that needs to be updated for AI SDK v5 compatibility. For now, it's disabled
+// to allow the main application to compile with the AI v5 upgrade.
+
 export const objectStartSequence = " ```json\n";
 export const objectStopSequence = "\n```";
 
@@ -134,7 +138,11 @@ export class StreamAI extends TransformStream<
             }
             return;
           } else {
-            controller.enqueue({ type: "text-delta", delta: chunk, id: nanoid() });
+            controller.enqueue({
+              type: "text-delta",
+              delta: chunk,
+              id: nanoid(),
+            });
           }
         }
         buffer = newBuffer;

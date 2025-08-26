@@ -17,6 +17,10 @@ import {
 
 import { StreamAI } from "./StreamAI";
 
+// This file contains a custom implementation of Chrome's local AI language model
+// that needs to be updated for AI SDK v5 compatibility. For now, it's disabled
+// to allow the main application to compile with the AI v5 upgrade.
+
 export type ChromeAIChatModelId = "text";
 
 export interface ChromeAIAssistantCreateOptions {
@@ -211,7 +215,7 @@ export class ChromeLocalLanguageModel implements LanguageModelV2 {
   supportsUrl() {
     return false;
   }
-  doGenerate(_options: LanguageModelV2CallOptions): PromiseLike<{
+  doGenerate(): PromiseLike<{
     content: Array<LanguageModelV2Content>;
     finishReason: LanguageModelV2FinishReason;
     usage: LanguageModelV2Usage;

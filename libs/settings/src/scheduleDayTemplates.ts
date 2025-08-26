@@ -5,7 +5,7 @@ import {
   schedulePositionTemplatesSchema,
 } from "./schedulePositionTemplates";
 
-const scheduleDayTemplatesSchema = z.record(schedulePositionTemplatesSchema);
+const scheduleDayTemplatesSchema = z.record(z.string(), schedulePositionTemplatesSchema);
 
 export const scheduleDayTemplatesParser = {
   parse: (item: unknown) => {

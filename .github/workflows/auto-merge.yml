@@ -36,31 +36,45 @@ jobs:
           PR_NUMBER="${{ github.event.inputs.pr_number }}"
           echo "Checking if PR $PR_NUMBER is ready for merge..."
 
-          # Get the PR details
-          PR_INFO=$(gh pr view $PR_NUMBER --json mergeable,mergeStateStatus,reviewDecision,labels)
-          echo "PR info: $PR_INFO"
+          # Retry logic with exponential backoff
+          for attempt in {1..5}; do
+            echo "Attempt $attempt to check PR status..."
+            
+            # Get the PR details
+            PR_INFO=$(gh pr view $PR_NUMBER --json mergeable,mergeStateStatus,reviewDecision,labels)
+            echo "PR info: $PR_INFO"
 
-          # Check if PR is mergeable
-          MERGEABLE=$(echo "$PR_INFO" | jq -r '.mergeable')
-          MERGE_STATE=$(echo "$PR_INFO" | jq -r '.mergeStateStatus')
-          REVIEW_DECISION=$(echo "$PR_INFO" | jq -r '.reviewDecision')
+            # Check if PR is mergeable
+            MERGEABLE=$(echo "$PR_INFO" | jq -r '.mergeable')
+            MERGE_STATE=$(echo "$PR_INFO" | jq -r '.mergeStateStatus')
+            REVIEW_DECISION=$(echo "$PR_INFO" | jq -r '.reviewDecision')
 
-          echo "Mergeable: $MERGEABLE"
-          echo "Merge state: $MERGE_STATE"
-          echo "Review decision: $REVIEW_DECISION"
+            echo "Mergeable: $MERGEABLE"
+            echo "Merge state: $MERGE_STATE"
+            echo "Review decision: $REVIEW_DECISION"
 
-          # Check if PR has required labels (if any)
-          LABELS=$(echo "$PR_INFO" | jq -r '.labels[].name' | tr '\n' ' ')
-          echo "Labels: $LABELS"
+            # Check if PR has required labels (if any)
+            LABELS=$(echo "$PR_INFO" | jq -r '.labels[].name' | tr '\n' ' ')
+            echo "Labels: $LABELS"
 
-          # Check if PR is ready for merge
-          if [ "$MERGEABLE" == "MERGEABLE" ] && [ "$MERGE_STATE" == "CLEAN" ]; then
-            echo "ready=true" >> $GITHUB_OUTPUT
-            echo "PR is ready for merge"
-          else
+            # Check if PR is ready for merge
+            if [ "$MERGEABLE" == "MERGEABLE" ] && [ "$MERGE_STATE" == "CLEAN" ]; then
+              echo "ready=true" >> $GITHUB_OUTPUT
+              echo "PR is ready for merge"
+              break
+            fi
+            
+            if [ $attempt -lt 5 ]; then
+              wait_time=$((2 ** $attempt))
+              echo "PR not ready, waiting $wait_time seconds before retry..."
+              sleep $wait_time
+            fi
+          done
+
+          if [ "$(cat $GITHUB_OUTPUT | grep 'ready=' | cut -d'=' -f2)" != "true" ]; then
             echo "ready=false" >> $GITHUB_OUTPUT
-            echo "PR is not ready for merge"
-            echo "Mergeable: $MERGEABLE, Merge state: $MERGE_STATE"
+            echo "PR is not ready for merge after all attempts"
+            echo "Final status - Mergeable: $MERGEABLE, Merge state: $MERGE_STATE"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
