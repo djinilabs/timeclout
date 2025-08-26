@@ -27,7 +27,7 @@ importers:
         version: 1.15.0(graphql@16.11.0)(typescript@5.9.2)
       '@ai-sdk/google':
         specifier: ^2.0.8
-        version: 2.0.9(zod@4.1.3)
+        version: 2.0.11(zod@4.1.3)
       '@ai-sdk/provider':
         specifier: ^2.0.0
         version: 2.0.0
@@ -421,14 +421,8 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4
 
-  '@ai-sdk/google@2.0.9':
-    resolution: {integrity: sha512-sWhuiRzsVEBS3HOyvqgRiMahLxK2OEBs+x6RZMnibHt4nwHOl8AjJ7UVstJtJHo4U2YX8iaMSJMU+qhX1wRPTA==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4
-
-  '@ai-sdk/provider-utils@3.0.6':
-    resolution: {integrity: sha512-s1+9okDSqbxKvwf1mqyyqtOY27/RV9O+XTzaRKEamVKbmVBM7BiCSfui7vH7A/1EETECtTJkS2MUL5D3Pw5GFw==}
+  '@ai-sdk/google@2.0.11':
+    resolution: {integrity: sha512-dnVIgSz1DZD/0gVau6ifYN3HZFN15HZwC9VjevTFfvrfSfbEvpXj5x/k/zk/0XuQrlQ5g8JiwJtxc9bx24x2xw==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4
@@ -8662,17 +8656,10 @@ snapshots:
       '@ai-sdk/provider-utils': 3.0.7(zod@4.1.3)
       zod: 4.1.3
 
-  '@ai-sdk/google@2.0.9(zod@4.1.3)':
+  '@ai-sdk/google@2.0.11(zod@4.1.3)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.6(zod@4.1.3)
-      zod: 4.1.3
-
-  '@ai-sdk/provider-utils@3.0.6(zod@4.1.3)':
-    dependencies:
-      '@ai-sdk/provider': 2.0.0
-      '@standard-schema/spec': 1.0.0
-      eventsource-parser: 3.0.5
+      '@ai-sdk/provider-utils': 3.0.7(zod@4.1.3)
       zod: 4.1.3
 
   '@ai-sdk/provider-utils@3.0.7(zod@4.1.3)':
