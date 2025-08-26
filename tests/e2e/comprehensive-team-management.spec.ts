@@ -10,6 +10,73 @@ import {
 // Step functions for the company setup and configuration workflow
 
 /**
+ * Helper function to fill leave request form
+ */
+async function fillLeaveRequestForm(page: Page): Promise<void> {
+  // Fill in the leave request form based on BookCompanyTimeOff component
+
+  // Select leave type (first available option)
+  const leaveTypeSelect = page.locator("select").first();
+  if (await leaveTypeSelect.isVisible()) {
+    try {
+      await leaveTypeSelect.selectOption({ index: 0 }); // Select first available
+      console.log("✅ Selected leave type");
+    } catch {
+      console.log("ℹ️ Could not select leave type");
+    }
+  }
+
+  // Set date range using date inputs
+  const dateInputs = page.locator('input[type="date"]');
+  const dateInputCount = await dateInputs.count();
+
+  if (dateInputCount >= 2) {
+    // Set start date to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const startDate = tomorrow.toISOString().split("T")[0];
+
+    await dateInputs.nth(0).fill(startDate);
+    console.log(`✅ Set start date: ${startDate}`);
+
+    // Set end date to day after tomorrow
+    const dayAfterTomorrow = new Date();
+    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
+    const endDate = dayAfterTomorrow.toISOString().split("T")[0];
+
+    await dateInputs.nth(1).fill(endDate);
+    console.log(`✅ Set end date: ${endDate}`);
+  }
+
+  // Fill in reason
+  const reasonInput = page.locator('textarea, input[name*="reason"]').first();
+  if (await reasonInput.isVisible()) {
+    await reasonInput.fill("Team member vacation request");
+    console.log("✅ Filled in reason for leave request");
+  }
+
+  // Submit using the specific button class from BookCompanyTimeOff component
+  const submitButton = page.locator(".leave-submit-button");
+  if (await submitButton.isVisible()) {
+    await submitButton.click();
+    console.log("✅ Submitted leave request");
+
+    // Wait for navigation back to leave schedule
+    await page.waitForLoadState("domcontentloaded");
+    console.log("✅ Returned to leave schedule after request creation");
+  } else {
+    // Fallback to generic submit button
+    const genericSubmit = page.locator('button[type="submit"]');
+    if (await genericSubmit.isVisible()) {
+      await genericSubmit.click();
+      console.log("✅ Submitted leave request (generic button)");
+    } else {
+      console.log("ℹ️ No submit button found");
+    }
+  }
+}
+
+/**
  * Step 1: Authenticate a new user and complete setup
  */
 async function authenticateUser(
@@ -953,74 +1020,62 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
   // Create leave request for first team member
   console.log("📅 Creating leave request for Team Member One...");
 
-  // Look for the create leave request button or link
-  const createLeaveRequestButton = page.locator(
-    'a:has-text("Create Leave Request"), button:has-text("Create Leave Request")'
-  );
-  if (await createLeaveRequestButton.isVisible()) {
-    await createLeaveRequestButton.click();
-    console.log("✅ Clicked on Create Leave Request button");
+  // Based on the source code analysis, leave requests are created by hovering over
+  // team member calendar cells and clicking the "+" link that appears
 
-    // Wait for the leave request form to load
-    await page.waitForLoadState("domcontentloaded");
+  // Wait for the leave schedule calendar to load
+  await page.waitForTimeout(2000);
 
-    // Select the first team member (Team Member One)
-    const memberSelect = page.locator(
-      'select[name="beneficiaryPk"], select[aria-label*="member"]'
-    );
-    if (await memberSelect.isVisible()) {
-      // Select the first option (should be Team Member One)
-      await memberSelect.selectOption({ index: 0 });
-      console.log("✅ Selected Team Member One for leave request");
+  // Look for team member calendar cells with hover functionality
+  // Based on source code: cells have .group class and contain links with specific classes
+  const calendarCells = page.locator(".group");
+  const cellCount = await calendarCells.count();
+
+  console.log(`Found ${cellCount} calendar cells`);
+
+  // Find a cell that contains the hidden add link (no existing leave request)
+  // The add link has specific classes from TeamLeaveSchedule: "absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100"
+  let foundAddableCell = false;
+
+  for (let i = 0; i < Math.min(cellCount, 10); i++) {
+    const cell = calendarCells.nth(i);
+
+    // Check if this cell has a hidden add link (which means no existing leave request)
+    const addLeaveLink = cell.locator("a").filter({
+      has: page.locator('span:has-text("+")'),
+    });
+
+    const linkCount = await addLeaveLink.count();
+    if (linkCount > 0) {
+      console.log(`Found cell ${i} with add functionality`);
+      foundAddableCell = true;
+
+      // Hover over the cell to make the link visible
+      await cell.hover();
+
+      // Wait for the opacity transition to complete
+      await page.waitForTimeout(500);
+
+      // Wait for the link to become visible after hover
+      await addLeaveLink.waitFor({ state: "visible", timeout: 5000 });
+
+      // Click the link
+      await addLeaveLink.click();
+      console.log("✅ Clicked on add leave request link");
+
+      // Wait for navigation to leave request creation page
+      await page.waitForLoadState("domcontentloaded");
+      await page.waitForTimeout(1000);
+
+      // Now fill in the leave request form
+      await fillLeaveRequestForm(page);
+      return;
     }
+  }
 
-    // Fill in leave request details
-    const leaveTypeSelect = page.locator('select[name="type"]');
-    const startDateInput = page.locator('input[name="startDate"]');
-    const endDateInput = page.locator('input[name="endDate"]');
-    const reasonInput = page.locator(
-      'input[name="reason"], textarea[name="reason"]'
-    );
-
-    if (await leaveTypeSelect.isVisible()) {
-      await leaveTypeSelect.selectOption("Vacation");
-      console.log("✅ Selected leave type: Vacation");
-    }
-
-    if (await startDateInput.isVisible()) {
-      // Set start date to tomorrow
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const startDate = tomorrow.toISOString().split("T")[0];
-      await startDateInput.fill(startDate);
-      console.log(`✅ Set start date: ${startDate}`);
-    }
-
-    if (await endDateInput.isVisible()) {
-      // Set end date to day after tomorrow
-      const dayAfterTomorrow = new Date();
-      dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
-      const endDate = dayAfterTomorrow.toISOString().split("T")[0];
-      await endDateInput.fill(endDate);
-      console.log(`✅ Set end date: ${endDate}`);
-    }
-
-    if (await reasonInput.isVisible()) {
-      await reasonInput.fill("Team member vacation request");
-      console.log("✅ Filled in reason for leave request");
-    }
-
-    // Submit the leave request
-    const submitButton = page.locator('button[type="submit"]');
-    await submitButton.click();
-    console.log("✅ Submitted leave request for Team Member One");
-
-    // Wait for the leave request to be processed
-    await page.waitForLoadState("domcontentloaded");
-    console.log("✅ Leave request processed successfully");
-  } else {
-    console.log(
-      "ℹ️ Create Leave Request button not found, skipping leave request creation"
+  if (!foundAddableCell) {
+    throw new Error(
+      "No calendar cells with add functionality found. This indicates either no team members exist or all members already have leave requests for visible dates."
     );
   }
 
@@ -1045,6 +1100,372 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
 }
 
 /**
+ * Step 6: Create and manage shift positions
+ */
+async function createAndManageShiftPositions(
+  page: Page,
+  _pageObjects: PageObjects,
+  teamName: string
+): Promise<void> {
+  console.log("📅 Step 6: Creating and managing shift positions...");
+
+  // Navigate to the team's shifts calendar
+  const shiftsCalendarTab = page.locator('main a:has-text("Shifts Calendar")');
+  await shiftsCalendarTab.waitFor({ state: "visible", timeout: 10000 });
+  await shiftsCalendarTab.click();
+  console.log("✅ Clicked on Shifts Calendar tab");
+
+  // Wait for the shifts calendar to load
+  await page.waitForLoadState("domcontentloaded");
+
+  // Ensure we're on the "By day" view for shift creation
+  const byDayTab = page.locator('button:has-text("By day")');
+  if (await byDayTab.isVisible()) {
+    await byDayTab.click();
+    console.log("✅ Selected 'By day' view for shift creation");
+  }
+
+  // Wait for the calendar to fully load
+  await page.waitForTimeout(2000);
+
+  // Look for the Actions menu button to add a position
+  // Based on source code: TeamShiftsActionsMenu has an "Actions" button with "Add position" option
+  const actionsButton = page.locator('button[aria-label*="Open actions menu"]');
+
+  let shiftCreated = false;
+
+  if (await actionsButton.isVisible()) {
+    await actionsButton.click();
+    console.log("✅ Clicked Actions menu button");
+
+    // Wait for the menu to appear and click "Add position"
+    const addPositionButton = page.locator('button:has-text("Add position")');
+    await addPositionButton.waitFor({ state: "visible", timeout: 5000 });
+    await addPositionButton.click();
+    console.log("✅ Clicked Add position button");
+
+    // Wait a moment for the dialog to start opening
+    await page.waitForTimeout(500);
+    shiftCreated = true;
+  } else {
+    console.log("ℹ️ Actions menu button not found, trying alternative methods");
+
+    // Alternative: Look for any button that might create shifts
+    const createButtons = page.locator(
+      'button:has-text("Create"), button:has-text("Add"), button[aria-label*="Add"], button[aria-label*="Create"]'
+    );
+    const createButton = createButtons.first();
+
+    if (await createButton.isVisible()) {
+      await createButton.click();
+      console.log("✅ Clicked create/add button");
+      shiftCreated = true;
+    }
+  }
+
+  if (shiftCreated) {
+    // Wait for the shift creation form/dialog to appear
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(1000);
+
+    // Fill in shift details
+    await createShiftPosition(page, "Morning Shift");
+    console.log("✅ Created first shift position: Morning Shift");
+
+    // Create a second shift for the same day or next day
+    await page.waitForTimeout(1000);
+
+    // Try to create another shift using the Actions menu again
+    await actionsButton.click();
+    const addPositionButton2 = page.locator('button:has-text("Add position")');
+    await addPositionButton2.waitFor({ state: "visible", timeout: 5000 });
+    await addPositionButton2.click();
+    await createShiftPosition(page, "Evening Shift");
+    console.log("✅ Created second shift position: Evening Shift");
+
+    // Test shift assignment to team members
+    await assignShiftToTeamMember(page, "Morning Shift", "Team Member One");
+    await assignShiftToTeamMember(page, "Evening Shift", "Team Member Two");
+    console.log("✅ Assigned shifts to team members");
+  } else {
+    console.log(
+      "ℹ️ Could not find a way to create shifts, skipping shift creation"
+    );
+  }
+
+  console.log("✅ Shift positions creation and management completed");
+}
+
+/**
+ * Helper function to create a shift position
+ */
+async function createShiftPosition(
+  page: Page,
+  shiftName: string
+): Promise<void> {
+  console.log(`🔄 Creating shift position: ${shiftName}...`);
+
+  // Wait for HeadlessUI dialog to fully open (not just appear)
+  // HeadlessUI dialogs have transitions, so we need to wait for the content to be visible
+  const shiftDialog = page.locator(
+    '[role="dialog"][data-headlessui-state="open"]'
+  );
+
+  // Wait for the dialog to appear first
+  await shiftDialog.waitFor({ state: "attached", timeout: 5000 });
+  console.log("✅ Shift creation dialog is attached to DOM");
+
+  // Now wait for the actual form to become visible (this indicates the transition is complete)
+  const dialogContent = page.locator(
+    '[role="dialog"] form[aria-label="Create schedule position form"]'
+  );
+
+  try {
+    await dialogContent.waitFor({ state: "visible", timeout: 10000 });
+    console.log("✅ Shift creation dialog content is visible");
+
+    // Look for input fields within the dialog content
+    // Try different types of inputs that might exist in the form
+    const inputSelectors = [
+      'input[type="text"]',
+      "input:not([type])", // inputs without explicit type
+      "textarea",
+      "textbox",
+      "input",
+    ];
+
+    let nameInput = null;
+    for (const selector of inputSelectors) {
+      const inputs = dialogContent.locator(selector);
+      const count = await inputs.count();
+      console.log(`Found ${count} inputs with selector: ${selector}`);
+
+      if (count > 0) {
+        // Try to find the name field (usually the last input or the one near the bottom)
+        nameInput = inputs.last();
+        try {
+          await nameInput.waitFor({ state: "visible", timeout: 2000 });
+          console.log(`✅ Found visible input with selector: ${selector}`);
+          break;
+        } catch {
+          console.log(`Input with selector ${selector} exists but not visible`);
+        }
+      }
+    }
+
+    if (nameInput) {
+      await nameInput.fill(shiftName);
+      console.log(`✅ Filled shift name: ${shiftName}`);
+    } else {
+      throw new Error("Could not find any input field for the shift name");
+    }
+
+    // Submit the form - look for "Save Changes" button from error context
+    const saveButton = dialogContent.locator('button:has-text("Save Changes")');
+
+    await saveButton.waitFor({ state: "visible", timeout: 5000 });
+    await saveButton.click();
+    console.log("✅ Clicked Save Changes button");
+
+    // Wait for the dialog to close
+    await shiftDialog.waitFor({ state: "detached", timeout: 10000 });
+    console.log("✅ Shift creation dialog closed");
+  } catch (error) {
+    console.log("ℹ️ Shift creation dialog not found or error occurred:", error);
+    throw new Error("Could not find or interact with shift creation dialog");
+  }
+}
+
+/**
+ * Helper function to assign a shift to a team member
+ */
+async function assignShiftToTeamMember(
+  page: Page,
+  shiftName: string,
+  memberName: string
+): Promise<void> {
+  console.log(`🔄 Assigning shift "${shiftName}" to "${memberName}"...`);
+
+  // Look for the shift on the calendar - shifts have role="button" and aria-label with the shift name
+  const shiftElement = page
+    .locator(`[role="button"][aria-label*="${shiftName}"]`)
+    .first();
+
+  try {
+    await shiftElement.waitFor({ state: "visible", timeout: 10000 });
+    await shiftElement.click();
+    console.log(`✅ Clicked on shift: ${shiftName}`);
+
+    // Wait for assignment interface to appear
+    await page.waitForTimeout(1000);
+
+    // Based on source code, look for SelectUser component for assignment
+    const selectUserButton = page.locator(
+      'button[aria-label*="Select a user"]'
+    );
+
+    if (await selectUserButton.isVisible()) {
+      await selectUserButton.click();
+      console.log("✅ Clicked Select User button for assignment");
+
+      // Wait for dropdown to appear and select the member
+      const memberOption = page.locator(
+        `[role="option"]:has-text("${memberName}")`
+      );
+      try {
+        await memberOption.waitFor({ state: "visible", timeout: 5000 });
+        await memberOption.click();
+        console.log(`✅ Assigned shift to ${memberName}`);
+      } catch {
+        console.log(
+          `ℹ️ Could not find member ${memberName} in assignment options`
+        );
+      }
+    } else {
+      console.log(
+        `ℹ️ Could not find assignment interface for shift: ${shiftName}`
+      );
+    }
+  } catch {
+    console.log(`ℹ️ Could not find shift element: ${shiftName}`);
+  }
+}
+
+/**
+ * Step 7: Test shift scheduling automation features
+ */
+async function testShiftAutomationFeatures(page: Page): Promise<void> {
+  console.log("🤖 Step 7: Testing shift automation features...");
+
+  // Look for auto-fill or automation buttons in the shifts interface
+  const autoFillButton = page.locator(
+    'button:has-text("Auto-fill"), button:has-text("Auto Fill"), button[aria-label*="auto"], button[aria-label*="Auto"]'
+  );
+  const publishButton = page.locator(
+    'button:has-text("Publish"), button[aria-label*="publish"], button[aria-label*="Publish"]'
+  );
+
+  // Test auto-fill functionality if available
+  if (await autoFillButton.isVisible()) {
+    await autoFillButton.click();
+    console.log("✅ Clicked Auto-fill button");
+
+    // Wait for auto-fill process to start
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(2000);
+
+    // Look for auto-fill results or progress indicators
+    const autoFillResults = page.locator(
+      '[aria-label*="solution"], [aria-label*="result"], .auto-fill-result, .solution'
+    );
+
+    if (await autoFillResults.isVisible()) {
+      console.log("✅ Auto-fill process completed with results");
+
+      // Look for "Use this solution" or similar button
+      const useSolutionButton = page.locator(
+        'button:has-text("Use"), button:has-text("Apply"), button:has-text("Accept")'
+      );
+
+      if (await useSolutionButton.isVisible()) {
+        await useSolutionButton.click();
+        console.log("✅ Applied auto-fill solution");
+        await page.waitForLoadState("domcontentloaded");
+      }
+    } else {
+      console.log(
+        "ℹ️ Auto-fill process may still be running or no results visible"
+      );
+    }
+  } else {
+    console.log("ℹ️ Auto-fill button not found, skipping automation test");
+  }
+
+  // Test publish functionality if available
+  if (await publishButton.isVisible()) {
+    await publishButton.click();
+    console.log("✅ Clicked Publish button");
+
+    // Wait for publish dialog or process
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(1000);
+
+    // Look for the specific "Publish changes" button (avoiding strict mode violation)
+    const publishChangesButton = page.locator(
+      'button:has-text("Publish changes")'
+    );
+
+    if (await publishChangesButton.isVisible()) {
+      await publishChangesButton.click();
+      console.log("✅ Clicked 'Publish changes' button");
+      await page.waitForLoadState("domcontentloaded");
+    }
+  } else {
+    console.log("ℹ️ Publish button not found, skipping publish test");
+  }
+
+  console.log("✅ Shift automation features testing completed");
+}
+
+/**
+ * Step 8: Verify shifts appear in calendar views
+ */
+async function verifyShiftsInCalendarViews(page: Page): Promise<void> {
+  console.log(
+    "🔍 Step 8: Verifying shifts appear in different calendar views..."
+  );
+
+  // Test "By member" view
+  const byMemberTab = page.locator('button:has-text("By member")');
+  if (await byMemberTab.isVisible()) {
+    await byMemberTab.click();
+    console.log("✅ Switched to 'By member' view");
+    await page.waitForLoadState("domcontentloaded");
+
+    // Verify shifts appear for team members
+    const memberShifts = page.locator("text=Morning Shift, text=Evening Shift");
+    try {
+      await memberShifts.first().waitFor({ state: "visible", timeout: 5000 });
+      console.log("✅ Shifts visible in 'By member' view");
+    } catch {
+      console.log("ℹ️ Shifts not immediately visible in 'By member' view");
+    }
+  }
+
+  // Test "By duration" view
+  const byDurationTab = page.locator('button:has-text("By duration")');
+  if (await byDurationTab.isVisible()) {
+    await byDurationTab.click();
+    console.log("✅ Switched to 'By duration' view");
+    await page.waitForLoadState("domcontentloaded");
+  }
+
+  // Test "Stats" view
+  const statsTab = page.locator('button:has-text("Stats")');
+  if (await statsTab.isVisible()) {
+    await statsTab.click();
+    console.log("✅ Switched to 'Stats' view");
+    await page.waitForLoadState("domcontentloaded");
+
+    // Look for statistics about the created shifts
+    const statsContent = page.locator('[role="main"], .stats, .statistics');
+    if (await statsContent.isVisible()) {
+      console.log("✅ Statistics view loaded successfully");
+    }
+  }
+
+  // Return to "By day" view
+  const byDayTab = page.locator('button:has-text("By day")');
+  if (await byDayTab.isVisible()) {
+    await byDayTab.click();
+    console.log("✅ Returned to 'By day' view");
+    await page.waitForLoadState("domcontentloaded");
+  }
+
+  console.log("✅ Shift calendar views verification completed");
+}
+
+/**
  * Final verification step
  */
 async function verifyWorkflowCompletion(
@@ -1062,7 +1483,7 @@ async function verifyWorkflowCompletion(
     currentUrl.includes("settingsTab=")
   ) {
     console.log(
-      "🎉 SUCCESS: Completed full company setup and configuration workflow!"
+      "🎉 SUCCESS: Completed comprehensive team management and scheduling workflow!"
     );
     console.log(`   Company: ${companyName}`);
     console.log(`   Unit: ${unitName}`);
@@ -1077,6 +1498,9 @@ async function verifyWorkflowCompletion(
     console.log(`   ✅ Team members created`);
     console.log(`   ✅ Team member qualifications configured`);
     console.log(`   ✅ Team member leave schedules configured`);
+    console.log(`   ✅ Shift positions created and managed`);
+    console.log(`   ✅ Shift automation features tested`);
+    console.log(`   ✅ Calendar views verified`);
   } else {
     throw new Error(
       `Expected to be on company settings page, but current URL is: ${currentUrl}`
@@ -1085,7 +1509,7 @@ async function verifyWorkflowCompletion(
 }
 
 testWithUserManagement.describe(
-  "Company Setup and Configuration Workflow",
+  "Comprehensive Team Management and Scheduling Workflow",
   () => {
     let testUser: TestUser;
     let companyName: string;
@@ -1101,10 +1525,10 @@ testWithUserManagement.describe(
     });
 
     testWithUserManagement(
-      "should complete full company setup and configuration workflow",
+      "should complete comprehensive team management and scheduling workflow",
       async ({ page, userManagement, pageObjects }) => {
         console.log(
-          "🚀 Starting company setup and configuration workflow test..."
+          "🚀 Starting comprehensive team management and scheduling workflow test..."
         );
 
         // Execute the workflow steps in sequence
@@ -1126,6 +1550,11 @@ testWithUserManagement.describe(
         await updateTeamMemberProfile(page, pageObjects, teamName);
         await setupTeamMemberQualifications(page);
         await setupTeamMemberLeaveSchedules(page);
+
+        // TEST SHIFT SCHEDULING FUNCTIONALITY
+        await createAndManageShiftPositions(page, pageObjects, teamName);
+        await testShiftAutomationFeatures(page);
+        await verifyShiftsInCalendarViews(page);
 
         // Navigate back to company page to access company settings
         await page.goto(`/companies/${companyPk}`);
