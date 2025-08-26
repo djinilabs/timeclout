@@ -888,11 +888,7 @@ async function createTeamMembers(
 /**
  * Step 5.8: Update a team member's profile to test updateTeamMember functionality
  */
-async function updateTeamMemberProfile(
-  page: Page,
-  _pageObjects: PageObjects,
-  _teamName: string
-): Promise<void> {
+async function updateTeamMemberProfile(page: Page): Promise<void> {
   console.log("✏️ Step 5.8: Updating team member profile...");
 
   // Navigate to team members list
@@ -1009,9 +1005,11 @@ async function setupUnitManager(page: Page): Promise<void> {
   console.log("👨‍💼 Step 5.9.5: Setting up unit manager for leave approvals...");
 
   // Navigate back to the unit to set up managers
-  const unitBreadcrumb = page.locator('nav[aria-label="Breadcrumb"] a').nth(1); // Second breadcrumb item should be the unit
-  await unitBreadcrumb.click();
-  console.log("✅ Navigated back to unit page");
+  // Use sidebar navigation to get to the unit (more reliable than breadcrumbs)
+  const unitSidebarLink = page.locator('a[href*="/units/"]').first();
+  await unitSidebarLink.waitFor({ state: "visible", timeout: 10000 });
+  await unitSidebarLink.click();
+  console.log("✅ Navigated back to unit page via sidebar");
 
   await page.waitForLoadState("domcontentloaded");
 
@@ -1025,6 +1023,19 @@ async function setupUnitManager(page: Page): Promise<void> {
 
   // Try to set up a unit manager, but don't fail if the interface isn't available
   try {
+    // Debug: Check what tabs are available on this page
+    const allTabs = page.locator('a[role="tab"]');
+    const tabCount = await allTabs.count();
+    console.log(`🔍 Found ${tabCount} tabs on the unit settings page`);
+
+    for (let i = 0; i < tabCount; i++) {
+      const tabText = await allTabs.nth(i).textContent();
+      const tabAriaLabel = await allTabs.nth(i).getAttribute("aria-label");
+      console.log(
+        `🔍 Tab ${i}: text="${tabText}", aria-label="${tabAriaLabel}"`
+      );
+    }
+
     // Go to managers tab - use the specific tab role selector
     const managersTab = page.locator('a[role="tab"][aria-label="Managers"]');
     await managersTab.waitFor({ state: "visible", timeout: 5000 });
@@ -1033,42 +1044,59 @@ async function setupUnitManager(page: Page): Promise<void> {
 
     await page.waitForLoadState("domcontentloaded");
 
-    // Look for "Select User" button to add a manager
-    const selectUserButton = page.locator('button:has-text("Select User")');
-    if (await selectUserButton.isVisible()) {
-      await selectUserButton.click();
-      console.log("✅ Clicked Select User button");
+    // Look for the user selection dropdown to add a manager
+    const selectUserDropdown = page.locator(
+      'select[aria-label="Please select a user"]'
+    );
+    if (await selectUserDropdown.isVisible()) {
+      console.log("✅ Found user selection dropdown");
 
-      // Wait for user selection dropdown/modal
-      await page.waitForTimeout(1000);
+      // Get all available user options (excluding the placeholder option)
+      const allOptions = selectUserDropdown.locator("option");
+      const allOptionCount = await allOptions.count();
+      console.log(`🔍 Found ${allOptionCount} total options in dropdown`);
 
-      // Select the first available user (should be ourselves or a team member)
-      const userOption = page.locator('[role="option"]').first();
-      if (await userOption.isVisible()) {
-        await userOption.click();
-        console.log("✅ Selected user as unit manager");
+      // Get options with actual values (not empty)
+      const userOptions = selectUserDropdown.locator('option[value!=""]');
+      const optionCount = await userOptions.count();
+      console.log(
+        `🔍 Found ${optionCount} available users to assign as managers`
+      );
 
-        // Save the manager assignment
-        const saveButton = page.locator('button:has-text("Save")');
-        if (await saveButton.isVisible()) {
-          await saveButton.click();
-          console.log("✅ Saved unit manager assignment");
-          await page.waitForLoadState("domcontentloaded");
+      if (optionCount > 0) {
+        // Debug: Show available options
+        for (let i = 0; i < optionCount; i++) {
+          const optionText = await userOptions.nth(i).textContent();
+          const optionValue = await userOptions.nth(i).getAttribute("value");
+          console.log(
+            `🔍 Option ${i}: "${optionText}" (value: ${optionValue})`
+          );
+        }
+
+        // Select the first available user (could be ourselves or a team member)
+        const firstUserValue = await userOptions.first().getAttribute("value");
+        if (firstUserValue) {
+          await selectUserDropdown.selectOption(firstUserValue);
+          console.log(`✅ Selected user as unit manager: ${firstUserValue}`);
+
+          // Wait for the assignment to be processed (it's automatic when selecting)
+          await page.waitForTimeout(2000);
+          console.log("✅ Unit manager assignment completed");
+        } else {
+          console.log("ℹ️ First user option has no value");
         }
       } else {
-        console.log("ℹ️ No user options found in dropdown");
+        console.log("ℹ️ No users available to assign as managers");
       }
     } else {
       console.log(
-        "ℹ️ Select User button not found - may already have managers or different UI"
+        "ℹ️ User selection dropdown not found - may already have managers or no eligible users"
       );
     }
   } catch (error) {
+    console.log(`ℹ️ Unit manager setup encountered an error: ${error.message}`);
     console.log(
-      "ℹ️ Unit manager setup not available - proceeding without explicit manager assignment"
-    );
-    console.log(
-      "ℹ️ The main user (owner) should have sufficient permissions for leave approvals"
+      "ℹ️ Proceeding without explicit manager assignment - the main user (owner) should have sufficient permissions for leave approvals"
     );
   }
 
@@ -1194,11 +1222,7 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
 /**
  * Step 6: Create and manage shift positions
  */
-async function createAndManageShiftPositions(
-  page: Page,
-  _pageObjects: PageObjects,
-  teamName: string
-): Promise<void> {
+async function createAndManageShiftPositions(page: Page): Promise<void> {
   console.log("📅 Step 6: Creating and managing shift positions...");
 
   // Navigate to the team's shifts calendar
@@ -1640,13 +1664,13 @@ testWithUserManagement.describe(
 
         // Create team members and set up their qualifications and leave schedules
         await createTeamMembers(page, pageObjects, teamName);
-        await updateTeamMemberProfile(page, pageObjects, teamName);
+        await updateTeamMemberProfile(page);
         await setupTeamMemberQualifications(page);
         await setupUnitManager(page);
         await setupTeamMemberLeaveSchedules(page);
 
         // TEST SHIFT SCHEDULING FUNCTIONALITY
-        await createAndManageShiftPositions(page, pageObjects, teamName);
+        await createAndManageShiftPositions(page);
         await testShiftAutomationFeatures(page);
         await verifyShiftsInCalendarViews(page);
 
