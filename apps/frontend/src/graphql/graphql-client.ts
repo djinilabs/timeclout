@@ -2,8 +2,8 @@ import { offlineExchange, Data, Entity } from "@urql/exchange-graphcache";
 import { makeDefaultStorage } from "@urql/exchange-graphcache/default-storage";
 import merge from "deepmerge";
 import { type Session } from "next-auth";
-import { fetchExchange, createClient as urqlCreateClient } from "urql";
 import type { Client, ClientOptions, Exchange } from "urql";
+import { fetchExchange, createClient as urqlCreateClient } from "urql";
 
 type WithSession = {
   session: Session;
