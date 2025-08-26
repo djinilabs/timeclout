@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import {
-  AnyVariables,
-  DocumentInput,
-  useMutation as urqlUseMutation,
-} from "urql";
+import { useMutation as urqlUseMutation } from "urql";
+import { AnyVariables, DocumentInput } from "@urql/core";
 
 export const useMutation = <
   TData,
