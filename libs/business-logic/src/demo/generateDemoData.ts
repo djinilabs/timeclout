@@ -115,7 +115,11 @@ export const generateUnitName = (
         "Bar",
       ])} ${unitType}`;
     default:
-      return `${fakerator.random.word()} ${unitType}`;
+      return `${fakerator.random.arrayElement([
+        "General",
+        "Main",
+        "Primary",
+      ])} ${unitType}`;
   }
 };
 
@@ -160,12 +164,15 @@ export const generateTeamName = (
         "Management",
       ])} Team`;
     default:
-      return `${fakerator.random.word()} Team`;
+      return `${fakerator.random.arrayElement([
+        "General",
+        "Main",
+        "Primary",
+      ])} Team`;
   }
 };
 
 export const generateUserData = (
-  industry: string,
   teamSize: number,
   roleSuggestions: string[],
   qualificationSuggestions: string[]
@@ -183,7 +190,7 @@ export const generateUserData = (
     const name = `${firstName} ${lastName}`;
 
     // Generate realistic email
-    const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${fakerator.internet.domainName()}`;
+    const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`;
 
     // Select role from suggestions or generate one
     const role =
@@ -196,14 +203,9 @@ export const generateUserData = (
           ]);
 
     // Assign 1-3 random qualifications
-    const numQualifications = Math.min(
-      Math.floor(Math.random() * 3) + 1,
-      qualificationSuggestions.length
-    );
-    const qualifications = fakerator.random.arrayElements(
-      qualificationSuggestions,
-      numQualifications
-    );
+    const qualifications = [
+      fakerator.random.arrayElement(qualificationSuggestions),
+    ];
 
     users.push({
       name,
@@ -228,7 +230,7 @@ export const generateDemoData = (
   const finalTeamName = teamName || generateTeamName(industry, []);
 
   // Generate user data
-  const users = generateUserData(industry, teamSize, [], []);
+  const users = generateUserData(teamSize, [], []);
 
   return {
     companyName: finalCompanyName,

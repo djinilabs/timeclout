@@ -64,7 +64,7 @@ export const DemoModeProgress: React.FC<DemoModeProgressProps> = ({
       <div className="text-center mt-6">
         <p className="text-sm text-gray-500">
           <Trans>
-            This may take a few moments. Please don't close this page.
+            This may take a few moments. Please don&apos;t close this page.
           </Trans>
         </p>
       </div>

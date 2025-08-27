@@ -1,5 +1,10 @@
-import { getIndustryTemplate } from "./industryTemplates";
-import { generateDemoData, type DemoDataOptions } from "./generateDemoData";
+import { createDemoCompany } from "./company/createDemoCompany";
+import { generateDemoData } from "./generateDemoData";
+import { createDemoLeaveRequests } from "./leaves/createDemoLeaveRequests";
+import { createDemoShiftPositions } from "./shifts/createDemoShiftPositions";
+import { createDemoTeam } from "./team/createDemoTeam";
+import { createDemoUsers } from "./team/createDemoUsers";
+import { createDemoUnit } from "./unit/createDemoUnit";
 
 export interface PopulateDemoAccountOptions {
   industry: string;
@@ -13,73 +18,103 @@ export interface PopulateDemoAccountOptions {
 
 export interface PopulateDemoAccountResult {
   success: boolean;
-  company: any;
-  unit: any;
-  team: any;
-  users: any[];
-  message: string;
+  company?: { pk: string };
+  unit?: { pk: string };
+  team?: { pk: string };
+  users?: unknown[];
+  message?: string;
 }
 
 export const populateDemoAccount = async (
   options: PopulateDemoAccountOptions
 ): Promise<PopulateDemoAccountResult> => {
   try {
-    const { industry, unitType, teamSize, actingUserPk } = options;
+    const { industry, unitType, teamSize } = options;
 
-    // Validate team size
-    if (teamSize < 1 || teamSize > 20) {
-      throw new Error("Team size must be between 1 and 20");
-    }
-
-    // Get industry template
-    const industryTemplate = getIndustryTemplate(industry);
-
-    // Generate demo data
-    const demoData = generateDemoData({
+    // Generate demo data based on industry
+    const generatedData = generateDemoData({
       industry,
       unitType,
       teamSize,
-      companyName: options.companyName,
-      unitName: options.unitName,
-      teamName: options.teamName,
     });
 
-    // TODO: Implement actual creation functions
-    // For now, return mock data structure
+    // Step 1: Create company
+    const companyResult = await createDemoCompany(options, generatedData);
+    if (!companyResult.success || !companyResult.company) {
+      return {
+        success: false,
+        message: companyResult.message || "Failed to create demo company",
+      };
+    }
 
-    const result: PopulateDemoAccountResult = {
+    // Step 2: Create unit
+    const unitResult = await createDemoUnit(
+      options,
+      generatedData,
+      companyResult.company.pk
+    );
+    if (!unitResult.success || !unitResult.unit) {
+      return {
+        success: false,
+        message: unitResult.message || "Failed to create demo unit",
+      };
+    }
+
+    // Step 3: Create team
+    const teamResult = await createDemoTeam(
+      options,
+      generatedData,
+      unitResult.unit.pk
+    );
+    if (!teamResult.success || !teamResult.team) {
+      return {
+        success: false,
+        message: teamResult.message || "Failed to create demo team",
+      };
+    }
+
+    // Step 4: Create team members
+    const usersResult = await createDemoUsers(options, generatedData);
+    if (!usersResult.success || !usersResult.users) {
+      return {
+        success: false,
+        message: usersResult.message || "Failed to create demo users",
+      };
+    }
+
+    // Step 5: Create shift positions
+    const shiftPositionsResult = await createDemoShiftPositions(options);
+    if (!shiftPositionsResult.success) {
+      console.warn(
+        "Failed to create demo shift positions:",
+        shiftPositionsResult.message
+      );
+      // Continue anyway as this is not critical
+    }
+
+    // Step 6: Create leave requests
+    const leaveRequestsResult = await createDemoLeaveRequests(
+      options,
+      teamResult.team.pk
+    );
+    if (!leaveRequestsResult.success) {
+      console.warn(
+        "Failed to create demo leave requests:",
+        leaveRequestsResult.message
+      );
+      // Continue anyway as this is not critical
+    }
+
+    return {
       success: true,
-      company: {
-        name: demoData.companyName,
-        industry: industryTemplate.name,
-        // Other company properties will be added when we implement the actual creation
-      },
-      unit: {
-        name: demoData.unitName,
-        // Other unit properties will be added when we implement the actual creation
-      },
-      team: {
-        name: demoData.teamName,
-        // Other team properties will be added when we implement the actual creation
-      },
-      users: demoData.users.map((user) => ({
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        qualifications: user.qualifications,
-        // Other user properties will be added when we implement the actual creation
-      })),
-      message: `Successfully populated demo account for ${industryTemplate.name} industry with ${teamSize} team members`,
+      company: companyResult.company,
+      unit: unitResult.unit,
+      team: teamResult.team,
+      users: usersResult.users,
     };
-
-    return result;
   } catch (error) {
     return {
       success: false,
-      company: null,
-      unit: null,
-      team: null,
-      users: [],
       message:
         error instanceof Error ? error.message : "Unknown error occurred",
     };

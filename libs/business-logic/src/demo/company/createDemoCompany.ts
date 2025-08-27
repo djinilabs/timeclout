@@ -1,11 +1,11 @@
-import { type Company } from "@/graphql";
 import { createCompany } from "../../company/createCompany";
-import { type PopulateDemoAccountOptions } from "../populateDemoAccount";
 import { type GeneratedDemoData } from "../generateDemoData";
+import { getIndustryTemplate } from "../industryTemplates";
+import { type PopulateDemoAccountOptions } from "../populateDemoAccount";
 
 export interface CreateDemoCompanyResult {
   success: boolean;
-  company?: Company;
+  company?: { pk: string; name: string; createdBy: string; createdAt: string };
   message?: string;
 }
 
@@ -14,10 +14,14 @@ export const createDemoCompany = async (
   generatedData: GeneratedDemoData
 ): Promise<CreateDemoCompanyResult> => {
   try {
+    // Get industry template for work schedule
+    const industryTemplate = getIndustryTemplate(options.industry);
+
     // Create the company using existing business logic
     const companyResult = await createCompany({
       name: options.companyName || generatedData.companyName,
       actingUserPk: options.actingUserPk,
+      workSchedule: industryTemplate.workSchedule,
     });
 
     if (!companyResult.success || !companyResult.company) {
@@ -27,10 +31,6 @@ export const createDemoCompany = async (
       };
     }
 
-    // TODO: Set company-specific settings based on industry
-    // This will include work schedules, leave types, etc.
-    // For now, we'll use the default settings
-
     return {
       success: true,
       company: companyResult.company,
@@ -38,7 +38,8 @@ export const createDemoCompany = async (
   } catch (error) {
     return {
       success: false,
-      message: error instanceof Error ? error.message : "Unknown error occurred",
+      message:
+        error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
 };

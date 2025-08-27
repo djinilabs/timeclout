@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { PlusIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
-import { PlusIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 import toast from "react-hot-toast";
+
+import { useMutation } from "../../hooks/useMutation";
 
 import { Button } from "../particles/Button";
 import { DemoModeConfig, type DemoModeConfigData } from "./DemoModeConfig";
 import { DemoModeProgress } from "./DemoModeProgress";
-import { useMutation } from "../../hooks/useMutation";
 import populateDemoAccountMutation from "@/graphql-client/mutations/populateDemoAccount.graphql";
 
 type DemoModeState = "prompt" | "config" | "progress" | "success";
@@ -115,7 +116,11 @@ export const DemoModePrompt: React.FC = () => {
         window.location.reload();
       }, 1500);
     } catch (error) {
-      toast.error(i18n.t("An unexpected error occurred"));
+      toast.error(
+        i18n.t("An unexpected error occurred: {message}", {
+          message: error instanceof Error ? error.message : "Unknown error",
+        })
+      );
       setDemoModeState("config");
     }
   };
@@ -202,9 +207,9 @@ export const DemoModePrompt: React.FC = () => {
       <div className="mt-6 p-4 bg-blue-50 rounded-lg">
         <p className="text-sm text-blue-700">
           <Trans>
-            <strong>Demo Mode:</strong> We'll create a realistic company with
-            team members, work schedules, and sample data based on your
-            industry. Perfect for exploring the platform's features!
+            <strong>Demo Mode:</strong> We&apos;ll create a realistic company
+            with team members, work schedules, and sample data based on your
+            industry. Perfect for exploring the platform&apos;s features!
           </Trans>
         </p>
       </div>

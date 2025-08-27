@@ -5,7 +5,9 @@ import type { MutationResolvers } from "./../../../../types.generated";
 import { populateDemoAccount as populateDemoAccountLogic } from "@/business-logic";
 import { resourceRef } from "@/utils";
 
-export const populateDemoAccount: NonNullable<MutationResolvers['populateDemoAccount']> = async (_parent, { input }, ctx) => {
+export const populateDemoAccount: NonNullable<
+  MutationResolvers["populateDemoAccount"]
+> = async (_parent, { input }, ctx) => {
   const session = await requireSession(ctx);
   const userPk = resourceRef(
     "users",
@@ -16,9 +18,9 @@ export const populateDemoAccount: NonNullable<MutationResolvers['populateDemoAcc
     industry: input.industry,
     unitType: input.unitType,
     teamSize: input.teamSize,
-    companyName: input.companyName,
-    unitName: input.unitName,
-    teamName: input.teamName,
+    companyName: input.companyName || undefined,
+    unitName: input.unitName || undefined,
+    teamName: input.teamName || undefined,
     actingUserPk: userPk,
   });
 
@@ -26,5 +28,5 @@ export const populateDemoAccount: NonNullable<MutationResolvers['populateDemoAcc
     throw new Error(result.message);
   }
 
-  return result as any;
+  return result as NonNullable<MutationResolvers["populateDemoAccount"]>;
 };

@@ -1,8 +1,7 @@
-import { useForm } from "@tanstack/react-form";
-import { useState } from "react";
-
 import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
+import { useState } from "react";
 
 import { Button } from "../particles/Button";
 import { industryOptions, type IndustryOption } from "./industryOptions";
