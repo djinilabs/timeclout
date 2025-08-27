@@ -4,15 +4,12 @@ mutation PopulateDemoAccount($input: PopulateDemoAccountInput!) {
     message
     company {
       pk
-      name
     }
     unit {
       pk
-      name
     }
     team {
       pk
-      name
     }
     users {
       pk

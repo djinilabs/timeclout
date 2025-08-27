@@ -11,8 +11,6 @@ import {
 import { database, EntityRecord, PERMISSION_LEVELS } from "@/tables";
 import { getDefined, getResourceRef, resourceRef } from "@/utils";
 
-
-
 export const Unit: UnitResolvers = {
   createdBy: async (parent, _args, ctx) => {
     // Cast to access the raw database field where createdBy is a string
@@ -64,6 +62,7 @@ export const Unit: UnitResolvers = {
       : null;
   },
   companyPk: async (parent) => {
+    // The database stores parentPk, but GraphQL expects companyPk
     return getDefined(
       (parent as unknown as EntityRecord).parentPk,
       "no parent pk in unit"

@@ -9,11 +9,21 @@ input PopulateDemoAccountInput {
 
 type DemoPopulationResult {
   success: Boolean!
-  company: Company!
-  unit: Unit!
-  team: Team!
-  users: [User!]!
+  company: DemoEntity!
+  unit: DemoEntity!
+  team: DemoEntity!
+  users: [DemoUser!]!
   message: String
+}
+
+type DemoEntity {
+  pk: String!
+}
+
+type DemoUser {
+  pk: String!
+  name: String!
+  email: String!
 }
 
 extend type Mutation {

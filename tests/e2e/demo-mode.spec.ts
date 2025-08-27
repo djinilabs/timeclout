@@ -1,11 +1,6 @@
 import { Page } from "@playwright/test";
 
-import {
-  testWithUserManagement,
-  TestUser,
-  UserManagement,
-  PageObjects,
-} from "./fixtures/test-fixtures";
+import { testWithUserManagement, TestUser } from "./fixtures/test-fixtures";
 
 /**
  * E2E Test for Demo Mode Feature
@@ -26,13 +21,13 @@ testWithUserManagement.describe("Demo Mode Feature", () => {
 
   testWithUserManagement(
     "should complete full demo mode workflow successfully",
-    async ({ page, userManagement, pageObjects }) => {
+    async ({ page, userManagement }) => {
       console.log("🚀 Starting demo mode E2E test...");
 
       // Step 1: Authenticate user
       console.log("📝 Step 1: Authenticating user...");
       await userManagement.initiateMagicLinkLogin(testUser.email);
-      const magicLink = await userManagement.waitForMagicLink(testUser);
+      await userManagement.waitForMagicLink(testUser);
       await userManagement.completeMagicLinkAuth(testUser);
 
       // Wait for the app to load and check if we're on the companies page
@@ -71,7 +66,7 @@ testWithUserManagement.describe("Demo Mode Feature", () => {
 
       // Step 7: Verify demo data was created successfully
       console.log("✅ Step 7: Verifying demo data creation...");
-      await verifyDemoDataCreation(page, pageObjects);
+      await verifyDemoDataCreation(page);
       console.log("✅ Demo data created successfully");
 
       console.log("🎉 Demo mode E2E test completed successfully!");
@@ -86,7 +81,7 @@ testWithUserManagement.describe("Demo Mode Feature", () => {
       // Step 1: Authenticate user
       console.log("📝 Step 1: Authenticating user...");
       await userManagement.initiateMagicLinkLogin(testUser.email);
-      const magicLink = await userManagement.waitForMagicLink(testUser);
+      await userManagement.waitForMagicLink(testUser);
       await userManagement.completeMagicLinkAuth(testUser);
 
       await page.waitForLoadState("domcontentloaded");
@@ -119,7 +114,7 @@ testWithUserManagement.describe("Demo Mode Feature", () => {
       // Step 1: Authenticate user
       console.log("📝 Step 1: Authenticating user...");
       await userManagement.initiateMagicLinkLogin(testUser.email);
-      const magicLink = await userManagement.waitForMagicLink(testUser);
+      await userManagement.waitForMagicLink(testUser);
       await userManagement.completeMagicLinkAuth(testUser);
 
       await page.waitForLoadState("domcontentloaded");
@@ -332,10 +327,7 @@ async function verifyDemoProgress(page: Page): Promise<void> {
   console.log("✅ Demo progress verification completed");
 }
 
-async function verifyDemoDataCreation(
-  page: Page,
-  pageObjects: PageObjects
-): Promise<void> {
+async function verifyDemoDataCreation(page: Page): Promise<void> {
   console.log("🔍 Debugging: Checking demo data creation results...");
 
   // Wait a bit for any final processing

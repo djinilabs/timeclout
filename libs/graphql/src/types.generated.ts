@@ -175,14 +175,26 @@ export type DeleteShiftPositionInput = {
   sk: Scalars['String']['input'];
 };
 
+export type DemoEntity = {
+  __typename?: 'DemoEntity';
+  pk: Scalars['String']['output'];
+};
+
 export type DemoPopulationResult = {
   __typename?: 'DemoPopulationResult';
-  company: Company;
+  company: DemoEntity;
   message?: Maybe<Scalars['String']['output']>;
   success: Scalars['Boolean']['output'];
-  team: Team;
-  unit: Unit;
-  users: Array<User>;
+  team: DemoEntity;
+  unit: DemoEntity;
+  users: Array<DemoUser>;
+};
+
+export type DemoUser = {
+  __typename?: 'DemoUser';
+  email: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  pk: Scalars['String']['output'];
 };
 
 export type Invitation = {
@@ -971,7 +983,9 @@ export type ResolversTypes = {
   DeleteLeaveInput: DeleteLeaveInput;
   DeleteLeaveRequestInput: DeleteLeaveRequestInput;
   DeleteShiftPositionInput: DeleteShiftPositionInput;
+  DemoEntity: ResolverTypeWrapper<DemoEntity>;
   DemoPopulationResult: ResolverTypeWrapper<DemoPopulationResult>;
+  DemoUser: ResolverTypeWrapper<DemoUser>;
   Invitation: ResolverTypeWrapper<Omit<Invitation, 'toEntity'> & { toEntity: ResolversTypes['InvitationEntity'] }>;
   InvitationEntity: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['InvitationEntity']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
@@ -1036,7 +1050,9 @@ export type ResolversParentTypes = {
   DeleteLeaveInput: DeleteLeaveInput;
   DeleteLeaveRequestInput: DeleteLeaveRequestInput;
   DeleteShiftPositionInput: DeleteShiftPositionInput;
+  DemoEntity: DemoEntity;
   DemoPopulationResult: DemoPopulationResult;
+  DemoUser: DemoUser;
   Invitation: Omit<Invitation, 'toEntity'> & { toEntity: ResolversParentTypes['InvitationEntity'] };
   InvitationEntity: ResolversUnionTypes<ResolversParentTypes>['InvitationEntity'];
   JSON: Scalars['JSON']['output'];
@@ -1135,13 +1151,25 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
+export type DemoEntityResolvers<ContextType = any, ParentType extends ResolversParentTypes['DemoEntity'] = ResolversParentTypes['DemoEntity']> = {
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type DemoPopulationResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['DemoPopulationResult'] = ResolversParentTypes['DemoPopulationResult']> = {
-  company?: Resolver<ResolversTypes['Company'], ParentType, ContextType>;
+  company?: Resolver<ResolversTypes['DemoEntity'], ParentType, ContextType>;
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  team?: Resolver<ResolversTypes['Team'], ParentType, ContextType>;
-  unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType>;
-  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+  team?: Resolver<ResolversTypes['DemoEntity'], ParentType, ContextType>;
+  unit?: Resolver<ResolversTypes['DemoEntity'], ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['DemoUser']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DemoUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['DemoUser'] = ResolversParentTypes['DemoUser']> = {
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1389,7 +1417,9 @@ export type Resolvers<ContextType = any> = {
   Company?: CompanyResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
+  DemoEntity?: DemoEntityResolvers<ContextType>;
   DemoPopulationResult?: DemoPopulationResultResolvers<ContextType>;
+  DemoUser?: DemoUserResolvers<ContextType>;
   Invitation?: InvitationResolvers<ContextType>;
   InvitationEntity?: InvitationEntityResolvers<ContextType>;
   JSON?: GraphQLScalarType;

@@ -9,7 +9,7 @@ import { resourceRef } from "@/utils";
 interface Unit {
   pk: string;
   name: string;
-  companyPk: string;
+  parentPk: string; // Database schema uses parentPk
   createdBy: string;
   createdAt: string;
 }
@@ -34,7 +34,7 @@ export const createUnit = async (
 
     const unit = {
       pk: unitPk,
-      companyPk: options.companyPk,
+      parentPk: options.companyPk, // Database schema uses parentPk
       createdBy: options.actingUserPk,
       createdAt: new Date().toISOString(),
       name: options.name,

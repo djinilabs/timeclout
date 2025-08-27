@@ -146,13 +146,23 @@ input DeleteShiftPositionInput {
   sk: String!
 }
 
+type DemoEntity {
+  pk: String!
+}
+
 type DemoPopulationResult {
-  company: Company!
+  company: DemoEntity!
   message: String
   success: Boolean!
-  team: Team!
-  unit: Unit!
-  users: [User!]!
+  team: DemoEntity!
+  unit: DemoEntity!
+  users: [DemoUser!]!
+}
+
+type DemoUser {
+  email: String!
+  name: String!
+  pk: String!
 }
 
 type Invitation {

@@ -69,7 +69,9 @@ import    { AutoFillWorkHour } from './schema/shifts_autofill/resolvers/AutoFill
 import    { AutoFillWorkerLeave } from './schema/shifts_autofill/resolvers/AutoFillWorkerLeave';
 import    { Calendar } from './schema/leave/resolvers/Calendar';
 import    { Company } from './schema/company/resolvers/Company';
+import    { DemoEntity } from './schema/demo/resolvers/DemoEntity';
 import    { DemoPopulationResult } from './schema/demo/resolvers/DemoPopulationResult';
+import    { DemoUser } from './schema/demo/resolvers/DemoUser';
 import    { Invitation } from './schema/invitation/resolvers/Invitation';
 import    { Leave } from './schema/leave/resolvers/Leave';
 import    { LeaveRequest } from './schema/leave_request/resolvers/LeaveRequest';
@@ -95,7 +97,9 @@ AutoFillWorkHour: AutoFillWorkHour,
 AutoFillWorkerLeave: AutoFillWorkerLeave,
 Calendar: Calendar,
 Company: Company,
+DemoEntity: DemoEntity,
 DemoPopulationResult: DemoPopulationResult,
+DemoUser: DemoUser,
 Invitation: Invitation,
 Leave: Leave,
 LeaveRequest: LeaveRequest,

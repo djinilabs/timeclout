@@ -1,5 +1,7 @@
 import Fakerator from "fakerator";
 
+import { getIndustryTemplate } from "./industryTemplates";
+
 const fakerator = Fakerator();
 
 export interface DemoDataOptions {
@@ -203,9 +205,16 @@ export const generateUserData = (
           ]);
 
     // Assign 1-3 random qualifications
-    const qualifications = [
-      fakerator.random.arrayElement(qualificationSuggestions),
-    ];
+    const numQualifications = Math.floor(Math.random() * 3) + 1;
+    const qualifications: string[] = [];
+    for (let j = 0; j < numQualifications; j++) {
+      const qualification = fakerator.random.arrayElement(
+        qualificationSuggestions
+      );
+      if (!qualifications.includes(qualification)) {
+        qualifications.push(qualification);
+      }
+    }
 
     users.push({
       name,
@@ -224,13 +233,20 @@ export const generateDemoData = (
   const { industry, unitType, teamSize, companyName, unitName, teamName } =
     options;
 
+  // Get industry template for role and qualification suggestions
+  const industryTemplate = getIndustryTemplate(industry);
+
   // Generate names if not provided
   const finalCompanyName = companyName || generateCompanyName(industry, []);
   const finalUnitName = unitName || generateUnitName(industry, unitType, []);
   const finalTeamName = teamName || generateTeamName(industry, []);
 
-  // Generate user data
-  const users = generateUserData(teamSize, [], []);
+  // Generate user data with industry-specific roles and qualifications
+  const users = generateUserData(
+    teamSize,
+    industryTemplate.userRoleSuggestions,
+    industryTemplate.qualificationSuggestions
+  );
 
   return {
     companyName: finalCompanyName,

@@ -28,5 +28,17 @@ export const populateDemoAccount: NonNullable<
     throw new Error(result.message);
   }
 
-  return result as NonNullable<MutationResolvers["populateDemoAccount"]>;
+  // Transform the business logic result to match GraphQL schema
+  return {
+    success: result.success,
+    company: result.company!,
+    unit: result.unit!,
+    team: result.team!,
+    users: (result.users || []) as Array<{
+      pk: string;
+      name: string;
+      email: string;
+    }>,
+    message: result.message,
+  };
 };

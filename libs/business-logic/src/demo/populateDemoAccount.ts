@@ -74,7 +74,11 @@ export const populateDemoAccount = async (
     }
 
     // Step 4: Create team members
-    const usersResult = await createDemoUsers(options, generatedData);
+    const usersResult = await createDemoUsers(
+      options,
+      generatedData,
+      teamResult.team.pk
+    );
     if (!usersResult.success || !usersResult.users) {
       return {
         success: false,

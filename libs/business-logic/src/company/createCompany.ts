@@ -70,9 +70,33 @@ export const createCompany = async (
 
     const settings = {
       leaveTypes: [
-        { name: "Vacation", color: "#10B981", defaultQuota: 20 },
-        { name: "Sick Leave", color: "#EF4444", defaultQuota: 10 },
-        { name: "Personal Leave", color: "#8B5CF6", defaultQuota: 5 },
+        {
+          name: "Vacation",
+          showInCalendarAs: "ooo",
+          visibleTo: "employees",
+          deductsFromAnnualAllowance: true,
+          needsManagerApproval: true,
+          icon: "umbrella",
+          color: "green",
+        },
+        {
+          name: "Sick Leave",
+          showInCalendarAs: "ooo",
+          visibleTo: "managers",
+          deductsFromAnnualAllowance: false,
+          needsManagerApproval: true,
+          icon: "hospital",
+          color: "red",
+        },
+        {
+          name: "Personal Leave",
+          showInCalendarAs: "ooo",
+          visibleTo: "employees",
+          deductsFromAnnualAllowance: true,
+          needsManagerApproval: true,
+          icon: "spa",
+          color: "purple",
+        },
       ],
       yearlyQuota: {
         resetMonth: 1,

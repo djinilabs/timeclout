@@ -8,7 +8,7 @@ export interface CreateDemoUnitResult {
   unit?: {
     pk: string;
     name: string;
-    companyPk: string;
+    parentPk: string; // Database schema uses parentPk
     createdBy: string;
     createdAt: string;
   };
