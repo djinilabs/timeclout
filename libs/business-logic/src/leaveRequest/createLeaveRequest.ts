@@ -74,13 +74,13 @@ export const createLeaveRequest = async ({
     (await isLeaveRequestFullyApproved(leaveRequest))
   ) {
     console.log(
-      "@/business-logic/leaveRequest/createLeaveRequest.ts: approving leave request",
+      "@/business-logic/leaveRequest/createLeaveRequest.ts: leave request is approved, creating leave records",
       leaveRequest
     );
     await approveLeaveRequest(leaveRequest, actingUserPk);
   } else {
     console.log(
-      "@/business-logic/leaveRequest/createLeaveRequest.ts: not approving leave request",
+      "@/business-logic/leaveRequest/createLeaveRequest.ts: leave request needs approval, sending to event bus",
       leaveRequest
     );
     await eventBus().emit({

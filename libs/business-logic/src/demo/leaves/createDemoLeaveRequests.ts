@@ -94,6 +94,10 @@ export const createDemoLeaveRequests = async (
     // Create 3-5 leave requests for different team members
     const numLeaveRequests = Math.floor(Math.random() * 3) + 3; // 3-5 requests
 
+    // Also create 1-2 leave requests for the current user (acting user)
+    const numUserLeaveRequests = Math.floor(Math.random() * 2) + 1; // 1-2 requests
+
+    // Create team member leave requests
     for (let i = 0; i < numLeaveRequests; i++) {
       try {
         // Pick a random team member
@@ -183,6 +187,84 @@ export const createDemoLeaveRequests = async (
         );
       } catch (error) {
         console.warn(`⚠️ Failed to create leave request ${i + 1}:`, error);
+        // Continue with other requests
+      }
+    }
+
+    // Create leave requests for the current user (acting user)
+    for (let i = 0; i < numUserLeaveRequests; i++) {
+      try {
+        // Prefer leave types that don't require approval for demo purposes
+        const noApprovalTypes = leaveTypes.filter(
+          (lt) => !lt.needsManagerApproval
+        );
+        const preferredLeaveType =
+          noApprovalTypes.length > 0
+            ? noApprovalTypes[
+                Math.floor(Math.random() * noApprovalTypes.length)
+              ]
+            : leaveTypes[Math.floor(Math.random() * leaveTypes.length)];
+
+        // Generate random dates within the next month
+        const startDate = new Date(startOfMonth);
+        startDate.setDate(
+          startOfMonth.getDate() +
+            Math.floor(Math.random() * (endOfMonth.getDate() - 1))
+        );
+
+        const duration = Math.floor(Math.random() * 3) + 1; // 1-3 days for user
+        const endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + duration - 1);
+
+        // Ensure end date doesn't exceed month end
+        if (endDate > endOfMonth) {
+          endDate.setTime(endOfMonth.getTime());
+        }
+
+        // Generate realistic reasons for the current user
+        const userReasons = {
+          Vacation: [
+            "Personal vacation",
+            "Family time",
+            "Relaxation break",
+            "Holiday getaway",
+          ],
+          Training: [
+            "Professional development",
+            "Skills training",
+            "Conference attendance",
+            "Learning workshop",
+          ],
+        };
+
+        const reasonOptions = userReasons[
+          preferredLeaveType.name as keyof typeof userReasons
+        ] || ["Personal time"];
+        const reason =
+          reasonOptions[Math.floor(Math.random() * reasonOptions.length)];
+
+        // Create the leave request for the current user
+        const leaveRequest = await createLeaveRequest({
+          companyPk: companyPk as `companies/${string}`,
+          userPk: options.actingUserPk as `users/${string}`,
+          actingUserPk: options.actingUserPk as `users/${string}`,
+          leaveTypeName: preferredLeaveType.name,
+          startDateAsString: startDate.toISOString().split("T")[0],
+          endDateAsString: endDate.toISOString().split("T")[0],
+          reason,
+        });
+
+        createdLeaveRequests.push(leaveRequest);
+
+        console.log(
+          `✅ Created leave request for current user: ${
+            preferredLeaveType.name
+          } for ${startDate.toISOString().split("T")[0]} to ${
+            endDate.toISOString().split("T")[0]
+          } - ${reason}`
+        );
+      } catch (error) {
+        console.warn(`⚠️ Failed to create user leave request ${i + 1}:`, error);
         // Continue with other requests
       }
     }

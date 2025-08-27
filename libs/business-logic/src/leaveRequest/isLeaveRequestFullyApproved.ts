@@ -1,12 +1,8 @@
-import { notFound } from "@hapi/boom";
-
 import { getUnitManagersPks } from "../unit/getUnitManagerPks";
 import { getUserUnitsPks } from "../users/getUserUnitsPks";
 
 import { parseLeaveRequestPk } from "./parseLeaveRequestPk";
 
-
-import { i18n } from "@/locales";
 import { LeaveRequestRecord } from "@/tables";
 
 export const isLeaveRequestFullyApproved = async (
@@ -18,10 +14,10 @@ export const isLeaveRequestFullyApproved = async (
   const { userRef } = parseLeaveRequestPk(leaveRequest.pk);
   const unitPks = await getUserUnitsPks(userRef);
   const unitManagerPks = await getUnitManagersPks(unitPks);
+
+  // If there are no unit managers, the leave request is considered fully approved
   if (unitManagerPks.length === 0) {
-    throw notFound(
-      i18n._("No unit managers found for the units the user is in")
-    );
+    return true;
   }
 
   return unitManagerPks.every(
