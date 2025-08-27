@@ -97,6 +97,15 @@ export const createCompany = async (
           icon: "spa",
           color: "purple",
         },
+        {
+          name: "Training",
+          showInCalendarAs: "busy",
+          visibleTo: "employees",
+          deductsFromAnnualAllowance: false,
+          needsManagerApproval: false,
+          icon: "book",
+          color: "blue",
+        },
       ],
       yearlyQuota: {
         resetMonth: 1,
