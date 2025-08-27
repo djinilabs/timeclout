@@ -18,9 +18,7 @@ import { getResourceRef } from "@/utils";
 
 
 
-export const rejectLeaveRequest: NonNullable<
-  MutationResolvers["rejectLeaveRequest"]
-> = async (_parent, arg, ctx) => {
+export const rejectLeaveRequest: NonNullable<MutationResolvers['rejectLeaveRequest']> = async (_parent, arg, ctx) => {
   const user = await requireSessionUser(ctx);
   const { leave_request } = await database();
   const leaveRequest = await leave_request.get(arg.input.pk, arg.input.sk);

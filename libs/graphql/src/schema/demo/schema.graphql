@@ -1,0 +1,21 @@
+input PopulateDemoAccountInput {
+  industry: String!
+  unitType: String!
+  teamSize: Int!
+  companyName: String
+  unitName: String
+  teamName: String
+}
+
+type DemoPopulationResult {
+  success: Boolean!
+  company: Company!
+  unit: Unit!
+  team: Team!
+  users: [User!]!
+  message: String
+}
+
+extend type Mutation {
+  populateDemoAccount(input: PopulateDemoAccountInput!): DemoPopulationResult!
+}

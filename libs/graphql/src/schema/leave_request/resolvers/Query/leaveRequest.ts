@@ -12,7 +12,7 @@ import { i18n } from "@/locales";
 import { database } from "@/tables";
 import { getDefined, resourceRef } from "@/utils";
 
-export const leaveRequest: NonNullable<QueryResolvers["leaveRequest"]> = async (
+export const leaveRequest: NonNullable<QueryResolvers['leaveRequest']> = async (
   _parent,
   arg,
   ctx

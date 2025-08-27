@@ -151,6 +151,15 @@ input DeleteShiftPositionInput {
   sk: String!
 }
 
+type DemoPopulationResult {
+  company: Company!
+  message: String
+  success: Boolean!
+  team: Team!
+  unit: Unit!
+  users: [User!]!
+}
+
 type Invitation {
   createdAt: DateTime!
   createdBy: User!
@@ -226,6 +235,7 @@ type Mutation {
   deleteTeam(pk: String!): Team!
   deleteUnit(pk: String!): Unit!
   moveShiftPosition(input: MoveShiftPositionInput!): ShiftPosition!
+  populateDemoAccount(input: PopulateDemoAccountInput!): DemoPopulationResult!
   publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
   rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
@@ -245,6 +255,15 @@ type Mutation {
   updateUnit(name: String!, pk: String!): Unit!
   updateUnitSettings(name: String!, settings: JSON!, unitPk: String!): Unit!
   updateUserSettings(name: String!, settings: JSON!, teamPk: String!, userPk: String!): User
+}
+
+input PopulateDemoAccountInput {
+  companyName: String
+  industry: String!
+  teamName: String
+  teamSize: Int!
+  unitName: String
+  unitType: String!
 }
 
 input PublishShiftPositionInput {

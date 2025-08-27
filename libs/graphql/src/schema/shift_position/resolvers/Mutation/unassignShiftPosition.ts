@@ -11,9 +11,7 @@ import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
 
-export const unassignShiftPosition: NonNullable<
-  MutationResolvers["unassignShiftPosition"]
-> = async (_parent, arg, ctx) => {
+export const unassignShiftPosition: NonNullable<MutationResolvers['unassignShiftPosition']> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const { team, shiftPositionSk } = input;

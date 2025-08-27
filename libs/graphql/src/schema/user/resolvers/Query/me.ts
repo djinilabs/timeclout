@@ -8,7 +8,7 @@ import { i18n } from "@/locales";
 import { database } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const me: NonNullable<QueryResolvers["me"]> = async (
+export const me: NonNullable<QueryResolvers['me']> = async (
   _parent,
   _arg,
   _ctx

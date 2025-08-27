@@ -8,7 +8,7 @@ import { i18n } from "@/locales";
 import { database } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const updateMe: NonNullable<MutationResolvers["updateMe"]> = async (
+export const updateMe: NonNullable<MutationResolvers['updateMe']> = async (
   _parent,
   args,
   ctx

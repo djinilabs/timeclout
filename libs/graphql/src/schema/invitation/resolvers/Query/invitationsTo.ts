@@ -8,9 +8,7 @@ import type {
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { getResourceRef } from "@/utils";
 
-export const invitationsTo: NonNullable<
-  QueryResolvers["invitationsTo"]
-> = async (_parent, arg, ctx) => {
+export const invitationsTo: NonNullable<QueryResolvers['invitationsTo']> = async (_parent, arg, ctx) => {
   await ensureAuthorized(
     ctx,
     getResourceRef(arg.toEntityPk),

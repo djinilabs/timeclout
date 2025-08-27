@@ -10,9 +10,7 @@ import { resourceRef, compoundedResourceRef, getResourceRef } from "@/utils";
 
 
 
-export const saveTeamMemberQualifications: NonNullable<
-  MutationResolvers["saveTeamMemberQualifications"]
-> = async (_parent, arg, ctx) => {
+export const saveTeamMemberQualifications: NonNullable<MutationResolvers['saveTeamMemberQualifications']> = async (_parent, arg, ctx) => {
   const teamRef = resourceRef("teams", arg.teamPk);
   const { entity } = await database();
   const team = await entity.get(teamRef);

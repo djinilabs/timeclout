@@ -11,7 +11,7 @@ import { resourceRef } from "@/utils";
 
 
 
-export const createTeam: NonNullable<MutationResolvers["createTeam"]> = async (
+export const createTeam: NonNullable<MutationResolvers['createTeam']> = async (
   _parent,
   arg,
   _ctx

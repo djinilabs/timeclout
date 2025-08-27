@@ -10,9 +10,7 @@ import { resourceRef } from "@/utils";
 
 
 
-export const updateCompany: NonNullable<
-  MutationResolvers["updateCompany"]
-> = async (_parent, _arg, ctx) => {
+export const updateCompany: NonNullable<MutationResolvers['updateCompany']> = async (_parent, _arg, ctx) => {
   await ensureAuthorized(
     ctx,
     resourceRef("companies", _arg.pk),

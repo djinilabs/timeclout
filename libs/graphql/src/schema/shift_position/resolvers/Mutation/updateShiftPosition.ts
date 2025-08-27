@@ -11,9 +11,7 @@ import { i18n } from "@/locales";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { getResourceRef } from "@/utils";
 
-export const updateShiftPosition: NonNullable<
-  MutationResolvers["updateShiftPosition"]
-> = async (_parent, arg, ctx) => {
+export const updateShiftPosition: NonNullable<MutationResolvers['updateShiftPosition']> = async (_parent, arg, ctx) => {
   const { shift_positions } = await database();
   const { input } = arg;
   const {

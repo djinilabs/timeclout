@@ -175,6 +175,16 @@ export type DeleteShiftPositionInput = {
   sk: Scalars['String']['input'];
 };
 
+export type DemoPopulationResult = {
+  __typename?: 'DemoPopulationResult';
+  company: Company;
+  message?: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
+  team: Team;
+  unit: Unit;
+  users: Array<User>;
+};
+
 export type Invitation = {
   __typename?: 'Invitation';
   createdAt: Scalars['DateTime']['output'];
@@ -253,6 +263,7 @@ export type Mutation = {
   deleteTeam: Team;
   deleteUnit: Unit;
   moveShiftPosition: ShiftPosition;
+  populateDemoAccount: DemoPopulationResult;
   publishShiftPositions: Array<ShiftPosition>;
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
@@ -390,6 +401,11 @@ export type MutationmoveShiftPositionArgs = {
 };
 
 
+export type MutationpopulateDemoAccountArgs = {
+  input: PopulateDemoAccountInput;
+};
+
+
 export type MutationpublishShiftPositionsArgs = {
   input: PublishShiftPositionsInput;
 };
@@ -498,6 +514,15 @@ export type MutationupdateUserSettingsArgs = {
   settings: Scalars['JSON']['input'];
   teamPk: Scalars['String']['input'];
   userPk: Scalars['String']['input'];
+};
+
+export type PopulateDemoAccountInput = {
+  companyName?: InputMaybe<Scalars['String']['input']>;
+  industry: Scalars['String']['input'];
+  teamName?: InputMaybe<Scalars['String']['input']>;
+  teamSize: Scalars['Int']['input'];
+  unitName?: InputMaybe<Scalars['String']['input']>;
+  unitType: Scalars['String']['input'];
 };
 
 export type PublishShiftPositionInput = {
@@ -946,6 +971,7 @@ export type ResolversTypes = {
   DeleteLeaveInput: DeleteLeaveInput;
   DeleteLeaveRequestInput: DeleteLeaveRequestInput;
   DeleteShiftPositionInput: DeleteShiftPositionInput;
+  DemoPopulationResult: ResolverTypeWrapper<DemoPopulationResult>;
   Invitation: ResolverTypeWrapper<Omit<Invitation, 'toEntity'> & { toEntity: ResolversTypes['InvitationEntity'] }>;
   InvitationEntity: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['InvitationEntity']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
@@ -954,6 +980,7 @@ export type ResolversTypes = {
   MemberQualifications: ResolverTypeWrapper<MemberQualifications>;
   MoveShiftPositionInput: MoveShiftPositionInput;
   Mutation: ResolverTypeWrapper<{}>;
+  PopulateDemoAccountInput: PopulateDemoAccountInput;
   PublishShiftPositionInput: PublishShiftPositionInput;
   PublishShiftPositionsInput: PublishShiftPositionsInput;
   Query: ResolverTypeWrapper<{}>;
@@ -1009,6 +1036,7 @@ export type ResolversParentTypes = {
   DeleteLeaveInput: DeleteLeaveInput;
   DeleteLeaveRequestInput: DeleteLeaveRequestInput;
   DeleteShiftPositionInput: DeleteShiftPositionInput;
+  DemoPopulationResult: DemoPopulationResult;
   Invitation: Omit<Invitation, 'toEntity'> & { toEntity: ResolversParentTypes['InvitationEntity'] };
   InvitationEntity: ResolversUnionTypes<ResolversParentTypes>['InvitationEntity'];
   JSON: Scalars['JSON']['output'];
@@ -1017,6 +1045,7 @@ export type ResolversParentTypes = {
   MemberQualifications: MemberQualifications;
   MoveShiftPositionInput: MoveShiftPositionInput;
   Mutation: {};
+  PopulateDemoAccountInput: PopulateDemoAccountInput;
   PublishShiftPositionInput: PublishShiftPositionInput;
   PublishShiftPositionsInput: PublishShiftPositionsInput;
   Query: {};
@@ -1106,6 +1135,16 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
+export type DemoPopulationResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['DemoPopulationResult'] = ResolversParentTypes['DemoPopulationResult']> = {
+  company?: Resolver<ResolversTypes['Company'], ParentType, ContextType>;
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  team?: Resolver<ResolversTypes['Team'], ParentType, ContextType>;
+  unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type InvitationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Invitation'] = ResolversParentTypes['Invitation']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
@@ -1183,6 +1222,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationdeleteTeamArgs, 'pk'>>;
   deleteUnit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType, RequireFields<MutationdeleteUnitArgs, 'pk'>>;
   moveShiftPosition?: Resolver<ResolversTypes['ShiftPosition'], ParentType, ContextType, RequireFields<MutationmoveShiftPositionArgs, 'input'>>;
+  populateDemoAccount?: Resolver<ResolversTypes['DemoPopulationResult'], ParentType, ContextType, RequireFields<MutationpopulateDemoAccountArgs, 'input'>>;
   publishShiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType, RequireFields<MutationpublishShiftPositionsArgs, 'input'>>;
   rejectLeaveRequest?: Resolver<ResolversTypes['LeaveRequest'], ParentType, ContextType, RequireFields<MutationrejectLeaveRequestArgs, 'input'>>;
   removeUserFromTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationremoveUserFromTeamArgs, 'teamPk' | 'userPk'>>;
@@ -1349,6 +1389,7 @@ export type Resolvers<ContextType = any> = {
   Company?: CompanyResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
+  DemoPopulationResult?: DemoPopulationResultResolvers<ContextType>;
   Invitation?: InvitationResolvers<ContextType>;
   InvitationEntity?: InvitationEntityResolvers<ContextType>;
   JSON?: GraphQLScalarType;
