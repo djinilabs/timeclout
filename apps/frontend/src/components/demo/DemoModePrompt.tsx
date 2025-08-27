@@ -5,7 +5,6 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 import { useMutation } from "../../hooks/useMutation";
-
 import { Button } from "../particles/Button";
 import { DemoModeConfig, type DemoModeConfigData } from "./DemoModeConfig";
 import { DemoModeProgress } from "./DemoModeProgress";
