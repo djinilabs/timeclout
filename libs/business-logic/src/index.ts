@@ -8,3 +8,4 @@ export * from "./entity";
 export * from "./shifts_autofill";
 export * from "./invitation";
 export * from "./auth";
+export * from "./demo";

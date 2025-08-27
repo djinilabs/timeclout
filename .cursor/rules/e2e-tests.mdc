@@ -1,5 +1,6 @@
 ---
-alwaysApply: true
+globs: tests/e2e/*
+alwaysApply: false
 ---
 
 When producing or changing e2e tests:

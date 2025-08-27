@@ -1,0 +1,10 @@
+---
+globs: libs/graphql/**/*.ts
+alwaysApply: false
+---
+
+- The business rules for the API should be placed inside the `libs/business-logic` folder.
+- The GraphQL resolver code should simply call this business logic.
+- Organize these business functions in folders, according to the main subject of that function.
+- A business function should always verify the permissions, implement the business logic, and then return the expected value.
+- If required, a business function should only explicitely throw `@hapi/boom` errors.
