@@ -27,7 +27,7 @@ importers:
         version: 1.15.0(graphql@16.11.0)(typescript@5.9.2)
       '@ai-sdk/google':
         specifier: ^2.0.8
-        version: 2.0.11(zod@4.1.4)
+        version: 2.0.11(zod@4.1.5)
       '@ai-sdk/provider':
         specifier: ^2.0.0
         version: 2.0.0
@@ -168,7 +168,7 @@ importers:
         version: 4.12.6
       ai:
         specifier: ^5.0.0
-        version: 5.0.26(zod@4.1.4)
+        version: 5.0.26(zod@4.1.5)
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -267,7 +267,7 @@ importers:
         version: 5.0.0(@urql/core@6.0.1(graphql@16.11.0))(react@19.1.1)
       zod:
         specifier: ^4.0.0
-        version: 4.1.4
+        version: 4.1.5
     devDependencies:
       '@architect/architect':
         specifier: ^11.1.0
@@ -996,8 +996,8 @@ packages:
     peerDependencies:
       graphql: ^15.0.0 || ^16.0.0
 
-  '@emnapi/runtime@1.4.5':
-    resolution: {integrity: sha512-++LApOtY0pEEz1zrd9vy1/zXVaVJJ/EbAF3u0fXIzPJEDtnITsBGbbK0EkM72amhl/R5b+5xx0Y/QhcVOpuulg==}
+  '@emnapi/runtime@1.5.0':
+    resolution: {integrity: sha512-97/BJ3iXHww3djw6hYIfErCZFee7qCtrneuLa20UXFCOTCfBM2cvQHjWJ2EG0s0MtdNwInarqCTz35i4wWXHsQ==}
 
   '@envelop/core@5.3.0':
     resolution: {integrity: sha512-xvUkOWXI8JsG2OOnqiI2tOkEc52wbmIqWORr7yGc8B8E53Oh1MMGGGck4mbR80s25LnHVzfNIiIlNkuDgZRuuA==}
@@ -4776,6 +4776,9 @@ packages:
 
   caniuse-lite@1.0.30001737:
     resolution: {integrity: sha512-BiloLiXtQNrY5UyF0+1nSJLXUENuhka2pzy2Fx5pGxqavdrxSCW4U6Pn/PoG3Efspi2frRbHpBV2XsrPE6EDlw==}
+
+  caniuse-lite@1.0.30001739:
+    resolution: {integrity: sha512-y+j60d6ulelrNSwpPyrHdl+9mJnQzHBr08xm48Qno0nSk4h3Qojh+ziv2qE6rXf4k3tadF4o1J/1tAbVm1NtnA==}
 
   capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
@@ -8621,8 +8624,8 @@ packages:
     resolution: {integrity: sha512-e/y9Xf1eYElSSo1s1e1+0QraquqaCmfnCvxd2IlvILtKK+F93kpV+/TIRUDYW7UnYtDMeYijG5kyEA7B+66wgg==}
     engines: {node: '>=8.0.0'}
 
-  zod@4.1.4:
-    resolution: {integrity: sha512-2YqJuWkU6IIK9qcE4k1lLLhyZ6zFw7XVRdQGpV97jEIZwTrscUw+DY31Xczd8nwaoksyJUIxCojZXwckJovWxA==}
+  zod@4.1.5:
+    resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -8641,24 +8644,24 @@ snapshots:
 
   '@adobe/css-tools@4.4.4': {}
 
-  '@ai-sdk/gateway@1.0.15(zod@4.1.4)':
+  '@ai-sdk/gateway@1.0.15(zod@4.1.5)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.7(zod@4.1.4)
-      zod: 4.1.4
+      '@ai-sdk/provider-utils': 3.0.7(zod@4.1.5)
+      zod: 4.1.5
 
-  '@ai-sdk/google@2.0.11(zod@4.1.4)':
+  '@ai-sdk/google@2.0.11(zod@4.1.5)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.7(zod@4.1.4)
-      zod: 4.1.4
+      '@ai-sdk/provider-utils': 3.0.7(zod@4.1.5)
+      zod: 4.1.5
 
-  '@ai-sdk/provider-utils@3.0.7(zod@4.1.4)':
+  '@ai-sdk/provider-utils@3.0.7(zod@4.1.5)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
       '@standard-schema/spec': 1.0.0
       eventsource-parser: 3.0.5
-      zod: 4.1.4
+      zod: 4.1.5
 
   '@ai-sdk/provider@2.0.0':
     dependencies:
@@ -9975,7 +9978,7 @@ snapshots:
       - encoding
       - graphql-sock
 
-  '@emnapi/runtime@1.4.5':
+  '@emnapi/runtime@1.5.0':
     dependencies:
       tslib: 2.8.1
     optional: true
@@ -10934,7 +10937,7 @@ snapshots:
 
   '@img/sharp-wasm32@0.34.3':
     dependencies:
-      '@emnapi/runtime': 1.4.5
+      '@emnapi/runtime': 1.5.0
     optional: true
 
   '@img/sharp-win32-arm64@0.34.3':
@@ -13893,13 +13896,13 @@ snapshots:
       clean-stack: 2.2.0
       indent-string: 4.0.0
 
-  ai@5.0.26(zod@4.1.4):
+  ai@5.0.26(zod@4.1.5):
     dependencies:
-      '@ai-sdk/gateway': 1.0.15(zod@4.1.4)
+      '@ai-sdk/gateway': 1.0.15(zod@4.1.5)
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.7(zod@4.1.4)
+      '@ai-sdk/provider-utils': 3.0.7(zod@4.1.5)
       '@opentelemetry/api': 1.9.0
-      zod: 4.1.4
+      zod: 4.1.5
 
   ajv@6.12.6:
     dependencies:
@@ -14194,6 +14197,8 @@ snapshots:
   camelcase@6.3.0: {}
 
   caniuse-lite@1.0.30001737: {}
+
+  caniuse-lite@1.0.30001739: {}
 
   capital-case@1.0.4:
     dependencies:
@@ -16584,7 +16589,7 @@ snapshots:
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.15
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001737
+      caniuse-lite: 1.0.30001739
       postcss: 8.4.31
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
@@ -18540,6 +18545,6 @@ snapshots:
       insync: 2.1.1
       yazl: 2.5.1
 
-  zod@4.1.4: {}
+  zod@4.1.5: {}
 
   zwitch@2.0.4: {}
