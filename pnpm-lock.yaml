@@ -264,7 +264,7 @@ importers:
         version: 2.0.4
       urql:
         specifier: ^5.0.0
-        version: 5.0.0(@urql/core@6.0.1(graphql@16.11.0))(react@19.1.1)
+        version: 5.0.1(@urql/core@6.0.1(graphql@16.11.0))(react@19.1.1)
       zod:
         specifier: ^4.0.0
         version: 4.1.4
@@ -996,8 +996,8 @@ packages:
     peerDependencies:
       graphql: ^15.0.0 || ^16.0.0
 
-  '@emnapi/runtime@1.4.5':
-    resolution: {integrity: sha512-++LApOtY0pEEz1zrd9vy1/zXVaVJJ/EbAF3u0fXIzPJEDtnITsBGbbK0EkM72amhl/R5b+5xx0Y/QhcVOpuulg==}
+  '@emnapi/runtime@1.5.0':
+    resolution: {integrity: sha512-97/BJ3iXHww3djw6hYIfErCZFee7qCtrneuLa20UXFCOTCfBM2cvQHjWJ2EG0s0MtdNwInarqCTz35i4wWXHsQ==}
 
   '@envelop/core@5.3.0':
     resolution: {integrity: sha512-xvUkOWXI8JsG2OOnqiI2tOkEc52wbmIqWORr7yGc8B8E53Oh1MMGGGck4mbR80s25LnHVzfNIiIlNkuDgZRuuA==}
@@ -4777,6 +4777,9 @@ packages:
   caniuse-lite@1.0.30001737:
     resolution: {integrity: sha512-BiloLiXtQNrY5UyF0+1nSJLXUENuhka2pzy2Fx5pGxqavdrxSCW4U6Pn/PoG3Efspi2frRbHpBV2XsrPE6EDlw==}
 
+  caniuse-lite@1.0.30001739:
+    resolution: {integrity: sha512-y+j60d6ulelrNSwpPyrHdl+9mJnQzHBr08xm48Qno0nSk4h3Qojh+ziv2qE6rXf4k3tadF4o1J/1tAbVm1NtnA==}
+
   capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
 
@@ -8258,8 +8261,8 @@ packages:
   urlpattern-polyfill@10.1.0:
     resolution: {integrity: sha512-IGjKp/o0NL3Bso1PymYURCJxMPNAf/ILOpendP9f5B6e1rTJgdgiOvgfoT8VxCAdY+Wisb9uhGaJJf3yZ2V9nw==}
 
-  urql@5.0.0:
-    resolution: {integrity: sha512-eFu3CS1VREcsFOEaFl90ohB/LRyZ8nFzEqUDbXTWGaycfdrCoiGOA3stYiCOTODHxx418PqSEc7QCXU1q+qhFA==}
+  urql@5.0.1:
+    resolution: {integrity: sha512-r58gYlWvCTC19QvkTaARaCLV9/bp870byH/qbLaw3S7f8i/bC6x2Szub8RVXptiMxWmqq5dyVBjUL9G+xPEuqg==}
     peerDependencies:
       '@urql/core': ^6.0.0
       react: '>= 16.8.0'
@@ -9975,7 +9978,7 @@ snapshots:
       - encoding
       - graphql-sock
 
-  '@emnapi/runtime@1.4.5':
+  '@emnapi/runtime@1.5.0':
     dependencies:
       tslib: 2.8.1
     optional: true
@@ -10934,7 +10937,7 @@ snapshots:
 
   '@img/sharp-wasm32@0.34.3':
     dependencies:
-      '@emnapi/runtime': 1.4.5
+      '@emnapi/runtime': 1.5.0
     optional: true
 
   '@img/sharp-win32-arm64@0.34.3':
@@ -14195,6 +14198,8 @@ snapshots:
 
   caniuse-lite@1.0.30001737: {}
 
+  caniuse-lite@1.0.30001739: {}
+
   capital-case@1.0.4:
     dependencies:
       no-case: 3.0.4
@@ -16584,7 +16589,7 @@ snapshots:
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.15
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001737
+      caniuse-lite: 1.0.30001739
       postcss: 8.4.31
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
@@ -18181,7 +18186,7 @@ snapshots:
 
   urlpattern-polyfill@10.1.0: {}
 
-  urql@5.0.0(@urql/core@6.0.1(graphql@16.11.0))(react@19.1.1):
+  urql@5.0.1(@urql/core@6.0.1(graphql@16.11.0))(react@19.1.1):
     dependencies:
       '@urql/core': 6.0.1(graphql@16.11.0)
       react: 19.1.1
