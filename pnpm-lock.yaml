@@ -129,7 +129,7 @@ importers:
         version: 7.120.4
       '@sentry/vite-plugin':
         specifier: ^4.0.0
-        version: 4.1.1
+        version: 4.2.0
       '@simplewebauthn/browser':
         specifier: ^13.0.0
         version: 13.1.2
@@ -3609,16 +3609,16 @@ packages:
     resolution: {integrity: sha512-W+xlx+xwPAM52tlajQDz/fv0ltVuo5yenFNlwIqI8Eav0gvkUI/MsHKQ3bdcpI6HL+c26PpkkjdtavZTaMohFw==}
     engines: {node: '>=18'}
 
-  '@sentry/babel-plugin-component-annotate@4.1.1':
-    resolution: {integrity: sha512-HUpqrCK7zDVojTV6KL6BO9ZZiYrEYQqvYQrscyMsq04z+WCupXaH6YEliiNRvreR8DBJgdsG3lBRpebhUGmvfA==}
+  '@sentry/babel-plugin-component-annotate@4.2.0':
+    resolution: {integrity: sha512-GFpS3REqaHuyX4LCNqlneAQZIKyHb5ePiI1802n0fhtYjk68I1DTQ3PnbzYi50od/vAsTQVCknaS5F6tidNqTQ==}
     engines: {node: '>= 14'}
 
   '@sentry/browser@10.8.0':
     resolution: {integrity: sha512-2J7HST8/ixCaboq17yFn/j/OEokXSXoCBMXRrFx4FKJggKWZ90e2Iau5mP/IPPhrW+W9zCptCgNMY0167wS4qA==}
     engines: {node: '>=18'}
 
-  '@sentry/bundler-plugin-core@4.1.1':
-    resolution: {integrity: sha512-Hx9RgXaD1HEYmL5aYoWwCKkVvPp4iklwfD9mvmdpQtcwLg6b6oLnPVDQaOry1ak6Pxt8smlrWcKy4IiKASlvig==}
+  '@sentry/bundler-plugin-core@4.2.0':
+    resolution: {integrity: sha512-EDG6ELSEN/Dzm4KUQOynoI2suEAdPdgwaBXVN4Ww705zdrYT79OGh51rkz74KGhovt7GukaPf0Z9LJwORXUbhg==}
     engines: {node: '>= 14'}
 
   '@sentry/cli-darwin@2.52.0':
@@ -3725,8 +3725,8 @@ packages:
     resolution: {integrity: sha512-zCKpyDIWKHwtervNK2ZlaK8mMV7gVUijAgFeJStH+CU/imcdquizV3pFLlSQYRswG+Lbyd6CT/LGRh3IbtkCFw==}
     engines: {node: '>=8'}
 
-  '@sentry/vite-plugin@4.1.1':
-    resolution: {integrity: sha512-kNIZiqRbFHJHzV0QF1RyuwMprwK2Lk354qs98P7DduU1TkzrNG3+2f8liYJaiYCrsjDvJlPHyVFBDF9IRhJGdA==}
+  '@sentry/vite-plugin@4.2.0':
+    resolution: {integrity: sha512-VnPHYgU/RCXxMjj8zyHeKRg4i0mP7bIhxX0VAT3XPNbq2OwvdcZs+mJsFaJy2CNcYz2O47tdJTWdWTvcdBGEkw==}
     engines: {node: '>= 14'}
 
   '@simplewebauthn/browser@13.1.2':
@@ -12763,7 +12763,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@sentry/babel-plugin-component-annotate@4.1.1': {}
+  '@sentry/babel-plugin-component-annotate@4.2.0': {}
 
   '@sentry/browser@10.8.0':
     dependencies:
@@ -12773,10 +12773,10 @@ snapshots:
       '@sentry-internal/replay-canvas': 10.8.0
       '@sentry/core': 10.8.0
 
-  '@sentry/bundler-plugin-core@4.1.1':
+  '@sentry/bundler-plugin-core@4.2.0':
     dependencies:
       '@babel/core': 7.28.3
-      '@sentry/babel-plugin-component-annotate': 4.1.1
+      '@sentry/babel-plugin-component-annotate': 4.2.0
       '@sentry/cli': 2.52.0
       dotenv: 16.6.1
       find-up: 5.0.0
@@ -12917,9 +12917,9 @@ snapshots:
     dependencies:
       '@sentry/types': 7.120.4
 
-  '@sentry/vite-plugin@4.1.1':
+  '@sentry/vite-plugin@4.2.0':
     dependencies:
-      '@sentry/bundler-plugin-core': 4.1.1
+      '@sentry/bundler-plugin-core': 4.2.0
       unplugin: 1.0.1
     transitivePeerDependencies:
       - encoding
