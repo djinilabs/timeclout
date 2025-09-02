@@ -150,7 +150,7 @@ importers:
         version: 1.19.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@tanstack/react-query':
         specifier: ^5.64.1
-        version: 5.85.8(react@19.1.1)
+        version: 5.85.9(react@19.1.1)
       '@types/lodash.omit':
         specifier: ^4.5.9
         version: 4.5.9
@@ -3964,8 +3964,8 @@ packages:
   '@tanstack/form-core@1.19.3':
     resolution: {integrity: sha512-VUDKpR24kfKHh43nGtDExZtwpq1MMNmN0mrYbqNOOjOoOUm9yZ0fPxWjPBfJQOdvmyncV2Svg9I5klUPjXqWzA==}
 
-  '@tanstack/query-core@5.85.7':
-    resolution: {integrity: sha512-FLT3EtuTbXBmOrDku4bI80Eivmjn/o/Zc1lVEd/6yzR8UAUSnDwYiwghCZvLqHyGSN5mO35ux1yPGMFYBFRSwA==}
+  '@tanstack/query-core@5.85.9':
+    resolution: {integrity: sha512-5fxb9vwyftYE6KFLhhhDyLr8NO75+Wpu7pmTo+TkwKmMX2oxZDoLwcqGP8ItKSpUMwk3urWgQDZfyWr5Jm9LsQ==}
 
   '@tanstack/react-form@1.19.3':
     resolution: {integrity: sha512-e9m/aAemSIfM9Qesk6xeXiBdXLRhZPnQp4QVp/epcaaA6peBCYS0rBL9fuLKGrL4LRyDIA4jA68XR0Mxq0yO4A==}
@@ -3976,8 +3976,8 @@ packages:
       '@tanstack/react-start':
         optional: true
 
-  '@tanstack/react-query@5.85.8':
-    resolution: {integrity: sha512-r3rW55STAO03EJg5mrCVIJvaEK3oeHme5u7QovuRFIKRbEgTzTv2DPdenX46X+x56LsU3ree1N4rzI/+gJ7KEA==}
+  '@tanstack/react-query@5.85.9':
+    resolution: {integrity: sha512-2T5zgSpcOZXGkH/UObIbIkGmUPQqZqn7esVQFXLOze622h4spgWf5jmvrqAo9dnI13/hyMcNsF1jsoDcb59nJQ==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -13153,7 +13153,7 @@ snapshots:
     dependencies:
       '@tanstack/store': 0.7.4
 
-  '@tanstack/query-core@5.85.7': {}
+  '@tanstack/query-core@5.85.9': {}
 
   '@tanstack/react-form@1.19.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
     dependencies:
@@ -13165,9 +13165,9 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@tanstack/react-query@5.85.8(react@19.1.1)':
+  '@tanstack/react-query@5.85.9(react@19.1.1)':
     dependencies:
-      '@tanstack/query-core': 5.85.7
+      '@tanstack/query-core': 5.85.9
       react: 19.1.1
 
   '@tanstack/react-store@0.7.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
