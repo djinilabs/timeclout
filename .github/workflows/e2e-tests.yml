@@ -267,7 +267,7 @@ jobs:
           retention-days: 30
 
       - name: Send Discord notification
-        if: always()
+        if: failure()
         uses: ./.github/actions/discord-notification
         with:
           webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
