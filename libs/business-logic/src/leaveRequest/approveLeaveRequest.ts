@@ -58,11 +58,6 @@ export const approveLeaveRequest = async (
 
   let startDate = new Date(leaveRequest.startDate);
   const endDate = new Date(leaveRequest.endDate);
-  console.log(
-    `📅 Creating leave records from ${
-      startDate.toISOString().split("T")[0]
-    } to ${endDate.toISOString().split("T")[0]}`
-  );
 
   while (startDate <= endDate) {
     const newLeave = {
@@ -75,24 +70,11 @@ export const approveLeaveRequest = async (
       createdAt: new Date().toISOString(),
     };
 
-    console.log(
-      `✅ Creating leave record for ${startDate.toISOString().split("T")[0]}:`,
-      newLeave
-    );
     await leave.create(newLeave);
-    console.log(
-      `✅ Successfully created leave record for ${
-        startDate.toISOString().split("T")[0]
-      }`
-    );
 
     // Move to next day
     const nextDate = new Date(startDate);
     nextDate.setDate(nextDate.getDate() + 1);
     startDate = nextDate;
   }
-
-  console.log(
-    `🎉 Successfully created all leave records for leave request ${leaveRequest.pk}/${leaveRequest.sk}`
-  );
 };

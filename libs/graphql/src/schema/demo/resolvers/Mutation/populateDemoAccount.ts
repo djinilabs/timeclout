@@ -5,9 +5,7 @@ import type { MutationResolvers } from "./../../../../types.generated";
 import { populateDemoAccount as populateDemoAccountLogic } from "@/business-logic";
 import { resourceRef } from "@/utils";
 
-export const populateDemoAccount: NonNullable<
-  MutationResolvers["populateDemoAccount"]
-> = async (_parent, { input }, ctx) => {
+export const populateDemoAccount: NonNullable<MutationResolvers['populateDemoAccount']> = async (_parent, { input }, ctx) => {
   const session = await requireSession(ctx);
   const userPk = resourceRef(
     "users",

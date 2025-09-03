@@ -14,6 +14,7 @@ export interface PopulateDemoAccountOptions {
   unitName?: string;
   teamName?: string;
   actingUserPk: string;
+  teamPk?: string;
 }
 
 export interface PopulateDemoAccountResult {
@@ -87,7 +88,10 @@ export const populateDemoAccount = async (
     }
 
     // Step 5: Create shift positions
-    const shiftPositionsResult = await createDemoShiftPositions(options);
+    const shiftPositionsResult = await createDemoShiftPositions({
+      ...options,
+      teamPk: teamResult.team.pk,
+    });
     if (!shiftPositionsResult.success) {
       console.warn(
         "Failed to create demo shift positions:",

@@ -86,6 +86,8 @@ export const tableSchemas = {
     leaveRequestPk: z.string(),
     leaveRequestSk: z.string(),
     type: z.string(),
+    createdBy: z.string().refine(getResourceRef).optional(),
+    createdAt: z.string().datetime().optional(),
   }),
   shift_positions: TableBaseSchema.extend({
     // pk is teams/:teamId
