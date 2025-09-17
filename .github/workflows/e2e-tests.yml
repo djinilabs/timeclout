@@ -54,7 +54,7 @@ jobs:
           run_install: false
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "22"
           architecture: "x64"
@@ -267,7 +267,7 @@ jobs:
           retention-days: 30
 
       - name: Send Discord notification
-        if: always()
+        if: failure()
         uses: ./.github/actions/discord-notification
         with:
           webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}

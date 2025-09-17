@@ -106,3 +106,20 @@ jobs:
           gh pr comment $PR_NUMBER --body "🤖 **Auto-merge completed!** This PR has been automatically merged after all required checks passed, including E2E Tests."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send Discord notification
+        if: steps.check-status.outputs.ready == 'true'
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
+          workflow_name: ${{ github.workflow }}
+          job_status: ${{ job.status }}
+          run_id: ${{ github.run_id }}
+          repository: ${{ github.repository }}
+          sha: ${{ github.sha }}
+          ref_name: ${{ github.ref_name }}
+          event_name: ${{ github.event_name }}
+          head_commit_message: "PR #${{ github.event.inputs.pr_number }} auto-merged successfully"
+          pull_request_number: ${{ github.event.inputs.pr_number }}
+          pull_request_title: "Auto-merged PR #${{ github.event.inputs.pr_number }}"
+          pull_request_url: "https://github.com/${{ github.repository }}/pull/${{ github.event.inputs.pr_number }}"

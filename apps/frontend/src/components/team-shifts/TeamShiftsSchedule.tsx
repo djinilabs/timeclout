@@ -473,8 +473,6 @@ export const TeamShiftsSchedule = () => {
     return weekNumbers;
   }, [holidays, showHolidays]);
 
-  console.log("maxHolidayRowsPerWeekNumber", maxHolidayRowsPerWeekNumber);
-
   // join the two arrays
   const maxRowsPerWeekNumber = useMemo(() => {
     return maxShiftPositionRowsPerWeekNumber.map(
