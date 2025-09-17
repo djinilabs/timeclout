@@ -1,7 +1,6 @@
 import { nanoid } from "nanoid";
 import { useCallback, useState } from "react";
 
-
 import { ShiftPosition } from "../graphql/graphql";
 
 import { useDragAndDrop } from "./useDragAndDrop";
@@ -42,11 +41,9 @@ export const useTeamShiftsDragAndDrop = (
 
   const onShiftPositionDragEnd = useCallback(
     (_: ShiftPositionWithFake, e: React.DragEvent<HTMLDivElement>) => {
-      setDraggingFakeShiftPosition(null);
-      resetDragging();
       e.currentTarget.setAttribute("aria-grabbed", "false");
     },
-    [resetDragging]
+    []
   );
 
   const onCellDragOver = useCallback(
@@ -127,7 +124,7 @@ export const useTeamShiftsDragAndDrop = (
         return;
       }
       if (shiftPosition.isTemplate) {
-        createShiftPosition({
+        await createShiftPosition({
           team: teamPk,
           name: shiftPosition.name,
           color: shiftPosition.color,
@@ -144,7 +141,7 @@ export const useTeamShiftsDragAndDrop = (
       if (!foundPosition || foundPosition.day == day) {
         return;
       }
-      moveShiftPosition(foundPosition.pk, foundPosition.sk, day);
+      await moveShiftPosition(foundPosition.pk, foundPosition.sk, day);
       resetDragging();
       setDraggingFakeShiftPosition(null);
     },
