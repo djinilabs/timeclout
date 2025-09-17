@@ -461,7 +461,7 @@ async function completeUserProfile(
 
 async function verifyFormValidation(page: Page): Promise<void> {
   // Try to submit without selecting industry
-  const submitButton = page.locator('button:has-text("Populate Account")');
+  const submitButton = page.locator('button:has-text("Populate My Account")');
   await submitButton.waitFor({ state: "visible" });
 
   // The form should prevent submission without required fields
