@@ -216,7 +216,7 @@ importers:
         version: 5.0.0-beta.29(@simplewebauthn/browser@13.1.2)(@simplewebauthn/server@13.1.2)(next@15.3.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.55.0)(babel-plugin-macros@3.1.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
       posthog-js:
         specifier: ^1.230.2
-        version: 1.261.5
+        version: 1.266.0
       radix-ui:
         specifier: ^1.4.2
         version: 1.4.3(@types/react-dom@19.1.9(@types/react@19.1.12))(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -7092,8 +7092,8 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  posthog-js@1.261.5:
-    resolution: {integrity: sha512-PYsqBXgfcziKvvDJ6BT9oicXXkz8z9w0ZQOCzrBvKVb09UCxv27/jRbzY1l7CMjW4GR66evs+ojILb7h0WdUAQ==}
+  posthog-js@1.266.0:
+    resolution: {integrity: sha512-437KsO9N+pMW6FtilgKYTHel0RCWs2S7PvsNRJf20/f3npChX9i6F8cNCJ6O4Az37scC1kPdTknFY/xEGazVJw==}
     peerDependencies:
       '@rrweb/types': 2.0.0-alpha.17
       rrweb-snapshot: 2.0.0-alpha.17
@@ -7111,8 +7111,8 @@ packages:
   preact@10.24.3:
     resolution: {integrity: sha512-Z2dPnBnMUfyQfSQ+GBdsGa16hz35YmLmtTLhM169uW944hYL6xzTYkJjC07j+Wosz733pMWx0fgON3JNw1jJQA==}
 
-  preact@10.27.1:
-    resolution: {integrity: sha512-V79raXEWch/rbqoNc7nT9E4ep7lu+mI3+sBmfRD4i1M73R3WLYcCtdI0ibxGVf4eQL8ZIz2nFacqEC+rmnOORQ==}
+  preact@10.27.2:
+    resolution: {integrity: sha512-5SYSgFKSyhCbk6SrXyMpqjb5+MQBgfvEKE/OC+PujcY34sOpqtr+0AZQtPYx5IA6VxynQ7rUPCtKzyovpj9Bpg==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -16688,12 +16688,12 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.261.5:
+  posthog-js@1.266.0:
     dependencies:
       '@posthog/core': 1.0.2
       core-js: 3.45.1
       fflate: 0.4.8
-      preact: 10.27.1
+      preact: 10.27.2
       web-vitals: 4.2.4
 
   preact-render-to-string@6.5.11(preact@10.24.3):
@@ -16702,7 +16702,7 @@ snapshots:
 
   preact@10.24.3: {}
 
-  preact@10.27.1: {}
+  preact@10.27.2: {}
 
   prelude-ls@1.2.1: {}
 
