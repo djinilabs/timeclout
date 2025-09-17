@@ -31,6 +31,7 @@ export const useTeamShiftPositionsMap = ({
   draggingShiftPosition,
   spillTime = true,
 }: UseTeamShiftPositionsMapParams): UseTeamShiftPositionsMapResult => {
+  console.log("draggingShiftPosition", draggingShiftPosition);
   const shiftPositions = useMemo(() => {
     if (draggingShiftPosition) {
       const shiftPositions = [...(shiftPositionsResult ?? [])];
