@@ -4,6 +4,36 @@ import { type PopulateDemoAccountOptions } from "../populateDemoAccount";
 import { ScheduleDayTemplate } from "@/settings";
 import { database } from "@/tables";
 
+// Helper function to select qualifications from available ones
+const selectQualifications = (
+  availableQualifications: string[],
+  preferredQualifications: string[],
+  count: number = 1
+): string[] => {
+  // First try to use preferred qualifications that are available
+  const availablePreferred = preferredQualifications.filter((qual) =>
+    availableQualifications.includes(qual)
+  );
+
+  // If we have enough preferred qualifications, use them
+  if (availablePreferred.length >= count) {
+    return availablePreferred.slice(0, count);
+  }
+
+  // Otherwise, use available preferred + random from available
+  const result = [...availablePreferred];
+  const remaining = availableQualifications.filter(
+    (qual) => !availablePreferred.includes(qual)
+  );
+
+  while (result.length < count && remaining.length > 0) {
+    const randomIndex = Math.floor(Math.random() * remaining.length);
+    result.push(remaining.splice(randomIndex, 1)[0]);
+  }
+
+  return result;
+};
+
 export interface CreateDemoTemplatesResult {
   success: boolean;
   dayTemplates?: Record<string, ScheduleDayTemplate>;
@@ -24,8 +54,34 @@ export const createDemoTemplates = async (
       `Demo: Creating day and week templates for ${industryTemplate.name} industry`
     );
 
+    // Get the actual team qualifications that were created
+    const teamQualificationsSetting = await entity_settings.get(
+      teamPk,
+      "qualifications"
+    );
+
+    if (!teamQualificationsSetting) {
+      console.warn(
+        "No team qualifications found, using industry template qualifications"
+      );
+    }
+
+    const availableQualifications =
+      teamQualificationsSetting?.settings?.map(
+        (q: { name: string }) => q.name
+      ) || industryTemplate.qualificationSuggestions;
+
+    console.log(
+      `Demo: Using qualifications for templates: ${availableQualifications.join(
+        ", "
+      )}`
+    );
+
     // Create day templates based on industry patterns
-    const dayTemplates = createIndustryDayTemplates(industryTemplate);
+    const dayTemplates = createIndustryDayTemplates(
+      industryTemplate,
+      availableQualifications
+    );
 
     // Create week templates that combine day templates
     const weekTemplates = createIndustryWeekTemplates(industryTemplate);
@@ -67,9 +123,10 @@ export const createDemoTemplates = async (
   }
 };
 
-function createIndustryDayTemplates(industryTemplate: {
-  name: string;
-}): Record<string, ScheduleDayTemplate> {
+function createIndustryDayTemplates(
+  industryTemplate: { name: string },
+  availableQualifications: string[]
+): Record<string, ScheduleDayTemplate> {
   const templates: Record<string, ScheduleDayTemplate> = {};
 
   switch (industryTemplate.name.toLowerCase()) {
@@ -79,7 +136,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Day Shift",
           color: "blue",
-          requiredSkills: ["RN License", "BLS Certification"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["RN License", "BLS Certification"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [6, 0], // 6:00 AM
@@ -91,7 +152,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Night Shift",
           color: "navy",
-          requiredSkills: ["RN License", "BLS Certification", "Critical Care"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["RN License", "BLS Certification", "Critical Care"],
+            3
+          ),
           schedules: [
             {
               startHourMinutes: [18, 0], // 6:00 PM
@@ -107,7 +172,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Weekend Day",
           color: "lightblue",
-          requiredSkills: ["RN License", "BLS Certification"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["RN License", "BLS Certification"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [8, 0], // 8:00 AM
@@ -119,7 +188,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Weekend Night",
           color: "darkblue",
-          requiredSkills: ["RN License", "BLS Certification", "Critical Care"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["RN License", "BLS Certification", "Critical Care"],
+            3
+          ),
           schedules: [
             {
               startHourMinutes: [20, 0], // 8:00 PM
@@ -135,11 +208,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Emergency Day",
           color: "red",
-          requiredSkills: [
-            "RN License",
-            "BLS Certification",
-            "Emergency Medicine",
-          ],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["RN License", "BLS Certification", "Emergency Medicine"],
+            3
+          ),
           schedules: [
             {
               startHourMinutes: [6, 0], // 6:00 AM
@@ -151,12 +224,16 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Emergency Night",
           color: "darkred",
-          requiredSkills: [
-            "RN License",
-            "BLS Certification",
-            "Emergency Medicine",
-            "Critical Care",
-          ],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            [
+              "RN License",
+              "BLS Certification",
+              "Emergency Medicine",
+              "Critical Care",
+            ],
+            4
+          ),
           schedules: [
             {
               startHourMinutes: [18, 0], // 6:00 PM
@@ -174,7 +251,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Opening Shift",
           color: "green",
-          requiredSkills: ["Customer Service", "Inventory Management"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Inventory Management"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [7, 0], // 7:00 AM
@@ -186,7 +267,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Mid Shift",
           color: "blue",
-          requiredSkills: ["Customer Service"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [11, 0], // 11:00 AM
@@ -198,7 +283,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Closing Shift",
           color: "purple",
-          requiredSkills: ["Customer Service", "Cash Handling"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Cash Handling"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [15, 0], // 3:00 PM
@@ -214,7 +303,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Weekend Shift",
           color: "orange",
-          requiredSkills: ["Customer Service"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [10, 0], // 10:00 AM
@@ -230,7 +323,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Morning Rush",
           color: "yellow",
-          requiredSkills: ["Customer Service", "Cash Handling"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Cash Handling"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [8, 0], // 8:00 AM
@@ -242,7 +339,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Evening Rush",
           color: "red",
-          requiredSkills: ["Customer Service", "Cash Handling"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Cash Handling"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [16, 0], // 4:00 PM
@@ -260,7 +361,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Production Worker",
           color: "blue",
-          requiredSkills: ["Machine Operation"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Machine Operation"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [6, 0], // 6:00 AM
@@ -272,7 +377,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Quality Inspector",
           color: "green",
-          requiredSkills: ["Quality Control"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Quality Control"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [6, 0], // 6:00 AM
@@ -288,7 +397,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Production Worker",
           color: "blue",
-          requiredSkills: ["Machine Operation"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Machine Operation"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [14, 0], // 2:00 PM
@@ -300,7 +413,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Maintenance Technician",
           color: "orange",
-          requiredSkills: ["Maintenance", "Technical Skills"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Maintenance", "Technical Skills"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [14, 0], // 2:00 PM
@@ -316,7 +433,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Production Worker",
           color: "navy",
-          requiredSkills: ["Machine Operation"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Machine Operation"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [22, 0], // 10:00 PM
@@ -328,7 +449,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Safety Officer",
           color: "red",
-          requiredSkills: ["Safety Training", "Team Leadership"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Safety Training", "Team Leadership"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [22, 0], // 10:00 PM
@@ -346,7 +471,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Front Desk",
           color: "blue",
-          requiredSkills: ["Customer Service", "Hospitality Training"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Hospitality Training"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [6, 0], // 6:00 AM
@@ -358,7 +487,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Housekeeping",
           color: "green",
-          requiredSkills: ["Customer Service"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [7, 0], // 7:00 AM
@@ -374,7 +507,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Front Desk",
           color: "blue",
-          requiredSkills: ["Customer Service", "Hospitality Training"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Hospitality Training"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [14, 0], // 2:00 PM
@@ -386,7 +523,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Concierge",
           color: "purple",
-          requiredSkills: ["Customer Service", "Language Skills"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Language Skills"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [14, 0], // 2:00 PM
@@ -402,7 +543,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Night Auditor",
           color: "navy",
-          requiredSkills: ["Customer Service", "Safety Training"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Safety Training"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [22, 0], // 10:00 PM
@@ -420,7 +565,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Chef",
           color: "red",
-          requiredSkills: ["Culinary Skills", "Food Safety"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Culinary Skills", "Food Safety"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [10, 0], // 10:00 AM
@@ -432,7 +581,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Line Cook",
           color: "orange",
-          requiredSkills: ["Culinary Skills", "Food Safety"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Culinary Skills", "Food Safety"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [10, 0], // 10:00 AM
@@ -448,7 +601,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Server",
           color: "blue",
-          requiredSkills: ["Customer Service", "Service Training"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Service Training"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [16, 0], // 4:00 PM
@@ -460,7 +617,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Bartender",
           color: "purple",
-          requiredSkills: ["Customer Service", "Wine Knowledge"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Wine Knowledge"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [16, 0], // 4:00 PM
@@ -476,7 +637,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Server",
           color: "blue",
-          requiredSkills: ["Customer Service", "Service Training"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Service Training"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [16, 0], // 4:00 PM
@@ -488,7 +653,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Bartender",
           color: "purple",
-          requiredSkills: ["Customer Service", "Wine Knowledge"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Customer Service", "Wine Knowledge"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [16, 0], // 4:00 PM
@@ -506,7 +675,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Teacher",
           color: "blue",
-          requiredSkills: ["Teaching License"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Teaching License"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [7, 0], // 7:00 AM
@@ -518,7 +691,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Administrative Staff",
           color: "purple",
-          requiredSkills: ["Administrative Training"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Administrative Training"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [8, 0], // 8:00 AM
@@ -534,7 +711,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Teacher",
           color: "blue",
-          requiredSkills: ["Teaching License", "Child Development"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Teaching License", "Child Development"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [7, 0], // 7:00 AM
@@ -546,7 +727,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Support Staff",
           color: "green",
-          requiredSkills: ["Child Development"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Child Development"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [15, 0], // 3:00 PM
@@ -564,7 +749,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Software Engineer",
           color: "blue",
-          requiredSkills: ["Programming Languages"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Programming Languages"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [9, 0], // 9:00 AM
@@ -576,7 +765,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "DevOps Engineer",
           color: "green",
-          requiredSkills: ["Cloud Computing", "System Architecture"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Cloud Computing", "System Architecture"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [9, 0], // 9:00 AM
@@ -592,7 +785,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Software Engineer",
           color: "blue",
-          requiredSkills: ["Programming Languages"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Programming Languages"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [10, 0], // 10:00 AM
@@ -608,7 +805,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Support Engineer",
           color: "red",
-          requiredSkills: ["System Architecture", "Security Certification"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["System Architecture", "Security Certification"],
+            2
+          ),
           schedules: [
             {
               startHourMinutes: [17, 0], // 5:00 PM
@@ -626,7 +827,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Warehouse Worker",
           color: "blue",
-          requiredSkills: ["Forklift License"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Forklift License"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [6, 0], // 6:00 AM
@@ -638,7 +843,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Quality Inspector",
           color: "green",
-          requiredSkills: ["Quality Control"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Quality Control"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [6, 0], // 6:00 AM
@@ -654,7 +863,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Warehouse Worker",
           color: "blue",
-          requiredSkills: ["Forklift License"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Forklift License"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [14, 0], // 2:00 PM
@@ -666,7 +879,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Inventory Specialist",
           color: "orange",
-          requiredSkills: ["Inventory Management"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Inventory Management"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [14, 0], // 2:00 PM
@@ -682,7 +899,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Delivery Driver",
           color: "purple",
-          requiredSkills: ["Commercial Driver's License"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["Commercial Driver's License"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [8, 0], // 8:00 AM
@@ -700,7 +921,11 @@ function createIndustryDayTemplates(industryTemplate: {
         {
           name: "Team Member",
           color: "blue",
-          requiredSkills: ["General Skills"],
+          requiredSkills: selectQualifications(
+            availableQualifications,
+            ["General Skills"],
+            1
+          ),
           schedules: [
             {
               startHourMinutes: [9, 0], // 9:00 AM

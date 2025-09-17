@@ -5,6 +5,36 @@ import { type PopulateDemoAccountOptions } from "../populateDemoAccount";
 
 import { database } from "@/tables";
 
+// Helper function to select qualifications from available ones
+const selectQualifications = (
+  availableQualifications: string[],
+  preferredQualifications: string[],
+  count: number = 1
+): string[] => {
+  // First try to use preferred qualifications that are available
+  const availablePreferred = preferredQualifications.filter((qual) =>
+    availableQualifications.includes(qual)
+  );
+
+  // If we have enough preferred qualifications, use them
+  if (availablePreferred.length >= count) {
+    return availablePreferred.slice(0, count);
+  }
+
+  // Otherwise, use available preferred + random from available
+  const result = [...availablePreferred];
+  const remaining = availableQualifications.filter(
+    (qual) => !availablePreferred.includes(qual)
+  );
+
+  while (result.length < count && remaining.length > 0) {
+    const randomIndex = Math.floor(Math.random() * remaining.length);
+    result.push(remaining.splice(randomIndex, 1)[0]);
+  }
+
+  return result;
+};
+
 export interface CreateDemoShiftPositionsResult {
   success: boolean;
   shiftPositions?: unknown[];
@@ -21,7 +51,28 @@ export const createDemoShiftPositions = async (
     }
 
     const industryTemplate = getIndustryTemplate(industry);
-    const { shift_positions } = await database();
+    const { shift_positions, entity_settings } = await database();
+
+    // Get the actual team qualifications that were created
+    const teamQualificationsSetting = await entity_settings.get(
+      teamPk,
+      "qualifications"
+    );
+
+    if (!teamQualificationsSetting) {
+      console.warn(
+        "No team qualifications found, using industry template qualifications"
+      );
+    }
+
+    const availableQualifications =
+      teamQualificationsSetting?.settings?.map(
+        (q: { name: string }) => q.name
+      ) || industryTemplate.qualificationSuggestions;
+
+    console.log(
+      `Demo: Using qualifications: ${availableQualifications.join(", ")}`
+    );
 
     // Create shift positions for the next 6 weeks (42 days) to give more testing data
     const shiftPositions = [];
@@ -71,7 +122,11 @@ export const createDemoShiftPositions = async (
               day: dateString,
               name: shift.name,
               color: shift.color,
-              requiredSkills: shift.requiredSkills,
+              requiredSkills: selectQualifications(
+                availableQualifications,
+                shift.requiredSkills,
+                shift.requiredSkills.length
+              ),
               schedules: [
                 {
                   startHourMinutes: [shift.startHour, 0],
@@ -102,11 +157,15 @@ export const createDemoShiftPositions = async (
             day: dateString,
             name: weekendShift.name,
             color: weekendShift.color,
-            requiredSkills: weekendShift.requiredSkills,
+            requiredSkills: selectQualifications(
+              availableQualifications,
+              weekendShift.requiredSkills,
+              weekendShift.requiredSkills.length
+            ),
             schedules: [
               {
-                startHourMinutes: [weekendShift.startHour * 60],
-                endHourMinutes: [weekendShift.endHour * 60],
+                startHourMinutes: [weekendShift.startHour, 0],
+                endHourMinutes: [weekendShift.endHour, 0],
                 inconveniencePerHour: weekendShift.inconveniencePerHour,
               },
             ],
@@ -158,7 +217,11 @@ export const createDemoShiftPositions = async (
               day: dateString,
               name: shift.name,
               color: shift.color,
-              requiredSkills: shift.requiredSkills,
+              requiredSkills: selectQualifications(
+                availableQualifications,
+                shift.requiredSkills,
+                shift.requiredSkills.length
+              ),
               schedules: [
                 {
                   startHourMinutes: [shift.startHour, 0],
@@ -208,7 +271,11 @@ export const createDemoShiftPositions = async (
               day: dateString,
               name: shift.name,
               color: shift.color,
-              requiredSkills: shift.requiredSkills,
+              requiredSkills: selectQualifications(
+                availableQualifications,
+                shift.requiredSkills,
+                shift.requiredSkills.length
+              ),
               schedules: [
                 {
                   startHourMinutes: [shift.startHour, 0],
