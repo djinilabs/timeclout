@@ -55,25 +55,28 @@ async function fillLeaveRequestForm(page: Page): Promise<void> {
     console.log("✅ Filled in reason for leave request");
   }
 
-  // Submit using the specific button class from BookCompanyTimeOff component
-  const submitButton = page.locator(".leave-submit-button");
-  if (await submitButton.isVisible()) {
-    await submitButton.click();
-    console.log("✅ Submitted leave request");
+  // Wait for the form to be fully loaded and enabled
+  await page.waitForLoadState("domcontentloaded");
 
-    // Wait for navigation back to leave schedule
-    await page.waitForLoadState("domcontentloaded");
-    console.log("✅ Returned to leave schedule after request creation");
-  } else {
-    // Fallback to generic submit button
-    const genericSubmit = page.locator('button[type="submit"]');
-    if (await genericSubmit.isVisible()) {
-      await genericSubmit.click();
-      console.log("✅ Submitted leave request (generic button)");
-    } else {
-      console.log("ℹ️ No submit button found");
-    }
-  }
+  // Wait for the submit button to be visible and enabled
+  const submitButton = page.locator(".leave-submit-button");
+  await submitButton.waitFor({ state: "visible", timeout: 10000 });
+
+  // Wait for the button to be enabled (not disabled)
+  await page.waitForFunction(
+    () => {
+      const button = document.querySelector(".leave-submit-button");
+      return button && !button.disabled;
+    },
+    { timeout: 10000 }
+  );
+
+  await submitButton.click();
+  console.log("✅ Submitted leave request");
+
+  // Wait for navigation back to leave schedule
+  await page.waitForLoadState("domcontentloaded");
+  console.log("✅ Returned to leave schedule after request creation");
 }
 
 /**
@@ -1057,7 +1060,7 @@ async function setupUnitManager(page: Page): Promise<void> {
       console.log(`🔍 Found ${allOptionCount} total options in dropdown`);
 
       // Get options with actual values (not empty)
-      const userOptions = selectUserDropdown.locator('option[value!=""]');
+      const userOptions = selectUserDropdown.locator('option:not([value=""])');
       const optionCount = await userOptions.count();
       console.log(
         `🔍 Found ${optionCount} available users to assign as managers`
@@ -1146,9 +1149,14 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
   // Wait for the leave schedule calendar to load
   await page.waitForLoadState("domcontentloaded");
 
+  // Wait for the calendar to load - look for the table structure
+  const calendarTable = page.locator("table");
+  await calendarTable.waitFor({ state: "visible", timeout: 10000 });
+  console.log("✅ Calendar table loaded");
+
   // Look for team member calendar cells with hover functionality
-  // Based on source code: cells have .group class and contain links with specific classes
-  const calendarCells = page.locator(".group");
+  // Based on source code: cells are td elements with .group class in MonthlyCalendarPerMember
+  const calendarCells = page.locator("td.group");
   const cellCount = await calendarCells.count();
 
   console.log(`Found ${cellCount} calendar cells`);
@@ -1157,7 +1165,7 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
   // The add link has specific classes from TeamLeaveSchedule: "absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100"
   let foundAddableCell = false;
 
-  for (let i = 0; i < Math.min(cellCount, 10); i++) {
+  for (let i = 0; i < Math.min(cellCount, 20); i++) {
     const cell = calendarCells.nth(i);
 
     // Check if this cell has a hidden add link (which means no existing leave request)
@@ -1172,12 +1180,6 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
 
       // Hover over the cell to make the link visible
       await cell.hover();
-
-      // Wait for the opacity transition to complete
-      await page.waitForFunction(() => {
-        const element = document.querySelector(".group");
-        return element && getComputedStyle(element).opacity === "1";
-      });
 
       // Wait for the link to become visible after hover
       await addLeaveLink.waitFor({ state: "visible", timeout: 5000 });
@@ -1268,9 +1270,9 @@ async function createAndManageShiftPositions(page: Page): Promise<void> {
   } else {
     console.log("ℹ️ Actions menu button not found, trying alternative methods");
 
-    // Alternative: Look for any button that might create shifts
+    // Alternative: Look for any button that might create shifts (but not the "Add leave" button)
     const createButtons = page.locator(
-      'button:has-text("Create"), button:has-text("Add"), button[aria-label*="Add"], button[aria-label*="Create"]'
+      'button:has-text("Create"), button[aria-label*="Add position"], button[aria-label*="Create position"]'
     );
     const createButton = createButtons.first();
 
@@ -1278,6 +1280,10 @@ async function createAndManageShiftPositions(page: Page): Promise<void> {
       await createButton.click();
       console.log("✅ Clicked create/add button");
       shiftCreated = true;
+    } else {
+      console.log(
+        "ℹ️ No shift creation buttons found, skipping shift creation"
+      );
     }
   }
 
