@@ -23,12 +23,12 @@ export const createDemoShiftPositions = async (
     const industryTemplate = getIndustryTemplate(industry);
     const { shift_positions } = await database();
 
-    // Create shift positions for the next 4 weeks (28 days)
+    // Create shift positions for the next 6 weeks (42 days) to give more testing data
     const shiftPositions = [];
     const startDate = new Date();
     startDate.setDate(startDate.getDate() + 1); // Start from tomorrow
 
-    for (let dayOffset = 0; dayOffset < 28; dayOffset++) {
+    for (let dayOffset = 0; dayOffset < 42; dayOffset++) {
       const currentDate = new Date(startDate);
       currentDate.setDate(currentDate.getDate() + dayOffset);
       const dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, etc.
@@ -74,8 +74,8 @@ export const createDemoShiftPositions = async (
               requiredSkills: shift.requiredSkills,
               schedules: [
                 {
-                  startHourMinutes: [shift.startHour * 60],
-                  endHourMinutes: [shift.endHour * 60],
+                  startHourMinutes: [shift.startHour, 0],
+                  endHourMinutes: [shift.endHour, 0],
                   inconveniencePerHour: shift.inconveniencePerHour,
                 },
               ],
@@ -161,8 +161,8 @@ export const createDemoShiftPositions = async (
               requiredSkills: shift.requiredSkills,
               schedules: [
                 {
-                  startHourMinutes: [shift.startHour * 60],
-                  endHourMinutes: [shift.endHour * 60],
+                  startHourMinutes: [shift.startHour, 0],
+                  endHourMinutes: [shift.endHour, 0],
                   inconveniencePerHour: shift.inconveniencePerHour,
                 },
               ],
@@ -211,8 +211,8 @@ export const createDemoShiftPositions = async (
               requiredSkills: shift.requiredSkills,
               schedules: [
                 {
-                  startHourMinutes: [shift.startHour * 60],
-                  endHourMinutes: [shift.endHour * 60],
+                  startHourMinutes: [shift.startHour, 0],
+                  endHourMinutes: [shift.endHour, 0],
                   inconveniencePerHour: shift.inconveniencePerHour,
                 },
               ],

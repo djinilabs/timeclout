@@ -54,6 +54,42 @@ export const industryOptions: IndustryOption[] = [
     unitTypeSuggestions: ["Kitchen", "Service", "Section", "Station", "Area"],
     teamSizeRange: { min: 3, max: 20, default: 7 },
   },
+  {
+    value: "education",
+    label: "Education",
+    description:
+      "Schools, universities, educational institutions with academic schedules",
+    unitTypeSuggestions: [
+      "School",
+      "Campus",
+      "Department",
+      "Division",
+      "Program",
+    ],
+    teamSizeRange: { min: 4, max: 25, default: 12 },
+  },
+  {
+    value: "technology",
+    label: "Technology",
+    description:
+      "Software companies, tech startups, IT departments with flexible schedules",
+    unitTypeSuggestions: ["Department", "Team", "Division", "Lab", "Studio"],
+    teamSizeRange: { min: 3, max: 20, default: 8 },
+  },
+  {
+    value: "logistics",
+    label: "Logistics",
+    description:
+      "Warehouses, distribution centers, shipping companies with 24/7 operations",
+    unitTypeSuggestions: [
+      "Warehouse",
+      "Distribution Center",
+      "Hub",
+      "Facility",
+      "Terminal",
+    ],
+    teamSizeRange: { min: 5, max: 25, default: 12 },
+  },
 ];
 
 export const getIndustryOption = (

@@ -4,6 +4,7 @@ import { createDemoLeaveRequests } from "./leaves/createDemoLeaveRequests";
 import { createDemoShiftPositions } from "./shifts/createDemoShiftPositions";
 import { createDemoTeam } from "./team/createDemoTeam";
 import { createDemoUsers } from "./team/createDemoUsers";
+import { createDemoTemplates } from "./templates/createDemoTemplates";
 import { createDemoUnit } from "./unit/createDemoUnit";
 
 export interface PopulateDemoAccountOptions {
@@ -100,7 +101,17 @@ export const populateDemoAccount = async (
       // Continue anyway as this is not critical
     }
 
-    // Step 6: Create leave requests
+    // Step 6: Create day and week templates
+    const templatesResult = await createDemoTemplates(
+      options,
+      teamResult.team.pk
+    );
+    if (!templatesResult.success) {
+      console.warn("Failed to create demo templates:", templatesResult.message);
+      // Continue anyway as this is not critical
+    }
+
+    // Step 7: Create leave requests
     const leaveRequestsResult = await createDemoLeaveRequests(
       options,
       teamResult.team.pk

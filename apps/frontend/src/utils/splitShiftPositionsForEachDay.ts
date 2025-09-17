@@ -31,6 +31,10 @@ const splitSchedule = <T extends Pick<ShiftPosition, "day" | "schedules">>(
 
   const currentDay = acc[startDayIndex];
 
+  if (!currentDay) {
+    return acc;
+  }
+
   currentDay.schedules.push({
     ...schedule,
     startHourMinutes: [
@@ -67,7 +71,7 @@ const splitSchedule = <T extends Pick<ShiftPosition, "day" | "schedules">>(
 };
 
 export const splitShiftPositionForEachDay = <
-  T extends Pick<ShiftPosition, "day" | "schedules">,
+  T extends Pick<ShiftPosition, "day" | "schedules">
 >(
   shiftPosition: T
 ): T[] => {

@@ -75,7 +75,7 @@ export const createDemoLeaveRequests = async (
 
     console.log(`Demo: Found ${teamMemberPks.length} team members`);
 
-    // Generate dates for the next month
+    // Generate dates for the next 3 months to give more testing data
     const nextMonth = new Date();
     nextMonth.setMonth(nextMonth.getMonth() + 1);
     const startOfMonth = new Date(
@@ -85,17 +85,17 @@ export const createDemoLeaveRequests = async (
     );
     const endOfMonth = new Date(
       nextMonth.getFullYear(),
-      nextMonth.getMonth() + 1,
+      nextMonth.getMonth() + 3, // 3 months ahead
       0
     );
 
     const createdLeaveRequests = [];
 
-    // Create 3-5 leave requests for different team members
-    const numLeaveRequests = Math.floor(Math.random() * 3) + 3; // 3-5 requests
+    // Create 5-8 leave requests for different team members to give more testing data
+    const numLeaveRequests = Math.floor(Math.random() * 4) + 5; // 5-8 requests
 
-    // Also create 1-2 leave requests for the current user (acting user)
-    const numUserLeaveRequests = Math.floor(Math.random() * 2) + 1; // 1-2 requests
+    // Also create 2-3 leave requests for the current user (acting user)
+    const numUserLeaveRequests = Math.floor(Math.random() * 2) + 2; // 2-3 requests
 
     // Create team member leave requests
     for (let i = 0; i < numLeaveRequests; i++) {
