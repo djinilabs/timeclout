@@ -11,8 +11,8 @@ export const approveLeaveRequest = async (
   leaveRequest: LeaveRequestRecord,
   approverPk: ResourceRef
 ) => {
-  // If the leave request is already approved, we still need to create leave records
-  // so we don't return early
+  // Leave records are always created, regardless of approval status.
+  // Approval status is only updated if the leave request is not already approved.
 
   const [overlaps, leaves, leaveRequests] = await leaveRequestOverlaps(
     leaveRequest
