@@ -158,7 +158,7 @@
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.1"
   },
-  "packageManager": "pnpm@10.15.1",
+  "packageManager": "pnpm@10.16.1",
   "pnpm": {
     "patchedDependencies": {
       "@architect/functions": "patches/@architect__functions.patch",
