@@ -82,10 +82,12 @@ export const LeaveRequest: React.FC<LeaveRequestProps> = memo(
                 <dd
                   className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
                   role="listitem"
-                  aria-label={`${beneficiary.name} is the beneficiary of this leave request`}
+                  aria-label={`${
+                    beneficiary?.name || "Unknown"
+                  } is the beneficiary of this leave request`}
                 >
-                  <Avatar {...beneficiary} size={30} />
-                  <p>{beneficiary.name}</p>
+                  {beneficiary && <Avatar {...beneficiary} size={30} />}
+                  <p>{beneficiary?.name || "Unknown"}</p>
                 </dd>
               </div>
               <div

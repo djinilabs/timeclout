@@ -27,30 +27,34 @@ export const LeaveRequests: FC<LeaveRequestsProps> = ({
               className="relative flex justify-between gap-x-6 py-5"
             >
               <div className="flex min-w-0 gap-x-4">
-                <Avatar {...leaveRequest.beneficiary} />
+                {leaveRequest.beneficiary && (
+                  <Avatar {...leaveRequest.beneficiary} />
+                )}
                 <div className="min-w-0 flex-auto">
                   <p className="text-sm/6 font-semibold text-gray-900">
                     <span className="inset-x-0 -top-px bottom-0" />
-                    {leaveRequest.beneficiary.name}
+                    {leaveRequest.beneficiary?.name || "Unknown"}
                   </p>
                   <p className="mt-1 flex text-xs/5 text-gray-500">
-                    <a
-                      href={`mailto:${leaveRequest.beneficiary.email}`}
-                      className="relative truncate hover:underline"
-                      aria-label={`Send email to ${leaveRequest.beneficiary.name} at ${leaveRequest.beneficiary.email}`}
-                      // eslint-disable-next-line react/no-unknown-property
-                      aria-clickable
-                      role="link"
-                      aria-describedby={`email-${leaveRequest.pk}-description`}
-                    >
-                      {leaveRequest.beneficiary.email}
-                      <span
-                        className="sr-only"
-                        id={`email-${leaveRequest.pk}-description`}
+                    {leaveRequest.beneficiary?.email && (
+                      <a
+                        href={`mailto:${leaveRequest.beneficiary.email}`}
+                        className="relative truncate hover:underline"
+                        aria-label={`Send email to ${leaveRequest.beneficiary.name} at ${leaveRequest.beneficiary.email}`}
+                        // eslint-disable-next-line react/no-unknown-property
+                        aria-clickable
+                        role="link"
+                        aria-describedby={`email-${leaveRequest.pk}-description`}
                       >
-                        <Trans>Email address</Trans>
-                      </span>
-                    </a>
+                        {leaveRequest.beneficiary.email}
+                        <span
+                          className="sr-only"
+                          id={`email-${leaveRequest.pk}-description`}
+                        >
+                          <Trans>Email address</Trans>
+                        </span>
+                      </a>
+                    )}
                   </p>
                 </div>
               </div>
