@@ -6,7 +6,6 @@ import { useSession, signOut } from "next-auth/react";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
-
 import { Query } from "../../graphql/graphql";
 import { useQuery } from "../../hooks/useQuery";
 import { Suspense } from "../atoms/Suspense";
@@ -18,7 +17,10 @@ export const LoadingUserTopBarMenu = () => {
   const userNavigation = useMemo(
     () => [
       { href: "/me/edit", name: i18n.t("Profile") },
-      { name: i18n.t("Sign out"), onClick: () => signOut() },
+      {
+        name: i18n.t("Sign out"),
+        onClick: () => signOut({ callbackUrl: "/" }),
+      },
     ],
     []
   );

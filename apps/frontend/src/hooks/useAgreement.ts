@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -56,9 +56,8 @@ export const useAgreement = () => {
   };
 
   const handleDisagree = () => {
-    // Close the session by redirecting to logout or clearing session
-    // For now, we'll redirect to a logout endpoint
-    window.location.href = "/api/v1/auth/signout";
+    // Close the session by using NextAuth signOut with redirect to root
+    signOut({ callbackUrl: "/" });
   };
 
   const resetAgreement = () => {

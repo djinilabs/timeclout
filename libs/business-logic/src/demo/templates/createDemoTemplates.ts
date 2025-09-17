@@ -160,7 +160,7 @@ function createIndustryDayTemplates(
           schedules: [
             {
               startHourMinutes: [18, 0], // 6:00 PM
-              endHourMinutes: [6, 0], // 6:00 AM next day
+              endHourMinutes: [30, 0], // 6:00 AM next day (6 + 24 = 30)
               inconveniencePerHour: 1.5,
             },
           ],
@@ -196,7 +196,7 @@ function createIndustryDayTemplates(
           schedules: [
             {
               startHourMinutes: [20, 0], // 8:00 PM
-              endHourMinutes: [8, 0], // 8:00 AM next day
+              endHourMinutes: [32, 0], // 8:00 AM next day (8 + 24 = 32)
               inconveniencePerHour: 2.0,
             },
           ],
@@ -237,7 +237,7 @@ function createIndustryDayTemplates(
           schedules: [
             {
               startHourMinutes: [18, 0], // 6:00 PM
-              endHourMinutes: [6, 0], // 6:00 AM next day
+              endHourMinutes: [30, 0], // 6:00 AM next day (6 + 24 = 30)
               inconveniencePerHour: 1.8,
             },
           ],
@@ -441,7 +441,7 @@ function createIndustryDayTemplates(
           schedules: [
             {
               startHourMinutes: [22, 0], // 10:00 PM
-              endHourMinutes: [6, 0], // 6:00 AM next day
+              endHourMinutes: [30, 0], // 6:00 AM next day (6 + 24 = 30)
               inconveniencePerHour: 1.5,
             },
           ],
@@ -457,7 +457,7 @@ function createIndustryDayTemplates(
           schedules: [
             {
               startHourMinutes: [22, 0], // 10:00 PM
-              endHourMinutes: [6, 0], // 6:00 AM next day
+              endHourMinutes: [30, 0], // 6:00 AM next day (6 + 24 = 30)
               inconveniencePerHour: 1.5,
             },
           ],
@@ -551,7 +551,7 @@ function createIndustryDayTemplates(
           schedules: [
             {
               startHourMinutes: [22, 0], // 10:00 PM
-              endHourMinutes: [6, 0], // 6:00 AM next day
+              endHourMinutes: [30, 0], // 6:00 AM next day (6 + 24 = 30)
               inconveniencePerHour: 1.5,
             },
           ],
@@ -813,7 +813,7 @@ function createIndustryDayTemplates(
           schedules: [
             {
               startHourMinutes: [17, 0], // 5:00 PM
-              endHourMinutes: [9, 0], // 9:00 AM next day
+              endHourMinutes: [33, 0], // 9:00 AM next day (9 + 24 = 33)
               inconveniencePerHour: 1.5,
             },
           ],

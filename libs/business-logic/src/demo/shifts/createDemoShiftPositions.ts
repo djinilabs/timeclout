@@ -130,7 +130,10 @@ export const createDemoShiftPositions = async (
               schedules: [
                 {
                   startHourMinutes: [shift.startHour, 0],
-                  endHourMinutes: [shift.endHour, 0],
+                  endHourMinutes:
+                    shift.endHour < shift.startHour
+                      ? [shift.endHour + 24, 0] // Add 24 hours for overnight shifts
+                      : [shift.endHour, 0],
                   inconveniencePerHour: shift.inconveniencePerHour,
                 },
               ],
@@ -225,7 +228,10 @@ export const createDemoShiftPositions = async (
               schedules: [
                 {
                   startHourMinutes: [shift.startHour, 0],
-                  endHourMinutes: [shift.endHour, 0],
+                  endHourMinutes:
+                    shift.endHour < shift.startHour
+                      ? [shift.endHour + 24, 0] // Add 24 hours for overnight shifts
+                      : [shift.endHour, 0],
                   inconveniencePerHour: shift.inconveniencePerHour,
                 },
               ],
