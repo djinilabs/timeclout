@@ -206,13 +206,13 @@ async function fillDemoConfigurationForm(page: Page): Promise<void> {
   console.log("✅ Industry select found");
 
   // Wait a bit more for the form to be fully interactive
-  await page.waitForTimeout(1000);
+  await page.waitForLoadState("domcontentloaded");
 
   // Select Healthcare industry
   try {
     await industrySelect.selectOption("healthcare");
     console.log("✅ Selected healthcare industry");
-  } catch (error) {
+  } catch {
     console.log(
       "❌ Failed to select healthcare, trying alternative approach..."
     );
@@ -299,7 +299,7 @@ async function verifyDemoProgress(page: Page): Promise<void> {
       )
       .waitFor({ state: "visible", timeout: 30000 });
     console.log("✅ Demo account creation completed successfully");
-  } catch (error) {
+  } catch {
     console.log(
       "ℹ️ Success message not found, checking for other completion indicators..."
     );
@@ -309,7 +309,7 @@ async function verifyDemoProgress(page: Page): Promise<void> {
     console.log(`🌐 Current URL: ${currentUrl}`);
 
     // Wait a bit more for any final processing
-    await page.waitForTimeout(5000);
+    await page.waitForLoadState("domcontentloaded");
 
     // Check if we're back on the main page or if there are any completion messages
     const pageContent = await page.content();
@@ -331,7 +331,7 @@ async function verifyDemoDataCreation(page: Page): Promise<void> {
   console.log("🔍 Debugging: Checking demo data creation results...");
 
   // Wait a bit for any final processing
-  await page.waitForTimeout(3000);
+  await page.waitForLoadState("domcontentloaded");
 
   // Check the current URL and page state
   const currentUrl = page.url();
@@ -361,7 +361,7 @@ async function verifyDemoDataCreation(page: Page): Promise<void> {
     } else {
       console.log("ℹ️ Continue to Dashboard button not visible");
     }
-  } catch (error) {
+  } catch {
     console.log("ℹ️ Continue to Dashboard button not found");
   }
 
@@ -388,7 +388,7 @@ async function verifyDemoDataCreation(page: Page): Promise<void> {
     if (await anyList.isVisible()) {
       console.log("✅ List content found");
     }
-  } catch (error) {
+  } catch {
     console.log("ℹ️ Could not verify company content");
   }
 

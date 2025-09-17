@@ -18,7 +18,7 @@ import { getDefined } from "@/utils";
  * Removes undefined values from an object to ensure clean data for DynamoDB storage
  * DynamoDB doesn't accept undefined values, so we filter them out
  */
-const clean = (item: any): any => {
+const clean = (item: Record<string, unknown>): Record<string, unknown> => {
   return Object.fromEntries(
     Object.entries(item).filter(([, value]) => value !== undefined)
   );
@@ -31,12 +31,12 @@ const clean = (item: any): any => {
  * @returns A function that parses and validates items for the specified operation
  */
 const parsingItem =
-  (schema: any, tableName: string) =>
-  (item: unknown, operation: string): any => {
+  (schema: z.ZodSchema, tableName: string) =>
+  (item: unknown, operation: string): Record<string, unknown> => {
     try {
       const parsed = schema.parse(item);
       return clean(parsed);
-    } catch (err: any) {
+    } catch (err: unknown) {
       err.message = `Error parsing item when ${operation} in ${tableName}: ${err.message}`;
       throw err;
     }
@@ -280,7 +280,9 @@ export const tableApi = <
       try {
         const args = keySubset({ pk, sk });
         const item = schema.optional().parse(await lowLevelTable.get(args));
-        return getVersion(item, version).item as z.output<typeof schema> | undefined;
+        return getVersion(item, version).item as
+          | z.output<typeof schema>
+          | undefined;
       } catch (err) {
         console.error("Error getting item", tableName, pk, sk, err);
         throw err;

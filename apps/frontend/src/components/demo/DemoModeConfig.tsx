@@ -5,6 +5,7 @@ import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 
 import { Button } from "../particles/Button";
+
 import { industryOptions, type IndustryOption } from "./industryOptions";
 
 export interface DemoModeConfigData {

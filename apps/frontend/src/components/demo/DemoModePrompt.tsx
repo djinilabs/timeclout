@@ -6,8 +6,10 @@ import toast from "react-hot-toast";
 
 import { useMutation } from "../../hooks/useMutation";
 import { Button } from "../particles/Button";
+
 import { DemoModeConfig, type DemoModeConfigData } from "./DemoModeConfig";
 import { DemoModeProgress } from "./DemoModeProgress";
+
 import populateDemoAccountMutation from "@/graphql-client/mutations/populateDemoAccount.graphql";
 
 type DemoModeState = "prompt" | "config" | "progress" | "success";
@@ -211,7 +213,7 @@ export const DemoModePrompt: React.FC = () => {
       <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-200">
         <div className="text-center mb-6">
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            <Trans>What You'll Get with Demo Data</Trans>
+            <Trans>What You&apos;ll Get with Demo Data</Trans>
           </h3>
           <p className="text-gray-600">
             <Trans>

@@ -1080,7 +1080,7 @@ async function setupUnitManager(page: Page): Promise<void> {
           console.log(`✅ Selected user as unit manager: ${firstUserValue}`);
 
           // Wait for the assignment to be processed (it's automatic when selecting)
-          await page.waitForTimeout(2000);
+          await page.waitForLoadState("domcontentloaded");
           console.log("✅ Unit manager assignment completed");
         } else {
           console.log("ℹ️ First user option has no value");
@@ -1144,7 +1144,7 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
   // team member calendar cells and clicking the "+" link that appears
 
   // Wait for the leave schedule calendar to load
-  await page.waitForTimeout(2000);
+  await page.waitForLoadState("domcontentloaded");
 
   // Look for team member calendar cells with hover functionality
   // Based on source code: cells have .group class and contain links with specific classes
@@ -1174,7 +1174,10 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
       await cell.hover();
 
       // Wait for the opacity transition to complete
-      await page.waitForTimeout(500);
+      await page.waitForFunction(() => {
+        const element = document.querySelector(".group");
+        return element && getComputedStyle(element).opacity === "1";
+      });
 
       // Wait for the link to become visible after hover
       await addLeaveLink.waitFor({ state: "visible", timeout: 5000 });
@@ -1185,7 +1188,6 @@ async function setupTeamMemberLeaveSchedules(page: Page): Promise<void> {
 
       // Wait for navigation to leave request creation page
       await page.waitForLoadState("domcontentloaded");
-      await page.waitForTimeout(1000);
 
       // Now fill in the leave request form
       await fillLeaveRequestForm(page);
@@ -1242,7 +1244,7 @@ async function createAndManageShiftPositions(page: Page): Promise<void> {
   }
 
   // Wait for the calendar to fully load
-  await page.waitForTimeout(2000);
+  await page.waitForLoadState("domcontentloaded");
 
   // Look for the Actions menu button to add a position
   // Based on source code: TeamShiftsActionsMenu has an "Actions" button with "Add position" option
@@ -1261,7 +1263,7 @@ async function createAndManageShiftPositions(page: Page): Promise<void> {
     console.log("✅ Clicked Add position button");
 
     // Wait a moment for the dialog to start opening
-    await page.waitForTimeout(500);
+    await page.waitForLoadState("domcontentloaded");
     shiftCreated = true;
   } else {
     console.log("ℹ️ Actions menu button not found, trying alternative methods");
@@ -1282,14 +1284,13 @@ async function createAndManageShiftPositions(page: Page): Promise<void> {
   if (shiftCreated) {
     // Wait for the shift creation form/dialog to appear
     await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(1000);
 
     // Fill in shift details
     await createShiftPosition(page, "Morning Shift");
     console.log("✅ Created first shift position: Morning Shift");
 
     // Create a second shift for the same day or next day
-    await page.waitForTimeout(1000);
+    await page.waitForLoadState("domcontentloaded");
 
     // Try to create another shift using the Actions menu again
     await actionsButton.click();
@@ -1413,7 +1414,7 @@ async function assignShiftToTeamMember(
     console.log(`✅ Clicked on shift: ${shiftName}`);
 
     // Wait for assignment interface to appear
-    await page.waitForTimeout(1000);
+    await page.waitForLoadState("domcontentloaded");
 
     // Based on source code, look for SelectUser component for assignment
     const selectUserButton = page.locator(
@@ -1468,7 +1469,6 @@ async function testShiftAutomationFeatures(page: Page): Promise<void> {
 
     // Wait for auto-fill process to start
     await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(2000);
 
     // Look for auto-fill results or progress indicators
     const autoFillResults = page.locator(
@@ -1504,7 +1504,6 @@ async function testShiftAutomationFeatures(page: Page): Promise<void> {
 
     // Wait for publish dialog or process
     await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(1000);
 
     // Look for the specific "Publish changes" button (avoiding strict mode violation)
     const publishChangesButton = page.locator(
