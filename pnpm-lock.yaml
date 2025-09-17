@@ -201,7 +201,7 @@ importers:
         version: 9.0.0(@types/node@22.18.5)
       javascript-time-ago:
         specifier: ^2.5.11
-        version: 2.5.11
+        version: 2.5.12
       lodash.debounce:
         specifier: ^4.0.8
         version: 4.0.8
@@ -252,7 +252,7 @@ importers:
         version: 7.8.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       react-time-ago:
         specifier: ^7.3.3
-        version: 7.3.3(javascript-time-ago@2.5.11)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 7.3.3(javascript-time-ago@2.5.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
@@ -6163,8 +6163,8 @@ packages:
     resolution: {integrity: sha512-zptv57P3GpL+O0I7VdMJNBZCu+BPHVQUk55Ft8/QCJjTVxrnJHuVuX/0Bl2A6/+2oyR/ZMEuFKwmzqqZ/U5nPQ==}
     engines: {node: 20 || >=22}
 
-  javascript-time-ago@2.5.11:
-    resolution: {integrity: sha512-Zeyf5R7oM1fSMW9zsU3YgAYwE0bimEeF54Udn2ixGd8PUwu+z1Yc5t4Y8YScJDMHD6uCx6giLt3VJR5K4CMwbg==}
+  javascript-time-ago@2.5.12:
+    resolution: {integrity: sha512-s8PPq2HQ3HIbSU0SjhNvTitf5VoXbQWof9q6k3gIX7F2il0ptjD5lONTDccpuKt/2U7RjbCp/TCHPK7eDwO7zQ==}
 
   jest-get-type@29.6.3:
     resolution: {integrity: sha512-zrteXnqYxfQh7l5FHyL38jL39di8H8rHoecLH3JNxH3BwOrBsNeabdap5e0I23lD4HHI8W5VFBZqG4Eaq5LNcw==}
@@ -7405,8 +7405,8 @@ packages:
     resolution: {integrity: sha512-8acYXXTI0AkQv6RAOjE3vOaIXZkT9wo4LOFbBKYQEEnnMNBpKqdUrI6S4NT0KPIo/WVvJ5tE/X5LF/TQUf0ekw==}
     engines: {node: '>=8'}
 
-  relative-time-format@1.1.6:
-    resolution: {integrity: sha512-aCv3juQw4hT1/P/OrVltKWLlp15eW1GRcwP1XdxHrPdZE9MtgqFpegjnTjLhi2m2WI9MT/hQQtE+tjEWG1hgkQ==}
+  relative-time-format@1.1.11:
+    resolution: {integrity: sha512-TH+oV/w77hjaB9xCzoFYJ/Icmr/12+02IAoCI/YGS2UBTbjCbBjHGEBxGnVy4EJvOR1qadGzyFRI6hGaJJG93Q==}
 
   relay-runtime@12.0.0:
     resolution: {integrity: sha512-QU6JKr1tMsry22DXNy9Whsq5rmvwr3LSZiiWV/9+DFpuTWvp+WFhobWMc8TC4OjKFfNhEZy7mOiqUAn5atQtug==}
@@ -15681,9 +15681,9 @@ snapshots:
     dependencies:
       '@isaacs/cliui': 8.0.2
 
-  javascript-time-ago@2.5.11:
+  javascript-time-ago@2.5.12:
     dependencies:
-      relative-time-format: 1.1.6
+      relative-time-format: 1.1.11
 
   jest-get-type@29.6.3: {}
 
@@ -16976,9 +16976,9 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.1.13
 
-  react-time-ago@7.3.3(javascript-time-ago@2.5.11)(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
+  react-time-ago@7.3.3(javascript-time-ago@2.5.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
-      javascript-time-ago: 2.5.11
+      javascript-time-ago: 2.5.12
       memoize-one: 6.0.0
       prop-types: 15.8.1
       raf: 3.4.1
@@ -17056,7 +17056,7 @@ snapshots:
     dependencies:
       rc: 1.2.8
 
-  relative-time-format@1.1.6: {}
+  relative-time-format@1.1.11: {}
 
   relay-runtime@12.0.0:
     dependencies:
