@@ -252,7 +252,7 @@ importers:
         version: 7.8.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       react-time-ago:
         specifier: ^7.3.3
-        version: 7.3.3(javascript-time-ago@2.5.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 7.3.5(javascript-time-ago@2.5.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
@@ -7345,8 +7345,8 @@ packages:
       '@types/react':
         optional: true
 
-  react-time-ago@7.3.3:
-    resolution: {integrity: sha512-5kh2Kuu/UhHzcZrGvf3GUrF2d+IXjkIXif5MR2iDWIfSqQuBW27/ejN/tmzJBRyPiryYTgbDIG6AZFJ4RW3yfw==}
+  react-time-ago@7.3.5:
+    resolution: {integrity: sha512-ZyNd0GEy9ovcAOg+Stpg3zMXEtlYX1lCwO9ePiiXpHsrIa7Rn9h+ZS9dtM/zahf6xYcjmz7b6y2gDRSDG54tHQ==}
     peerDependencies:
       javascript-time-ago: ^2.3.7
       react: '>=0.16.8'
@@ -16976,7 +16976,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.1.13
 
-  react-time-ago@7.3.3(javascript-time-ago@2.5.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
+  react-time-ago@7.3.5(javascript-time-ago@2.5.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
       javascript-time-ago: 2.5.12
       memoize-one: 6.0.0
