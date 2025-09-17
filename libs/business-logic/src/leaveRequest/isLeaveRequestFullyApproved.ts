@@ -15,7 +15,13 @@ export const isLeaveRequestFullyApproved = async (
   const unitPks = await getUserUnitsPks(userRef);
   const unitManagerPks = await getUnitManagersPks(unitPks);
 
-  // If there are no unit managers, the leave request is considered fully approved
+  /**
+   * SECURITY NOTE: If there are no unit managers for the user's units, the leave request is considered fully approved.
+   * This logic is intentional to prevent leave requests from being stuck in a pending state with no possible approvers.
+   * However, this could be a security concern if units are misconfigured or if managers are accidentally removed.
+   * It is assumed that all units should have at least one manager, and unit creation/removal is tightly controlled.
+   * If this situation occurs, it should be logged and reviewed by administrators to ensure it is not abused.
+   */
   if (unitManagerPks.length === 0) {
     return true;
   }
