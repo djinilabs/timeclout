@@ -142,7 +142,6 @@ export const useTeamShiftsDragAndDrop = (
         return;
       }
       await moveShiftPosition(foundPosition.pk, foundPosition.sk, day);
-      console.log("resetting dragging");
       resetDragging();
       setDraggingFakeShiftPosition(null);
     },
