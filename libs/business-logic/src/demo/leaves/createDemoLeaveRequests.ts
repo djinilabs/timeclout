@@ -280,7 +280,7 @@ export const createDemoLeaveRequests = async (
   } catch (error) {
     console.warn("Demo: Error creating leave requests:", error);
     return {
-      success: true, // Don't fail the demo for leave request issues
+      success: false,
       leaveRequests: [],
       message:
         error instanceof Error ? error.message : "Unknown error occurred",
