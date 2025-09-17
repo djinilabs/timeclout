@@ -27,7 +27,7 @@ importers:
         version: 1.15.0(graphql@16.11.0)(typescript@5.9.2)
       '@ai-sdk/google':
         specifier: ^2.0.8
-        version: 2.0.14(zod@4.1.5)
+        version: 2.0.14(zod@4.1.9)
       '@ai-sdk/provider':
         specifier: ^2.0.0
         version: 2.0.0
@@ -168,7 +168,7 @@ importers:
         version: 4.12.6
       ai:
         specifier: ^5.0.0
-        version: 5.0.45(zod@4.1.5)
+        version: 5.0.45(zod@4.1.9)
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -267,7 +267,7 @@ importers:
         version: 5.0.1(@urql/core@6.0.1(graphql@16.11.0))(react@19.1.1)
       zod:
         specifier: ^4.0.0
-        version: 4.1.5
+        version: 4.1.9
     devDependencies:
       '@architect/architect':
         specifier: ^11.1.0
@@ -8626,8 +8626,8 @@ packages:
     resolution: {integrity: sha512-e/y9Xf1eYElSSo1s1e1+0QraquqaCmfnCvxd2IlvILtKK+F93kpV+/TIRUDYW7UnYtDMeYijG5kyEA7B+66wgg==}
     engines: {node: '>=8.0.0'}
 
-  zod@4.1.5:
-    resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
+  zod@4.1.9:
+    resolution: {integrity: sha512-HI32jTq0AUAC125z30E8bQNz0RQ+9Uc+4J7V97gLYjZVKRjeydPgGt6dvQzFrav7MYOUGFqqOGiHpA/fdbd0cQ==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -8646,24 +8646,24 @@ snapshots:
 
   '@adobe/css-tools@4.4.4': {}
 
-  '@ai-sdk/gateway@1.0.23(zod@4.1.5)':
+  '@ai-sdk/gateway@1.0.23(zod@4.1.9)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.9(zod@4.1.5)
-      zod: 4.1.5
+      '@ai-sdk/provider-utils': 3.0.9(zod@4.1.9)
+      zod: 4.1.9
 
-  '@ai-sdk/google@2.0.14(zod@4.1.5)':
+  '@ai-sdk/google@2.0.14(zod@4.1.9)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.9(zod@4.1.5)
-      zod: 4.1.5
+      '@ai-sdk/provider-utils': 3.0.9(zod@4.1.9)
+      zod: 4.1.9
 
-  '@ai-sdk/provider-utils@3.0.9(zod@4.1.5)':
+  '@ai-sdk/provider-utils@3.0.9(zod@4.1.9)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
       '@standard-schema/spec': 1.0.0
       eventsource-parser: 3.0.6
-      zod: 4.1.5
+      zod: 4.1.9
 
   '@ai-sdk/provider@2.0.0':
     dependencies:
@@ -13907,13 +13907,13 @@ snapshots:
       clean-stack: 2.2.0
       indent-string: 4.0.0
 
-  ai@5.0.45(zod@4.1.5):
+  ai@5.0.45(zod@4.1.9):
     dependencies:
-      '@ai-sdk/gateway': 1.0.23(zod@4.1.5)
+      '@ai-sdk/gateway': 1.0.23(zod@4.1.9)
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.9(zod@4.1.5)
+      '@ai-sdk/provider-utils': 3.0.9(zod@4.1.9)
       '@opentelemetry/api': 1.9.0
-      zod: 4.1.5
+      zod: 4.1.9
 
   ajv@6.12.6:
     dependencies:
@@ -18535,6 +18535,6 @@ snapshots:
       insync: 2.1.1
       yazl: 2.5.1
 
-  zod@4.1.5: {}
+  zod@4.1.9: {}
 
   zwitch@2.0.4: {}
