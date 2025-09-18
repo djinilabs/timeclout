@@ -18,9 +18,7 @@ export async function createHash(message: string) {
     .toString();
 }
 
-export const createInvitation: NonNullable<
-  MutationResolvers["createInvitation"]
-> = async (_parent, arg, ctx) => {
+export const createInvitation: NonNullable<MutationResolvers['createInvitation']> = async (_parent, arg, ctx) => {
   const actingUserPk = await ensureAuthorized(
     ctx,
     getResourceRef(arg.toEntityPk),

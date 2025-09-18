@@ -188,6 +188,15 @@ declare module '@/graphql-client/mutations/moveShiftPosition.graphql' {
 }
     
 
+declare module '@/graphql-client/mutations/populateDemoAccount.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const PopulateDemoAccount: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '@/graphql-client/mutations/publishShiftPositions.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

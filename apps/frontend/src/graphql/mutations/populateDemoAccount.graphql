@@ -1,0 +1,20 @@
+mutation PopulateDemoAccount($input: PopulateDemoAccountInput!) {
+  populateDemoAccount(input: $input) {
+    success
+    message
+    company {
+      pk
+    }
+    unit {
+      pk
+    }
+    team {
+      pk
+    }
+    users {
+      pk
+      name
+      email
+    }
+  }
+}

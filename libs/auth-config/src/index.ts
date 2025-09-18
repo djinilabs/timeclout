@@ -7,14 +7,13 @@ import Google from "next-auth/providers/google";
 import { database, EntityRecord } from "@/tables";
 import { getDefined, once, resourceRef } from "@/utils";
 
-
 // Remove hardcoded email list
-const acceptableEmailAddresses = new Set([
+const acceptableEmailAddresses = [
   "i@pgte.me",
-  "pedro.teixeira@gmail.com",
+  /^pedro\.teixeira(\+.*)?@gmail\.com$/,
   "susana.g.chaves@gmail.com",
   "carinagouveia@hotmail.com",
-]);
+];
 
 // Function to check if user is allowed to sign in
 async function isUserAllowedToSignIn(email: string): Promise<boolean> {
@@ -26,7 +25,11 @@ async function isUserAllowedToSignIn(email: string): Promise<boolean> {
     return true;
   }
 
-  if (acceptableEmailAddresses.has(email)) {
+  if (
+    acceptableEmailAddresses.find((e) =>
+      e instanceof RegExp ? e.test(email) : e === email
+    )
+  ) {
     console.log("User in whitelist, allowing sign in:", email);
     return true;
   }

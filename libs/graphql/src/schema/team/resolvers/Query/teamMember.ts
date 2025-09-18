@@ -9,7 +9,7 @@ import { i18n } from "@/locales";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const teamMember: NonNullable<QueryResolvers["teamMember"]> = async (
+export const teamMember: NonNullable<QueryResolvers['teamMember']> = async (
   _parent,
   { teamPk, memberPk },
   ctx

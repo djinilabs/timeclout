@@ -19,8 +19,6 @@ import { SettingsTypeKey } from "@/settings";
 import { database, EntityRecord } from "@/tables";
 import { getDefined, getResourceRef, resourceRef, ResourceRef } from "@/utils";
 
-
-
 export const Team: TeamResolvers = {
   createdBy: async (parent, _args, ctx) => {
     // Cast to access the raw database field where createdBy is a string
@@ -121,12 +119,15 @@ export const Team: TeamResolvers = {
       : null;
   },
   unitPk: async (parent) => {
+    // The database stores parentPk, but GraphQL expects unitPk
     return getDefined(
       (parent as unknown as EntityRecord).parentPk,
       "no parent pk in team"
     );
   },
   companyPk: async (parent) => {
+    // The database stores parentPk for team, but GraphQL expects companyPk
+    // We need to get the team's parent (unit) and then the unit's parent (company)
     const unitPk = getDefined(
       (parent as unknown as EntityRecord).parentPk,
       "no parent pk in team"

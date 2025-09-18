@@ -5,25 +5,32 @@ import { getResourceRef } from "@/utils";
 export const LeaveRequest: LeaveRequestResolvers = {
   /* Implement LeaveRequest resolver logic here */
   async approvedBy(leaveRequest, _args, ctx) {
-    if (!leaveRequest.approvedBy) {
-      return null;
+    if (!leaveRequest.approvedBy || leaveRequest.approvedBy.length === 0) {
+      return [];
     }
-    return Promise.all(
-      leaveRequest.approvedBy.map(async (userRef) => {
-        // Cast to access the raw database field where approvedBy is an array of strings
-        const user = await ctx.userCache.getUser(
-          getResourceRef(userRef as unknown as string)
-        );
-        return user as unknown as User;
-      })
+
+    const approvedBy = await Promise.all(
+      leaveRequest.approvedBy
+        .filter((userRef) => userRef != null)
+        .map(async (userRef) => {
+          // Cast to access the raw database field where approvedBy is an array of strings
+          const user = await ctx.userCache.getUser(
+            getResourceRef(userRef as unknown as string)
+          );
+          return user as unknown as User | null;
+        })
     );
+
+    return approvedBy.filter(Boolean) as User[];
   },
   async beneficiary(leaveRequest, _args, ctx) {
-    // Cast to access the raw database field where beneficiary is a string
-    const userRef = (leaveRequest as unknown as { beneficiary: string })
-      .beneficiary;
+    // The beneficiary is the user who is requesting the leave (stored as userPk)
+    const userRef = (leaveRequest as unknown as { userPk: string }).userPk;
+    if (!userRef) {
+      return null;
+    }
     const user = await ctx.userCache.getUser(getResourceRef(userRef));
-    return user as unknown as User;
+    return user as unknown as User | null;
   },
   async createdBy(leaveRequest, _args, ctx) {
     // Cast to access the raw database field where createdBy is a string

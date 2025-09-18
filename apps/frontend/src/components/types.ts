@@ -32,7 +32,7 @@ export interface LeaveRequest {
   createdBy: User;
   approvedBy?: User[] | null;
   approvedAt?: string[] | null;
-  beneficiary: User;
+  beneficiary?: User | null;
   pk: string;
   sk: string;
 }
@@ -41,7 +41,7 @@ export interface LeaveDay {
   type: string;
   icon?: ReactNode;
   color?: string;
-  leaveRequest?: LeaveRequest;
+  leaveRequest?: LeaveRequest | undefined;
 }
 
 export interface TimeSchedule {

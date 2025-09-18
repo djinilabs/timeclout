@@ -8,9 +8,7 @@ import type {
 import { database } from "@/tables";
 import { getDefined } from "@/utils";
 
-export const myInvitations: NonNullable<
-  QueryResolvers["myInvitations"]
-> = async (_parent, _arg, ctx) => {
+export const myInvitations: NonNullable<QueryResolvers['myInvitations']> = async (_parent, _arg, ctx) => {
   const session = await requireSession(ctx);
 
   const { invitation } = await database();

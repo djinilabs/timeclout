@@ -9,9 +9,7 @@ import { isUserAuthorized, ensureExactAuthorization } from "@/business-logic";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const updateTeamMember: NonNullable<
-  MutationResolvers["updateTeamMember"]
-> = async (_parent, { input }, ctx) => {
+export const updateTeamMember: NonNullable<MutationResolvers['updateTeamMember']> = async (_parent, { input }, ctx) => {
   const teamRef = resourceRef("teams", input.teamPk);
   // ensure user has write access to team
   await ensureAuthorized(ctx, teamRef, PERMISSION_LEVELS.WRITE);

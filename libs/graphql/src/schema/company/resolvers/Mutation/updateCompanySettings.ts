@@ -8,9 +8,7 @@ import { i18n } from "@/locales";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const updateCompanySettings: NonNullable<
-  MutationResolvers["updateCompanySettings"]
-> = async (_parent, arg, _ctx) => {
+export const updateCompanySettings: NonNullable<MutationResolvers['updateCompanySettings']> = async (_parent, arg, _ctx) => {
   console.log("updateCompanySettings", arg);
   const companyRef = resourceRef("companies", arg.companyPk);
   const userPk = await ensureAuthorized(

@@ -7,9 +7,7 @@ import type { MutationResolvers, Team } from "./../../../../types.generated";
 import { database , PERMISSION_LEVELS } from "@/tables";
 import { getDefined, resourceRef } from "@/utils";
 
-export const removeUserFromTeam: NonNullable<
-  MutationResolvers["removeUserFromTeam"]
-> = async (_parent, arg, ctx) => {
+export const removeUserFromTeam: NonNullable<MutationResolvers['removeUserFromTeam']> = async (_parent, arg, ctx) => {
   const teamRef = resourceRef("teams", arg.teamPk);
   const actorUserPk = await ensureAuthorized(
     ctx,

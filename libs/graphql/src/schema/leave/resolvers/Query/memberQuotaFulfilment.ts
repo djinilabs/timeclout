@@ -10,9 +10,7 @@ import { i18n } from "@/locales";
 import { PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const memberQuotaFulfilment: NonNullable<
-  QueryResolvers["memberQuotaFulfilment"]
-> = async (_parent, arg, ctx) => {
+export const memberQuotaFulfilment: NonNullable<QueryResolvers['memberQuotaFulfilment']> = async (_parent, arg, ctx) => {
   const {
     companyPk,
     teamPk,

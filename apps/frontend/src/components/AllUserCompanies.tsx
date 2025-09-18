@@ -1,5 +1,5 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import {
   BuildingOfficeIcon,
   PencilIcon,
@@ -8,7 +8,7 @@ import {
 import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 
 import { type Company } from "../graphql/graphql";
@@ -16,61 +16,11 @@ import { useConfirmDialog } from "../hooks/useConfirmDialog";
 import { useMutation } from "../hooks/useMutation";
 import { useQuery } from "../hooks/useQuery";
 
+import { DemoModePrompt } from "./demo/DemoModePrompt";
 import { Button } from "./particles/Button";
 
 import deleteCompanyMutation from "@/graphql-client/mutations/deleteCompany.graphql";
 import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
-
-
-
-
-
-
-const NoCompanies = () => {
-  const navigate = useNavigate();
-  return (
-    <div
-      className="text-center"
-      role="status"
-      aria-label="No companies section"
-    >
-      <svg
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-        className="mx-auto size-12 text-gray-400"
-      >
-        <path
-          d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
-          strokeWidth={2}
-          vectorEffect="non-scaling-stroke"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <h3 className="mt-2 text-sm font-semibold text-gray-900">
-        <Trans>No companies</Trans>
-      </h3>
-      <p className="mt-1 text-sm text-gray-500">
-        <Trans>Get started by creating a new company.</Trans>
-      </p>
-      <div className="mt-6">
-        <button
-          type="button"
-          className="new-company-button inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
-          onClick={() => {
-            navigate("/companies/new");
-          }}
-          aria-label="Create new company"
-        >
-          <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />
-          <Trans>New Company</Trans>
-        </button>
-      </div>
-    </div>
-  );
-};
 
 export const AllUserCompanies = () => {
   const [allCompanies] = useQuery<{ companies: Company[] }>({
@@ -83,8 +33,9 @@ export const AllUserCompanies = () => {
   const { showConfirmDialog } = useConfirmDialog();
 
   if (!allCompanies.data?.companies?.length) {
-    return <NoCompanies />;
+    return <DemoModePrompt />;
   }
+
   return (
     <div role="region" aria-label="Companies list">
       <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
@@ -152,73 +103,57 @@ export const AllUserCompanies = () => {
               </div>
             </div>
             <div className="flex flex-none items-center gap-x-4">
-              <Link
-                to={`/${company.pk}`}
-                className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
-                aria-label={`View ${company.name} company details`}
-                aria-clickable
-              >
-                <Trans>View company</Trans>
-                <span className="sr-only">, {company.name}</span>
-              </Link>
-              <Menu as="div" className="relative flex-none">
-                <MenuButton
-                  className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
-                  aria-label={`Open options menu for ${company.name}`}
-                >
-                  <span className="sr-only">
-                    <Trans>Open options</Trans>
-                  </span>
-                  <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
+              <Menu>
+                <MenuButton className="rounded-full bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                  <EllipsisVerticalIcon
+                    className="h-5 w-5"
+                    aria-hidden="true"
+                  />
                 </MenuButton>
-                <MenuItems
-                  transition
-                  className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
-                  aria-label={`Options menu for ${company.name}`}
-                >
+                <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <MenuItem>
-                    <Link
-                      to={`/${company.pk}`}
-                      className="flex items-center gap-x-2 px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
-                      role="menuitem"
-                      aria-label={`Edit ${company.name} company`}
-                      aria-clickable
-                    >
-                      <PencilIcon className="size-4" />
-                      <Trans>Edit</Trans>
-                      <span className="sr-only">, {company.name}</span>
-                    </Link>
+                    {({ active }) => (
+                      <Link
+                        to={`/companies/${company.pk}/edit`}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        } block px-4 py-2 text-sm`}
+                      >
+                        <PencilIcon className="mr-3 h-5 w-5 text-gray-400" />
+                        <Trans>Edit</Trans>
+                      </Link>
+                    )}
                   </MenuItem>
                   <MenuItem>
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        if (
-                          await showConfirmDialog({
+                    {({ active }) => (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          showConfirmDialog({
                             text: i18n.t(
-                              "Are you sure you want to remove this company?"
+                              "Are you sure you want to delete {companyName}? This action cannot be undone.",
+                              { companyName: company.name }
                             ),
-                            confirmText: i18n.t("Remove"),
+                            confirmText: i18n.t("Delete"),
                             cancelText: i18n.t("Cancel"),
-                          })
-                        ) {
-                          const result = await deleteCompany({
-                            pk: company.pk,
+                            onConfirm: async () => {
+                              const response = await deleteCompany({
+                                pk: company.pk,
+                              });
+                              if (!response.error) {
+                                toast.success(i18n.t("Company deleted"));
+                              }
+                            },
                           });
-                          if (!result.error) {
-                            toast.success(
-                              i18n.t("Company removed successfully")
-                            );
-                          }
-                        }
-                      }}
-                      className="flex items-center gap-x-2 px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden w-full"
-                      aria-label={`Remove ${company.name} company`}
-                    >
-                      <TrashIcon className="size-4" />
-                      <Trans>Remove</Trans>
-                      <span className="sr-only">, {company.name}</span>
-                    </button>
+                        }}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        } block w-full px-4 py-2 text-left text-sm`}
+                      >
+                        <TrashIcon className="mr-3 h-5 w-5 text-gray-400" />
+                        <Trans>Delete</Trans>
+                      </button>
+                    )}
                   </MenuItem>
                 </MenuItems>
               </Menu>

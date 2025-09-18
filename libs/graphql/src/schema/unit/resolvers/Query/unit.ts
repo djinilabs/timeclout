@@ -10,7 +10,7 @@ import { resourceRef } from "@/utils";
 
 
 
-export const unit: NonNullable<QueryResolvers["unit"]> = async (
+export const unit: NonNullable<QueryResolvers['unit']> = async (
   _parent,
   arg,
   ctx

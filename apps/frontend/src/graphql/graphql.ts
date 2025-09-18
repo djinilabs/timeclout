@@ -1,5 +1,3 @@
-import { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
-
 /* eslint-disable */
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -21,6 +19,12 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
+
+export type DocumentTypeDecoration<TResult, TVariables> = {
+  __typename?: string;
+  __apiType?: (variables: TVariables) => TResult;
+};
+
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -187,6 +191,28 @@ export type DeleteShiftPositionInput = {
   sk: Scalars["String"]["input"];
 };
 
+export type DemoEntity = {
+  __typename?: "DemoEntity";
+  pk: Scalars["String"]["output"];
+};
+
+export type DemoPopulationResult = {
+  __typename?: "DemoPopulationResult";
+  company: DemoEntity;
+  message?: Maybe<Scalars["String"]["output"]>;
+  success: Scalars["Boolean"]["output"];
+  team: DemoEntity;
+  unit: DemoEntity;
+  users: Array<DemoUser>;
+};
+
+export type DemoUser = {
+  __typename?: "DemoUser";
+  email: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+  pk: Scalars["String"]["output"];
+};
+
 export type Invitation = {
   __typename?: "Invitation";
   createdAt: Scalars["DateTime"]["output"];
@@ -217,7 +243,7 @@ export type LeaveRequest = {
   approved?: Maybe<Scalars["Boolean"]["output"]>;
   approvedAt?: Maybe<Array<Scalars["DateTime"]["output"]>>;
   approvedBy?: Maybe<Array<User>>;
-  beneficiary: User;
+  beneficiary?: Maybe<User>;
   companyPk: Scalars["String"]["output"];
   createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
@@ -265,6 +291,7 @@ export type Mutation = {
   deleteTeam: Team;
   deleteUnit: Unit;
   moveShiftPosition: ShiftPosition;
+  populateDemoAccount: DemoPopulationResult;
   publishShiftPositions: Array<ShiftPosition>;
   rejectLeaveRequest: LeaveRequest;
   removeUserFromTeam: Team;
@@ -379,6 +406,10 @@ export type MutationMoveShiftPositionArgs = {
   input: MoveShiftPositionInput;
 };
 
+export type MutationPopulateDemoAccountArgs = {
+  input: PopulateDemoAccountInput;
+};
+
 export type MutationPublishShiftPositionsArgs = {
   input: PublishShiftPositionsInput;
 };
@@ -469,6 +500,15 @@ export type MutationUpdateUserSettingsArgs = {
   settings: Scalars["JSON"]["input"];
   teamPk: Scalars["String"]["input"];
   userPk: Scalars["String"]["input"];
+};
+
+export type PopulateDemoAccountInput = {
+  companyName?: InputMaybe<Scalars["String"]["input"]>;
+  industry: Scalars["String"]["input"];
+  teamName?: InputMaybe<Scalars["String"]["input"]>;
+  teamSize: Scalars["Int"]["input"];
+  unitName?: InputMaybe<Scalars["String"]["input"]>;
+  unitType: Scalars["String"]["input"];
 };
 
 export type PublishShiftPositionInput = {

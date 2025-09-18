@@ -12,9 +12,7 @@ import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef , getDefined } from "@/utils";
 
 
-export const acceptInvitation: NonNullable<
-  MutationResolvers["acceptInvitation"]
-> = async (_parent, arg, ctx) => {
+export const acceptInvitation: NonNullable<MutationResolvers['acceptInvitation']> = async (_parent, arg, ctx) => {
   const session = await requireSession(ctx);
   const { invitation, entity } = await database();
   const { items: invitations } = await invitation.query({

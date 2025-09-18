@@ -8,10 +8,6 @@ import { LeaveType } from "@/settings";
 import { database } from "@/tables";
 import { getDefined, getResourceRef, ResourceRef } from "@/utils";
 
-
-
-
-
 export interface AutoFillWorkerLeave {
   start: number;
   end: number;
@@ -49,7 +45,26 @@ export interface ShiftsAutoFillParams {
 
 const ONE_DAY_IN_MINUTES = 24 * 60;
 
-const hourMinutesToMinutes = ([hours, minutes]: [number, number]) => {
+const hourMinutesToMinutes = (timeArray: number[]): number => {
+  // Validate that we have exactly 2 elements
+  if (!Array.isArray(timeArray) || timeArray.length !== 2) {
+    console.warn("Invalid time array format:", timeArray);
+    return 0; // Default to midnight if invalid
+  }
+
+  const [hours, minutes] = timeArray;
+
+  // Validate that both values are numbers
+  if (
+    typeof hours !== "number" ||
+    typeof minutes !== "number" ||
+    isNaN(hours) ||
+    isNaN(minutes)
+  ) {
+    console.warn("Invalid time values:", { hours, minutes });
+    return 0; // Default to midnight if invalid
+  }
+
   return hours * 60 + minutes;
 };
 
@@ -146,17 +161,44 @@ export const shiftsAutoFillParams = async (
   const slots: AutoFillSlot[] = shiftPositions.map((position) => {
     const day = new DayDate(position.day);
     const diff = diffInMinutes(startDay, day);
+
+    // Debug logging for demo data issues
+    if (process.env.NODE_ENV === "development") {
+      console.log("Processing shift position:", {
+        sk: position.sk,
+        day: position.day,
+        schedules: position.schedules.map((s) => ({
+          startHourMinutes: s.startHourMinutes,
+          endHourMinutes: s.endHourMinutes,
+          inconveniencePerHour: s.inconveniencePerHour,
+        })),
+      });
+    }
+
     return {
       id: position.sk,
-      workHours: position.schedules.map((schedule) => ({
-        start:
-          diff +
-          hourMinutesToMinutes(schedule.startHourMinutes as [number, number]),
-        end:
-          diff +
-          hourMinutesToMinutes(schedule.endHourMinutes as [number, number]),
-        inconvenienceMultiplier: schedule.inconveniencePerHour / 60,
-      })),
+      workHours: position.schedules.map((schedule) => {
+        const startMinutes = hourMinutesToMinutes(schedule.startHourMinutes);
+        const endMinutes = hourMinutesToMinutes(schedule.endHourMinutes);
+
+        // Additional validation for the final values
+        if (isNaN(startMinutes) || isNaN(endMinutes)) {
+          console.warn("Invalid calculated minutes:", {
+            startHourMinutes: schedule.startHourMinutes,
+            endHourMinutes: schedule.endHourMinutes,
+            startMinutes,
+            endMinutes,
+          });
+        }
+
+        return {
+          start: diff + startMinutes,
+          end: diff + endMinutes,
+          inconvenienceMultiplier: isNaN(schedule.inconveniencePerHour)
+            ? 0
+            : schedule.inconveniencePerHour / 60,
+        };
+      }),
       startsOnDay: day.toString(),
       assignedWorkerPk: position.assignedTo
         ? getResourceRef(position.assignedTo, "users")
