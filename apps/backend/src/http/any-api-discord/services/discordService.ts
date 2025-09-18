@@ -1,6 +1,5 @@
-import * as nacl from "tweetnacl";
-
 import { APIGatewayProxyEventV2 } from "aws-lambda";
+import * as nacl from "tweetnacl";
 
 /**
  * Verify Discord user is authorized to use customer service commands
