@@ -1,6 +1,8 @@
 import { APIGatewayProxyResult } from "aws-lambda";
 
-import { createDiscordResponse } from "./discordService";
+import packageJson from "../../../../package.json";
+
+import { discordResponse } from "./discordResponse";
 import { createUser } from "./userService";
 
 interface DiscordInteraction {
@@ -25,7 +27,11 @@ export async function handleDiscordCommand(
       default:
         return {
           statusCode: 200,
-          body: JSON.stringify(createDiscordResponse("❌ Unknown command")),
+          body: JSON.stringify(discordResponse("❌ Unknown command")),
+          headers: {
+            "Content-Type": "application/json",
+            "User-Agent": `DiscordBot (https://app.tt3.app, ${packageJson.version})`,
+          },
         };
     }
   } catch (error) {
@@ -34,12 +40,7 @@ export async function handleDiscordCommand(
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        createDiscordResponse(`❌ **Error:** ${errorMessage}`)
-      ),
-    };
+    return discordResponse(`❌ **Error:** ${errorMessage}`);
   }
 }
 
@@ -52,50 +53,30 @@ async function handleAddUserCommand(
   );
 
   if (!emailOption) {
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        createDiscordResponse("❌ Email parameter is required")
-      ),
-    };
+    return discordResponse("❌ Email parameter is required");
   }
 
   const email = emailOption.value;
 
   // Validate email format
   if (!isValidEmail(email)) {
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        createDiscordResponse("❌ Please provide a valid email address")
-      ),
-    };
+    return discordResponse("❌ Please provide a valid email address");
   }
 
   try {
     // Create user
     await createUser(email);
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        createDiscordResponse(
-          `✅ User **${email}** has been successfully added and can now log in.`
-        )
-      ),
-    };
+    return discordResponse(
+      `✅ User **${email}** has been successfully added and can now log in.`
+    );
   } catch (error) {
     console.error("Error creating user:", error);
 
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        createDiscordResponse(`❌ **Error:** ${errorMessage}`)
-      ),
-    };
+    return discordResponse(`❌ **Error:** ${errorMessage}`);
   }
 }
 
