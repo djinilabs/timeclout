@@ -1,4 +1,4 @@
-import { createVerify } from "crypto";
+import { verify } from "crypto";
 
 import { APIGatewayProxyEventV2 } from "aws-lambda";
 
@@ -72,18 +72,18 @@ export function verifyDiscordSignature(event: APIGatewayProxyEventV2): boolean {
       return false;
     }
 
-    // Verify Ed25519 signature
-    const verifier = createVerify("ed25519");
-    verifier.update(timestamp + body);
-
+    // Verify Ed25519 signature using crypto.verify()
     // Convert hex signature to buffer
     const signatureBuffer = Buffer.from(signature, "hex");
 
     // Convert hex public key to buffer
     const publicKeyBuffer = Buffer.from(publicKey, "hex");
 
-    // Verify the signature
-    const isValid = verifier.verify(publicKeyBuffer, signatureBuffer);
+    // Create the message to verify (timestamp + body)
+    const message = Buffer.from(timestamp + body, "utf8");
+
+    // Verify the signature using Ed25519
+    const isValid = verify("ed25519", message, publicKeyBuffer, signatureBuffer);
 
     if (!isValid) {
       console.warn("Discord signature verification failed");
