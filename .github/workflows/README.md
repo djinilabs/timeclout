@@ -5,25 +5,32 @@ This directory contains GitHub Actions workflows for the tt3 project.
 ## Workflows
 
 ### Test (`test.yml`)
+
 Runs on every push to main and pull request. Executes:
+
 - Type checking
 - Linting
 - Unit tests
 - Build verification
 
 ### Deploy PR (`deploy-pr.yml`)
+
 Runs on pull request events. Deploys the PR to a preview environment and triggers E2E tests.
 
 ### E2E Tests (`e2e-tests.yml`)
+
 Runs end-to-end tests against the deployed PR environment. Can be triggered manually or automatically by the Deploy PR workflow.
 
 ### Deploy Production (`deploy-prod.yml`)
+
 Deploys to production when changes are merged to main.
 
 ### PR Undeploy (`pr-undeploy.yml`)
+
 Cleans up PR deployments when PRs are closed.
 
 ### Auto Merge (`auto-merge.yml`)
+
 Automatically merges pull requests when all required checks pass.
 
 ## Auto-Merge Setup
@@ -41,13 +48,15 @@ In your GitHub repository settings, go to **Settings > Branches** and add a bran
 - **Require branches to be up to date before merging**: ✅ Enabled
 
 **Required status checks** (add these in order):
+
 1. `Test` - The main test workflow
-2. `Deploy PR` - The PR deployment workflow  
+2. `Deploy PR` - The PR deployment workflow
 3. `E2E Tests` - The E2E testing workflow
 
 ### 2. Workflow Permissions
 
 The auto-merge workflow requires these permissions:
+
 - `contents: write` - To merge PRs
 - `pull-requests: write` - To update PR status
 - `checks: read` - To read check statuses
@@ -65,6 +74,7 @@ The auto-merge workflow requires these permissions:
 ### 4. Required Checks
 
 The auto-merge workflow expects these status checks to pass:
+
 - **Test**: Type checking, linting, unit tests, and build
 - **Deploy PR**: PR deployment to preview environment
 - **E2E Tests**: End-to-end tests against the deployed PR
@@ -82,6 +92,7 @@ If auto-merge isn't working:
 ### 6. Manual Override
 
 If you need to manually merge a PR that has passed all checks:
+
 1. Go to the PR page
 2. Click the merge button
 3. The auto-merge workflow will not interfere with manual merges
@@ -103,3 +114,16 @@ Pull Request → Test → Deploy PR → E2E Tests → Auto Merge
 - It respects branch protection rules and required approvals
 - It won't merge PRs with conflicts or failed checks
 - The workflow logs all actions for audit purposes
+
+## Discord Integration
+
+The project includes a Discord Customer Service API that requires additional environment variables:
+
+- **DISCORD_PUBLIC_KEY**: Discord application public key for webhook signature verification
+- **DISCORD_CS_USERS**: JSON array of authorized Discord user IDs
+- **DISCORD_APPLICATION_ID**: Discord application ID for registering slash commands
+- **DISCORD_CS_BOT_TOKEN**: Bot token for Discord API authentication
+
+The deployment workflows automatically register Discord slash commands during deployment to ensure they're always up to date.
+
+For detailed setup instructions, see [Discord Setup Documentation](../../docs/deployment/discord-setup.md).
