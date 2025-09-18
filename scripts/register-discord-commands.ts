@@ -4,7 +4,7 @@ import { IncomingMessage } from "http";
 import * as https from "https";
 import { URL } from "url";
 
-import { tryJsonParse } from "@/utils";
+import { tryJsonParse } from "../libs/utils/src/tryJsonParse";
 
 /**
  * Discord Slash Commands Registration Script
