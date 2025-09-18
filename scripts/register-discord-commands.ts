@@ -4,7 +4,14 @@ import { IncomingMessage } from "http";
 import * as https from "https";
 import { URL } from "url";
 
-import { tryJsonParse } from "../libs/utils/src/tryJsonParse";
+const tryJsonParse = (json: string) => {
+  try {
+    return JSON.parse(json);
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+};
 
 /**
  * Discord Slash Commands Registration Script
