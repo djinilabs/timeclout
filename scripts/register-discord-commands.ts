@@ -108,7 +108,7 @@ async function makeRequest(
           } else {
             reject(
               new Error(
-                `HTTP ${res.statusCode}: ${parsedData.message || responseData}`
+                `HTTP ${res.statusCode}: ${parsedData?.message || responseData}`
               )
             );
           }
