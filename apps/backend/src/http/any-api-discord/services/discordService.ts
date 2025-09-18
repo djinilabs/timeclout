@@ -1,4 +1,4 @@
-import { verify } from "crypto";
+import { createVerify, verify } from "crypto";
 
 import { APIGatewayProxyEventV2 } from "aws-lambda";
 
@@ -72,18 +72,47 @@ export function verifyDiscordSignature(event: APIGatewayProxyEventV2): boolean {
       return false;
     }
 
-    // Verify Ed25519 signature using crypto.verify()
+    // Verify Ed25519 signature - try multiple approaches for compatibility
     // Convert hex signature to buffer
     const signatureBuffer = Buffer.from(signature, "hex");
 
-    // Convert hex public key to buffer
+    // Convert hex public key to buffer - ensure it's 32 bytes
     const publicKeyBuffer = Buffer.from(publicKey, "hex");
 
-    // Create the message to verify (timestamp + body)
-    const message = Buffer.from(timestamp + body, "utf8");
+    // Validate key length
+    if (publicKeyBuffer.length !== 32) {
+      console.error(
+        `Invalid public key length: ${publicKeyBuffer.length}, expected 32`
+      );
+      return false;
+    }
 
-    // Verify the signature using Ed25519
-    const isValid = verify("ed25519", message, publicKeyBuffer, signatureBuffer);
+    // Create the message to verify (timestamp + body)
+    const message = timestamp + body;
+    const messageBuffer = Buffer.from(message, "utf8");
+
+    let isValid = false;
+
+    try {
+      // Try the direct verify method first (Node.js 16+)
+      isValid = verify(
+        "ed25519",
+        messageBuffer,
+        publicKeyBuffer,
+        signatureBuffer
+      );
+    } catch (error) {
+      console.warn("Direct verify failed, trying createVerify method:", error);
+      try {
+        // Fallback to createVerify method
+        const verifier = createVerify("ed25519");
+        verifier.update(message, "utf8");
+        isValid = verifier.verify(publicKeyBuffer, signatureBuffer);
+      } catch (fallbackError) {
+        console.error("Both verification methods failed:", fallbackError);
+        return false;
+      }
+    }
 
     if (!isValid) {
       console.warn("Discord signature verification failed");
