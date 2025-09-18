@@ -1,4 +1,4 @@
-import { createVerify, verify } from "crypto";
+import * as nacl from "tweetnacl";
 
 import { APIGatewayProxyEventV2 } from "aws-lambda";
 
@@ -72,7 +72,7 @@ export function verifyDiscordSignature(event: APIGatewayProxyEventV2): boolean {
       return false;
     }
 
-    // Verify Ed25519 signature - try multiple approaches for compatibility
+    // Verify Ed25519 signature using tweetnacl (more reliable than Node.js crypto)
     // Convert hex signature to buffer
     const signatureBuffer = Buffer.from(signature, "hex");
 
@@ -94,24 +94,15 @@ export function verifyDiscordSignature(event: APIGatewayProxyEventV2): boolean {
     let isValid = false;
 
     try {
-      // Try the direct verify method first (Node.js 16+)
-      isValid = verify(
-        "ed25519",
-        messageBuffer,
-        publicKeyBuffer,
-        signatureBuffer
+      // Use tweetnacl for Ed25519 verification (more reliable)
+      isValid = nacl.sign.detached.verify(
+        new Uint8Array(messageBuffer),
+        new Uint8Array(signatureBuffer),
+        new Uint8Array(publicKeyBuffer)
       );
     } catch (error) {
-      console.warn("Direct verify failed, trying createVerify method:", error);
-      try {
-        // Fallback to createVerify method
-        const verifier = createVerify("ed25519");
-        verifier.update(message, "utf8");
-        isValid = verifier.verify(publicKeyBuffer, signatureBuffer);
-      } catch (fallbackError) {
-        console.error("Both verification methods failed:", fallbackError);
-        return false;
-      }
+      console.error("tweetnacl verification failed:", error);
+      return false;
     }
 
     if (!isValid) {
