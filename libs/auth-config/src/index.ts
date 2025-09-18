@@ -40,6 +40,10 @@ async function isUserAllowedToSignIn(email: string): Promise<boolean> {
   const userRef = resourceRef("users", email);
   const existingUser = await entity.get(userRef);
   if (existingUser) {
+    if (existingUser.disabled) {
+      console.log("User is disabled, denying sign in:", email);
+      return false;
+    }
     console.log("User already exists, allowing sign in:", email);
     return true;
   }

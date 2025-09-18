@@ -44,6 +44,7 @@ export const tableSchemas = {
     name: z.string(),
     parentPk: z.string().refine(getResourceRef).optional(),
     email: z.email().optional(),
+    disabled: z.boolean().optional(),
   }),
   entity_settings: TableBaseSchema.extend({
     // pk is entity pk

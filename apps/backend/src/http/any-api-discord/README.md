@@ -27,6 +27,25 @@ Adds a new user to the entity table so they can log in.
 - Success: "✅ User **user@example.com** has been successfully added and can now log in."
 - Error: Various error messages for validation failures or existing users
 
+### `/disableuser`
+
+Disables a user account to prevent login access.
+
+**Parameters:**
+
+- `email` (required): The user's email address
+
+**Example:**
+
+```
+/disableuser email:user@example.com
+```
+
+**Response:**
+
+- Success: "✅ User **user@example.com** has been successfully disabled and can no longer log in."
+- Error: Various error messages for validation failures or user not found
+
 ## Security
 
 - Discord webhook signature verification using Ed25519 cryptography

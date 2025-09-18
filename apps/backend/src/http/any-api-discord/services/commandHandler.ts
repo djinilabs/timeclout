@@ -1,7 +1,7 @@
 import { APIGatewayProxyResult } from "aws-lambda";
 
 import { createDiscordResponse } from "./discordService";
-import { createUser } from "./userService";
+import { createUser, disableUser } from "./userService";
 
 interface DiscordInteraction {
   data: {
@@ -22,6 +22,8 @@ export async function handleDiscordCommand(
     switch (commandName) {
       case "adduser":
         return await handleAddUserCommand(interaction);
+      case "disableuser":
+        return await handleDisableUserCommand(interaction);
       default:
         return {
           statusCode: 200,
@@ -102,6 +104,89 @@ async function handleAddUserCommand(
 
     // Provide more specific error messages based on the error type
     let errorMessage = "Failed to create user. Please try again.";
+
+    if (error instanceof Error) {
+      if (error.message.includes("validation")) {
+        errorMessage = `❌ **Validation Error:** ${error.message}`;
+      } else if (
+        error.message.includes("database") ||
+        error.message.includes("connection")
+      ) {
+        errorMessage =
+          "❌ **Database Error:** Unable to connect to the database. Please try again later.";
+      } else if (
+        error.message.includes("permission") ||
+        error.message.includes("unauthorized")
+      ) {
+        errorMessage =
+          "❌ **Permission Error:** You don't have permission to perform this action.";
+      } else {
+        errorMessage = `❌ **Error:** ${error.message}`;
+      }
+    }
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(createDiscordResponse(errorMessage)),
+    };
+  }
+}
+
+async function handleDisableUserCommand(
+  interaction: DiscordInteraction
+): Promise<APIGatewayProxyResult> {
+  // Extract email from command options
+  const emailOption = interaction.data.options?.find(
+    (option) => option.name === "email"
+  );
+
+  if (!emailOption) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        createDiscordResponse("❌ Email parameter is required")
+      ),
+    };
+  }
+
+  const email = emailOption.value;
+
+  // Validate email format
+  if (!isValidEmail(email)) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        createDiscordResponse("❌ Please provide a valid email address")
+      ),
+    };
+  }
+
+  try {
+    // Disable user
+    await disableUser(email);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        createDiscordResponse(
+          `✅ User **${email}** has been successfully disabled and can no longer log in.`
+        )
+      ),
+    };
+  } catch (error) {
+    console.error("Error disabling user:", error);
+
+    if (error instanceof Error && error.message.includes("not found")) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify(
+          createDiscordResponse(`❌ User with email **${email}** not found.`)
+        ),
+      };
+    }
+
+    // Provide more specific error messages based on the error type
+    let errorMessage = "Failed to disable user. Please try again.";
 
     if (error instanceof Error) {
       if (error.message.includes("validation")) {

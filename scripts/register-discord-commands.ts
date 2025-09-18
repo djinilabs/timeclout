@@ -57,6 +57,18 @@ const COMMANDS: DiscordCommand[] = [
       },
     ],
   },
+  {
+    name: "disableuser",
+    description: "Disable a user account to prevent login access",
+    options: [
+      {
+        type: 3, // STRING
+        name: "email",
+        description: "Email address of the user to disable",
+        required: true,
+      },
+    ],
+  },
 ];
 
 /**
