@@ -27,7 +27,7 @@
     "test:e2e:headed": "NODE_ENV=test playwright test --headed",
     "test:e2e:debug": "NODE_ENV=test playwright test --debug",
     "test:e2e:install": "NODE_ENV=test playwright install chromium",
-    "discord:register-commands": "tsx scripts/register-discord-commands.ts",
+    "discord:register-commands": "node dist/scripts/register-discord-commands.js",
     "lint": "npx eslint",
     "i18n:extract": "pnpm lingui extract --clean",
     "i18n:compile": "pnpm lingui compile --namespace es"
