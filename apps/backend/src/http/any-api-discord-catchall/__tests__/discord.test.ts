@@ -25,8 +25,8 @@ vi.mock("../services/discordService", async () => {
 describe("Discord API Handler", () => {
   const mockEvent: APIGatewayProxyEventV2 = {
     version: "2.0",
-    routeKey: "POST /discord",
-    rawPath: "/discord",
+    routeKey: "POST /api/discord",
+    rawPath: "/api/discord",
     rawQueryString: "",
     headers: {
       "x-signature-ed25519": "test-signature",
@@ -39,7 +39,7 @@ describe("Discord API Handler", () => {
       domainPrefix: "test",
       http: {
         method: "POST",
-        path: "/discord",
+        path: "/api/discord",
         protocol: "HTTP/1.1",
         sourceIp: "127.0.0.1",
         userAgent: "test-agent",
