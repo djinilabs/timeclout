@@ -150,7 +150,7 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "glob": "^11.0.2",
     "globals": "^16.0.0",
-    "jsdom": "^26.0.0",
+    "jsdom": "^27.0.0",
     "npm-run-all2": "^8.0.0",
     "source-map-support": "^0.5.21",
     "typescript": "~5.9.0",
