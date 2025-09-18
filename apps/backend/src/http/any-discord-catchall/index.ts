@@ -1,21 +1,15 @@
-import {
-  APIGatewayProxyEventV2,
-  APIGatewayProxyResult,
-  Context,
-} from "aws-lambda";
+import { APIGatewayProxyEventV2, APIGatewayProxyResult } from "aws-lambda";
 
 import { handlingErrors } from "../../utils/handlingErrors";
+
+import { handleDiscordCommand } from "./services/commandHandler";
 import {
   verifyDiscordSignature,
   verifyDiscordUser,
 } from "./services/discordService";
-import { handleDiscordCommand } from "./services/commandHandler";
 
 export const handler = handlingErrors(
-  async (
-    event: APIGatewayProxyEventV2,
-    _lambdaContext: Context
-  ): Promise<APIGatewayProxyResult> => {
+  async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResult> => {
     // Only handle POST requests
     if (event.requestContext.http.method !== "POST") {
       return {

@@ -109,7 +109,7 @@ describe("Discord API Handler", () => {
       ...mockEvent,
       requestContext: {
         http: { method: "GET" },
-      } as any,
+      } as APIGatewayProxyEventV2["requestContext"],
     };
 
     const result = (await handler(
