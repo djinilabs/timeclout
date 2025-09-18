@@ -10,9 +10,9 @@ const TableBaseSchema = z.object({
   pk: z.string(),
   sk: z.string().optional(),
   version: z.number(),
-  createdAt: z.string().datetime(),
+  createdAt: z.iso.datetime(),
   createdBy: z.string().refine(getResourceRef).optional(),
-  updatedAt: z.string().datetime().optional(),
+  updatedAt: z.iso.datetime().optional(),
   updatedBy: z.string().refine(getResourceRef).optional(),
   noMainVersion: z.boolean().optional(),
   userVersion: z.string().optional(),
@@ -21,9 +21,9 @@ const TableBaseSchema = z.object({
       z.string(),
       z.object({
         deleted: z.boolean().optional(),
-        createdAt: z.string().datetime().optional(),
+        createdAt: z.iso.datetime().optional(),
         createdBy: z.string().refine(getResourceRef).optional(),
-        updatedAt: z.string().datetime().optional(),
+        updatedAt: z.iso.datetime().optional(),
         updatedBy: z.string().refine(getResourceRef).optional(),
         newProps: z.record(z.string(), z.unknown()).optional(),
       })
@@ -43,7 +43,7 @@ export const tableSchemas = {
     pk: z.string().refine(getResourceRef),
     name: z.string(),
     parentPk: z.string().refine(getResourceRef).optional(),
-    email: z.string().email().optional(),
+    email: z.email().optional(),
   }),
   entity_settings: TableBaseSchema.extend({
     // pk is entity pk
@@ -70,8 +70,8 @@ export const tableSchemas = {
     // pk is companies/:companyId/users/:userId
     pk: z.string().refine(getCompoundedResourceRef("companies", "users")),
     sk: z.string(), // leave request startdate/enddate/type
-    startDate: z.string().date(),
-    endDate: z.string().date(),
+    startDate: z.iso.date(),
+    endDate: z.iso.date(),
     companyPk: z.string().refine(gettingResourceRef("companies")).optional(),
     userPk: z.string().refine(gettingResourceRef("users")).optional(),
     type: z.string(),
@@ -82,7 +82,7 @@ export const tableSchemas = {
   }),
   leave: TableBaseSchema.extend({
     // pk is companies/:companyId/users/:userId
-    sk: z.string().date(), // leave date
+    sk: z.iso.date(), // leave date
     leaveRequestPk: z.string(),
     leaveRequestSk: z.string(),
     type: z.string(),
@@ -93,7 +93,7 @@ export const tableSchemas = {
     pk: z.string().refine(gettingResourceRef("teams")),
     sk: z.string(), // daydate/nanoid
     teamPk: z.string().refine(gettingResourceRef("teams")),
-    day: z.string().date(),
+    day: z.iso.date(),
     name: z.string().optional(),
     color: z.string().optional(),
     requiredSkills: z.array(z.string()),
