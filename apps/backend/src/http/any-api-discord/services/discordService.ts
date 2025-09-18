@@ -113,6 +113,12 @@ export function verifyDiscordSignature(event: APIGatewayProxyEventV2): boolean {
     return true;
   } catch (error) {
     console.error("Error verifying Discord signature:", error);
+    console.error("Signature verification error details:", {
+      signature: signature?.substring(0, 10) + "...",
+      timestamp,
+      publicKeyLength: publicKey?.length,
+      bodyLength: body?.length,
+    });
     return false;
   }
 }

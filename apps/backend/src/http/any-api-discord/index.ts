@@ -20,14 +20,31 @@ export const handler = handlingErrors(
 
     // Verify Discord webhook signature
     if (!verifyDiscordSignature(event)) {
+      console.warn("Discord signature verification failed");
       return {
         statusCode: 401,
-        body: JSON.stringify({ error: "Unauthorized" }),
+        body: JSON.stringify({
+          error: "Unauthorized - Invalid Discord signature",
+          details:
+            "The request signature could not be verified. This may indicate a security issue or invalid webhook configuration.",
+        }),
       };
     }
 
     // Parse Discord webhook payload
-    const body = JSON.parse(event.body || "{}");
+    let body;
+    try {
+      body = JSON.parse(event.body || "{}");
+    } catch (error) {
+      console.error("Error parsing Discord webhook payload:", error);
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: "Invalid JSON payload",
+          details: "The request body contains invalid JSON data.",
+        }),
+      };
+    }
 
     // Handle Discord interaction
     if (body.type === 1) {
