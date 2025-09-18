@@ -123,7 +123,7 @@
     "@architect/architect": "^11.1.0",
     "@architect/plugin-typescript": "^2.1.0",
     "@eslint/js": "^9.17.0",
-    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/cli": "^6.0.0",
     "@graphql-codegen/typescript-graphql-files-modules": "^3.0.0",
     "@lingui/swc-plugin": "^5.4.0",
     "@lingui/vite-plugin": "^5.2.0",
