@@ -68,7 +68,9 @@ async function makeRequest(
   data: unknown = null
 ): Promise<DiscordAPIResponse> {
   return new Promise((resolve, reject) => {
-    const url = new URL(path, DISCORD_API_BASE);
+    const url = new URL("/api/v10" + path, DISCORD_API_BASE);
+
+    console.log(`🔍 Making ${method} request to: ${url.toString()}`);
 
     const options: https.RequestOptions = {
       hostname: url.hostname,
@@ -135,6 +137,9 @@ async function makeRequest(
  */
 async function registerGlobalCommands(): Promise<DiscordCommand[]> {
   console.log("🔄 Registering global Discord commands...");
+  console.log(
+    `📡 Target URL: ${DISCORD_API_BASE}/applications/${APPLICATION_ID}/commands`
+  );
 
   try {
     const response = await makeRequest(
@@ -192,6 +197,15 @@ async function main(): Promise<void> {
     console.error("❌ DISCORD_CS_BOT_TOKEN environment variable is required");
     process.exit(1);
   }
+
+  console.log(`🔧 Configuration:`);
+  console.log(`   - Application ID: ${APPLICATION_ID}`);
+  console.log(
+    `   - Bot Token: ${
+      BOT_TOKEN ? `${BOT_TOKEN.substring(0, 10)}...` : "NOT SET"
+    }`
+  );
+  console.log(`   - API Base: ${DISCORD_API_BASE}`);
 
   try {
     // Get existing commands for comparison
