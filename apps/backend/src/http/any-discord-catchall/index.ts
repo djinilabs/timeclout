@@ -14,7 +14,7 @@ import { handleDiscordCommand } from "./services/commandHandler";
 export const handler = handlingErrors(
   async (
     event: APIGatewayProxyEventV2,
-    lambdaContext: Context
+    _lambdaContext: Context
   ): Promise<APIGatewayProxyResult> => {
     // Only handle POST requests
     if (event.requestContext.http.method !== "POST") {
