@@ -65,7 +65,9 @@ async function fillLeaveRequestForm(page: Page): Promise<void> {
   // Wait for the button to be enabled (not disabled)
   await page.waitForFunction(
     () => {
-      const button = document.querySelector(".leave-submit-button");
+      const button = document.querySelector(
+        ".leave-submit-button"
+      ) as HTMLButtonElement;
       return button && !button.disabled;
     },
     { timeout: 10000 }

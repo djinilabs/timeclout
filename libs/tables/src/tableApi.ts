@@ -35,10 +35,11 @@ const parsingItem =
   (item: unknown, operation: string): Record<string, unknown> => {
     try {
       const parsed = schema.parse(item);
-      return clean(parsed);
+      return clean(parsed as Record<string, unknown>);
     } catch (err: unknown) {
-      err.message = `Error parsing item when ${operation} in ${tableName}: ${err.message}`;
-      throw err;
+      const error = err as Error;
+      error.message = `Error parsing item when ${operation} in ${tableName}: ${error.message}`;
+      throw error;
     }
   };
 
@@ -313,7 +314,11 @@ export const tableApi = <
           ).Responses
         )[lowLevelTableName];
         return items
-          .map((item) => getVersion(parseItem(item, "batchGet"), version).item)
+          .map(
+            (item) =>
+              getVersion(parseItem(item, "batchGet") as TTableRecord, version)
+                .item
+          )
           .filter(Boolean) as TTableRecord[];
       } catch (err) {
         console.error("Error batch getting items", tableName, keys, err);
@@ -376,7 +381,7 @@ export const tableApi = <
           },
           ExpressionAttributeNames: { "#version": "version" },
         });
-        return newItem;
+        return newItem as TTableRecord;
       } catch (err: unknown) {
         if (
           err instanceof Error &&
@@ -427,8 +432,10 @@ export const tableApi = <
                 "create"
               ) as TTableRecord
             );
-            return getVersion(await self.create(newItem), version)
-              .item as TTableRecord;
+            return getVersion(
+              await self.create(newItem as TTableRecord),
+              version
+            ).item as TTableRecord;
           }
           // if the record exists, we need to update it
           const newItem = clean({
@@ -440,7 +447,7 @@ export const tableApi = <
               },
             },
           });
-          return getVersion(await self.update(newItem), version)
+          return getVersion(await self.update(newItem as TTableRecord), version)
             .item as TTableRecord;
         }
 
@@ -505,7 +512,7 @@ export const tableApi = <
                 ...rest,
               },
               "upsert"
-            )
+            ) as TTableRecord
           );
         }
 
@@ -552,7 +559,7 @@ export const tableApi = <
 
         // Apply version filtering to all items
         const versionedItems = items.map((item) =>
-          getVersion(parseItem(item, "query"), version)
+          getVersion(parseItem(item, "query") as TTableRecord, version)
         );
 
         return {
