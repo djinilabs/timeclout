@@ -121,5 +121,9 @@ The project includes a Discord Customer Service API that requires additional env
 
 - **DISCORD_PUBLIC_KEY**: Discord application public key for webhook signature verification
 - **DISCORD_CS_USERS**: JSON array of authorized Discord user IDs
+- **DISCORD_APPLICATION_ID**: Discord application ID for registering slash commands
+- **DISCORD_CS_BOT_TOKEN**: Bot token for Discord API authentication
+
+The deployment workflows automatically register Discord slash commands during deployment to ensure they're always up to date.
 
 For detailed setup instructions, see [Discord Setup Documentation](../../docs/deployment/discord-setup.md).

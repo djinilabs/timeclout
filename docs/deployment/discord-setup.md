@@ -26,6 +26,49 @@ The following secrets need to be configured in your GitHub repository settings:
   2. Right-click on a user and select "Copy User ID"
   3. Add the user ID to the JSON array
 
+### 3. DISCORD_APPLICATION_ID
+
+- **Description**: Discord application ID for registering slash commands
+- **Format**: String (numeric)
+- **How to get**:
+  1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
+  2. Select your application
+  3. Go to "General Information"
+  4. Copy the "Application ID" value
+
+### 4. DISCORD_CS_BOT_TOKEN
+
+- **Description**: Bot token for Discord API authentication
+- **Format**: String (alphanumeric with dots)
+- **How to get**:
+  1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
+  2. Select your application
+  3. Go to "Bot" section
+  4. Click "Reset Token" or "Copy" to get the bot token
+  5. **Important**: Keep this token secret and never commit it to version control
+
+## Command Registration
+
+The Discord slash commands are automatically registered during deployment using the `register-discord-commands.ts` script. This ensures that your bot always has the correct commands available.
+
+### Available Commands
+
+- **`/adduser`**: Add a new user to the system for login access
+  - **Parameter**: `email` (required) - Email address of the user to add
+
+### Manual Command Registration
+
+You can manually register commands using:
+
+```bash
+pnpm discord:register-commands
+```
+
+This requires the following environment variables:
+
+- `DISCORD_APPLICATION_ID`
+- `DISCORD_CS_BOT_TOKEN`
+
 ## Environment Variable Setup
 
 These secrets are automatically injected into the deployment workflows:

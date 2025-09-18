@@ -60,6 +60,8 @@ jobs:
           SENTRY_PROFILES_SAMPLE_RATE: "1.0"
           DISCORD_PUBLIC_KEY: ${{ secrets.DISCORD_PUBLIC_KEY }}
           DISCORD_CS_USERS: ${{ secrets.DISCORD_CS_USERS }}
+          DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_APPLICATION_ID }}
+          DISCORD_CS_BOT_TOKEN: ${{ secrets.DISCORD_CS_BOT_TOKEN }}
         run: |
           cd apps/backend
           export PATH=../../node_modules/.bin:$PATH
@@ -76,6 +78,14 @@ jobs:
           pnpm build
           cd apps/backend
           pnpm arc deploy --production --no-hydrate --verbose
+
+      - name: Register Discord Commands
+        env:
+          DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_APPLICATION_ID }}
+          DISCORD_CS_BOT_TOKEN: ${{ secrets.DISCORD_CS_BOT_TOKEN }}
+        run: |
+          echo "🔄 Registering Discord slash commands..."
+          pnpm discord:register-commands
 
       - name: Send Discord notification
         if: failure()
