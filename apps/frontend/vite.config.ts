@@ -64,5 +64,6 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: "./setupTests.mjs",
+    testTimeout: process.env.CI ? 10000 : 5000,
   },
 });

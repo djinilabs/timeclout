@@ -49,5 +49,6 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
+    testTimeout: process.env.CI ? 10000 : 5000,
   },
 });
