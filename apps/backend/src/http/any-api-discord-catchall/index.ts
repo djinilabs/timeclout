@@ -10,8 +10,10 @@ import {
 
 export const handler = handlingErrors(
   async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResult> => {
+    console.log("🔍 Event:", event);
     // Only handle POST requests
     if (event.requestContext.http.method !== "POST") {
+      console.log("🔍 Method not allowed:", event.requestContext.http.method);
       return {
         statusCode: 405,
         body: JSON.stringify({ error: "Method not allowed" }),
@@ -20,6 +22,7 @@ export const handler = handlingErrors(
 
     // Verify Discord webhook signature
     if (!verifyDiscordSignature(event)) {
+      console.log("🔍 Unauthorized:", event);
       return {
         statusCode: 401,
         body: JSON.stringify({ error: "Unauthorized" }),
@@ -28,6 +31,7 @@ export const handler = handlingErrors(
 
     // Parse Discord webhook payload
     const body = JSON.parse(event.body || "{}");
+    console.log("🔍 Body:", body);
 
     // Handle Discord interaction
     if (body.type === 1) {
