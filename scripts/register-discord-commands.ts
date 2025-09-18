@@ -1,7 +1,10 @@
 #!/usr/bin/env tsx
 
+import { IncomingMessage } from "http";
 import * as https from "https";
 import { URL } from "url";
+
+import { tryJsonParse } from "@/utils";
 
 /**
  * Discord Slash Commands Registration Script
@@ -80,7 +83,10 @@ async function makeRequest(
       }
     }
 
-    const req = https.request(options, (res) => {
+    let res: IncomingMessage;
+
+    const req = https.request(options, (r) => {
+      res = r;
       let responseData = "";
 
       res.on("data", (chunk) => {
@@ -89,8 +95,7 @@ async function makeRequest(
 
       res.on("end", () => {
         try {
-          const parsedData = responseData ? JSON.parse(responseData) : {};
-
+          const parsedData = responseData ? tryJsonParse(responseData) : {};
           if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
             resolve({ statusCode: res.statusCode, data: parsedData });
           } else {
