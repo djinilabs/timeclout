@@ -22,11 +22,14 @@ export const handler = handlingErrors(
     if (!verifyDiscordSignature(event)) {
       console.warn("Discord signature verification failed");
       return {
-        statusCode: 401,
+        statusCode: 200,
         body: JSON.stringify({
-          error: "Unauthorized - Invalid Discord signature",
-          details:
-            "The request signature could not be verified. This may indicate a security issue or invalid webhook configuration.",
+          type: 4,
+          data: {
+            content:
+              "❌ **Error:** Invalid Discord signature. Request could not be verified.",
+            flags: 64, // EPHEMERAL
+          },
         }),
       };
     }
@@ -38,10 +41,14 @@ export const handler = handlingErrors(
     } catch (error) {
       console.error("Error parsing Discord webhook payload:", error);
       return {
-        statusCode: 400,
+        statusCode: 200,
         body: JSON.stringify({
-          error: "Invalid JSON payload",
-          details: "The request body contains invalid JSON data.",
+          type: 4,
+          data: {
+            content:
+              "❌ **Error:** Invalid JSON payload. Request could not be parsed.",
+            flags: 64, // EPHEMERAL
+          },
         }),
       };
     }
@@ -77,8 +84,14 @@ export const handler = handlingErrors(
 
     // Unknown interaction type
     return {
-      statusCode: 400,
-      body: JSON.stringify({ error: "Unknown interaction type" }),
+      statusCode: 200,
+      body: JSON.stringify({
+        type: 4,
+        data: {
+          content: "❌ **Error:** Unknown interaction type.",
+          flags: 64, // EPHEMERAL
+        },
+      }),
     };
   }
 );
