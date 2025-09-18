@@ -51,7 +51,7 @@ export const createDiscordUser = async (
       email,
       name: email.split("@")[0], // Derive name from email
       id: userPk,
-      createdBy: "discord-bot",
+      createdBy: userRef,
     });
 
     // Create entity entry
@@ -59,7 +59,7 @@ export const createDiscordUser = async (
       pk: userRef,
       name: email.split("@")[0], // Derive name from email
       email,
-      createdBy: "discord-bot",
+      createdBy: userRef,
     });
 
     console.log(`Discord user created successfully: ${email} (${userPk})`);

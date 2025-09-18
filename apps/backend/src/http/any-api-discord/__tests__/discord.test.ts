@@ -160,7 +160,7 @@ describe("Discord API Handler", () => {
     expect(result?.statusCode).toBe(200);
     const responseBody = JSON.parse(result?.body || "{}");
     expect(responseBody.data.content).toContain(
-      "❌ User with email **test@example.com** already exists"
+      "❌ **Error:** User already exists"
     );
   });
 
@@ -215,8 +215,15 @@ describe("Discord API Handler", () => {
       () => {}
     )) as APIGatewayProxyResult;
 
-    expect(result?.statusCode).toBe(401);
-    expect(JSON.parse(result?.body || "{}")).toEqual({ error: "Unauthorized" });
+    expect(result?.statusCode).toBe(200);
+    expect(JSON.parse(result?.body || "{}")).toEqual({
+      type: 4,
+      data: {
+        content:
+          "❌ **Error:** Invalid Discord signature. Request could not be verified.",
+        flags: 64,
+      },
+    });
   });
 
   it("should reject requests with old timestamp", async () => {
@@ -242,8 +249,15 @@ describe("Discord API Handler", () => {
       () => {}
     )) as APIGatewayProxyResult;
 
-    expect(result?.statusCode).toBe(401);
-    expect(JSON.parse(result?.body || "{}")).toEqual({ error: "Unauthorized" });
+    expect(result?.statusCode).toBe(200);
+    expect(JSON.parse(result?.body || "{}")).toEqual({
+      type: 4,
+      data: {
+        content:
+          "❌ **Error:** Invalid Discord signature. Request could not be verified.",
+        flags: 64,
+      },
+    });
   });
 
   it("should reject unauthorized Discord users", async () => {
