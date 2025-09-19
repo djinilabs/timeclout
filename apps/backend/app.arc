@@ -79,6 +79,10 @@ invitation
   secret *String
   name bySecret
 
+invitation
+  sk *String
+  name bySk
+
 leave_request
   pk *String
   startDate **String

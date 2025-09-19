@@ -46,7 +46,7 @@ async function isUserAllowedToSignIn(email: string): Promise<boolean> {
 
   // Check if user has an active invitation
   const { items: invitations } = await invitation.query({
-    IndexName: "bySecret",
+    IndexName: "bySk",
     KeyConditionExpression: "sk = :email",
     ExpressionAttributeValues: {
       ":email": email,
