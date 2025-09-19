@@ -311,6 +311,8 @@ jobs:
               else
                 gh pr comment $PR_NUMBER --body "❌ **E2E Tests Failed** - Some tests failed. Check the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
               fi
+            else
+              echo "No PR number found in workflow_run event, skipping PR comment"
             fi
           elif [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ github.event.inputs.environment }}" == "pr" ]; then
             # For manual PR runs, use the input parameter
@@ -323,7 +325,11 @@ jobs:
               else
                 gh pr comment $PR_NUMBER --body "❌ **E2E Tests Failed** - Some tests failed. Check the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
               fi
+            else
+              echo "No PR number provided in workflow_dispatch inputs, skipping PR comment"
             fi
+          else
+            echo "Not a PR-related event, skipping PR comment"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -338,6 +344,7 @@ jobs:
             PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
           fi
 
+          # Create status check for PRs or main branch commits
           if [ -n "$PR_NUMBER" ]; then
             echo "Creating status check for PR $PR_NUMBER"
             # Create a status check using the GitHub API
@@ -354,6 +361,24 @@ jobs:
                 -f description="E2E Tests Failed" \
                 -f context="E2E Tests"
             fi
+          elif [ "${{ github.event_name }}" == "workflow_run" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "Creating status check for main branch commit"
+            # Create a status check for main branch commits
+            if [ "${{ job.status }}" == "success" ]; then
+              gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
+                -f state=success \
+                -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+                -f description="E2E Tests Passed" \
+                -f context="E2E Tests"
+            else
+              gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
+                -f state=failure \
+                -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+                -f description="E2E Tests Failed" \
+                -f context="E2E Tests"
+            fi
+          else
+            echo "No PR number found and not a main branch workflow_run event, skipping status check creation"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
