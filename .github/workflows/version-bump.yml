@@ -52,7 +52,7 @@ jobs:
           echo "PR Body: $PR_BODY"
 
           # Get commit messages from the PR
-          COMMIT_MESSAGES=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageHeadline' | tr '\n' '|')
+          COMMIT_MESSAGES=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageHeadline' | tr '\n' '|' )
           echo "Commit messages: $COMMIT_MESSAGES"
 
           # Combine PR title, body, and commit messages for analysis
@@ -72,11 +72,11 @@ jobs:
             echo "Detected MAJOR version bump"
           # Check for minor version indicators (medium priority)
           # Look for feat: (conventional commits) or specific feature keywords
-          elif echo "$ALL_TEXT_LOWER" | grep -qE "\b(feat[^!]|feature|new|enhancement|improvement|minor|perf)\b|feat:"; then
+          elif echo "$ALL_TEXT_LOWER" | grep -qE "\\b(feat[^!]|feature|new|enhancement|improvement|minor|perf)\\b|feat:"; then
             VERSION_BUMP="minor"
             echo "Detected MINOR version bump"
           # Check for patch version indicators (lowest priority)
-          elif echo "$ALL_TEXT_LOWER" | grep -qE "\b(fix[^!]|bug|patch|hotfix|security|refactor|style|test|docs|chore)\b"; then
+          elif echo "$ALL_TEXT_LOWER" | grep -qE "\\b(fix[^!]|bug|patch|hotfix|security|refactor|style|test|docs|chore)\\b"; then
             VERSION_BUMP="patch"
             echo "Detected PATCH version bump"
           else
@@ -88,7 +88,6 @@ jobs:
           echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Read current version
         id: current-version
         run: |
