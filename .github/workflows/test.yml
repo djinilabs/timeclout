@@ -1,6 +1,8 @@
 name: Test
 
 on:
+  push:
+    branches: [main]
   workflow_run:
     workflows: ["Version Bump", "Auto Merge"]
     types:
@@ -12,7 +14,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
     permissions:
       contents: read
       actions: write
@@ -42,20 +44,25 @@ jobs:
           pnpm test
           pnpm build
 
-      - name: Trigger E2E Tests (After Version Bump or Auto Merge)
-        if: github.event_name == 'workflow_run'
+      - name: Trigger E2E Tests (After Version Bump, Auto Merge, or Push to Main)
+        if: github.event_name == 'workflow_run' || github.event_name == 'push'
         run: |
-          WORKFLOW_NAME="${{ github.event.workflow_run.name }}"
-          echo "Triggering E2E Tests workflow after $WORKFLOW_NAME..."
-
-          # Get the head ref from the workflow run event
-          HEAD_REF="${{ github.event.workflow_run.head_branch }}"
-          echo "Triggering E2E tests for branch: $HEAD_REF"
-
-          # For Auto Merge, always use main branch
-          if [ "$WORKFLOW_NAME" = "Auto Merge" ]; then
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "Triggering E2E Tests workflow after push to main..."
             HEAD_REF="main"
-            echo "Auto Merge detected, using main branch for E2E tests"
+          else
+            WORKFLOW_NAME="${{ github.event.workflow_run.name }}"
+            echo "Triggering E2E Tests workflow after $WORKFLOW_NAME..."
+
+            # Get the head ref from the workflow run event
+            HEAD_REF="${{ github.event.workflow_run.head_branch }}"
+            echo "Triggering E2E tests for branch: $HEAD_REF"
+
+            # For Auto Merge, always use main branch
+            if [ "$WORKFLOW_NAME" = "Auto Merge" ]; then
+              HEAD_REF="main"
+              echo "Auto Merge detected, using main branch for E2E tests"
+            fi
           fi
 
           # Trigger the E2E Tests workflow with local sandbox environment
