@@ -30,7 +30,8 @@
     "discord:register-commands": "node dist/scripts/register-discord-commands.js",
     "lint": "npx eslint",
     "i18n:extract": "pnpm lingui extract --clean",
-    "i18n:compile": "pnpm lingui compile --namespace es"
+    "i18n:compile": "pnpm lingui compile --namespace es",
+    "test:version-bump": "node scripts/test-version-bump.js"
   },
   "keywords": [],
   "author": "",
