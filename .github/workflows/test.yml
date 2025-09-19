@@ -36,6 +36,21 @@ jobs:
           pnpm test
           pnpm build
 
+      - name: Trigger E2E Tests (Main Branch Only)
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          echo "Triggering E2E Tests workflow for main branch..."
+
+          # Trigger the E2E Tests workflow with local sandbox environment
+          gh workflow run e2e-tests.yml \
+            --field environment="custom" \
+            --field custom_url="http://localhost:3000" \
+            --ref main
+
+          echo "E2E Tests workflow triggered successfully"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Send Discord notification
         if: failure()
         uses: ./.github/actions/discord-notification
