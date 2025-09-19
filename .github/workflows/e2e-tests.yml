@@ -344,41 +344,42 @@ jobs:
             PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
           fi
 
-          # Create status check for PRs or main branch commits
+          # Determine if we should create a status check
+          CREATE_STATUS_CHECK=false
           if [ -n "$PR_NUMBER" ]; then
             echo "Creating status check for PR $PR_NUMBER"
-            # Create a status check using the GitHub API
-            if [ "${{ job.status }}" == "success" ]; then
-              gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
-                -f state=success \
-                -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
-                -f description="E2E Tests Passed" \
-                -f context="E2E Tests"
-            else
-              gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
-                -f state=failure \
-                -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
-                -f description="E2E Tests Failed" \
-                -f context="E2E Tests"
-            fi
+            CREATE_STATUS_CHECK=true
           elif [ "${{ github.event_name }}" == "workflow_run" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "Creating status check for main branch commit"
-            # Create a status check for main branch commits
-            if [ "${{ job.status }}" == "success" ]; then
-              gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
-                -f state=success \
-                -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
-                -f description="E2E Tests Passed" \
-                -f context="E2E Tests"
-            else
-              gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
-                -f state=failure \
-                -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
-                -f description="E2E Tests Failed" \
-                -f context="E2E Tests"
-            fi
+            CREATE_STATUS_CHECK=true
           else
             echo "No PR number found and not a main branch workflow_run event, skipping status check creation"
+          fi
+
+          # Create status check if needed
+          if [ "$CREATE_STATUS_CHECK" = "true" ]; then
+            # Determine status and description
+            if [ "${{ job.status }}" == "success" ]; then
+              STATE="success"
+              DESCRIPTION="E2E Tests Passed"
+            else
+              STATE="failure"
+              DESCRIPTION="E2E Tests Failed"
+            fi
+
+            # Create status check using curl
+            echo "Creating $STATE status check..."
+            curl -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Content-Type: application/json" \
+              "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
+              -d "{
+                \"state\": \"$STATE\",
+                \"target_url\": \"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\",
+                \"description\": \"$DESCRIPTION\",
+                \"context\": \"E2E Tests\"
+              }" || echo "Failed to create status check via curl"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
