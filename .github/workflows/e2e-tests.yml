@@ -335,7 +335,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create status check
-        if: always()
+        if: |
+          always() && (
+            (github.event_name == 'workflow_run' && contains(github.event.workflow_run.name, 'PR')) ||
+            (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'pr')
+          )
         run: |
           # Get the PR number and create a status check
           if [ "${{ github.event_name }}" == "workflow_run" ]; then
@@ -344,7 +348,7 @@ jobs:
             PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
           fi
 
-          # Only create status checks for PRs, not for main branch commits
+          # Create status check for the PR
           if [ -n "$PR_NUMBER" ]; then
             echo "Creating status check for PR $PR_NUMBER"
             
@@ -392,7 +396,6 @@ jobs:
             fi
           else
             echo "No PR number found, skipping status check creation"
-            echo "Note: Status checks are only created for PRs, not for main branch commits"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
