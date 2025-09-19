@@ -34,14 +34,30 @@ async function isUserAllowedToSignIn(email: string): Promise<boolean> {
     return true;
   }
 
-  const { entity, invitation } = await database();
+  const { entity, invitation, "next-auth": nextAuth } = await database();
 
-  // Check if user already exists in the system
-  const userRef = resourceRef("users", email);
-  const existingUser = await entity.get(userRef);
-  if (existingUser) {
-    console.log("User already exists, allowing sign in:", email);
-    return true;
+  // Check if user already exists in the system using the next-auth table
+  const authUser = (
+    await nextAuth.query({
+      KeyConditionExpression: "pk = :pk and sk = :sk",
+      ExpressionAttributeValues: {
+        ":pk": `USER#${email}`,
+        ":sk": `USER#${email}`,
+      },
+    })
+  ).items[0];
+
+  if (authUser) {
+    // then, we get the user from tne entity table
+    const user = await entity.get(resourceRef("users", authUser.id));
+    if (user) {
+      if (user.disabled) {
+        console.log("User is disabled, denying sign in:", email);
+        return false;
+      }
+      console.log("User already exists, allowing sign in:", email);
+      return true;
+    }
   }
 
   // Check if user has an active invitation
