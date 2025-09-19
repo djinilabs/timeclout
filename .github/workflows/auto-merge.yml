@@ -107,6 +107,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Trigger Test Workflow
+        if: steps.check-status.outputs.ready == 'true'
+        run: |
+          echo "Triggering Test workflow after successful merge..."
+          
+          # Wait a moment for the merge commit to be processed
+          sleep 10
+          
+          # Trigger the Test workflow
+          gh workflow run test.yml --ref main
+          
+          echo "Test workflow triggered successfully"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Send Discord notification
         if: steps.check-status.outputs.ready == 'true'
         uses: ./.github/actions/discord-notification
