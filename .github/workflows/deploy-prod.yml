@@ -2,7 +2,7 @@ name: Deploy Prod
 
 on:
   workflow_run:
-    workflows: ["E2E Tests"]
+    workflows: ["Test"]
     types:
       - completed
     branches:

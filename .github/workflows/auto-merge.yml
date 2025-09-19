@@ -123,30 +123,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Trigger Version Bump Workflow
-        if: steps.check-status.outputs.ready == 'true'
-        run: |
-          PR_NUMBER="${{ github.event.inputs.pr_number }}"
-
-          echo "Triggering Version Bump workflow for PR #$PR_NUMBER..."
-
-          # Wait a moment for the merge commit to be processed
-          sleep 15
-
-          # Get the latest commit SHA from main
-          LATEST_SHA=$(gh api repos/${{ github.repository }}/commits/main --jq '.sha')
-          echo "Latest commit SHA: $LATEST_SHA"
-
-          # Trigger the Version Bump workflow
-          gh workflow run version-bump.yml \
-            --field pr_number="$PR_NUMBER" \
-            --field commit_sha="$LATEST_SHA" \
-            --ref main
-
-          echo "Version Bump workflow triggered successfully"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Send Discord notification
         if: steps.check-status.outputs.ready == 'true'
         uses: ./.github/actions/discord-notification

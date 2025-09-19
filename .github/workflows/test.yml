@@ -1,8 +1,10 @@
 name: Test
 
 on:
-  push:
-    branches: [main]
+  workflow_run:
+    workflows: ["Version Bump", "Auto Merge"]
+    types:
+      - completed
   pull_request:
     types: [opened, reopened, synchronize]
   workflow_dispatch:
@@ -10,6 +12,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: read
       actions: write
@@ -39,16 +42,27 @@ jobs:
           pnpm test
           pnpm build
 
-      - name: Trigger E2E Tests (Main Branch Only)
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      - name: Trigger E2E Tests (After Version Bump or Auto Merge)
+        if: github.event_name == 'workflow_run'
         run: |
-          echo "Triggering E2E Tests workflow for main branch..."
+          WORKFLOW_NAME="${{ github.event.workflow_run.name }}"
+          echo "Triggering E2E Tests workflow after $WORKFLOW_NAME..."
+
+          # Get the head ref from the workflow run event
+          HEAD_REF="${{ github.event.workflow_run.head_branch }}"
+          echo "Triggering E2E tests for branch: $HEAD_REF"
+
+          # For Auto Merge, always use main branch
+          if [ "$WORKFLOW_NAME" = "Auto Merge" ]; then
+            HEAD_REF="main"
+            echo "Auto Merge detected, using main branch for E2E tests"
+          fi
 
           # Trigger the E2E Tests workflow with local sandbox environment
           gh workflow run e2e-tests.yml \
             --field environment="custom" \
             --field custom_url="http://localhost:3000" \
-            --ref main
+            --ref $HEAD_REF
 
           echo "E2E Tests workflow triggered successfully"
         env:
@@ -66,7 +80,7 @@ jobs:
           sha: ${{ github.sha }}
           ref_name: ${{ github.ref_name }}
           event_name: ${{ github.event_name }}
-          head_commit_message: ${{ github.event.head_commit.message || github.event.pull_request.title || 'Test workflow' }}
+          head_commit_message: ${{ github.event.pull_request.title || 'Test workflow' }}
           pull_request_number: ${{ github.event.pull_request.number || '' }}
           pull_request_title: ${{ github.event.pull_request.title || '' }}
           pull_request_url: ${{ github.event.pull_request.html_url || '' }}

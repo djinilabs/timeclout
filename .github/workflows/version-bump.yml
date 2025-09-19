@@ -1,14 +1,12 @@
 name: Version Bump
 
 on:
+  pull_request:
+    types: [opened]
   workflow_dispatch:
     inputs:
       pr_number:
-        description: "Pull request number that was merged"
-        required: true
-        type: string
-      commit_sha:
-        description: "Commit SHA of the merge"
+        description: "Pull request number to bump version for"
         required: true
         type: string
 
@@ -25,6 +23,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
@@ -34,21 +33,26 @@ jobs:
       - name: Get PR details and commit messages
         id: analyze-commits
         run: |
-          PR_NUMBER="${{ github.event.inputs.pr_number }}"
-          COMMIT_SHA="${{ github.event.inputs.commit_sha }}"
+          # Get PR number from event context or inputs
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            PR_NUMBER="${{ github.event.pull_request.number }}"
+            PR_TITLE="${{ github.event.pull_request.title }}"
+            PR_BODY="${{ github.event.pull_request.body || '' }}"
+          else
+            PR_NUMBER="${{ github.event.inputs.pr_number }}"
+            # Get the PR title and body
+            PR_INFO=$(gh pr view $PR_NUMBER --json title,body,commits)
+            PR_TITLE=$(echo "$PR_INFO" | jq -r '.title')
+            PR_BODY=$(echo "$PR_INFO" | jq -r '.body // ""')
+          fi
 
-          echo "Analyzing PR #$PR_NUMBER (commit: $COMMIT_SHA)"
-
-          # Get the PR title and body
-          PR_INFO=$(gh pr view $PR_NUMBER --json title,body,commits)
-          PR_TITLE=$(echo "$PR_INFO" | jq -r '.title')
-          PR_BODY=$(echo "$PR_INFO" | jq -r '.body // ""')
+          echo "Analyzing PR #$PR_NUMBER"
 
           echo "PR Title: $PR_TITLE"
           echo "PR Body: $PR_BODY"
 
           # Get commit messages from the PR
-          COMMIT_MESSAGES=$(echo "$PR_INFO" | jq -r '.commits[].messageHeadline' | tr '\n' '|')
+          COMMIT_MESSAGES=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageHeadline' | tr '\n' '|')
           echo "Commit messages: $COMMIT_MESSAGES"
 
           # Combine PR title, body, and commit messages for analysis
@@ -176,20 +180,22 @@ jobs:
           git add package.json
           git commit -m "$COMMIT_MSG"
 
-          echo "Pushing to main..."
-          git push origin main
+          # Push to the PR branch (not main)
+          echo "Pushing to PR branch..."
+          git push origin HEAD
 
           echo "✅ Version bumped from ${{ steps.current-version.outputs.current_version }} to $NEW_VERSION ($VERSION_BUMP)"
 
-      - name: Create Git Tag
+      - name: Trigger Test Workflow
         run: |
-          NEW_VERSION="${{ steps.new-version.outputs.new_version }}"
+          echo "Triggering Test workflow after version bump..."
 
-          echo "Creating git tag v$NEW_VERSION"
-          git tag "v$NEW_VERSION"
-          git push origin "v$NEW_VERSION"
+          # Trigger the Test workflow on the PR branch
+          gh workflow run test.yml --ref ${{ github.head_ref }}
 
-          echo "✅ Created and pushed tag v$NEW_VERSION"
+          echo "Test workflow triggered successfully"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Send Discord notification
         uses: ./.github/actions/discord-notification
