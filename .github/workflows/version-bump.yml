@@ -56,10 +56,12 @@ jobs:
           echo "Commit messages: $COMMIT_MESSAGES"
 
           # Combine PR title, body, and commit messages for analysis
+          # Properly quote variables to prevent shell expansion issues
           ALL_TEXT="$PR_TITLE $PR_BODY $COMMIT_MESSAGES"
 
           # Convert to lowercase for case-insensitive matching
-          ALL_TEXT_LOWER=$(echo "$ALL_TEXT" | tr '[:upper:]' '[:lower:]')
+          # Use printf instead of echo to avoid shell interpretation issues
+          ALL_TEXT_LOWER=$(printf '%s' "$ALL_TEXT" | tr '[:upper:]' '[:lower:]')
 
           echo "All text (lowercase): $ALL_TEXT_LOWER"
 
@@ -67,16 +69,16 @@ jobs:
           VERSION_BUMP="patch"  # Default to patch
 
           # Check for major version indicators (highest priority)
-          if echo "$ALL_TEXT_LOWER" | grep -qE "(breaking|!|major|feat!|fix!)"; then
+          if printf '%s' "$ALL_TEXT_LOWER" | grep -qE "(breaking|!|major|feat!|fix!)"; then
             VERSION_BUMP="major"
             echo "Detected MAJOR version bump"
           # Check for minor version indicators (medium priority)
           # Look for feat: (conventional commits) or specific feature keywords
-          elif echo "$ALL_TEXT_LOWER" | grep -qE "\\b(feat[^!]|feature|new|enhancement|improvement|minor|perf)\\b|feat:"; then
+          elif printf '%s' "$ALL_TEXT_LOWER" | grep -qE "\\b(feat[^!]|feature|new|enhancement|improvement|minor|perf)\\b|feat:"; then
             VERSION_BUMP="minor"
             echo "Detected MINOR version bump"
           # Check for patch version indicators (lowest priority)
-          elif echo "$ALL_TEXT_LOWER" | grep -qE "\\b(fix[^!]|bug|patch|hotfix|security|refactor|style|test|docs|chore)\\b"; then
+          elif printf '%s' "$ALL_TEXT_LOWER" | grep -qE "\\b(fix[^!]|bug|patch|hotfix|security|refactor|style|test|docs|chore)\\b"; then
             VERSION_BUMP="patch"
             echo "Detected PATCH version bump"
           else
