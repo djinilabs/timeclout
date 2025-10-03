@@ -219,7 +219,7 @@ importers:
         version: 5.0.0-beta.29(@simplewebauthn/browser@13.2.0)(@simplewebauthn/server@13.2.1)(next@15.5.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(@playwright/test@1.55.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
       posthog-js:
         specifier: ^1.230.2
-        version: 1.270.0
+        version: 1.270.1
       radix-ui:
         specifier: ^1.4.2
         version: 1.4.3(@types/react-dom@19.2.0(@types/react@19.2.0))(@types/react@19.2.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -7198,8 +7198,8 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  posthog-js@1.270.0:
-    resolution: {integrity: sha512-gJZND8X90pPhj6BP+YeRi0cjUp1QGTLfVBSqQDlxGPS1RpZ4fU0KknQGrt2TYZtFNP44Jjb6Un9XzkOnP65+ew==}
+  posthog-js@1.270.1:
+    resolution: {integrity: sha512-HP7+vr19gE8Qx7n88ElJxkI/BwL8S5lH8D1OKp91YnAlcJuc0Vze0M9TMmFAgC2oUVGrvSgH5++sNg8qGlm9tg==}
     peerDependencies:
       '@rrweb/types': 2.0.0-alpha.17
       rrweb-snapshot: 2.0.0-alpha.17
@@ -16886,7 +16886,7 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.270.0:
+  posthog-js@1.270.1:
     dependencies:
       '@posthog/core': 1.2.2
       core-js: 3.45.1
