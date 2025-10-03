@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: ["Version Bump", "Auto Merge"]
+    workflows: ["Auto Merge"]
     types:
       - completed
   pull_request:
