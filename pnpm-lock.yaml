@@ -219,7 +219,7 @@ importers:
         version: 5.0.0-beta.29(@simplewebauthn/browser@13.2.0)(@simplewebauthn/server@13.2.1)(next@15.5.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(@playwright/test@1.55.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
       posthog-js:
         specifier: ^1.230.2
-        version: 1.269.1
+        version: 1.270.0
       radix-ui:
         specifier: ^1.4.2
         version: 1.4.3(@types/react-dom@19.2.0(@types/react@19.2.0))(@types/react@19.2.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -4772,6 +4772,9 @@ packages:
   caniuse-lite@1.0.30001746:
     resolution: {integrity: sha512-eA7Ys/DGw+pnkWWSE/id29f2IcPHVoE8wxtvE5JdvD2V28VTDPy1yEeo11Guz0sJ4ZeGRcm3uaTcAqK1LXaphA==}
 
+  caniuse-lite@1.0.30001747:
+    resolution: {integrity: sha512-mzFa2DGIhuc5490Nd/G31xN1pnBnYMadtkyTjefPI7wzypqgCEpeWu9bJr0OnDsyKrW75zA9ZAt7pbQFmwLsQg==}
+
   capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
 
@@ -7195,8 +7198,8 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  posthog-js@1.269.1:
-    resolution: {integrity: sha512-4GrcKQ89uLwBGNtHrhq5QRCzHmPPCxE6i0cDsk4mFMls9iZcsdTpITBNepHbP0Bvn62HZUVAiqGeRlOpy8XeCA==}
+  posthog-js@1.270.0:
+    resolution: {integrity: sha512-gJZND8X90pPhj6BP+YeRi0cjUp1QGTLfVBSqQDlxGPS1RpZ4fU0KknQGrt2TYZtFNP44Jjb6Un9XzkOnP65+ew==}
     peerDependencies:
       '@rrweb/types': 2.0.0-alpha.17
       rrweb-snapshot: 2.0.0-alpha.17
@@ -14229,6 +14232,8 @@ snapshots:
 
   caniuse-lite@1.0.30001746: {}
 
+  caniuse-lite@1.0.30001747: {}
+
   capital-case@1.0.4:
     dependencies:
       no-case: 3.0.4
@@ -16556,7 +16561,7 @@ snapshots:
     dependencies:
       '@next/env': 15.5.4
       '@swc/helpers': 0.5.15
-      caniuse-lite: 1.0.30001746
+      caniuse-lite: 1.0.30001747
       postcss: 8.4.31
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
@@ -16881,7 +16886,7 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.269.1:
+  posthog-js@1.270.0:
     dependencies:
       '@posthog/core': 1.2.2
       core-js: 3.45.1
