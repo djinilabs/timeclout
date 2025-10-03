@@ -97,6 +97,17 @@ jobs:
             echo "PR environment validated with PR number: ${{ github.event.inputs.pull_request_number }}"
           fi
 
+      - name: Capture PR head SHA (for PR env)
+        id: pr-sha
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'pr'
+        run: |
+          PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
+          TESTED_PR_SHA=$(gh pr view "$PR_NUMBER" --json headRefOid -q .headRefOid)
+          echo "PR $PR_NUMBER head SHA at test start: $TESTED_PR_SHA"
+          echo "sha=$TESTED_PR_SHA" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Determine test URL
         id: test-url
         run: |
@@ -407,7 +418,25 @@ jobs:
           github.event.inputs.environment == 'pr'
         run: |
           PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
-          echo "E2E Tests passed for PR $PR_NUMBER, triggering auto-merge workflow..."
+          TESTED_PR_SHA="${{ steps.pr-sha.outputs.sha }}"
+          echo "E2E Tests passed for PR $PR_NUMBER. Verifying PR is still at tested commit..."
+
+          # Get the current head SHA of the PR and compare with the tested SHA captured at start
+          CURRENT_PR_SHA=$(gh pr view "$PR_NUMBER" --json headRefOid -q .headRefOid)
+          echo "Current PR head SHA: $CURRENT_PR_SHA"
+          echo "Tested PR SHA: $TESTED_PR_SHA"
+
+          if [ -z "$TESTED_PR_SHA" ]; then
+            echo "No tested PR SHA captured; skipping auto-merge as a safety precaution."
+            exit 0
+          fi
+
+          if [ "$CURRENT_PR_SHA" != "$TESTED_PR_SHA" ]; then
+            echo "New commits detected on PR $PR_NUMBER after tests started. Skipping auto-merge."
+            exit 0
+          fi
+
+          echo "PR head matches tested SHA. Triggering auto-merge workflow..."
 
           # Trigger the auto-merge workflow
           gh workflow run auto-merge.yml \
