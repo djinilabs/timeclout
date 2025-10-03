@@ -36,15 +36,14 @@ jobs:
           # Get PR number from event context or inputs
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             PR_NUMBER="${{ github.event.pull_request.number }}"
-            PR_TITLE="${{ github.event.pull_request.title }}"
-            PR_BODY="${{ github.event.pull_request.body || '' }}"
           else
             PR_NUMBER="${{ github.event.inputs.pr_number }}"
-            # Get the PR title and body
-            PR_INFO=$(gh pr view $PR_NUMBER --json title,body,commits)
-            PR_TITLE=$(echo "$PR_INFO" | jq -r '.title')
-            PR_BODY=$(echo "$PR_INFO" | jq -r '.body // ""')
           fi
+
+          # Always fetch PR metadata via gh to avoid shell injection from raw body/title
+          PR_INFO=$(gh pr view "$PR_NUMBER" --json title,body,commits)
+          PR_TITLE=$(echo "$PR_INFO" | jq -r '.title')
+          PR_BODY=$(echo "$PR_INFO" | jq -r '.body // ""')
 
           echo "Analyzing PR #$PR_NUMBER"
 
