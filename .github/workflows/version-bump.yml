@@ -41,14 +41,16 @@ jobs:
           fi
 
           # Always fetch PR metadata via gh to avoid shell injection from raw body/title
-          PR_INFO=$(gh pr view "$PR_NUMBER" --json title,body,commits)
+          PR_INFO=$(gh pr view "$PR_NUMBER" --json title,body,commits,headRefName)
           PR_TITLE=$(echo "$PR_INFO" | jq -r '.title')
           PR_BODY=$(echo "$PR_INFO" | jq -r '.body // ""')
+          HEAD_REF=$(echo "$PR_INFO" | jq -r '.headRefName')
 
           echo "Analyzing PR #$PR_NUMBER"
 
           echo "PR Title: $PR_TITLE"
           echo "PR Body: $PR_BODY"
+          echo "PR Head ref: $HEAD_REF"
 
           # Get commit messages from the PR
           COMMIT_MESSAGES=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageHeadline' | tr '\n' '|' )
@@ -87,8 +89,17 @@ jobs:
           echo "version_bump=$VERSION_BUMP" >> $GITHUB_OUTPUT
           echo "pr_title=$PR_TITLE" >> $GITHUB_OUTPUT
           echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+          echo "head_ref=$HEAD_REF" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout PR head branch
+        run: |
+          HEAD_REF="${{ steps.analyze-commits.outputs.head_ref }}"
+          echo "Switching to PR head branch: $HEAD_REF"
+          git fetch origin "$HEAD_REF" --depth=0
+          git checkout -B "$HEAD_REF" "origin/$HEAD_REF"
+          git status --porcelain -b
       - name: Read current version
         id: current-version
         run: |
@@ -160,6 +171,7 @@ jobs:
           VERSION_BUMP="${{ steps.analyze-commits.outputs.version_bump }}"
           PR_NUMBER="${{ steps.analyze-commits.outputs.pr_number }}"
           PR_TITLE="${{ steps.analyze-commits.outputs.pr_title }}"
+          HEAD_REF="${{ steps.analyze-commits.outputs.head_ref }}"
 
           # Check if there are changes to commit
           if git diff --quiet package.json; then
@@ -181,8 +193,9 @@ jobs:
           git commit -m "$COMMIT_MSG"
 
           # Push to the PR branch (not main)
-          echo "Pushing to PR branch..."
-          git push origin HEAD
+          echo "Pushing to PR branch $HEAD_REF..."
+          # Use --force-with-lease to avoid non-fast-forward failures due to external updates
+          git push --force-with-lease origin "$HEAD_REF"
 
           echo "✅ Version bumped from ${{ steps.current-version.outputs.current_version }} to $NEW_VERSION ($VERSION_BUMP)"
 
@@ -191,7 +204,7 @@ jobs:
           echo "Triggering Test workflow after version bump..."
 
           # Trigger the Test workflow on the PR branch
-          gh workflow run test.yml --ref ${{ github.head_ref }}
+          gh workflow run test.yml --ref ${{ steps.analyze-commits.outputs.head_ref }}
 
           echo "Test workflow triggered successfully"
         env:
