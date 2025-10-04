@@ -39,13 +39,13 @@ importers:
         version: 8.1.9(patch_hash=f8a8bfced584be6b0b3d8529985c9c19a0ccb0ace405749a7ab137f1b4cae1e5)
       '@auth/core':
         specifier: ^0.40.0
-        version: 0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)
+        version: 0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
       '@auth/dynamodb-adapter':
         specifier: ^2.7.4
-        version: 2.10.0(@aws-sdk/client-dynamodb@3.902.0)(@aws-sdk/lib-dynamodb@3.902.0(@aws-sdk/client-dynamodb@3.902.0))(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)
+        version: 2.10.0(@aws-sdk/client-dynamodb@3.902.0)(@aws-sdk/lib-dynamodb@3.902.0(@aws-sdk/client-dynamodb@3.902.0))(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
       '@auth/express':
         specifier: ^0.11.0
-        version: 0.11.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)(express@5.1.0)
+        version: 0.11.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(express@5.1.0)
       '@aws-lite/apigatewaymanagementapi-types':
         specifier: ^0.0.13
         version: 0.0.13
@@ -135,7 +135,7 @@ importers:
         version: 13.2.2
       '@simplewebauthn/server':
         specifier: ^13.0.0
-        version: 13.2.1
+        version: 13.2.2
       '@simplewebauthn/types':
         specifier: ^12.0.0
         version: 12.0.0
@@ -216,7 +216,7 @@ importers:
         version: 5.1.6
       next-auth:
         specifier: 5.0.0-beta.29
-        version: 5.0.0-beta.29(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)(next@15.5.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(@playwright/test@1.55.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
+        version: 5.0.0-beta.29(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(@playwright/test@1.55.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
       posthog-js:
         specifier: ^1.230.2
         version: 1.270.1
@@ -3706,8 +3706,8 @@ packages:
   '@simplewebauthn/browser@13.2.2':
     resolution: {integrity: sha512-FNW1oLQpTJyqG5kkDg5ZsotvWgmBaC6jCHR7Ej0qUNep36Wl9tj2eZu7J5rP+uhXgHaLk+QQ3lqcw2vS5MX1IA==}
 
-  '@simplewebauthn/server@13.2.1':
-    resolution: {integrity: sha512-Inmfye5opZXe3HI0GaksqBnQiM7glcNySoG6DH1GgkO1Lh9dvuV4XSV9DK02DReUVX39HpcDob9nxHELjECoQw==}
+  '@simplewebauthn/server@13.2.2':
+    resolution: {integrity: sha512-HcWLW28yTMGXpwE9VLx9J+N2KEUaELadLrkPEEI9tpI5la70xNEVEsu/C+m3u7uoq4FulLqZQhgBCzR9IZhFpA==}
     engines: {node: '>=20.0.0'}
 
   '@simplewebauthn/types@12.0.0':
@@ -8819,7 +8819,7 @@ snapshots:
 
   '@asamuzakjp/nwsapi@2.3.9': {}
 
-  '@auth/core@0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)':
+  '@auth/core@0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)':
     dependencies:
       '@panva/hkdf': 1.2.1
       jose: 6.1.0
@@ -8828,11 +8828,11 @@ snapshots:
       preact-render-to-string: 6.5.11(preact@10.24.3)
     optionalDependencies:
       '@simplewebauthn/browser': 13.2.2
-      '@simplewebauthn/server': 13.2.1
+      '@simplewebauthn/server': 13.2.2
 
-  '@auth/dynamodb-adapter@2.10.0(@aws-sdk/client-dynamodb@3.902.0)(@aws-sdk/lib-dynamodb@3.902.0(@aws-sdk/client-dynamodb@3.902.0))(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)':
+  '@auth/dynamodb-adapter@2.10.0(@aws-sdk/client-dynamodb@3.902.0)(@aws-sdk/lib-dynamodb@3.902.0(@aws-sdk/client-dynamodb@3.902.0))(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)':
     dependencies:
-      '@auth/core': 0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)
+      '@auth/core': 0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
       '@aws-sdk/client-dynamodb': 3.902.0
       '@aws-sdk/lib-dynamodb': 3.902.0(@aws-sdk/client-dynamodb@3.902.0)
     transitivePeerDependencies:
@@ -8840,9 +8840,9 @@ snapshots:
       - '@simplewebauthn/server'
       - nodemailer
 
-  '@auth/express@0.11.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)(express@5.1.0)':
+  '@auth/express@0.11.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(express@5.1.0)':
     dependencies:
-      '@auth/core': 0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)
+      '@auth/core': 0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
       express: 5.1.0
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
@@ -12886,7 +12886,7 @@ snapshots:
 
   '@simplewebauthn/browser@13.2.2': {}
 
-  '@simplewebauthn/server@13.2.1':
+  '@simplewebauthn/server@13.2.2':
     dependencies:
       '@hexagon/base64': 1.1.28
       '@levischuck/tiny-cbor': 0.2.11
@@ -16441,14 +16441,14 @@ snapshots:
 
   negotiator@1.0.0: {}
 
-  next-auth@5.0.0-beta.29(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)(next@15.5.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(@playwright/test@1.55.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0):
+  next-auth@5.0.0-beta.29(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(@playwright/test@1.55.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0):
     dependencies:
-      '@auth/core': 0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.1)
+      '@auth/core': 0.40.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
       next: 15.5.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(@playwright/test@1.55.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react: 19.2.0
     optionalDependencies:
       '@simplewebauthn/browser': 13.2.2
-      '@simplewebauthn/server': 13.2.1
+      '@simplewebauthn/server': 13.2.2
 
   next@15.5.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(@playwright/test@1.55.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
