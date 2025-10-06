@@ -27,7 +27,7 @@ importers:
         version: 1.15.0(graphql@16.11.0)(typescript@5.9.3)
       '@ai-sdk/google':
         specifier: ^2.0.8
-        version: 2.0.17(zod@4.1.11)
+        version: 2.0.17(zod@4.1.12)
       '@ai-sdk/provider':
         specifier: ^2.0.0
         version: 2.0.0
@@ -168,7 +168,7 @@ importers:
         version: 4.12.6
       ai:
         specifier: ^5.0.0
-        version: 5.0.60(zod@4.1.11)
+        version: 5.0.60(zod@4.1.12)
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -273,7 +273,7 @@ importers:
         version: 5.0.1(@urql/core@6.0.1(graphql@16.11.0))(react@19.2.0)
       zod:
         specifier: ^4.0.0
-        version: 4.1.11
+        version: 4.1.12
     devDependencies:
       '@architect/architect':
         specifier: ^11.1.0
@@ -8551,8 +8551,8 @@ packages:
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
 
-  zod@4.1.11:
-    resolution: {integrity: sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg==}
+  zod@4.1.12:
+    resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -8571,25 +8571,25 @@ snapshots:
 
   '@adobe/css-tools@4.4.4': {}
 
-  '@ai-sdk/gateway@1.0.33(zod@4.1.11)':
+  '@ai-sdk/gateway@1.0.33(zod@4.1.12)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.10(zod@4.1.11)
+      '@ai-sdk/provider-utils': 3.0.10(zod@4.1.12)
       '@vercel/oidc': 3.0.1
-      zod: 4.1.11
+      zod: 4.1.12
 
-  '@ai-sdk/google@2.0.17(zod@4.1.11)':
+  '@ai-sdk/google@2.0.17(zod@4.1.12)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.10(zod@4.1.11)
-      zod: 4.1.11
+      '@ai-sdk/provider-utils': 3.0.10(zod@4.1.12)
+      zod: 4.1.12
 
-  '@ai-sdk/provider-utils@3.0.10(zod@4.1.11)':
+  '@ai-sdk/provider-utils@3.0.10(zod@4.1.12)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
       '@standard-schema/spec': 1.0.0
       eventsource-parser: 3.0.6
-      zod: 4.1.11
+      zod: 4.1.12
 
   '@ai-sdk/provider@2.0.0':
     dependencies:
@@ -13848,13 +13848,13 @@ snapshots:
 
   agent-base@7.1.4: {}
 
-  ai@5.0.60(zod@4.1.11):
+  ai@5.0.60(zod@4.1.12):
     dependencies:
-      '@ai-sdk/gateway': 1.0.33(zod@4.1.11)
+      '@ai-sdk/gateway': 1.0.33(zod@4.1.12)
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.10(zod@4.1.11)
+      '@ai-sdk/provider-utils': 3.0.10(zod@4.1.12)
       '@opentelemetry/api': 1.9.0
-      zod: 4.1.11
+      zod: 4.1.12
 
   ajv@6.12.6:
     dependencies:
@@ -14908,8 +14908,8 @@ snapshots:
       '@babel/core': 7.28.4
       '@babel/parser': 7.28.4
       eslint: 9.37.0(jiti@2.6.1)
-      zod: 4.1.11
-      zod-validation-error: 4.0.2(zod@4.1.11)
+      zod: 4.1.12
+      zod-validation-error: 4.0.2(zod@4.1.12)
     transitivePeerDependencies:
       - supports-color
 
@@ -18432,10 +18432,10 @@ snapshots:
       insync: 2.1.1
       yazl: 2.5.1
 
-  zod-validation-error@4.0.2(zod@4.1.11):
+  zod-validation-error@4.0.2(zod@4.1.12):
     dependencies:
-      zod: 4.1.11
+      zod: 4.1.12
 
-  zod@4.1.11: {}
+  zod@4.1.12: {}
 
   zwitch@2.0.4: {}
