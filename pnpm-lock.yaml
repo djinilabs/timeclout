@@ -168,7 +168,7 @@ importers:
         version: 4.12.6
       ai:
         specifier: ^5.0.0
-        version: 5.0.67(zod@4.1.12)
+        version: 5.0.68(zod@4.1.12)
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -421,8 +421,8 @@ packages:
   '@adobe/css-tools@4.4.4':
     resolution: {integrity: sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==}
 
-  '@ai-sdk/gateway@1.0.38':
-    resolution: {integrity: sha512-TkjNOfNgHuDhYg1elFCVee63wOdntsB9XRCynzjeszKOFcygvzoKXokFTHxMT1THQpNgiZdsBLDsNbt9DxJ7yg==}
+  '@ai-sdk/gateway@1.0.39':
+    resolution: {integrity: sha512-ijYCKG2sbn2RBVfIgaXNXvzHAf2HpFXxQODtjMI+T7Z4CLryflytchsZZ9qrGtsjiQVopKOV6m6kj4lq5fnbsg==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -435,6 +435,12 @@ packages:
 
   '@ai-sdk/provider-utils@3.0.11':
     resolution: {integrity: sha512-4hgHj89VqyOHzGaV85TkcgvO8WjecVF35TOUVg+C56vnzpWSgdIZu/ZWZNdZ6BTrv8y0N1toBWW7XcWiRRicLg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/provider-utils@3.0.12':
+    resolution: {integrity: sha512-ZtbdvYxdMoria+2SlNarEk6Hlgyf+zzcznlD55EAl+7VZvJaSg2sqPvwArY7L6TfDEDJsnCq0fdhBSkYo0Xqdg==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -4520,8 +4526,8 @@ packages:
     resolution: {integrity: sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==}
     engines: {node: '>= 14'}
 
-  ai@5.0.67:
-    resolution: {integrity: sha512-AyP0HmYWl18XhBHsloK8MmbgjsqU/oZuVVUAuKRu91Az61tIl+Xdb6i/FTP7f0KSUeqAGb7un6X8IyUgf1RGZg==}
+  ai@5.0.68:
+    resolution: {integrity: sha512-SB6r+4TkKVlSg2ozGBSfuf6Is5hrcX/bpGBzOoyHIN3b4ILGhaly0IHEvP8+3GGIHXqtkPVEUmR6V05jKdjNlg==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -8594,10 +8600,10 @@ snapshots:
 
   '@adobe/css-tools@4.4.4': {}
 
-  '@ai-sdk/gateway@1.0.38(zod@4.1.12)':
+  '@ai-sdk/gateway@1.0.39(zod@4.1.12)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.11(zod@4.1.12)
+      '@ai-sdk/provider-utils': 3.0.12(zod@4.1.12)
       '@vercel/oidc': 3.0.2
       zod: 4.1.12
 
@@ -8608,6 +8614,13 @@ snapshots:
       zod: 4.1.12
 
   '@ai-sdk/provider-utils@3.0.11(zod@4.1.12)':
+    dependencies:
+      '@ai-sdk/provider': 2.0.0
+      '@standard-schema/spec': 1.0.0
+      eventsource-parser: 3.0.6
+      zod: 4.1.12
+
+  '@ai-sdk/provider-utils@3.0.12(zod@4.1.12)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
       '@standard-schema/spec': 1.0.0
@@ -13894,11 +13907,11 @@ snapshots:
 
   agent-base@7.1.4: {}
 
-  ai@5.0.67(zod@4.1.12):
+  ai@5.0.68(zod@4.1.12):
     dependencies:
-      '@ai-sdk/gateway': 1.0.38(zod@4.1.12)
+      '@ai-sdk/gateway': 1.0.39(zod@4.1.12)
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.11(zod@4.1.12)
+      '@ai-sdk/provider-utils': 3.0.12(zod@4.1.12)
       '@opentelemetry/api': 1.9.0
       zod: 4.1.12
 
