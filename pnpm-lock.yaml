@@ -27,7 +27,7 @@ importers:
         version: 1.15.0(graphql@16.11.0)(typescript@5.9.3)
       '@ai-sdk/google':
         specifier: ^2.0.8
-        version: 2.0.20(zod@4.1.12)
+        version: 2.0.21(zod@4.1.12)
       '@ai-sdk/provider':
         specifier: ^2.0.0
         version: 2.0.0
@@ -427,8 +427,8 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/google@2.0.20':
-    resolution: {integrity: sha512-+pVkl1GSnORRJEKnjscQEdfW4RR2csVVY8F3QkCHdWjbeSIqrEQw8MWQ4SrtsVLJdAvqyG9WMdiDR7WXSXpn4Q==}
+  '@ai-sdk/google@2.0.21':
+    resolution: {integrity: sha512-Xfbp5x9ZFc2vxkDjz/7ZdJ6LWXp/YoUtunCvQosj2dkxU71wrNtFsyNMdvBlCahjSaB3TV76CEEBvbsoX3JCuA==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -8604,7 +8604,7 @@ snapshots:
       '@vercel/oidc': 3.0.2
       zod: 4.1.12
 
-  '@ai-sdk/google@2.0.20(zod@4.1.12)':
+  '@ai-sdk/google@2.0.21(zod@4.1.12)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
       '@ai-sdk/provider-utils': 3.0.12(zod@4.1.12)
