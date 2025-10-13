@@ -150,7 +150,7 @@ importers:
         version: 1.23.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@tanstack/react-query':
         specifier: ^5.64.1
-        version: 5.90.2(react@19.2.0)
+        version: 5.90.3(react@19.2.0)
       '@types/lodash.omit':
         specifier: ^4.5.9
         version: 4.5.9
@@ -4111,8 +4111,8 @@ packages:
   '@tanstack/form-core@1.24.3':
     resolution: {integrity: sha512-e+HzSD49NWr4aIqJWtPPzmi+/phBJAP3nSPN8dvxwmJWqAxuB/cH138EcmCFf3+oA7j3BXvwvTY0I+8UweGPjQ==}
 
-  '@tanstack/query-core@5.90.2':
-    resolution: {integrity: sha512-k/TcR3YalnzibscALLwxeiLUub6jN5EDLwKDiO7q5f4ICEoptJ+n9+7vcEFy5/x/i6Q+Lb/tXrsKCggf5uQJXQ==}
+  '@tanstack/query-core@5.90.3':
+    resolution: {integrity: sha512-HtPOnCwmx4dd35PfXU8jjkhwYrsHfuqgC8RCJIwWglmhIUIlzPP0ZcEkDAc+UtAWCiLm7T8rxeEfHZlz3hYMCA==}
 
   '@tanstack/react-form@1.23.7':
     resolution: {integrity: sha512-p/j9Gi2+s135sOjj48RjM+6xZQr1FVpliQlETLYBEGmmmxWHgYYs2b62mTDSnuv7AqtuZhpQ+t0CRFVfbQLsFA==}
@@ -4123,8 +4123,8 @@ packages:
       '@tanstack/react-start':
         optional: true
 
-  '@tanstack/react-query@5.90.2':
-    resolution: {integrity: sha512-CLABiR+h5PYfOWr/z+vWFt5VsOA2ekQeRQBFSKlcoW6Ndx/f8rfyVmq4LbgOM4GG2qtxAxjLYLOpCNTYm4uKzw==}
+  '@tanstack/react-query@5.90.3':
+    resolution: {integrity: sha512-i/LRL6DtuhG6bjGzavIMIVuKKPWx2AnEBIsBfuMm3YoHne0a20nWmsatOCBcVSaT0/8/5YFjNkebHAPLVUSi0Q==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -13401,7 +13401,7 @@ snapshots:
       '@tanstack/devtools-event-client': 0.3.3
       '@tanstack/store': 0.7.7
 
-  '@tanstack/query-core@5.90.2': {}
+  '@tanstack/query-core@5.90.3': {}
 
   '@tanstack/react-form@1.23.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
@@ -13413,9 +13413,9 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@tanstack/react-query@5.90.2(react@19.2.0)':
+  '@tanstack/react-query@5.90.3(react@19.2.0)':
     dependencies:
-      '@tanstack/query-core': 5.90.2
+      '@tanstack/query-core': 5.90.3
       react: 19.2.0
 
   '@tanstack/react-store@0.7.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
