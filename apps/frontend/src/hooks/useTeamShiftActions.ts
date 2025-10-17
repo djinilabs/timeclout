@@ -14,7 +14,6 @@ import deleteShiftPositionMutation from "@/graphql-client/mutations/deleteShiftP
 import moveShiftPositionMutation from "@/graphql-client/mutations/moveShiftPosition.graphql";
 import updateShiftPositionMutation from "@/graphql-client/mutations/updateShiftPosition.graphql";
 
-
 export interface UseTeamShiftActions {
   moveShiftPosition: (pk: string, sk: string, day: string) => Promise<void>;
   copyShiftPosition: (pk: string, sk: string, day: string) => Promise<void>;
@@ -23,7 +22,13 @@ export interface UseTeamShiftActions {
   updateShiftPosition: (input: UpdateShiftPositionInput) => Promise<boolean>;
 }
 
-export const useTeamShiftActions = (): UseTeamShiftActions => {
+export interface UseTeamShiftActionsOptions {
+  refetch?: () => void;
+}
+
+export const useTeamShiftActions = (
+  options?: UseTeamShiftActionsOptions
+): UseTeamShiftActions => {
   const [, createShiftPosition] = useMutation(createShiftPositionMutation);
   const [, updateShiftPosition] = useMutation(updateShiftPositionMutation);
   const [, moveShiftPosition] = useMutation(moveShiftPositionMutation);
@@ -36,22 +41,24 @@ export const useTeamShiftActions = (): UseTeamShiftActions => {
         const result = await createShiftPosition({ input });
         if (!result.error) {
           toast.success(i18n.t("Shift position created"));
+          options?.refetch?.();
           return true;
         }
         return false;
       },
-      [createShiftPosition]
+      [createShiftPosition, options?.refetch]
     ),
     updateShiftPosition: useCallback(
       async (input) => {
         const result = await updateShiftPosition({ input });
         if (!result.error) {
           toast.success(i18n.t("Shift position updated"));
+          options?.refetch?.();
           return true;
         }
         return false;
       },
-      [updateShiftPosition]
+      [updateShiftPosition, options?.refetch]
     ),
     moveShiftPosition: useCallback(
       async (pk, sk, day) => {
@@ -60,9 +67,10 @@ export const useTeamShiftActions = (): UseTeamShiftActions => {
         });
         if (!result.error) {
           toast.success(i18n.t("Shift position moved"));
+          options?.refetch?.();
         }
       },
-      [moveShiftPosition]
+      [moveShiftPosition, options?.refetch]
     ),
     copyShiftPosition: useCallback(
       async (pk, sk, day) => {
@@ -71,18 +79,20 @@ export const useTeamShiftActions = (): UseTeamShiftActions => {
         });
         if (!result.error) {
           toast.success(i18n.t("Shift position copied"));
+          options?.refetch?.();
         }
       },
-      [copyShiftPosition]
+      [copyShiftPosition, options?.refetch]
     ),
     deleteShiftPosition: useCallback(
       async (pk, sk) => {
         const result = await deleteShiftPosition({ input: { pk, sk } });
         if (!result.error) {
           toast.success(i18n.t("Shift position deleted"));
+          options?.refetch?.();
         }
       },
-      [deleteShiftPosition]
+      [deleteShiftPosition, options?.refetch]
     ),
   };
 };

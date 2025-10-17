@@ -1,4 +1,10 @@
-import { fetchExchange, createClient as urqlCreateClient, Client, ClientOptions, Exchange } from "@urql/core";
+import {
+  fetchExchange,
+  createClient as urqlCreateClient,
+  Client,
+  ClientOptions,
+  Exchange,
+} from "@urql/core";
 import { offlineExchange, Data, Entity } from "@urql/exchange-graphcache";
 import { makeDefaultStorage } from "@urql/exchange-graphcache/default-storage";
 import merge from "deepmerge";
@@ -47,8 +53,98 @@ const defaultClientOpts = ({
       },
       updates: {
         Mutation: {
+          createShiftPosition: (result, _args, cache) => {
+            // Invalidate the shiftPositions query to refresh the calendar
+            cache.invalidate("Query", "shiftPositions");
+            // Also invalidate the specific shift position
+            const createShiftPositionResult =
+              result.createShiftPosition as Data;
+            if (
+              createShiftPositionResult &&
+              typeof createShiftPositionResult === "object" &&
+              "pk" in createShiftPositionResult &&
+              "sk" in createShiftPositionResult
+            ) {
+              cache.invalidate(
+                "ShiftPosition",
+                `${createShiftPositionResult.pk}:${createShiftPositionResult.sk}`
+              );
+            }
+          },
+          updateShiftPosition: (result, _args, cache) => {
+            // Invalidate the shiftPositions query to refresh the calendar
+            cache.invalidate("Query", "shiftPositions");
+            // Also invalidate the specific shift position
+            const updateShiftPositionResult =
+              result.updateShiftPosition as Data;
+            if (
+              updateShiftPositionResult &&
+              typeof updateShiftPositionResult === "object" &&
+              "pk" in updateShiftPositionResult &&
+              "sk" in updateShiftPositionResult
+            ) {
+              cache.invalidate(
+                "ShiftPosition",
+                `${updateShiftPositionResult.pk}:${updateShiftPositionResult.sk}`
+              );
+            }
+          },
+          moveShiftPosition: (result, _args, cache) => {
+            // Invalidate the shiftPositions query to refresh the calendar
+            cache.invalidate("Query", "shiftPositions");
+            // Also invalidate the specific shift position
+            const moveShiftPositionResult = result.moveShiftPosition as Data;
+            if (
+              moveShiftPositionResult &&
+              typeof moveShiftPositionResult === "object" &&
+              "pk" in moveShiftPositionResult &&
+              "sk" in moveShiftPositionResult
+            ) {
+              cache.invalidate(
+                "ShiftPosition",
+                `${moveShiftPositionResult.pk}:${moveShiftPositionResult.sk}`
+              );
+            }
+          },
+          copyShiftPosition: (result, _args, cache) => {
+            // Invalidate the shiftPositions query to refresh the calendar
+            cache.invalidate("Query", "shiftPositions");
+            // Also invalidate the specific shift position
+            const copyShiftPositionResult = result.copyShiftPosition as Data;
+            if (
+              copyShiftPositionResult &&
+              typeof copyShiftPositionResult === "object" &&
+              "pk" in copyShiftPositionResult &&
+              "sk" in copyShiftPositionResult
+            ) {
+              cache.invalidate(
+                "ShiftPosition",
+                `${copyShiftPositionResult.pk}:${copyShiftPositionResult.sk}`
+              );
+            }
+          },
           deleteShiftPosition: (result, _args, cache) => {
             cache.invalidate(result.deleteShiftPosition as Entity);
+          },
+          assignShiftPositions: (_result, _args, cache) => {
+            // Invalidate the shiftPositions query to refresh the calendar
+            cache.invalidate("Query", "shiftPositions");
+          },
+          unassignShiftPositions: (_result, _args, cache) => {
+            // Invalidate the shiftPositions query to refresh the calendar
+            cache.invalidate("Query", "shiftPositions");
+          },
+          unassignShiftPosition: (_result, _args, cache) => {
+            // Invalidate the shiftPositions query to refresh the calendar
+            cache.invalidate("Query", "shiftPositions");
+          },
+          publishShiftPositions: (_result, _args, cache) => {
+            // Invalidate the shiftPositions query to refresh the calendar
+            cache.invalidate("Query", "shiftPositions");
+          },
+          revertShiftPositions: (_result, _args, cache) => {
+            // Invalidate the shiftPositions query to refresh the calendar
+            cache.invalidate("Query", "shiftPositions");
           },
           createUnit: (result, _args, cache) => {
             // Invalidate the units query to refresh the units list

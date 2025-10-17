@@ -9,7 +9,8 @@ import { ShiftPositionWithFake } from "./useTeamShiftPositionsMap";
 
 export const useTeamShiftsDragAndDrop = (
   teamPk: string,
-  shiftPositions: ShiftPosition[]
+  shiftPositions: ShiftPosition[],
+  refetch?: () => void
 ) => {
   const {
     setDragging,
@@ -85,7 +86,9 @@ export const useTeamShiftsDragAndDrop = (
   // no need to do anything here
   const onCellDragLeave = useCallback(() => {}, []);
 
-  const { moveShiftPosition, createShiftPosition } = useTeamShiftActions();
+  const { moveShiftPosition, createShiftPosition } = useTeamShiftActions({
+    refetch,
+  });
 
   const onCellDrop = useCallback(
     async (day: string) => {

@@ -9,7 +9,6 @@ import { Suspense } from "../atoms/Suspense";
 
 import { CreateOrEditScheduleShiftPosition } from "./CreateOrEditScheduleShiftPosition";
 
-
 import { DayDate } from "@/day-date";
 
 export interface CreateOrEditScheduleShiftPositionDialogProps {
@@ -22,6 +21,7 @@ export interface CreateOrEditScheduleShiftPositionDialogProps {
   setIsHelpPanelOpen: (isHelpPanelOpen: boolean) => void;
   helpPanelOpen: boolean;
   setHelpPanelOpen: (helpPanelOpen: boolean) => void;
+  refetch?: () => void;
 }
 
 export const CreateOrEditScheduleShiftPositionDialog = ({
@@ -34,8 +34,11 @@ export const CreateOrEditScheduleShiftPositionDialog = ({
   setIsHelpPanelOpen,
   helpPanelOpen,
   setHelpPanelOpen,
+  refetch,
 }: CreateOrEditScheduleShiftPositionDialogProps) => {
-  const { createShiftPosition, updateShiftPosition } = useTeamShiftActions();
+  const { createShiftPosition, updateShiftPosition } = useTeamShiftActions({
+    refetch,
+  });
 
   return (
     <Dialog

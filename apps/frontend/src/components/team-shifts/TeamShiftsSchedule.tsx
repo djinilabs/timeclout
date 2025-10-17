@@ -171,7 +171,8 @@ export const TeamShiftsSchedule = () => {
     onShiftPositionDragEnd,
   } = useTeamShiftsDragAndDrop(
     getDefined(teamPk),
-    shiftPositionsResult?.shiftPositions ?? []
+    shiftPositionsResult?.shiftPositions ?? [],
+    refetchTeamShiftsQuery
   );
 
   // ------- assign shift positions -------
@@ -301,7 +302,9 @@ export const TeamShiftsSchedule = () => {
     hasCopiedShiftPosition,
   } = useTeamShiftsClipboard(selectedShiftPositionKeys, focusedDay);
 
-  const { deleteShiftPosition } = useTeamShiftActions();
+  const { deleteShiftPosition } = useTeamShiftActions({
+    refetch: refetchTeamShiftsQuery,
+  });
 
   // editing shift position
   const [editingShiftPosition, setEditingShiftPosition] = useState<
@@ -960,6 +963,7 @@ export const TeamShiftsSchedule = () => {
           setIsHelpPanelOpen={setHelpPanelOpen}
           helpPanelOpen={helpPanelOpen}
           setHelpPanelOpen={setHelpPanelOpen}
+          refetch={refetchTeamShiftsQuery}
         />
       )}
       <ShiftsAutofillDialog
