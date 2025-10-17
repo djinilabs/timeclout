@@ -26,7 +26,7 @@ export const isLeaveRequestFullyApproved = async (
     return true;
   }
 
-  return unitManagerPks.every(
+  return unitManagerPks.some(
     (managerPk) =>
       leaveRequest.approvedBy?.includes(managerPk) ||
       leaveRequest.createdBy === managerPk

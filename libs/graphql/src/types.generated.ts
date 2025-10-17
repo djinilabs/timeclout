@@ -230,7 +230,7 @@ export type LeaveRequest = {
   beneficiary?: Maybe<User>;
   companyPk: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
-  createdBy: User;
+  createdBy?: Maybe<User>;
   endDate: Scalars['String']['output'];
   pk: Scalars['String']['output'];
   reason?: Maybe<Scalars['String']['output']>;
@@ -889,7 +889,7 @@ export type ResolverTypeWrapper<T> = Promise<T> | T;
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = Record<PropertyKey, never>, TContext = Record<PropertyKey, never>, TArgs = Record<PropertyKey, never>> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -926,21 +926,21 @@ export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, 
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
+export type SubscriptionResolver<TResult, TKey extends string, TParent = Record<PropertyKey, never>, TContext = Record<PropertyKey, never>, TArgs = Record<PropertyKey, never>> =
   | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
-export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
+export type TypeResolveFn<TTypes, TParent = Record<PropertyKey, never>, TContext = Record<PropertyKey, never>> = (
   parent: TParent,
   context: TContext,
   info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = Record<PropertyKey, never>, TContext = Record<PropertyKey, never>> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
+export type DirectiveResolverFn<TResult = Record<PropertyKey, never>, TParent = Record<PropertyKey, never>, TContext = Record<PropertyKey, never>, TArgs = Record<PropertyKey, never>> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
@@ -948,9 +948,15 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
+
+
 /** Mapping of union types */
 export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
-  InvitationEntity: ( Company & { __typename: 'Company' } ) | ( Team & { __typename: 'Team' } ) | ( Unit & { __typename: 'Unit' } );
+  InvitationEntity:
+    | ( Company & { __typename: 'Company' } )
+    | ( Team & { __typename: 'Team' } )
+    | ( Unit & { __typename: 'Unit' } )
+  ;
 };
 
 
@@ -993,11 +999,11 @@ export type ResolversTypes = {
   LeaveRequest: ResolverTypeWrapper<LeaveRequest>;
   MemberQualifications: ResolverTypeWrapper<MemberQualifications>;
   MoveShiftPositionInput: MoveShiftPositionInput;
-  Mutation: ResolverTypeWrapper<{}>;
+  Mutation: ResolverTypeWrapper<Record<PropertyKey, never>>;
   PopulateDemoAccountInput: PopulateDemoAccountInput;
   PublishShiftPositionInput: PublishShiftPositionInput;
   PublishShiftPositionsInput: PublishShiftPositionsInput;
-  Query: ResolverTypeWrapper<{}>;
+  Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
   QueryShiftPositionsInput: QueryShiftPositionsInput;
   QueryShiftPositionsOutput: ResolverTypeWrapper<QueryShiftPositionsOutput>;
   QuotaFulfilment: ResolverTypeWrapper<QuotaFulfilment>;
@@ -1060,11 +1066,11 @@ export type ResolversParentTypes = {
   LeaveRequest: LeaveRequest;
   MemberQualifications: MemberQualifications;
   MoveShiftPositionInput: MoveShiftPositionInput;
-  Mutation: {};
+  Mutation: Record<PropertyKey, never>;
   PopulateDemoAccountInput: PopulateDemoAccountInput;
   PublishShiftPositionInput: PublishShiftPositionInput;
   PublishShiftPositionsInput: PublishShiftPositionsInput;
-  Query: {};
+  Query: Record<PropertyKey, never>;
   QueryShiftPositionsInput: QueryShiftPositionsInput;
   QueryShiftPositionsOutput: QueryShiftPositionsOutput;
   QuotaFulfilment: QuotaFulfilment;
@@ -1095,7 +1101,6 @@ export type AutoFillSlotResolvers<ContextType = any, ParentType extends Resolver
   startsOnDay?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   typeName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   workHours?: Resolver<Array<ResolversTypes['AutoFillWorkHour']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type AutoFillSlotWorkerResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillSlotWorker'] = ResolversParentTypes['AutoFillSlotWorker']> = {
@@ -1105,14 +1110,12 @@ export type AutoFillSlotWorkerResolvers<ContextType = any, ParentType extends Re
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   qualifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type AutoFillWorkHourResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillWorkHour'] = ResolversParentTypes['AutoFillWorkHour']> = {
   end?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   inconvenienceMultiplier?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   start?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type AutoFillWorkerLeaveResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillWorkerLeave'] = ResolversParentTypes['AutoFillWorkerLeave']> = {
@@ -1120,14 +1123,12 @@ export type AutoFillWorkerLeaveResolvers<ContextType = any, ParentType extends R
   isPersonal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   start?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CalendarResolvers<ContextType = any, ParentType extends ResolversParentTypes['Calendar'] = ResolversParentTypes['Calendar']> = {
   leaveRequests?: Resolver<Array<ResolversTypes['LeaveRequest']>, ParentType, ContextType>;
   leaves?: Resolver<Array<ResolversTypes['Leave']>, ParentType, ContextType>;
   year?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = {
@@ -1153,7 +1154,6 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type DemoEntityResolvers<ContextType = any, ParentType extends ResolversParentTypes['DemoEntity'] = ResolversParentTypes['DemoEntity']> = {
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type DemoPopulationResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['DemoPopulationResult'] = ResolversParentTypes['DemoPopulationResult']> = {
@@ -1163,14 +1163,12 @@ export type DemoPopulationResultResolvers<ContextType = any, ParentType extends 
   team?: Resolver<ResolversTypes['DemoEntity'], ParentType, ContextType>;
   unit?: Resolver<ResolversTypes['DemoEntity'], ParentType, ContextType>;
   users?: Resolver<Array<ResolversTypes['DemoUser']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type DemoUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['DemoUser'] = ResolversParentTypes['DemoUser']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type InvitationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Invitation'] = ResolversParentTypes['Invitation']> = {
@@ -1184,7 +1182,6 @@ export type InvitationResolvers<ContextType = any, ParentType extends ResolversP
   toEntity?: Resolver<ResolversTypes['InvitationEntity'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type InvitationEntityResolvers<ContextType = any, ParentType extends ResolversParentTypes['InvitationEntity'] = ResolversParentTypes['InvitationEntity']> = {
@@ -1201,7 +1198,6 @@ export type LeaveResolvers<ContextType = any, ParentType extends ResolversParent
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type LeaveRequestResolvers<ContextType = any, ParentType extends ResolversParentTypes['LeaveRequest'] = ResolversParentTypes['LeaveRequest']> = {
@@ -1211,20 +1207,18 @@ export type LeaveRequestResolvers<ContextType = any, ParentType extends Resolver
   beneficiary?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   companyPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MemberQualificationsResolvers<ContextType = any, ParentType extends ResolversParentTypes['MemberQualifications'] = ResolversParentTypes['MemberQualifications']> = {
   qualifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   userPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -1299,7 +1293,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type QueryShiftPositionsOutputResolvers<ContextType = any, ParentType extends ResolversParentTypes['QueryShiftPositionsOutput'] = ResolversParentTypes['QueryShiftPositionsOutput']> = {
   areAnyUnpublished?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   shiftPositions?: Resolver<Array<ResolversTypes['ShiftPosition']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QuotaFulfilmentResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuotaFulfilment'] = ResolversParentTypes['QuotaFulfilment']> = {
@@ -1312,7 +1305,6 @@ export type QuotaFulfilmentResolvers<ContextType = any, ParentType extends Resol
   simulatedStartDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   simulatedType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   simulatedUsed?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ScheduleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Schedule'] = ResolversParentTypes['Schedule']> = {
@@ -1321,7 +1313,6 @@ export type ScheduleResolvers<ContextType = any, ParentType extends ResolversPar
   startDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   team?: Resolver<ResolversTypes['Team'], ParentType, ContextType>;
   userSchedules?: Resolver<Array<ResolversTypes['UserSchedule']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ShiftPositionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShiftPosition'] = ResolversParentTypes['ShiftPosition']> = {
@@ -1334,20 +1325,17 @@ export type ShiftPositionResolvers<ContextType = any, ParentType extends Resolve
   schedules?: Resolver<Array<ResolversTypes['ShiftPositionSchedule']>, ParentType, ContextType>;
   sk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   userVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ShiftPositionScheduleResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShiftPositionSchedule'] = ResolversParentTypes['ShiftPositionSchedule']> = {
   endHourMinutes?: Resolver<Array<ResolversTypes['Int']>, ParentType, ContextType>;
   inconveniencePerHour?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   startHourMinutes?: Resolver<Array<ResolversTypes['Int']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ShiftsAutoFillParamsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShiftsAutoFillParams'] = ResolversParentTypes['ShiftsAutoFillParams']> = {
   slots?: Resolver<Array<ResolversTypes['AutoFillSlot']>, ParentType, ContextType>;
   workers?: Resolver<Array<ResolversTypes['AutoFillSlotWorker']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
@@ -1395,7 +1383,6 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   settings?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<UsersettingsArgs, 'name'>>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserScheduleResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserSchedule'] = ResolversParentTypes['UserSchedule']> = {
@@ -1405,7 +1392,6 @@ export type UserScheduleResolvers<ContextType = any, ParentType extends Resolver
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {

@@ -197,7 +197,7 @@ type LeaveRequest {
   beneficiary: User
   companyPk: String!
   createdAt: DateTime!
-  createdBy: User!
+  createdBy: User
   endDate: String!
   pk: String!
   reason: String

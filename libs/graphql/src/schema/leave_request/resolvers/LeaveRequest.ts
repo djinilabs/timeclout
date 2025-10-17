@@ -34,9 +34,12 @@ export const LeaveRequest: LeaveRequestResolvers = {
   },
   async createdBy(leaveRequest, _args, ctx) {
     // Cast to access the raw database field where createdBy is a string
-    const userRef = (leaveRequest as unknown as { createdBy: string })
+    const userRef = (leaveRequest as unknown as { createdBy?: string })
       .createdBy;
+    if (!userRef) {
+      return null;
+    }
     const user = await ctx.userCache.getUser(getResourceRef(userRef));
-    return user as unknown as User;
+    return user as unknown as User | null;
   },
 };

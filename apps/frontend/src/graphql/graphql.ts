@@ -1,6 +1,6 @@
 /* eslint-disable */
 export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
@@ -21,10 +21,8 @@ export type Incremental<T> =
     };
 
 export type DocumentTypeDecoration<TResult, TVariables> = {
-  __typename?: string;
   __apiType?: (variables: TVariables) => TResult;
 };
-
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -246,7 +244,7 @@ export type LeaveRequest = {
   beneficiary?: Maybe<User>;
   companyPk: Scalars["String"]["output"];
   createdAt: Scalars["DateTime"]["output"];
-  createdBy: User;
+  createdBy?: Maybe<User>;
   endDate: Scalars["String"]["output"];
   pk: Scalars["String"]["output"];
   reason?: Maybe<Scalars["String"]["output"]>;
@@ -838,7 +836,9 @@ export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
 {
-  __apiType?: DocumentTypeDecoration<TResult, TVariables>["__apiType"];
+  __apiType?: NonNullable<
+    DocumentTypeDecoration<TResult, TVariables>["__apiType"]
+  >;
   private value: string;
   public __meta__?: Record<string, any> | undefined;
 
@@ -848,7 +848,7 @@ export class TypedDocumentString<TResult, TVariables>
     this.__meta__ = __meta__;
   }
 
-  toString(): string & DocumentTypeDecoration<TResult, TVariables> {
+  override toString(): string & DocumentTypeDecoration<TResult, TVariables> {
     return this.value;
   }
 }

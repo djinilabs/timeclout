@@ -56,22 +56,24 @@ export const LeaveRequest: React.FC<LeaveRequestProps> = memo(
         <div className="px-4 sm:p-4">
           <div className="mt-6">
             <dl className="divide-y divide-gray-100" role="list">
-              <div
-                className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
-                role="listitem"
-              >
-                <dt className="text-sm font-medium text-gray-500">
-                  <Trans>Created By</Trans>:
-                </dt>
-                <dd
-                  className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
+              {createdBy && (
+                <div
+                  className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
                   role="listitem"
-                  aria-label={`${createdBy.name} created this leave request`}
                 >
-                  <Avatar {...createdBy} size={30} />
-                  <p>{createdBy.name}</p>
-                </dd>
-              </div>
+                  <dt className="text-sm font-medium text-gray-500">
+                    <Trans>Created By</Trans>:
+                  </dt>
+                  <dd
+                    className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
+                    role="listitem"
+                    aria-label={`${createdBy.name} created this leave request`}
+                  >
+                    <Avatar {...createdBy} size={30} />
+                    <p>{createdBy.name}</p>
+                  </dd>
+                </div>
+              )}
               <div
                 className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
                 role="listitem"

@@ -29,7 +29,7 @@ export interface LeaveRequest {
   approved?: boolean | null;
   reason?: string | null;
   createdAt: string;
-  createdBy: User;
+  createdBy?: User | null;
   approvedBy?: User[] | null;
   approvedAt?: string[] | null;
   beneficiary?: User | null;

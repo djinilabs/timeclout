@@ -287,6 +287,9 @@ importers:
       '@graphql-codegen/cli':
         specifier: ^6.0.0
         version: 6.0.0(@parcel/watcher@2.5.1)(@types/node@22.18.11)(graphql@16.11.0)(typescript@5.9.3)
+      '@graphql-codegen/schema-ast':
+        specifier: ^5.0.0
+        version: 5.0.0(graphql@16.11.0)
       '@graphql-codegen/typescript-graphql-files-modules':
         specifier: ^3.0.0
         version: 3.0.1(graphql@16.11.0)
