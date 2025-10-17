@@ -2,12 +2,10 @@ import { Trans } from "@lingui/react/macro";
 import { ShiftPosition } from "libs/graphql/src/types.generated";
 import { useCallback, useEffect, useState } from "react";
 
-
 import { shiftPositionKey } from "../utils/shiftPositionKey";
 
 import { useConfirmDialog } from "./useConfirmDialog";
 import { useTeamShiftActions } from "./useTeamShiftActions";
-
 
 type ShiftPositionWithFake = ShiftPosition & {
   fake?: boolean;
@@ -16,7 +14,8 @@ type ShiftPositionWithFake = ShiftPosition & {
 
 export const useTeamShiftsClipboard = (
   selectedShiftPositionKeys: string[],
-  selectedDay?: string
+  selectedDay?: string,
+  refetch?: () => void
 ) => {
   const { showConfirmDialog } = useConfirmDialog();
 
@@ -26,7 +25,9 @@ export const useTeamShiftsClipboard = (
   const [cuttingShiftPositionKeys, setCuttingShiftPositionKeys] = useState<
     string[] | null
   >(null);
-  const { copyShiftPosition, deleteShiftPosition } = useTeamShiftActions();
+  const { copyShiftPosition, deleteShiftPosition } = useTeamShiftActions({
+    refetch,
+  });
 
   const pasteShiftPositionFromClipboard = useCallback(
     async (day: string) => {

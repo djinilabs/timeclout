@@ -300,7 +300,11 @@ export const TeamShiftsSchedule = () => {
     copyShiftPositionToClipboard,
     pasteShiftPositionFromClipboard,
     hasCopiedShiftPosition,
-  } = useTeamShiftsClipboard(selectedShiftPositionKeys, focusedDay);
+  } = useTeamShiftsClipboard(
+    selectedShiftPositionKeys,
+    focusedDay,
+    refetchTeamShiftsQuery
+  );
 
   const { deleteShiftPosition } = useTeamShiftActions({
     refetch: refetchTeamShiftsQuery,
