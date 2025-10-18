@@ -1,8 +1,6 @@
 import { Trans } from "@lingui/react/macro";
 import { FC, memo } from "react";
 
-import { Avatar } from "../particles/Avatar";
-
 import { DayDate } from "@/day-date";
 
 export interface User {
