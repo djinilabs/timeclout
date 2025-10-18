@@ -10,16 +10,6 @@ import { DayDate } from "@/day-date";
 import teamApprovedScheduleQuery from "@/graphql-client/queries/teamApprovedSchedule.graphql";
 import { getDefined } from "@/utils";
 
-interface LeaveInfo {
-  type: string;
-  user: {
-    pk: string;
-    name: string;
-    email: string;
-    emailMd5: string;
-  };
-}
-
 export interface LeaveRenderInfo {
   type: string;
   user: {
