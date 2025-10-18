@@ -10,9 +10,6 @@ import { DayDate } from "@/day-date";
 import teamApprovedScheduleQuery from "@/graphql-client/queries/teamApprovedSchedule.graphql";
 import { getDefined } from "@/utils";
 
-
-
-
 interface LeaveInfo {
   type: string;
   user: {
@@ -76,48 +73,76 @@ export const useTeamLeaveSchedule = ({
     if (!schedule || !leaveTypesSettings) {
       return {};
     }
-    return schedule.userSchedules
+
+    const result: Record<string, LeaveRenderInfo[]> = {};
+
+    schedule.userSchedules
       .filter(
         (userSchedule) =>
           restrictToUsers?.some((user) => user.pk === userSchedule.user.pk) ??
           true
       )
-      .map((userSchedule) => {
-        return userSchedule.leaves.map((leave): [string, LeaveInfo] => {
-          return [
-            leave.sk,
-            {
-              type: leave.type,
-              user: userSchedule.user,
-            },
-          ];
+      .forEach((userSchedule) => {
+        // Create a map of leave requests for this user
+        const leaveRequestsMap = new Map();
+        userSchedule.leaveRequests.forEach((leaveRequest) => {
+          leaveRequestsMap.set(
+            `${leaveRequest.pk}/${leaveRequest.sk}`,
+            leaveRequest
+          );
         });
-      })
-      .flat()
-      .map(([sk, leave]): [string, LeaveRenderInfo] => {
-        return [
-          sk,
-          {
-            ...leave,
-            icon: leaveTypeIcons[
-              getDefined(
-                leaveTypesSettings.find((type) => type.name === leave.type)
-              ).icon
-            ],
-            color:
-              leaveTypeColors[
-                getDefined(
-                  leaveTypesSettings.find((type) => type.name === leave.type)
-                ).color
-              ],
-          },
-        ];
-      })
-      .reduce((acc, [sk, leave]) => {
-        const existingLeaves = acc[sk] ?? [];
-        acc[sk] = [...existingLeaves, leave];
-        return acc;
-      }, {} as Record<string, LeaveRenderInfo[]>);
+
+        userSchedule.leaves.forEach((leave) => {
+          const leaveType = leaveTypesSettings.find(
+            (type) => type.name === leave.type
+          );
+          if (!leaveType) {
+            return;
+          }
+
+          // Find the corresponding leave request to get the date range
+          const leaveRequest = leaveRequestsMap.get(
+            `${leave.leaveRequestPk}/${leave.leaveRequestSk}`
+          );
+          if (!leaveRequest) {
+            return;
+          }
+
+          const leaveRenderInfo: LeaveRenderInfo = {
+            type: leave.type,
+            user: userSchedule.user,
+            icon: leaveTypeIcons[leaveType.icon],
+            color: leaveTypeColors[leaveType.color],
+          };
+
+          // Generate all days in the leave request date range
+          const startDate = new DayDate(leaveRequest.startDate);
+          const endDate = new DayDate(leaveRequest.endDate);
+
+          let currentDate = startDate;
+          while (currentDate.isBeforeOrEqual(endDate)) {
+            const dayKey = currentDate.toString();
+            if (!result[dayKey]) {
+              result[dayKey] = [];
+            }
+
+            // Check if this leave is already added for this day to avoid duplicates
+            const existingLeave = result[dayKey].find(
+              (existing) =>
+                existing.user.pk === leaveRenderInfo.user.pk &&
+                existing.type === leaveRenderInfo.type
+            );
+
+            if (!existingLeave) {
+              result[dayKey].push(leaveRenderInfo);
+            }
+
+            currentDate = currentDate.nextDay();
+          }
+        });
+      });
+
+    return result;
   }, [
     leaveTypesSettings,
     restrictToUsers,

@@ -340,6 +340,9 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
                   conflicts={false}
                   showScheduleDetails={showScheduleDetails}
                   handleAssignShiftPosition={handleAssignShiftPosition}
+                  hideAvatar={true}
+                  compactMode={true}
+                  showShiftLength={true}
                 />
               </div>
             ))}

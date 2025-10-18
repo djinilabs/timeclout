@@ -23,6 +23,22 @@ query TeamApprovedSchedule(
           leaveRequestSk
           type
         }
+        leaveRequests {
+          pk
+          sk
+          startDate
+          endDate
+          type
+          reason
+          approved
+          approvedBy {
+            pk
+            name
+            email
+            emailMd5
+          }
+          approvedAt
+        }
       }
     }
   }

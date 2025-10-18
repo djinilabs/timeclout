@@ -26,6 +26,9 @@ export interface ShiftPositionProps {
   teamPk: string;
   shiftPosition: AnalyzedShiftPosition;
   hideName?: boolean;
+  hideAvatar?: boolean;
+  compactMode?: boolean;
+  showShiftLength?: boolean;
   setFocusedShiftPosition?: (shiftPosition: ShiftPositionType) => void;
   focus?: boolean;
   autoFocus?: boolean;
@@ -59,6 +62,21 @@ const isValidNumber = (value: number | undefined): value is number =>
   value !== undefined && Number.isFinite(value) && !Number.isNaN(value);
 
 const toHex = (n: number) => n.toString(16).padStart(2, "0");
+
+const calculateShiftLengthInHours = (
+  schedules: { startHourMinutes: number[]; endHourMinutes: number[] }[]
+): number => {
+  if (schedules.length === 0) return 0;
+
+  const startTime = toMinutes(
+    schedules[0].startHourMinutes as [number, number]
+  );
+  const endTime = toMinutes(
+    schedules[schedules.length - 1].endHourMinutes as [number, number]
+  );
+
+  return (endTime - startTime) / 60; // Convert minutes to hours
+};
 
 // Helper function to get color based on deviation value
 const getDeviationColor = (normalized: number | undefined): string => {
@@ -119,6 +137,9 @@ export const ShiftPosition = memo(
     teamPk,
     shiftPosition,
     hideName = false,
+    hideAvatar = false,
+    compactMode = false,
+    showShiftLength = false,
     setFocusedShiftPosition,
     focus,
     autoFocus,
@@ -222,6 +243,7 @@ export const ShiftPosition = memo(
             shiftPosition.fake && "opacity-50",
             "hover:ring-2 hover:ring-gray-200",
             "outline-hidden",
+            compactMode && "px-1 py-0.5",
             conflicts &&
               "bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#ef444422_10px,#ef444422_20px)]"
           )}
@@ -252,7 +274,9 @@ export const ShiftPosition = memo(
           )}
 
           <div
-            className="flex-auto flex items-center justify-left ml-2 overflow-hidden transition-all duration-300 ease-in w-full"
+            className={`flex-auto flex items-center justify-left overflow-hidden transition-all duration-300 ease-in w-full ${
+              compactMode ? "ml-1" : "ml-2"
+            }`}
             style={{
               marginLeft:
                 showScheduleDetails && marginLeftAccordingToSchedule
@@ -260,20 +284,43 @@ export const ShiftPosition = memo(
                   : undefined,
             }}
           >
-            <div className="flex flex-col w-full overflow-hidden">
+            <div
+              className={`flex flex-col w-full overflow-hidden ${
+                compactMode ? "gap-0" : ""
+              }`}
+            >
               <div className="flex flex-row items-center w-full overflow-hidden min-w-0">
-                {shiftPosition.assignedTo && (
-                  <div className="mr-1 flex-shrink-0">
-                    <Avatar size={25} {...shiftPosition.assignedTo} />
+                {shiftPosition.assignedTo && !hideAvatar && (
+                  <div
+                    className={`flex-shrink-0 ${
+                      compactMode ? "mr-0.5" : "mr-1"
+                    }`}
+                  >
+                    <Avatar
+                      size={compactMode ? 20 : 25}
+                      {...shiftPosition.assignedTo}
+                    />
                   </div>
                 )}
                 {!hideName && (
                   <Hint
                     as="span"
-                    className="text-tiny text-gray-400 truncate text-left overflow-hidden flex-1 min-w-0"
-                    hint={shiftPosition.name ?? ""}
+                    className={`text-tiny text-gray-400 truncate text-left overflow-hidden flex-1 min-w-0 ${
+                      compactMode ? "text-xs" : ""
+                    }`}
+                    hint={
+                      showShiftLength
+                        ? `${calculateShiftLengthInHours(
+                            shiftPosition.schedules
+                          ).toFixed(1)}h`
+                        : shiftPosition.name ?? ""
+                    }
                   >
-                    {shiftPosition.name}
+                    {showShiftLength
+                      ? `${calculateShiftLengthInHours(
+                          shiftPosition.schedules
+                        ).toFixed(1)}h`
+                      : shiftPosition.name}
                   </Hint>
                 )}
               </div>

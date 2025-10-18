@@ -711,7 +711,7 @@ export const TeamShiftsSchedule = () => {
     string,
     Record<string, LeaveRenderInfo[]>
   > = useMemo(() => {
-    return Object.fromEntries(
+    const result = Object.fromEntries(
       members.map((member) => [
         member.pk,
         Object.fromEntries(
@@ -722,6 +722,8 @@ export const TeamShiftsSchedule = () => {
         ),
       ])
     );
+
+    return result;
   }, [leaveSchedule, members]);
 
   const renderMemberDay = useCallback(
@@ -733,6 +735,7 @@ export const TeamShiftsSchedule = () => {
       const shiftPositionsForDay =
         memberShiftPositionsMap[member.pk]?.[dayString];
       const holidaysForDay = showHolidays ? holidays?.[dayString] : undefined;
+
       return (
         <div>
           {holidaysForDay ? (
@@ -798,6 +801,9 @@ export const TeamShiftsSchedule = () => {
                 handleAssignShiftPosition={handleAssignShiftPosition}
                 onShiftPositionDragStart={onShiftPositionDragStart}
                 onShiftPositionDragEnd={onShiftPositionDragEnd}
+                hideAvatar={true}
+                compactMode={true}
+                showShiftLength={true}
               />
             </div>
           ))}
