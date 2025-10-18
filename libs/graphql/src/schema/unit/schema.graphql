@@ -3,7 +3,7 @@ type Unit {
   name: String!
   createdAt: DateTime!
   updatedAt: DateTime
-  createdBy: User!
+  createdBy: User
   updatedBy: User
   teams: [Team!]!
   settings(name: String!): JSON

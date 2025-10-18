@@ -6,11 +6,13 @@ import { getUserAuthorizationLevelForResource } from "@/business-logic";
 import { database, EntityRecord } from "@/tables";
 import { resourceRef, getResourceRef } from "@/utils";
 
-
 export const Company: CompanyResolvers = {
   createdBy: async (parent, _args, ctx) => {
     // Cast to access the raw database field where createdBy is a string
-    const userRef = (parent as unknown as { createdBy: string }).createdBy;
+    const userRef = (parent as unknown as { createdBy?: string }).createdBy;
+    if (!userRef) {
+      return null;
+    }
     const user = await ctx.userCache.getUser(getResourceRef(userRef));
     return user as unknown as User;
   },

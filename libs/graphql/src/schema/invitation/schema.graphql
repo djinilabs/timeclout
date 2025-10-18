@@ -7,7 +7,7 @@ type Invitation {
   emailMd5: String!
   createdAt: DateTime!
   updatedAt: DateTime
-  createdBy: User!
+  createdBy: User
   updatedBy: User
   permissionType: Int!
   toEntity: InvitationEntity!

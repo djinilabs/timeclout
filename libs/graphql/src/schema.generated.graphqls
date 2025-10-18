@@ -59,7 +59,7 @@ type Calendar {
 
 type Company {
   createdAt: DateTime!
-  createdBy: User!
+  createdBy: User
   name: String!
   pk: String!
   resourcePermission: Int
@@ -167,7 +167,7 @@ type DemoUser {
 
 type Invitation {
   createdAt: DateTime!
-  createdBy: User!
+  createdBy: User
   email: String!
   emailMd5: String!
   permissionType: Int!
@@ -390,7 +390,7 @@ type Team {
   approvedSchedule(endDate: Date!, startDate: Date!): Schedule!
   companyPk: String!
   createdAt: DateTime!
-  createdBy: User!
+  createdBy: User
   members(qualifications: [String!]): [User!]!
   name: String!
   pk: String!
@@ -417,7 +417,7 @@ input UnassignShiftPositionsInput {
 type Unit {
   companyPk: String!
   createdAt: DateTime!
-  createdBy: User!
+  createdBy: User
   members: [User!]!
   name: String!
   pk: String!

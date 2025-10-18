@@ -12,8 +12,6 @@ import type {
 import { database } from "@/tables";
 import { getResourceRef } from "@/utils";
 
-
-
 const entityTypeToGraphQlEntityType = {
   companies: "Company",
   teams: "Team",
@@ -30,7 +28,10 @@ export const Invitation: InvitationResolvers = {
   },
   createdBy: async (parent, _args, ctx) => {
     // Cast to access the raw database field where createdBy is a string
-    const userRef = (parent as unknown as { createdBy: string }).createdBy;
+    const userRef = (parent as unknown as { createdBy?: string }).createdBy;
+    if (!userRef) {
+      return null;
+    }
     const user = await ctx.userCache.getUser(getResourceRef(userRef));
     return user as unknown as User;
   },

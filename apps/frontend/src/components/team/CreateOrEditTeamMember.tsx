@@ -118,6 +118,9 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
         }
       }
     },
+    onSubmitInvalid: () => {
+      toast.error(i18n.t("Please fill in all fields correctly"));
+    },
   });
 
   const [selectedCountryIsoCode, setSelectedCountryIsoCode] = useState<
@@ -229,6 +232,18 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
 
             <form.Field
               name="email"
+              validators={{
+                onChange: ({ value }) => {
+                  if (!value) {
+                    return i18n.t("Email is required");
+                  }
+                  // Basic email validation regex
+                  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                  if (!emailRegex.test(value)) {
+                    return i18n.t("Please enter a valid email address");
+                  }
+                },
+              }}
               children={(field) => (
                 <div className="sm:col-span-4">
                   <label

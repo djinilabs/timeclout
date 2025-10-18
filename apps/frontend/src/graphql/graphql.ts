@@ -1,3 +1,5 @@
+import { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
+
 /* eslint-disable */
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T | null | undefined;
@@ -19,10 +21,6 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
-
-export type DocumentTypeDecoration<TResult, TVariables> = {
-  __apiType?: (variables: TVariables) => TResult;
-};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -102,7 +100,7 @@ export type Calendar = {
 export type Company = {
   __typename?: "Company";
   createdAt: Scalars["DateTime"]["output"];
-  createdBy: User;
+  createdBy?: Maybe<User>;
   name: Scalars["String"]["output"];
   pk: Scalars["String"]["output"];
   resourcePermission?: Maybe<Scalars["Int"]["output"]>;
@@ -214,7 +212,7 @@ export type DemoUser = {
 export type Invitation = {
   __typename?: "Invitation";
   createdAt: Scalars["DateTime"]["output"];
-  createdBy: User;
+  createdBy?: Maybe<User>;
   email: Scalars["String"]["output"];
   emailMd5: Scalars["String"]["output"];
   permissionType: Scalars["Int"]["output"];
@@ -709,7 +707,7 @@ export type Team = {
   approvedSchedule: Schedule;
   companyPk: Scalars["String"]["output"];
   createdAt: Scalars["DateTime"]["output"];
-  createdBy: User;
+  createdBy?: Maybe<User>;
   members: Array<User>;
   name: Scalars["String"]["output"];
   pk: Scalars["String"]["output"];
@@ -755,7 +753,7 @@ export type Unit = {
   __typename?: "Unit";
   companyPk: Scalars["String"]["output"];
   createdAt: Scalars["DateTime"]["output"];
-  createdBy: User;
+  createdBy?: Maybe<User>;
   members: Array<User>;
   name: Scalars["String"]["output"];
   pk: Scalars["String"]["output"];

@@ -98,7 +98,8 @@ export const AllUserCompanies = () => {
                   <circle r={1} cx={1} cy={1} />
                 </svg>
                 <p className="truncate">
-                  <Trans>Created by</Trans> {company.createdBy.name}
+                  <Trans>Created by</Trans>{" "}
+                  {company.createdBy?.name || "Unknown"}
                 </p>
               </div>
             </div>

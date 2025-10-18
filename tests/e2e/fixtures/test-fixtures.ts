@@ -40,17 +40,14 @@ export const testWithUserManagement = test.extend<{
 }>({
   userManagement: async ({ page }, use) => {
     const userManagement = createUserManagement(page);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(userManagement);
   },
   testHelpers: async ({ userManagement }, use) => {
     const testHelpers = createTestHelpers(userManagement);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(testHelpers);
   },
   pageObjects: async ({ page }, use) => {
     const pageObjects = createPageObjects(page);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(pageObjects);
   },
 });

@@ -151,7 +151,7 @@ export const AllUnitTeams = () => {
                 </svg>
                 <p className="truncate flex items-center gap-x-1">
                   <PencilIcon className="size-4" />
-                  <Trans>Created by</Trans> {team.createdBy.name}
+                  <Trans>Created by</Trans> {team.createdBy?.name || "Unknown"}
                 </p>
               </div>
             </div>

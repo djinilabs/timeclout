@@ -87,7 +87,7 @@ export type Calendar = {
 export type Company = {
   __typename?: 'Company';
   createdAt: Scalars['DateTime']['output'];
-  createdBy: User;
+  createdBy?: Maybe<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
   resourcePermission?: Maybe<Scalars['Int']['output']>;
@@ -200,7 +200,7 @@ export type DemoUser = {
 export type Invitation = {
   __typename?: 'Invitation';
   createdAt: Scalars['DateTime']['output'];
-  createdBy: User;
+  createdBy?: Maybe<User>;
   email: Scalars['String']['output'];
   emailMd5: Scalars['String']['output'];
   permissionType: Scalars['Int']['output'];
@@ -752,7 +752,7 @@ export type Team = {
   approvedSchedule: Schedule;
   companyPk: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
-  createdBy: User;
+  createdBy?: Maybe<User>;
   members: Array<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
@@ -802,7 +802,7 @@ export type Unit = {
   __typename?: 'Unit';
   companyPk: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
-  createdBy: User;
+  createdBy?: Maybe<User>;
   members: Array<User>;
   name: Scalars['String']['output'];
   pk: Scalars['String']['output'];
@@ -1133,7 +1133,7 @@ export type CalendarResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type CompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   resourcePermission?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -1173,7 +1173,7 @@ export type DemoUserResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type InvitationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Invitation'] = ResolversParentTypes['Invitation']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   emailMd5?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   permissionType?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -1342,7 +1342,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
   approvedSchedule?: Resolver<ResolversTypes['Schedule'], ParentType, ContextType, RequireFields<TeamapprovedScheduleArgs, 'endDate' | 'startDate'>>;
   companyPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<TeammembersArgs>>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1359,7 +1359,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
 export type UnitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Unit'] = ResolversParentTypes['Unit']> = {
   companyPk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   members?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pk?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

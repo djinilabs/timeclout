@@ -130,7 +130,7 @@ const AllCompanyUnits = () => {
                   <circle r={1} cx={1} cy={1} />
                 </svg>
                 <p key="unit-name-footer-created-by" className="truncate">
-                  <Trans>Created by</Trans> {unit.createdBy.name}
+                  <Trans>Created by</Trans> {unit.createdBy?.name || "Unknown"}
                 </p>
               </div>
             </div>

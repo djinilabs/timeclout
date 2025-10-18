@@ -8,7 +8,7 @@ type Team {
   name: String!
   createdAt: DateTime!
   updatedAt: DateTime
-  createdBy: User!
+  createdBy: User
   updatedBy: User
   members(qualifications: [String!]): [User!]!
   schedule(startDate: Date!, endDate: Date!): Schedule!

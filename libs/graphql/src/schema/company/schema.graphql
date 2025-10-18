@@ -3,7 +3,7 @@ type Company {
   name: String!
   createdAt: DateTime!
   updatedAt: DateTime
-  createdBy: User!
+  createdBy: User
   updatedBy: User
   units: [Unit!]
   settings(name: String!): JSON
