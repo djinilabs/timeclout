@@ -35,7 +35,7 @@ export const MonthlyCalendarPerMember: FC<MonthlyScheduleProps> = memo(
                 <tr>
                   <th
                     scope="col"
-                    className="bg-white sticky top-0 left-0 z-20 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 border-r border-t border-gray-300 shadow-[0_1px_3px_0_rgba(0,0,0,0.1)]"
+                    className="bg-white sticky top-0 left-0 z-20 py-1 px-1 text-left text-xs font-semibold text-gray-900 border-r border-t border-gray-300 shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] w-20"
                   >
                     <Trans>Name</Trans>
                   </th>
@@ -46,7 +46,7 @@ export const MonthlyCalendarPerMember: FC<MonthlyScheduleProps> = memo(
                     <th
                       key={day}
                       scope="col"
-                      className="bg-white sticky top-0 z-20 px-1 py-3.5 text-center text-sm font-semibold text-gray-900 border-r border-t border-gray-300 shadow-[0_1px_3px_0_rgba(0,0,0,0.1)]"
+                      className="bg-white sticky top-0 z-20 px-0.5 py-2 text-center text-xs font-semibold text-gray-900 border-r border-t border-gray-300 shadow-[0_1px_3px_0_rgba(0,0,0,0.1)]"
                     >
                       {day}
                     </th>
@@ -56,9 +56,8 @@ export const MonthlyCalendarPerMember: FC<MonthlyScheduleProps> = memo(
               <tbody className="divide-y divide-gray-200">
                 {members?.map((member) => (
                   <tr key={member.pk}>
-                    <th className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 flex items-center gap-2 border-r border-gray-300 sticky left-0 bg-white z-10">
-                      <Avatar {...member} size={30} />
-                      <span className="text-sm font-medium text-gray-600">
+                    <th className="py-1 px-1 text-xs font-medium text-gray-900 border-r border-gray-300 sticky left-0 bg-white z-10 w-20">
+                      <span className="text-xs font-medium text-gray-600 break-words">
                         {member.name}
                       </span>
                     </th>

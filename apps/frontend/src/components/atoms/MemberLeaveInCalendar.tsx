@@ -32,12 +32,12 @@ export const MemberLeaveInCalendar: FC<MemberLeaveInCalendarProps> = memo(
             </div>
           )}
           <div
-            className="text-sm flex -mt-2 -ml-2"
+            className="text-xs flex"
             key={`leave-icon-container-${leaveIndex}`}
           >
             <div
               key={`leave-icon-${leaveIndex}`}
-              className="text-sm rounded-full p-1 bg-white"
+              className="text-xs rounded-full p-0.5 bg-white"
               style={{
                 backgroundColor: leave.color,
               }}

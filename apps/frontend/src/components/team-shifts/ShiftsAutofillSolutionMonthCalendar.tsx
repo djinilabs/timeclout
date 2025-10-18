@@ -168,9 +168,9 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
                 )}
               >
                 <div className="flex items-center gap-1">
-                  <div className="text-sm flex items-center">
+                  <div className="text-xs flex items-center">
                     <div
-                      className="text-sm rounded-full p-1 bg-white"
+                      className="text-xs rounded-full p-0.5 bg-white"
                       style={{
                         backgroundColor: leave.color,
                       }}

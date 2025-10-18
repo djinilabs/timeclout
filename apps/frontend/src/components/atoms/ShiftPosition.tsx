@@ -243,7 +243,7 @@ export const ShiftPosition = memo(
             shiftPosition.fake && "opacity-50",
             "hover:ring-2 hover:ring-gray-200",
             "outline-hidden",
-            compactMode && "px-0.5 py-0.5",
+            compactMode && "px-1 py-0.5",
             conflicts &&
               "bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#ef444422_10px,#ef444422_20px)]"
           )}
@@ -275,7 +275,7 @@ export const ShiftPosition = memo(
 
           <div
             className={`flex-auto flex items-center justify-left overflow-hidden transition-all duration-300 ease-in w-full ${
-              compactMode ? "ml-0.5" : "ml-1"
+              compactMode ? "ml-1" : "ml-2"
             }`}
             style={{
               marginLeft:
@@ -293,11 +293,11 @@ export const ShiftPosition = memo(
                 {shiftPosition.assignedTo && !hideAvatar && (
                   <div
                     className={`flex-shrink-0 ${
-                      compactMode ? "mr-0.5" : "mr-0.5"
+                      compactMode ? "mr-0.5" : "mr-1"
                     }`}
                   >
                     <Avatar
-                      size={compactMode ? 16 : 20}
+                      size={compactMode ? 20 : 25}
                       {...shiftPosition.assignedTo}
                     />
                   </div>
@@ -306,7 +306,7 @@ export const ShiftPosition = memo(
                   <Hint
                     as="span"
                     className={`text-tiny text-gray-400 truncate text-left overflow-hidden flex-1 min-w-0 ${
-                      compactMode ? "text-xs leading-tight" : "leading-tight"
+                      compactMode ? "text-xs" : ""
                     }`}
                     hint={
                       showShiftLength
