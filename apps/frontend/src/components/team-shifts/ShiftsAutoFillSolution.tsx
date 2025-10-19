@@ -28,11 +28,6 @@ import unassignShiftPositionMutation from "@/graphql-client/mutations/unassignSh
 import { SchedulerState, ScoredShiftSchedule } from "@/scheduler";
 import { getDefined } from "@/utils";
 
-
-
-
-
-
 export interface ShiftsAutoFillSolutionProps {
   team: string;
   company: string;
@@ -82,6 +77,8 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
     }
     return months;
   }, [startDate, endDate]);
+
+  console.log("ABC leaveSchedule", leaveSchedule);
 
   const assignedShiftPositions: Record<string, ShiftPositionWithRowSpan[]> =
     useMemo(() => {

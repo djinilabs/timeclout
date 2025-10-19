@@ -64,16 +64,10 @@ const calculateLeaveDurationInDays = (
   startTime: number,
   endTime: number
 ): number => {
-  // Calculate duration in calendar days (including weekends)
-  const startDate = new Date(startTime * 1000);
-  const endDate = new Date(endTime * 1000);
-
-  // Set both dates to start of day for accurate day counting
-  startDate.setHours(0, 0, 0, 0);
-  endDate.setHours(0, 0, 0, 0);
-
-  const timeDiff = endDate.getTime() - startDate.getTime();
-  return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+  // Leave times are in minutes relative to scheduling period start
+  // Convert to days by dividing by minutes per day
+  const durationInMinutes = endTime - startTime;
+  return Math.ceil(durationInMinutes / (24 * 60)); // 24 * 60 = minutes per day
 };
 
 export const firstShiftAfterExtendedLeave: ValidationRule = {
@@ -137,11 +131,13 @@ export const firstShiftAfterExtendedLeave: ValidationRule = {
 
       // For each qualifying leave period, check if worker is assigned to first shift after
       for (const leavePeriod of qualifyingPeriods) {
-        const leaveEndTime = leavePeriod.end;
+        // Leave times are in minutes, shift times are in seconds
+        // Convert leave end time to seconds for comparison
+        const leaveEndTimeInSeconds = leavePeriod.end * 60;
 
         // Find the first shift after this leave period ends
         const firstShiftAfterLeave = sortedShifts.find(
-          (shift) => shift.slot.workHours[0].start > leaveEndTime
+          (shift) => shift.slot.workHours[0].start > leaveEndTimeInSeconds
         );
 
         if (firstShiftAfterLeave) {

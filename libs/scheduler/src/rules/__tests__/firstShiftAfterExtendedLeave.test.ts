@@ -29,13 +29,13 @@ describe("firstShiftAfterExtendedLeave", () => {
     startHour: number,
     endHour: number
   ): Slot => {
-    const dayStart = new Date(startsOnDay).getTime() / 1000; // Convert to seconds
+    // Shift times are in seconds relative to midnight of startsOnDay
     return {
       id,
       workHours: [
         {
-          start: dayStart + startHour * 3600, // Add hours to day start
-          end: dayStart + endHour * 3600,
+          start: startHour * 3600, // Convert hours to seconds from midnight
+          end: endHour * 3600,
           inconvenienceMultiplier: 1,
         },
       ],
@@ -71,6 +71,36 @@ describe("firstShiftAfterExtendedLeave", () => {
       const [valid] = firstShiftAfterExtendedLeave.function(
         schedule,
         [worker],
+        ruleOptions
+      );
+
+      expect(valid).toBe(true);
+    });
+
+    it("should pass when no workers have any leaves for the scheduling period", () => {
+      // Multiple workers with no leaves at all
+      const worker1 = createMockWorker("1", "Worker 1", []);
+      const worker2 = createMockWorker("2", "Worker 2", []);
+      const worker3 = createMockWorker("3", "Worker 3", []);
+
+      const slot1 = createMockSlot("slot1", "2024-03-15", 9, 17);
+      const slot2 = createMockSlot("slot2", "2024-03-16", 9, 17);
+      const slot3 = createMockSlot("slot3", "2024-03-17", 9, 17);
+
+      const schedule = createMockSchedule("2024-03-15", "2024-03-17", [
+        { slot: slot1, assigned: worker1 },
+        { slot: slot2, assigned: worker2 },
+        { slot: slot3, assigned: worker3 },
+      ]);
+
+      const ruleOptions = {
+        minimumContinuousDays: 3,
+        applicableLeaveTypes: ["Vacation", "Sick Leave"],
+      };
+
+      const [valid] = firstShiftAfterExtendedLeave.function(
+        schedule,
+        [worker1, worker2, worker3],
         ruleOptions
       );
 
@@ -222,6 +252,122 @@ describe("firstShiftAfterExtendedLeave", () => {
         ruleOptions
       );
 
+      expect(valid).toBe(true);
+    });
+
+    it("should pass when rule is active but no applicable leave types are selected", () => {
+      // Worker has 4-day vacation (qualifying leave)
+      const leaveStart = new Date("2024-03-10").getTime() / 1000;
+      const leaveEnd = new Date("2024-03-13").getTime() / 1000; // 4 days
+
+      const worker = createMockWorker("1", "Worker 1", [
+        {
+          start: leaveStart,
+          end: leaveEnd,
+          type: "Vacation",
+          isPersonal: true,
+        },
+      ]);
+
+      // First shift after leave (March 14) - assigned to other worker
+      const firstShiftSlot = createMockSlot("slot1", "2024-03-14", 9, 17);
+      const otherWorker = createMockWorker("2", "Worker 2", []);
+
+      const schedule = createMockSchedule("2024-03-14", "2024-03-14", [
+        { slot: firstShiftSlot, assigned: otherWorker }, // Wrong assignment
+      ]);
+
+      // Rule is active but no leave types are selected
+      const ruleOptions = {
+        minimumContinuousDays: 3,
+        applicableLeaveTypes: [], // Empty array - no leave types selected
+      };
+
+      const [valid] = firstShiftAfterExtendedLeave.function(
+        schedule,
+        [worker, otherWorker],
+        ruleOptions
+      );
+
+      // Should pass because no leave types are applicable, so no rules to enforce
+      expect(valid).toBe(true);
+    });
+
+    it("should pass when leave period ends but there are no shifts available after", () => {
+      // Worker has 4-day vacation ending on March 13
+      const leaveStart = new Date("2024-03-10").getTime() / 1000;
+      const leaveEnd = new Date("2024-03-13").getTime() / 1000; // 4 days
+
+      const worker = createMockWorker("1", "Worker 1", [
+        {
+          start: leaveStart,
+          end: leaveEnd,
+          type: "Vacation",
+          isPersonal: true,
+        },
+      ]);
+
+      // Schedule only has shifts BEFORE the leave period (March 8-9)
+      // No shifts available after March 13
+      const beforeLeaveSlot1 = createMockSlot("slot1", "2024-03-08", 9, 17);
+      const beforeLeaveSlot2 = createMockSlot("slot2", "2024-03-09", 9, 17);
+
+      const schedule = createMockSchedule("2024-03-08", "2024-03-09", [
+        { slot: beforeLeaveSlot1, assigned: worker },
+        { slot: beforeLeaveSlot2, assigned: worker },
+      ]);
+
+      const ruleOptions = {
+        minimumContinuousDays: 3,
+        applicableLeaveTypes: ["Vacation"],
+      };
+
+      const [valid] = firstShiftAfterExtendedLeave.function(
+        schedule,
+        [worker],
+        ruleOptions
+      );
+
+      // Should pass because there are no shifts after the leave period to assign
+      expect(valid).toBe(true);
+    });
+
+    it("should pass when leave period extends beyond all available shifts", () => {
+      // Worker has vacation from March 10 to March 20 (11 days)
+      const leaveStart = new Date("2024-03-10").getTime() / 1000;
+      const leaveEnd = new Date("2024-03-20").getTime() / 1000; // 11 days
+
+      const worker = createMockWorker("1", "Worker 1", [
+        {
+          start: leaveStart,
+          end: leaveEnd,
+          type: "Vacation",
+          isPersonal: true,
+        },
+      ]);
+
+      // Schedule only has shifts BEFORE the leave period (March 8-9)
+      // Leave extends well beyond the available shifts
+      const beforeLeaveSlot1 = createMockSlot("slot1", "2024-03-08", 9, 17);
+      const beforeLeaveSlot2 = createMockSlot("slot2", "2024-03-09", 9, 17);
+
+      const schedule = createMockSchedule("2024-03-08", "2024-03-09", [
+        { slot: beforeLeaveSlot1, assigned: worker },
+        { slot: beforeLeaveSlot2, assigned: worker },
+      ]);
+
+      const ruleOptions = {
+        minimumContinuousDays: 3,
+        applicableLeaveTypes: ["Vacation"],
+      };
+
+      const [valid] = firstShiftAfterExtendedLeave.function(
+        schedule,
+        [worker],
+        ruleOptions
+      );
+
+      // Should pass because there are no shifts after the leave period to assign
       expect(valid).toBe(true);
     });
 

@@ -1,6 +1,6 @@
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
-import { FC, useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import {
@@ -84,6 +84,23 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
     },
     [onChange, params]
   );
+
+  // Ensure default values are set when the rule is enabled
+  useEffect(() => {
+    if (params.requireFirstShiftAfterExtendedLeave) {
+      if (params.firstShiftAfterExtendedLeaveMinimumDays === undefined) {
+        setProp("firstShiftAfterExtendedLeaveMinimumDays")(3);
+      }
+      if (params.firstShiftAfterExtendedLeaveApplicableTypes === undefined) {
+        setProp("firstShiftAfterExtendedLeaveApplicableTypes")([]);
+      }
+    }
+  }, [
+    params.requireFirstShiftAfterExtendedLeave,
+    params.firstShiftAfterExtendedLeaveMinimumDays,
+    params.firstShiftAfterExtendedLeaveApplicableTypes,
+    setProp,
+  ]);
 
   return (
     <div
@@ -238,7 +255,7 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                     <input
                       type="number"
                       value={
-                        params.firstShiftAfterExtendedLeaveMinimumDays || 3
+                        params.firstShiftAfterExtendedLeaveMinimumDays ?? 3
                       }
                       min={1}
                       className="w-16 text-center"
@@ -247,6 +264,18 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                           parseInt(e.target.value) || 3
                         )
                       }
+                      onBlur={(e) => {
+                        // Ensure we have a valid value when the input loses focus
+                        const value = parseInt(e.target.value) || 3;
+                        if (
+                          params.firstShiftAfterExtendedLeaveMinimumDays !==
+                          value
+                        ) {
+                          setProp("firstShiftAfterExtendedLeaveMinimumDays")(
+                            value
+                          );
+                        }
+                      }}
                       aria-label="Minimum continuous days on leave"
                     />
                   </div>
