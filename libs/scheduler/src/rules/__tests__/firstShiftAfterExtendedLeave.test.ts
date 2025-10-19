@@ -29,7 +29,7 @@ describe("firstShiftAfterExtendedLeave", () => {
     startHour: number,
     endHour: number
   ): Slot => {
-    // Shift times are in seconds relative to midnight of startsOnDay
+    // Shift times are in minutes relative to midnight of startsOnDay
     return {
       id,
       workHours: [
@@ -180,16 +180,16 @@ describe("firstShiftAfterExtendedLeave", () => {
       const otherWorker = createMockWorker("2", "Worker 2", []);
 
       // First shift after leave (day 5, 9 AM)
-      // Leave ends at 5760 minutes = 345600 seconds
-      // First shift should be after leave ends, so we'll set it to 6300 minutes = 378000 seconds
+      // Leave ends at 5760 minutes
+      // First shift should be after leave ends, so we'll set it to 6300 minutes
       const firstShiftSlot = createMockSlot("slot1", "2024-03-19", 9, 17);
-      firstShiftSlot.workHours[0].start = 6300 * 60; // 6300 minutes * 60 = 378000 seconds
-      firstShiftSlot.workHours[0].end = 6300 * 60 + 8 * 60 * 60; // 8 hours later
+      firstShiftSlot.workHours[0].start = 6300; // 6300 minutes
+      firstShiftSlot.workHours[0].end = 6300 + 8 * 60; // 8 hours later in minutes
 
       // Second shift (day 6, 9 AM) - assigned to our worker
       const secondShiftSlot = createMockSlot("slot2", "2024-03-20", 9, 17);
-      secondShiftSlot.workHours[0].start = 6300 * 60 + 24 * 60 * 60; // Next day
-      secondShiftSlot.workHours[0].end = 6300 * 60 + 24 * 60 * 60 + 8 * 60 * 60;
+      secondShiftSlot.workHours[0].start = 6300 + 24 * 60; // Next day in minutes
+      secondShiftSlot.workHours[0].end = 6300 + 24 * 60 + 8 * 60;
 
       const schedule = createMockSchedule("2024-03-15", "2024-03-20", [
         { slot: firstShiftSlot, assigned: otherWorker }, // Wrong assignment
@@ -484,6 +484,106 @@ describe("firstShiftAfterExtendedLeave", () => {
       );
 
       expect(valid).toBe(true);
+    });
+
+    it("should enforce first shift assignment after Jorge Costa Madrugo's vacation (Oct 22-25, 2025)", () => {
+      // Jorge Costa Madrugo has vacation from October 22-25, 2025 (4 days)
+      // Leave times are in minutes relative to scheduling period start (October 1, 2025)
+      const jorgeWorker = createMockWorker("jorge-1", "Jorge Costa Madrugo", [
+        {
+          start: 21 * 24 * 60, // October 22nd = 21 days from Oct 1st = 30240 minutes
+          end: 24 * 24 * 60 + 24 * 60, // October 25th = 24 days + 1 day = 36000 minutes
+          type: "Vacation",
+          isPersonal: true,
+        },
+      ]);
+
+      const otherWorker = createMockWorker("other-1", "Other Worker", []);
+
+      // Create shifts for the week of October 8-11 (before vacation)
+      const oct8Slot = createMockSlot("oct8", "2025-10-08", 9, 17);
+      const oct9Slot = createMockSlot("oct9", "2025-10-09", 9, 17);
+      const oct10Slot = createMockSlot("oct10", "2025-10-10", 9, 17);
+      const oct11Slot = createMockSlot("oct11", "2025-10-11", 9, 17);
+
+      // Create shifts for the week of October 14-17 (before vacation)
+      const oct14Slot = createMockSlot("oct14", "2025-10-14", 9, 17);
+      const oct15Slot = createMockSlot("oct15", "2025-10-15", 9, 17);
+      const oct16Slot = createMockSlot("oct16", "2025-10-16", 9, 17);
+      const oct17Slot = createMockSlot("oct17", "2025-10-17", 9, 17);
+
+      // Create the critical shift on October 26th (first shift after vacation)
+      // Need to manually set the time to be after the vacation ends
+      const oct26Slot = createMockSlot("oct26", "2025-10-26", 9, 17);
+      // October 26th is 25 days from Oct 1st, so 25 * 24 * 60 = 36000 minutes
+      // Add 9 hours (9 * 60 = 540 minutes) for 9 AM
+      oct26Slot.workHours[0].start = 25 * 24 * 60 + 9 * 60; // 36000 + 540 = 36540 minutes
+      oct26Slot.workHours[0].end = 25 * 24 * 60 + 17 * 60; // 36000 + 1020 = 37020 minutes
+
+      // Create shift for November 1st
+      const nov1Slot = createMockSlot("nov1", "2025-11-01", 9, 17);
+      // November 1st is 31 days from Oct 1st, so 31 * 24 * 60 = 44640 minutes
+      nov1Slot.workHours[0].start = 31 * 24 * 60 + 9 * 60; // 44640 + 540 = 45180 minutes
+      nov1Slot.workHours[0].end = 31 * 24 * 60 + 17 * 60; // 44640 + 1020 = 45660 minutes
+
+      const ruleOptions = {
+        minimumContinuousDays: 3, // 4-day vacation qualifies
+        applicableLeaveTypes: ["Vacation"],
+      };
+
+      // Test case 1: Jorge is assigned to first shift after vacation - should PASS
+      const scheduleWithJorgeAssigned = createMockSchedule(
+        "2025-10-01",
+        "2025-11-01",
+        [
+          { slot: oct8Slot, assigned: otherWorker },
+          { slot: oct9Slot, assigned: otherWorker },
+          { slot: oct10Slot, assigned: otherWorker },
+          { slot: oct11Slot, assigned: otherWorker },
+          { slot: oct14Slot, assigned: otherWorker },
+          { slot: oct15Slot, assigned: otherWorker },
+          { slot: oct16Slot, assigned: otherWorker },
+          { slot: oct17Slot, assigned: otherWorker },
+          { slot: oct26Slot, assigned: jorgeWorker }, // Jorge assigned to first shift after vacation
+          { slot: nov1Slot, assigned: otherWorker },
+        ]
+      );
+
+      const [validWithJorge] = firstShiftAfterExtendedLeave.function(
+        scheduleWithJorgeAssigned,
+        [jorgeWorker, otherWorker],
+        ruleOptions
+      );
+
+      expect(validWithJorge).toBe(true);
+
+      // Test case 2: Jorge is NOT assigned to first shift after vacation - should FAIL
+      const scheduleWithoutJorgeAssigned = createMockSchedule(
+        "2025-10-01",
+        "2025-11-01",
+        [
+          { slot: oct8Slot, assigned: otherWorker },
+          { slot: oct9Slot, assigned: otherWorker },
+          { slot: oct10Slot, assigned: otherWorker },
+          { slot: oct11Slot, assigned: otherWorker },
+          { slot: oct14Slot, assigned: otherWorker },
+          { slot: oct15Slot, assigned: otherWorker },
+          { slot: oct16Slot, assigned: otherWorker },
+          { slot: oct17Slot, assigned: otherWorker },
+          { slot: oct26Slot, assigned: otherWorker }, // Other worker assigned instead of Jorge
+          { slot: nov1Slot, assigned: jorgeWorker }, // Jorge assigned to later shift
+        ]
+      );
+
+      const [validWithoutJorge, problemSlotId] =
+        firstShiftAfterExtendedLeave.function(
+          scheduleWithoutJorgeAssigned,
+          [jorgeWorker, otherWorker],
+          ruleOptions
+        );
+
+      expect(validWithoutJorge).toBe(false);
+      expect(problemSlotId).toBe("oct26"); // Should identify the problematic slot
     });
   });
 

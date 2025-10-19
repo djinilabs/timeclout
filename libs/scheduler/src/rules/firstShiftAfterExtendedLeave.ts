@@ -131,14 +131,13 @@ export const firstShiftAfterExtendedLeave: ValidationRule = {
 
       // For each qualifying leave period, check if worker is assigned to first shift after
       for (const leavePeriod of qualifyingPeriods) {
-        // Leave times are in minutes, shift times are in seconds
-        // Convert leave end time to seconds for comparison
-        const leaveEndTimeInSeconds = leavePeriod.end * 60;
+        // Both leave times and shift times are in minutes
+        const leaveEndTimeInMinutes = leavePeriod.end;
 
         // Find the first shift after this leave period ends
         const firstShiftsAfterLeave = sortedShifts
           .filter((shift) => {
-            return shift.slot.workHours[0].start > leaveEndTimeInSeconds;
+            return shift.slot.workHours[0].start > leaveEndTimeInMinutes;
           })
           .sort(
             (a, b) => a.slot.workHours[0].start - b.slot.workHours[0].start
@@ -160,7 +159,7 @@ export const firstShiftAfterExtendedLeave: ValidationRule = {
               shift.slot.workHours[0].start -
                 firstShiftAfterLeave.slot.workHours[0].start
             ) <
-            24 * 60 * 60 // 24 hours in seconds
+            24 * 60 // 24 hours in minutes
         );
 
         // now, we filter for all the shifts that are assigned to the worker
