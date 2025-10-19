@@ -143,9 +143,8 @@ export const firstShiftAfterExtendedLeave: ValidationRule = {
             (a, b) => a.slot.workHours[0].start - b.slot.workHours[0].start
           );
 
-        // console.log("ABC firstShiftsAfterLeave", firstShiftsAfterLeave);
-
         if (firstShiftsAfterLeave.length === 0) {
+          // no first shift after leave found, so we can continue
           continue;
         }
 
