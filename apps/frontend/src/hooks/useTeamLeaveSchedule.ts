@@ -61,28 +61,7 @@ export const useTeamLeaveSchedule = ({
   const leaveSchedule: Record<string, LeaveRenderInfo[]> = useMemo(() => {
     const schedule = teamScheduleResult?.team.approvedSchedule;
     if (!schedule || !leaveTypesSettings) {
-      if (process.env.NODE_ENV === "development") {
-        console.log("Leave schedule debugging - missing data:", {
-          hasSchedule: !!schedule,
-          hasLeaveTypesSettings: !!leaveTypesSettings,
-          schedule,
-          leaveTypesSettings,
-        });
-      }
       return {};
-    }
-
-    if (process.env.NODE_ENV === "development") {
-      console.log("Leave schedule debugging - processing schedule:", {
-        userSchedulesCount: schedule.userSchedules.length,
-        calendarStartDay: calendarStartDay.toString(),
-        calendarEndDay: calendarEndDay.toString(),
-        userSchedules: schedule.userSchedules.map((us) => ({
-          user: us.user.name,
-          leavesCount: us.leaves.length,
-          leaveRequestsCount: us.leaveRequests.length,
-        })),
-      });
     }
 
     const result: Record<string, LeaveRenderInfo[]> = {};
@@ -116,17 +95,6 @@ export const useTeamLeaveSchedule = ({
           const leaveKey = `${leave.leaveRequestPk}/${leave.leaveRequestSk}`;
           const leaveRequest = leaveRequestsMap.get(leaveKey);
 
-          // Debug logging
-          if (process.env.NODE_ENV === "development") {
-            console.log("Leave debugging:", {
-              leaveKey,
-              leaveRequestPk: leave.leaveRequestPk,
-              leaveRequestSk: leave.leaveRequestSk,
-              availableKeys: Array.from(leaveRequestsMap.keys()),
-              foundLeaveRequest: !!leaveRequest,
-            });
-          }
-
           if (!leaveRequest) {
             console.warn("Leave request not found for leave:", {
               leaveKey,
@@ -146,25 +114,7 @@ export const useTeamLeaveSchedule = ({
           const startDate = new DayDate(leaveRequest.startDate);
           const endDate = new DayDate(leaveRequest.endDate);
 
-          if (process.env.NODE_ENV === "development") {
-            console.log("Processing leave date range:", {
-              leaveType: leave.type,
-              userName: userSchedule.user.name,
-              startDate: startDate.toString(),
-              endDate: endDate.toString(),
-              calendarStartDay: calendarStartDay.toString(),
-              calendarEndDay: calendarEndDay.toString(),
-              isStartInRange:
-                startDate.compareTo(calendarStartDay) >= 0 &&
-                startDate.compareTo(calendarEndDay) <= 0,
-              isEndInRange:
-                endDate.compareTo(calendarStartDay) >= 0 &&
-                endDate.compareTo(calendarEndDay) <= 0,
-            });
-          }
-
           let currentDate = startDate;
-          let daysProcessed = 0;
           while (currentDate.isBeforeOrEqual(endDate)) {
             const dayKey = currentDate.toString();
             if (!result[dayKey]) {
@@ -180,31 +130,12 @@ export const useTeamLeaveSchedule = ({
 
             if (!existingLeave) {
               result[dayKey].push(leaveRenderInfo);
-              daysProcessed++;
             }
 
             currentDate = currentDate.nextDay();
           }
-
-          if (process.env.NODE_ENV === "development") {
-            console.log("Leave processing completed:", {
-              leaveType: leave.type,
-              userName: userSchedule.user.name,
-              daysProcessed,
-              totalDaysInRange:
-                Math.floor(startDate.diffInMinutes(endDate) / (24 * 60)) + 1,
-            });
-          }
         });
       });
-
-    if (process.env.NODE_ENV === "development") {
-      console.log("Final leave schedule result:", {
-        totalDaysWithLeaves: Object.keys(result).length,
-        daysWithLeaves: Object.keys(result).sort(),
-        totalLeaves: Object.values(result).flat().length,
-      });
-    }
 
     return result;
   }, [

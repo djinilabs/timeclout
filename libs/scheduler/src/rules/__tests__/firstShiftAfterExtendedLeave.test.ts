@@ -34,8 +34,8 @@ describe("firstShiftAfterExtendedLeave", () => {
       id,
       workHours: [
         {
-          start: startHour * 3600, // Convert hours to seconds from midnight
-          end: endHour * 3600,
+          start: startHour * 60, // Convert hours to minutes from midnight
+          end: endHour * 60,
           inconvenienceMultiplier: 1,
         },
       ],
@@ -132,13 +132,11 @@ describe("firstShiftAfterExtendedLeave", () => {
 
     it("should pass when worker is assigned to first shift after qualifying leave", () => {
       // Worker has 4-day vacation (qualifying leave)
-      const leaveStart = new Date("2024-03-10").getTime() / 1000; // March 10
-      const leaveEnd = new Date("2024-03-13").getTime() / 1000; // March 13 (4 days)
-
+      // Leave times are in minutes relative to scheduling period start
       const worker = createMockWorker("1", "Worker 1", [
         {
-          start: leaveStart,
-          end: leaveEnd,
+          start: 0, // Start of scheduling period
+          end: 4 * 24 * 60, // 4 days = 5760 minutes
           type: "Vacation",
           isPersonal: true,
         },
@@ -169,26 +167,31 @@ describe("firstShiftAfterExtendedLeave", () => {
     });
 
     it("should fail when worker is not assigned to first shift after qualifying leave", () => {
-      // Worker has 5-day vacation (qualifying leave)
-      const leaveStart = new Date("2024-03-10").getTime() / 1000; // March 10
-      const leaveEnd = new Date("2024-03-14").getTime() / 1000; // March 14 (5 days)
-
+      // Worker has 4-day vacation (qualifying leave)
+      // Leave times are in minutes relative to scheduling period start
       const worker = createMockWorker("1", "Worker 1", [
         {
-          start: leaveStart,
-          end: leaveEnd,
+          start: 0, // Start of scheduling period
+          end: 4 * 24 * 60, // 4 days = 5760 minutes
           type: "Vacation",
           isPersonal: true,
         },
       ]);
       const otherWorker = createMockWorker("2", "Worker 2", []);
 
-      // First shift after leave (March 15) - assigned to other worker
-      const firstShiftSlot = createMockSlot("slot1", "2024-03-15", 9, 17);
-      // Second shift (March 16) - assigned to our worker
-      const secondShiftSlot = createMockSlot("slot2", "2024-03-16", 9, 17);
+      // First shift after leave (day 5, 9 AM)
+      // Leave ends at 5760 minutes = 345600 seconds
+      // First shift should be after leave ends, so we'll set it to 6300 minutes = 378000 seconds
+      const firstShiftSlot = createMockSlot("slot1", "2024-03-19", 9, 17);
+      firstShiftSlot.workHours[0].start = 6300 * 60; // 6300 minutes * 60 = 378000 seconds
+      firstShiftSlot.workHours[0].end = 6300 * 60 + 8 * 60 * 60; // 8 hours later
 
-      const schedule = createMockSchedule("2024-03-15", "2024-03-16", [
+      // Second shift (day 6, 9 AM) - assigned to our worker
+      const secondShiftSlot = createMockSlot("slot2", "2024-03-20", 9, 17);
+      secondShiftSlot.workHours[0].start = 6300 * 60 + 24 * 60 * 60; // Next day
+      secondShiftSlot.workHours[0].end = 6300 * 60 + 24 * 60 * 60 + 8 * 60 * 60;
+
+      const schedule = createMockSchedule("2024-03-15", "2024-03-20", [
         { slot: firstShiftSlot, assigned: otherWorker }, // Wrong assignment
         { slot: secondShiftSlot, assigned: worker },
       ]);
@@ -210,21 +213,17 @@ describe("firstShiftAfterExtendedLeave", () => {
 
     it("should only consider applicable leave types", () => {
       // Worker has 4-day vacation but also 1-day sick leave
-      const vacationStart = new Date("2024-03-10").getTime() / 1000;
-      const vacationEnd = new Date("2024-03-13").getTime() / 1000; // 4 days
-      const sickStart = new Date("2024-03-20").getTime() / 1000;
-      const sickEnd = new Date("2024-03-20").getTime() / 1000; // 1 day
-
+      // Leave times are in minutes relative to scheduling period start
       const worker = createMockWorker("1", "Worker 1", [
         {
-          start: vacationStart,
-          end: vacationEnd,
+          start: 0, // Start of scheduling period
+          end: 4 * 24 * 60, // 4 days = 5760 minutes
           type: "Vacation",
           isPersonal: true,
         },
         {
-          start: sickStart,
-          end: sickEnd,
+          start: 10 * 24 * 60, // 10 days = 14400 minutes
+          end: 11 * 24 * 60, // 11 days = 15840 minutes
           type: "Sick Leave",
           isPersonal: true,
         },
@@ -257,13 +256,11 @@ describe("firstShiftAfterExtendedLeave", () => {
 
     it("should pass when rule is active but no applicable leave types are selected", () => {
       // Worker has 4-day vacation (qualifying leave)
-      const leaveStart = new Date("2024-03-10").getTime() / 1000;
-      const leaveEnd = new Date("2024-03-13").getTime() / 1000; // 4 days
-
+      // Leave times are in minutes relative to scheduling period start
       const worker = createMockWorker("1", "Worker 1", [
         {
-          start: leaveStart,
-          end: leaveEnd,
+          start: 0, // Start of scheduling period
+          end: 4 * 24 * 60, // 4 days = 5760 minutes
           type: "Vacation",
           isPersonal: true,
         },
@@ -295,13 +292,11 @@ describe("firstShiftAfterExtendedLeave", () => {
 
     it("should pass when leave period ends but there are no shifts available after", () => {
       // Worker has 4-day vacation ending on March 13
-      const leaveStart = new Date("2024-03-10").getTime() / 1000;
-      const leaveEnd = new Date("2024-03-13").getTime() / 1000; // 4 days
-
+      // Leave times are in minutes relative to scheduling period start
       const worker = createMockWorker("1", "Worker 1", [
         {
-          start: leaveStart,
-          end: leaveEnd,
+          start: 0, // Start of scheduling period
+          end: 4 * 24 * 60, // 4 days = 5760 minutes
           type: "Vacation",
           isPersonal: true,
         },
@@ -334,13 +329,11 @@ describe("firstShiftAfterExtendedLeave", () => {
 
     it("should pass when leave period extends beyond all available shifts", () => {
       // Worker has vacation from March 10 to March 20 (11 days)
-      const leaveStart = new Date("2024-03-10").getTime() / 1000;
-      const leaveEnd = new Date("2024-03-20").getTime() / 1000; // 11 days
-
+      // Leave times are in minutes relative to scheduling period start
       const worker = createMockWorker("1", "Worker 1", [
         {
-          start: leaveStart,
-          end: leaveEnd,
+          start: 0, // Start of scheduling period
+          end: 11 * 24 * 60, // 11 days = 15840 minutes
           type: "Vacation",
           isPersonal: true,
         },
@@ -373,21 +366,17 @@ describe("firstShiftAfterExtendedLeave", () => {
 
     it("should handle continuous leave periods correctly", () => {
       // Worker has two consecutive 2-day leaves that form a 4-day continuous period
-      const firstLeaveStart = new Date("2024-03-10").getTime() / 1000; // March 10
-      const firstLeaveEnd = new Date("2024-03-11").getTime() / 1000; // March 11
-      const secondLeaveStart = new Date("2024-03-12").getTime() / 1000; // March 12
-      const secondLeaveEnd = new Date("2024-03-13").getTime() / 1000; // March 13
-
+      // Leave times are in minutes relative to scheduling period start
       const worker = createMockWorker("1", "Worker 1", [
         {
-          start: firstLeaveStart,
-          end: firstLeaveEnd,
+          start: 0, // Start of scheduling period
+          end: 2 * 24 * 60, // 2 days = 2880 minutes
           type: "Vacation",
           isPersonal: true,
         },
         {
-          start: secondLeaveStart,
-          end: secondLeaveEnd,
+          start: 2 * 24 * 60, // 2 days = 2880 minutes (continuous with previous)
+          end: 4 * 24 * 60, // 4 days = 5760 minutes
           type: "Vacation",
           isPersonal: true,
         },
@@ -416,21 +405,17 @@ describe("firstShiftAfterExtendedLeave", () => {
 
     it("should not consider non-continuous leave periods", () => {
       // Worker has two separate 2-day leaves with a gap
-      const firstLeaveStart = new Date("2024-03-10").getTime() / 1000; // March 10
-      const firstLeaveEnd = new Date("2024-03-11").getTime() / 1000; // March 11
-      const secondLeaveStart = new Date("2024-03-13").getTime() / 1000; // March 13 (gap on March 12)
-      const secondLeaveEnd = new Date("2024-03-14").getTime() / 1000; // March 14
-
+      // Leave times are in minutes relative to scheduling period start
       const worker = createMockWorker("1", "Worker 1", [
         {
-          start: firstLeaveStart,
-          end: firstLeaveEnd,
+          start: 0, // Start of scheduling period
+          end: 2 * 24 * 60, // 2 days = 2880 minutes
           type: "Vacation",
           isPersonal: true,
         },
         {
-          start: secondLeaveStart,
-          end: secondLeaveEnd,
+          start: 3 * 24 * 60, // 3 days = 4320 minutes (gap of 1 day)
+          end: 5 * 24 * 60, // 5 days = 7200 minutes
           type: "Vacation",
           isPersonal: true,
         },
@@ -461,18 +446,19 @@ describe("firstShiftAfterExtendedLeave", () => {
     });
 
     it("should handle multiple workers correctly", () => {
+      // Leave times are in minutes relative to scheduling period start
       const worker1 = createMockWorker("1", "Worker 1", [
         {
-          start: new Date("2024-03-10").getTime() / 1000,
-          end: new Date("2024-03-13").getTime() / 1000,
+          start: 0, // Start of scheduling period
+          end: 4 * 24 * 60, // 4 days = 5760 minutes
           type: "Vacation",
           isPersonal: true,
         },
       ]);
       const worker2 = createMockWorker("2", "Worker 2", [
         {
-          start: new Date("2024-03-15").getTime() / 1000,
-          end: new Date("2024-03-18").getTime() / 1000,
+          start: 5 * 24 * 60, // 5 days = 7200 minutes
+          end: 8 * 24 * 60, // 8 days = 11520 minutes
           type: "Vacation",
           isPersonal: true,
         },

@@ -1,13 +1,13 @@
 export interface SlotWorkerLeave {
-  start: number;
-  end: number;
+  start: number; // minutes, relative to start of period
+  end: number; // minutes, relative to start of period
   type: string;
   isPersonal: boolean;
 }
 
 export interface SlotWorkHour {
-  start: number;
-  end: number;
+  start: number; // minutes, relative to start of period
+  end: number; // minutes, relative to start of period
   inconvenienceMultiplier: number;
 }
 

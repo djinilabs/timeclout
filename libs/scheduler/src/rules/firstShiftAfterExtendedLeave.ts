@@ -13,7 +13,7 @@ const isLeaveContinuous = (
 ): boolean => {
   // Check if leave periods are continuous (within 24 hours)
   const timeDiff = leave2.start - leave1.end;
-  return timeDiff >= 0 && timeDiff <= 24 * 60 * 60; // 24 hours in seconds
+  return timeDiff >= 0 && timeDiff <= 24 * 60; // 24 hours in minutes
 };
 
 const getContinuousLeavePeriods = (
@@ -136,15 +136,41 @@ export const firstShiftAfterExtendedLeave: ValidationRule = {
         const leaveEndTimeInSeconds = leavePeriod.end * 60;
 
         // Find the first shift after this leave period ends
-        const firstShiftAfterLeave = sortedShifts.find(
-          (shift) => shift.slot.workHours[0].start > leaveEndTimeInSeconds
+        const firstShiftsAfterLeave = sortedShifts
+          .filter((shift) => {
+            return shift.slot.workHours[0].start > leaveEndTimeInSeconds;
+          })
+          .sort(
+            (a, b) => a.slot.workHours[0].start - b.slot.workHours[0].start
+          );
+
+        // console.log("ABC firstShiftsAfterLeave", firstShiftsAfterLeave);
+
+        if (firstShiftsAfterLeave.length === 0) {
+          continue;
+        }
+
+        const firstShiftAfterLeave = firstShiftsAfterLeave[0];
+
+        // now, we filter for all the shifts that start at around the same time as the first shift
+        // we use a tolerance of 24 hours
+        const firstShiftsAfterLeaveAtSameTime = firstShiftsAfterLeave.filter(
+          (shift) =>
+            Math.abs(
+              shift.slot.workHours[0].start -
+                firstShiftAfterLeave.slot.workHours[0].start
+            ) <
+            24 * 60 * 60 // 24 hours in seconds
         );
 
-        if (firstShiftAfterLeave) {
-          // Check if this worker is assigned to this first shift
-          if (firstShiftAfterLeave.assigned !== worker) {
-            return [false, firstShiftAfterLeave.slot.id];
-          }
+        // now, we filter for all the shifts that are assigned to the worker
+        const firstShiftsAfterLeaveAssignedToWorker =
+          firstShiftsAfterLeaveAtSameTime.filter(
+            (shift) => shift.assigned.pk === worker.pk
+          );
+
+        if (firstShiftsAfterLeaveAssignedToWorker.length === 0) {
+          return [false, firstShiftsAfterLeaveAtSameTime[0].slot.id];
         }
       }
     }

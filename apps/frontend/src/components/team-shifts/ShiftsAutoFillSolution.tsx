@@ -78,8 +78,6 @@ export const ShiftsAutoFillSolution: FC<ShiftsAutoFillSolutionProps> = ({
     return months;
   }, [startDate, endDate]);
 
-  console.log("ABC leaveSchedule", leaveSchedule);
-
   const assignedShiftPositions: Record<string, ShiftPositionWithRowSpan[]> =
     useMemo(() => {
       return Object.fromEntries(
