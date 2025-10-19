@@ -13,8 +13,6 @@ import { DayDate } from "@/day-date";
 import { SchedulerState } from "@/scheduler";
 import { getDefined } from "@/utils";
 
-
-
 export interface ShiftsAutoFillProgressProps {
   startDate?: DayDate;
   endDate?: DayDate;
@@ -86,7 +84,7 @@ export const ShiftsAutoFillProgress = ({
               <p>
                 <Trans>There are</Trans>{" "}
                 {problemInSlotIds.size + discardedReasonsList.length}{" "}
-                <Trans>conflict(s) when trying to search for a solution</Trans>
+                <Trans>conflict(s) when trying to search for a solution</Trans>{" "}
                 {problemInShiftPositionDay ? (
                   <>
                     <Trans>starting on day</Trans> {problemInShiftPositionDay}
