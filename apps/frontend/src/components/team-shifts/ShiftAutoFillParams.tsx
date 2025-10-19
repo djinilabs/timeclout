@@ -1,13 +1,22 @@
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
-import { FC, useCallback } from "react";
+import { FC, useCallback, useMemo } from "react";
+import { useParams } from "react-router-dom";
 
+import {
+  CompanySettingsArgs,
+  Query,
+  QueryCompanyArgs,
+} from "../../graphql/graphql";
+import { useQuery } from "../../hooks/useQuery";
 import { DayPicker } from "../atoms/DayPicker";
 import { LabeledSwitch } from "../particles/LabeledSwitch";
 import { RangeSlider } from "../particles/RangeSlider";
 
 import { DayDate } from "@/day-date";
-
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import { leaveTypeParser } from "@/settings";
+import { getDefined } from "@/utils";
 
 export interface ShiftAutoFillParamValues {
   startDate?: DayDate;
@@ -20,6 +29,9 @@ export interface ShiftAutoFillParamValues {
   maximumIntervalBetweenShifts: number;
   requireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean;
   minimumNumberOfShiftsPerWeekInStandardWorkday: number;
+  requireFirstShiftAfterExtendedLeave: boolean;
+  firstShiftAfterExtendedLeaveMinimumDays: number;
+  firstShiftAfterExtendedLeaveApplicableTypes: string[];
   minimumRestSlotsAfterShift: {
     inconvenienceLessOrEqualThan: number;
     minimumRestMinutes: number;
@@ -34,6 +46,24 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
   onChange,
   ...params
 }) => {
+  const { company } = useParams();
+
+  const [companyWithSettingsQueryResponse] = useQuery<
+    { company: Query["company"] },
+    QueryCompanyArgs & CompanySettingsArgs
+  >({
+    query: companyWithSettingsQuery,
+    variables: {
+      companyPk: getDefined(company, "No company provided"),
+      name: "leaveTypes",
+    },
+  });
+
+  const leaveTypes = useMemo(() => {
+    const company = companyWithSettingsQueryResponse?.data?.company;
+    return company?.settings ? leaveTypeParser.parse(company.settings) : [];
+  }, [companyWithSettingsQueryResponse]);
+
   const setProp = useCallback(
     <TKey extends keyof ShiftAutoFillParamValues>(key: TKey) =>
       (value: ShiftAutoFillParamValues[TKey]) => {
@@ -184,6 +214,92 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                   />
                 )}
               </div>
+            </div>
+            <div>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center">
+                  <LabeledSwitch
+                    label={
+                      <Trans>
+                        Require workers to be scheduled on their first shift
+                        after returning from extended leave
+                      </Trans>
+                    }
+                    checked={params.requireFirstShiftAfterExtendedLeave}
+                    onChange={setProp("requireFirstShiftAfterExtendedLeave")}
+                    aria-label="Require first shift after extended leave"
+                  />
+                </div>
+                {params.requireFirstShiftAfterExtendedLeave && (
+                  <div className="ml-8 flex items-center gap-2">
+                    <span className="text-sm text-gray-600">
+                      <Trans>Minimum continuous days:</Trans>
+                    </span>
+                    <input
+                      type="number"
+                      value={
+                        params.firstShiftAfterExtendedLeaveMinimumDays || 3
+                      }
+                      min={1}
+                      className="w-16 text-center"
+                      onChange={(e) =>
+                        setProp("firstShiftAfterExtendedLeaveMinimumDays")(
+                          parseInt(e.target.value) || 3
+                        )
+                      }
+                      aria-label="Minimum continuous days on leave"
+                    />
+                  </div>
+                )}
+              </div>
+              {params.requireFirstShiftAfterExtendedLeave && (
+                <div className="ml-8 mt-2">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      <Trans>Applicable leave types:</Trans>
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {leaveTypes.map((leaveType) => (
+                        <label
+                          key={leaveType.name}
+                          className="flex items-center gap-2"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={
+                              params.firstShiftAfterExtendedLeaveApplicableTypes?.includes(
+                                leaveType.name
+                              ) ?? false
+                            }
+                            onChange={(e) => {
+                              const currentTypes =
+                                params.firstShiftAfterExtendedLeaveApplicableTypes ??
+                                [];
+                              if (e.target.checked) {
+                                setProp(
+                                  "firstShiftAfterExtendedLeaveApplicableTypes"
+                                )([...currentTypes, leaveType.name]);
+                              } else {
+                                setProp(
+                                  "firstShiftAfterExtendedLeaveApplicableTypes"
+                                )(
+                                  currentTypes.filter(
+                                    (type) => type !== leaveType.name
+                                  )
+                                );
+                              }
+                            }}
+                            className="rounded border-gray-300"
+                          />
+                          <span className="text-sm text-gray-600">
+                            {leaveType.name}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             <div>
               <div className="flex flex-col gap-4">

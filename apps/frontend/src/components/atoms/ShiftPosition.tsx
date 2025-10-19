@@ -5,10 +5,11 @@ import {
   User,
   type ShiftPosition as ShiftPositionType,
 } from "libs/graphql/src/types.generated";
-import { memo, useCallback, useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useRef, useMemo } from "react";
 
 import { AnalyzedShiftPosition } from "../../hooks/useAnalyzeTeamShiftsCalendar";
 import { type ShiftPositionWithFake } from "../../hooks/useTeamShiftPositionsMap";
+import { useTeamWithSettings } from "../../hooks/useTeamWithSettings";
 import { classNames } from "../../utils/classNames";
 import { toMinutes } from "../../utils/toMinutes";
 import { Avatar } from "../particles/Avatar";
@@ -18,6 +19,7 @@ import {
   MiniTimeScheduleVisualizer,
 } from "../particles/MiniTimeScheduleVisualizer";
 
+import { Badges } from "./Badges";
 import { ShiftPositionMenu } from "./ShiftPositionMenu";
 
 import { colors } from "@/settings";
@@ -159,6 +161,26 @@ export const ShiftPosition = memo(
     onShiftPositionDragStart,
     onShiftPositionDragEnd,
   }: ShiftPositionProps) => {
+    const { settings: teamQualifications } = useTeamWithSettings({
+      teamPk,
+      settingsName: "qualifications",
+    });
+
+    const qualificationBadges = useMemo(() => {
+      if (
+        !shiftPosition.requiredSkills ||
+        shiftPosition.requiredSkills.length === 0
+      ) {
+        return [];
+      }
+
+      return shiftPosition.requiredSkills.map((skill) => ({
+        name: skill,
+        color:
+          teamQualifications?.find((q) => q.name === skill)?.color ?? "green",
+      }));
+    }, [shiftPosition.requiredSkills, teamQualifications]);
+
     const conflicts =
       originalConflicts ||
       shiftPosition.hasLeaveConflict ||
@@ -324,6 +346,18 @@ export const ShiftPosition = memo(
                   </Hint>
                 )}
               </div>
+              {/* Qualifications pills - hide when showing schedule details */}
+              {qualificationBadges.length > 0 && !showScheduleDetails && (
+                <div
+                  className={`flex flex-wrap gap-0.5 mt-1 ${
+                    compactMode ? "max-w-full" : ""
+                  }`}
+                >
+                  <div className="scale-75 origin-top-left">
+                    <Badges badges={qualificationBadges} />
+                  </div>
+                </div>
+              )}
               {/* Conflicts */}
               {conflicts && (
                 <div className="flex flex-row items-center">

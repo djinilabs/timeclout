@@ -1,6 +1,7 @@
 import type { ShiftSchedule, SlotWorker, ValidationRule } from "../types";
 import { getUniqueWorkers } from "../utils/getUniqueWorkers";
 
+import { firstShiftAfterExtendedLeave } from "./firstShiftAfterExtendedLeave";
 import { maximumInconvenience } from "./maximumInconvenience";
 import { minimumFrequency } from "./minimumFrequency";
 import { minimumShiftsInStandardWorkdayPerWeek } from "./minimumShiftsInStandardWorkdayPerWeek";
@@ -14,6 +15,7 @@ const rules: ValidationRule[] = [
   minimumFrequency,
   maximumInconvenience,
   minimumShiftsInStandardWorkdayPerWeek,
+  firstShiftAfterExtendedLeave,
 ];
 
 export const isScheduleValid = (

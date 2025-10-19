@@ -35,6 +35,9 @@ export interface ShiftsAutoFillWithoutParamsProps {
   maximumIntervalBetweenShifts: number;
   requireMinimumNumberOfShiftsPerWeekInStandardWorkday: boolean;
   minimumNumberOfShiftsPerWeekInStandardWorkday: number;
+  requireFirstShiftAfterExtendedLeave: boolean;
+  firstShiftAfterExtendedLeaveMinimumDays: number;
+  firstShiftAfterExtendedLeaveApplicableTypes: string[];
   minimumRestSlotsAfterShift: {
     inconvenienceLessOrEqualThan: number;
     minimumRestMinutes: number;
@@ -59,6 +62,9 @@ export const ShiftsAutoFillWithoutParams: FC<
   maximumIntervalBetweenShifts,
   requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
   minimumNumberOfShiftsPerWeekInStandardWorkday,
+  requireFirstShiftAfterExtendedLeave,
+  firstShiftAfterExtendedLeaveMinimumDays,
+  firstShiftAfterExtendedLeaveApplicableTypes,
   minimumRestSlotsAfterShift,
   onAssignShiftPositions,
   progress,
@@ -117,6 +123,12 @@ export const ShiftsAutoFillWithoutParams: FC<
       rules.minimumShiftsInStandardWorkdayPerWeek =
         minimumNumberOfShiftsPerWeekInStandardWorkday;
     }
+    if (requireFirstShiftAfterExtendedLeave) {
+      rules.firstShiftAfterExtendedLeave = {
+        minimumContinuousDays: firstShiftAfterExtendedLeaveMinimumDays,
+        applicableLeaveTypes: firstShiftAfterExtendedLeaveApplicableTypes,
+      };
+    }
     client.start(
       {
         startDay: startDate?.toString() ?? "",
@@ -160,6 +172,9 @@ export const ShiftsAutoFillWithoutParams: FC<
     maximumIntervalBetweenShifts,
     requireMinimumNumberOfShiftsPerWeekInStandardWorkday,
     minimumNumberOfShiftsPerWeekInStandardWorkday,
+    requireFirstShiftAfterExtendedLeave,
+    firstShiftAfterExtendedLeaveMinimumDays,
+    firstShiftAfterExtendedLeaveApplicableTypes,
     startDate,
     endDate,
     minimumRestSlotsAfterShift,
@@ -210,6 +225,9 @@ const defaultShiftAutoFillParams: Omit<
   maximumIntervalBetweenShifts: 10,
   requireMinimumNumberOfShiftsPerWeekInStandardWorkday: false,
   minimumNumberOfShiftsPerWeekInStandardWorkday: 1,
+  requireFirstShiftAfterExtendedLeave: false,
+  firstShiftAfterExtendedLeaveMinimumDays: 3,
+  firstShiftAfterExtendedLeaveApplicableTypes: [],
   minimumRestSlotsAfterShift: [],
 };
 
@@ -311,6 +329,15 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           }
           minimumNumberOfShiftsPerWeekInStandardWorkday={
             shiftAutoFillParams.minimumNumberOfShiftsPerWeekInStandardWorkday
+          }
+          requireFirstShiftAfterExtendedLeave={
+            shiftAutoFillParams.requireFirstShiftAfterExtendedLeave
+          }
+          firstShiftAfterExtendedLeaveMinimumDays={
+            shiftAutoFillParams.firstShiftAfterExtendedLeaveMinimumDays
+          }
+          firstShiftAfterExtendedLeaveApplicableTypes={
+            shiftAutoFillParams.firstShiftAfterExtendedLeaveApplicableTypes
           }
           minimumRestSlotsAfterShift={
             shiftAutoFillParams.minimumRestSlotsAfterShift
