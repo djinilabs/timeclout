@@ -87,14 +87,19 @@ export const useTeamLeaveSchedule = ({
             (type) => type.name === leave.type
           );
           if (!leaveType) {
+            console.warn("Leave type not found for leave:", leave.type);
             return;
           }
 
           // Find the corresponding leave request to get the date range
-          const leaveRequest = leaveRequestsMap.get(
-            `${leave.leaveRequestPk}/${leave.leaveRequestSk}`
-          );
+          const leaveKey = `${leave.leaveRequestPk}/${leave.leaveRequestSk}`;
+          const leaveRequest = leaveRequestsMap.get(leaveKey);
+
           if (!leaveRequest) {
+            console.warn("Leave request not found for leave:", {
+              leaveKey,
+              availableKeys: Array.from(leaveRequestsMap.keys()),
+            });
             return;
           }
 

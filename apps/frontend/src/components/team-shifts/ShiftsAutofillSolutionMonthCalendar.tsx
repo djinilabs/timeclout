@@ -140,10 +140,8 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
 
     const renderDay = useCallback(
       (day: Day) => {
-        const shiftPositions = assignedShiftPositions?.[day.date];
-        if (!shiftPositions) {
-          return null;
-        }
+        const shiftPositions = assignedShiftPositions?.[day.date] ?? [];
+
         const leaves = showLeaveSchedule
           ? leaveSchedule?.[day.date]
           : undefined;
@@ -281,18 +279,24 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
       string,
       Record<string, LeaveRenderInfo[]>
     > = useMemo(() => {
-      return Object.fromEntries(
-        members.map((member) => [
-          member.pk,
-          Object.fromEntries(
-            Object.entries(leaveSchedule).map(([day, leaves]) => [
-              day,
-              leaves.filter((leave) => leave.user.pk === member.pk),
-            ])
-          ),
-        ])
+      const result = Object.fromEntries(
+        members.map((member) => {
+          const memberLeaves = Object.fromEntries(
+            Object.entries(leaveSchedule).map(([day, leaves]) => {
+              const filteredLeaves = leaves.filter(
+                (leave) => leave.user.pk === member.pk
+              );
+
+              return [day, filteredLeaves];
+            })
+          );
+
+          return [member.pk, memberLeaves];
+        })
       );
-    }, [leaveSchedule, members]);
+
+      return result;
+    }, [leaveSchedule, members, showLeaveSchedule]);
 
     const renderMemberDay = useCallback(
       (member: User, day: DayDate) => {
@@ -301,6 +305,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
         const leaves = showLeaveSchedule
           ? memberLeaveMap[member.pk]?.[day.toString()]
           : undefined;
+
         if (!leaves && !shiftPositionsForDay) {
           return null;
         }

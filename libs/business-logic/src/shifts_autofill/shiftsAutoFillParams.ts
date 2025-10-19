@@ -162,19 +162,6 @@ export const shiftsAutoFillParams = async (
     const day = new DayDate(position.day);
     const diff = diffInMinutes(startDay, day);
 
-    // Debug logging for demo data issues
-    if (process.env.NODE_ENV === "development") {
-      console.log("Processing shift position:", {
-        sk: position.sk,
-        day: position.day,
-        schedules: position.schedules.map((s) => ({
-          startHourMinutes: s.startHourMinutes,
-          endHourMinutes: s.endHourMinutes,
-          inconveniencePerHour: s.inconveniencePerHour,
-        })),
-      });
-    }
-
     return {
       id: position.sk,
       workHours: position.schedules.map((schedule) => {

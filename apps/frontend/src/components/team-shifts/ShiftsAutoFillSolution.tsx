@@ -28,11 +28,6 @@ import unassignShiftPositionMutation from "@/graphql-client/mutations/unassignSh
 import { SchedulerState, ScoredShiftSchedule } from "@/scheduler";
 import { getDefined } from "@/utils";
 
-
-
-
-
-
 export interface ShiftsAutoFillSolutionProps {
   team: string;
   company: string;
