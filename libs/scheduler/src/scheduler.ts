@@ -2,7 +2,10 @@ import { dequal } from "dequal";
 import { random } from "nanoid";
 
 import { evaluateSchedule } from "./evaluateSchedule";
-import { heuristics as realHeuristics } from "./heuristics";
+import {
+  heuristics as realHeuristics,
+  createAvoidNonWorkDayFirstShiftHeuristic,
+} from "./heuristics";
 import { isScheduleValid } from "./rules";
 import { RuleName } from "./rules/types";
 import { randomSchedule } from "./schedule";
@@ -15,7 +18,6 @@ import {
 import { sortByScore } from "./utils/sortByScore";
 
 import { getDefined, timeout } from "@/utils";
-
 
 export interface SchedulerSubscriptionOptions {
   interval: number;
@@ -33,6 +35,16 @@ export interface SchedulerListener {
   (state: SchedulerState): void;
 }
 
+export interface WorkSchedule {
+  monday: { isWorkDay: boolean };
+  tuesday: { isWorkDay: boolean };
+  wednesday: { isWorkDay: boolean };
+  thursday: { isWorkDay: boolean };
+  friday: { isWorkDay: boolean };
+  saturday: { isWorkDay: boolean };
+  sunday: { isWorkDay: boolean };
+}
+
 export interface SchedulerOptions {
   startDay: string;
   endDay: string;
@@ -46,6 +58,7 @@ export interface SchedulerOptions {
     minimumRestMinutes: number;
   }[];
   respectLeaveSchedule: boolean;
+  workSchedule?: WorkSchedule;
   locale?: string;
 }
 
@@ -70,6 +83,7 @@ export class Scheduler {
     inconvenienceLessOrEqualThan: number;
     minimumRestMinutes: number;
   }[];
+  private workSchedule?: WorkSchedule;
 
   private topSolutions: ScoredShiftSchedule[] = [];
   private discardedReasons = new Map<string, number>();
@@ -83,19 +97,30 @@ export class Scheduler {
     this.startDay = options.startDay;
     this.endDay = options.endDay;
     this.heuristics = Object.entries(options.heuristics).map(
-      ([name, multiplier]) => ({
-        ...getDefined(
-          realHeuristics.find((h) => h.name === name),
-          `Heuristic ${name} not found`
-        ),
-        priorityMultiplier: multiplier,
-      })
+      ([name, multiplier]) => {
+        // Special handling for the workSchedule-aware heuristic
+        if (name === "Avoid Non-Work Day First Shift") {
+          return {
+            ...createAvoidNonWorkDayFirstShiftHeuristic(options.workSchedule),
+            priorityMultiplier: multiplier,
+          };
+        }
+
+        return {
+          ...getDefined(
+            realHeuristics.find((h) => h.name === name),
+            `Heuristic ${name} not found`
+          ),
+          priorityMultiplier: multiplier,
+        };
+      }
     );
     this.respectLeaveSchedule = options.respectLeaveSchedule;
     this.rules = options.rules;
     this.workers = options.workers;
     this.slots = options.slots;
     this.minimumRestMinutesAfterShift = options.minimumRestSlotsAfterShift;
+    this.workSchedule = options.workSchedule;
   }
 
   private async cycle() {
@@ -109,6 +134,7 @@ export class Scheduler {
         minimumRestSlotsAfterShift: this.minimumRestMinutesAfterShift,
         rules: this.rules,
         respectLeaveSchedule: this.respectLeaveSchedule,
+        workSchedule: this.workSchedule,
       });
 
       const [valid, reason, problemInSlotId] = isScheduleValid(

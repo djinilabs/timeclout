@@ -24,6 +24,7 @@ export interface ShiftAutoFillParamValues {
   workerInconvenienceEquality: number;
   workerSlotEquality: number;
   workerSlotProximity: number;
+  avoidNonWorkDayFirstShift: number;
   respectLeaveSchedule: boolean;
   requireMaximumIntervalBetweenShifts: boolean;
   maximumIntervalBetweenShifts: number;
@@ -589,6 +590,41 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                 {params.workerSlotProximity}%
               </div>
             </div>
+          </div>
+          <div className="px-4 py-5 sm:p-6">
+            <dt className="text-base font-normal text-gray-900">
+              <label
+                htmlFor="avoid-non-work-day-first-shift"
+                id="avoid-non-work-day-first-shift-label"
+              >
+                <Trans>Avoid Non-Work Day First Shift</Trans>
+              </label>
+            </dt>
+            <dd className="mt-1 flex justify-between items-center">
+              <p
+                className="text-sm text-gray-400 mt-1"
+                id="avoid-non-work-day-first-shift-description"
+              >
+                <Trans>
+                  Higher values try to avoid scheduling workers&apos; first
+                  shift of the week on non-work days (e.g., weekends)
+                </Trans>
+              </p>
+              <RangeSlider
+                min={0}
+                max={100}
+                value={params.avoidNonWorkDayFirstShift}
+                onChange={setProp("avoidNonWorkDayFirstShift")}
+                aria-labelledby="avoid-non-work-day-first-shift-label"
+                aria-describedby="avoid-non-work-day-first-shift-description"
+              />
+              <div
+                className="text-3xl font-semibold tracking-tight text-gray-900 text-right"
+                aria-live="polite"
+              >
+                {params.avoidNonWorkDayFirstShift}%
+              </div>
+            </dd>
           </div>
         </dl>
       </div>

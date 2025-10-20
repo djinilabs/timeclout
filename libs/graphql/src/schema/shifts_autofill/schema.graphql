@@ -20,6 +20,22 @@ type AutoFillWorkHour {
   inconvenienceMultiplier: Float!
 }
 
+type AutoFillWorkDay {
+  isWorkDay: Boolean!
+  start: String
+  end: String
+}
+
+type AutoFillWorkSchedule {
+  monday: AutoFillWorkDay!
+  tuesday: AutoFillWorkDay!
+  wednesday: AutoFillWorkDay!
+  thursday: AutoFillWorkDay!
+  friday: AutoFillWorkDay!
+  saturday: AutoFillWorkDay!
+  sunday: AutoFillWorkDay!
+}
+
 type AutoFillSlot {
   id: ID!
   workHours: [AutoFillWorkHour!]!
@@ -32,6 +48,7 @@ type AutoFillSlot {
 type ShiftsAutoFillParams {
   workers: [AutoFillSlotWorker!]!
   slots: [AutoFillSlot!]!
+  workSchedule: AutoFillWorkSchedule
 }
 
 input AutoFillParamsInput {

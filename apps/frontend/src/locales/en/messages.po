@@ -14,6 +14,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:600
+msgid "Avoid Non-Work Day First Shift"
+msgstr "Avoid Non-Work Day First Shift"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftAutoFillParams.tsx:608
+msgid "Higher values try to avoid scheduling workers' first shift of the week on non-work days (e.g., weekends)"
+msgstr "Higher values try to avoid scheduling workers' first shift of the week on non-work days (e.g., weekends)"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:122
 msgid "Please fill in all fields correctly"
 msgstr "Please fill in all fields correctly"

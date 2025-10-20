@@ -30,6 +30,7 @@ export interface ShiftsAutoFillWithoutParamsProps {
   workerInconvenienceEquality: number;
   workerSlotEquality: number;
   workerSlotProximity: number;
+  avoidNonWorkDayFirstShift: number;
   respectLeaveSchedule: boolean;
   requireMaximumIntervalBetweenShifts: boolean;
   maximumIntervalBetweenShifts: number;
@@ -57,6 +58,7 @@ export const ShiftsAutoFillWithoutParams: FC<
   workerInconvenienceEquality,
   workerSlotEquality,
   workerSlotProximity,
+  avoidNonWorkDayFirstShift,
   respectLeaveSchedule,
   requireMaximumIntervalBetweenShifts,
   maximumIntervalBetweenShifts,
@@ -144,8 +146,10 @@ export const ShiftsAutoFillWithoutParams: FC<
           "Worker Inconvenience Equality": workerInconvenienceEquality,
           "Worker Slot Equality": workerSlotEquality,
           "Worker Slot Proximity": workerSlotProximity,
+          "Avoid Non-Work Day First Shift": avoidNonWorkDayFirstShift,
         },
         respectLeaveSchedule,
+        workSchedule: shiftsAutoFillParams.workSchedule,
         rules,
         locale,
       },
@@ -166,6 +170,7 @@ export const ShiftsAutoFillWithoutParams: FC<
     workerInconvenienceEquality,
     workerSlotEquality,
     workerSlotProximity,
+    avoidNonWorkDayFirstShift,
     onProgress,
     respectLeaveSchedule,
     requireMaximumIntervalBetweenShifts,
@@ -220,6 +225,7 @@ const defaultShiftAutoFillParams: Omit<
   workerInconvenienceEquality: 50,
   workerSlotEquality: 50,
   workerSlotProximity: 50,
+  avoidNonWorkDayFirstShift: 50,
   respectLeaveSchedule: true,
   requireMaximumIntervalBetweenShifts: false,
   maximumIntervalBetweenShifts: 10,
@@ -317,6 +323,9 @@ export const ShiftsAutoFill: FC<ShiftsAutoFillProps> = ({
           }
           workerSlotEquality={shiftAutoFillParams.workerSlotEquality}
           workerSlotProximity={shiftAutoFillParams.workerSlotProximity}
+          avoidNonWorkDayFirstShift={
+            shiftAutoFillParams.avoidNonWorkDayFirstShift
+          }
           respectLeaveSchedule={shiftAutoFillParams.respectLeaveSchedule}
           requireMaximumIntervalBetweenShifts={
             shiftAutoFillParams.requireMaximumIntervalBetweenShifts

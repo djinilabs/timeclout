@@ -38,9 +38,26 @@ export interface AutoFillSlot {
   typeName: string;
 }
 
+export interface AutoFillWorkDay {
+  isWorkDay: boolean;
+  start?: string;
+  end?: string;
+}
+
+export interface AutoFillWorkSchedule {
+  monday: AutoFillWorkDay;
+  tuesday: AutoFillWorkDay;
+  wednesday: AutoFillWorkDay;
+  thursday: AutoFillWorkDay;
+  friday: AutoFillWorkDay;
+  saturday: AutoFillWorkDay;
+  sunday: AutoFillWorkDay;
+}
+
 export interface ShiftsAutoFillParams {
   workers: AutoFillSlotWorker[];
   slots: AutoFillSlot[];
+  workSchedule?: AutoFillWorkSchedule;
 }
 
 const ONE_DAY_IN_MINUTES = 24 * 60;
@@ -113,6 +130,14 @@ export const shiftsAutoFillParams = async (
     }, {} as Record<string, LeaveType>),
     "Leave types not found for company"
   );
+
+  // Get work schedule from team settings, fallback to company settings
+  const teamWorkSchedule = await getEntitySettings(team, "workSchedule");
+  const companyWorkSchedule = await getEntitySettings(
+    companyPk,
+    "workSchedule"
+  );
+  const workSchedule = teamWorkSchedule || companyWorkSchedule;
 
   // get approved leaves for each worker
   const approvedLeaves = await Promise.all(
@@ -205,6 +230,7 @@ export const shiftsAutoFillParams = async (
     return {
       workers,
       slots,
+      workSchedule,
     };
   }
 
@@ -221,5 +247,6 @@ export const shiftsAutoFillParams = async (
   return {
     workers: workersWithRequiredQualifications,
     slots,
+    workSchedule,
   };
 };
