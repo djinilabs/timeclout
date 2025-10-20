@@ -92,13 +92,13 @@ heuristics: {
 
 **How it works**:
 
-- Calculates the expected number of non-work day first shifts based on schedule constraints:
-  - Counts total weeks in the schedule period
+- Calculates the expected number of non-work day first shifts based on random assignment:
+  - Counts total first shifts in the schedule (one per worker per week they work)
   - Calculates probability of non-work day first shift (non-work days / 7 days per week)
-  - Multiplies by number of workers and weeks to get expected count
+  - Multiplies total first shifts by probability to get expected count
 - Identifies each worker's first shift of each week (Monday-Sunday) in the actual schedule
 - Counts actual non-work day first shifts and compares to expected value
-- Returns relative deviation from expected value (higher deviation = worse schedule)
+- Returns relative deviation from expected value (only penalizes when actual > expected)
 - Defaults to treating Saturday/Sunday as non-work days if no work schedule is provided
 
 **Configuration**:

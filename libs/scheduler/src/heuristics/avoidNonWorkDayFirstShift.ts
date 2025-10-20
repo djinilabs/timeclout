@@ -71,50 +71,35 @@ const getFirstShiftsByWorkerAndWeek = (
 };
 
 /**
- * Calculates the expected number of non-work day first shifts based on the schedule constraints
+ * Calculates the expected number of non-work day first shifts based on random assignment
  */
 const calculateExpectedNonWorkDayFirstShifts = (
   schedule: ShiftSchedule,
   workSchedule?: WorkSchedule
 ): number => {
-  const scheduleStart = new DayDate(schedule.startDay);
-  const scheduleEnd = new DayDate(schedule.endDay);
-
-  // Count total weeks in the schedule
-  let currentWeekStart = scheduleStart;
-  let weekCount = 0;
-
-  // Find the first Monday of the schedule
-  while (currentWeekStart.getWeekDay() !== "monday") {
-    currentWeekStart = currentWeekStart.nextDay();
-  }
-
-  // Count weeks from first Monday to end of schedule
-  while (currentWeekStart.isBeforeOrEqual(scheduleEnd)) {
-    weekCount++;
-    currentWeekStart = currentWeekStart.nextDay(7); // Next Monday
-  }
-
-  // Count total non-work days per week
   const workScheduleConfig = workSchedule || defaultWorkSchedule;
+
+  // Count non-work days per week
   const nonWorkDaysPerWeek = Object.values(workScheduleConfig).filter(
     (day) => !day.isWorkDay
   ).length;
 
-  // Calculate probability that a worker's first shift falls on a non-work day
-  // This is the ratio of non-work days to total days in a week
+  // Calculate probability that a randomly assigned first shift falls on a non-work day
   const totalDaysPerWeek = 7;
   const probabilityOfNonWorkDayFirstShift =
     nonWorkDaysPerWeek / totalDaysPerWeek;
 
-  // Get unique workers count
-  const uniqueWorkers = new Set(
-    schedule.shifts.map((shift) => shift.assigned.pk)
-  );
-  const workerCount = uniqueWorkers.size;
+  // Get the actual first shifts by worker and week
+  const firstShiftsByWorkerAndWeek = getFirstShiftsByWorkerAndWeek(schedule);
 
-  // Expected number of non-work day first shifts = weeks * workers * probability
-  return weekCount * workerCount * probabilityOfNonWorkDayFirstShift;
+  // Count total first shifts (one per worker per week they work)
+  let totalFirstShifts = 0;
+  for (const [, weeks] of firstShiftsByWorkerAndWeek) {
+    totalFirstShifts += weeks.size;
+  }
+
+  // Expected number of non-work day first shifts = total first shifts * probability
+  return totalFirstShifts * probabilityOfNonWorkDayFirstShift;
 };
 
 /**
@@ -152,8 +137,9 @@ export const calculateAvoidNonWorkDayFirstShiftDeviation = (
   const actual = calculateActualNonWorkDayFirstShifts(schedule, workSchedule);
 
   // Calculate the deviation from expected value
-  // Higher deviation means more violations than expected (worse schedule)
-  const deviation = Math.abs(actual - expected);
+  // We only penalize when actual > expected (more violations than expected)
+  // When actual < expected (fewer violations), that's good, so deviation = 0
+  const deviation = Math.max(0, actual - expected);
 
   // Normalize by expected value to get relative deviation
   // If expected is 0, return the absolute deviation
