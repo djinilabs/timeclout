@@ -86,6 +86,31 @@ heuristics: {
 
 **Business Impact**: Improves worker efficiency and reduces travel time
 
+### 4. Avoid Non-Work Day First Shift
+
+**Goal**: Prevent workers' first shift of the week from being scheduled on non-work days
+
+**How it works**:
+
+- Calculates the expected number of non-work day first shifts based on random assignment:
+  - Counts total first shifts in the schedule (one per worker per week they work)
+  - Calculates probability of non-work day first shift (non-work days / 7 days per week)
+  - Multiplies total first shifts by probability to get expected count
+- Identifies each worker's first shift of each week (Monday-Sunday) in the actual schedule
+- Counts actual non-work day first shifts and compares to expected value
+- Returns relative deviation from expected value (only penalizes when actual > expected)
+- Defaults to treating Saturday/Sunday as non-work days if no work schedule is provided
+
+**Configuration**:
+
+```typescript
+heuristics: {
+  "Avoid Non-Work Day First Shift": 1.0  // Multiplier for this heuristic
+}
+```
+
+**Business Impact**: Ensures workers' first hours (which may not count as premium pay) are not scheduled on higher-paying weekend days
+
 ## ⚖️ Heuristic Configuration
 
 ### Priority Multipliers
@@ -96,18 +121,20 @@ Users define the weight of each heuristic in the final score calculation:
 heuristics: {
   "Worker Inconvenience Equality": 2.0,  // High priority
   "Worker Slot Equality": 1.5,           // Medium priority
-  "Worker Slot Proximity": 1.0           // Standard priority
+  "Worker Slot Proximity": 1.0,          // Standard priority
+  "Avoid Non-Work Day First Shift": 1.0  // Standard priority
 }
 ```
 
 ### Tuning Guidelines
 
-| Business Goal           | Recommended Heuristic Weights                                   |
-| ----------------------- | --------------------------------------------------------------- |
-| **Fairness First**      | Inconvenience Equality: 2.0, Slot Equality: 1.5, Proximity: 1.0 |
-| **Efficiency First**    | Proximity: 2.0, Inconvenience Equality: 1.5, Slot Equality: 1.0 |
-| **Balanced Approach**   | All heuristics: 1.0                                             |
-| **Custom Optimization** | Adjust based on specific business needs                         |
+| Business Goal           | Recommended Heuristic Weights                                                            |
+| ----------------------- | ---------------------------------------------------------------------------------------- |
+| **Fairness First**      | Inconvenience Equality: 2.0, Slot Equality: 1.5, Proximity: 1.0, Avoid Non-Work Day: 1.0 |
+| **Efficiency First**    | Proximity: 2.0, Inconvenience Equality: 1.5, Slot Equality: 1.0, Avoid Non-Work Day: 1.0 |
+| **Weekend Protection**  | Avoid Non-Work Day: 2.0, Inconvenience Equality: 1.5, Slot Equality: 1.0, Proximity: 1.0 |
+| **Balanced Approach**   | All heuristics: 1.0                                                                      |
+| **Custom Optimization** | Adjust based on specific business needs                                                  |
 
 ## 🔒 Business Rules & Constraints
 

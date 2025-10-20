@@ -1,5 +1,11 @@
 import type { RuleName } from "./rules/types";
-import type { ShiftSchedule, SlotShift, SlotWorker, WorkSlots } from "./types";
+import type {
+  ShiftSchedule,
+  SlotShift,
+  SlotWorker,
+  WorkSlots,
+  WorkSchedule,
+} from "./types";
 import { calculateMinimumRestMinutesAfterShift } from "./utils/calculateMinimumRestMinutesAfterShift";
 import { calculateSlotInconvenience } from "./utils/calculateSlotInconvenience";
 import { decreasingRandomLinearWeights } from "./utils/decreasingRandomLinearWeights";
@@ -20,6 +26,7 @@ export interface ScheduleOptions {
     minimumRestMinutes: number;
   }[];
   rules: Partial<Record<RuleName, unknown>>;
+  workSchedule?: WorkSchedule;
 }
 
 export const randomSchedule = ({
@@ -29,6 +36,7 @@ export const randomSchedule = ({
   workers,
   respectLeaveSchedule,
   minimumRestSlotsAfterShift,
+  workSchedule: _workSchedule, // eslint-disable-line @typescript-eslint/no-unused-vars
 }: ScheduleOptions): ShiftSchedule => {
   const busy = new Map<SlotWorker, Array<[number, number]>>();
 

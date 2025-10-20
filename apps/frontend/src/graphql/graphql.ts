@@ -1,5 +1,3 @@
-import { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
-
 /* eslint-disable */
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T | null | undefined;
@@ -21,6 +19,11 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
+
+// Missing type definition for DocumentTypeDecoration
+export type DocumentTypeDecoration<TResult, TVariables> = {
+  __apiType?: (variables: TVariables) => TResult;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -75,11 +78,29 @@ export type AutoFillSlotWorker = {
   qualifications: Array<Scalars["String"]["output"]>;
 };
 
+export type AutoFillWorkDay = {
+  __typename?: "AutoFillWorkDay";
+  end?: Maybe<Scalars["String"]["output"]>;
+  isWorkDay: Scalars["Boolean"]["output"];
+  start?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type AutoFillWorkHour = {
   __typename?: "AutoFillWorkHour";
   end: Scalars["Int"]["output"];
   inconvenienceMultiplier: Scalars["Float"]["output"];
   start: Scalars["Int"]["output"];
+};
+
+export type AutoFillWorkSchedule = {
+  __typename?: "AutoFillWorkSchedule";
+  friday: AutoFillWorkDay;
+  monday: AutoFillWorkDay;
+  saturday: AutoFillWorkDay;
+  sunday: AutoFillWorkDay;
+  thursday: AutoFillWorkDay;
+  tuesday: AutoFillWorkDay;
+  wednesday: AutoFillWorkDay;
 };
 
 export type AutoFillWorkerLeave = {
@@ -699,6 +720,7 @@ export type ShiftPositionScheduleInput = {
 export type ShiftsAutoFillParams = {
   __typename?: "ShiftsAutoFillParams";
   slots: Array<AutoFillSlot>;
+  workSchedule?: Maybe<AutoFillWorkSchedule>;
   workers: Array<AutoFillSlotWorker>;
 };
 

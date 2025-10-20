@@ -65,7 +65,9 @@ import    { updateUnitSettings as Mutation_updateUnitSettings } from './schema/u
 import    { updateUserSettings as Mutation_updateUserSettings } from './schema/user/resolvers/Mutation/updateUserSettings';
 import    { AutoFillSlot } from './schema/shifts_autofill/resolvers/AutoFillSlot';
 import    { AutoFillSlotWorker } from './schema/shifts_autofill/resolvers/AutoFillSlotWorker';
+import    { AutoFillWorkDay } from './schema/shifts_autofill/resolvers/AutoFillWorkDay';
 import    { AutoFillWorkHour } from './schema/shifts_autofill/resolvers/AutoFillWorkHour';
+import    { AutoFillWorkSchedule } from './schema/shifts_autofill/resolvers/AutoFillWorkSchedule';
 import    { AutoFillWorkerLeave } from './schema/shifts_autofill/resolvers/AutoFillWorkerLeave';
 import    { Calendar } from './schema/leave/resolvers/Calendar';
 import    { Company } from './schema/company/resolvers/Company';
@@ -93,7 +95,9 @@ import    { DateResolver,DateTimeResolver,JSONResolver } from 'graphql-scalars';
       
       AutoFillSlot: AutoFillSlot,
 AutoFillSlotWorker: AutoFillSlotWorker,
+AutoFillWorkDay: AutoFillWorkDay,
 AutoFillWorkHour: AutoFillWorkHour,
+AutoFillWorkSchedule: AutoFillWorkSchedule,
 AutoFillWorkerLeave: AutoFillWorkerLeave,
 Calendar: Calendar,
 Company: Company,

@@ -1,4 +1,4 @@
-/* eslint-disable playwright/no-standalone-expect */
+ 
 import { describe, expect, it } from "vitest";
 
 import { Scheduler, SchedulerState } from "../scheduler";

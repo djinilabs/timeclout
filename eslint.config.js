@@ -33,7 +33,6 @@ export default tseslint.config(
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
       ...reactRefresh.configs.recommended.rules,
-      ...playwright.configs.recommended.rules,
       ...importPlugin.configs.recommended.rules,
       ...importPlugin.configs.typescript.rules,
       'react/react-in-jsx-scope': 'off',
@@ -58,6 +57,12 @@ export default tseslint.config(
       'import/no-unresolved': 'off', // TypeScript handles this
       'import/no-cycle': 'error',
       'import/no-duplicates': 'error'
+    }
+  },
+  {
+    files: ['**/*.test.{ts,tsx}', '**/__tests__/**/*.{ts,tsx}'],
+    rules: {
+      'playwright/no-standalone-expect': 'off'
     }
   }
 )

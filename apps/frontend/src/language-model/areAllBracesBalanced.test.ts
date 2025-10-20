@@ -1,4 +1,4 @@
-/* eslint-disable playwright/no-standalone-expect */
+ 
 import { describe, it, expect } from "vitest";
 
 import { areAllBracesBalanced } from "./areAllBracesBalanced";

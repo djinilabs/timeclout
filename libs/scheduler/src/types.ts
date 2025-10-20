@@ -42,6 +42,16 @@ export interface ShiftSchedule {
   shifts: Array<SlotShift>;
 }
 
+export interface WorkSchedule {
+  monday: { isWorkDay: boolean };
+  tuesday: { isWorkDay: boolean };
+  wednesday: { isWorkDay: boolean };
+  thursday: { isWorkDay: boolean };
+  friday: { isWorkDay: boolean };
+  saturday: { isWorkDay: boolean };
+  sunday: { isWorkDay: boolean };
+}
+
 export interface ShiftScheduleHeuristic {
   name: string;
   eval: (schedule: ShiftSchedule) => number;
