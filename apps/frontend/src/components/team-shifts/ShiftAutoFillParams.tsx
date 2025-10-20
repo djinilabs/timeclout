@@ -591,16 +591,17 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
               </div>
             </div>
           </div>
-          <div className="px-4 py-5 sm:p-6">
-            <dt className="text-base font-normal text-gray-900">
-              <label
-                htmlFor="avoid-non-work-day-first-shift"
+          <div>
+            <div
+              key="avoid-non-work-day-first-shift"
+              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-sm sm:p-6"
+            >
+              <dt
+                className="truncate text-sm font-medium text-gray-500"
                 id="avoid-non-work-day-first-shift-label"
               >
                 <Trans>Avoid Non-Work Day First Shift</Trans>
-              </label>
-            </dt>
-            <dd className="mt-1 flex justify-between items-center">
+              </dt>
               <p
                 className="text-sm text-gray-400 mt-1"
                 id="avoid-non-work-day-first-shift-description"
@@ -610,21 +611,23 @@ export const ShiftAutoFillParams: FC<ShiftAutoFillParamsProps> = ({
                   shift of the week on non-work days (e.g., weekends)
                 </Trans>
               </p>
-              <RangeSlider
-                min={0}
-                max={100}
-                value={params.avoidNonWorkDayFirstShift}
-                onChange={setProp("avoidNonWorkDayFirstShift")}
-                aria-labelledby="avoid-non-work-day-first-shift-label"
-                aria-describedby="avoid-non-work-day-first-shift-description"
-              />
-              <div
-                className="text-3xl font-semibold tracking-tight text-gray-900 text-right"
-                aria-live="polite"
-              >
-                {params.avoidNonWorkDayFirstShift}%
-              </div>
-            </dd>
+              <dd className="space-y-2">
+                <RangeSlider
+                  min={0}
+                  max={100}
+                  value={params.avoidNonWorkDayFirstShift}
+                  onChange={setProp("avoidNonWorkDayFirstShift")}
+                  aria-labelledby="avoid-non-work-day-first-shift-label"
+                  aria-describedby="avoid-non-work-day-first-shift-description"
+                />
+                <div
+                  className="text-3xl font-semibold tracking-tight text-gray-900 text-right"
+                  aria-live="polite"
+                >
+                  {params.avoidNonWorkDayFirstShift}%
+                </div>
+              </dd>
+            </div>
           </div>
         </dl>
       </div>
