@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 
+import type { ShiftSchedule, WorkSchedule } from "../../types";
 import {
   calculateAvoidNonWorkDayFirstShiftDeviation,
   createAvoidNonWorkDayFirstShiftHeuristic,
 } from "../avoidNonWorkDayFirstShift";
-import type { ShiftSchedule, WorkSchedule } from "../../types";
 
 describe("avoidNonWorkDayFirstShift", () => {
   const mockWorkers = [
