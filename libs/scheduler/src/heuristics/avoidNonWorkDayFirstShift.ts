@@ -1,5 +1,8 @@
-import type { WorkSchedule } from "../scheduler";
-import type { ShiftScheduleHeuristic, ShiftSchedule } from "../types";
+import type {
+  ShiftScheduleHeuristic,
+  ShiftSchedule,
+  WorkSchedule,
+} from "../types";
 
 import { DayDate } from "@/day-date";
 

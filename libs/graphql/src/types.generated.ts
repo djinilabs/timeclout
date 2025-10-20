@@ -62,11 +62,29 @@ export type AutoFillSlotWorker = {
   qualifications: Array<Scalars['String']['output']>;
 };
 
+export type AutoFillWorkDay = {
+  __typename?: 'AutoFillWorkDay';
+  end?: Maybe<Scalars['String']['output']>;
+  isWorkDay: Scalars['Boolean']['output'];
+  start?: Maybe<Scalars['String']['output']>;
+};
+
 export type AutoFillWorkHour = {
   __typename?: 'AutoFillWorkHour';
   end: Scalars['Int']['output'];
   inconvenienceMultiplier: Scalars['Float']['output'];
   start: Scalars['Int']['output'];
+};
+
+export type AutoFillWorkSchedule = {
+  __typename?: 'AutoFillWorkSchedule';
+  friday: AutoFillWorkDay;
+  monday: AutoFillWorkDay;
+  saturday: AutoFillWorkDay;
+  sunday: AutoFillWorkDay;
+  thursday: AutoFillWorkDay;
+  tuesday: AutoFillWorkDay;
+  wednesday: AutoFillWorkDay;
 };
 
 export type AutoFillWorkerLeave = {
@@ -744,6 +762,7 @@ export type ShiftPositionScheduleInput = {
 export type ShiftsAutoFillParams = {
   __typename?: 'ShiftsAutoFillParams';
   slots: Array<AutoFillSlot>;
+  workSchedule?: Maybe<AutoFillWorkSchedule>;
   workers: Array<AutoFillSlotWorker>;
 };
 
@@ -970,11 +989,13 @@ export type ResolversTypes = {
   AutoFillSlot: ResolverTypeWrapper<AutoFillSlot>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   AutoFillSlotWorker: ResolverTypeWrapper<AutoFillSlotWorker>;
+  AutoFillWorkDay: ResolverTypeWrapper<AutoFillWorkDay>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   AutoFillWorkHour: ResolverTypeWrapper<AutoFillWorkHour>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  AutoFillWorkSchedule: ResolverTypeWrapper<AutoFillWorkSchedule>;
   AutoFillWorkerLeave: ResolverTypeWrapper<AutoFillWorkerLeave>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Calendar: ResolverTypeWrapper<Calendar>;
   Company: ResolverTypeWrapper<Company>;
   CopyShiftPositionInput: CopyShiftPositionInput;
@@ -1037,11 +1058,13 @@ export type ResolversParentTypes = {
   AutoFillSlot: AutoFillSlot;
   ID: Scalars['ID']['output'];
   AutoFillSlotWorker: AutoFillSlotWorker;
+  AutoFillWorkDay: AutoFillWorkDay;
+  Boolean: Scalars['Boolean']['output'];
   AutoFillWorkHour: AutoFillWorkHour;
   Int: Scalars['Int']['output'];
   Float: Scalars['Float']['output'];
+  AutoFillWorkSchedule: AutoFillWorkSchedule;
   AutoFillWorkerLeave: AutoFillWorkerLeave;
-  Boolean: Scalars['Boolean']['output'];
   Calendar: Calendar;
   Company: Company;
   CopyShiftPositionInput: CopyShiftPositionInput;
@@ -1112,10 +1135,26 @@ export type AutoFillSlotWorkerResolvers<ContextType = any, ParentType extends Re
   qualifications?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type AutoFillWorkDayResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillWorkDay'] = ResolversParentTypes['AutoFillWorkDay']> = {
+  end?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  isWorkDay?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  start?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
 export type AutoFillWorkHourResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillWorkHour'] = ResolversParentTypes['AutoFillWorkHour']> = {
   end?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   inconvenienceMultiplier?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   start?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+};
+
+export type AutoFillWorkScheduleResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillWorkSchedule'] = ResolversParentTypes['AutoFillWorkSchedule']> = {
+  friday?: Resolver<ResolversTypes['AutoFillWorkDay'], ParentType, ContextType>;
+  monday?: Resolver<ResolversTypes['AutoFillWorkDay'], ParentType, ContextType>;
+  saturday?: Resolver<ResolversTypes['AutoFillWorkDay'], ParentType, ContextType>;
+  sunday?: Resolver<ResolversTypes['AutoFillWorkDay'], ParentType, ContextType>;
+  thursday?: Resolver<ResolversTypes['AutoFillWorkDay'], ParentType, ContextType>;
+  tuesday?: Resolver<ResolversTypes['AutoFillWorkDay'], ParentType, ContextType>;
+  wednesday?: Resolver<ResolversTypes['AutoFillWorkDay'], ParentType, ContextType>;
 };
 
 export type AutoFillWorkerLeaveResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutoFillWorkerLeave'] = ResolversParentTypes['AutoFillWorkerLeave']> = {
@@ -1335,6 +1374,7 @@ export type ShiftPositionScheduleResolvers<ContextType = any, ParentType extends
 
 export type ShiftsAutoFillParamsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShiftsAutoFillParams'] = ResolversParentTypes['ShiftsAutoFillParams']> = {
   slots?: Resolver<Array<ResolversTypes['AutoFillSlot']>, ParentType, ContextType>;
+  workSchedule?: Resolver<Maybe<ResolversTypes['AutoFillWorkSchedule']>, ParentType, ContextType>;
   workers?: Resolver<Array<ResolversTypes['AutoFillSlotWorker']>, ParentType, ContextType>;
 };
 
@@ -1397,7 +1437,9 @@ export type UserScheduleResolvers<ContextType = any, ParentType extends Resolver
 export type Resolvers<ContextType = any> = {
   AutoFillSlot?: AutoFillSlotResolvers<ContextType>;
   AutoFillSlotWorker?: AutoFillSlotWorkerResolvers<ContextType>;
+  AutoFillWorkDay?: AutoFillWorkDayResolvers<ContextType>;
   AutoFillWorkHour?: AutoFillWorkHourResolvers<ContextType>;
+  AutoFillWorkSchedule?: AutoFillWorkScheduleResolvers<ContextType>;
   AutoFillWorkerLeave?: AutoFillWorkerLeaveResolvers<ContextType>;
   Calendar?: CalendarResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;

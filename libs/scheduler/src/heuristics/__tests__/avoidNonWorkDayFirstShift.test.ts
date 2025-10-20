@@ -6,8 +6,6 @@ import {
 } from "../avoidNonWorkDayFirstShift";
 import type { ShiftSchedule, WorkSchedule } from "../../types";
 
-import { DayDate } from "@/day-date";
-
 describe("avoidNonWorkDayFirstShift", () => {
   const mockWorkers = [
     {

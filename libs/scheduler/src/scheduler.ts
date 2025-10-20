@@ -14,6 +14,7 @@ import {
   ShiftScheduleHeuristicWithMultiplier,
   Slot,
   SlotWorker,
+  WorkSchedule,
 } from "./types";
 import { sortByScore } from "./utils/sortByScore";
 
@@ -33,16 +34,6 @@ export interface SchedulerState {
 
 export interface SchedulerListener {
   (state: SchedulerState): void;
-}
-
-export interface WorkSchedule {
-  monday: { isWorkDay: boolean };
-  tuesday: { isWorkDay: boolean };
-  wednesday: { isWorkDay: boolean };
-  thursday: { isWorkDay: boolean };
-  friday: { isWorkDay: boolean };
-  saturday: { isWorkDay: boolean };
-  sunday: { isWorkDay: boolean };
 }
 
 export interface SchedulerOptions {

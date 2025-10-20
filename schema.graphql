@@ -43,10 +43,26 @@ type AutoFillSlotWorker {
   qualifications: [String!]!
 }
 
+type AutoFillWorkDay {
+  end: String
+  isWorkDay: Boolean!
+  start: String
+}
+
 type AutoFillWorkHour {
   end: Int!
   inconvenienceMultiplier: Float!
   start: Int!
+}
+
+type AutoFillWorkSchedule {
+  friday: AutoFillWorkDay!
+  monday: AutoFillWorkDay!
+  saturday: AutoFillWorkDay!
+  sunday: AutoFillWorkDay!
+  thursday: AutoFillWorkDay!
+  tuesday: AutoFillWorkDay!
+  wednesday: AutoFillWorkDay!
 }
 
 type AutoFillWorkerLeave {
@@ -228,22 +244,12 @@ type Mutation {
   assignShiftPositions(input: AssignShiftPositionsInput!): [ShiftPosition!]!
   copyShiftPosition(input: CopyShiftPositionInput!): ShiftPosition!
   createCompany(name: String!): Company!
-  createInvitation(
-    invitedUserEmail: String!
-    permissionType: Int!
-    toEntityPk: String!
-  ): Invitation!
+  createInvitation(invitedUserEmail: String!, permissionType: Int!, toEntityPk: String!): Invitation!
   createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
-  createLeaveRequestForUser(
-    input: CreateLeaveRequestForUserInput!
-  ): LeaveRequest!
+  createLeaveRequestForUser(input: CreateLeaveRequestForUserInput!): LeaveRequest!
   createShiftPosition(input: CreateShiftPositionInput!): ShiftPosition!
-  createSingleDayLeaveRequests(
-    input: CreateSingleDayLeaveRequestsInput!
-  ): LeaveRequest!
-  createSingleDayLeaveRequestsForUser(
-    input: CreateSingleDayLeaveRequestsForUserInput!
-  ): [LeaveRequest!]!
+  createSingleDayLeaveRequests(input: CreateSingleDayLeaveRequestsInput!): LeaveRequest!
+  createSingleDayLeaveRequestsForUser(input: CreateSingleDayLeaveRequestsForUserInput!): [LeaveRequest!]!
   createTeam(name: String!, unitPk: String!): Team!
   createTeamMember(input: CreateTeamMemberInput!): User!
   createUnit(companyPk: String!, name: String!): Unit!
@@ -260,19 +266,11 @@ type Mutation {
   rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
   removeUserFromTeam(teamPk: String!, userPk: String!): Team!
   revertShiftPositions(input: RevertShiftPositionsInput!): [ShiftPosition!]!
-  saveTeamMemberQualifications(
-    qualifications: [String!]!
-    teamPk: String!
-    userPk: String!
-  ): Team!
+  saveTeamMemberQualifications(qualifications: [String!]!, teamPk: String!, userPk: String!): Team!
   unassignShiftPosition(input: UnassignShiftPositionInput!): ShiftPosition!
   unassignShiftPositions(input: UnassignShiftPositionsInput!): [ShiftPosition!]!
   updateCompany(name: String!, pk: String!): Company!
-  updateCompanySettings(
-    companyPk: String!
-    name: String!
-    settings: JSON!
-  ): Company!
+  updateCompanySettings(companyPk: String!, name: String!, settings: JSON!): Company!
   updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
   updateMe(input: UpdateMeInput!): User
   updateMySettings(name: String!, settings: JSON!): User
@@ -282,12 +280,7 @@ type Mutation {
   updateTeamSettings(name: String!, settings: JSON!, teamPk: String!): Team!
   updateUnit(name: String!, pk: String!): Unit!
   updateUnitSettings(name: String!, settings: JSON!, unitPk: String!): Unit!
-  updateUserSettings(
-    name: String!
-    settings: JSON!
-    teamPk: String!
-    userPk: String!
-  ): User
+  updateUserSettings(name: String!, settings: JSON!, teamPk: String!, userPk: String!): User
 }
 
 input PopulateDemoAccountInput {
@@ -322,25 +315,11 @@ type Query {
   latestAppVersion: String!
   leaveRequest(pk: String!, sk: String!): LeaveRequest!
   me: User
-  memberQuotaFulfilment(
-    companyPk: String!
-    endDate: String!
-    simulatesLeave: Boolean
-    simulatesLeaveType: String
-    startDate: String!
-    teamPk: String!
-    userPk: String!
-  ): [QuotaFulfilment!]!
+  memberQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!, teamPk: String!, userPk: String!): [QuotaFulfilment!]!
   myInvitations: [Invitation!]!
   myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
   myLeaveRequests(companyPk: String!): [LeaveRequest!]!
-  myQuotaFulfilment(
-    companyPk: String!
-    endDate: String!
-    simulatesLeave: Boolean
-    simulatesLeaveType: String
-    startDate: String!
-  ): [QuotaFulfilment!]!
+  myQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!): [QuotaFulfilment!]!
   pendingLeaveRequests(companyPk: String): [LeaveRequest!]!
   shiftPositions(input: QueryShiftPositionsInput!): QueryShiftPositionsOutput!
   shiftsAutoFillParams(input: AutoFillParamsInput!): ShiftsAutoFillParams!
@@ -425,6 +404,7 @@ input ShiftPositionScheduleInput {
 
 type ShiftsAutoFillParams {
   slots: [AutoFillSlot!]!
+  workSchedule: AutoFillWorkSchedule
   workers: [AutoFillSlotWorker!]!
 }
 

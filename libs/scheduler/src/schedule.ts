@@ -9,7 +9,7 @@ import { selectUniqueRandomWeighted } from "./utils/selectUniqueRandomWeighted";
 import { i18n } from "@/locales";
 import { getDefined } from "@/utils";
 
-import type { WorkSchedule } from "./scheduler";
+import type { WorkSchedule } from "./types";
 
 export interface ScheduleOptions {
   startDay: string;
@@ -32,7 +32,7 @@ export const randomSchedule = ({
   workers,
   respectLeaveSchedule,
   minimumRestSlotsAfterShift,
-  workSchedule,
+  workSchedule: _workSchedule,
 }: ScheduleOptions): ShiftSchedule => {
   const busy = new Map<SlotWorker, Array<[number, number]>>();
 

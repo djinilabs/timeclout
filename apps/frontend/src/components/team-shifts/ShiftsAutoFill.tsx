@@ -149,7 +149,7 @@ export const ShiftsAutoFillWithoutParams: FC<
           "Avoid Non-Work Day First Shift": avoidNonWorkDayFirstShift,
         },
         respectLeaveSchedule,
-        workSchedule: shiftsAutoFillParams.workSchedule,
+        workSchedule: shiftsAutoFillParams.workSchedule || undefined,
         rules,
         locale,
       },
