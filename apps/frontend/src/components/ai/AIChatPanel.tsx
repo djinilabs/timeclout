@@ -34,9 +34,12 @@ const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
     [messages]
   );
 
-  const debouncedAdjustTextareaHeightRef =
-    useRef<ReturnType<typeof debounce>>();
-  const debouncedFocusOnTextareaRef = useRef<ReturnType<typeof debounce>>();
+  const debouncedAdjustTextareaHeightRef = useRef<
+    ReturnType<typeof debounce> | undefined
+  >(undefined);
+  const debouncedFocusOnTextareaRef = useRef<
+    ReturnType<typeof debounce> | undefined
+  >(undefined);
 
   useEffect(() => {
     debouncedAdjustTextareaHeightRef.current = debounce(() => {

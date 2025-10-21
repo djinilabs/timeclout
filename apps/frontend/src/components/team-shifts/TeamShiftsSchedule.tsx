@@ -231,7 +231,7 @@ export const TeamShiftsSchedule = () => {
 
   const { focusedShiftPosition, setFocusedShiftPosition } =
     useTeamShiftsFocusNavigation({
-      shiftPositionsMap,
+      shiftPositionsMap: initialShiftPositionsMap,
       selectedMonth,
       previouslySelectedMonth: previouslySelectedMonth ?? null,
       goToMonth,
@@ -268,32 +268,36 @@ export const TeamShiftsSchedule = () => {
 
   useEffect(() => {
     // remove the selected shift positions that are not visible in the current calendar
-    setSelectedShiftPositionKeys((selectedShiftPositionKeys) => {
-      if (selectedShiftPositionKeys.length === 0) {
-        return selectedShiftPositionKeys;
-      }
-      const startDay = calendarStartDay.toString();
-      const endDay = calendarEndDay.toString();
-      const newSelectedShiftPositionKeys = selectedShiftPositionKeys.filter(
-        (key) => {
-          const shiftPositions = shiftPositionsMap[key];
-          return (
-            shiftPositions &&
-            shiftPositions.some(
-              (shiftPosition) =>
-                shiftPosition.day >= startDay && shiftPosition.day <= endDay
-            )
-          );
+    // Use setTimeout to avoid synchronous setState in effect
+    setTimeout(() => {
+      setSelectedShiftPositionKeys((selectedShiftPositionKeys) => {
+        if (selectedShiftPositionKeys.length === 0) {
+          return selectedShiftPositionKeys;
         }
-      );
-      if (
-        newSelectedShiftPositionKeys.length !== selectedShiftPositionKeys.length
-      ) {
-        return newSelectedShiftPositionKeys;
-      }
-      return selectedShiftPositionKeys;
-    });
-  }, [calendarStartDay, calendarEndDay, shiftPositionsMap]);
+        const startDay = calendarStartDay.toString();
+        const endDay = calendarEndDay.toString();
+        const newSelectedShiftPositionKeys = selectedShiftPositionKeys.filter(
+          (key) => {
+            const shiftPositions = initialShiftPositionsMap[key];
+            return (
+              shiftPositions &&
+              shiftPositions.some(
+                (shiftPosition) =>
+                  shiftPosition.day >= startDay && shiftPosition.day <= endDay
+              )
+            );
+          }
+        );
+        if (
+          newSelectedShiftPositionKeys.length !==
+          selectedShiftPositionKeys.length
+        ) {
+          return newSelectedShiftPositionKeys;
+        }
+        return selectedShiftPositionKeys;
+      });
+    }, 0);
+  }, [calendarStartDay, calendarEndDay, initialShiftPositionsMap]);
 
   // ------- clipboard -------
 
