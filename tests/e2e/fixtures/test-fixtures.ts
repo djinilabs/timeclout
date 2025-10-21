@@ -40,14 +40,17 @@ export const testWithUserManagement = test.extend<{
 }>({
   userManagement: async ({ page }, use) => {
     const userManagement = createUserManagement(page);
+
     await use(userManagement);
   },
   testHelpers: async ({ userManagement }, use) => {
     const testHelpers = createTestHelpers(userManagement);
+
     await use(testHelpers);
   },
   pageObjects: async ({ page }, use) => {
     const pageObjects = createPageObjects(page);
+
     await use(pageObjects);
   },
 });

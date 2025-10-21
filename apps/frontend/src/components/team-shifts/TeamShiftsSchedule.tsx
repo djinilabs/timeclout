@@ -218,11 +218,12 @@ export const TeamShiftsSchedule = () => {
     false
   );
 
-  let { shiftPositionsMap } = useTeamShiftPositionsMap({
-    draggingShiftPosition: draggingShiftPosition as ShiftPositionType | null,
-    shiftPositionsResult: shiftPositionsResult?.shiftPositions ?? [],
-    spillTime: showScheduleDetails,
-  });
+  const { shiftPositionsMap: initialShiftPositionsMap } =
+    useTeamShiftPositionsMap({
+      draggingShiftPosition: draggingShiftPosition as ShiftPositionType | null,
+      shiftPositionsResult: shiftPositionsResult?.shiftPositions ?? [],
+      spillTime: showScheduleDetails,
+    });
 
   // ------- focus navigation -------
 
@@ -375,7 +376,7 @@ export const TeamShiftsSchedule = () => {
         startDate: calendarStartDay,
         endDate: calendarEndDay,
         analyzeLeaveConflicts,
-        shiftPositionsMap,
+        shiftPositionsMap: initialShiftPositionsMap,
         leaveSchedule,
         requireMaximumIntervalBetweenShifts,
         maximumIntervalBetweenShiftsInDays: maximumIntervalBetweenShiftsInDays,
@@ -392,7 +393,7 @@ export const TeamShiftsSchedule = () => {
         calendarStartDay,
         calendarEndDay,
         analyzeLeaveConflicts,
-        shiftPositionsMap,
+        initialShiftPositionsMap,
         leaveSchedule,
         requireMaximumIntervalBetweenShifts,
         maximumIntervalBetweenShiftsInDays,
@@ -407,7 +408,7 @@ export const TeamShiftsSchedule = () => {
     )
   );
 
-  shiftPositionsMap = analyzedShiftPositionsMap;
+  const shiftPositionsMap = analyzedShiftPositionsMap;
 
   // ------- position templates -------
 

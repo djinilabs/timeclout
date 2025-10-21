@@ -96,9 +96,11 @@ export const Hint: React.FC<HintProps> = ({
   useEffect(() => {
     if (isVisible) {
       if (position === "auto") {
-        setCalculatedPosition(calculateBestPosition());
+        // Use setTimeout to avoid synchronous setState in effect
+        setTimeout(() => setCalculatedPosition(calculateBestPosition()), 0);
       }
-      updatePosition();
+      // Use setTimeout to avoid synchronous setState in effect
+      setTimeout(() => updatePosition(), 0);
       window.addEventListener("scroll", updatePosition, true);
       window.addEventListener("resize", updatePosition);
     }

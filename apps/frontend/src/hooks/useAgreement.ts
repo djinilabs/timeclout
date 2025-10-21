@@ -17,8 +17,11 @@ export const useAgreement = () => {
         location.pathname === "/terms-of-service";
 
       if (isLegalPage) {
-        setHasAgreed(true);
-        setIsDialogOpen(false);
+        // Use setTimeout to avoid synchronous setState in effect
+        setTimeout(() => {
+          setHasAgreed(true);
+          setIsDialogOpen(false);
+        }, 0);
         return;
       }
 
@@ -45,8 +48,11 @@ export const useAgreement = () => {
       checkAgreement();
     } else if (status === "unauthenticated") {
       // If user is not authenticated, don't show agreement dialog
-      setHasAgreed(true);
-      setIsDialogOpen(false);
+      // Use setTimeout to avoid synchronous setState in effect
+      setTimeout(() => {
+        setHasAgreed(true);
+        setIsDialogOpen(false);
+      }, 0);
     }
   }, [status, location.pathname]);
 

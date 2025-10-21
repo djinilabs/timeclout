@@ -296,7 +296,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
       );
 
       return result;
-    }, [leaveSchedule, members, showLeaveSchedule]);
+    }, [leaveSchedule, members]);
 
     const renderMemberDay = useCallback(
       (member: User, day: DayDate) => {

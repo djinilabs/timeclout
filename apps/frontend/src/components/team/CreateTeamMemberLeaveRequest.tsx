@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-
 import {
   LeaveRequest,
   MutationCreateLeaveRequestForUserArgs,
@@ -24,7 +23,6 @@ import createLeaveRequestForUserMutation from "@/graphql-client/mutations/create
 import createSingleDayLeaveRequestsForUserMutation from "@/graphql-client/mutations/createSingleDayLeaveRequestsForUser.graphql";
 import teamWithMemberAndTheirSettingsQuery from "@/graphql-client/queries/teamWithMembersAndTheirSettings.graphql";
 import { getDefined } from "@/utils";
-
 
 export const CreateTeamMemberLeaveRequest = () => {
   const { team: teamPk, company, unit } = useParams();
@@ -49,7 +47,11 @@ export const CreateTeamMemberLeaveRequest = () => {
 
   useEffect(() => {
     if (userPk && users && !selectedUser) {
-      setSelectedUser(users.find((u) => u.pk === userPk) ?? null);
+      // Use setTimeout to avoid synchronous setState in effect
+      setTimeout(
+        () => setSelectedUser(users.find((u) => u.pk === userPk) ?? null),
+        0
+      );
     }
   }, [users, userPk, selectedUser]);
 

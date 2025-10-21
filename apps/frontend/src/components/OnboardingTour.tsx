@@ -297,7 +297,8 @@ export function OnboardingTour() {
     if (!routeMatch) return;
     const hasSeenTour = localStorage.getItem(`tour-${routeMatch}`);
     if (!hasSeenTour || isTourRunning) {
-      setRun(true);
+      // Use setTimeout to avoid synchronous setState in effect
+      setTimeout(() => setRun(true), 0);
     }
   }, [location, isTourRunning, routeMatch]);
 

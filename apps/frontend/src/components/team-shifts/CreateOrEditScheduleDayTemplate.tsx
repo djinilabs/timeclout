@@ -165,12 +165,14 @@ export const CreateOrEditScheduleDayTemplate: FC<
         const contains = selectedTemplates.filter(
           (t) => t.name === draggedTemplate.name
         );
-        if (contains.length > 0) {
-          draggedTemplate.name = `${draggedTemplate.name} (${
-            contains.length + 1
-          })`;
-        }
-        setSelectedTemplates((prev) => [...prev, draggedTemplate]);
+        const templateToAdd =
+          contains.length > 0
+            ? {
+                ...draggedTemplate,
+                name: `${draggedTemplate.name} (${contains.length + 1})`,
+              }
+            : draggedTemplate;
+        setSelectedTemplates((prev) => [...prev, templateToAdd]);
       }
       setDragging(null);
     },

@@ -34,18 +34,20 @@ const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
     [messages]
   );
 
-  const adjustTextareaHeight = useMemo(() => {
-    return debounce(() => {
+  const debouncedAdjustTextareaHeightRef =
+    useRef<ReturnType<typeof debounce>>();
+  const debouncedFocusOnTextareaRef = useRef<ReturnType<typeof debounce>>();
+
+  useEffect(() => {
+    debouncedAdjustTextareaHeightRef.current = debounce(() => {
       const textarea = textareaRef.current;
       if (textarea) {
         textarea.style.height = "auto";
         textarea.style.height = `${textarea.scrollHeight}px`;
       }
     }, 100);
-  }, []);
 
-  const focusOnTextarea = useMemo(() => {
-    return debounce(() => {
+    debouncedFocusOnTextareaRef.current = debounce(() => {
       setTimeout(() => {
         if (textareaRef.current) {
           textareaRef.current.focus();
@@ -55,14 +57,14 @@ const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
   }, []);
 
   useEffect(() => {
-    adjustTextareaHeight();
-  }, [inputValue, adjustTextareaHeight]);
+    debouncedAdjustTextareaHeightRef.current?.();
+  }, [inputValue]);
 
   useEffect(() => {
     if (!isLoading) {
-      focusOnTextarea();
+      debouncedFocusOnTextareaRef.current?.();
     }
-  }, [focusOnTextarea, isLoading]);
+  }, [isLoading]);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -71,9 +73,9 @@ const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
       if (!message) return;
       setInputValue("");
       await handleUserMessageSubmit(message);
-      focusOnTextarea();
+      debouncedFocusOnTextareaRef.current?.();
     },
-    [inputValue, handleUserMessageSubmit, focusOnTextarea]
+    [inputValue, handleUserMessageSubmit]
   );
 
   const handleKeyDown = useCallback(

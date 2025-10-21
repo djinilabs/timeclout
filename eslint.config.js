@@ -28,6 +28,11 @@ export default tseslint.config(
       playwright,
       import: importPlugin
     },
+    settings: {
+      react: {
+        version: 'detect'
+      }
+    },
     rules: {
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,

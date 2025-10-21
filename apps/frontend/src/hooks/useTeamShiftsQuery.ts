@@ -6,7 +6,6 @@ import { useQuery } from "../hooks/useQuery";
 import { DayDate } from "@/day-date";
 import shiftPositionsQuery from "@/graphql-client/queries/shiftPositions.graphql";
 
-
 export interface UseTeamShiftsQueryResult {
   data?: {
     shiftPositions: ShiftPosition[];
@@ -66,7 +65,7 @@ export const useTeamShiftsQuery = ({
       areAnyUnpublished:
         shiftPositionsResult.data.shiftPositions.areAnyUnpublished,
     };
-  }, [shiftPositionsResult.data?.shiftPositions, restrictToUsers]);
+  }, [shiftPositionsResult.data, restrictToUsers]);
 
   return {
     data: filteredShiftPositions,

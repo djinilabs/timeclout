@@ -150,11 +150,7 @@ export const useTeamShiftsDragAndDrop = (
     },
     [
       draggingDayTemplate,
-      draggingShiftPosition?.isTemplate,
-      draggingShiftPosition?.name,
-      draggingShiftPosition?.color,
-      draggingShiftPosition?.requiredSkills,
-      draggingShiftPosition?.schedules,
+      draggingShiftPosition,
       draggingFakeShiftPosition,
       shiftPositions,
       moveShiftPosition,

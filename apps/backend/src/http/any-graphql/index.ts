@@ -51,6 +51,7 @@ const yoga = createYoga({
       includeRawResult: false,
       includeExecuteVariables: false,
     }),
+
     useLogger({
       logFn: (event, { args, result }) => {
         if (!process.env.DEBUG_GRAPHQL) {
@@ -73,6 +74,7 @@ const yoga = createYoga({
         }
       },
     }),
+
     useErrorHandler(({ errors, phase }) => {
       for (const error of errors) {
         console.error(`[graphql] [error in phase ${phase}]`, error);
