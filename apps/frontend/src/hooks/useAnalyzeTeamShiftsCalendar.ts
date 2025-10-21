@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 
-
 import { type LeaveRenderInfo } from "./useTeamLeaveSchedule";
 import { type ShiftPositionWithRowSpan } from "./useTeamShiftPositionsMap";
 
@@ -539,18 +538,18 @@ export const useAnalyzeTeamShiftsCalendar = (
   props: AnalyzeTeamShiftsCalendarProps
 ): AnalyzeTeamShiftsCalendarReturn => {
   // ------- Rules -------
-  let analyzedShiftPositionsMap = useMemo(() => {
+  const rulesAnalyzedShiftPositionsMap = useMemo(() => {
     return doAnalyzeRules(props);
   }, [props]);
 
   // ------- Heuristics -------
-  analyzedShiftPositionsMap = useMemo(
+  const analyzedShiftPositionsMap = useMemo(
     () =>
       doAnalyzeHeuristics({
         ...props,
-        shiftPositionsMap: analyzedShiftPositionsMap,
+        shiftPositionsMap: rulesAnalyzedShiftPositionsMap,
       }),
-    [analyzedShiftPositionsMap, props]
+    [rulesAnalyzedShiftPositionsMap, props]
   );
 
   return {

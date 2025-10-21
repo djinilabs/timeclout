@@ -86,7 +86,6 @@ const AppComponent: FC = () => {
   );
   const queryClient = useMemo(() => new QueryClient(), []);
   useEffect(() => {
-    setIsLocaleActivated(false);
     dynamicActivate(locale).finally(() => {
       setIsLocaleActivated(true);
     });

@@ -296,7 +296,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
       );
 
       return result;
-    }, [leaveSchedule, members, showLeaveSchedule]);
+    }, [leaveSchedule, members]);
 
     const renderMemberDay = useCallback(
       (member: User, day: DayDate) => {
@@ -316,7 +316,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
               <Transition show={showLeaveSchedule} appear key={leaveIndex}>
                 <div
                   className={classNames(
-                    "p-2 border-gray-100 bg-gray-50 transition duration-300 ease-in data-[closed]:opacity-0",
+                    "p-2 border-gray-100 bg-gray-50 transition duration-300 ease-in data-closed:opacity-0",
                     leaveIndex === 0 && "border-t",
                     leaveIndex === leaves.length - 1 && "border-b"
                   )}
@@ -419,7 +419,7 @@ export const ShiftsAutofillSolutionMonthCalendar: FC<ShiftsAutofillSolutionMonth
 
         <Transition show={analyze} appear>
           <div
-            className="mt-4 transition-opacity duration-300 ease-in data-[closed]:opacity-0"
+            className="mt-4 transition-opacity duration-300 ease-in data-closed:opacity-0"
             role="region"
             aria-label={i18n.t("Analysis settings")}
           >

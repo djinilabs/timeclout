@@ -15,7 +15,8 @@ export const VerticalTabs: FC<VerticalTabsProps> = memo(({ tabs }) => {
 
   useEffect(() => {
     if (!tabs.find((tab) => tab.id === selectedTab)) {
-      setSelectedTab(tabs[0]?.id ?? "");
+      // Use setTimeout to avoid synchronous setState in effect
+      setTimeout(() => setSelectedTab(tabs[0]?.id ?? ""), 0);
     }
   }, [tabs, selectedTab]);
 

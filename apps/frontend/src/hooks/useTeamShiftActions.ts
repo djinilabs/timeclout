@@ -46,7 +46,7 @@ export const useTeamShiftActions = (
         }
         return false;
       },
-      [createShiftPosition, options?.refetch]
+      [createShiftPosition, options]
     ),
     updateShiftPosition: useCallback(
       async (input) => {
@@ -58,7 +58,7 @@ export const useTeamShiftActions = (
         }
         return false;
       },
-      [updateShiftPosition, options?.refetch]
+      [updateShiftPosition, options]
     ),
     moveShiftPosition: useCallback(
       async (pk, sk, day) => {
@@ -70,7 +70,7 @@ export const useTeamShiftActions = (
           options?.refetch?.();
         }
       },
-      [moveShiftPosition, options?.refetch]
+      [moveShiftPosition, options]
     ),
     copyShiftPosition: useCallback(
       async (pk, sk, day) => {
@@ -82,7 +82,7 @@ export const useTeamShiftActions = (
           options?.refetch?.();
         }
       },
-      [copyShiftPosition, options?.refetch]
+      [copyShiftPosition, options]
     ),
     deleteShiftPosition: useCallback(
       async (pk, sk) => {
@@ -92,7 +92,7 @@ export const useTeamShiftActions = (
           options?.refetch?.();
         }
       },
-      [deleteShiftPosition, options?.refetch]
+      [deleteShiftPosition, options]
     ),
   };
 };
