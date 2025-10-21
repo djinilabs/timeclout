@@ -35,10 +35,11 @@ export const useCompanyWithSettings = <T extends SettingsTypeKey>({
     },
   });
   const company = companyWithSettingsQueryResponse?.data?.company;
+  const unparsedSettings = company?.settings;
   const companySettings: SettingsShape<T> = useMemo(
     () =>
-      company?.settings && settingsTypes[settingsName].parse(company.settings),
-    [company, settingsName]
+      unparsedSettings && settingsTypes[settingsName].parse(unparsedSettings),
+    [unparsedSettings, settingsName]
   );
 
   return {

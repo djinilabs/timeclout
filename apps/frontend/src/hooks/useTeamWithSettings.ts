@@ -31,9 +31,11 @@ export const useTeamWithSettings = <T extends SettingsTypeKey>({
     },
   });
   const team = teamWithSettingsQueryResponse?.data?.team;
+  const unparsedSettings = team?.settings;
   const teamSettings: SettingsShape<T> = useMemo(
-    () => team?.settings && settingsTypes[settingsName].parse(team.settings),
-    [team, settingsName]
+    () =>
+      unparsedSettings && settingsTypes[settingsName].parse(unparsedSettings),
+    [unparsedSettings, settingsName]
   );
 
   return {

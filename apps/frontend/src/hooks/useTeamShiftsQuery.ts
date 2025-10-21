@@ -33,7 +33,7 @@ export const useTeamShiftsQuery = ({
   pause,
   restrictToUsers,
 }: UseTeamShiftsQueryOptions): UseTeamShiftsQueryResult => {
-  const [shiftPositionsResult, refetch] = useQuery<{
+  const [{ data, error, fetching }, refetch] = useQuery<{
     shiftPositions?: {
       shiftPositions: ShiftPosition[];
       areAnyUnpublished: boolean;
@@ -51,26 +51,24 @@ export const useTeamShiftsQuery = ({
   });
 
   const filteredShiftPositions = useMemo(() => {
-    if (!restrictToUsers || !shiftPositionsResult.data?.shiftPositions) {
-      return shiftPositionsResult.data?.shiftPositions;
+    if (!restrictToUsers || !data?.shiftPositions) {
+      return data?.shiftPositions;
     }
     return {
-      shiftPositions:
-        shiftPositionsResult.data.shiftPositions.shiftPositions.filter(
-          (shiftPosition) =>
-            restrictToUsers.some(
-              (user) => user.pk === shiftPosition.assignedTo?.pk
-            )
-        ),
-      areAnyUnpublished:
-        shiftPositionsResult.data.shiftPositions.areAnyUnpublished,
+      shiftPositions: data.shiftPositions.shiftPositions.filter(
+        (shiftPosition) =>
+          restrictToUsers.some(
+            (user) => user.pk === shiftPosition.assignedTo?.pk
+          )
+      ),
+      areAnyUnpublished: data.shiftPositions.areAnyUnpublished,
     };
-  }, [shiftPositionsResult.data, restrictToUsers]);
+  }, [data, restrictToUsers]);
 
   return {
     data: filteredShiftPositions,
-    error: shiftPositionsResult.error,
-    fetching: shiftPositionsResult.fetching,
+    error,
+    fetching,
     refetch,
   };
 };
