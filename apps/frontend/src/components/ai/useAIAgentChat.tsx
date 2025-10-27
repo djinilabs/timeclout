@@ -39,8 +39,8 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   const { i18n } = useLingui();
   const initialSystemPrompt = useMemo(
     () =>
-      i18n.t(`You are a helpful assistant that lives inside the TT3 product (an application to help with team scheduling shifts).
-  You can interact with the TT3 product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.
+      i18n.t(`You are a helpful assistant that lives inside the TimeHaupt product (an application to help with team scheduling shifts).
+  You can interact with the TimeHaupt product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.
   You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.
   You can fill text fields using the fill_form_element tool.
   You should use the tools provided to you to answer questions and help with tasks.
@@ -55,7 +55,10 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   );
 
   const GREETING_MESSAGE = useMemo(
-    () => i18n.t("Hello, I'm your TT3 AI assistant. How can I help you today?"),
+    () =>
+      i18n.t(
+        "Hello, I'm your TimeHaupt AI assistant. How can I help you today?"
+      ),
     [i18n]
   );
 

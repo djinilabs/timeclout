@@ -1,29 +1,29 @@
 {
-  "name": "tt3",
+  "name": "timehaupt",
   "version": "3.2.0",
   "description": "",
   "type": "module",
   "main": "index.js",
   "private": true,
-  "repository": "https://github.com/tt3-app/tt3",
+  "repository": "https://github.com/djinilabs/tt3",
   "author": "Gordon & Teixeira Lda.",
   "license": "SEE LICENSE IN LICENSE.md",
   "licenses": [
     {
       "type": "Business Source License 1.1",
-      "url": "https://tt3.app/LICENSE.md"
+      "url": "https://timehaupt.com/LICENSE.md"
     }
   ],
-  "homepage": "https://tt3.app",
-  "bugs": "https://github.com/tt3-app/tt3/issues",
+  "homepage": "https://timehaupt.com",
+  "bugs": "https://github.com/djinilabs/tt3/issues",
   "keywords": [
-    "tt3",
-    "team-time-table",
-    "team-time-table-app",
-    "team-time-table-app-frontend",
-    "team-time-table-app-backend"
+    "timehaupt",
+    "time-management",
+    "team-scheduling",
+    "workforce-management",
+    "shift-planning"
   ],
-  "copyright": "© 2024-present, Gordon & Teixeira Lda. (https://tt3.app)",
+  "copyright": "© 2024-present, Gordon & Teixeira Lda. (https://timehaupt.com)",
   "scripts": {
     "dev": "ARC_DB_PATH=./db pnpm dev:fresh",
     "dev:fresh": "run-p dev:backend dev:frontend",

@@ -1,6 +1,6 @@
 # Google OAuth Setup Guide
 
-This guide explains how to set up Google OAuth authentication for the TT3 application.
+This guide explains how to set up Google OAuth authentication for the TimeHaupt application.
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ This guide explains how to set up Google OAuth authentication for the TT3 applic
 1. In the Google Cloud Console, go to **APIs & Services** > **OAuth consent screen**
 2. Choose **External** user type (unless you have a Google Workspace organization)
 3. Fill in the required information:
-   - **App name**: TT3
+   - **App name**: TimeHaupt
    - **User support email**: Your email address
    - **Developer contact information**: Your email address
 4. Add the following scopes:
@@ -35,13 +35,13 @@ This guide explains how to set up Google OAuth authentication for the TT3 applic
 2. Click **Create Credentials** > **OAuth 2.0 Client IDs**
 3. Choose **Web application** as the application type
 4. Configure the following:
-   - **Name**: TT3 Web Client
+   - **Name**: TimeHaupt Web Client
    - **Authorized JavaScript origins**:
      - `http://localhost:3000` (for development)
-     - `https://app.tt3.app` (for production)
+     - `https://app.timehaupt.com` (for production)
    - **Authorized redirect URIs**:
      - `http://localhost:3000/api/v1/auth/callback/google` (for development)
-     - `https://app.tt3.app/api/v1/auth/callback/google` (for production)
+     - `https://app.timehaupt.com/api/v1/auth/callback/google` (for production)
 5. Click **Create**
 6. Note down the **Client ID** and **Client Secret**
 
@@ -76,7 +76,7 @@ This guide explains how to set up Google OAuth authentication for the TT3 applic
 ## Step 5: Update Authorized Domains
 
 1. In the Google Cloud Console, go to **APIs & Services** > **OAuth consent screen**
-2. Add your domain (`tt3.app`) to the **Authorized domains** section
+2. Add your domain (`timehaupt.com`) to the **Authorized domains** section
 3. Save the changes
 
 ## Step 6: Test the Integration

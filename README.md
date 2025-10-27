@@ -1,8 +1,8 @@
-# TT3 - Team Time Table
+# TimeHaupt
 
 **Transform your team scheduling with intelligent automation and comprehensive workforce management**
 
-TT3 is a modern, AI-powered team scheduling and workforce management platform designed to streamline shift planning, leave management, and team coordination. Built for organizations that value efficiency, fairness, and employee satisfaction.
+TimeHaupt is a modern, AI-powered team scheduling and workforce management platform designed to streamline shift planning, leave management, and team coordination. Built for organizations that value efficiency, fairness, and employee satisfaction.
 
 ## 🚀 Key Features
 
@@ -59,7 +59,7 @@ TT3 is a modern, AI-powered team scheduling and workforce management platform de
 - **Professional Services**: Consulting firms, agencies, support teams
 - **Any Organization**: With complex scheduling needs and multiple teams
 
-## 💡 **Why Choose TT3?**
+## 💡 **Why Choose TimeHaupt?**
 
 ### **Efficiency First**
 
@@ -106,9 +106,9 @@ TT3 is a modern, AI-powered team scheduling and workforce management platform de
 
 - **AI Assistant**: Built-in help available 24/7
 - **Documentation**: Comprehensive contextual help throughout the application
-- **Email Support**: Contact us at support@tt3.app
+- **Email Support**: Contact us at support@timehaupt.com
 - **Multi-language**: Full support in English and Portuguese
 
 ---
 
-**TT3** - Where intelligent scheduling meets team success. Transform your workforce management today.
+**TimeHaupt** - Where intelligent scheduling meets team success. Transform your workforce management today.

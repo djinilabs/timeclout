@@ -175,7 +175,7 @@ jobs:
           VIDEO=retain-on-failure
           TRACE=on-first-retry
           AUTH_SECRET=${{ secrets.AUTH_SECRET }}
-          AUTH_MAILGUN_KEY=${{ secrets.AUTH_MAILGUN_KEY }}
+          MAILGUN_KEY=${{ secrets.MAILGUN_KEY }}
           GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
           EOF

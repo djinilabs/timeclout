@@ -1,4 +1,4 @@
-# TT3 Technical Documentation - Table of Contents
+# TimeHaupt Technical Documentation - Table of Contents
 
 ## 📋 Quick Reference
 

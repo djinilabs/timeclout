@@ -1,8 +1,8 @@
-# TT3 Scheduler Algorithm & Heuristics
+# TimeHaupt Scheduler Algorithm & Heuristics
 
 ## Overview
 
-The TT3 scheduler is an AI-powered shift scheduling system that uses a brute force search approach to automatically assign workers to shifts while optimizing for fairness, efficiency, and business constraints. This document explains how the scheduler works, its key components, and how to configure it for optimal results.
+The TimeHaupt scheduler is an AI-powered shift scheduling system that uses a brute force search approach to automatically assign workers to shifts while optimizing for fairness, efficiency, and business constraints. This document explains how the scheduler works, its key components, and how to configure it for optimal results.
 
 ## 🔍 Core Algorithm: Brute Force Search
 

@@ -1,8 +1,8 @@
-# TT3 Permission & Authorization System
+# TimeHaupt Permission & Authorization System
 
 ## Overview
 
-TT3 implements a sophisticated **Resource-Based Access Control (RBAC)** system that provides granular permissions across all organizational entities. This document explains how the permission system works, how to implement authorization checks, and best practices for security.
+TimeHaupt implements a sophisticated **Resource-Based Access Control (RBAC)** system that provides granular permissions across all organizational entities. This document explains how the permission system works, how to implement authorization checks, and best practices for security.
 
 ## 📦 Imports
 

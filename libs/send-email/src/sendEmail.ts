@@ -1,4 +1,4 @@
-const domain = "tt3.app";
+const domain = "timehaupt.com";
 
 export const sendEmail = async ({
   to,
@@ -30,7 +30,7 @@ export const sendEmail = async ({
       method: "POST",
       headers: {
         Authorization: `Basic ${Buffer.from(
-          `api:${process.env.AUTH_MAILGUN_KEY}`
+          `api:${process.env.MAILGUN_KEY}`
         ).toString("base64")}`,
       },
       body: formData,

@@ -47,7 +47,7 @@ jobs:
           BASE_URL: "https://app.tt3.app"
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          AUTH_MAILGUN_KEY: ${{ secrets.AUTH_MAILGUN_KEY }}
+          MAILGUN_KEY: ${{ secrets.MAILGUN_KEY }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           TT3_CERTIFICATE_ARN: ${{ secrets.TT3_CERTIFICATE_ARN }}
@@ -66,7 +66,7 @@ jobs:
           cd apps/backend
           export PATH=../../node_modules/.bin:$PATH
           pnpm arc env --add --env production AUTH_SECRET "${AUTH_SECRET}"
-          pnpm arc env --add --env production AUTH_MAILGUN_KEY "${AUTH_MAILGUN_KEY}"
+          pnpm arc env --add --env production MAILGUN_KEY "${MAILGUN_KEY}"
           pnpm arc env --add --env production GOOGLE_CLIENT_ID "${GOOGLE_CLIENT_ID}"
           pnpm arc env --add --env production GOOGLE_CLIENT_SECRET "${GOOGLE_CLIENT_SECRET}"
           pnpm arc env --add --env production SENTRY_DSN "${SENTRY_DSN}"

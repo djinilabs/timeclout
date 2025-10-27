@@ -38,16 +38,16 @@ msgid "User is not a member of this team"
 msgstr "User is not a member of this team"
 
 #. js-lingui-explicit-id
+#: libs/graphql/src/schema/shift_position/resolvers/Mutation/unassignShiftPosition.ts:26
+msgid "Shift position {shiftPositionSk} not found"
+msgstr "Shift position {shiftPositionSk} not found"
+
+#. js-lingui-explicit-id
 #: libs/graphql/src/schema/shift_position/resolvers/Mutation/copyShiftPosition.ts:23
 #: libs/graphql/src/schema/shift_position/resolvers/Mutation/updateShiftPosition.ts:32
 #: libs/graphql/src/schema/shift_position/resolvers/Query/assignableTeamMembers.ts:23
 msgid "Shift position not found"
 msgstr "Shift position not found"
-
-#. js-lingui-explicit-id
-#: libs/graphql/src/schema/shift_position/resolvers/Mutation/unassignShiftPosition.ts:26
-msgid "Shift position {shiftPositionSk} not found"
-msgstr "Shift position {shiftPositionSk} not found"
 
 #. js-lingui-explicit-id
 #: libs/graphql/src/schema/leave_request/resolvers/Mutation/rejectLeaveRequest.ts:26
@@ -57,15 +57,20 @@ msgid "Leave request not found"
 msgstr "Leave request not found"
 
 #. js-lingui-explicit-id
+#: libs/graphql/src/schema/leave_request/resolvers/Mutation/rejectLeaveRequest.ts:32
+msgid "You are not allowed to reject this leave request"
+msgstr "You are not allowed to reject this leave request"
+
+#. js-lingui-explicit-id
 #: libs/graphql/src/schema/leave_request/resolvers/Mutation/updateLeaveRequest.ts:30
 #: libs/graphql/src/schema/leave_request/resolvers/Query/leaveRequest.ts:31
 msgid "You are not allowed to update this leave request"
 msgstr "You are not allowed to update this leave request"
 
 #. js-lingui-explicit-id
-#: libs/graphql/src/schema/leave_request/resolvers/Mutation/rejectLeaveRequest.ts:32
-msgid "You are not allowed to reject this leave request"
-msgstr "You are not allowed to reject this leave request"
+#: libs/graphql/src/schema/leave/resolvers/Query/memberQuotaFulfilment.ts:36
+msgid "User is not in the specified team"
+msgstr "User is not in the specified team"
 
 #. js-lingui-explicit-id
 #: libs/graphql/src/schema/leave/resolvers/Mutation/deleteLeave.ts:14
@@ -76,11 +81,6 @@ msgstr "Leave not found"
 #: libs/graphql/src/schema/leave/resolvers/Mutation/deleteLeave.ts:17
 msgid "You are not allowed to delete this leave"
 msgstr "You are not allowed to delete this leave"
-
-#. js-lingui-explicit-id
-#: libs/graphql/src/schema/leave/resolvers/Query/memberQuotaFulfilment.ts:36
-msgid "User is not in the specified team"
-msgstr "User is not in the specified team"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/invitation/acceptInvitation.ts:62
@@ -116,11 +116,6 @@ msgid "Invalid leave request pk: {pk}"
 msgstr "Invalid leave request pk: {pk}"
 
 #. js-lingui-explicit-id
-#: libs/business-logic/src/leaveRequest/canApproveLeaveRequest.ts:28
-msgid "No unit managers found for the units the user is in"
-msgstr "No unit managers found for the units the user is in"
-
-#. js-lingui-explicit-id
 #: libs/business-logic/src/leaveRequest/getLeaveType.ts:19
 msgid "Company leave type settings not found"
 msgstr "Company leave type settings not found"
@@ -131,15 +126,20 @@ msgid "Leave type not found"
 msgstr "Leave type not found"
 
 #. js-lingui-explicit-id
-#: libs/business-logic/src/leaveRequest/createLeaveRequestsForSingleDays.ts:60
-msgid "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
-msgstr "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
+#: libs/business-logic/src/leaveRequest/canApproveLeaveRequest.ts:28
+msgid "No unit managers found for the units the user is in"
+msgstr "No unit managers found for the units the user is in"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/leaveRequest/approveLeaveRequest.ts:24
 #: libs/business-logic/src/leaveRequest/createLeaveRequest.ts:60
 msgid "Leave request overlaps with existing {type} of type {culpritType}"
 msgstr "Leave request overlaps with existing {type} of type {culpritType}"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/leaveRequest/createLeaveRequestsForSingleDays.ts:60
+msgid "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
+msgstr "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/holiday/getHolidaysForDateRange.ts:22
@@ -150,6 +150,18 @@ msgstr "User location settings not found"
 #: libs/business-logic/src/invitation/createInvitation.ts:40
 msgid "Invited to entity not found"
 msgstr "Invited to entity not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/invitation/acceptInvitation.ts:31
+#: libs/business-logic/src/invitation/acceptInvitation.ts:37
+msgid "Invitation not found"
+msgstr "Invitation not found"
+
+#. js-lingui-explicit-id
+#: apps/backend/src/http/get-api-v1-ical-catchall/getTeamLeavesIcal.ts:19
+#: libs/business-logic/src/invitation/acceptInvitation.ts:43
+msgid "Team not found"
+msgstr "Team not found"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/entity/updateEntitySettings.ts:17
@@ -167,18 +179,6 @@ msgid "Error parsing entity settings for entity: {entityPk} and settings key: {s
 msgstr "Error parsing entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
 
 #. js-lingui-explicit-id
-#: libs/business-logic/src/invitation/acceptInvitation.ts:31
-#: libs/business-logic/src/invitation/acceptInvitation.ts:37
-msgid "Invitation not found"
-msgstr "Invitation not found"
-
-#. js-lingui-explicit-id
-#: apps/backend/src/http/get-api-v1-ical-catchall/getTeamLeavesIcal.ts:19
-#: libs/business-logic/src/invitation/acceptInvitation.ts:43
-msgid "Team not found"
-msgstr "Team not found"
-
-#. js-lingui-explicit-id
 #: libs/scheduler/src/schedule.ts:72
 msgid "Of {workersCount} workers, none is available to work on day {day} for shift {shiftType}. For this shift we had {qualifiedWorkersCount} workers with at least one of the required qualifications and {availableWorkersCount} available."
 msgstr "Of {workersCount} workers, none is available to work on day {day} for shift {shiftType}. For this shift we had {qualifiedWorkersCount} workers with at least one of the required qualifications and {availableWorkersCount} available."
@@ -189,19 +189,9 @@ msgid "Worker {workerPk} not found"
 msgstr "Worker {workerPk} not found"
 
 #. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectRandomWeighted.ts:8
-msgid "from and weights must have the same length"
-msgstr "from and weights must have the same length"
-
-#. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectRandomWeighted.ts:26
-msgid "No element selected"
-msgstr "No element selected"
-
-#. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectUniqueRandomWeighted.ts:11
-msgid "not enough items to select"
-msgstr "not enough items to select"
+#: libs/scheduler/src/utils/selectUniqueRandom.ts:10
+msgid "count must be smaller or equal to from array"
+msgstr "count must be smaller or equal to from array"
 
 #. js-lingui-explicit-id
 #: libs/scheduler/src/utils/selectUniqueRandom.ts:16
@@ -210,9 +200,19 @@ msgid "tryFrom is undefined"
 msgstr "tryFrom is undefined"
 
 #. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectUniqueRandom.ts:10
-msgid "count must be smaller or equal to from array"
-msgstr "count must be smaller or equal to from array"
+#: libs/scheduler/src/utils/selectUniqueRandomWeighted.ts:11
+msgid "not enough items to select"
+msgstr "not enough items to select"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectRandomWeighted.ts:8
+msgid "from and weights must have the same length"
+msgstr "from and weights must have the same length"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectRandomWeighted.ts:26
+msgid "No element selected"
+msgstr "No element selected"
 
 #. js-lingui-explicit-id
 #: libs/scheduler/src/utils/selectRandom.ts:5

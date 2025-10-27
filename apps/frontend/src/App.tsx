@@ -147,5 +147,5 @@ const AppComponent: FC = () => {
 };
 
 export const App = withProfiler(AppComponent, {
-  name: "tt3.app",
+  name: "timehaupt.com",
 });

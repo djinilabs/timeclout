@@ -30,7 +30,7 @@ export async function handleDiscordCommand(
           body: JSON.stringify(discordResponse("❌ Unknown command")),
           headers: {
             "Content-Type": "application/json",
-            "User-Agent": `DiscordBot (https://app.tt3.app, ${packageJson.version})`,
+            "User-Agent": `DiscordBot (https://timehaupt.com, ${packageJson.version})`,
           },
         };
     }

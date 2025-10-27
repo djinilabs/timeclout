@@ -1,6 +1,6 @@
-# Contributing to TT3 - Team Time Table
+# Contributing to TimeHaupt
 
-We are thrilled you're interested in contributing to TT3! 🎉 Your help is essential for keeping it great.
+We are thrilled you're interested in contributing to TimeHaupt! 🎉 Your help is essential for keeping it great.
 
 We want to make contributing as easy as possible, but we have a few legal and community guidelines to follow.
 
@@ -42,7 +42,7 @@ We welcome contributions of all kinds, from bug reports to new features.
 4.  **Make your changes.** Please follow the coding style of the project.
 5.  **Commit** your changes with a clear message: `git commit -m "feat: Add amazing feature"`
 6.  **Push** your branch to your fork: `git push origin feature/my-amazing-feature`
-7.  **Open a Pull Request (PR)** from your fork's branch to the `main` branch of the official TT3 repository.
+7.  **Open a Pull Request (PR)** from your fork's branch to the `main` branch of the official TimeHaupt repository.
 8.  **Sign the CLA** when the bot prompts you (one-time only).
 9.  We will review your code, provide feedback, and merge it when it's ready.
 
@@ -52,4 +52,4 @@ We welcome contributions of all kinds, from bug reports to new features.
 
 Finally, please remember that all contributions to this repository are licensed under the **Business Source License 1.1 (BSL 1.1)**, as detailed in our `LICENSE.md` file. Your contribution will be available to the world under these terms.
 
-Thank you for helping make TT3 better!
+Thank you for helping make TimeHaupt better!
