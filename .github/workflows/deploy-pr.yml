@@ -46,7 +46,7 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           AWS_CERTIFICATE_ARN: "arn:aws:acm:eu-west-2:307946679392:certificate/bf698227-0a01-47bb-b783-b59b90519ee4"
-          TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
+          AWS_ZONE_ID: ${{ secrets.AWS_ZONE_ID }}
           TT3_CUSTOM_DOMAIN: "${{ github.event.pull_request.number }}.tt3.app"
           SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           SENTRY_TRACES_SAMPLE_RATE: "1.0"

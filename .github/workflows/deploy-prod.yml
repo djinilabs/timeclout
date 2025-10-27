@@ -51,7 +51,7 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           AWS_CERTIFICATE_ARN: ${{ secrets.AWS_CERTIFICATE_ARN }}
-          TT3_ZONE_ID: ${{ secrets.TT3_ZONE_ID }}
+          AWS_ZONE_ID: ${{ secrets.AWS_ZONE_ID }}
           VITE_PUBLIC_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           VITE_PUBLIC_POSTHOG_KEY: phc_XU057cIRzEJ2mfLNL5HuoWNBu0w2yjzpMKYUlrb8Jsk
           VITE_PUBLIC_POSTHOG_HOST: https://eu.i.posthog.com
