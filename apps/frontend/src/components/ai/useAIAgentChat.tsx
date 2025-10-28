@@ -1,6 +1,4 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { useLingui } from "@lingui/react";
-import { streamText, StreamTextResult, ToolSet } from "ai";
 import { nanoid } from "nanoid";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { UAParser } from "ua-parser-js";
@@ -19,12 +17,7 @@ export interface AIAgentChatResult {
 }
 
 const GENERATE_TIMEOUT_MS = 1000 * 60 * 5; // 5 minutes
-
-const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
-
-const google = createGoogleGenerativeAI({
-  apiKey: "AIzaSyCYl7jq5nVl9nOyXLhVUcyePygyqfFu6is",
-});
+const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL || "";
 
 export const useAIAgentChat = (): AIAgentChatResult => {
   const {
@@ -261,12 +254,33 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
   useTestToolExecutionFromConsole(tools);
 
-  const getModel = useCallback(
-    (forMessageId: string) => {
+  const callBackendAI = useCallback(
+    async (allMessages: AIMessage[], messageId: string) => {
       try {
-        return google(MODEL_NAME);
+        const response = await fetch(`${BACKEND_API_URL}/api/ai/chat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            messages: allMessages.map((msg) => ({
+              role: msg.message.role,
+              content:
+                typeof msg.content === "string"
+                  ? msg.content
+                  : msg.message.content,
+            })),
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Backend API error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data.message || data;
       } catch (error) {
-        handleError(error as Error, forMessageId);
+        handleError(error as Error, messageId);
         return null;
       }
     },
@@ -303,11 +317,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       const messageId = nanoid();
 
-      const model = getModel(messageId);
-      if (!model) {
-        return;
-      }
-
       await saveNewMessage({
         id: messageId,
         timestamp: new Date(),
@@ -319,81 +328,44 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         },
       });
 
-      let result: StreamTextResult<ToolSet, never> | undefined;
-
       const abortController = new AbortController();
 
       const timeout = setTimeout(() => {
         abortController.abort("Timeout");
       }, GENERATE_TIMEOUT_MS);
 
-      try {
-        result = await streamText({
-          model,
-          messages: allMessages.map((message) => message.message),
-          tools,
-          toolChoice: "auto",
-          abortSignal: abortController.signal,
-          onError: ({ error }) => {
-            handleError(error as Error, messageId);
-          },
-          onFinish: async () => {
-            clearTimeout(timeout);
-          },
-        });
-      } catch (error) {
-        await handleError(error as Error, messageId);
-        clearTimeout(timeout);
-        return;
-      }
-
-      if (!result) {
-        return;
-      }
-
-      const { textStream, toolCalls, finishReason } = result;
       let allTheText = "";
 
-      for await (const textPart of textStream) {
-        allTheText += textPart;
-        await saveNewMessage({
-          id: messageId,
-          timestamp: new Date(),
-          content: allTheText,
-          isLoading: true,
-          message: {
-            role: "assistant",
-            content: allTheText,
-          },
-        });
-      }
+      try {
+        const response = await callBackendAI(allMessages, messageId);
+        if (!response) {
+          clearTimeout(timeout);
+          return;
+        }
 
-      for (const toolCall of Object.values(await toolCalls)) {
-        await saveNewMessage({
-          id: messageId,
-          timestamp: new Date(),
-          content: JSON.stringify(toolCall, null, 2),
-          message: {
-            role: "assistant",
-            content: JSON.stringify(toolCall, null, 2),
-          },
-        });
-      }
+        allTheText = response;
 
-      // Tool results logging temporarily disabled due to AI v5 type changes
-      // for (const toolResult of Object.values(await toolResults)) {
-      //   await saveNewMessage({
-      //     id: messageId,
-      //     timestamp: new Date(),
-      //     content: JSON.stringify(toolResult, null, 2),
-      //     message: {
-      //       role: "tool",
-      //       content: JSON.stringify(toolResult, null, 2),
-      //     },
-      //   });
-      // }
+        // Show typing effect by updating in chunks
+        const words = allTheText.split(" ");
+        for (let i = 0; i < words.length; i++) {
+          const partialText = words.slice(0, i + 1).join(" ");
+          await saveNewMessage({
+            id: messageId,
+            timestamp: new Date(),
+            content: partialText,
+            isLoading: true,
+            message: {
+              role: "assistant",
+              content: partialText,
+            },
+          });
+          // Add small delay for typing effect
+          await new Promise((resolve) => setTimeout(resolve, 30));
+        }
 
-      if (allTheText) {
+        clearTimeout(timeout);
+
+        // Save final message
         await saveNewMessage({
           id: messageId,
           timestamp: new Date(),
@@ -404,23 +376,13 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             content: allTheText,
           },
         });
-      }
-
-      if ((await finishReason) === "error") {
-        await handleError(
-          new Error("An error occurred while generating the response"),
-          messageId
-        );
+      } catch (error) {
+        await handleError(error as Error, messageId);
+        clearTimeout(timeout);
+        return;
       }
     },
-    [
-      saveNewMessage,
-      initialSystemPrompt,
-      messages,
-      getModel,
-      tools,
-      handleError,
-    ]
+    [saveNewMessage, initialSystemPrompt, messages, callBackendAI, handleError]
   );
 
   return { messages, handleUserMessageSubmit, clearMessages };

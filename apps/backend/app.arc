@@ -7,6 +7,7 @@ any /api/v1/auth/*
 get /api/v1/ical/*
 any /graphql
 any /api/discord
+post /api/ai/chat
 
 @static
 spa true
@@ -103,6 +104,7 @@ events
 @plugins
 architect/plugin-typescript
 custom-domain
+lambda-urls
 
 @aws
 runtime typescript

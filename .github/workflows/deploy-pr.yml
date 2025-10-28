@@ -55,6 +55,7 @@ jobs:
           DISCORD_CS_USERS: ${{ secrets.DISCORD_CS_USERS }}
           DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_APPLICATION_ID }}
           DISCORD_CS_BOT_TOKEN: ${{ secrets.DISCORD_CS_BOT_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           cd apps/backend
           pnpm install
@@ -68,6 +69,7 @@ jobs:
           pnpm arc env --add --env staging SENTRY_PROFILES_SAMPLE_RATE "${SENTRY_PROFILES_SAMPLE_RATE}"
           pnpm arc env --add --env staging DISCORD_PUBLIC_KEY "${DISCORD_PUBLIC_KEY}"
           pnpm arc env --add --env staging DISCORD_CS_USERS "${DISCORD_CS_USERS}"
+          pnpm arc env --add --env staging GEMINI_API_KEY "${GEMINI_API_KEY}"
           cd ../..
           pnpm build
           cd apps/backend

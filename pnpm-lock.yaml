@@ -205,6 +205,9 @@ importers:
       javascript-time-ago:
         specifier: ^2.5.11
         version: 2.5.12
+      lambda-stream:
+        specifier: ^0.6.0
+        version: 0.6.0
       lodash.debounce:
         specifier: ^4.0.8
         version: 4.0.8
@@ -6540,6 +6543,9 @@ packages:
   lambda-runtimes@2.0.5:
     resolution: {integrity: sha512-6BoLX9xuvr+B/f05MOhJnzRdF8Za5YYh82n45ndun9EU3uhJv9kIwnYrOrvuA7MoGwZgCMI7RUhBRzfw/l63SQ==}
     engines: {node: '>=14'}
+
+  lambda-stream@0.6.0:
+    resolution: {integrity: sha512-S625+Jdil56zFOtfBt5r0snP8SIBY7fXn7pLKXQ8C6u9A5kNSuEWcEVC05QoDkvBLjMhwBeIUwVU6PoOB7ll5w==}
 
   lazy@1.0.11:
     resolution: {integrity: sha512-Y+CjUfLmIpoUCCRl0ub4smrYtGGr5AOa2AKOaWelGHOGz33X/Y/KizefGqbkwfz44+cnq/+9habclf8vOmu2LA==}
@@ -16227,6 +16233,8 @@ snapshots:
       json-buffer: 3.0.1
 
   lambda-runtimes@2.0.5: {}
+
+  lambda-stream@0.6.0: {}
 
   lazy@1.0.11: {}
 
