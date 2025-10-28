@@ -41,9 +41,20 @@ jobs:
           for attempt in {1..5}; do
             echo "Attempt $attempt to check PR status..."
             
-            # Get the PR details
-            PR_INFO=$(gh pr view $PR_NUMBER --json mergeable,mergeStateStatus,reviewDecision,labels)
+            # Get the PR details including author information
+            PR_INFO=$(gh pr view $PR_NUMBER --json mergeable,mergeStateStatus,reviewDecision,labels,author)
             echo "PR info: $PR_INFO"
+
+            # Check if PR is from renovate bot
+            AUTHOR_LOGIN=$(echo "$PR_INFO" | jq -r '.author.login')
+            echo "PR author: $AUTHOR_LOGIN"
+
+            # Only proceed if PR is from renovate bot
+            if [ "$AUTHOR_LOGIN" != "renovate[bot]" ]; then
+              echo "ready=false" >> $GITHUB_OUTPUT
+              echo "PR is not from renovate bot (author: $AUTHOR_LOGIN), skipping auto-merge"
+              break
+            fi
 
             # Check if PR is mergeable
             MERGEABLE=$(echo "$PR_INFO" | jq -r '.mergeable')
@@ -104,7 +115,7 @@ jobs:
         run: |
           PR_NUMBER="${{ github.event.inputs.pr_number }}"
 
-          gh pr comment $PR_NUMBER --body "🤖 **Auto-merge completed!** This PR has been automatically merged after all required checks passed, including E2E Tests."
+          gh pr comment $PR_NUMBER --body "🤖 **Auto-merge completed!** This renovate bot PR has been automatically merged after all required checks passed, including E2E Tests."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -135,7 +146,7 @@ jobs:
           sha: ${{ github.sha }}
           ref_name: ${{ github.ref_name }}
           event_name: ${{ github.event_name }}
-          head_commit_message: "PR #${{ github.event.inputs.pr_number }} auto-merged successfully"
+          head_commit_message: "Renovate bot PR #${{ github.event.inputs.pr_number }} auto-merged successfully"
           pull_request_number: ${{ github.event.inputs.pr_number }}
-          pull_request_title: "Auto-merged PR #${{ github.event.inputs.pr_number }}"
+          pull_request_title: "Auto-merged renovate bot PR #${{ github.event.inputs.pr_number }}"
           pull_request_url: "https://github.com/${{ github.repository }}/pull/${{ github.event.inputs.pr_number }}"
