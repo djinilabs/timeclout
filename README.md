@@ -4,6 +4,10 @@
 
 TimeHaupt is a modern, AI-powered team scheduling and workforce management platform designed to streamline shift planning, leave management, and team coordination. Built for organizations that value efficiency, fairness, and employee satisfaction.
 
+## 🌐 Try TimeHaupt Online
+
+**Get started instantly**: Access TimeHaupt at [**timehaupt.com**](https://timehaupt.com) - no installation required, just sign up and start scheduling your team.
+
 ## 🚀 Key Features
 
 ### 📅 **Intelligent Shift Scheduling**
