@@ -1,13 +1,16 @@
 import { useChat } from "@ai-sdk/react";
 import { useLingui } from "@lingui/react";
-import { DefaultChatTransport, type UIMessage } from "ai";
+import {
+  DefaultChatTransport,
+  lastAssistantMessageIsCompleteWithToolCalls,
+  type UIMessage,
+} from "ai";
 import { nanoid } from "nanoid";
 import { useCallback, useMemo } from "react";
 
 import { AIMessage } from "./types";
 import { useAIChatHistory } from "./useAIChatHistory";
 import { useAITools } from "./useAITools";
-import { useTestToolExecutionFromConsole } from "./useTestToolExecutionFromConsole";
 
 export interface AIAgentChatResult {
   messages: AIMessage[];
@@ -17,29 +20,13 @@ export interface AIAgentChatResult {
 
 export const useAIAgentChat = (): AIAgentChatResult => {
   const { i18n } = useLingui();
-  const initialSystemPrompt = useMemo(
-    () =>
-      i18n.t(`You are a helpful assistant that lives inside the TimeHaupt product (an application to help with team scheduling shifts).
-  You can interact with the TimeHaupt product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.
-  You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.
-  You can fill text fields using the fill_form_element tool.
-  You should use the tools provided to you to answer questions and help with tasks.
-  Don't plan, just act.
-  If the user asks you to do something, you should try to use the provided tools.
-  After you have received a tool-result, reply to the user in __plain english__ with your findings.
-  If a tool result is an error, you should try to use the tools again.
-  If the tool does not get you the data you need, try navigating to another page.
-  If that does not work, just say you don't have enough data.
-  `),
-    [i18n]
-  );
 
   const {
     messages: loadedMessages,
     saveNewMessage,
     clearMessages,
     loading,
-  } = useAIChatHistory(initialSystemPrompt);
+  } = useAIChatHistory();
 
   const GREETING_MESSAGE = useMemo(
     () =>
@@ -58,30 +45,29 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       new DefaultChatTransport({
         api: `${BACKEND_API_URL}/api/ai/chat`,
         prepareSendMessagesRequest: ({ messages }) => {
-          // Always prepend the system message to ensure it's included in every request
-          // Filter out any existing system messages first to avoid duplicates
+          // Filter out any system messages - they should not be sent from client
           const nonSystemMessages = messages.filter(
             (msg: UIMessage) => msg.role !== "system"
           );
-          // Create system message in the format expected by the backend
-          const systemMessage: UIMessage = {
-            role: "system" as const,
-            id: nanoid(),
-            parts: [{ type: "text", text: initialSystemPrompt }],
-          };
+          // Get current language from i18n
+          const language = i18n.locale || "en";
           return {
             body: {
-              messages: [systemMessage, ...nonSystemMessages],
+              messages: nonSystemMessages,
+            },
+            headers: {
+              "Accept-Language": language === "pt" ? "pt" : "en",
             },
           };
         },
       }),
-    [BACKEND_API_URL, initialSystemPrompt]
+    [BACKEND_API_URL, i18n.locale]
   );
 
   const chat = useChat({
     transport,
     id: "timehaupt-ai-chat",
+    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
     onFinish: async ({ message, isError }) => {
       // Save final message to history when streaming completes
       if (!isError && message) {
@@ -112,6 +98,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       await handleError(error, nanoid());
     },
     async onToolCall({ toolCall }) {
+      console.log("onToolCall", toolCall);
       // Execute tools on frontend (since tools need DOM access)
       const toolName = toolCall.toolName as keyof typeof tools;
       const tool = tools[toolName];
@@ -164,8 +151,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
     },
     [saveNewMessage]
   );
-
-  useTestToolExecutionFromConsole(tools);
 
   // Map chat messages to AIMessage format for compatibility with existing UI
   const chatMessages: AIMessage[] = useMemo(() => {
