@@ -9,6 +9,9 @@ any /graphql
 any /api/discord
 post /api/ai/chat
 
+@lambda-urls
+post /api/ai/chat
+
 @static
 spa true
 
