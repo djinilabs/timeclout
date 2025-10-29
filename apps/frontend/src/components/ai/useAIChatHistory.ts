@@ -9,8 +9,19 @@ const STORE_NAME = "messages";
 const DB_VERSION = 1;
 const DEBOUNCE_TIME = 500;
 
-export const useAIChatHistory = () => {
-  const [messages, setMessages] = useState<AIMessage[]>([]);
+export const useAIChatHistory = (initialSystemPrompt: string) => {
+  const [messages, setMessages] = useState<AIMessage[]>([
+    {
+      id: "1",
+      timestamp: new Date(),
+      content: initialSystemPrompt,
+      isLoading: false,
+      message: {
+        role: "system",
+        content: initialSystemPrompt,
+      },
+    },
+  ]);
 
   const dbPromise: Promise<IDBDatabase> = useMemo(() => {
     return new Promise((resolve, reject) => {
@@ -148,7 +159,18 @@ export const useAIChatHistory = () => {
 
   const clearMessages = useCallback(async (): Promise<void> => {
     const db = await dbPromise;
-    setMessages([]);
+    setMessages([
+      {
+        id: "1",
+        timestamp: new Date(),
+        content: initialSystemPrompt,
+        isLoading: false,
+        message: {
+          role: "system",
+          content: initialSystemPrompt,
+        },
+      },
+    ]);
     return new Promise<void>((resolve, reject) => {
       const transaction = db.transaction([STORE_NAME], "readwrite");
       const store = transaction.objectStore(STORE_NAME);
@@ -157,7 +179,7 @@ export const useAIChatHistory = () => {
       request.onsuccess = () => resolve();
       request.onerror = () => reject(request.error);
     });
-  }, [dbPromise]);
+  }, [dbPromise, initialSystemPrompt]);
 
   useEffect(() => {
     setLoading(true);

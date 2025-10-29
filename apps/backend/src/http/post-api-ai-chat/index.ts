@@ -119,7 +119,7 @@ export const handler = streamifyResponse(
 
         console.log("model", model);
 
-        console.log("messages", messages);
+        console.log("messages", JSON.stringify(messages, null, 2));
 
         // Prepare messages for conversion to ModelMessage format
 
@@ -136,7 +136,7 @@ export const handler = streamifyResponse(
 
         const result = streamText({
           model,
-          messages,
+          messages: convertToModelMessages(messages),
           tools,
           toolChoice: "auto",
           onFinish: async ({ usage, finishReason, warnings }) => {
