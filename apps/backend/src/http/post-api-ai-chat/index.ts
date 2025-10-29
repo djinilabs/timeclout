@@ -1,12 +1,15 @@
 import { Writable } from "node:stream";
 
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { boomify } from "@hapi/boom";
+import { boomify, forbidden } from "@hapi/boom";
 import { convertToModelMessages, streamText } from "ai";
 import type { ToolSet, UIMessage } from "ai";
+import { Context } from "aws-lambda";
 import { streamifyResponse, ResponseStream } from "lambda-stream";
 import { z } from "zod";
 
+import { createUserCache } from "../../../../../libs/graphql/src/resolverContext";
+import { getSession } from "../../../../../libs/graphql/src/session/getSession";
 import {
   getLocaleFromHeaders,
   initI18n,
@@ -127,6 +130,19 @@ export const handler = streamifyResponse(
             responseStream.write("event: error\ndata: Method not allowed\n\n");
             responseStream.end();
             return;
+          }
+
+          // Check authentication - user must be authenticated to use this endpoint
+          // Create minimal context for getSession (it only uses event, but needs proper typing)
+          const userCache = await createUserCache();
+          const minimalContext = {
+            event,
+            lambdaContext: {} as Context,
+            userCache,
+          };
+          const session = await getSession(minimalContext);
+          if (!session) {
+            throw forbidden("Authentication required to access this endpoint");
           }
 
           // Extract language from Accept-Language header
