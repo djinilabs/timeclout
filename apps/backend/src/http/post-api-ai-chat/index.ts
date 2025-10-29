@@ -60,15 +60,14 @@ Se isso não funcionar, simplesmente diga que não tem dados suficientes.
 // These tools allow the AI to interact with the UI
 // Tool execution happens on the frontend, but definitions are here so the AI knows about them
 // When tools are called, they will be streamed to the frontend for execution
+// NOTE: We do NOT include execute functions here - this prevents server-side execution
+// The frontend will handle execution via the onToolCall handler
 const tools: ToolSet = {
   describe_app_ui: {
     description:
       "Describes the current app UI. Use this to answer user queries and read the application state, like the list of companies, units or teams. You can also use this to read the item being displayed on the page.",
     inputSchema: z.object({}),
-    execute: async () => {
-      // This placeholder won't be used - tool calls are intercepted and executed on frontend
-      return "Tool execution happens on frontend";
-    },
+    // No execute function - tool calls are handled on the frontend
   },
   click_element: {
     description:
@@ -77,10 +76,7 @@ const tools: ToolSet = {
       "element-role": z.string(),
       "element-description": z.string(),
     }),
-    execute: async () => {
-      // This placeholder won't be used - tool calls are intercepted and executed on frontend
-      return { success: false, error: "Tool execution happens on frontend" };
-    },
+    // No execute function - tool calls are handled on the frontend
   },
   fill_form_element: {
     description:
@@ -90,10 +86,7 @@ const tools: ToolSet = {
       "element-description": z.string(),
       value: z.string(),
     }),
-    execute: async () => {
-      // This placeholder won't be used - tool calls are intercepted and executed on frontend
-      return { success: false, error: "Tool execution happens on frontend" };
-    },
+    // No execute function - tool calls are handled on the frontend
   },
 };
 
@@ -170,10 +163,6 @@ export const handler = streamifyResponse(
           // Configure model
           const model = google(MODEL_NAME);
 
-          console.log("model", model);
-          console.log("locale", locale);
-          console.log("messages", JSON.stringify(nonSystemMessages, null, 2));
-
           // Stream the AI response with tools and system prompt
           const result = streamText({
             model,
@@ -181,13 +170,6 @@ export const handler = streamifyResponse(
             messages: convertToModelMessages(nonSystemMessages),
             tools,
             toolChoice: "auto",
-            onFinish: async ({ usage, finishReason, warnings }) => {
-              console.log("Stream finished:", {
-                usage,
-                finishReason,
-                warnings,
-              });
-            },
           });
 
           const enhancedResponseStream = enhanceResponseStream(
