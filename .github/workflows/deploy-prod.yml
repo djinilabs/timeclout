@@ -44,7 +44,7 @@ jobs:
       - name: Deploy to production
         env:
           NODE_ENV: "production"
-          BASE_URL: "https://app.tt3.app"
+          BASE_URL: "https://app.timeclout.com"
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           MAILGUN_KEY: ${{ secrets.MAILGUN_KEY }}

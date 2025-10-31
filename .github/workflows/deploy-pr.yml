@@ -39,7 +39,7 @@ jobs:
       - name: Deploy PR
         env:
           NODE_ENV: "production"
-          BASE_URL: "https://${{ github.event.pull_request.number }}.tt3.app"
+          BASE_URL: "https://${{ github.event.pull_request.number }}.timeclout.com"
           NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           MAILGUN_KEY: ${{ secrets.MAILGUN_KEY }}
@@ -47,7 +47,7 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           AWS_CERTIFICATE_ARN: "arn:aws:acm:eu-west-2:307946679392:certificate/836d5660-cf05-4d92-b92b-1b6d2c19a33e"
           AWS_ZONE_ID: ${{ secrets.AWS_ZONE_ID }}
-          TT3_CUSTOM_DOMAIN: "${{ github.event.pull_request.number }}.tt3.app"
+          TT3_CUSTOM_DOMAIN: "${{ github.event.pull_request.number }}.timeclout.com"
           SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           SENTRY_TRACES_SAMPLE_RATE: "1.0"
           SENTRY_PROFILES_SAMPLE_RATE: "1.0"

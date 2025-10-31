@@ -115,18 +115,18 @@ jobs:
             if [ "${{ github.event.inputs.environment }}" == "custom" ] && [ -n "${{ github.event.inputs.custom_url }}" ]; then
               echo "url=${{ github.event.inputs.custom_url }}" >> $GITHUB_OUTPUT
             elif [ "${{ github.event.inputs.environment }}" == "production" ]; then
-              echo "url=https://tt3.app" >> $GITHUB_OUTPUT
+              echo "url=https://timeclout.com" >> $GITHUB_OUTPUT
             elif [ "${{ github.event.inputs.environment }}" == "pr" ]; then
               # For PR runs, use the PR URL from the input parameter
               if [ -n "${{ github.event.inputs.pull_request_number }}" ]; then
-                echo "url=https://${{ github.event.inputs.pull_request_number }}.tt3.app" >> $GITHUB_OUTPUT
-                echo "Using PR URL: https://${{ github.event.inputs.pull_request_number }}.tt3.app"
+                echo "url=https://${{ github.event.inputs.pull_request_number }}.timeclout.com" >> $GITHUB_OUTPUT
+                echo "Using PR URL: https://${{ github.event.inputs.pull_request_number }}.timeclout.com"
               else
-                echo "url=https://staging.tt3.app" >> $GITHUB_OUTPUT
+                echo "url=https://staging.timeclout.com" >> $GITHUB_OUTPUT
                 echo "No PR number provided, using staging URL"
               fi
             else
-              echo "url=https://staging.tt3.app" >> $GITHUB_OUTPUT
+              echo "url=https://staging.timeclout.com" >> $GITHUB_OUTPUT
             fi
           elif [ "${{ github.event_name }}" == "workflow_run" ]; then
             # For workflow_run events (triggered by test workflow on main), use local sandbox
@@ -134,9 +134,9 @@ jobs:
             echo "Using local sandbox for main branch E2E tests"
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
             # For PR events, always use the PR URL
-            echo "url=https://${{ github.event.pull_request.number }}.tt3.app" >> $GITHUB_OUTPUT
+            echo "url=https://${{ github.event.pull_request.number }}.timeclout.com" >> $GITHUB_OUTPUT
           else
-            echo "url=https://staging.tt3.app" >> $GITHUB_OUTPUT
+            echo "url=https://staging.timeclout.com" >> $GITHUB_OUTPUT
           fi
           echo "Testing against: ${{ steps.test-url.outputs.url }}"
 
