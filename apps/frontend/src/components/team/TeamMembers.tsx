@@ -18,6 +18,7 @@ import { useQuery } from "../../hooks/useQuery";
 import { permissionTypeToString } from "../../utils/permissionTypeToString";
 import { Avatar } from "../particles/Avatar";
 import { Button } from "../particles/Button";
+import { EmptyState } from "../particles/EmptyState";
 
 import { TeamMemberQualifications } from "./TeamMemberQualifications";
 
@@ -47,7 +48,28 @@ export const TeamMembers = () => {
 
   return (
     <div className="mt-4" role="region" aria-label="Team Members">
-      <div className="flex justify-end gap-x-2">
+      {teamMembers.length === 0 ? (
+        <EmptyState
+          icon="users"
+          title={<Trans>No team members yet</Trans>}
+          description={
+            <Trans>
+              Add members to your team to start managing schedules and
+              assignments.
+            </Trans>
+          }
+          action={{
+            label: <Trans>Invite to team</Trans>,
+            to: `/companies/${company}/units/${unit}/teams/${teamPk}/invites/new`,
+          }}
+          secondaryAction={{
+            label: <Trans>Create member user</Trans>,
+            to: `/companies/${company}/units/${unit}/teams/${teamPk}/members/new`,
+          }}
+        />
+      ) : (
+        <>
+          <div className="flex justify-end gap-x-2">
         <Button
           to={`/companies/${company}/units/${unit}/teams/${teamPk}/members/new`}
           className="new-team-member-button relative inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 hover:scale-110 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-teal-600 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-teal-600 disabled:hover:scale-100 transition duration-300"
@@ -236,6 +258,8 @@ export const TeamMembers = () => {
           </li>
         ))}
       </ul>
+      </>
+      )}
     </div>
   );
 };

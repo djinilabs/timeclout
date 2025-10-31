@@ -1285,10 +1285,6 @@
     width: calc(var(--spacing) * 10);
     height: calc(var(--spacing) * 10);
   }
-  .size-12 {
-    width: calc(var(--spacing) * 12);
-    height: calc(var(--spacing) * 12);
-  }
   .size-full {
     width: 100%;
     height: 100%;
@@ -2197,6 +2193,9 @@
   .bg-teal-700 {
     background-color: var(--color-teal-700);
   }
+  .bg-transparent {
+    background-color: transparent;
+  }
   .bg-white {
     background-color: var(--color-white);
   }
@@ -2434,6 +2433,9 @@
   }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
+  }
+  .py-2\.5 {
+    padding-block: calc(var(--spacing) * 2.5);
   }
   .py-3 {
     padding-block: calc(var(--spacing) * 3);
@@ -3038,6 +3040,10 @@
   .duration-100 {
     --tw-duration: 100ms;
     transition-duration: 100ms;
+  }
+  .duration-150 {
+    --tw-duration: 150ms;
+    transition-duration: 150ms;
   }
   .duration-200 {
     --tw-duration: 200ms;
@@ -3998,6 +4004,14 @@
       outline-color: var(--color-teal-600);
     }
   }
+  .active\:scale-95 {
+    &:active {
+      --tw-scale-x: 95%;
+      --tw-scale-y: 95%;
+      --tw-scale-z: 95%;
+      scale: var(--tw-scale-x) var(--tw-scale-y);
+    }
+  }
   .active\:cursor-grabbing {
     &:active {
       cursor: grabbing;
@@ -4052,11 +4066,29 @@
       }
     }
   }
+  .disabled\:hover\:bg-red-600 {
+    &:disabled {
+      &:hover {
+        @media (hover: hover) {
+          background-color: var(--color-red-600);
+        }
+      }
+    }
+  }
   .disabled\:hover\:bg-teal-600 {
     &:disabled {
       &:hover {
         @media (hover: hover) {
           background-color: var(--color-teal-600);
+        }
+      }
+    }
+  }
+  .disabled\:hover\:bg-transparent {
+    &:disabled {
+      &:hover {
+        @media (hover: hover) {
+          background-color: transparent;
         }
       }
     }

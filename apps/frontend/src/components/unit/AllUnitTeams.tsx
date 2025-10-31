@@ -1,6 +1,5 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
-  PlusIcon,
   EllipsisVerticalIcon,
   PencilIcon,
   TrashIcon,
@@ -17,52 +16,10 @@ import { Query, Team } from "../../graphql/graphql";
 import { useConfirmDialog } from "../../hooks/useConfirmDialog";
 import { useMutation } from "../../hooks/useMutation";
 import { useQuery } from "../../hooks/useQuery";
+import { EmptyState } from "../particles/EmptyState";
 
 import deleteTeamMutation from "@/graphql-client/mutations/deleteTeam.graphql";
 import unitQuery from "@/graphql-client/queries/unitQuery.graphql";
-
-const NoTeams = () => {
-  const { company: companyPk, unit: unitPk } = useParams();
-  const navigate = useNavigate();
-  return (
-    <div className="text-center" role="status" aria-label="No teams section">
-      <svg
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-        className="mx-auto size-12 text-gray-400"
-      >
-        <path
-          d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
-          strokeWidth={2}
-          vectorEffect="non-scaling-stroke"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <h3 className="mt-2 text-sm font-semibold text-gray-900">
-        <Trans>No teams</Trans>
-      </h3>
-      <p className="mt-1 text-sm text-gray-500">
-        <Trans>Get started by creating a new team for this unit.</Trans>
-      </p>
-      <div className="mt-6">
-        <button
-          type="button"
-          className="new-team-button inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
-          onClick={() => {
-            navigate(`/companies/${companyPk}/units/${unitPk}/teams/new`);
-          }}
-          aria-label="Create new team"
-        >
-          <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />
-          <Trans>New Team</Trans>
-        </button>
-      </div>
-    </div>
-  );
-};
 
 export const AllUnitTeams = () => {
   const { company: companyPk, unit: unitPk } = useParams();
@@ -85,7 +42,17 @@ export const AllUnitTeams = () => {
     <div role="region" aria-label="Unit teams list">
       <div className="mt-4">
         {!unit?.teams.length ? (
-          <NoTeams />
+          <EmptyState
+            icon="users"
+            title={<Trans>No teams</Trans>}
+            description={
+              <Trans>Get started by creating a new team for this unit.</Trans>
+            }
+            action={{
+              label: <Trans>New Team</Trans>,
+              to: `/companies/${companyPk}/units/${unitPk}/teams/new`,
+            }}
+          />
         ) : (
           <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
             <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">

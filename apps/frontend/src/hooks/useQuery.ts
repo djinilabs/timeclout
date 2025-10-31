@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQuery as urqlUseQuery, UseQueryArgs } from "urql";
 
+import { formatErrorForToast } from "../utils/errorMessages";
 import { useIsFetching } from "./useIsFetching";
 
 type ExtendedUseQueryProps<
@@ -30,13 +31,12 @@ export const useQuery = <
   useEffect(() => {
     let handle: string | undefined;
     if (result.error) {
-      console.error(result.error);
+      console.error("Query error:", result.error);
       if (toastIfError) {
-        handle = toast.error(
-          i18n.t("Error fetching companies: {message}", {
-            message: result.error.message,
-          })
-        );
+        const friendlyError = formatErrorForToast(result.error);
+        handle = toast.error(friendlyError, {
+          duration: 5000,
+        });
       }
     }
     return () => {
