@@ -31,7 +31,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   const GREETING_MESSAGE = useMemo(
     () =>
       i18n.t(
-        "Hello, I'm your TimeHaupt AI assistant. How can I help you today?"
+        "Hello, I'm your TimeClout AI assistant. How can I help you today?"
       ),
     [i18n]
   );
@@ -66,7 +66,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
   const chat = useChat({
     transport,
-    id: "timehaupt-ai-chat",
+    id: "timeclout-ai-chat",
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
     onFinish: async ({ message, isError }) => {
       // Save final message to history when streaming completes

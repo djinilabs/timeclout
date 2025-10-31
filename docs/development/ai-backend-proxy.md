@@ -96,7 +96,7 @@ This implementation is based on the article: [Building Real-Time AI Streaming Se
 1. ✅ **Revoke the exposed API key** in Google Cloud Console
 2. ✅ **Create a new API key**
 3. ✅ **Set API restrictions** on the new key:
-   - HTTP referrers: `https://app.timehaupt.com/*`
+   - HTTP referrers: `https://app.timeclout.com/*`
    - Or IP restrictions for extra security
 4. ✅ **Add the new key** to GitHub Secrets as `GEMINI_API_KEY`
 5. ✅ **Deploy** the changes

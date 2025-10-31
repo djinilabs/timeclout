@@ -1,4 +1,4 @@
-# TimeHaupt License
+# TimeClout License
 
 This Software is licensed under the **Business Source License 1.1**
 
@@ -23,8 +23,8 @@ The Licensor grants you the right to make Additional Uses of the Software under 
   You may not provide the Software, directly or indirectly, to third parties as part of a hosted, managed, or software-as-a-service offering, where the offering’s value derives primarily from the Software’s functionality.  
   Hosting the Software for your own internal business use, or for the internal use of your contractors and subsidiaries, is permitted.
 - **Licensor:** Gordon & Teixeira Lda.
-- **Software:** TimeHaupt
-- **Copyright:** © 2024–2025, Gordon & Teixeira Lda. (<https://timehaupt.com>)
+- **Software:** TimeClout
+- **Copyright:** © 2024–2025, Gordon & Teixeira Lda. (<https://timeclout.com>)
 
 ---
 

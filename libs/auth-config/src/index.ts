@@ -112,7 +112,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     id: "email",
     type: "email" as const,
     name: "Email",
-    from: "info@timehaupt.com",
+    from: "info@timeclout.com",
     maxAge: 24 * 60 * 60,
     async sendVerificationRequest(req: {
       identifier: string;
@@ -148,7 +148,7 @@ export const authConfig = once(async (): Promise<ExpressAuthConfig> => {
     },
     theme: {
       colorScheme: "light",
-      logo: "/images/timehaupt-logo.svg",
+      logo: "/images/timeclout-logo.svg",
       brandColor: "#008080",
       buttonText: "Sign in",
     },

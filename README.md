@@ -1,12 +1,12 @@
-# TimeHaupt
+# TimeClout
 
 **Transform your team scheduling with intelligent automation and comprehensive workforce management**
 
-TimeHaupt is a modern, AI-powered team scheduling and workforce management platform designed to streamline shift planning, leave management, and team coordination. Built for organizations that value efficiency, fairness, and employee satisfaction.
+TimeClout is a modern, AI-powered team scheduling and workforce management platform designed to streamline shift planning, leave management, and team coordination. Built for organizations that value efficiency, fairness, and employee satisfaction.
 
-## 🌐 Try TimeHaupt Online
+## 🌐 Try TimeClout Online
 
-**Get started instantly**: Access TimeHaupt at [**timehaupt.com**](https://timehaupt.com) - no installation required, just sign up and start scheduling your team.
+**Get started instantly**: Access TimeClout at [**timeclout.com**](https://timeclout.com) - no installation required, just sign up and start scheduling your team.
 
 ## 🚀 Key Features
 
@@ -63,7 +63,7 @@ TimeHaupt is a modern, AI-powered team scheduling and workforce management platf
 - **Professional Services**: Consulting firms, agencies, support teams
 - **Any Organization**: With complex scheduling needs and multiple teams
 
-## 💡 **Why Choose TimeHaupt?**
+## 💡 **Why Choose TimeClout?**
 
 ### **Efficiency First**
 
@@ -110,9 +110,9 @@ TimeHaupt is a modern, AI-powered team scheduling and workforce management platf
 
 - **AI Assistant**: Built-in help available 24/7
 - **Documentation**: Comprehensive contextual help throughout the application
-- **Email Support**: Contact us at support@timehaupt.com
+- **Email Support**: Contact us at support@timeclout.com
 - **Multi-language**: Full support in English and Portuguese
 
 ---
 
-**TimeHaupt** - Where intelligent scheduling meets team success. Transform your workforce management today.
+**TimeClout** - Where intelligent scheduling meets team success. Transform your workforce management today.

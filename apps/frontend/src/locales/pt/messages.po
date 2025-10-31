@@ -16,8 +16,8 @@ msgstr ""
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/ai/useAIAgentChat.tsx:42
 msgid ""
-"You are a helpful assistant that lives inside the TimeHaupt product (an application to help with team scheduling shifts).\n"
-"  You can interact with the TimeHaupt product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.\n"
+"You are a helpful assistant that lives inside the TimeClout product (an application to help with team scheduling shifts).\n"
+"  You can interact with the TimeClout product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.\n"
 "  You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.\n"
 "  You can fill text fields using the fill_form_element tool.\n"
 "  You should use the tools provided to you to answer questions and help with tasks.\n"
@@ -32,7 +32,7 @@ msgstr ""
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/ai/useAIAgentChat.tsx:58
-msgid "Hello, I'm your TimeHaupt AI assistant. How can I help you today?"
+msgid "Hello, I'm your TimeClout AI assistant. How can I help you today?"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -282,8 +282,8 @@ msgstr "Aceitar convite"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/OnboardingTour.tsx:24
-msgid "Welcome to TimeHaupt! Let us show you around."
-msgstr "Bem-vindo ao TimeHaupt! Deixe-nos mostrar-lhe o sistema."
+msgid "Welcome to TimeClout! Let us show you around."
+msgstr "Bem-vindo ao TimeClout! Deixe-nos mostrar-lhe o sistema."
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/OnboardingTour.tsx:29

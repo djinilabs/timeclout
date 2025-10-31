@@ -1,6 +1,6 @@
 # E2E Tests
 
-This directory contains end-to-end tests for the TimeHaupt application using Playwright.
+This directory contains end-to-end tests for the TimeClout application using Playwright.
 
 ## Overview
 

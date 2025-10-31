@@ -1,8 +1,8 @@
-# TimeHaupt Database Schema & Data Model
+# TimeClout Database Schema & Data Model
 
 ## Overview
 
-TimeHaupt uses AWS DynamoDB as its primary database, with a sophisticated data model that supports hierarchical organizations, versioning, and complex relationships. This document explains the database schema, data structures, and how the system manages relationships between entities.
+TimeClout uses AWS DynamoDB as its primary database, with a sophisticated data model that supports hierarchical organizations, versioning, and complex relationships. This document explains the database schema, data structures, and how the system manages relationships between entities.
 
 ## 🏗️ Architecture Overview
 
@@ -319,7 +319,7 @@ interface NextAuthRecord {
 
 ### Reference Format
 
-TimeHaupt uses a hierarchical resource reference system:
+TimeClout uses a hierarchical resource reference system:
 
 ```
 {resourceType}/{identifier}[/{subResourceType}/{subIdentifier}...]
@@ -362,7 +362,7 @@ const parsed = getResourceRef("companies/acme-corp/units/engineering");
 
 ### Draft/Publish Workflow
 
-TimeHaupt supports a sophisticated versioning system:
+TimeClout supports a sophisticated versioning system:
 
 1. **Draft Creation**: New versions start as drafts
 2. **Validation**: Drafts are validated against business rules
@@ -391,7 +391,7 @@ interface VersionedRecord {
 
 ### Concurrent Update Handling
 
-TimeHaupt uses **optimistic locking** with the `version` attribute to handle concurrent updates:
+TimeClout uses **optimistic locking** with the `version` attribute to handle concurrent updates:
 
 #### How It Works
 

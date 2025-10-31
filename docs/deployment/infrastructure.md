@@ -1,8 +1,8 @@
-# TimeHaupt Deployment & Infrastructure
+# TimeClout Deployment & Infrastructure
 
 ## Overview
 
-TimeHaupt is deployed on AWS using a modern serverless architecture with automated CI/CD pipelines. This document covers the infrastructure setup, deployment processes, environment management, and operational considerations for running TimeHaupt in production.
+TimeClout is deployed on AWS using a modern serverless architecture with automated CI/CD pipelines. This document covers the infrastructure setup, deployment processes, environment management, and operational considerations for running TimeClout in production.
 
 ## 🏗️ Infrastructure Architecture
 
@@ -39,7 +39,7 @@ DynamoDB (Database)
 
 ### Architect Framework
 
-TimeHaupt uses the **Architect Framework** (`@architect/architect`) for infrastructure as code:
+TimeClout uses the **Architect Framework** (`@architect/architect`) for infrastructure as code:
 
 ```typescript
 // apps/backend/app.arc
@@ -121,7 +121,7 @@ pnpm arc build
 cd apps/backend
 pnpm arc deploy --name "PR123" --staging
 
-# Access via: https://123.timehaupt.com
+# Access via: https://123.timeclout.com
 ```
 
 **Note**: The `--staging` flag is used for PR preview deployments, not a separate staging environment.
@@ -133,7 +133,7 @@ pnpm arc deploy --name "PR123" --staging
 cd apps/backend
 pnpm arc deploy --production
 
-# Access via: https://app.timehaupt.com
+# Access via: https://app.timeclout.com
 ```
 
 #### PR Preview Deployment
@@ -142,7 +142,7 @@ pnpm arc deploy --production
 # Deploy PR to preview environment
 pnpm arc deploy --name "PR123" --staging
 
-# Access via: https://123.timehaupt.com
+# Access via: https://123.timeclout.com
 ```
 
 ## 🌍 Environment Management
@@ -158,9 +158,9 @@ GOOGLE_CLIENT_ID=your-google-client-id
 GOOGLE_CLIENT_SECRET=your-google-client-secret
 
 # AWS Configuration
-TimeHaupt_CERTIFICATE_ARN=arn:aws:acm:eu-west-2:...
-TimeHaupt_ZONE_ID=your-route53-zone-id
-TimeHaupt_CUSTOM_DOMAIN=app.timehaupt.com
+TimeClout_CERTIFICATE_ARN=arn:aws:acm:eu-west-2:...
+TimeClout_ZONE_ID=your-route53-zone-id
+TimeClout_CUSTOM_DOMAIN=app.timeclout.com
 
 # Monitoring
 SENTRY_DSN=your-sentry-dsn
@@ -181,11 +181,11 @@ BASE_URL=http://localhost:3333
 
 # Production Environment
 NODE_ENV=production
-BASE_URL=https://app.timehaupt.com
+BASE_URL=https://app.timeclout.com
 
 # PR Environment
 NODE_ENV=production
-BASE_URL=https://123.timehaupt.com
+BASE_URL=https://123.timeclout.com
 ```
 
 ### Environment Setup
@@ -209,7 +209,7 @@ pnpm arc sandbox
 # Deploy PR to preview environment
 pnpm arc deploy --name "PR123" --staging
 
-# Access via: https://123.timehaupt.com
+# Access via: https://123.timeclout.com
 ```
 
 #### 3. Production Environment
@@ -353,9 +353,9 @@ The system uses multiple GSIs for efficient querying. The exact indexes are defi
 
 ```typescript
 // apps/backend/src/plugins/custom-domain/index.js
-const customDomain = process.env.TimeHaupt_CUSTOM_DOMAIN;
-const CertificateArn = process.env.TimeHaupt_CERTIFICATE_ARN;
-const HostedZoneId = process.env.TimeHaupt_ZONE_ID;
+const customDomain = process.env.TimeClout_CUSTOM_DOMAIN;
+const CertificateArn = process.env.TimeClout_CERTIFICATE_ARN;
+const HostedZoneId = process.env.TimeClout_ZONE_ID;
 
 if (customDomain) {
   cloudformation.Resources.HTTP.Properties.Domain = {
@@ -373,12 +373,12 @@ if (customDomain) {
 
 ```bash
 # Production domain
-TimeHaupt_CUSTOM_DOMAIN=app.timehaupt.com
-TimeHaupt_CERTIFICATE_ARN=arn:aws:acm:eu-west-2:...
-TimeHaupt_ZONE_ID=Z1234567890ABC
+TimeClout_CUSTOM_DOMAIN=app.timeclout.com
+TimeClout_CERTIFICATE_ARN=arn:aws:acm:eu-west-2:...
+TimeClout_ZONE_ID=Z1234567890ABC
 
 # PR preview domains
-TimeHaupt_CUSTOM_DOMAIN=123.timehaupt.com  # For PR #123
+TimeClout_CUSTOM_DOMAIN=123.timeclout.com  # For PR #123
 ```
 
 ### SSL Certificate Management
@@ -386,12 +386,12 @@ TimeHaupt_CUSTOM_DOMAIN=123.timehaupt.com  # For PR #123
 #### Certificate Requirements
 
 - **Region**: Must be in `eu-west-2` (same as API Gateway)
-- **Domain**: Must cover `*.timehaupt.com` and `timehaupt.com`
+- **Domain**: Must cover `*.timeclout.com` and `timeclout.com`
 - **Status**: Must be validated and active
 
 #### Route 53 Configuration
 
-- **Hosted Zone**: `timehaupt.com` managed in Route 53
+- **Hosted Zone**: `timeclout.com` managed in Route 53
 - **Records**: Automatic creation for subdomains
 - **Health Checks**: Automatic health monitoring
 

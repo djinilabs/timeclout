@@ -1,4 +1,4 @@
-# TimeHaupt Technical Documentation - Table of Contents
+# TimeClout Technical Documentation - Table of Contents
 
 ## 📋 Quick Reference
 

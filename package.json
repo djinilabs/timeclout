@@ -1,5 +1,5 @@
 {
-  "name": "timehaupt",
+  "name": "timeclout",
   "version": "3.2.0",
   "description": "",
   "type": "module",
@@ -11,19 +11,19 @@
   "licenses": [
     {
       "type": "Business Source License 1.1",
-      "url": "https://timehaupt.com/LICENSE.md"
+      "url": "https://timeclout.com/LICENSE.md"
     }
   ],
-  "homepage": "https://timehaupt.com",
+  "homepage": "https://timeclout.com",
   "bugs": "https://github.com/djinilabs/tt3/issues",
   "keywords": [
-    "timehaupt",
+    "timeclout",
     "time-management",
     "team-scheduling",
     "workforce-management",
     "shift-planning"
   ],
-  "copyright": "© 2024-present, Gordon & Teixeira Lda. (https://timehaupt.com)",
+  "copyright": "© 2024-present, Gordon & Teixeira Lda. (https://timeclout.com)",
   "scripts": {
     "dev": "ARC_DB_PATH=./db pnpm dev:fresh",
     "dev:fresh": "run-p dev:backend dev:frontend",

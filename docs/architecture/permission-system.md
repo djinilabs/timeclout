@@ -1,8 +1,8 @@
-# TimeHaupt Permission & Authorization System
+# TimeClout Permission & Authorization System
 
 ## Overview
 
-TimeHaupt implements a sophisticated **Resource-Based Access Control (RBAC)** system that provides granular permissions across all organizational entities. This document explains how the permission system works, how to implement authorization checks, and best practices for security.
+TimeClout implements a sophisticated **Resource-Based Access Control (RBAC)** system that provides granular permissions across all organizational entities. This document explains how the permission system works, how to implement authorization checks, and best practices for security.
 
 ## 📦 Imports
 

@@ -173,7 +173,7 @@ export class LoginPage extends BasePage {
    */
   async verifyMagicLinkForm(): Promise<void> {
     await this.verifyPageLoaded();
-    // The page title is "TimeHaupt", so we just verify the page loaded
+    // The page title is "TimeClout", so we just verify the page loaded
     // and the login elements are available
   }
 }

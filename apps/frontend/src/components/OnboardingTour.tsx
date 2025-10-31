@@ -21,7 +21,7 @@ const tourSteps = once(
     "/": [
       {
         target: "body",
-        content: i18n._("Welcome to TimeHaupt! Let us show you around."),
+        content: i18n._("Welcome to TimeClout! Let us show you around."),
         placement: "bottom",
       },
       {

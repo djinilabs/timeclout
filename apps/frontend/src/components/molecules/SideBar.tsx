@@ -119,19 +119,19 @@ const SideBar = ({
         )}
       >
         <a
-          href="https://timehaupt.com"
-          aria-label="TimeHaupt Home"
+          href="https://timeclout.com"
+          aria-label="TimeClout Home"
           // eslint-disable-next-line react/no-unknown-property
           aria-clickable
           role="link"
           aria-describedby="tt3-logo-description"
         >
           <img
-            alt="TimeHaupt"
+            alt="TimeClout"
             src={
               expanded
-                ? "/images/timehaupt-logo.svg"
-                : "/images/timehaupt-logo-plain.svg"
+                ? "/images/timeclout-logo.svg"
+                : "/images/timeclout-logo-plain.svg"
             }
             className="h-20 mt-2 transition-opacity duration-300"
             id="tt3-logo-description"
@@ -236,7 +236,7 @@ const SideBar = ({
           </li>
           <li className="text-xs text-teal-200">
             <p>
-              &copy; {new Date().getFullYear()} TimeHaupt
+              &copy; {new Date().getFullYear()} TimeClout
               <br />v{version}
             </p>
             {expanded && (

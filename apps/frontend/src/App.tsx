@@ -147,5 +147,5 @@ const AppComponent: FC = () => {
 };
 
 export const App = withProfiler(AppComponent, {
-  name: "timehaupt.com",
+  name: "timeclout.com",
 });

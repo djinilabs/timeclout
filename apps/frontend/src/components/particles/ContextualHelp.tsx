@@ -339,10 +339,10 @@ export const ContextualHelpContent = () => {
           <Trans>Contact our support team</Trans>
         </p>
         <a
-          href="mailto:support@timehaupt.com"
+          href="mailto:support@timeclout.com"
           className="inline-flex items-center text-xs text-blue-600 hover:text-blue-800"
         >
-          support@timehaupt.com
+          support@timeclout.com
         </a>
       </div>
     </div>

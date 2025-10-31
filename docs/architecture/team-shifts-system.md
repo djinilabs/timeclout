@@ -1,8 +1,8 @@
-# TimeHaupt Team Shifts & Scheduling System
+# TimeClout Team Shifts & Scheduling System
 
 ## Overview
 
-The TimeHaupt Team Shifts & Scheduling System is the core business logic that powers intelligent shift scheduling, team management, and workforce optimization. This system combines sophisticated algorithms, real-time collaboration, and AI-powered automation to create fair, efficient, and constraint-aware work schedules.
+The TimeClout Team Shifts & Scheduling System is the core business logic that powers intelligent shift scheduling, team management, and workforce optimization. This system combines sophisticated algorithms, real-time collaboration, and AI-powered automation to create fair, efficient, and constraint-aware work schedules.
 
 ## 🏗️ Architecture Overview
 

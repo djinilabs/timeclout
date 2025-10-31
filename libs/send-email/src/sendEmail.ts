@@ -1,4 +1,4 @@
-const domain = "timehaupt.com";
+const domain = "timeclout.com";
 
 export const sendEmail = async ({
   to,
