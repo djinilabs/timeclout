@@ -45,7 +45,7 @@ importers:
         version: 0.41.1(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
       '@auth/dynamodb-adapter':
         specifier: ^2.7.4
-        version: 2.11.0(@aws-sdk/client-dynamodb@3.913.0)(@aws-sdk/lib-dynamodb@3.913.0(@aws-sdk/client-dynamodb@3.913.0))(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
+        version: 2.11.1(@aws-sdk/client-dynamodb@3.913.0)(@aws-sdk/lib-dynamodb@3.913.0(@aws-sdk/client-dynamodb@3.913.0))(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
       '@auth/express':
         specifier: ^0.12.0
         version: 0.12.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(express@5.1.0)
@@ -593,8 +593,8 @@ packages:
       nodemailer:
         optional: true
 
-  '@auth/dynamodb-adapter@2.11.0':
-    resolution: {integrity: sha512-17hczPXMkKv8AleTNz/j5hDFTzKN1C4Ixy4N6FDXcRdLxfnty0ezljf5jTpVT02HqcpLtriJNZc9v4MWDVmkog==}
+  '@auth/dynamodb-adapter@2.11.1':
+    resolution: {integrity: sha512-HPX6XnllpQZDW17umou93H0TCMR2QRcb2m/sRpjP0H0jPMx+0ZXn07xl+xSF0pxURByGHJkRUJn3TyvtUIxCLg==}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.36.1
       '@aws-sdk/lib-dynamodb': ^3.36.1
@@ -9182,9 +9182,9 @@ snapshots:
       '@simplewebauthn/browser': 13.2.2
       '@simplewebauthn/server': 13.2.2
 
-  '@auth/dynamodb-adapter@2.11.0(@aws-sdk/client-dynamodb@3.913.0)(@aws-sdk/lib-dynamodb@3.913.0(@aws-sdk/client-dynamodb@3.913.0))(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)':
+  '@auth/dynamodb-adapter@2.11.1(@aws-sdk/client-dynamodb@3.913.0)(@aws-sdk/lib-dynamodb@3.913.0(@aws-sdk/client-dynamodb@3.913.0))(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)':
     dependencies:
-      '@auth/core': 0.41.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
+      '@auth/core': 0.41.1(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
       '@aws-sdk/client-dynamodb': 3.913.0
       '@aws-sdk/lib-dynamodb': 3.913.0(@aws-sdk/client-dynamodb@3.913.0)
     transitivePeerDependencies:
