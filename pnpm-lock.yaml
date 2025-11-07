@@ -48,7 +48,7 @@ importers:
         version: 2.11.1(@aws-sdk/client-dynamodb@3.913.0)(@aws-sdk/lib-dynamodb@3.913.0(@aws-sdk/client-dynamodb@3.913.0))(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
       '@auth/express':
         specifier: ^0.12.0
-        version: 0.12.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(express@5.1.0)
+        version: 0.12.1(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(express@5.1.0)
       '@aws-lite/apigatewaymanagementapi-types':
         specifier: ^0.0.13
         version: 0.0.13
@@ -565,20 +565,6 @@ packages:
       nodemailer:
         optional: true
 
-  '@auth/core@0.41.0':
-    resolution: {integrity: sha512-Wd7mHPQ/8zy6Qj7f4T46vg3aoor8fskJm6g2Zyj064oQ3+p0xNZXAV60ww0hY+MbTesfu29kK14Zk5d5JTazXQ==}
-    peerDependencies:
-      '@simplewebauthn/browser': ^9.0.1
-      '@simplewebauthn/server': ^9.0.2
-      nodemailer: ^6.8.0
-    peerDependenciesMeta:
-      '@simplewebauthn/browser':
-        optional: true
-      '@simplewebauthn/server':
-        optional: true
-      nodemailer:
-        optional: true
-
   '@auth/core@0.41.1':
     resolution: {integrity: sha512-t9cJ2zNYAdWMacGRMT6+r4xr1uybIdmYa49calBPeTqwgAFPV/88ac9TEvCR85pvATiSPt8VaNf+Gt24JIT/uw==}
     peerDependencies:
@@ -599,8 +585,8 @@ packages:
       '@aws-sdk/client-dynamodb': ^3.36.1
       '@aws-sdk/lib-dynamodb': ^3.36.1
 
-  '@auth/express@0.12.0':
-    resolution: {integrity: sha512-KzR8/kMrddZgCHdAAqk7UOPf2f2JPeIt6CwnGgyTdaL/aN8fRJFfDOok0X7owAoQn3vnHLjaLBMU0VetogHLuw==}
+  '@auth/express@0.12.1':
+    resolution: {integrity: sha512-DJHrolXcxs3VpXW6/rw+Pz1W1H2MTXCyHBpzRsJDAmP0BLB1RgeKjdOndj/ytVuoRFhTU8y6D/iwYkKU7aV3Ag==}
     peerDependencies:
       express: ^4.18.2 || ^5.0.0
 
@@ -9160,17 +9146,6 @@ snapshots:
       '@simplewebauthn/browser': 13.2.2
       '@simplewebauthn/server': 13.2.2
 
-  '@auth/core@0.41.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)':
-    dependencies:
-      '@panva/hkdf': 1.2.1
-      jose: 6.1.0
-      oauth4webapi: 3.8.2
-      preact: 10.24.3
-      preact-render-to-string: 6.5.11(preact@10.24.3)
-    optionalDependencies:
-      '@simplewebauthn/browser': 13.2.2
-      '@simplewebauthn/server': 13.2.2
-
   '@auth/core@0.41.1(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)':
     dependencies:
       '@panva/hkdf': 1.2.1
@@ -9192,9 +9167,9 @@ snapshots:
       - '@simplewebauthn/server'
       - nodemailer
 
-  '@auth/express@0.12.0(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(express@5.1.0)':
+  '@auth/express@0.12.1(patch_hash=543f8d388bf1362c9fe95f3f1a4166d9324de6638ceb19248703a74c441c9749)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(express@5.1.0)':
     dependencies:
-      '@auth/core': 0.41.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
+      '@auth/core': 0.41.1(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
       express: 5.1.0
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
