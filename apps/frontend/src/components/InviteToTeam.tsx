@@ -1,0 +1,158 @@
+/* eslint-disable react/no-children-prop */
+import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useForm } from "@tanstack/react-form";
+import { FC } from "react";
+import toast from "react-hot-toast";
+
+import { Mutation, MutationCreateInvitationArgs } from "../graphql/graphql";
+import { useMutation } from "../hooks/useMutation";
+
+import { PermissionInput } from "./atoms/PermissionInput";
+import { Button } from "./particles/Button";
+import { FieldComponent } from "./types";
+
+import inviteToTeamMutation from "@/graphql-client/mutations/inviteToTeam.graphql";
+
+export interface InviteToTeamProps {
+  teamPk: string;
+  onDone: () => void;
+}
+
+export const InviteToTeam: FC<InviteToTeamProps> = ({ teamPk, onDone }) => {
+  const [, inviteToTeam] = useMutation<
+    Mutation["createInvitation"],
+    MutationCreateInvitationArgs
+  >(inviteToTeamMutation);
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      permission: "",
+    },
+    onSubmit: async ({ value }) => {
+      const response = await inviteToTeam({
+        toEntityPk: teamPk,
+        invitedUserEmail: value["email"],
+        permissionType: Number(value["permission"]),
+      });
+      if (!response.error) {
+        toast.success(i18n.t("Invitation sent"));
+        onDone();
+      }
+    },
+    onSubmitInvalid: () => {
+      toast.error(i18n.t("Please fill in all fields"));
+    },
+  });
+
+  return (
+    <div
+      className="bg-white shadow-sm sm:rounded-lg"
+      role="dialog"
+      aria-labelledby="invite-title"
+      aria-describedby="invite-description"
+    >
+      <div className="px-4 py-5 sm:p-6">
+        <h3 id="invite-title" className="text-base font-semibold text-gray-900">
+          <Trans>Invite to team</Trans>
+        </h3>
+        <div
+          id="invite-description"
+          className="mt-2 max-w-xl text-sm text-gray-500"
+        >
+          <p>
+            <Trans>Invite a team member to join your team.</Trans>
+          </p>
+        </div>
+        <form
+          className="mt-5 sm:flex sm:items-center"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+          role="form"
+          aria-label={i18n.t("Team invitation form")}
+        >
+          <div key="email" className="w-full sm:max-w-xs">
+            <form.Field
+              name="email"
+              validators={{
+                onChange: ({ value }) => {
+                  if (!value) {
+                    return i18n.t("Email is required");
+                  }
+                },
+              }}
+              children={(field) => {
+                return (
+                  <div className="grid grid-cols-1">
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      type="email"
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="name@example.com"
+                      role="textbox"
+                      aria-label={i18n.t("Email address")}
+                      aria-required="true"
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={
+                        field.state.meta.errors.length > 0
+                          ? `${field.name}-error`
+                          : undefined
+                      }
+                      className={`col-start-1 row-start-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:-outline-offset-2 focus:outline-teal-600 sm:text-sm/6 ${
+                        field.state.meta.errors.length > 0
+                          ? "placeholder:text-red-300 outline-red-300 focus:outline-red-600"
+                          : ""
+                      }`}
+                    />
+                    {field.state.meta.errors.length > 0 ? (
+                      <ExclamationCircleIcon
+                        aria-hidden="true"
+                        className="pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4"
+                      />
+                    ) : null}
+                    {field.state.meta.errors.length > 0 ? (
+                      <p
+                        id={`${field.name}-error`}
+                        className="mt-2 text-sm text-red-600"
+                        role="alert"
+                      >
+                        {field.state.meta.errors.join(", ")}
+                      </p>
+                    ) : null}
+                  </div>
+                );
+              }}
+            />
+          </div>
+          <div key="permission" className="w-full sm:max-w-xs">
+            <PermissionInput Field={form.Field as FieldComponent} />
+          </div>
+          <button
+            type="submit"
+            disabled={form.state.isSubmitting}
+            aria-label={i18n.t("Send invitation")}
+            // eslint-disable-next-line react/no-unknown-property
+            aria-clickable
+            role="button"
+            className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 sm:ml-3 sm:mt-0 sm:w-auto"
+          >
+            <Trans>Invite</Trans>
+          </button>
+          <Button
+            cancel
+            onClick={onDone}
+            aria-label={i18n.t("Cancel invitation")}
+          >
+            <Trans>Cancel</Trans>
+          </Button>
+        </form>
+      </div>
+    </div>
+  );
+};

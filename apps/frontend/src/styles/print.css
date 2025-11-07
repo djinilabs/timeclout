@@ -1,0 +1,47 @@
+@media print {
+  /* Hide navigation, menus, and other chrome elements */
+  nav,
+  header,
+  footer,
+  .sidebar,
+  .menu,
+  .navigation,
+  .chrome,
+  button:not(.print-button),
+  .no-print {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: absolute !important;
+  }
+
+  /* Ensure content takes full width */
+  body {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Ensure content is visible */
+  main,
+  .content,
+  .print-content {
+    zoom: 85%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* No color adjustment */
+  * {
+    print-color-adjust: exact;
+  }
+
+} 

@@ -1,0 +1,13 @@
+mutation InviteToTeam(
+  $toEntityPk: String!
+  $invitedUserEmail: String!
+  $permissionType: Int!
+) {
+  createInvitation(
+    toEntityPk: $toEntityPk
+    invitedUserEmail: $invitedUserEmail
+    permissionType: $permissionType
+  ) {
+    pk
+  }
+}

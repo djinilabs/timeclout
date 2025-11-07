@@ -1,0 +1,190 @@
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import {
+  EllipsisVerticalIcon,
+  PencilIcon,
+  TrashIcon,
+  ClockIcon,
+} from "@heroicons/react/20/solid";
+import { Squares2X2Icon } from "@heroicons/react/24/outline";
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
+import ReactTimeAgo from "react-time-ago";
+
+import { type Unit } from "../../graphql/graphql";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import { useEntityNavigationContext } from "../../hooks/useEntityNavigationContext";
+import { useMutation } from "../../hooks/useMutation";
+import { Button } from "../particles/Button";
+import { EmptyState } from "../particles/EmptyState";
+
+import deleteUnitMutation from "@/graphql-client/mutations/deleteUnit.graphql";
+
+const AllCompanyUnits = () => {
+  const { company, refresh } = useEntityNavigationContext();
+  const { showConfirmDialog } = useConfirmDialog();
+  const [, deleteUnit] = useMutation(deleteUnitMutation);
+
+  return (
+    <div>
+      <div className="mt-4">
+        {!company?.units?.length ? (
+          <EmptyState
+            icon="grid"
+            title={<Trans>No units</Trans>}
+            description={
+              <Trans>Get started by creating a new unit for this company.</Trans>
+            }
+            action={{
+              label: <Trans>New Unit</Trans>,
+              to: company ? `/${company.pk}/units/new` : undefined,
+              className: "new-unit-button",
+            }}
+          />
+        ) : (
+          <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
+            <div className="mt-2 ml-auto shrink-0">
+              <Button
+                to={`/${company.pk}/units/new`}
+                className="new-unit-button"
+              >
+                <Trans>Create new Unit</Trans>
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <ul className="units-list">
+        {company?.units?.map((unit: Unit) => (
+          <li
+            key={unit.pk}
+            className="flex items-center justify-between gap-x-6 py-5"
+          >
+            <div key="unit-name" className="min-w-0">
+              <div key="unit-name-header" className="flex items-start gap-x-3">
+                <Squares2X2Icon
+                  className="mt-0.5 h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+                <p className="text-sm/6 font-semibold text-gray-900 hover:underline">
+                  <Link
+                    aria-clickable
+                    role="link"
+                    aria-label={`View ${unit.name} unit`}
+                    to={`/${company.pk}/${unit.pk}`}
+                  >
+                    {unit.name}
+                  </Link>
+                </p>
+              </div>
+              <div
+                key="unit-name-footer"
+                className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500"
+              >
+                <p
+                  key="unit-name-footer-created"
+                  className="whitespace-nowrap flex items-center gap-x-1"
+                >
+                  <ClockIcon className="size-4" />
+                  <Trans>Created</Trans>{" "}
+                  <ReactTimeAgo date={new Date(unit.createdAt)} />
+                </p>
+                <svg
+                  key="unit-name-footer-separator"
+                  viewBox="0 0 2 2"
+                  className="size-0.5 fill-current"
+                >
+                  <circle r={1} cx={1} cy={1} />
+                </svg>
+                <p key="unit-name-footer-created-by" className="truncate">
+                  <Trans>Created by</Trans> {unit.createdBy?.name || "Unknown"}
+                </p>
+              </div>
+            </div>
+            <div
+              key="unit-actions"
+              className="flex flex-none items-center gap-x-4"
+            >
+              <Link
+                to={`/${company.pk}/${unit.pk}`}
+                className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+                aria-label={`View ${unit.name} unit`}
+                aria-clickable
+              >
+                <Trans>View unit</Trans>
+                <span className="sr-only">, {unit.name}</span>
+              </Link>
+              <Menu as="div" className="relative flex-none">
+                <MenuButton
+                  className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
+                  aria-label={`Open options for ${unit.name}`}
+                >
+                  <span className="sr-only">
+                    <Trans>Open options</Trans>
+                  </span>
+                  <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
+                </MenuButton>
+                <MenuItems
+                  transition
+                  className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
+                  aria-label={`Options for ${unit.name}`}
+                >
+                  <MenuItem>
+                    <Link
+                      to={`/${company.pk}/${unit.pk}`}
+                      className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2"
+                      role="menuitem"
+                      aria-label={`Edit ${unit.name}`}
+                      aria-clickable
+                    >
+                      <PencilIcon className="size-4" />
+                      <Trans>Edit</Trans>
+                      <span className="sr-only">, {unit.name}</span>
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <button
+                      type="button"
+                      className="px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden flex items-center gap-x-2 w-full"
+                      role="menuitem"
+                      aria-label={`Remove ${unit.name} unit`}
+                      // eslint-disable-next-line react/no-unknown-property
+                      aria-clickable
+                      onClick={async () => {
+                        if (
+                          await showConfirmDialog({
+                            text: i18n.t(
+                              "Are you sure you want to delete this unit?"
+                            ),
+                            confirmText: i18n.t("Delete unit"),
+                            cancelText: i18n.t("Cancel"),
+                          })
+                        ) {
+                          const result = await deleteUnit({
+                            pk: unit.pk,
+                          });
+                          if (!result.error) {
+                            toast.success(i18n.t("Unit deleted successfully"));
+                            refresh();
+                          }
+                        }
+                      }}
+                    >
+                      <TrashIcon className="size-4" />
+                      <Trans>Delete</Trans>
+                      <span className="sr-only">, {unit.name}</span>
+                    </button>
+                  </MenuItem>
+                </MenuItems>
+              </Menu>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default AllCompanyUnits;

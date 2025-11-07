@@ -1,0 +1,27 @@
+import { i18n } from "@/locales";
+
+export const selectRandomWeighted = <T>(
+  from: Array<T>,
+  weights: Array<number>
+): T => {
+  if (from.length !== weights.length) {
+    throw new TypeError(i18n._("from and weights must have the same length"));
+  }
+
+  const cumulativeWeights: number[] = [];
+  let totalWeights = 0;
+
+  for (const weight of weights) {
+    totalWeights += weight;
+    cumulativeWeights.push(totalWeights);
+  }
+
+  const randomNumber = Math.floor(Math.random() * totalWeights);
+  for (const [index, weight] of cumulativeWeights.entries()) {
+    if (randomNumber <= weight) {
+      return from[index] as T;
+    }
+  }
+
+  throw new Error(i18n._("No element selected"));
+};

@@ -1,0 +1,54 @@
+type Leave {
+  pk: String!
+  sk: String!
+  leaveRequestPk: String!
+  leaveRequestSk: String!
+  type: String!
+}
+
+input DeleteLeaveInput {
+  pk: String!
+  sk: String!
+}
+
+extend type Mutation {
+  deleteLeave(input: DeleteLeaveInput!): Leave!
+}
+
+type Calendar {
+  year: Int!
+  leaves: [Leave!]!
+  leaveRequests: [LeaveRequest!]!
+}
+
+type QuotaFulfilment {
+  quota: Int!
+  quotaStartDate: String!
+  quotaEndDate: String!
+  approvedUsed: Int!
+  pendingApprovalUsed: Int!
+  simulatedUsed: Int
+  simulatedType: String
+  simulatedStartDate: String
+  simulatedEndDate: String
+}
+
+extend type Query {
+  myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
+  myQuotaFulfilment(
+    companyPk: String!
+    startDate: String!
+    endDate: String!
+    simulatesLeave: Boolean
+    simulatesLeaveType: String
+  ): [QuotaFulfilment!]!
+  memberQuotaFulfilment(
+    companyPk: String!
+    teamPk: String!
+    userPk: String!
+    startDate: String!
+    endDate: String!
+    simulatesLeave: Boolean
+    simulatesLeaveType: String
+  ): [QuotaFulfilment!]!
+}

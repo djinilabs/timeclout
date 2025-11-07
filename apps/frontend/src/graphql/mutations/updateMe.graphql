@@ -1,0 +1,8 @@
+mutation UpdateMe($input: UpdateMeInput!, $name: String!, $settings: JSON!) {
+  updateMe(input: $input) {
+    pk
+  }
+  updateMySettings(name: $name, settings: $settings) {
+    pk
+  }
+}

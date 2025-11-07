@@ -1,0 +1,19 @@
+query allUnits {
+  units {
+    pk
+    name
+    createdAt
+    createdBy {
+      pk
+      email
+      name
+    }
+    updatedAt
+    updatedBy {
+      pk
+      email
+      name
+    }
+    companyPk
+  }
+}

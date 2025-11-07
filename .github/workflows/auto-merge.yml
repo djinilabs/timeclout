@@ -1,0 +1,152 @@
+name: Auto Merge
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Pull request number to auto-merge"
+        required: true
+        type: string
+
+jobs:
+  auto-merge:
+    name: Auto Merge PR
+    runs-on: ubuntu-latest
+    if: github.event.inputs.pr_number != ''
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+      statuses: read
+      actions: write
+
+    steps:
+      - name: Debug inputs
+        run: |
+          echo "=== Auto-Merge Inputs Debug ==="
+          echo "PR Number: ${{ github.event.inputs.pr_number }}"
+          echo "Event name: ${{ github.event_name }}"
+          echo "================================="
+
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Check if PR is ready for merge
+        id: check-status
+        run: |
+          PR_NUMBER="${{ github.event.inputs.pr_number }}"
+          echo "Checking if PR $PR_NUMBER is ready for merge..."
+
+          # Retry logic with exponential backoff
+          for attempt in {1..5}; do
+            echo "Attempt $attempt to check PR status..."
+            
+            # Get the PR details including author information
+            PR_INFO=$(gh pr view $PR_NUMBER --json mergeable,mergeStateStatus,reviewDecision,labels,author)
+            echo "PR info: $PR_INFO"
+
+            # Check if PR is from renovate bot
+            AUTHOR_LOGIN=$(echo "$PR_INFO" | jq -r '.author.login')
+            echo "PR author: $AUTHOR_LOGIN"
+
+            # Only proceed if PR is from renovate bot
+            if [ "$AUTHOR_LOGIN" != "renovate[bot]" ]; then
+              echo "ready=false" >> $GITHUB_OUTPUT
+              echo "PR is not from renovate bot (author: $AUTHOR_LOGIN), skipping auto-merge"
+              break
+            fi
+
+            # Check if PR is mergeable
+            MERGEABLE=$(echo "$PR_INFO" | jq -r '.mergeable')
+            MERGE_STATE=$(echo "$PR_INFO" | jq -r '.mergeStateStatus')
+            REVIEW_DECISION=$(echo "$PR_INFO" | jq -r '.reviewDecision')
+
+            echo "Mergeable: $MERGEABLE"
+            echo "Merge state: $MERGE_STATE"
+            echo "Review decision: $REVIEW_DECISION"
+
+            # Check if PR has required labels (if any)
+            LABELS=$(echo "$PR_INFO" | jq -r '.labels[].name' | tr '\n' ' ')
+            echo "Labels: $LABELS"
+
+            # Check if PR is ready for merge
+            if [ "$MERGEABLE" == "MERGEABLE" ] && [ "$MERGE_STATE" == "CLEAN" ]; then
+              echo "ready=true" >> $GITHUB_OUTPUT
+              echo "PR is ready for merge"
+              break
+            fi
+            
+            if [ $attempt -lt 5 ]; then
+              wait_time=$((2 ** $attempt))
+              echo "PR not ready, waiting $wait_time seconds before retry..."
+              sleep $wait_time
+            fi
+          done
+
+          if [ "$(cat $GITHUB_OUTPUT | grep 'ready=' | cut -d'=' -f2)" != "true" ]; then
+            echo "ready=false" >> $GITHUB_OUTPUT
+            echo "PR is not ready for merge after all attempts"
+            echo "Final status - Mergeable: $MERGEABLE, Merge state: $MERGE_STATE"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto merge PR
+        if: steps.check-status.outputs.ready == 'true'
+        run: |
+          PR_NUMBER="${{ github.event.inputs.pr_number }}"
+
+          echo "Attempting to merge PR $PR_NUMBER..."
+
+          # Try to merge the PR with squash strategy
+          gh pr merge $PR_NUMBER --auto --squash
+
+          if [ $? -eq 0 ]; then
+            echo "✅ PR $PR_NUMBER merged successfully"
+          else
+            echo "❌ Failed to merge PR $PR_NUMBER"
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on PR
+        if: steps.check-status.outputs.ready == 'true'
+        run: |
+          PR_NUMBER="${{ github.event.inputs.pr_number }}"
+
+          gh pr comment $PR_NUMBER --body "🤖 **Auto-merge completed!** This renovate bot PR has been automatically merged after all required checks passed, including E2E Tests."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger Test Workflow
+        if: steps.check-status.outputs.ready == 'true'
+        run: |
+          echo "Triggering Test workflow after successful merge..."
+
+          # Wait a moment for the merge commit to be processed
+          sleep 10
+
+          # Trigger the Test workflow
+          gh workflow run test.yml --ref main
+
+          echo "Test workflow triggered successfully"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send Discord notification
+        if: steps.check-status.outputs.ready == 'true'
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
+          workflow_name: ${{ github.workflow }}
+          job_status: ${{ job.status }}
+          run_id: ${{ github.run_id }}
+          repository: ${{ github.repository }}
+          sha: ${{ github.sha }}
+          ref_name: ${{ github.ref_name }}
+          event_name: ${{ github.event_name }}
+          head_commit_message: "Renovate bot PR #${{ github.event.inputs.pr_number }} auto-merged successfully"
+          pull_request_number: ${{ github.event.inputs.pr_number }}
+          pull_request_title: "Auto-merged renovate bot PR #${{ github.event.inputs.pr_number }}"
+          pull_request_url: "https://github.com/${{ github.repository }}/pull/${{ github.event.inputs.pr_number }}"

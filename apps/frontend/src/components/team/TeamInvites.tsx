@@ -1,0 +1,147 @@
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { ClockIcon } from "@heroicons/react/24/outline";
+import { Trans } from "@lingui/react/macro";
+import { useParams } from "react-router-dom";
+import ReactTimeAgo from "react-time-ago";
+
+
+import { Invitation, QueryInvitationsToArgs } from "../../graphql/graphql";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
+import { permissionTypeToString } from "../../utils/permissionTypeToString";
+import { Avatar } from "../particles/Avatar";
+import { Button } from "../particles/Button";
+
+import deleteInvitationMutation from "@/graphql-client/mutations/deleteInvitation.graphql";
+import invitationsToTeamQuery from "@/graphql-client/queries/invitationsToTeam.graphql";
+
+
+export const TeamInvites = () => {
+  const { company, unit, team } = useParams();
+  const [allInvitations] = useQuery<
+    { invitationsTo: Invitation[] },
+    QueryInvitationsToArgs
+  >({
+    query: invitationsToTeamQuery,
+    variables: {
+      toEntityPk: `teams/${team}`,
+    },
+    pollingIntervalMs: 10000,
+  });
+
+  const [, deleteInvitation] = useMutation(deleteInvitationMutation);
+
+  const { showConfirmDialog } = useConfirmDialog();
+
+  return (
+    <div className="mt-4" role="region" aria-label="Team Invitations">
+      <p className="text-sm/6 text-gray-500">
+        <Trans>Here you can invite users to your team.</Trans>
+      </p>
+      <div className="flex justify-end">
+        <Button
+          to={`/companies/${company}/units/${unit}/teams/${team}/invites/new`}
+          aria-label="Create new team invitation"
+        >
+          <PlusIcon aria-hidden="true" className="-ml-0.5 mr-1.5 size-5" />{" "}
+          <Trans>New Invitation</Trans>
+        </Button>
+      </div>
+      {allInvitations?.data?.invitationsTo?.length === 0 && (
+        <p className="text-sm/6 text-gray-500" role="status">
+          <Trans>No invitations found.</Trans>
+        </p>
+      )}
+      <ul
+        role="list"
+        className="divide-y divide-gray-100"
+        aria-label="List of team invitations"
+      >
+        {allInvitations?.data?.invitationsTo?.map((invitation: Invitation) => (
+          <li
+            key={invitation.email}
+            className="flex justify-between gap-x-6 py-5"
+            role="listitem"
+          >
+            <div className="flex min-w-0 gap-x-4">
+              <Avatar email={invitation.email} emailMd5={invitation.emailMd5} />
+              <div className="min-w-0 flex-auto">
+                <p className="text-sm/6 font-semibold text-gray-900">
+                  {invitation.sk}
+                </p>
+                <p className="mt-1 flex text-xs/5 text-gray-500">
+                  <a
+                    href={`mailto:${invitation.email}`}
+                    className="truncate hover:underline"
+                    aria-label={`Send email to ${invitation.email}`}
+                  >
+                    {invitation.email}
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div className="flex shrink-0 items-center gap-x-6">
+              <div className="hidden sm:flex sm:flex-col sm:items-end">
+                <p className="text-sm/6 text-gray-900">
+                  {permissionTypeToString(invitation.permissionType) || (
+                    <Trans>Unknown</Trans>
+                  )}
+                </p>
+                <p className="mt-1 text-xs/5 text-gray-500 flex items-center gap-x-1">
+                  <ClockIcon className="size-4" />
+                  <Trans>Invited</Trans>{" "}
+                  <ReactTimeAgo date={new Date(invitation.createdAt)} />
+                </p>
+              </div>
+              <Menu as="div" className="relative flex-none">
+                <MenuButton
+                  className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
+                  aria-label={`Options for invitation to ${invitation.email}`}
+                >
+                  <span className="sr-only">
+                    <Trans>Open options</Trans>
+                  </span>
+                  <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
+                </MenuButton>
+                <MenuItems
+                  transition
+                  className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-leave:duration-75 data-enter:ease-out data-leave:ease-in"
+                  aria-label="Invitation options"
+                >
+                  <MenuItem>
+                    <a
+                      onClick={async () => {
+                        if (
+                          !(await showConfirmDialog({
+                            text: (
+                              <Trans>
+                                Are you sure you want to revoke this invitation?
+                              </Trans>
+                            ),
+                          }))
+                        ) {
+                          return;
+                        }
+                        deleteInvitation({
+                          pk: invitation.pk,
+                          sk: invitation.email,
+                        });
+                      }}
+                      className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                      aria-label={`Revoke invitation for ${invitation.email}`}
+                    >
+                      <Trans>Revoke Invitation</Trans>
+                      <span className="sr-only">, {invitation.email}</span>
+                    </a>
+                  </MenuItem>
+                </MenuItems>
+              </Menu>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};

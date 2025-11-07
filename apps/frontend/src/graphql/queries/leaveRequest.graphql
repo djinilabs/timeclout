@@ -1,0 +1,31 @@
+query leaveRequest($pk: String!, $sk: String!) {
+  leaveRequest(pk: $pk, sk: $sk) {
+    pk
+    sk
+    createdBy {
+      pk
+      name
+      email
+      emailMd5
+    }
+    beneficiary {
+      pk
+      name
+      email
+      emailMd5
+    }
+    createdAt
+    startDate
+    endDate
+    type
+    reason
+    approved
+    approvedBy {
+      pk
+      name
+      email
+      emailMd5
+    }
+    approvedAt
+  }
+}

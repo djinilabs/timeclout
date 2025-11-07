@@ -1,0 +1,22 @@
+mutation DeleteShiftPosition($input: DeleteShiftPositionInput!) {
+  deleteShiftPosition(input: $input) {
+    pk
+    sk
+    day
+    name
+    color
+    requiredSkills
+    userVersion
+    schedules {
+      startHourMinutes
+      endHourMinutes
+      inconveniencePerHour
+    }
+    assignedTo {
+      pk
+      name
+      email
+      emailMd5
+    }
+  }
+}

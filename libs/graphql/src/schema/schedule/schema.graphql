@@ -1,0 +1,16 @@
+type UserSchedule {
+  pk: String!
+  user: User!
+  startDate: Date!
+  endDate: Date!
+  leaves: [Leave!]!
+  leaveRequests: [LeaveRequest!]!
+}
+
+type Schedule {
+  pk: String!
+  team: Team!
+  startDate: Date!
+  endDate: Date!
+  userSchedules: [UserSchedule!]!
+}

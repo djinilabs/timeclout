@@ -1,0 +1,5 @@
+mutation deleteUnit($pk: String!) {
+  deleteUnit(pk: $pk) {
+    pk
+  }
+}

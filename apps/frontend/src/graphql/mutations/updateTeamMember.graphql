@@ -1,0 +1,8 @@
+mutation UpdateTeamMember($input: UpdateTeamMemberInput!) {
+  updateTeamMember(input: $input) {
+    pk
+    name
+    email
+    emailMd5
+  }
+}

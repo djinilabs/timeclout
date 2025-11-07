@@ -1,0 +1,22 @@
+mutation UnassignShiftPosition($input: UnassignShiftPositionInput!) {
+  unassignShiftPosition(input: $input) {
+    pk
+    sk
+    day
+    name
+    color
+    requiredSkills
+    userVersion
+    schedules {
+      startHourMinutes
+      endHourMinutes
+      inconveniencePerHour
+    }
+    assignedTo {
+      pk
+      name
+      email
+      emailMd5
+    }
+  }
+}

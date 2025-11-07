@@ -1,0 +1,66 @@
+query shiftsAutoFillParams($input: AutoFillParamsInput!) {
+  shiftsAutoFillParams(input: $input) {
+    workers {
+      pk
+      qualifications
+      name
+      email
+      emailMd5
+      approvedLeaves {
+        start
+        end
+        type
+        isPersonal
+      }
+    }
+    slots {
+      id
+      workHours {
+        start
+        end
+        inconvenienceMultiplier
+      }
+      startsOnDay
+      requiredQualifications
+      assignedWorkerPk
+      typeName
+    }
+    workSchedule {
+      monday {
+        isWorkDay
+        start
+        end
+      }
+      tuesday {
+        isWorkDay
+        start
+        end
+      }
+      wednesday {
+        isWorkDay
+        start
+        end
+      }
+      thursday {
+        isWorkDay
+        start
+        end
+      }
+      friday {
+        isWorkDay
+        start
+        end
+      }
+      saturday {
+        isWorkDay
+        start
+        end
+      }
+      sunday {
+        isWorkDay
+        start
+        end
+      }
+    }
+  }
+}

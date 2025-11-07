@@ -1,0 +1,27 @@
+type Company {
+  pk: String!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  createdBy: User
+  updatedBy: User
+  units: [Unit!]
+  settings(name: String!): JSON
+  resourcePermission: Int
+}
+
+extend type Mutation {
+  createCompany(name: String!): Company!
+  updateCompany(pk: String!, name: String!): Company!
+  deleteCompany(pk: String!): Company!
+  updateCompanySettings(
+    companyPk: String!
+    name: String!
+    settings: JSON!
+  ): Company!
+}
+
+extend type Query {
+  companies: [Company!]!
+  company(companyPk: String!): Company!
+}

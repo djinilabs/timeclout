@@ -1,0 +1,20 @@
+query allTeams {
+  allTeams {
+    pk
+    name
+    createdAt
+    createdBy {
+      pk
+      email
+      name
+    }
+    updatedAt
+    updatedBy {
+      pk
+      email
+      name
+    }
+    unitPk
+    companyPk
+  }
+}

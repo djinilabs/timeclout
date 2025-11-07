@@ -1,0 +1,16 @@
+import { useSession } from "next-auth/react";
+import { type FC, type PropsWithChildren } from "react";
+
+import Login from "../atoms/Login";
+import { Loading } from "../particles/Loading";
+
+export const RequiresSession: FC<PropsWithChildren> = ({ children }) => {
+  const { status } = useSession({ required: false });
+  if (status === "loading") {
+    return <Loading />;
+  }
+  if (status === "unauthenticated") {
+    return <Login />;
+  }
+  return children;
+};

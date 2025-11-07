@@ -1,0 +1,129 @@
+type ShiftPositionSchedule {
+  startHourMinutes: [Int!]!
+  endHourMinutes: [Int!]!
+  inconveniencePerHour: Float!
+}
+
+type ShiftPosition {
+  pk: String!
+  sk: String!
+  day: String!
+  name: String
+  color: String
+  requiredSkills: [String!]!
+  schedules: [ShiftPositionSchedule!]!
+  assignedTo: User
+  userVersion: String
+}
+
+input ShiftPositionScheduleInput {
+  startHourMinutes: [Int!]!
+  endHourMinutes: [Int!]!
+  inconveniencePerHour: Float!
+}
+
+input CreateShiftPositionInput {
+  team: String!
+  day: String!
+  name: String
+  color: String
+  requiredSkills: [String!]!
+  schedules: [ShiftPositionScheduleInput!]!
+  assignedTo: String
+  replaces: String
+}
+
+input UpdateShiftPositionInput {
+  pk: String!
+  sk: String!
+  day: String!
+  name: String
+  color: String
+  requiredSkills: [String!]!
+  schedules: [ShiftPositionScheduleInput!]!
+  assignedTo: String
+  replaces: String
+}
+
+input DeleteShiftPositionInput {
+  pk: String!
+  sk: String!
+}
+
+input MoveShiftPositionInput {
+  pk: String!
+  sk: String!
+  day: String!
+}
+
+input CopyShiftPositionInput {
+  pk: String!
+  sk: String!
+  day: String!
+}
+
+input PublishShiftPositionsInput {
+  team: String!
+  startDay: String!
+  endDay: String!
+}
+
+input UnassignShiftPositionsInput {
+  team: String!
+  startDay: String!
+  endDay: String!
+}
+
+input UnassignShiftPositionInput {
+  team: String!
+  shiftPositionSk: String!
+}
+
+input AssignableTeamMembersInput {
+  shiftPositionPk: String!
+  shiftPositionSk: String!
+  teamPk: String!
+}
+
+input PublishShiftPositionInput {
+  team: String!
+  shiftPositionSk: String!
+  startDay: String!
+  endDay: String!
+}
+
+input RevertShiftPositionsInput {
+  team: String!
+  startDay: String!
+  endDay: String!
+  version: String!
+}
+
+extend type Mutation {
+  createShiftPosition(input: CreateShiftPositionInput!): ShiftPosition!
+  moveShiftPosition(input: MoveShiftPositionInput!): ShiftPosition!
+  copyShiftPosition(input: CopyShiftPositionInput!): ShiftPosition!
+  updateShiftPosition(input: UpdateShiftPositionInput!): ShiftPosition!
+  deleteShiftPosition(input: DeleteShiftPositionInput!): ShiftPosition!
+  unassignShiftPositions(input: UnassignShiftPositionsInput!): [ShiftPosition!]!
+  unassignShiftPosition(input: UnassignShiftPositionInput!): ShiftPosition!
+  publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
+  revertShiftPositions(input: RevertShiftPositionsInput!): [ShiftPosition!]!
+}
+
+input QueryShiftPositionsInput {
+  team: String!
+  startDay: String!
+  endDay: String!
+  version: String
+}
+
+type QueryShiftPositionsOutput {
+  shiftPositions: [ShiftPosition!]!
+  areAnyUnpublished: Boolean!
+}
+
+extend type Query {
+  shiftPositions(input: QueryShiftPositionsInput!): QueryShiftPositionsOutput!
+  assignableTeamMembers(input: AssignableTeamMembersInput!): [User!]!
+}

@@ -1,0 +1,8 @@
+query teamWithSettings($teamPk: String!, $name: String!) {
+  team(teamPk: $teamPk) {
+    pk
+    name
+    settings(name: $name)
+    resourcePermission
+  }
+}

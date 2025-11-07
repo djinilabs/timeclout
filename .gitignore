@@ -1,0 +1,45 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+.env
+src/output.css
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+apps/backend/public
+apps/backend/db
+apps/backend/db2
+tsconfig.tsbuildinfo
+preferences.arc
+scripts/deploy.sh
+
+# Sentry Config File
+.env.sentry-build-plugin
+
+# E2E Test Environment
+tests/e2e/.env
+
+# Playwright test artifacts
+test-results/
+playwright-report/
+playwright/.cache/
+screenshots/

@@ -1,0 +1,113 @@
+name: Deploy PR
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-pr-${{ github.event.pull_request.number }}
+      cancel-in-progress: false
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          architecture: "x64"
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install -w
+
+      - name: Deploy PR
+        env:
+          NODE_ENV: "production"
+          BASE_URL: "https://${{ github.event.pull_request.number }}.timeclout.com"
+          NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          MAILGUN_KEY: ${{ secrets.MAILGUN_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          AWS_CERTIFICATE_ARN: "arn:aws:acm:eu-west-2:307946679392:certificate/06ec428a-108a-43e3-a352-0905e50de5fd"
+          AWS_ZONE_ID: ${{ secrets.AWS_ZONE_ID }}
+          TT3_CUSTOM_DOMAIN: "${{ github.event.pull_request.number }}.timeclout.com"
+          SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
+          SENTRY_TRACES_SAMPLE_RATE: "1.0"
+          SENTRY_PROFILES_SAMPLE_RATE: "1.0"
+          DISCORD_PUBLIC_KEY: ${{ secrets.DISCORD_PUBLIC_KEY }}
+          DISCORD_CS_USERS: ${{ secrets.DISCORD_CS_USERS }}
+          DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_APPLICATION_ID }}
+          DISCORD_CS_BOT_TOKEN: ${{ secrets.DISCORD_CS_BOT_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          cd apps/backend
+          pnpm install
+          export PATH=../../node_modules/.bin:$PATH
+          pnpm arc env --add --env staging AUTH_SECRET "${AUTH_SECRET}"
+          pnpm arc env --add --env staging MAILGUN_KEY "${MAILGUN_KEY}"
+          pnpm arc env --add --env staging GOOGLE_CLIENT_ID "${GOOGLE_CLIENT_ID}"
+          pnpm arc env --add --env staging GOOGLE_CLIENT_SECRET "${GOOGLE_CLIENT_SECRET}"
+          pnpm arc env --add --env staging SENTRY_DSN "${SENTRY_DSN}"
+          pnpm arc env --add --env staging SENTRY_TRACES_SAMPLE_RATE "${SENTRY_TRACES_SAMPLE_RATE}"
+          pnpm arc env --add --env staging SENTRY_PROFILES_SAMPLE_RATE "${SENTRY_PROFILES_SAMPLE_RATE}"
+          pnpm arc env --add --env staging DISCORD_PUBLIC_KEY "${DISCORD_PUBLIC_KEY}"
+          pnpm arc env --add --env staging DISCORD_CS_USERS "${DISCORD_CS_USERS}"
+          pnpm arc env --add --env staging GEMINI_API_KEY "${GEMINI_API_KEY}"
+          cd ../..
+          pnpm build
+          cd apps/backend
+          pnpm arc deploy --name "PR${{ github.event.pull_request.number }}" --staging --no-hydrate --verbose
+
+      - name: Register Discord Commands
+        env:
+          DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_APPLICATION_ID }}
+          DISCORD_CS_BOT_TOKEN: ${{ secrets.DISCORD_CS_BOT_TOKEN }}
+        run: |
+          echo "🔄 Registering Discord slash commands..."
+          pnpm discord:register-commands
+
+      - name: Trigger E2E Tests
+        if: success()
+        run: |
+          echo "Deployment successful, triggering E2E tests..."
+          gh workflow run e2e-tests.yml \
+            --field environment=pr \
+            --field pull_request_number=${{ github.event.pull_request.number }} \
+            --field run_specific_tests="" \
+            --ref ${{ github.head_ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.E2E_TRIGGER_TOKEN }}
+
+      - name: Send Discord notification
+        if: failure()
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
+          workflow_name: ${{ github.workflow }}
+          job_status: ${{ job.status }}
+          run_id: ${{ github.run_id }}
+          repository: ${{ github.repository }}
+          sha: ${{ github.sha }}
+          ref_name: ${{ github.ref_name }}
+          event_name: ${{ github.event_name }}
+          head_commit_message: ${{ github.event.pull_request.title }}
+          pull_request_number: ${{ github.event.pull_request.number }}
+          pull_request_title: ${{ github.event.pull_request.title }}
+          pull_request_url: ${{ github.event.pull_request.html_url }}

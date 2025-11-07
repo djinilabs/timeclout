@@ -1,0 +1,32 @@
+query MyPendingLeaveRequests {
+  pendingLeaveRequests {
+    pk
+    sk
+    startDate
+    endDate
+    companyPk
+    type
+    reason
+    approved
+    approvedBy {
+      pk
+      name
+      email
+      emailMd5
+    }
+    approvedAt
+    createdBy {
+      pk
+      name
+      email
+      emailMd5
+    }
+    createdAt
+    beneficiary {
+      pk
+      name
+      email
+      emailMd5
+    }
+  }
+}

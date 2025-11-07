@@ -1,0 +1,9 @@
+query me {
+  me {
+    pk
+    email
+    name
+    emailMd5
+    settings(name: "location")
+  }
+}

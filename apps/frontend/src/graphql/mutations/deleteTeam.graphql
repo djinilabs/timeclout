@@ -1,0 +1,5 @@
+mutation deleteTeam($pk: String!) {
+  deleteTeam(pk: $pk) {
+    pk
+  }
+}

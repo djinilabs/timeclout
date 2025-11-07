@@ -1,0 +1,76 @@
+type AutoFillWorkerLeave {
+  start: Int!
+  end: Int!
+  type: String!
+  isPersonal: Boolean!
+}
+
+type AutoFillSlotWorker {
+  pk: ID!
+  name: String!
+  email: String!
+  emailMd5: String!
+  qualifications: [String!]!
+  approvedLeaves: [AutoFillWorkerLeave!]!
+}
+
+type AutoFillWorkHour {
+  start: Int!
+  end: Int!
+  inconvenienceMultiplier: Float!
+}
+
+type AutoFillWorkDay {
+  isWorkDay: Boolean!
+  start: String
+  end: String
+}
+
+type AutoFillWorkSchedule {
+  monday: AutoFillWorkDay!
+  tuesday: AutoFillWorkDay!
+  wednesday: AutoFillWorkDay!
+  thursday: AutoFillWorkDay!
+  friday: AutoFillWorkDay!
+  saturday: AutoFillWorkDay!
+  sunday: AutoFillWorkDay!
+}
+
+type AutoFillSlot {
+  id: ID!
+  workHours: [AutoFillWorkHour!]!
+  startsOnDay: String!
+  requiredQualifications: [String!]!
+  assignedWorkerPk: ID
+  typeName: String!
+}
+
+type ShiftsAutoFillParams {
+  workers: [AutoFillSlotWorker!]!
+  slots: [AutoFillSlot!]!
+  workSchedule: AutoFillWorkSchedule
+}
+
+input AutoFillParamsInput {
+  team: String!
+  startDay: String!
+  endDay: String!
+}
+
+extend type Query {
+  shiftsAutoFillParams(input: AutoFillParamsInput!): ShiftsAutoFillParams!
+}
+
+input AssignShiftPositionsInput {
+  team: String!
+  assignments: [ShiftPositionAssignmentInput!]!
+}
+
+input ShiftPositionAssignmentInput {
+  shiftPositionId: ID!
+  workerPk: ID!
+}
+
+extend type Mutation {
+  assignShiftPositions(input: AssignShiftPositionsInput!): [ShiftPosition!]!
+}

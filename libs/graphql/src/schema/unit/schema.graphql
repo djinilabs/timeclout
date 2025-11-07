@@ -1,0 +1,25 @@
+type Unit {
+  pk: String!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  createdBy: User
+  updatedBy: User
+  teams: [Team!]!
+  settings(name: String!): JSON
+  members: [User!]!
+  resourcePermission: Int
+  companyPk: String!
+}
+
+extend type Mutation {
+  createUnit(companyPk: String!, name: String!): Unit!
+  updateUnit(pk: String!, name: String!): Unit!
+  deleteUnit(pk: String!): Unit!
+  updateUnitSettings(unitPk: String!, name: String!, settings: JSON!): Unit!
+}
+
+extend type Query {
+  unit(unitPk: String!): Unit!
+  units: [Unit!]!
+}

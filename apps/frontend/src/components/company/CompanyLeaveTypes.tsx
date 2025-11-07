@@ -1,0 +1,144 @@
+import { i18n } from "@lingui/core";
+import { Trans } from "@lingui/react/macro";
+import { useCallback, useMemo } from "react";
+import { toast } from "react-hot-toast";
+import { Link, useParams } from "react-router-dom";
+
+import {
+  CompanySettingsArgs,
+  Mutation,
+  MutationUpdateCompanySettingsArgs,
+  Query,
+ QueryCompanyArgs } from "../../graphql/graphql";
+import { useConfirmDialog } from "../../hooks/useConfirmDialog";
+import { useMutation } from "../../hooks/useMutation";
+import { useQuery } from "../../hooks/useQuery";
+import { leaveTypeColors, leaveTypeIcons } from "../../settings/leaveTypes";
+
+import updateCompanySettingsMutation from "@/graphql-client/mutations/updateCompanySettings.graphql";
+import companyWithSettingsQuery from "@/graphql-client/queries/companyWithSettings.graphql";
+import { LeaveTypes, leaveTypeParser } from "@/settings";
+import { getDefined } from "@/utils";
+
+
+export const CompanyLeaveTypes = () => {
+  const { company: companyPk } = useParams();
+  const [companyWithSettingsQueryResponse, refetch] = useQuery<
+    { company: Query["company"] },
+    QueryCompanyArgs & CompanySettingsArgs
+  >({
+    query: companyWithSettingsQuery,
+    variables: {
+      companyPk: getDefined(companyPk, "No company provided"),
+      name: "leaveTypes",
+    },
+  });
+
+  const [, updateCompanySettings] = useMutation<
+    Mutation["updateCompanySettings"],
+    MutationUpdateCompanySettingsArgs
+  >(updateCompanySettingsMutation);
+
+  const leaveTypes: LeaveTypes | undefined = useMemo(() => {
+    const company = companyWithSettingsQueryResponse?.data?.company;
+    return company?.settings && leaveTypeParser.parse(company.settings);
+  }, [companyWithSettingsQueryResponse]);
+
+  const { showConfirmDialog } = useConfirmDialog();
+
+  const handleDelete = useCallback(
+    async (leaveTypeName: string) => {
+      if (!leaveTypes) return;
+
+      if (
+        !(await showConfirmDialog({
+          text: (
+            <Trans>
+              Are you sure you want to delete this leave type? This change is
+              not reversible.
+            </Trans>
+          ),
+        }))
+      ) {
+        return;
+      }
+
+      const newLeaveTypes = leaveTypes.filter(
+        (lt) => lt.name !== leaveTypeName
+      );
+      const response = await updateCompanySettings({
+        companyPk: getDefined(companyPk),
+        name: "leaveTypes",
+        settings: newLeaveTypes,
+      });
+
+      if (!response.error) {
+        toast.success(i18n.t("Leave type deleted"));
+        refetch();
+      }
+    },
+    [leaveTypes, showConfirmDialog, updateCompanySettings, companyPk, refetch]
+  );
+
+  return (
+    <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+      <p className="mt-1 text-sm/6 text-gray-600 py-5">
+        <Trans>Manage the leave types for the workers in this company:</Trans>
+      </p>
+      <div className="flex py-5">
+        <div>
+          <div className="mb-4">
+            <Link
+              to={`/companies/${companyPk}/settings/leaveTypes/new`}
+              className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            >
+              <Trans>Create New Leave Type</Trans>
+            </Link>
+          </div>
+          <ul
+            role="list"
+            className="divide-y divide-gray-100 max-w-fit shadow-md p-4"
+          >
+            {leaveTypes?.map((leaveType) => (
+              <li
+                key={leaveType.name}
+                className="flex items-center justify-between gap-x-6 py-5"
+              >
+                <div className="flex min-w-0 gap-x-4">
+                  <div
+                    className="flex items-center justify-center rounded-full w-8 h-8"
+                    style={{
+                      backgroundColor: leaveTypeColors[leaveType.color],
+                    }}
+                  >
+                    {leaveTypeIcons[leaveType.icon]}
+                  </div>
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm/6 text-gray-900">{leaveType.name}</p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Link
+                    to={`/companies/${companyPk}/settings/leaveTypes/${leaveType.name}`}
+                    className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    aria-clickable
+                    role="link"
+                    aria-label={`Edit ${leaveType.name} leave type`}
+                  >
+                    <Trans>Edit</Trans>
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(leaveType.name)}
+                    className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-red-600 shadow-xs ring-1 ring-inset ring-red-300 hover:bg-red-50"
+                  >
+                    <Trans>Delete</Trans>
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -1,0 +1,30 @@
+union InvitationEntity = Company | Unit | Team
+
+type Invitation {
+  pk: String!
+  sk: String!
+  email: String!
+  emailMd5: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  createdBy: User
+  updatedBy: User
+  permissionType: Int!
+  toEntity: InvitationEntity!
+}
+
+extend type Mutation {
+  createInvitation(
+    toEntityPk: String!
+    invitedUserEmail: String!
+    permissionType: Int!
+  ): Invitation!
+  deleteInvitation(pk: String!, sk: String!): Invitation!
+  acceptInvitation(secret: String!): Invitation!
+}
+
+extend type Query {
+  myInvitations: [Invitation!]!
+  invitationsTo(toEntityPk: String!): [Invitation!]!
+  invitation(secret: String!): Invitation!
+}

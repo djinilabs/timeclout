@@ -1,0 +1,26 @@
+mutation updateTeamMemberQualifications(
+  $teamPk: String!
+  $memberPk: String!
+  $qualifications: [String!]!
+) {
+  saveTeamMemberQualifications(
+    teamPk: $teamPk
+    userPk: $memberPk
+    qualifications: $qualifications
+  ) {
+    pk
+    name
+    members {
+      pk
+      name
+      email
+      emailMd5
+      resourcePermission
+      resourcePermissionGivenAt
+    }
+    teamMembersQualifications {
+      userPk
+      qualifications
+    }
+  }
+}

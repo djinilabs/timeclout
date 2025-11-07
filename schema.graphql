@@ -1,0 +1,507 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+input ApproveLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+input AssignShiftPositionsInput {
+  assignments: [ShiftPositionAssignmentInput!]!
+  team: String!
+}
+
+input AssignableTeamMembersInput {
+  shiftPositionPk: String!
+  shiftPositionSk: String!
+  teamPk: String!
+}
+
+input AutoFillParamsInput {
+  endDay: String!
+  startDay: String!
+  team: String!
+}
+
+type AutoFillSlot {
+  assignedWorkerPk: ID
+  id: ID!
+  requiredQualifications: [String!]!
+  startsOnDay: String!
+  typeName: String!
+  workHours: [AutoFillWorkHour!]!
+}
+
+type AutoFillSlotWorker {
+  approvedLeaves: [AutoFillWorkerLeave!]!
+  email: String!
+  emailMd5: String!
+  name: String!
+  pk: ID!
+  qualifications: [String!]!
+}
+
+type AutoFillWorkDay {
+  end: String
+  isWorkDay: Boolean!
+  start: String
+}
+
+type AutoFillWorkHour {
+  end: Int!
+  inconvenienceMultiplier: Float!
+  start: Int!
+}
+
+type AutoFillWorkSchedule {
+  friday: AutoFillWorkDay!
+  monday: AutoFillWorkDay!
+  saturday: AutoFillWorkDay!
+  sunday: AutoFillWorkDay!
+  thursday: AutoFillWorkDay!
+  tuesday: AutoFillWorkDay!
+  wednesday: AutoFillWorkDay!
+}
+
+type AutoFillWorkerLeave {
+  end: Int!
+  isPersonal: Boolean!
+  start: Int!
+  type: String!
+}
+
+type Calendar {
+  leaveRequests: [LeaveRequest!]!
+  leaves: [Leave!]!
+  year: Int!
+}
+
+type Company {
+  createdAt: DateTime!
+  createdBy: User
+  name: String!
+  pk: String!
+  resourcePermission: Int
+  settings(name: String!): JSON
+  units: [Unit!]
+  updatedAt: DateTime
+  updatedBy: User
+}
+
+input CopyShiftPositionInput {
+  day: String!
+  pk: String!
+  sk: String!
+}
+
+input CreateLeaveRequestForUserInput {
+  beneficiaryPk: String!
+  companyPk: String!
+  endDate: String!
+  reason: String!
+  startDate: String!
+  teamPk: String!
+  type: String!
+}
+
+input CreateLeaveRequestInput {
+  companyPk: String!
+  endDate: String!
+  reason: String!
+  startDate: String!
+  type: String!
+}
+
+input CreateShiftPositionInput {
+  assignedTo: String
+  color: String
+  day: String!
+  name: String
+  replaces: String
+  requiredSkills: [String!]!
+  schedules: [ShiftPositionScheduleInput!]!
+  team: String!
+}
+
+input CreateSingleDayLeaveRequestsForUserInput {
+  beneficiaryPk: String!
+  companyPk: String!
+  dates: [String!]!
+  reason: String!
+  teamPk: String!
+  type: String!
+}
+
+input CreateSingleDayLeaveRequestsInput {
+  companyPk: String!
+  days: [String!]!
+  reason: String!
+  type: String!
+}
+
+input CreateTeamMemberInput {
+  email: String!
+  name: String!
+  permission: Int!
+  teamPk: String!
+}
+
+scalar Date
+
+scalar DateTime
+
+input DeleteLeaveInput {
+  pk: String!
+  sk: String!
+}
+
+input DeleteLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+input DeleteShiftPositionInput {
+  pk: String!
+  sk: String!
+}
+
+type DemoEntity {
+  pk: String!
+}
+
+type DemoPopulationResult {
+  company: DemoEntity!
+  message: String
+  success: Boolean!
+  team: DemoEntity!
+  unit: DemoEntity!
+  users: [DemoUser!]!
+}
+
+type DemoUser {
+  email: String!
+  name: String!
+  pk: String!
+}
+
+type Invitation {
+  createdAt: DateTime!
+  createdBy: User
+  email: String!
+  emailMd5: String!
+  permissionType: Int!
+  pk: String!
+  sk: String!
+  toEntity: InvitationEntity!
+  updatedAt: DateTime
+  updatedBy: User
+}
+
+union InvitationEntity = Company | Team | Unit
+
+scalar JSON
+
+type Leave {
+  leaveRequestPk: String!
+  leaveRequestSk: String!
+  pk: String!
+  sk: String!
+  type: String!
+}
+
+type LeaveRequest {
+  approved: Boolean
+  approvedAt: [DateTime!]
+  approvedBy: [User!]
+  beneficiary: User
+  companyPk: String!
+  createdAt: DateTime!
+  createdBy: User
+  endDate: String!
+  pk: String!
+  reason: String
+  sk: String!
+  startDate: String!
+  type: String!
+}
+
+type MemberQualifications {
+  qualifications: [String!]!
+  userPk: String!
+}
+
+input MoveShiftPositionInput {
+  day: String!
+  pk: String!
+  sk: String!
+}
+
+type Mutation {
+  acceptInvitation(secret: String!): Invitation!
+  approveLeaveRequest(input: ApproveLeaveRequestInput!): LeaveRequest!
+  assignShiftPositions(input: AssignShiftPositionsInput!): [ShiftPosition!]!
+  copyShiftPosition(input: CopyShiftPositionInput!): ShiftPosition!
+  createCompany(name: String!): Company!
+  createInvitation(invitedUserEmail: String!, permissionType: Int!, toEntityPk: String!): Invitation!
+  createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
+  createLeaveRequestForUser(input: CreateLeaveRequestForUserInput!): LeaveRequest!
+  createShiftPosition(input: CreateShiftPositionInput!): ShiftPosition!
+  createSingleDayLeaveRequests(input: CreateSingleDayLeaveRequestsInput!): LeaveRequest!
+  createSingleDayLeaveRequestsForUser(input: CreateSingleDayLeaveRequestsForUserInput!): [LeaveRequest!]!
+  createTeam(name: String!, unitPk: String!): Team!
+  createTeamMember(input: CreateTeamMemberInput!): User!
+  createUnit(companyPk: String!, name: String!): Unit!
+  deleteCompany(pk: String!): Company!
+  deleteInvitation(pk: String!, sk: String!): Invitation!
+  deleteLeave(input: DeleteLeaveInput!): Leave!
+  deleteLeaveRequest(input: DeleteLeaveRequestInput!): LeaveRequest!
+  deleteShiftPosition(input: DeleteShiftPositionInput!): ShiftPosition!
+  deleteTeam(pk: String!): Team!
+  deleteUnit(pk: String!): Unit!
+  moveShiftPosition(input: MoveShiftPositionInput!): ShiftPosition!
+  populateDemoAccount(input: PopulateDemoAccountInput!): DemoPopulationResult!
+  publishShiftPositions(input: PublishShiftPositionsInput!): [ShiftPosition!]!
+  rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
+  removeUserFromTeam(teamPk: String!, userPk: String!): Team!
+  revertShiftPositions(input: RevertShiftPositionsInput!): [ShiftPosition!]!
+  saveTeamMemberQualifications(qualifications: [String!]!, teamPk: String!, userPk: String!): Team!
+  unassignShiftPosition(input: UnassignShiftPositionInput!): ShiftPosition!
+  unassignShiftPositions(input: UnassignShiftPositionsInput!): [ShiftPosition!]!
+  updateCompany(name: String!, pk: String!): Company!
+  updateCompanySettings(companyPk: String!, name: String!, settings: JSON!): Company!
+  updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
+  updateMe(input: UpdateMeInput!): User
+  updateMySettings(name: String!, settings: JSON!): User
+  updateShiftPosition(input: UpdateShiftPositionInput!): ShiftPosition!
+  updateTeam(name: String!, pk: String!): Team!
+  updateTeamMember(input: UpdateTeamMemberInput!): User!
+  updateTeamSettings(name: String!, settings: JSON!, teamPk: String!): Team!
+  updateUnit(name: String!, pk: String!): Unit!
+  updateUnitSettings(name: String!, settings: JSON!, unitPk: String!): Unit!
+  updateUserSettings(name: String!, settings: JSON!, teamPk: String!, userPk: String!): User
+}
+
+input PopulateDemoAccountInput {
+  companyName: String
+  industry: String!
+  teamName: String
+  teamSize: Int!
+  unitName: String
+  unitType: String!
+}
+
+input PublishShiftPositionInput {
+  endDay: String!
+  shiftPositionSk: String!
+  startDay: String!
+  team: String!
+}
+
+input PublishShiftPositionsInput {
+  endDay: String!
+  startDay: String!
+  team: String!
+}
+
+type Query {
+  allTeams: [Team!]!
+  assignableTeamMembers(input: AssignableTeamMembersInput!): [User!]!
+  companies: [Company!]!
+  company(companyPk: String!): Company!
+  invitation(secret: String!): Invitation!
+  invitationsTo(toEntityPk: String!): [Invitation!]!
+  latestAppVersion: String!
+  leaveRequest(pk: String!, sk: String!): LeaveRequest!
+  me: User
+  memberQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!, teamPk: String!, userPk: String!): [QuotaFulfilment!]!
+  myInvitations: [Invitation!]!
+  myLeaveCalendar(companyPk: String!, year: Int!): Calendar!
+  myLeaveRequests(companyPk: String!): [LeaveRequest!]!
+  myQuotaFulfilment(companyPk: String!, endDate: String!, simulatesLeave: Boolean, simulatesLeaveType: String, startDate: String!): [QuotaFulfilment!]!
+  pendingLeaveRequests(companyPk: String): [LeaveRequest!]!
+  shiftPositions(input: QueryShiftPositionsInput!): QueryShiftPositionsOutput!
+  shiftsAutoFillParams(input: AutoFillParamsInput!): ShiftsAutoFillParams!
+  team(teamPk: String!): Team!
+  teamMember(memberPk: String!, teamPk: String!): User!
+  unit(unitPk: String!): Unit!
+  units: [Unit!]!
+}
+
+input QueryShiftPositionsInput {
+  endDay: String!
+  startDay: String!
+  team: String!
+  version: String
+}
+
+type QueryShiftPositionsOutput {
+  areAnyUnpublished: Boolean!
+  shiftPositions: [ShiftPosition!]!
+}
+
+type QuotaFulfilment {
+  approvedUsed: Int!
+  pendingApprovalUsed: Int!
+  quota: Int!
+  quotaEndDate: String!
+  quotaStartDate: String!
+  simulatedEndDate: String
+  simulatedStartDate: String
+  simulatedType: String
+  simulatedUsed: Int
+}
+
+input RejectLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+input RevertShiftPositionsInput {
+  endDay: String!
+  startDay: String!
+  team: String!
+  version: String!
+}
+
+type Schedule {
+  endDate: Date!
+  pk: String!
+  startDate: Date!
+  team: Team!
+  userSchedules: [UserSchedule!]!
+}
+
+type ShiftPosition {
+  assignedTo: User
+  color: String
+  day: String!
+  name: String
+  pk: String!
+  requiredSkills: [String!]!
+  schedules: [ShiftPositionSchedule!]!
+  sk: String!
+  userVersion: String
+}
+
+input ShiftPositionAssignmentInput {
+  shiftPositionId: ID!
+  workerPk: ID!
+}
+
+type ShiftPositionSchedule {
+  endHourMinutes: [Int!]!
+  inconveniencePerHour: Float!
+  startHourMinutes: [Int!]!
+}
+
+input ShiftPositionScheduleInput {
+  endHourMinutes: [Int!]!
+  inconveniencePerHour: Float!
+  startHourMinutes: [Int!]!
+}
+
+type ShiftsAutoFillParams {
+  slots: [AutoFillSlot!]!
+  workSchedule: AutoFillWorkSchedule
+  workers: [AutoFillSlotWorker!]!
+}
+
+type Team {
+  approvedSchedule(endDate: Date!, startDate: Date!): Schedule!
+  companyPk: String!
+  createdAt: DateTime!
+  createdBy: User
+  members(qualifications: [String!]): [User!]!
+  name: String!
+  pk: String!
+  resourcePermission: Int
+  schedule(endDate: Date!, startDate: Date!): Schedule!
+  settings(name: String!): JSON
+  teamMembersQualifications: [MemberQualifications!]!
+  unitPk: String!
+  updatedAt: DateTime
+  updatedBy: User
+}
+
+input UnassignShiftPositionInput {
+  shiftPositionSk: String!
+  team: String!
+}
+
+input UnassignShiftPositionsInput {
+  endDay: String!
+  startDay: String!
+  team: String!
+}
+
+type Unit {
+  companyPk: String!
+  createdAt: DateTime!
+  createdBy: User
+  members: [User!]!
+  name: String!
+  pk: String!
+  resourcePermission: Int
+  settings(name: String!): JSON
+  teams: [Team!]!
+  updatedAt: DateTime
+  updatedBy: User
+}
+
+input UpdateLeaveRequestInput {
+  endDate: String!
+  pk: String!
+  reason: String!
+  sk: String!
+  startDate: String!
+  type: String!
+}
+
+input UpdateMeInput {
+  name: String
+}
+
+input UpdateShiftPositionInput {
+  assignedTo: String
+  color: String
+  day: String!
+  name: String
+  pk: String!
+  replaces: String
+  requiredSkills: [String!]!
+  schedules: [ShiftPositionScheduleInput!]!
+  sk: String!
+}
+
+input UpdateTeamMemberInput {
+  email: String!
+  memberPk: String!
+  name: String!
+  permission: Int!
+  teamPk: String!
+}
+
+type User {
+  createdAt: DateTime
+  createdBy: User
+  email: String!
+  emailMd5: String!
+  name: String!
+  pk: String!
+  resourcePermission: Int
+  resourcePermissionGivenAt: DateTime
+  settings(name: String!): JSON
+  updatedAt: DateTime
+  updatedBy: User
+}
+
+type UserSchedule {
+  endDate: Date!
+  leaveRequests: [LeaveRequest!]!
+  leaves: [Leave!]!
+  pk: String!
+  startDate: Date!
+  user: User!
+}

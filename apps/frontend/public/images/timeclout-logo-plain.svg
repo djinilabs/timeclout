@@ -1,0 +1,21 @@
+<svg width="535" height="535" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>TimeClout</title>
+  <g id="svg_1">
+   <svg id="svg_4" fill="#9d4dff" preserveAspectRatio="xMinYMin" x="62" y="46.7286" width="158.61879" height="211.5428" viewBox="361.3299865722656 315.1099853515625 277.3399963378906 369.7900390625" xmlns="http://www.w3.org/2000/svg">
+    <path id="svg_5" fill=" #0caaed" d="m546.21997,592.45001l-92.45001,0c0,51.06 41.39001,92.45001 92.45001,92.45001l0,0l0,-92.45001z" class="cls-1"/>
+    <rect id="svg_6" fill=" #9d4dff" height="184.89" width="92.45" y="407.55" x="453.78" class="cls-5"/>
+    <rect id="svg_7" fill=" #ffb64f" transform="rotate(-180 1000 815.11)" height="184.89" width="92.45" y="1130.21999" x="1453.78" class="cls-3"/>
+    <rect id="svg_8" fill=" #ed422f" transform="rotate(-90 92.45 1000)" height="184.89" width="92.45" y="1361.33" x="592.45" class="cls-4"/>
+    <circle id="svg_9" fill=" #68de00" r="46.22" cy="453.78" cx="407.55" class="cls-6"/>
+    <circle id="svg_10" fill=" #1e66f7" r="46.22" cy="638.67" cx="592.45" class="cls-2"/>
+   </svg>
+  </g>
+  <g id="svg_2">
+   <svg id="svg_11" width="194.08" height="17.01" viewBox="0.09000000357627869 5.139999866485596 194.0800018310547 17.010000228881836" y="183.7774" x="262.92735">
+    <g id="svg_12" fill="#000000"/>
+   </svg>
+  </g>
+ </g>
+</svg>
+

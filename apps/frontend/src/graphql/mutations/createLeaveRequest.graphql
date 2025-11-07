@@ -1,0 +1,5 @@
+mutation CreateLeaveRequest($input: CreateLeaveRequestInput!) {
+  createLeaveRequest(input: $input) {
+    pk
+  }
+}

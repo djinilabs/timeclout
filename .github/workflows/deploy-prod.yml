@@ -1,0 +1,105 @@
+name: Deploy Prod
+
+on:
+  workflow_run:
+    workflows: ["E2E Tests"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    if: ${{ github.event_name != 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-prod
+      cancel-in-progress: false
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          architecture: "x64"
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install -w
+
+      - name: Deploy to production
+        env:
+          NODE_ENV: "production"
+          BASE_URL: "https://app.timeclout.com"
+          NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          MAILGUN_KEY: ${{ secrets.MAILGUN_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          AWS_CERTIFICATE_ARN: ${{ secrets.AWS_CERTIFICATE_ARN }}
+          AWS_ZONE_ID: ${{ secrets.AWS_ZONE_ID }}
+          VITE_PUBLIC_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
+          VITE_PUBLIC_POSTHOG_KEY: phc_XU057cIRzEJ2mfLNL5HuoWNBu0w2yjzpMKYUlrb8Jsk
+          VITE_PUBLIC_POSTHOG_HOST: https://eu.i.posthog.com
+          SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
+          SENTRY_TRACES_SAMPLE_RATE: "1.0"
+          SENTRY_PROFILES_SAMPLE_RATE: "1.0"
+          DISCORD_PUBLIC_KEY: ${{ secrets.DISCORD_PUBLIC_KEY }}
+          DISCORD_CS_USERS: ${{ secrets.DISCORD_CS_USERS }}
+          DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_APPLICATION_ID }}
+          DISCORD_CS_BOT_TOKEN: ${{ secrets.DISCORD_CS_BOT_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          cd apps/backend
+          export PATH=../../node_modules/.bin:$PATH
+          pnpm arc env --add --env production AUTH_SECRET "${AUTH_SECRET}"
+          pnpm arc env --add --env production MAILGUN_KEY "${MAILGUN_KEY}"
+          pnpm arc env --add --env production GOOGLE_CLIENT_ID "${GOOGLE_CLIENT_ID}"
+          pnpm arc env --add --env production GOOGLE_CLIENT_SECRET "${GOOGLE_CLIENT_SECRET}"
+          pnpm arc env --add --env production SENTRY_DSN "${SENTRY_DSN}"
+          pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "${SENTRY_TRACES_SAMPLE_RATE}"
+          pnpm arc env --add --env production SENTRY_PROFILES_SAMPLE_RATE "${SENTRY_PROFILES_SAMPLE_RATE}"
+          pnpm arc env --add --env production DISCORD_PUBLIC_KEY "${DISCORD_PUBLIC_KEY}"
+          pnpm arc env --add --env production DISCORD_CS_USERS "${DISCORD_CS_USERS}"
+          pnpm arc env --add --env production GEMINI_API_KEY "${GEMINI_API_KEY}"
+          cd ../..
+          pnpm build
+          cd apps/backend
+          pnpm arc deploy --production --no-hydrate --verbose
+
+      - name: Register Discord Commands
+        env:
+          DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_APPLICATION_ID }}
+          DISCORD_CS_BOT_TOKEN: ${{ secrets.DISCORD_CS_BOT_TOKEN }}
+        run: |
+          echo "🔄 Registering Discord slash commands..."
+          pnpm discord:register-commands
+
+      - name: Send Discord notification
+        if: failure()
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
+          workflow_name: ${{ github.workflow }}
+          job_status: ${{ job.status }}
+          run_id: ${{ github.run_id }}
+          repository: ${{ github.repository }}
+          sha: ${{ github.sha }}
+          ref_name: ${{ github.ref_name }}
+          event_name: ${{ github.event_name }}
+          head_commit_message: ${{ github.event.workflow_run.head_commit.message || 'Production deployment' }}
+          workflow_run_name: ${{ github.event.workflow_run.name }}

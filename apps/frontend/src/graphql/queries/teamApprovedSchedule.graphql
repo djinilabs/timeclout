@@ -1,0 +1,45 @@
+query TeamApprovedSchedule(
+  $teamPk: String!
+  $startDate: Date!
+  $endDate: Date!
+) {
+  team(teamPk: $teamPk) {
+    pk
+    name
+    approvedSchedule(startDate: $startDate, endDate: $endDate) {
+      pk
+      userSchedules {
+        pk
+        user {
+          pk
+          name
+          email
+          emailMd5
+        }
+        leaves {
+          pk
+          sk
+          leaveRequestPk
+          leaveRequestSk
+          type
+        }
+        leaveRequests {
+          pk
+          sk
+          startDate
+          endDate
+          type
+          reason
+          approved
+          approvedBy {
+            pk
+            name
+            email
+            emailMd5
+          }
+          approvedAt
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,96 @@
+type LeaveRequest {
+  pk: String!
+  sk: String!
+  startDate: String!
+  endDate: String!
+  type: String!
+  reason: String
+  approved: Boolean
+  approvedBy: [User!]
+  approvedAt: [DateTime!]
+  createdBy: User
+  createdAt: DateTime!
+  beneficiary: User
+  companyPk: String!
+}
+
+input CreateLeaveRequestInput {
+  companyPk: String!
+  startDate: String!
+  endDate: String!
+  type: String!
+  reason: String!
+}
+
+input CreateSingleDayLeaveRequestsInput {
+  companyPk: String!
+  days: [String!]!
+  type: String!
+  reason: String!
+}
+
+input CreateLeaveRequestForUserInput {
+  companyPk: String!
+  teamPk: String!
+  startDate: String!
+  endDate: String!
+  type: String!
+  reason: String!
+  beneficiaryPk: String!
+}
+
+input CreateSingleDayLeaveRequestsForUserInput {
+  companyPk: String!
+  teamPk: String!
+  dates: [String!]!
+  type: String!
+  reason: String!
+  beneficiaryPk: String!
+}
+
+input UpdateLeaveRequestInput {
+  pk: String!
+  sk: String!
+  startDate: String!
+  endDate: String!
+  type: String!
+  reason: String!
+}
+
+input DeleteLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+input RejectLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+input ApproveLeaveRequestInput {
+  pk: String!
+  sk: String!
+}
+
+extend type Mutation {
+  createLeaveRequest(input: CreateLeaveRequestInput!): LeaveRequest!
+  createSingleDayLeaveRequests(
+    input: CreateSingleDayLeaveRequestsInput!
+  ): LeaveRequest!
+  createLeaveRequestForUser(
+    input: CreateLeaveRequestForUserInput!
+  ): LeaveRequest!
+  createSingleDayLeaveRequestsForUser(
+    input: CreateSingleDayLeaveRequestsForUserInput!
+  ): [LeaveRequest!]!
+  updateLeaveRequest(input: UpdateLeaveRequestInput!): LeaveRequest!
+  deleteLeaveRequest(input: DeleteLeaveRequestInput!): LeaveRequest!
+  rejectLeaveRequest(input: RejectLeaveRequestInput!): LeaveRequest!
+  approveLeaveRequest(input: ApproveLeaveRequestInput!): LeaveRequest!
+}
+
+extend type Query {
+  leaveRequest(pk: String!, sk: String!): LeaveRequest!
+  pendingLeaveRequests(companyPk: String): [LeaveRequest!]!
+  myLeaveRequests(companyPk: String!): [LeaveRequest!]!
+}

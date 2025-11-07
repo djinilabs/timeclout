@@ -1,0 +1,6 @@
+mutation rejectLeaveRequest($input: RejectLeaveRequestInput!) {
+  rejectLeaveRequest(input: $input) {
+    pk
+    sk
+  }
+}

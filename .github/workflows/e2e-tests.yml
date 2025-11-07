@@ -1,0 +1,448 @@
+name: E2E Tests
+
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to test against"
+        required: true
+        default: "staging"
+        type: choice
+        options:
+          - staging
+          - production
+          - custom
+          - pr
+      pull_request_number:
+        description: "Pull request number (required when environment is 'pr')"
+        required: false
+        type: string
+      custom_url:
+        description: "Custom URL to test against (only used if environment is custom)"
+        required: false
+        type: string
+      run_specific_tests:
+        description: "Run specific test files (comma-separated, leave empty for all tests)"
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  e2e-tests:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'workflow_dispatch') || 
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
+      statuses: write
+      actions: write
+
+    # Cancel in-progress runs when new commits are pushed (only for PR runs)
+    concurrency:
+      group: e2e-tests-${{ github.event.inputs.pull_request_number || 'manual' }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          architecture: "x64"
+          cache: pnpm
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm test:e2e:install
+
+      - name: Validate inputs
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ github.event.inputs.environment }}" == "pr" ]; then
+            if [ -z "${{ github.event.inputs.pull_request_number }}" ]; then
+              echo "Error: pull_request_number is required when environment is 'pr'"
+              exit 1
+            fi
+            echo "PR environment validated with PR number: ${{ github.event.inputs.pull_request_number }}"
+          fi
+
+      - name: Capture PR head SHA (for PR env)
+        id: pr-sha
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'pr'
+        run: |
+          PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
+          TESTED_PR_SHA=$(gh pr view "$PR_NUMBER" --json headRefOid -q .headRefOid)
+          echo "PR $PR_NUMBER head SHA at test start: $TESTED_PR_SHA"
+          echo "sha=$TESTED_PR_SHA" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine test URL
+        id: test-url
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            if [ "${{ github.event.inputs.environment }}" == "custom" ] && [ -n "${{ github.event.inputs.custom_url }}" ]; then
+              echo "url=${{ github.event.inputs.custom_url }}" >> $GITHUB_OUTPUT
+            elif [ "${{ github.event.inputs.environment }}" == "production" ]; then
+              echo "url=https://timeclout.com" >> $GITHUB_OUTPUT
+            elif [ "${{ github.event.inputs.environment }}" == "pr" ]; then
+              # For PR runs, use the PR URL from the input parameter
+              if [ -n "${{ github.event.inputs.pull_request_number }}" ]; then
+                echo "url=https://${{ github.event.inputs.pull_request_number }}.timeclout.com" >> $GITHUB_OUTPUT
+                echo "Using PR URL: https://${{ github.event.inputs.pull_request_number }}.timeclout.com"
+              else
+                echo "url=https://staging.timeclout.com" >> $GITHUB_OUTPUT
+                echo "No PR number provided, using staging URL"
+              fi
+            else
+              echo "url=https://staging.timeclout.com" >> $GITHUB_OUTPUT
+            fi
+          elif [ "${{ github.event_name }}" == "workflow_run" ]; then
+            # For workflow_run events (triggered by test workflow on main), use local sandbox
+            echo "url=http://localhost:3000" >> $GITHUB_OUTPUT
+            echo "Using local sandbox for main branch E2E tests"
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            # For PR events, always use the PR URL
+            echo "url=https://${{ github.event.pull_request.number }}.timeclout.com" >> $GITHUB_OUTPUT
+          else
+            echo "url=https://staging.timeclout.com" >> $GITHUB_OUTPUT
+          fi
+          echo "Testing against: ${{ steps.test-url.outputs.url }}"
+
+      - name: Setup environment variables
+        run: |
+          # Create .env file for e2e tests
+          mkdir -p tests/e2e
+          cat > tests/e2e/.env << EOF
+          TESTMAIL_API_KEY=${{ secrets.TESTMAIL_API_KEY }}
+          TESTMAIL_NAMESPACE=${{ secrets.TESTMAIL_NAMESPACE }}
+          BASE_URL=${{ steps.test-url.outputs.url }}
+          TEST_TIMEOUT=300000
+          ACTION_TIMEOUT=120000
+          CI=true
+          BROWSER=chromium
+          HEADLESS=true
+          SCREENSHOT=only-on-failure
+          VIDEO=retain-on-failure
+          TRACE=on-first-retry
+          EOF
+
+      - name: Setup backend environment variables
+        run: |
+          # Create .env file for backend
+          mkdir -p apps/backend
+          cat > apps/backend/.env << EOF
+          TESTMAIL_API_KEY=${{ secrets.TESTMAIL_API_KEY }}
+          TESTMAIL_NAMESPACE=${{ secrets.TESTMAIL_NAMESPACE }}
+          BASE_URL=${{ steps.test-url.outputs.url }}
+          TEST_TIMEOUT=300000
+          ACTION_TIMEOUT=120000
+          CI=true
+          BROWSER=chromium
+          HEADLESS=true
+          SCREENSHOT=only-on-failure
+          VIDEO=retain-on-failure
+          TRACE=on-first-retry
+          AUTH_SECRET=${{ secrets.AUTH_SECRET }}
+          MAILGUN_KEY=${{ secrets.MAILGUN_KEY }}
+          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+          EOF
+
+      - name: Verify test environment
+        run: |
+          echo "Verifying test environment..."
+          echo "Current directory: $(pwd)"
+          echo "Tests directory exists: $(test -d tests/e2e && echo "Yes" || echo "No")"
+          echo "Playwright config exists: $(test -f playwright.config.ts && echo "Yes" || echo "No")"
+          echo "Global setup exists: $(test -f tests/e2e/global-setup.ts && echo "Yes" || echo "No")"
+          echo "Testing against: ${{ steps.test-url.outputs.url }}"
+
+      - name: Run E2E tests
+        run: |
+          if [ -n "${{ github.event.inputs.run_specific_tests }}" ]; then
+            echo "Running specific tests: ${{ github.event.inputs.run_specific_tests }}"
+            pnpm test:e2e --grep "${{ github.event.inputs.run_specific_tests }}"
+          else
+            echo "Running all E2E tests"
+            pnpm test:e2e
+          fi
+        env:
+          NODE_ENV: "test"
+          NODE_OPTIONS: "--enable-source-maps --max_old_space_size=32768"
+
+      - name: Ensure test artifacts are captured
+        if: always()
+        run: |
+          echo "Ensuring test artifacts are captured..."
+          # Create directories if they don't exist
+          mkdir -p test-results
+          mkdir -p playwright-report
+          echo "Test output directories ready"
+
+      - name: Check test execution status
+        if: always()
+        run: |
+          echo "Test execution completed"
+          echo "Current working directory: $(pwd)"
+          echo "Directory contents:"
+          ls -la
+
+      - name: Check test results
+        if: always()
+        run: |
+          echo "=== Test Results Summary ==="
+          if [ -f "test-results/results.json" ]; then
+            echo "JSON results found"
+            cat test-results/results.json | jq '.stats' || echo "Could not parse JSON results"
+          else
+            echo "No JSON results found"
+          fi
+
+          if [ -f "test-results/results.xml" ]; then
+            echo "JUnit results found"
+            echo "JUnit results file size: $(wc -l < test-results/results.xml) lines"
+          else
+            echo "No JUnit results found"
+          fi
+
+      - name: List test artifacts
+        if: always()
+        run: |
+          echo "=== Test Results Directory ==="
+          ls -la test-results/ || echo "test-results directory not found"
+          echo "=== Playwright Report Directory ==="
+          ls -la playwright-report/ || echo "playwright-report directory not found"
+          echo "=== Looking for specific artifact types ==="
+          find . -name "*.png" -o -name "*.webm" -o -name "*.zip" | head -20 || echo "No artifacts found"
+
+      - name: Upload test results and artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ github.run_id }}
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 30
+
+      - name: Upload Playwright HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-html-report-${{ github.run_id }}
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots-${{ github.run_id }}
+          path: test-results/**/*.png
+          retention-days: 30
+
+      - name: Upload videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: videos-${{ github.run_id }}
+          path: test-results/**/*.webm
+          retention-days: 30
+
+      - name: Upload traces
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: traces-${{ github.run_id }}
+          path: test-results/**/*.zip
+          retention-days: 30
+
+      - name: Send Discord notification
+        if: failure()
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
+          workflow_name: ${{ github.workflow }}
+          job_status: ${{ job.status }}
+          run_id: ${{ github.run_id }}
+          repository: ${{ github.repository }}
+          sha: ${{ github.sha }}
+          ref_name: ${{ github.ref_name }}
+          event_name: ${{ github.event_name }}
+          head_commit_message: ${{ github.event.head_commit.message || github.event.pull_request.title || 'Manual workflow dispatch' }}
+          pull_request_number: ${{ github.event.pull_request.number || github.event.inputs.pull_request_number || '' }}
+          pull_request_title: ${{ github.event.pull_request.title || '' }}
+          pull_request_url: ${{ github.event.pull_request.html_url || '' }}
+          workflow_run_name: ${{ github.event.workflow_run.name || '' }}
+
+      - name: Report status to PR
+        if: always() && github.event.workflow_run.conclusion != 'success'
+        run: |
+          # Get the PR number from the workflow_run event or from inputs
+          if [ "${{ github.event_name }}" == "workflow_run" ]; then
+            # Extract PR number from the workflow_run event
+            PR_NUMBER=$(echo "${{ github.event.workflow_run.name }}" | grep -o 'PR[0-9]*' | grep -o '[0-9]*')
+            if [ -n "$PR_NUMBER" ]; then
+              echo "Found PR number: $PR_NUMBER"
+              # Report status to the PR
+              if [ "${{ job.status }}" == "success" ]; then
+                gh pr comment $PR_NUMBER --body "✅ **E2E Tests Passed** - All tests completed successfully against PR deployment."
+              else
+                gh pr comment $PR_NUMBER --body "❌ **E2E Tests Failed** - Some tests failed. Check the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
+              fi
+            else
+              echo "No PR number found in workflow_run event, skipping PR comment"
+            fi
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ github.event.inputs.environment }}" == "pr" ]; then
+            # For manual PR runs, use the input parameter
+            PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
+            if [ -n "$PR_NUMBER" ]; then
+              echo "Using PR number from inputs: $PR_NUMBER"
+              # Report status to the PR
+              if [ "${{ job.status }}" == "success" ]; then
+                gh pr comment $PR_NUMBER --body "✅ **E2E Tests Passed** - All tests completed successfully against PR deployment."
+              else
+                gh pr comment $PR_NUMBER --body "❌ **E2E Tests Failed** - Some tests failed. Check the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
+              fi
+            else
+              echo "No PR number provided in workflow_dispatch inputs, skipping PR comment"
+            fi
+          else
+            echo "Not a PR-related event, skipping PR comment"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create status check
+        if: |
+          always() && (
+            (github.event_name == 'workflow_run' && contains(github.event.workflow_run.name, 'PR')) ||
+            (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'pr')
+          )
+        run: |
+          # Get the PR number and create a status check
+          if [ "${{ github.event_name }}" == "workflow_run" ]; then
+            PR_NUMBER=$(echo "${{ github.event.workflow_run.name }}" | grep -o 'PR[0-9]*' | grep -o '[0-9]*')
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ github.event.inputs.environment }}" == "pr" ]; then
+            PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
+          fi
+
+          # Create status check for the PR
+          if [ -n "$PR_NUMBER" ]; then
+            echo "Creating status check for PR $PR_NUMBER"
+            
+            # Determine status and description
+            if [ "${{ job.status }}" == "success" ]; then
+              STATE="success"
+              DESCRIPTION="E2E Tests Passed"
+            else
+              STATE="failure"
+              DESCRIPTION="E2E Tests Failed"
+            fi
+
+            # Debug information
+            echo "Repository: ${{ github.repository }}"
+            echo "SHA: ${{ github.sha }}"
+            echo "Run ID: ${{ github.run_id }}"
+            echo "State: $STATE"
+            echo "Description: $DESCRIPTION"
+
+            # Create status check using curl with better error handling
+            echo "Creating $STATE status check..."
+            RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Content-Type: application/json" \
+              "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
+              -d "{
+                \"state\": \"$STATE\",
+                \"target_url\": \"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\",
+                \"description\": \"$DESCRIPTION\",
+                \"context\": \"E2E Tests\"
+              }")
+            
+            HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+            RESPONSE_BODY=$(echo "$RESPONSE" | head -n -1)
+            
+            echo "HTTP Status Code: $HTTP_CODE"
+            echo "Response: $RESPONSE_BODY"
+            
+            if [ "$HTTP_CODE" -eq 201 ]; then
+              echo "✅ Status check created successfully"
+            else
+              echo "❌ Failed to create status check (HTTP $HTTP_CODE)"
+              echo "Response: $RESPONSE_BODY"
+            fi
+          else
+            echo "No PR number found, skipping status check creation"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger Auto-Merge Workflow
+        if: |
+          success() && 
+          github.event_name == 'workflow_dispatch' && 
+          github.event.inputs.environment == 'pr'
+        run: |
+          PR_NUMBER="${{ github.event.inputs.pull_request_number }}"
+          TESTED_PR_SHA="${{ steps.pr-sha.outputs.sha }}"
+          echo "E2E Tests passed for PR $PR_NUMBER. Verifying PR is still at tested commit..."
+
+          # Get the current head SHA of the PR and compare with the tested SHA captured at start
+          CURRENT_PR_SHA=$(gh pr view "$PR_NUMBER" --json headRefOid -q .headRefOid)
+          echo "Current PR head SHA: $CURRENT_PR_SHA"
+          echo "Tested PR SHA: $TESTED_PR_SHA"
+
+          if [ -z "$TESTED_PR_SHA" ]; then
+            echo "No tested PR SHA captured; skipping auto-merge as a safety precaution."
+            exit 0
+          fi
+
+          if [ "$CURRENT_PR_SHA" != "$TESTED_PR_SHA" ]; then
+            echo "New commits detected on PR $PR_NUMBER after tests started. Skipping auto-merge."
+            exit 0
+          fi
+
+          echo "PR head matches tested SHA. Triggering auto-merge workflow..."
+
+          # Trigger the auto-merge workflow
+          gh workflow run auto-merge.yml \
+            --field pr_number="$PR_NUMBER" \
+            --ref main
+
+          echo "Auto-merge workflow triggered successfully"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

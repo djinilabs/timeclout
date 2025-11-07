@@ -1,0 +1,224 @@
+name: Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Pull request number to bump version for"
+        required: true
+        type: string
+
+jobs:
+  version-bump:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Get PR details and commit messages
+        id: analyze-commits
+        run: |
+          # Get PR number from event context or inputs
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            PR_NUMBER="${{ github.event.pull_request.number }}"
+          else
+            PR_NUMBER="${{ github.event.inputs.pr_number }}"
+          fi
+
+          # Always fetch PR metadata via gh to avoid shell injection from raw body/title
+          PR_INFO=$(gh pr view "$PR_NUMBER" --json title,body,commits,headRefName)
+          PR_TITLE=$(echo "$PR_INFO" | jq -r '.title')
+          PR_BODY=$(echo "$PR_INFO" | jq -r '.body // ""')
+          HEAD_REF=$(echo "$PR_INFO" | jq -r '.headRefName')
+
+          echo "Analyzing PR #$PR_NUMBER"
+
+          echo "PR Title: $PR_TITLE"
+          echo "PR Body: $PR_BODY"
+          echo "PR Head ref: $HEAD_REF"
+
+          # Get commit messages from the PR
+          COMMIT_MESSAGES=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageHeadline' | tr '\n' '|' )
+          echo "Commit messages: $COMMIT_MESSAGES"
+
+          # Combine PR title, body, and commit messages for analysis
+          # Properly quote variables to prevent shell expansion issues
+          ALL_TEXT="$PR_TITLE $PR_BODY $COMMIT_MESSAGES"
+
+          # Convert to lowercase for case-insensitive matching
+          # Use printf instead of echo to avoid shell interpretation issues
+          ALL_TEXT_LOWER=$(printf '%s' "$ALL_TEXT" | tr '[:upper:]' '[:lower:]')
+
+          echo "All text (lowercase): $ALL_TEXT_LOWER"
+
+          # Determine version bump type based on conventional commits or keywords
+          VERSION_BUMP="patch"  # Default to patch
+
+          # Check for major version indicators (highest priority)
+          if printf '%s' "$ALL_TEXT_LOWER" | grep -qE "(breaking|!|major|feat!|fix!)"; then
+            VERSION_BUMP="major"
+            echo "Detected MAJOR version bump"
+          # Check for minor version indicators (medium priority)
+          # Look for feat: (conventional commits) or specific feature keywords
+          elif printf '%s' "$ALL_TEXT_LOWER" | grep -qE "\\b(feat[^!]|feature|new|enhancement|improvement|minor|perf)\\b|feat:"; then
+            VERSION_BUMP="minor"
+            echo "Detected MINOR version bump"
+          # Check for patch version indicators (lowest priority)
+          elif printf '%s' "$ALL_TEXT_LOWER" | grep -qE "\\b(fix[^!]|bug|patch|hotfix|security|refactor|style|test|docs|chore)\\b"; then
+            VERSION_BUMP="patch"
+            echo "Detected PATCH version bump"
+          else
+            echo "No specific indicators found, defaulting to PATCH"
+          fi
+
+          echo "version_bump=$VERSION_BUMP" >> $GITHUB_OUTPUT
+          echo "pr_title=$PR_TITLE" >> $GITHUB_OUTPUT
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+          echo "head_ref=$HEAD_REF" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout PR head branch
+        run: |
+          HEAD_REF="${{ steps.analyze-commits.outputs.head_ref }}"
+          echo "Switching to PR head branch: $HEAD_REF"
+          git fetch origin "$HEAD_REF" --depth=0
+          git checkout -B "$HEAD_REF" "origin/$HEAD_REF"
+          git status --porcelain -b
+      - name: Read current version
+        id: current-version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
+
+      - name: Calculate new version
+        id: new-version
+        run: |
+          CURRENT_VERSION="${{ steps.current-version.outputs.current_version }}"
+          VERSION_BUMP="${{ steps.analyze-commits.outputs.version_bump }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "Version bump type: $VERSION_BUMP"
+
+          # Parse current version
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+
+          # Calculate new version
+          case $VERSION_BUMP in
+            "major")
+              NEW_MAJOR=$((MAJOR + 1))
+              NEW_MINOR=0
+              NEW_PATCH=0
+              ;;
+            "minor")
+              NEW_MAJOR=$MAJOR
+              NEW_MINOR=$((MINOR + 1))
+              NEW_PATCH=0
+              ;;
+            "patch")
+              NEW_MAJOR=$MAJOR
+              NEW_MINOR=$MINOR
+              NEW_PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          NEW_VERSION="$NEW_MAJOR.$NEW_MINOR.$NEW_PATCH"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Update package.json version
+        run: |
+          NEW_VERSION="${{ steps.new-version.outputs.new_version }}"
+
+          echo "Updating package.json version from ${{ steps.current-version.outputs.current_version }} to $NEW_VERSION"
+
+          # Update package.json using node
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.version = '$NEW_VERSION';
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
+
+          # Verify the change
+          UPDATED_VERSION=$(node -p "require('./package.json').version")
+          echo "Updated version: $UPDATED_VERSION"
+
+          if [ "$UPDATED_VERSION" != "$NEW_VERSION" ]; then
+            echo "Error: Version update failed"
+            exit 1
+          fi
+
+      - name: Commit and push version bump
+        run: |
+          NEW_VERSION="${{ steps.new-version.outputs.new_version }}"
+          VERSION_BUMP="${{ steps.analyze-commits.outputs.version_bump }}"
+          PR_NUMBER="${{ steps.analyze-commits.outputs.pr_number }}"
+          PR_TITLE="${{ steps.analyze-commits.outputs.pr_title }}"
+          HEAD_REF="${{ steps.analyze-commits.outputs.head_ref }}"
+
+          # Check if there are changes to commit
+          if git diff --quiet package.json; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          # Create commit message
+          COMMIT_MSG="chore: bump version to $NEW_VERSION ($VERSION_BUMP)
+
+          Triggered by PR #$PR_NUMBER: $PR_TITLE
+
+          Version bump type: $VERSION_BUMP
+          Previous version: ${{ steps.current-version.outputs.current_version }}
+          New version: $NEW_VERSION"
+
+          echo "Committing version bump..."
+          git add package.json
+          git commit -m "$COMMIT_MSG"
+
+          # Push to the PR branch (not main)
+          echo "Pushing to PR branch $HEAD_REF..."
+          # Use --force-with-lease to avoid non-fast-forward failures due to external updates
+          git push --force-with-lease origin "$HEAD_REF"
+
+          echo "✅ Version bumped from ${{ steps.current-version.outputs.current_version }} to $NEW_VERSION ($VERSION_BUMP)"
+
+      - name: Trigger Test Workflow
+        run: |
+          echo "Triggering Test workflow after version bump..."
+
+          # Trigger the Test workflow on the PR branch
+          gh workflow run test.yml --ref ${{ steps.analyze-commits.outputs.head_ref }}
+
+          echo "Test workflow triggered successfully"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send Discord notification
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK_URL }}
+          workflow_name: ${{ github.workflow }}
+          job_status: ${{ job.status }}
+          run_id: ${{ github.run_id }}
+          repository: ${{ github.repository }}
+          sha: ${{ github.sha }}
+          ref_name: ${{ github.ref_name }}
+          event_name: ${{ github.event_name }}
+          head_commit_message: "Version bumped to ${{ steps.new-version.outputs.new_version }} (${{ steps.analyze-commits.outputs.version_bump }})"
+          pull_request_number: ${{ steps.analyze-commits.outputs.pr_number }}
+          pull_request_title: "Version bump: ${{ steps.analyze-commits.outputs.pr_title }}"

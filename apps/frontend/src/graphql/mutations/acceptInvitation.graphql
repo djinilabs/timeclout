@@ -1,0 +1,5 @@
+mutation acceptInvitation($secret: String!) {
+  acceptInvitation(secret: $secret) {
+    pk
+  }
+}
