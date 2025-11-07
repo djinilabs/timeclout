@@ -50,7 +50,7 @@ jobs:
             echo "PR author: $AUTHOR_LOGIN"
 
             # Only proceed if PR is from renovate bot
-            if [ "$AUTHOR_LOGIN" != "renovate[bot]" ]; then
+            if [ "$AUTHOR_LOGIN" != "app/renovate" ]; then
               echo "ready=false" >> $GITHUB_OUTPUT
               echo "PR is not from renovate bot (author: $AUTHOR_LOGIN), skipping auto-merge"
               break
