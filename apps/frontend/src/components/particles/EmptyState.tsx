@@ -8,7 +8,6 @@ import {
   ClockIcon,
   InboxIcon,
 } from "@heroicons/react/24/outline";
-import { Trans } from "@lingui/react/macro";
 import { FC, ReactNode } from "react";
 
 import { Button } from "./Button";
@@ -62,7 +61,9 @@ export const EmptyState: FC<EmptyStateProps> = ({
   className = "",
 }) => {
   const IconComponent =
-    typeof icon === "string" && icon !== "custom" ? iconMap[icon] : null;
+    typeof icon === "string" && icon !== "custom" && icon in iconMap
+      ? iconMap[icon as keyof typeof iconMap]
+      : null;
   const isCustomIcon = icon !== "custom" && typeof icon !== "string";
 
   return (

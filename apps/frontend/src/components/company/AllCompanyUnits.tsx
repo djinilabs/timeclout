@@ -1,6 +1,5 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
-  PlusIcon,
   EllipsisVerticalIcon,
   PencilIcon,
   TrashIcon,
@@ -10,7 +9,7 @@ import { Squares2X2Icon } from "@heroicons/react/24/outline";
 import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
 import { toast } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 
 import { type Unit } from "../../graphql/graphql";
@@ -39,7 +38,7 @@ const AllCompanyUnits = () => {
             }
             action={{
               label: <Trans>New Unit</Trans>,
-              to: `/${company.pk}/units/new`,
+              to: company ? `/${company.pk}/units/new` : undefined,
             }}
           />
         ) : (

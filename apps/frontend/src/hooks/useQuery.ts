@@ -1,10 +1,10 @@
-import { i18n } from "@lingui/core";
 import { AnyVariables } from "@urql/core";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQuery as urqlUseQuery, UseQueryArgs } from "urql";
 
 import { formatErrorForToast } from "../utils/errorMessages";
+
 import { useIsFetching } from "./useIsFetching";
 
 type ExtendedUseQueryProps<
