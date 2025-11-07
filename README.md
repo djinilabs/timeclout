@@ -108,6 +108,7 @@ TimeClout is a modern, AI-powered team scheduling and workforce management platf
 
 ## 📞 **Support**
 
+- **Discord Community**: Join our support channel at [discord.gg/QaM4YqZk](https://discord.gg/QaM4YqZk)
 - **AI Assistant**: Built-in help available 24/7
 - **Documentation**: Comprehensive contextual help throughout the application
 - **Email Support**: Contact us at support@timeclout.com
