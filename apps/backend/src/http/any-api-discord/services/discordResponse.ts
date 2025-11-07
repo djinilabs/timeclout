@@ -12,7 +12,7 @@ export const discordResponse = (content: string, statusCode = 200) => {
     }),
     headers: {
       "Content-Type": "application/json",
-      "User-Agent": `DiscordBot (https://app.tt3.app, ${packageJson.version})`,
+      "User-Agent": `DiscordBot (https://timeclout.com, ${packageJson.version})`,
     },
   };
 };

@@ -54,8 +54,8 @@ Verify that Mailgun is properly configured:
 ```javascript
 // Check if email is being sent
 console.log("Mailgun configuration:", {
-  from: "info@tt3.app",
-  domain: "tt3.app",
+  from: "info@timeclout.com",
+  domain: "timeclout.com",
 });
 ```
 

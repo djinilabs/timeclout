@@ -1,6 +1,6 @@
-# TT3 Technical Documentation
+# TimeClout Technical Documentation
 
-Welcome to the comprehensive technical documentation for TT3 (Team Time Table), an AI-powered team scheduling and workforce management platform.
+Welcome to the comprehensive technical documentation for TimeClout, an AI-powered team scheduling and workforce management platform.
 
 ## 📚 Documentation Structure
 
@@ -81,10 +81,10 @@ When adding new technical documentation:
 
 ## 🔗 Related Resources
 
-- **Repository**: [GitHub Repository](https://github.com/your-org/tt3)
-- **Live Application**: [TT3 App](https://app.tt3.app)
-- **Issue Tracker**: [GitHub Issues](https://github.com/your-org/tt3/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-org/tt3/discussions)
+- **Repository**: [GitHub Repository](https://github.com/djinilabs/tt3)
+- **Live Application**: [TimeClout](https://timeclout.com)
+- **Issue Tracker**: [GitHub Issues](https://github.com/djinilabs/tt3/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/djinilabs/tt3/discussions)
 
 ## 📞 Support
 

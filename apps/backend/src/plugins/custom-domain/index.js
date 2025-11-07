@@ -2,8 +2,8 @@ module.exports = {
   deploy: {
     start: async ({ cloudformation, stage }) => {
       const customDomain = process.env.TT3_CUSTOM_DOMAIN;
-      const CertificateArn = process.env.TT3_CERTIFICATE_ARN;
-      const HostedZoneId = process.env.TT3_ZONE_ID;
+      const CertificateArn = process.env.AWS_CERTIFICATE_ARN;
+      const HostedZoneId = process.env.AWS_ZONE_ID;
       console.log(`Custom domain: stage = ${stage}, custom domain = ${customDomain}`);
       if (customDomain) {
         console.log(`Configuring domain name in deploy: ${customDomain}`);

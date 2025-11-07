@@ -8,11 +8,10 @@ import {
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { useState, useEffect } from "react";
-import { useParams, useSearchParams , Link } from "react-router-dom";
+import { useParams, useSearchParams, Link } from "react-router-dom";
 
 import { getContextualHelp } from "../contextual-help";
 import { HelpSection } from "../contextual-help/types";
-
 
 export const ContextualHelpContent = () => {
   const { company, unit, team } = useParams();
@@ -340,10 +339,10 @@ export const ContextualHelpContent = () => {
           <Trans>Contact our support team</Trans>
         </p>
         <a
-          href="mailto:support@tt3.app"
+          href="mailto:support@timeclout.com"
           className="inline-flex items-center text-xs text-blue-600 hover:text-blue-800"
         >
-          support@tt3.app
+          support@timeclout.com
         </a>
       </div>
     </div>

@@ -7,7 +7,6 @@ export const getCompanyPksTheUserManages = async (
   userPk: ResourceRef
 ): Promise<ResourceRef[]> => {
   const unitPks = await getUnitPksTheUserManages(userPk);
-  console.log("unitPks", unitPks);
 
   const { entity } = await database();
   return (

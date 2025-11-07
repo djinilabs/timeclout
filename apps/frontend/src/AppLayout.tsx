@@ -50,7 +50,39 @@ export const AppLayout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <Toaster />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "white",
+            color: "#374151",
+            borderRadius: "0.5rem",
+            boxShadow:
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+            padding: "1rem",
+          },
+          success: {
+            iconTheme: {
+              primary: "#10b981",
+              secondary: "white",
+            },
+            style: {
+              borderLeft: "4px solid #10b981",
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "#ef4444",
+              secondary: "white",
+            },
+            style: {
+              borderLeft: "4px solid #ef4444",
+            },
+            duration: 5000,
+          },
+        }}
+      />
       <FetchActivityIndicator />
       <div className="flex h-screen">
         <Dialog

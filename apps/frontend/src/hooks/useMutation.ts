@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useMutation as urqlUseMutation } from "urql";
 
+import { formatErrorForToast } from "../utils/errorMessages";
+
 export const useMutation = <
   TData,
   TVariables extends AnyVariables = AnyVariables,
@@ -12,8 +14,11 @@ export const useMutation = <
   const [result, executeMutation] = urqlUseMutation(mutation);
   useEffect(() => {
     if (result.error) {
-      console.log("result.error", result.error.message);
-      toast.error("Error: " + result.error.message);
+      console.error("Mutation error:", result.error);
+      const friendlyError = formatErrorForToast(result.error);
+      toast.error(friendlyError, {
+        duration: 5000,
+      });
     }
   }, [result.error]);
   return [result, executeMutation] as const;

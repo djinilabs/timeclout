@@ -38,16 +38,16 @@ msgid "User is not a member of this team"
 msgstr "O utilizador não é membro desta equipa"
 
 #. js-lingui-explicit-id
+#: libs/graphql/src/schema/shift_position/resolvers/Mutation/unassignShiftPosition.ts:26
+msgid "Shift position {shiftPositionSk} not found"
+msgstr "Posição de turno {shiftPositionSk} não encontrada"
+
+#. js-lingui-explicit-id
 #: libs/graphql/src/schema/shift_position/resolvers/Mutation/copyShiftPosition.ts:23
 #: libs/graphql/src/schema/shift_position/resolvers/Mutation/updateShiftPosition.ts:32
 #: libs/graphql/src/schema/shift_position/resolvers/Query/assignableTeamMembers.ts:23
 msgid "Shift position not found"
 msgstr "Posição de turno não encontrada"
-
-#. js-lingui-explicit-id
-#: libs/graphql/src/schema/shift_position/resolvers/Mutation/unassignShiftPosition.ts:26
-msgid "Shift position {shiftPositionSk} not found"
-msgstr "Posição de turno {shiftPositionSk} não encontrada"
 
 #. js-lingui-explicit-id
 #: libs/graphql/src/schema/leave_request/resolvers/Mutation/rejectLeaveRequest.ts:26
@@ -57,15 +57,20 @@ msgid "Leave request not found"
 msgstr "Pedido de ausência não encontrado"
 
 #. js-lingui-explicit-id
+#: libs/graphql/src/schema/leave_request/resolvers/Mutation/rejectLeaveRequest.ts:32
+msgid "You are not allowed to reject this leave request"
+msgstr "Não tem permissão para rejeitar este pedido de ausência"
+
+#. js-lingui-explicit-id
 #: libs/graphql/src/schema/leave_request/resolvers/Mutation/updateLeaveRequest.ts:30
 #: libs/graphql/src/schema/leave_request/resolvers/Query/leaveRequest.ts:31
 msgid "You are not allowed to update this leave request"
 msgstr "Não tem permissão para atualizar este pedido de ausência"
 
 #. js-lingui-explicit-id
-#: libs/graphql/src/schema/leave_request/resolvers/Mutation/rejectLeaveRequest.ts:32
-msgid "You are not allowed to reject this leave request"
-msgstr "Não tem permissão para rejeitar este pedido de ausência"
+#: libs/graphql/src/schema/leave/resolvers/Query/memberQuotaFulfilment.ts:36
+msgid "User is not in the specified team"
+msgstr "O utilizador não pertence à equipa especificada"
 
 #. js-lingui-explicit-id
 #: libs/graphql/src/schema/leave/resolvers/Mutation/deleteLeave.ts:14
@@ -76,11 +81,6 @@ msgstr "Ausência não encontrada"
 #: libs/graphql/src/schema/leave/resolvers/Mutation/deleteLeave.ts:17
 msgid "You are not allowed to delete this leave"
 msgstr "Não tem permissão para eliminar esta ausência"
-
-#. js-lingui-explicit-id
-#: libs/graphql/src/schema/leave/resolvers/Query/memberQuotaFulfilment.ts:36
-msgid "User is not in the specified team"
-msgstr "O utilizador não pertence à equipa especificada"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/invitation/acceptInvitation.ts:62
@@ -116,11 +116,6 @@ msgid "Invalid leave request pk: {pk}"
 msgstr "PK de pedido de ausência inválido: {pk}"
 
 #. js-lingui-explicit-id
-#: libs/business-logic/src/leaveRequest/canApproveLeaveRequest.ts:28
-msgid "No unit managers found for the units the user is in"
-msgstr "Não foram encontrados gestores de unidade para as unidades do utilizador"
-
-#. js-lingui-explicit-id
 #: libs/business-logic/src/leaveRequest/getLeaveType.ts:19
 msgid "Company leave type settings not found"
 msgstr "Configurações do tipo de ausência da empresa não encontradas"
@@ -131,15 +126,20 @@ msgid "Leave type not found"
 msgstr "Tipo de ausência não encontrado"
 
 #. js-lingui-explicit-id
-#: libs/business-logic/src/leaveRequest/createLeaveRequestsForSingleDays.ts:60
-msgid "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
-msgstr "O pedido de ausência sobrepõe-se a {type} existente do tipo {culpritType} para o dia {day}"
+#: libs/business-logic/src/leaveRequest/canApproveLeaveRequest.ts:28
+msgid "No unit managers found for the units the user is in"
+msgstr "Não foram encontrados gestores de unidade para as unidades do utilizador"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/leaveRequest/approveLeaveRequest.ts:24
 #: libs/business-logic/src/leaveRequest/createLeaveRequest.ts:60
 msgid "Leave request overlaps with existing {type} of type {culpritType}"
 msgstr "O pedido de ausência sobrepõe-se a {type} existente do tipo {culpritType}"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/leaveRequest/createLeaveRequestsForSingleDays.ts:60
+msgid "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
+msgstr "O pedido de ausência sobrepõe-se a {type} existente do tipo {culpritType} para o dia {day}"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/holiday/getHolidaysForDateRange.ts:22
@@ -150,6 +150,18 @@ msgstr "Configurações de localização do utilizador não encontradas"
 #: libs/business-logic/src/invitation/createInvitation.ts:40
 msgid "Invited to entity not found"
 msgstr "Entidade convidada não encontrada"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/invitation/acceptInvitation.ts:31
+#: libs/business-logic/src/invitation/acceptInvitation.ts:37
+msgid "Invitation not found"
+msgstr "Convite não encontrado"
+
+#. js-lingui-explicit-id
+#: apps/backend/src/http/get-api-v1-ical-catchall/getTeamLeavesIcal.ts:19
+#: libs/business-logic/src/invitation/acceptInvitation.ts:43
+msgid "Team not found"
+msgstr "Equipa não encontrada"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/entity/updateEntitySettings.ts:17
@@ -167,18 +179,6 @@ msgid "Error parsing entity settings for entity: {entityPk} and settings key: {s
 msgstr "Erro ao analisar configurações da entidade: {entityPk} e chave de configuração: {settingsKey}: {settings}: {errorMessage}"
 
 #. js-lingui-explicit-id
-#: libs/business-logic/src/invitation/acceptInvitation.ts:31
-#: libs/business-logic/src/invitation/acceptInvitation.ts:37
-msgid "Invitation not found"
-msgstr "Convite não encontrado"
-
-#. js-lingui-explicit-id
-#: apps/backend/src/http/get-api-v1-ical-catchall/getTeamLeavesIcal.ts:19
-#: libs/business-logic/src/invitation/acceptInvitation.ts:43
-msgid "Team not found"
-msgstr "Equipa não encontrada"
-
-#. js-lingui-explicit-id
 #: libs/scheduler/src/schedule.ts:72
 msgid "Of {workersCount} workers, none is available to work on day {day} for shift {shiftType}. For this shift we had {qualifiedWorkersCount} workers with at least one of the required qualifications and {availableWorkersCount} available."
 msgstr "De {workersCount} trabalhadores, nenhum está disponível para trabalhar no dia {day} para o turno {shiftType}. Para este turno tínhamos {qualifiedWorkersCount} trabalhadores com pelo menos uma das qualificações necessárias e {availableWorkersCount} disponíveis."
@@ -189,19 +189,9 @@ msgid "Worker {workerPk} not found"
 msgstr "Trabalhador {workerPk} não encontrado"
 
 #. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectRandomWeighted.ts:8
-msgid "from and weights must have the same length"
-msgstr "from e weights devem ter o mesmo comprimento"
-
-#. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectRandomWeighted.ts:26
-msgid "No element selected"
-msgstr "Nenhum elemento selecionado"
-
-#. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectUniqueRandomWeighted.ts:11
-msgid "not enough items to select"
-msgstr "itens insuficientes para selecionar"
+#: libs/scheduler/src/utils/selectUniqueRandom.ts:10
+msgid "count must be smaller or equal to from array"
+msgstr "a contagem deve ser menor ou igual ao tamanho do array"
 
 #. js-lingui-explicit-id
 #: libs/scheduler/src/utils/selectUniqueRandom.ts:16
@@ -210,9 +200,19 @@ msgid "tryFrom is undefined"
 msgstr "tryFrom não está definido"
 
 #. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectUniqueRandom.ts:10
-msgid "count must be smaller or equal to from array"
-msgstr "a contagem deve ser menor ou igual ao tamanho do array"
+#: libs/scheduler/src/utils/selectUniqueRandomWeighted.ts:11
+msgid "not enough items to select"
+msgstr "itens insuficientes para selecionar"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectRandomWeighted.ts:8
+msgid "from and weights must have the same length"
+msgstr "from e weights devem ter o mesmo comprimento"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectRandomWeighted.ts:26
+msgid "No element selected"
+msgstr "Nenhum elemento selecionado"
 
 #. js-lingui-explicit-id
 #: libs/scheduler/src/utils/selectRandom.ts:5

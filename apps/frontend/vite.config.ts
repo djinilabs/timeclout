@@ -53,6 +53,7 @@ export default defineConfig({
       VITE_PUBLIC_SENTRY_DSN: process.env.VITE_PUBLIC_SENTRY_DSN,
       VITE_PUBLIC_POSTHOG_KEY: process.env.VITE_PUBLIC_POSTHOG_KEY,
       VITE_PUBLIC_POSTHOG_HOST: process.env.VITE_PUBLIC_POSTHOG_HOST,
+      VITE_PUBLIC_GEMINI_API_KEY: process.env.VITE_PUBLIC_GEMINI_API_KEY,
     },
     global: "globalThis",
   },

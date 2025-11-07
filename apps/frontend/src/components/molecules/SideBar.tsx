@@ -119,17 +119,19 @@ const SideBar = ({
         )}
       >
         <a
-          href="https://tt3.app"
-          aria-label="Team Time Table Home"
+          href="https://timeclout.com"
+          aria-label="TimeClout Home"
           // eslint-disable-next-line react/no-unknown-property
           aria-clickable
           role="link"
           aria-describedby="tt3-logo-description"
         >
           <img
-            alt="Team Time Table"
+            alt="TimeClout"
             src={
-              expanded ? "/images/tt3-logo.svg" : "/images/tt3-logo-plain.svg"
+              expanded
+                ? "/images/timeclout-logo.svg"
+                : "/images/timeclout-logo-plain.svg"
             }
             className="h-20 mt-2 transition-opacity duration-300"
             id="tt3-logo-description"
@@ -234,7 +236,7 @@ const SideBar = ({
           </li>
           <li className="text-xs text-teal-200">
             <p>
-              &copy; {new Date().getFullYear()} Team Time Table
+              &copy; {new Date().getFullYear()} TimeClout
               <br />v{version}
             </p>
             {expanded && (

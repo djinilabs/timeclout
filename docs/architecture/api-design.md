@@ -1,8 +1,8 @@
-# TT3 API Design & GraphQL Schema
+# TimeClout API Design & GraphQL Schema
 
 ## Overview
 
-TT3 exposes a comprehensive GraphQL API that provides type-safe access to all business operations. The API is built with performance, security, and developer experience in mind, featuring automatic code generation, user caching, and comprehensive authorization controls.
+TimeClout exposes a comprehensive GraphQL API that provides type-safe access to all business operations. The API is built with performance, security, and developer experience in mind, featuring automatic code generation, user caching, and comprehensive authorization controls.
 
 ## 🏗️ Architecture Overview
 
@@ -460,7 +460,7 @@ query GetTeamWithMembers($teamPk: String!) {
 
 ## 🔧 Code Generation
 
-TT3 uses GraphQL Code Generator to automatically generate TypeScript types, resolver interfaces, and client-side code from the GraphQL schema. This ensures type safety throughout the application and eliminates manual type definitions.
+TimeClout uses GraphQL Code Generator to automatically generate TypeScript types, resolver interfaces, and client-side code from the GraphQL schema. This ensures type safety throughout the application and eliminates manual type definitions.
 
 ### GraphQL Code Generator
 
