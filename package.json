@@ -81,6 +81,7 @@
     "@lingui/react": "^5.2.0",
     "@nivo/bar": "^0.99.0",
     "@nivo/boxplot": "^0.99.0",
+    "@octokit/rest": "^21.0.2",
     "@popperjs/core": "^2.11.8",
     "@radix-ui/react-dropdown-menu": "^2.1.15",
     "@react-email/components": "0.5.7",

@@ -1,0 +1,135 @@
+/**
+ * Cursor Background Agents API client
+ * Triggers Cursor agent to fix PR issues
+ */
+
+export interface CursorAgentTask {
+  prNumber: number;
+  branchName: string;
+  repository: string;
+  errorDetails?: string;
+}
+
+export interface CursorAgentResponse {
+  agentId: string;
+  status: string;
+  message?: string;
+}
+
+/**
+ * Trigger Cursor Background Agent to fix PR
+ * Returns immediately after triggering (fire-and-forget pattern)
+ */
+export async function triggerCursorAgent(
+  task: CursorAgentTask
+): Promise<CursorAgentResponse> {
+  const apiKey = process.env.CURSOR_API_KEY;
+  if (!apiKey) {
+    throw new Error("CURSOR_API_KEY environment variable is not set");
+  }
+
+  const apiUrl =
+    process.env.CURSOR_API_URL || "https://api.cursor.com/v1/background-agents";
+
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+  if (!webhookUrl) {
+    throw new Error("DISCORD_WEBHOOK_URL environment variable is not set");
+  }
+
+  // Build task description for the agent
+  const taskDescription = buildTaskDescription(task, webhookUrl);
+
+  try {
+    const response = await fetch(`${apiUrl}/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        task: taskDescription,
+        repository: task.repository,
+        branch: task.branchName,
+        metadata: {
+          prNumber: task.prNumber,
+          source: "discord-pr-fix-agent",
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Cursor API error: ${response.status} ${response.statusText} - ${errorText}`
+      );
+    }
+
+    const data = await response.json();
+
+    return {
+      agentId: data.agentId || data.id || "unknown",
+      status: data.status || "created",
+      message: data.message,
+    };
+  } catch (error) {
+    console.error("Error triggering Cursor agent:", error);
+    throw error;
+  }
+}
+
+/**
+ * Build task description for Cursor agent
+ * Includes instructions to send Discord notifications
+ */
+function buildTaskDescription(
+  task: CursorAgentTask,
+  webhookUrl: string
+): string {
+  const errorContext = task.errorDetails
+    ? `\n\nError details:\n${task.errorDetails}`
+    : "";
+
+  return `You are tasked with fixing a failing pull request from an upgrade bot (Renovate).
+
+PR Information:
+- PR Number: #${task.prNumber}
+- Branch: ${task.branchName}
+- Repository: ${task.repository}${errorContext}
+
+Instructions:
+1. First, send a Discord notification to ${webhookUrl} with a POST request containing this JSON payload:
+   {"content": "🤖 Starting to fix PR #${task.prNumber}..."}
+
+2. Checkout the PR branch: ${task.branchName}
+
+3. Run diagnostics to identify errors:
+   - Run: pnpm typecheck (capture TypeScript errors)
+   - Run: pnpm lint (capture linting errors)
+   - Run: pnpm test (capture test failures)
+   - Run: pnpm test:e2e (capture e2e test failures)
+   - Run: pnpm build (capture build errors)
+
+4. Fix all identified errors:
+   - Fix TypeScript type errors
+   - Fix linting errors
+   - Fix failing tests
+   - Fix failing e2e tests
+   - Fix build errors
+
+5. Verify fixes by running the diagnostics again (typecheck, lint, test, test:e2e, build)
+
+6. Commit your changes with message: "fix: resolve CI failures (auto-fix by Cursor agent)"
+
+7. Push the changes to the PR branch: ${task.branchName}
+
+8. Finally, send a Discord notification to ${webhookUrl} with a POST request containing this JSON payload:
+   {"content": "✅ Finished fixing PR #${task.prNumber}"}
+
+If you encounter any errors that cannot be fixed, send a Discord notification with:
+   {"content": "❌ Failed to fix PR #${task.prNumber}: {brief error description}"}
+
+Important:
+- Use curl or fetch to send HTTP POST requests to the Discord webhook URL
+- Make sure all fixes are correct and the code passes all checks
+- Only commit and push if all diagnostics pass`;
+}
