@@ -4,7 +4,12 @@
  * Note: This is optional - Cursor agent can also run diagnostics itself
  */
 
-import { fetchPRDetails, parseRepository } from "./githubService";
+import {
+  fetchPRDetails,
+  hasOnlyRenovateCommits,
+  isAppRenovatePR,
+  parseRepository,
+} from "./githubService";
 
 export interface PRAnalysis {
   prNumber: number;
@@ -12,6 +17,8 @@ export interface PRAnalysis {
   repository: string;
   author: string | null;
   isRenovatePR: boolean;
+  isAppRenovate: boolean;
+  hasOnlyRenovateCommits: boolean;
   errorDetails?: string;
 }
 
@@ -41,17 +48,28 @@ export async function analyzePR(
       return null;
     }
 
-    const isRenovatePR =
-      prDetails.author?.login.toLowerCase().includes("renovate") ||
-      prDetails.author?.login === "renovate[bot]" ||
-      prDetails.author?.type === "Bot";
+    const author = prDetails.author?.login || null;
+    const isAppRenovate = isAppRenovatePR(prDetails.author);
+
+    // Check if only Renovate has commits on this branch
+    const onlyRenovateCommits =
+      isAppRenovate && author
+        ? await hasOnlyRenovateCommits(
+            repoInfo.owner,
+            repoInfo.repo,
+            prDetails.head.ref,
+            author
+          )
+        : false;
 
     return {
       prNumber: prDetails.number,
       branchName: prDetails.head.ref,
       repository: prDetails.repository.full_name,
-      author: prDetails.author?.login || null,
-      isRenovatePR,
+      author,
+      isRenovatePR: isAppRenovate,
+      isAppRenovate,
+      hasOnlyRenovateCommits: onlyRenovateCommits,
       // Error details can be gathered from diagnostics if needed
       // For now, we'll let the Cursor agent run diagnostics itself
     };

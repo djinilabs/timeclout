@@ -38,14 +38,29 @@ export async function triggerPRFix(
       };
     }
 
-    // Optionally analyze PR to get more context
-    // This is optional - Cursor agent can also fetch PR details itself
+    // Analyze PR to validate conditions
     const analysis = await analyzePR(request.repository, request.prNumber);
 
-    if (analysis && !analysis.isRenovatePR) {
+    if (!analysis) {
       return {
         success: false,
-        message: `PR #${request.prNumber} is not from Renovate bot (author: ${analysis.author})`,
+        message: `Failed to analyze PR #${request.prNumber}`,
+      };
+    }
+
+    // Only proceed if PR author is exactly app/renovate
+    if (!analysis.isAppRenovate) {
+      return {
+        success: false,
+        message: `PR #${request.prNumber} is not from app/renovate (author: ${analysis.author})`,
+      };
+    }
+
+    // Only proceed if no one else has pushed to the branch
+    if (!analysis.hasOnlyRenovateCommits) {
+      return {
+        success: false,
+        message: `PR #${request.prNumber} has commits from other authors. Skipping auto-fix.`,
       };
     }
 

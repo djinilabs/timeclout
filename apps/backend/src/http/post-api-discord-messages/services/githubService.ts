@@ -107,6 +107,61 @@ export function isRenovatePR(author: PRDetails["author"]): boolean {
 }
 
 /**
+ * Check if PR author is exactly app/renovate
+ */
+export function isAppRenovatePR(author: PRDetails["author"]): boolean {
+  if (!author) return false;
+  return author.login === "app/renovate";
+}
+
+/**
+ * Check if there are any commits from other authors on the PR branch
+ * Returns true if only the PR author (or app/renovate) has commits, false otherwise
+ */
+export async function hasOnlyRenovateCommits(
+  owner: string,
+  repo: string,
+  branchName: string,
+  prAuthor: string
+): Promise<boolean> {
+  try {
+    const octokit = getGitHubClient();
+
+    // Get commits on the branch
+    const { data: commits } = await octokit.rest.repos.listCommits({
+      owner,
+      repo,
+      sha: branchName,
+      per_page: 100, // Check up to 100 commits
+    });
+
+    // Check if all commits are from the PR author (app/renovate)
+    for (const commit of commits) {
+      const commitAuthor = commit.author?.login || commit.commit.author?.name;
+      // Skip if commit author is the PR author or app/renovate
+      if (commitAuthor === prAuthor || commitAuthor === "app/renovate") {
+        continue;
+      }
+      // If we find a commit from someone else, return false
+      console.log(
+        `Found commit from different author: ${commitAuthor} (PR author: ${prAuthor})`
+      );
+      return false;
+    }
+
+    // All commits are from the PR author
+    return true;
+  } catch (error) {
+    console.error(
+      `Error checking commits for branch ${branchName} in ${owner}/${repo}:`,
+      error
+    );
+    // On error, be conservative and return false
+    return false;
+  }
+}
+
+/**
  * Parse repository string (owner/repo) into owner and repo
  */
 export function parseRepository(repoString: string): {

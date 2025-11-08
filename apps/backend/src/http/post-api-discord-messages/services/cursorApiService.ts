@@ -99,6 +99,20 @@ PR Information:
 Instructions:
 1. First, send a Discord notification to ${webhookUrl} with a POST request containing this JSON payload:
    {"content": "🤖 Starting to fix PR #${task.prNumber}..."}
+   
+   You can do this using curl:
+   curl -X POST "${webhookUrl}" \\
+     -H "Content-Type: application/json" \\
+     -d '{"content": "🤖 Starting to fix PR #${task.prNumber}..."}'
+   
+   Or using Node.js fetch:
+   await fetch("${webhookUrl}", {
+     method: "POST",
+     headers: { "Content-Type": "application/json" },
+     body: JSON.stringify({ content: "🤖 Starting to fix PR #${task.prNumber}..." })
+   })
+   
+   Note: Discord webhooks do NOT require signatures or authentication - just the webhook URL.
 
 2. Checkout the PR branch: ${task.branchName}
 
@@ -124,12 +138,31 @@ Instructions:
 
 8. Finally, send a Discord notification to ${webhookUrl} with a POST request containing this JSON payload:
    {"content": "✅ Finished fixing PR #${task.prNumber}"}
+   
+   Using curl:
+   curl -X POST "${webhookUrl}" \\
+     -H "Content-Type: application/json" \\
+     -d '{"content": "✅ Finished fixing PR #${task.prNumber}"}'
+   
+   Or using Node.js fetch:
+   await fetch("${webhookUrl}", {
+     method: "POST",
+     headers: { "Content-Type": "application/json" },
+     body: JSON.stringify({ content: "✅ Finished fixing PR #${task.prNumber}" })
+   })
 
 If you encounter any errors that cannot be fixed, send a Discord notification with:
    {"content": "❌ Failed to fix PR #${task.prNumber}: {brief error description}"}
+   
+   Using curl:
+   curl -X POST "${webhookUrl}" \\
+     -H "Content-Type: application/json" \\
+     -d '{"content": "❌ Failed to fix PR #${task.prNumber}: {brief error description}"}'
 
 Important:
-- Use curl or fetch to send HTTP POST requests to the Discord webhook URL
+- Discord webhooks are simple HTTP POST endpoints - no signatures or authentication needed
+- Use curl, fetch, or any HTTP client to send POST requests
+- The webhook URL is the only credential needed
 - Make sure all fixes are correct and the code passes all checks
 - Only commit and push if all diagnostics pass`;
 }

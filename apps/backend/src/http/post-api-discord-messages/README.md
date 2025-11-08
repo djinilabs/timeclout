@@ -59,6 +59,36 @@ The service expects Discord messages with embeds containing:
 - **Status**: Embed title or fields indicating "FAILED" status
 - **Repository field**: Contains repository (e.g., "owner/repo")
 
+## Discord Webhooks (How Cursor Agent Sends Notifications)
+
+**Important**: The Cursor agent uses Discord **webhooks** (not the Discord API) to send notifications. 
+
+### Key Points:
+- **No signatures required**: Discord webhooks are simple HTTP POST endpoints
+- **No authentication needed**: The webhook URL itself is the only credential
+- **Simple HTTP requests**: The agent can use `curl`, `fetch`, or any HTTP client
+
+### How It Works:
+The Cursor agent receives the webhook URL in the task description and makes simple POST requests:
+
+**Using curl**:
+```bash
+curl -X POST "https://discord.com/api/webhooks/YOUR_WEBHOOK_URL" \
+  -H "Content-Type: application/json" \
+  -d '{"content": "🤖 Starting to fix PR #123..."}'
+```
+
+**Using Node.js fetch**:
+```javascript
+await fetch("https://discord.com/api/webhooks/YOUR_WEBHOOK_URL", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ content: "🤖 Starting to fix PR #123..." })
+});
+```
+
+**Note**: This is different from receiving messages (which requires signature verification). Sending messages via webhooks is much simpler - no special tools or authentication needed.
+
 ## Error Handling
 
 - Invalid messages are logged and ignored
