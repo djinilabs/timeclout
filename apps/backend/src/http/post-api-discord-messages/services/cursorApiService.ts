@@ -36,8 +36,12 @@ export async function triggerCursorAgent(
     throw new Error("DISCORD_WEBHOOK_URL environment variable is not set");
   }
 
+  // Note: We don't pass the webhook URL directly in the task description for security.
+  // Instead, we instruct the agent to use the DISCORD_WEBHOOK_URL environment variable.
+  // We pass it via the environment field in the API request (if supported by Cursor API).
+
   // Build task description for the agent
-  const taskDescription = buildTaskDescription(task, webhookUrl);
+  const taskDescription = buildTaskDescription(task);
 
   try {
     const response = await fetch(`${apiUrl}/create`, {
@@ -53,6 +57,12 @@ export async function triggerCursorAgent(
         metadata: {
           prNumber: task.prNumber,
           source: "discord-pr-fix-agent",
+        },
+        // Pass webhook URL as environment variable for the agent
+        // Note: This depends on Cursor API supporting environment variables
+        // If not supported, the agent will need to be configured with DISCORD_WEBHOOK_URL separately
+        environment: {
+          DISCORD_WEBHOOK_URL: webhookUrl,
         },
       }),
     });
@@ -79,12 +89,9 @@ export async function triggerCursorAgent(
 
 /**
  * Build task description for Cursor agent
- * Includes instructions to send Discord notifications
+ * Includes instructions to send Discord notifications using environment variable
  */
-function buildTaskDescription(
-  task: CursorAgentTask,
-  webhookUrl: string
-): string {
+function buildTaskDescription(task: CursorAgentTask): string {
   const errorContext = task.errorDetails
     ? `\n\nError details:\n${task.errorDetails}`
     : "";
@@ -97,22 +104,24 @@ PR Information:
 - Repository: ${task.repository}${errorContext}
 
 Instructions:
-1. First, send a Discord notification to ${webhookUrl} with a POST request containing this JSON payload:
+1. First, send a Discord notification using the configured Discord webhook URL with a POST request containing this JSON payload:
    {"content": "🤖 Starting to fix PR #${task.prNumber}..."}
    
+   The Discord webhook URL is available via the DISCORD_WEBHOOK_URL environment variable.
+   
    You can do this using curl:
-   curl -X POST "${webhookUrl}" \\
+   curl -X POST "$DISCORD_WEBHOOK_URL" \\
      -H "Content-Type: application/json" \\
      -d '{"content": "🤖 Starting to fix PR #${task.prNumber}..."}'
    
    Or using Node.js fetch:
-   await fetch("${webhookUrl}", {
+   await fetch(process.env.DISCORD_WEBHOOK_URL, {
      method: "POST",
      headers: { "Content-Type": "application/json" },
      body: JSON.stringify({ content: "🤖 Starting to fix PR #${task.prNumber}..." })
    })
    
-   Note: Discord webhooks do NOT require signatures or authentication - just the webhook URL.
+   Note: The Discord webhook URL should be provided via environment variable or secure configuration. Do NOT hardcode or expose the webhook URL in logs or code. Discord webhooks do NOT require signatures or authentication - just the webhook URL.
 
 2. Checkout the PR branch: ${task.branchName}
 
@@ -136,16 +145,16 @@ Instructions:
 
 7. Push the changes to the PR branch: ${task.branchName}
 
-8. Finally, send a Discord notification to ${webhookUrl} with a POST request containing this JSON payload:
+8. Finally, send a Discord notification using the DISCORD_WEBHOOK_URL environment variable with a POST request containing this JSON payload:
    {"content": "✅ Finished fixing PR #${task.prNumber}"}
    
    Using curl:
-   curl -X POST "${webhookUrl}" \\
+   curl -X POST "$DISCORD_WEBHOOK_URL" \\
      -H "Content-Type: application/json" \\
      -d '{"content": "✅ Finished fixing PR #${task.prNumber}"}'
    
    Or using Node.js fetch:
-   await fetch("${webhookUrl}", {
+   await fetch(process.env.DISCORD_WEBHOOK_URL, {
      method: "POST",
      headers: { "Content-Type": "application/json" },
      body: JSON.stringify({ content: "✅ Finished fixing PR #${task.prNumber}" })
@@ -155,9 +164,16 @@ If you encounter any errors that cannot be fixed, send a Discord notification wi
    {"content": "❌ Failed to fix PR #${task.prNumber}: {brief error description}"}
    
    Using curl:
-   curl -X POST "${webhookUrl}" \\
+   curl -X POST "$DISCORD_WEBHOOK_URL" \\
      -H "Content-Type: application/json" \\
      -d '{"content": "❌ Failed to fix PR #${task.prNumber}: {brief error description}"}'
+   
+   Or using Node.js fetch:
+   await fetch(process.env.DISCORD_WEBHOOK_URL, {
+     method: "POST",
+     headers: { "Content-Type": "application/json" },
+     body: JSON.stringify({ content: "❌ Failed to fix PR #${task.prNumber}: {brief error description}" })
+   })
 
 Important:
 - Discord webhooks are simple HTTP POST endpoints - no signatures or authentication needed

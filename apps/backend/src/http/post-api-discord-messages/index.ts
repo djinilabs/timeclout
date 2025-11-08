@@ -25,22 +25,19 @@ export const handler = handlingErrors(
       };
     }
 
-    // Verify Discord webhook signature (if using webhooks)
-    // For Gateway bots, this might not be present, so we'll make it optional
+    // Verify Discord webhook signature (required for security)
     const signature = event.headers["x-signature-ed25519"];
-    if (signature) {
-      if (!verifyDiscordSignature(event)) {
-        console.warn("Discord signature verification failed");
-        return {
-          statusCode: 401,
-          body: JSON.stringify({
-            error: "Invalid Discord signature",
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
-      }
+    if (!signature || !verifyDiscordSignature(event)) {
+      console.warn("Discord signature verification failed or missing signature");
+      return {
+        statusCode: 401,
+        body: JSON.stringify({
+          error: "Invalid or missing Discord signature",
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
     }
 
     // Parse Discord message payload

@@ -67,7 +67,7 @@ export async function triggerPRFix(
     // Trigger Cursor agent (fire-and-forget)
     const agentResponse = await triggerCursorAgent({
       prNumber: request.prNumber,
-      branchName: request.branchName || analysis?.branchName || "unknown",
+      branchName: request.branchName || analysis.branchName,
       repository: request.repository,
       errorDetails: request.errorDetails,
     });

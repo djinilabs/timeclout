@@ -16,7 +16,6 @@ export interface PRAnalysis {
   branchName: string;
   repository: string;
   author: string | null;
-  isRenovatePR: boolean;
   isAppRenovate: boolean;
   hasOnlyRenovateCommits: boolean;
   errorDetails?: string;
@@ -51,13 +50,14 @@ export async function analyzePR(
     const author = prDetails.author?.login || null;
     const isAppRenovate = isAppRenovatePR(prDetails.author);
 
-    // Check if only Renovate has commits on this branch
+    // Check if only Renovate has commits on this PR
+    // Use PR number instead of branch name to only check PR-specific commits
     const onlyRenovateCommits =
       isAppRenovate && author
         ? await hasOnlyRenovateCommits(
             repoInfo.owner,
             repoInfo.repo,
-            prDetails.head.ref,
+            prDetails.number,
             author
           )
         : false;
@@ -67,7 +67,6 @@ export async function analyzePR(
       branchName: prDetails.head.ref,
       repository: prDetails.repository.full_name,
       author,
-      isRenovatePR: isAppRenovate,
       isAppRenovate,
       hasOnlyRenovateCommits: onlyRenovateCommits,
       // Error details can be gathered from diagnostics if needed

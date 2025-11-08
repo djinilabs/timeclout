@@ -117,27 +117,39 @@ export function isAppRenovatePR(author: PRDetails["author"]): boolean {
 /**
  * Check if there are any commits from other authors on the PR branch
  * Returns true if only the PR author (or app/renovate) has commits, false otherwise
+ * Uses pulls.listCommits to only check commits specific to the PR, not the base branch
  */
 export async function hasOnlyRenovateCommits(
   owner: string,
   repo: string,
-  branchName: string,
+  prNumber: number,
   prAuthor: string
 ): Promise<boolean> {
   try {
     const octokit = getGitHubClient();
 
-    // Get commits on the branch
-    const { data: commits } = await octokit.rest.repos.listCommits({
-      owner,
-      repo,
-      sha: branchName,
-      per_page: 100, // Check up to 100 commits
-    });
+    // Get commits specific to the PR (not including base branch commits)
+    // Use pagination to check all commits, not just the first page
+    const commits = await octokit.paginate(
+      octokit.rest.pulls.listCommits,
+      {
+        owner,
+        repo,
+        pull_number: prNumber,
+      }
+    );
 
     // Check if all commits are from the PR author (app/renovate)
     for (const commit of commits) {
-      const commitAuthor = commit.author?.login || commit.commit.author?.name;
+      // Only use verified GitHub username, not display name (which can be spoofed)
+      const commitAuthor = commit.author?.login;
+      // If the commit has no associated GitHub user, treat as violation
+      if (!commitAuthor) {
+        console.log(
+          `Found commit with no associated GitHub user (PR author: ${prAuthor})`
+        );
+        return false;
+      }
       // Skip if commit author is the PR author or app/renovate
       if (commitAuthor === prAuthor || commitAuthor === "app/renovate") {
         continue;
@@ -153,7 +165,7 @@ export async function hasOnlyRenovateCommits(
     return true;
   } catch (error) {
     console.error(
-      `Error checking commits for branch ${branchName} in ${owner}/${repo}:`,
+      `Error checking commits for PR #${prNumber} in ${owner}/${repo}:`,
       error
     );
     // On error, be conservative and return false
@@ -169,7 +181,7 @@ export function parseRepository(repoString: string): {
   repo: string;
 } | null {
   const parts = repoString.split("/");
-  if (parts.length !== 2) {
+  if (parts.length !== 2 || !parts[0] || !parts[1]) {
     return null;
   }
   return {
