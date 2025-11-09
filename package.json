@@ -71,7 +71,7 @@
     "@aws-sdk/client-dynamodb": "^3.716.0",
     "@aws-sdk/lib-dynamodb": "^3.716.0",
     "@eddeee888/gcg-typescript-resolver-files": "^0.14.0",
-    "@envelop/sentry": "^14.0.0",
+    "@envelop/sentry": "^15.0.0",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@hapi/boom": "^10.0.1",
     "@headlessui/react": "^2.2.0",
