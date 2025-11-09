@@ -248,7 +248,7 @@ jobs:
           find . -name "*.png" -o -name "*.webm" -o -name "*.zip" | head -20 || echo "No artifacts found"
 
       - name: Upload test results and artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: test-results-${{ github.run_id }}
@@ -258,7 +258,7 @@ jobs:
           retention-days: 30
 
       - name: Upload Playwright HTML report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: playwright-html-report-${{ github.run_id }}
@@ -266,7 +266,7 @@ jobs:
           retention-days: 30
 
       - name: Upload screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: screenshots-${{ github.run_id }}
@@ -274,7 +274,7 @@ jobs:
           retention-days: 30
 
       - name: Upload videos
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: videos-${{ github.run_id }}
@@ -282,7 +282,7 @@ jobs:
           retention-days: 30
 
       - name: Upload traces
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: traces-${{ github.run_id }}
