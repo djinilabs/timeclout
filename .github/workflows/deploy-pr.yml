@@ -3,13 +3,44 @@ name: Deploy PR
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+    # Security: Don't run if workflow files are modified
+    paths-ignore:
+      - '.github/workflows/**'
+      - '.github/actions/**'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Security: Explicit permissions - only what's needed
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
     concurrency:
       group: deploy-pr-${{ github.event.pull_request.number }}
       cancel-in-progress: false
+    # Security: Don't run if workflow files are modified in this PR
+    if: |
+      !contains(github.event.pull_request.head.sha, '') ||
+      !contains(join(github.event.pull_request.files.*.path, ','), '.github/workflows/') &&
+      !contains(join(github.event.pull_request.files.*.path, ','), '.github/actions/')
+
+    steps:
+      - name: Check if workflow files were modified
+        id: check-workflows
+        run: |
+          # Get list of changed files
+          git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }} --depth=1
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.ref }}...${{ github.event.pull_request.head.sha }})
+          
+          if echo "$CHANGED_FILES" | grep -qE '\.github/(workflows|actions)/'; then
+            echo "workflows_modified=true" >> $GITHUB_OUTPUT
+            echo "❌ Workflow files were modified in this PR. Deployment blocked for security."
+            exit 1
+          else
+            echo "workflows_modified=false" >> $GITHUB_OUTPUT
+            echo "✅ No workflow files modified, proceeding with deployment"
+          fi
 
     steps:
       - name: Configure AWS credentials

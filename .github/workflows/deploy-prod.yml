@@ -12,6 +12,10 @@ jobs:
   deploy:
     if: ${{ github.event_name != 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    # Security: Explicit permissions - only what's needed
+    permissions:
+      contents: read
+      id-token: write
     concurrency:
       group: deploy-prod
       cancel-in-progress: false

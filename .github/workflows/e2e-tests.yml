@@ -40,6 +40,7 @@ jobs:
     if: |
       (github.event_name == 'workflow_dispatch') || 
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    # Security: Explicit permissions - only what's needed
     permissions:
       checks: write
       pull-requests: write

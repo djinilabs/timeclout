@@ -15,6 +15,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
+    # Security: Explicit permissions - only what's needed
     permissions:
       contents: read
       actions: write
