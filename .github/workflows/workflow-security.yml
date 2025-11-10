@@ -30,15 +30,15 @@ jobs:
         id: check-changes
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-            # Get the base and head refs
-            BASE_REF="${{ github.event.pull_request.base.ref }}"
-            HEAD_REF="${{ github.event.pull_request.head.sha }}"
+            # Get the base and head SHAs (use SHA not ref for accurate comparison)
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
             
             # Check if any workflow files were modified
-            if git diff --name-only "$BASE_REF...$HEAD_REF" | grep -qE '\.github/(workflows|actions)/'; then
+            if git diff --name-only "$BASE_SHA...$HEAD_SHA" | grep -qE '\.github/(workflows|actions)/'; then
               echo "workflows_modified=true" >> $GITHUB_OUTPUT
               echo "⚠️ Workflow files have been modified in this PR"
-              git diff --name-only "$BASE_REF...$HEAD_REF" | grep -E '\.github/(workflows|actions)/' || true
+              git diff --name-only "$BASE_SHA...$HEAD_SHA" | grep -E '\.github/(workflows|actions)/' || true
             else
               echo "workflows_modified=false" >> $GITHUB_OUTPUT
               echo "✅ No workflow files modified"
@@ -79,15 +79,18 @@ jobs:
               echo "Scanning $workflow..."
               
               # Check for secret printing (common attack vector)
-              if grep -E '(echo|print|curl|wget).*secrets\.' "$workflow" | grep -v '#' | grep -v 'echo.*configured' | grep -v 'echo.*set'; then
+              # Use more specific pattern to avoid false positives while catching real exposures
+              if grep -E '(echo|print|curl|wget).*secrets\.' "$workflow" | grep -v '#'; then
                 echo "⚠️ WARNING: Potential secret exposure in $workflow"
                 grep -n -E '(echo|print|curl|wget).*secrets\.' "$workflow" | grep -v '#' || true
                 SUSPICIOUS_PATTERNS=$((SUSPICIOUS_PATTERNS + 1))
               fi
               
               # Check for external data exfiltration
-              if grep -E 'curl.*https?://(?!github\.com|api\.github\.com)' "$workflow" | grep -E '\$.*secrets\.' | grep -v '#'; then
+              # Look for curl commands with secrets that don't go to GitHub
+              if grep -E 'curl.*https?://' "$workflow" | grep -E '\$.*secrets\.' | grep -v '#' | grep -v 'github\.com' | grep -v 'api\.github\.com' || true; then
                 echo "⚠️ WARNING: Potential data exfiltration in $workflow"
+                grep -n -E 'curl.*https?://' "$workflow" | grep -E '\$.*secrets\.' | grep -v '#' | grep -v 'github\.com' | grep -v 'api\.github\.com' || true
                 SUSPICIOUS_PATTERNS=$((SUSPICIOUS_PATTERNS + 1))
               fi
               
@@ -143,6 +146,17 @@ jobs:
             echo "✅ All PR workflows with secrets have appropriate path filters"
           fi
 
+      - name: Verify GitHub CLI is available
+        id: verify-gh
+        run: |
+          if command -v gh >/dev/null 2>&1; then
+            echo "gh_available=true" >> $GITHUB_OUTPUT
+            echo "✅ GitHub CLI is available"
+          else
+            echo "gh_available=false" >> $GITHUB_OUTPUT
+            echo "⚠️ GitHub CLI not found, will use API directly"
+          fi
+
       - name: Comment on PR
         if: github.event_name == 'pull_request' && steps.check-changes.outputs.workflows_modified == 'true'
         run: |
@@ -157,11 +171,21 @@ jobs:
           3. ✅ Path filters are in place for PR workflows that use secrets
           4. ✅ Permissions follow the principle of least privilege
           
-          **Security Review Required**: This PR requires manual review from a repository maintainer before merging.
+          **Security Review Required**: This PR requires manual review from a repository maintainer before merging."
           
-          See [Workflow Security Documentation](https://github.com/${{ github.repository }}/blob/main/docs/security/workflow-security.md) for more information."
-          
-          gh pr comment "$PR_NUMBER" --body "$COMMENT"
+          if [ "${{ steps.verify-gh.outputs.gh_available }}" == "true" ]; then
+            gh pr comment "$PR_NUMBER" --body "$COMMENT"
+          else
+            # Fallback to API if gh CLI is not available
+            # Escape the comment body for JSON
+            ESCAPED_COMMENT=$(echo "$COMMENT" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
+            curl -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Content-Type: application/json" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER/comments" \
+              -d "{\"body\": \"$ESCAPED_COMMENT\"}"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -171,7 +195,15 @@ jobs:
           PR_NUMBER="${{ github.event.pull_request.number }}"
           
           # Check if PR has been approved by a maintainer
-          APPROVALS=$(gh pr view "$PR_NUMBER" --json reviews --jq '.reviews[] | select(.state == "APPROVED") | .author.login' | sort -u)
+          if [ "${{ steps.verify-gh.outputs.gh_available }}" == "true" ]; then
+            APPROVALS=$(gh pr view "$PR_NUMBER" --json reviews --jq '.reviews[] | select(.state == "APPROVED") | .author.login' | sort -u)
+          else
+            # Fallback to API if gh CLI is not available
+            APPROVALS=$(curl -s -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews" | \
+              jq -r '.[] | select(.state == "APPROVED") | .user.login' | sort -u)
+          fi
           
           if [ -z "$APPROVALS" ]; then
             echo "⚠️ Workflow files modified but PR has no approvals"
