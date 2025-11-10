@@ -38,6 +38,10 @@ export const sendEmail = async ({
   );
 
   if (!response.ok) {
+    console.error(formData);
+    console.error(response.status);
+    console.error(response.statusText);
+    console.error(await response.text());
     throw new Error(`Failed to send email: ${response.statusText}`);
   }
 
