@@ -71,7 +71,7 @@
     "@aws-sdk/client-dynamodb": "^3.716.0",
     "@aws-sdk/lib-dynamodb": "^3.716.0",
     "@eddeee888/gcg-typescript-resolver-files": "^0.14.0",
-    "@envelop/sentry": "^14.0.0",
+    "@envelop/sentry": "^15.0.0",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@hapi/boom": "^10.0.1",
     "@headlessui/react": "^2.2.0",
@@ -84,7 +84,7 @@
     "@octokit/rest": "^21.0.2",
     "@popperjs/core": "^2.11.8",
     "@radix-ui/react-dropdown-menu": "^2.1.15",
-    "@react-email/components": "0.5.7",
+    "@react-email/components": "1.0.0",
     "@react-email/text": "^0.1.0",
     "@react-hook/debounce": "^4.0.0",
     "@sentry/aws-serverless": "^10.0.0",
@@ -183,7 +183,7 @@
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.1"
   },
-  "packageManager": "pnpm@10.18.3",
+  "packageManager": "pnpm@10.21.0",
   "pnpm": {
     "patchedDependencies": {
       "@architect/functions": "patches/@architect__functions.patch",
