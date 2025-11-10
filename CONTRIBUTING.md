@@ -22,7 +22,7 @@ We welcome contributions of all kinds, from bug reports to new features.
 
 ### 🐞 Reporting Bugs
 
-- Please check the [Issues](https://github.com/djinilabs/tt3/issues) page to see if the bug has already been reported.
+- Please check the [Issues](https://github.com/djinilabs/timeclout/issues) page to see if the bug has already been reported.
 - If not, open a new issue. Be sure to include:
   - A clear and descriptive title.
   - Steps to reproduce the bug.
@@ -37,7 +37,7 @@ We welcome contributions of all kinds, from bug reports to new features.
 ### Pull Request Workflow
 
 1.  **Fork** the repository to your own GitHub account.
-2.  **Clone** your fork to your local machine: `git clone https://github.com/djinilabs/tt3.git`
+2.  **Clone** your fork to your local machine: `git clone https://github.com/djinilabs/timeclout.git`
 3.  **Create a new branch** for your changes: `git checkout -b feature/my-amazing-feature`
 4.  **Make your changes.** Please follow the coding style of the project.
 5.  **Commit** your changes with a clear message: `git commit -m "feat: Add amazing feature"`

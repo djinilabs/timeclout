@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "private": true,
-  "repository": "https://github.com/djinilabs/tt3",
+  "repository": "https://github.com/djinilabs/timeclout",
   "author": "Gordon & Teixeira Lda.",
   "license": "SEE LICENSE IN LICENSE.md",
   "licenses": [
@@ -15,7 +15,7 @@
     }
   ],
   "homepage": "https://timeclout.com",
-  "bugs": "https://github.com/djinilabs/tt3/issues",
+  "bugs": "https://github.com/djinilabs/timeclout/issues",
   "keywords": [
     "timeclout",
     "time-management",

@@ -21,8 +21,8 @@ const PagePrivacyStatement = () => {
             <div className="mt-8 prose prose-gray max-w-none">
               <h2>1. Introduction</h2>
               <p>
-                TT3 (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is
-                committed to protecting your privacy. This Privacy Statement
+                TimeClout (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;)
+                is committed to protecting your privacy. This Privacy Statement
                 explains how we collect, use, disclose, and safeguard your
                 information when you use our team scheduling and leave
                 management platform.

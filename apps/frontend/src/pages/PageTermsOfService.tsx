@@ -21,17 +21,17 @@ const PageTermsOfService = () => {
             <div className="mt-8 prose prose-gray max-w-none">
               <h2>1. Acceptance of Terms</h2>
               <p>
-                By accessing and using TT3 (&quot;the Service&quot;), you accept
-                and agree to be bound by the terms and provision of this
+                By accessing and using TimeClout (&quot;the Service&quot;), you
+                accept and agree to be bound by the terms and provision of this
                 agreement. If you do not agree to abide by the above, please do
                 not use this service.
               </p>
 
               <h2>2. Description of Service</h2>
               <p>
-                TT3 is a team scheduling and leave management platform that
-                provides tools for managing employee schedules, leave requests,
-                and team coordination. The Service includes web-based
+                TimeClout is a team scheduling and leave management platform
+                that provides tools for managing employee schedules, leave
+                requests, and team coordination. The Service includes web-based
                 applications and related services.
               </p>
 
