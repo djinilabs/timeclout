@@ -99,7 +99,7 @@
     "@tanstack/react-form": "^1.0.0",
     "@tanstack/react-query": "^5.64.1",
     "@types/lodash.omit": "^4.5.9",
-    "@types/node": "^22.10.2",
+    "@types/node": "^24.0.0",
     "@urql/core": "^6.0.1",
     "@urql/exchange-graphcache": "^8.0.0",
     "@vendia/serverless-express": "^4.12.6",
