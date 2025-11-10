@@ -12,6 +12,7 @@ import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
+import { FaSpinner } from "react-icons/fa";
 import { useSearchParams } from "react-router";
 
 import type {
@@ -957,16 +958,22 @@ export const TeamShiftsSchedule = () => {
 
   return (
     <div className="relative" role="region" aria-label="Team Shifts Schedule">
-      {fetching ? (
-        <div role="status" aria-live="polite">
-          <Trans>Loading calendar...</Trans>
+      {fetching && (
+        <div
+          className="absolute inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm"
+          role="status"
+          aria-live="polite"
+          aria-label={i18n.t("Loading calendar data")}
+        >
+          <div className="flex flex-col items-center gap-3">
+            <FaSpinner className="h-12 w-12 animate-spin text-teal-600" aria-hidden="true" />
+            <p className="text-sm text-gray-600">
+              <Trans>Loading calendar...</Trans>
+            </p>
+          </div>
         </div>
-      ) : error ? (
-        <div role="alert" aria-live="assertive">
-          <Trans>Error loading calendar data</Trans>
-        </div>
-      ) : (
-        <CreateOrEditScheduleShiftPositionDialog
+      )}
+      <CreateOrEditScheduleShiftPositionDialog
           isDialogOpen={isDialogOpen === "create"}
           setIsDialogOpen={(isDialogOpen) =>
             setIsDialogOpen(isDialogOpen ? "create" : null)
@@ -980,7 +987,6 @@ export const TeamShiftsSchedule = () => {
           setHelpPanelOpen={setHelpPanelOpen}
           refetch={refetchTeamShiftsQuery}
         />
-      )}
       <ShiftsAutofillDialog
         isDialogOpen={isDialogOpen === "autoFill"}
         onClose={() => {
