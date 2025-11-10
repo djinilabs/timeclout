@@ -114,7 +114,7 @@
     "graphql": "^16.10.0",
     "graphql-scalars": "^1.24.0",
     "graphql-yoga": "^5.10.8",
-    "ical-generator": "^9.0.0",
+    "ical-generator": "^10.0.0",
     "javascript-time-ago": "^2.5.11",
     "lambda-stream": "^0.6.0",
     "lodash.debounce": "^4.0.8",
