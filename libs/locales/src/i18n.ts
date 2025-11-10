@@ -1,9 +1,4 @@
-import { i18n } from "@lingui/core";
-
-// Type definitions for messages
-interface Messages {
-  [key: string]: string | (string | unknown[])[];
-}
+import { i18n, type Messages } from "@lingui/core";
 
 // Messages will be loaded dynamically
 const messages: Record<string, Messages> = {
@@ -18,10 +13,10 @@ export async function initI18n(locale: string = "en"): Promise<void> {
       try {
         if (locale === "en") {
           const enModule = await import("./messages/en/messages.mjs");
-          messages.en = enModule.messages;
+          messages.en = enModule.messages as Messages;
         } else if (locale === "pt") {
           const ptModule = await import("./messages/pt/messages.mjs");
-          messages.pt = ptModule.messages;
+          messages.pt = ptModule.messages as Messages;
         }
       } catch (importError) {
         console.warn(
@@ -33,19 +28,19 @@ export async function initI18n(locale: string = "en"): Promise<void> {
 
     // Try to load messages for the locale
     if (messages[locale] && Object.keys(messages[locale]).length > 0) {
-      i18n.load(locale, messages[locale]);
+      i18n.load(locale, messages[locale] as Messages);
       i18n.activate(locale);
     } else {
       // Fallback to English if locale not available
       if (Object.keys(messages.en).length === 0) {
         try {
           const enModule = await import("./messages/en/messages.mjs");
-          messages.en = enModule.messages;
+          messages.en = enModule.messages as Messages;
         } catch (importError) {
           console.warn("Failed to import English messages:", importError);
         }
       }
-      i18n.load("en", messages.en);
+      i18n.load("en", messages.en as Messages);
       i18n.activate("en");
     }
   } catch (error) {
@@ -54,7 +49,7 @@ export async function initI18n(locale: string = "en"): Promise<void> {
       error
     );
     // Fallback to English
-    i18n.load("en", messages.en);
+    i18n.load("en", messages.en as Messages);
     i18n.activate("en");
   }
 }

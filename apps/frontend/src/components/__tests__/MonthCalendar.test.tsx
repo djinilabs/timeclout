@@ -20,17 +20,17 @@ describe("MonthCalendar", () => {
     i18n.load({
       en: {
         messages: {
-          "M for Monday": { message: "M" },
-          "T for Tuesday": { message: "T" },
-          "W for Wednesday": { message: "W" },
-          "T for Thursday": { message: "T" },
-          "F for Friday": { message: "F" },
-          "S for Saturday": { message: "S" },
-          "S for Sunday": { message: "S" },
-          "Previous month": { message: "Previous month" },
-          "Next month": { message: "Next month" },
-          Today: { message: "Today" },
-        },
+          "M for Monday": ["M"],
+          "T for Tuesday": ["T"],
+          "W for Wednesday": ["W"],
+          "T for Thursday": ["T"],
+          "F for Friday": ["F"],
+          "S for Saturday": ["S"],
+          "S for Sunday": ["S"],
+          "Previous month": ["Previous month"],
+          "Next month": ["Next month"],
+          Today: ["Today"],
+        } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
       },
     });
     i18n.activate("en");

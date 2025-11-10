@@ -45,19 +45,19 @@ describe("TimeOffYearCalendar", () => {
     i18n.load({
       en: {
         messages: {
-          "Previous year": { message: "Previous year" },
-          "Next year": { message: "Next year" },
-          Today: { message: "Today" },
-          "Request Time Off": { message: "Request Time Off" },
-          "Request time off": { message: "Request time off" },
-          "Go to today": { message: "Go to today" },
-          "Open menu": { message: "Open menu" },
-          M: { message: "M" },
-          T: { message: "T" },
-          W: { message: "W" },
-          F: { message: "F" },
-          S: { message: "S" },
-        },
+          "Previous year": ["Previous year"],
+          "Next year": ["Next year"],
+          Today: ["Today"],
+          "Request Time Off": ["Request Time Off"],
+          "Request time off": ["Request time off"],
+          "Go to today": ["Go to today"],
+          "Open menu": ["Open menu"],
+          M: ["M"],
+          T: ["T"],
+          W: ["W"],
+          F: ["F"],
+          S: ["S"],
+        } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
       },
     });
     i18n.activate("en");

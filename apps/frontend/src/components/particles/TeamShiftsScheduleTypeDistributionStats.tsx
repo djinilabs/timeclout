@@ -47,7 +47,8 @@ export const TeamShiftsScheduleTypeDistributionStats: FC<TeamShiftsScheduleTypeD
               };
             }
 
-            (acc[shiftPosition.assignedTo.pk][typeName] as number)++;
+            const currentValue = acc[shiftPosition.assignedTo.pk][typeName] as number;
+            acc[shiftPosition.assignedTo.pk][typeName] = currentValue + 1;
             return acc;
           }, {} as Record<string, WorkerAssignment>);
 

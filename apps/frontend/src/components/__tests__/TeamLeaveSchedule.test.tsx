@@ -78,12 +78,12 @@ describe("TeamLeaveSchedule", () => {
     i18n.load({
       en: {
         messages: {
-          "Previous year": { message: "Previous year" },
-          "Next year": { message: "Next year" },
-          Today: { message: "Today" },
-          Name: { message: "Name" },
-          "Open menu": { message: "Open menu" },
-        },
+          "Previous year": ["Previous year"],
+          "Next year": ["Next year"],
+          Today: ["Today"],
+          Name: ["Name"],
+          "Open menu": ["Open menu"],
+        } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
       },
     });
     i18n.activate("en");

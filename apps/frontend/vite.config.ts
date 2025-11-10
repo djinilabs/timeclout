@@ -5,7 +5,7 @@ import { sentryVitePlugin } from "@sentry/vite-plugin";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import graphqlLoader from "vite-plugin-graphql-loader";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -14,7 +14,12 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   plugins: [
     react({
-      plugins: [["@lingui/swc-plugin", {}]],
+      babel: {
+        plugins: [
+          ["babel-plugin-react-compiler", {}],
+          ["@lingui/babel-plugin-lingui-macro", {}],
+        ],
+      },
     }),
     tailwindcss(),
     graphqlLoader(),

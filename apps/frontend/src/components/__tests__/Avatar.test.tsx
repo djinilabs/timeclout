@@ -10,8 +10,8 @@ describe("Avatar", () => {
     i18n.load({
       en: {
         messages: {
-          "'s avatar": { message: "'s avatar" },
-        },
+          "'s avatar": ["'s avatar"],
+        } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
       },
     });
     i18n.activate("en");

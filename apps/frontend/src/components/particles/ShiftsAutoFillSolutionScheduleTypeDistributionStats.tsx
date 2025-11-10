@@ -42,7 +42,8 @@ export const ShiftsAutoFillSolutionScheduleTypeDistributionStats: FC<ShiftsAutoF
             };
           }
 
-          (acc[shift.assigned.pk][shift.slot.typeName] as number)++;
+          const currentValue = acc[shift.assigned.pk][shift.slot.typeName] as number;
+          acc[shift.assigned.pk][shift.slot.typeName] = currentValue + 1;
           return acc;
         }, {} as Record<string, WorkerAssignment>);
 

@@ -42,7 +42,7 @@
     "declarationMap": true,
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "allowJs": false,
     "isolatedModules": true,
