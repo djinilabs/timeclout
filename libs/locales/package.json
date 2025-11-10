@@ -7,6 +7,6 @@
     "@lingui/core": "^5.2.0"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2"
+    "@types/node": "^24.0.0"
   }
 } 
