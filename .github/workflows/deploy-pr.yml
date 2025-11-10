@@ -3,10 +3,19 @@ name: Deploy PR
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+    # Security: Don't run if workflow files are modified
+    paths-ignore:
+      - ".github/workflows/**"
+      - ".github/actions/**"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Security: Explicit permissions - only what's needed
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
     concurrency:
       group: deploy-pr-${{ github.event.pull_request.number }}
       cancel-in-progress: false

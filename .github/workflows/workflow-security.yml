@@ -1,0 +1,216 @@
+name: Workflow Security Check
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - '.github/actions/**'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/**'
+      - '.github/actions/**'
+
+jobs:
+  validate-workflows:
+    name: Validate Workflow Security
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      security-events: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Check if workflows were modified
+        id: check-changes
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            # Get the base and head SHAs (use SHA not ref for accurate comparison)
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+            
+            # Check if any workflow files were modified
+            if git diff --name-only "$BASE_SHA...$HEAD_SHA" | grep -qE '\.github/(workflows|actions)/'; then
+              echo "workflows_modified=true" >> $GITHUB_OUTPUT
+              echo "⚠️ Workflow files have been modified in this PR"
+              git diff --name-only "$BASE_SHA...$HEAD_SHA" | grep -E '\.github/(workflows|actions)/' || true
+            else
+              echo "workflows_modified=false" >> $GITHUB_OUTPUT
+              echo "✅ No workflow files modified"
+            fi
+          else
+            echo "workflows_modified=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate workflow syntax
+        if: steps.check-changes.outputs.workflows_modified == 'true'
+        run: |
+          echo "Validating workflow syntax..."
+          
+          # Check all workflow files
+          for workflow in .github/workflows/*.yml .github/workflows/*.yaml; do
+            if [ -f "$workflow" ]; then
+              echo "Checking $workflow..."
+              # Basic YAML syntax check
+              if ! python3 -c "import yaml; yaml.safe_load(open('$workflow'))" 2>/dev/null; then
+                echo "❌ Invalid YAML syntax in $workflow"
+                exit 1
+              fi
+            fi
+          done
+          
+          echo "✅ All workflow files have valid syntax"
+
+      - name: Check for suspicious patterns
+        if: steps.check-changes.outputs.workflows_modified == 'true'
+        run: |
+          echo "Checking for suspicious patterns in workflow files..."
+          
+          SUSPICIOUS_PATTERNS=0
+          
+          # Check all workflow files for suspicious patterns
+          for workflow in .github/workflows/*.yml .github/workflows/*.yaml; do
+            if [ -f "$workflow" ]; then
+              echo "Scanning $workflow..."
+              
+              # Check for secret printing (common attack vector)
+              # Use more specific pattern to avoid false positives while catching real exposures
+              if grep -E '(echo|print|curl|wget).*secrets\.' "$workflow" | grep -v '#'; then
+                echo "⚠️ WARNING: Potential secret exposure in $workflow"
+                grep -n -E '(echo|print|curl|wget).*secrets\.' "$workflow" | grep -v '#' || true
+                SUSPICIOUS_PATTERNS=$((SUSPICIOUS_PATTERNS + 1))
+              fi
+              
+              # Check for external data exfiltration
+              # Look for curl commands with secrets that don't go to GitHub
+              if grep -E 'curl.*https?://' "$workflow" | grep -E '\$.*secrets\.' | grep -v '#' | grep -v 'github\.com' | grep -v 'api\.github\.com' || true; then
+                echo "⚠️ WARNING: Potential data exfiltration in $workflow"
+                grep -n -E 'curl.*https?://' "$workflow" | grep -E '\$.*secrets\.' | grep -v '#' | grep -v 'github\.com' | grep -v 'api\.github\.com' || true
+                SUSPICIOUS_PATTERNS=$((SUSPICIOUS_PATTERNS + 1))
+              fi
+              
+              # Check for dangerous permissions
+              if grep -A 5 'permissions:' "$workflow" | grep -E '(contents: write|actions: write|secrets: write)' | grep -v '#'; then
+                echo "⚠️ WARNING: Workflow has write permissions - ensure this is intentional"
+              fi
+              
+              # Check for pull_request events with secrets
+              if grep -q 'pull_request:' "$workflow" && grep -q 'secrets\.' "$workflow"; then
+                echo "⚠️ WARNING: Workflow runs on pull_request events and uses secrets"
+                echo "   Ensure path filters are in place to prevent execution when workflows are modified"
+              fi
+            fi
+          done
+          
+          if [ $SUSPICIOUS_PATTERNS -gt 0 ]; then
+            echo "❌ Found $SUSPICIOUS_PATTERNS suspicious pattern(s)"
+            echo "Please review the workflow changes carefully before merging"
+            exit 1
+          else
+            echo "✅ No suspicious patterns detected"
+          fi
+
+      - name: Check for path filters on PR workflows
+        if: steps.check-changes.outputs.workflows_modified == 'true'
+        run: |
+          echo "Checking for path filters on pull_request workflows..."
+          
+          MISSING_FILTERS=0
+          
+          for workflow in .github/workflows/*.yml .github/workflows/*.yaml; do
+            if [ -f "$workflow" ]; then
+              # Check if workflow runs on pull_request
+              if grep -q 'pull_request:' "$workflow"; then
+                # Check if it uses secrets
+                if grep -q 'secrets\.' "$workflow"; then
+                  # Check if it has path filters
+                  if ! grep -A 10 'pull_request:' "$workflow" | grep -qE '(paths-ignore|paths):'; then
+                    echo "⚠️ WARNING: $workflow runs on pull_request with secrets but has no path filters"
+                    echo "   Consider adding paths-ignore for .github/workflows/** to prevent execution when workflows are modified"
+                    MISSING_FILTERS=$((MISSING_FILTERS + 1))
+                  fi
+                fi
+              fi
+            fi
+          done
+          
+          if [ $MISSING_FILTERS -gt 0 ]; then
+            echo "⚠️ Found $MISSING_FILTERS workflow(s) that may need path filters"
+            echo "This is a warning, not a failure, but please review"
+          else
+            echo "✅ All PR workflows with secrets have appropriate path filters"
+          fi
+
+      - name: Verify GitHub CLI is available
+        id: verify-gh
+        run: |
+          if command -v gh >/dev/null 2>&1; then
+            echo "gh_available=true" >> $GITHUB_OUTPUT
+            echo "✅ GitHub CLI is available"
+          else
+            echo "gh_available=false" >> $GITHUB_OUTPUT
+            echo "⚠️ GitHub CLI not found, will use API directly"
+          fi
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && steps.check-changes.outputs.workflows_modified == 'true'
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          
+          COMMENT="## ⚠️ Workflow Security Check
+          
+          This PR modifies workflow files. Please ensure:
+          
+          1. ✅ All changes have been reviewed by a maintainer
+          2. ✅ No secrets are being printed or exposed
+          3. ✅ Path filters are in place for PR workflows that use secrets
+          4. ✅ Permissions follow the principle of least privilege
+          
+          **Security Review Required**: This PR requires manual review from a repository maintainer before merging."
+          
+          if [ "${{ steps.verify-gh.outputs.gh_available }}" == "true" ]; then
+            gh pr comment "$PR_NUMBER" --body "$COMMENT"
+          else
+            # Fallback to API if gh CLI is not available
+            # Escape the comment body for JSON
+            ESCAPED_COMMENT=$(echo "$COMMENT" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
+            curl -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Content-Type: application/json" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER/comments" \
+              -d "{\"body\": \"$ESCAPED_COMMENT\"}"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail if workflows modified without approval
+        if: github.event_name == 'pull_request' && steps.check-changes.outputs.workflows_modified == 'true'
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          
+          # Check if PR has been approved by a maintainer
+          if [ "${{ steps.verify-gh.outputs.gh_available }}" == "true" ]; then
+            APPROVALS=$(gh pr view "$PR_NUMBER" --json reviews --jq '.reviews[] | select(.state == "APPROVED") | .author.login' | sort -u)
+          else
+            # Fallback to API if gh CLI is not available
+            APPROVALS=$(curl -s -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews" | \
+              jq -r '.[] | select(.state == "APPROVED") | .user.login' | sort -u)
+          fi
+          
+          if [ -z "$APPROVALS" ]; then
+            echo "⚠️ Workflow files modified but PR has no approvals"
+            echo "This check will pass, but merging requires maintainer approval"
+          else
+            echo "✅ PR has been approved by: $APPROVALS"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

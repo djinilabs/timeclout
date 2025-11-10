@@ -1,0 +1,8 @@
+# Code owners for workflow files
+# These files require review from repository maintainers
+.github/workflows/ @pedroteixeira
+.github/actions/ @pedroteixeira
+
+# Note: Update @pedroteixeira with your actual team/maintainer usernames
+# Example: .github/workflows/ @your-team @maintainer1 @maintainer2
+

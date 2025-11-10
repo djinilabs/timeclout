@@ -12,6 +12,8 @@ jobs:
   version-bump:
     name: Bump Version
     runs-on: ubuntu-latest
+    # Security: Explicit permissions - only what's needed
+    # Note: contents: write is required to commit version bump
     permissions:
       contents: write
       pull-requests: read
