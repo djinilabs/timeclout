@@ -11,8 +11,8 @@ import {
 import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react/macro";
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { FaSpinner } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { FaSpinner } from "react-icons/fa";
 import { useSearchParams } from "react-router";
 
 import type {
@@ -971,11 +971,6 @@ export const TeamShiftsSchedule = () => {
               <Trans>Loading calendar...</Trans>
             </p>
           </div>
-        </div>
-      )}
-      {error && (
-        <div role="alert" aria-live="assertive">
-          <Trans>Error loading calendar data</Trans>
         </div>
       )}
       <CreateOrEditScheduleShiftPositionDialog
