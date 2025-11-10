@@ -13,6 +13,8 @@ jobs:
     name: Auto Merge PR
     runs-on: ubuntu-latest
     if: github.event.inputs.pr_number != ''
+    # Security: Explicit permissions - only what's needed
+    # Note: These write permissions are required for auto-merge functionality
     permissions:
       contents: write
       pull-requests: write
