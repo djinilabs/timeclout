@@ -5,6 +5,7 @@ import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
 import { printAOM } from "../../accessibility/printAOM";
 import { AccessibleElement } from "../../accessibility/types";
+import { getVectorSearchClient } from "../../lib/vectorSearch/vectorSearchClient";
 
 import { timeout } from "@/utils";
 
@@ -35,7 +36,10 @@ const simulateTyping = (
   nativeInputValueSetter?.call(element, text);
 };
 
-export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
+export const tools = (
+  debounceActivity: () => Promise<void>,
+  language: "en" | "pt" = "en"
+): ToolSet => ({
   describe_app_ui: {
     description:
       "Describes the current app UI. Use this to answer user queries and read the application state, like the list of companies, units or teams. You can also use this to read the item being displayed on the page.",
@@ -182,6 +186,51 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
         return {
           success: false,
           error: `Error filling form element: ${error}`,
+        };
+      }
+    },
+  },
+  search_help_content: {
+    description:
+      "Search the TimeClout help documentation for information about features, how to use them, and answers to common questions. Use this when users ask about how to do something or need help understanding a feature.",
+    inputSchema: z.object({
+      query: z.string(),
+      language: z.enum(["en", "pt"]).optional(),
+    }),
+    execute: async ({ query, language: queryLanguage }) => {
+      console.log("tool call: search_help_content", query, queryLanguage);
+      try {
+        const client = getVectorSearchClient();
+        const searchLanguage = queryLanguage || language;
+        const results = await client.search(query, searchLanguage, 5);
+
+        if (results.length === 0) {
+          return {
+            success: false,
+            message: "No relevant help content found for your query.",
+          };
+        }
+
+        // Format results for AI consumption
+        const formattedResults = results
+          .map((result, index) => {
+            return `[${index + 1}] ${result.text}\n   Section: ${result.metadata.section}, Type: ${result.metadata.type}, Score: ${result.score.toFixed(3)}`;
+          })
+          .join("\n\n");
+
+        return {
+          success: true,
+          results: formattedResults,
+          count: results.length,
+        };
+      } catch (error) {
+        console.error("Error searching help content:", error);
+        return {
+          success: false,
+          error:
+            error instanceof Error
+              ? error.message
+              : "Failed to search help content",
         };
       }
     },

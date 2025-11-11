@@ -34,7 +34,7 @@
     "dev:frontend": "run-p dev:frontend:app dev:frontend:styles",
     "dev:frontend:app": "cd apps/frontend && vite && pnpm @tailwindcss/cli -i ./src/index.css -o ./src/output.css --watch",
     "dev:frontend:styles": "pnpm tailwindcss -i ./apps/frontend/src/input.css -o ./apps/frontend/src/output.css --watch",
-    "build": "pnpm build:frontend",
+    "build": "pnpm build:vector-search && pnpm extract:help-content && pnpm generate:embeddings && pnpm build:frontend",
     "build:frontend": "cd apps/frontend && tsc -b && vite build",
     "preview:frontend": "cd apps/frontend && vite preview",
     "codegen": "graphql-codegen",
@@ -51,7 +51,10 @@
     "lint": "pnpm eslint",
     "i18n:extract": "pnpm lingui extract --clean",
     "i18n:compile": "pnpm lingui compile --namespace es",
-    "test:version-bump": "node scripts/test-version-bump.js"
+    "test:version-bump": "node scripts/test-version-bump.js",
+    "extract:help-content": "tsx scripts/extract-help-content.ts",
+    "generate:embeddings": "tsx scripts/generate-embeddings.ts",
+    "build:vector-search": "cd libs/vector-search && wasm-pack build --target web --out-dir ../../apps/frontend/src/lib/vectorSearch/wasm"
   },
   "dependencies": {
     "@0no-co/graphqlsp": "^1.12.16",
@@ -103,6 +106,7 @@
     "@urql/core": "^6.0.1",
     "@urql/exchange-graphcache": "^8.0.0",
     "@vendia/serverless-express": "^4.12.6",
+    "@xenova/transformers": "^2.17.2",
     "ai": "^5.0.0",
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1692.0",
@@ -180,7 +184,12 @@
     "vite": "^7.0.0",
     "vite-plugin-graphql-loader": "^4.0.4",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.1"
+    "vitest": "^3.0.1",
+    "@babel/parser": "^7.26.0",
+    "@babel/traverse": "^7.26.0",
+    "@babel/types": "^7.26.0",
+    "tsx": "^4.19.2",
+    "wasm-pack": "^0.13.0"
   },
   "packageManager": "pnpm@10.21.0",
   "pnpm": {

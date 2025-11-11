@@ -91,6 +91,15 @@ const tools: ToolSet = {
     }),
     // No execute function - tool calls are handled on the frontend
   },
+  search_help_content: {
+    description:
+      "Search the TimeClout help documentation for information about features, how to use them, and answers to common questions. Use this when users ask about how to do something or need help understanding a feature.",
+    inputSchema: z.object({
+      query: z.string(),
+      language: z.enum(["en", "pt"]).optional(),
+    }),
+    // No execute function - tool calls are handled on the frontend
+  },
 };
 
 export interface ChatRequest {
