@@ -180,7 +180,7 @@
     "vite": "^7.0.0",
     "vite-plugin-graphql-loader": "^4.0.4",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.1"
+    "vitest": "^4.0.0"
   },
   "packageManager": "pnpm@10.21.0",
   "pnpm": {

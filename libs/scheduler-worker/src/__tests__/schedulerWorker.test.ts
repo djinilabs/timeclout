@@ -172,6 +172,7 @@ describe("SchedulerWorkerClient", () => {
 
   it(
     "should start and receive progress updates",
+    { timeout: 10000 },
     async () => {
       const progressUpdates: SchedulerState[] = [];
 
@@ -192,8 +193,7 @@ describe("SchedulerWorkerClient", () => {
         expect(update).toHaveProperty("computed");
         expect(update).toHaveProperty("topSolutions");
       });
-    },
-    { timeout: 10000 }
+    }
   );
 
   it("should throw when starting an already started worker", async () => {
@@ -205,6 +205,7 @@ describe("SchedulerWorkerClient", () => {
 
   it(
     "should handle multiple start/stop cycles",
+    { timeout: 10000 },
     async () => {
       const runCycle = async () => {
         const progressUpdates: SchedulerState[] = [];
@@ -227,12 +228,12 @@ describe("SchedulerWorkerClient", () => {
         const updates = await runCycle();
         expect(updates.length).toBeGreaterThanOrEqual(1);
       }
-    },
-    { timeout: 10000 }
+    }
   );
 
   it(
     "should generate valid schedules through the worker",
+    { timeout: 10000 },
     async () => {
       let lastState: SchedulerState | null = null;
 
@@ -261,7 +262,6 @@ describe("SchedulerWorkerClient", () => {
         expect(shift.slot).toHaveProperty("workHours");
         expect(shift.slot.workHours).toBeInstanceOf(Array);
       });
-    },
-    { timeout: 10000 }
+    }
   );
 });
