@@ -11,7 +11,6 @@ import { resourceRef } from "@/utils";
 export const deleteCompany: NonNullable<
   MutationResolvers["deleteCompany"]
 > = async (_parent, _arg, ctx) => {
-  console.log("deleteCompany", _arg);
   await ensureAuthorized(
     ctx,
     resourceRef("companies", _arg.pk),
