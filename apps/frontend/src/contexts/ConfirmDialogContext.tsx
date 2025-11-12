@@ -5,8 +5,6 @@ export interface ConfirmDialogContextType {
   text?: ReactNode;
   confirmText?: ReactNode;
   cancelText?: ReactNode;
-  onConfirm?: () => void;
-  onCancel?: () => void;
 }
 
 export interface ConfirmDialogContextValue extends ConfirmDialogContextType {
