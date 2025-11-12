@@ -37,6 +37,24 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:3333",
       },
+      // Proxy for Hugging Face model files (for @xenova/transformers)
+      // This helps avoid CORS issues when fetching model files
+      "/Xenova": {
+        target: "https://huggingface.co",
+        changeOrigin: true,
+        rewrite: (path) => path,
+        configure: (proxy, _options) => {
+          proxy.on("error", (err, _req, _res) => {
+            console.log("Hugging Face proxy error", err);
+          });
+        },
+      },
+      // Also proxy for direct huggingface.co requests
+      "/hf": {
+        target: "https://huggingface.co",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/hf/, ""),
+      },
     },
   },
   resolve: {

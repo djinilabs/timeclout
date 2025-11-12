@@ -11,7 +11,7 @@ export interface SearchResult {
 
 export interface WorkerSearchRequest {
   type: "search";
-  queryEmbedding: number[];
+  query: string; // Changed from queryEmbedding to query text
   language: "en" | "pt";
   topK?: number;
 }
@@ -41,4 +41,3 @@ export type WorkerResponse =
   | WorkerSearchResponse
   | WorkerErrorResponse
   | WorkerInitResponse;
-

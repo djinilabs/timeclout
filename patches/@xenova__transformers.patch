@@ -1,0 +1,88 @@
+diff --git a/src/utils/hub.js b/src/utils/hub.js
+index 32cab6c5bdba0b35e2ecc6dbb76c0b0171398615..f2d97f531cff91ec3b622a51769327bb978a39c5 100644
+--- a/src/utils/hub.js
++++ b/src/utils/hub.js
+@@ -178,30 +178,61 @@ export async function getFile(urlOrPath) {
+     if (env.useFS && !isValidUrl(urlOrPath, ['http:', 'https:', 'blob:'])) {
+         return new FileResponse(urlOrPath);
+ 
+-    } else if (typeof process !== 'undefined' && process?.release?.name === 'node') {
+-        const IS_CI = !!process.env?.TESTING_REMOTELY;
+-        const version = env.version;
+-
+-        const headers = new Headers();
+-        headers.set('User-Agent', `transformers.js/${version}; is_ci/${IS_CI};`);
+-
+-        // Check whether we are making a request to the Hugging Face Hub.
+-        const isHFURL = isValidUrl(urlOrPath, ['http:', 'https:'], ['huggingface.co', 'hf.co']);
+-        if (isHFURL) {
+-            // If an access token is present in the environment variables,
+-            // we add it to the request headers.
+-            // NOTE: We keep `HF_ACCESS_TOKEN` for backwards compatibility (as a fallback).
+-            const token = process.env?.HF_TOKEN ?? process.env?.HF_ACCESS_TOKEN;
+-            if (token) {
+-                headers.set('Authorization', `Bearer ${token}`);
++    } else {
++        // PATCH: Check if this is a Hugging Face URL and try local files first
++        const urlString = urlOrPath.toString();
++        const isHFURL = isValidUrl(urlString, ['http:', 'https:'], ['huggingface.co', 'hf.co']);
++        
++        if (isHFURL && env.allowLocalModels && env.localModelPath) {
++            // Extract model name and file path from Hugging Face URL
++            // Example: https://huggingface.co/Xenova/all-MiniLM-L6-v2/resolve/main/config.json
++            // -> /models/Xenova/all-MiniLM-L6-v2/config.json
++            // Example: https://huggingface.co/Xenova/all-MiniLM-L6-v2/resolve/main/onnx/model_quantized.onnx
++            // -> /models/Xenova/all-MiniLM-L6-v2/onnx/model_quantized.onnx
++            const match = urlString.match(/(?:Xenova\/)?all-MiniLM-L6-v2\/resolve\/main\/(.+)$/);
++            if (match) {
++                const filePath = match[1];
++                const localUrl = pathJoin(env.localModelPath, 'Xenova/all-MiniLM-L6-v2', filePath);
++                
++                // Try to fetch from local path first
++                try {
++                    const localResponse = await fetch(localUrl);
++                    if (localResponse.ok) {
++                        console.log(`[@xenova/transformers PATCH] ✓ Using local file: ${localUrl} instead of ${urlString}`);
++                        return localResponse;
++                    }
++                } catch (e) {
++                    // Local file not found, fall through to remote fetch
++                    console.log(`[@xenova/transformers PATCH] Local file not found: ${localUrl}, falling back to remote`);
++                }
+             }
+         }
+-        return fetch(urlOrPath, { headers });
+-    } else {
+-        // Running in a browser-environment, so we use default headers
+-        // NOTE: We do not allow passing authorization headers in the browser,
+-        // since this would require exposing the token to the client.
+-        return fetch(urlOrPath);
++
++        // Original logic continues here
++        if (typeof process !== 'undefined' && process?.release?.name === 'node') {
++            const IS_CI = !!process.env?.TESTING_REMOTELY;
++            const version = env.version;
++
++            const headers = new Headers();
++            headers.set('User-Agent', `transformers.js/${version}; is_ci/${IS_CI};`);
++
++            // Check whether we are making a request to the Hugging Face Hub.
++            if (isHFURL) {
++                // If an access token is present in the environment variables,
++                // we add it to the request headers.
++                // NOTE: We keep `HF_ACCESS_TOKEN` for backwards compatibility (as a fallback).
++                const token = process.env?.HF_TOKEN ?? process.env?.HF_ACCESS_TOKEN;
++                if (token) {
++                    headers.set('Authorization', `Bearer ${token}`);
++                }
++            }
++            return fetch(urlOrPath, { headers });
++        } else {
++            // Running in a browser-environment, so we use default headers
++            // NOTE: We do not allow passing authorization headers in the browser,
++            // since this would require exposing the token to the client.
++            return fetch(urlOrPath);
++        }
+     }
+ }
+ 

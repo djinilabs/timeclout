@@ -50,6 +50,9 @@ apps/frontend/public/embeddings/*-index.json
 apps/frontend/public/embeddings/*-text-index.json
 apps/frontend/public/embeddings/help-content.json
 
+# Embedding model files (downloaded at build time, ~90MB)
+apps/frontend/public/models/
+
 # WASM build artifacts
 apps/frontend/src/lib/vectorSearch/wasm/
 libs/vector-search/target/
