@@ -23,7 +23,7 @@ import deleteCompanyMutation from "@/graphql-client/mutations/deleteCompany.grap
 import allCompaniesQuery from "@/graphql-client/queries/allCompanies.graphql";
 
 export const AllUserCompanies = () => {
-  const [allCompanies] = useQuery<{ companies: Company[] }>({
+  const [allCompanies, refetchCompanies] = useQuery<{ companies: Company[] }>({
     query: allCompaniesQuery,
     pollingIntervalMs: 10000,
   });
@@ -104,7 +104,7 @@ export const AllUserCompanies = () => {
               </div>
             </div>
             <div className="flex flex-none items-center gap-x-4">
-              <Menu>
+              <Menu as="div" className="relative">
                 <MenuButton className="rounded-full bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                   <EllipsisVerticalIcon
                     className="h-5 w-5"
@@ -115,10 +115,10 @@ export const AllUserCompanies = () => {
                   <MenuItem>
                     {({ active }) => (
                       <Link
-                        to={`/companies/${company.pk}/edit`}
+                        to={`/${company.pk}`}
                         className={`${
                           active ? "bg-gray-100 text-gray-900" : "text-gray-700"
-                        } block px-4 py-2 text-sm`}
+                        } flex items-center px-4 py-2 text-sm`}
                       >
                         <PencilIcon className="mr-3 h-5 w-5 text-gray-400" />
                         <Trans>Edit</Trans>
@@ -129,27 +129,29 @@ export const AllUserCompanies = () => {
                     {({ active }) => (
                       <button
                         type="button"
-                        onClick={() => {
-                          showConfirmDialog({
-                            text: i18n.t(
-                              "Are you sure you want to delete {companyName}? This action cannot be undone.",
-                              { companyName: company.name }
-                            ),
-                            confirmText: i18n.t("Delete"),
-                            cancelText: i18n.t("Cancel"),
-                            onConfirm: async () => {
-                              const response = await deleteCompany({
-                                pk: company.pk,
-                              });
-                              if (!response.error) {
-                                toast.success(i18n.t("Company deleted"));
-                              }
-                            },
-                          });
+                        onClick={async () => {
+                          if (
+                            await showConfirmDialog({
+                              text: i18n.t(
+                                "Are you sure you want to delete {companyName}? This action cannot be undone.",
+                                { companyName: company.name }
+                              ),
+                              confirmText: i18n.t("Delete"),
+                              cancelText: i18n.t("Cancel"),
+                            })
+                          ) {
+                            const response = await deleteCompany({
+                              pk: company.pk,
+                            });
+                            if (!response.error) {
+                              toast.success(i18n.t("Company deleted"));
+                              refetchCompanies();
+                            }
+                          }
                         }}
                         className={`${
                           active ? "bg-gray-100 text-gray-900" : "text-gray-700"
-                        } block w-full px-4 py-2 text-left text-sm`}
+                        } flex items-center w-full px-4 py-2 text-left text-sm`}
                       >
                         <TrashIcon className="mr-3 h-5 w-5 text-gray-400" />
                         <Trans>Delete</Trans>

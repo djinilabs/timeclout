@@ -8,9 +8,10 @@ import { i18n } from "@/locales";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
-
-
-export const deleteCompany: NonNullable<MutationResolvers['deleteCompany']> = async (_parent, _arg, ctx) => {
+export const deleteCompany: NonNullable<
+  MutationResolvers["deleteCompany"]
+> = async (_parent, _arg, ctx) => {
+  console.log("deleteCompany", _arg);
   await ensureAuthorized(
     ctx,
     resourceRef("companies", _arg.pk),
