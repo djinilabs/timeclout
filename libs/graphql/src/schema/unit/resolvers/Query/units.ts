@@ -10,7 +10,14 @@ export const units: NonNullable<QueryResolvers['units']> = async (
 ) => {
   const permissions = await getAuthorized(ctx, "units");
   const { entity } = await database();
-  return entity.batchGet(permissions.map((p) => p.pk)) as unknown as Promise<
-    Unit[]
-  >;
+  const units = (await entity.batchGet(
+    permissions.map((p) => p.pk)
+  )) as unknown as Unit[];
+  
+  // Sort by creation date to ensure consistent ordering
+  return units.sort((a, b) => {
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
+    return dateA - dateB;
+  });
 };

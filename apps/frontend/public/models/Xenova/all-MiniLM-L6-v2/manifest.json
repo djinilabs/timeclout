@@ -1,0 +1,11 @@
+{
+  "model": "Xenova/all-MiniLM-L6-v2",
+  "files": [
+    "config.json",
+    "tokenizer.json",
+    "tokenizer_config.json",
+    "vocab.txt",
+    "onnx/model_quantized.onnx"
+  ],
+  "downloadedAt": "2025-11-12T09:14:22.168Z"
+}

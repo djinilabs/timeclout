@@ -1,0 +1,1631 @@
+{
+  "chunks": [
+    {
+      "id": "en-auto-fill-title",
+      "offset": 0,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-auto-fill-description",
+      "offset": 1536,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-auto-fill-feature-0",
+      "offset": 3072,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "feature",
+        "feature": "Smart Assignment"
+      }
+    },
+    {
+      "id": "en-auto-fill-feature-1",
+      "offset": 4608,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "feature",
+        "feature": "Conflict Resolution"
+      }
+    },
+    {
+      "id": "en-auto-fill-feature-2",
+      "offset": 6144,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "feature",
+        "feature": "Workload Balance"
+      }
+    },
+    {
+      "id": "en-auto-fill-section-0",
+      "offset": 7680,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-auto-fill-section-1",
+      "offset": 9216,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-auto-fill-section-2",
+      "offset": 10752,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-auto-fill-screenshot-0",
+      "offset": 12288,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "en-auto-fill-screenshot-1",
+      "offset": 13824,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "en-company-dashboard-title",
+      "offset": 15360,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-company-dashboard-description",
+      "offset": 16896,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-company-dashboard-feature-0",
+      "offset": 18432,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Strategic Unit Management"
+      }
+    },
+    {
+      "id": "en-company-dashboard-feature-1",
+      "offset": 19968,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Comprehensive Team Overview"
+      }
+    },
+    {
+      "id": "en-company-dashboard-feature-2",
+      "offset": 21504,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Company-Wide Policy Control"
+      }
+    },
+    {
+      "id": "en-company-dashboard-feature-3",
+      "offset": 23040,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Organizational Analytics"
+      }
+    },
+    {
+      "id": "en-company-dashboard-feature-4",
+      "offset": 24576,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Multi-Level Access Control"
+      }
+    },
+    {
+      "id": "en-company-dashboard-feature-5",
+      "offset": 26112,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Scalable Organizational Structure"
+      }
+    },
+    {
+      "id": "en-company-dashboard-section-0",
+      "offset": 27648,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-company-dashboard-section-1",
+      "offset": 29184,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-company-dashboard-section-2",
+      "offset": 30720,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-company-settings-title",
+      "offset": 32256,
+      "length": 1536,
+      "metadata": {
+        "section": "company-settings",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-company-settings-description",
+      "offset": 33792,
+      "length": 1536,
+      "metadata": {
+        "section": "company-settings",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-company-settings-feature-0",
+      "offset": 35328,
+      "length": 1536,
+      "metadata": {
+        "section": "company-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Company Profile"
+      }
+    },
+    {
+      "id": "en-company-settings-feature-1",
+      "offset": 36864,
+      "length": 1536,
+      "metadata": {
+        "section": "company-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "User Management"
+      }
+    },
+    {
+      "id": "en-company-settings-feature-2",
+      "offset": 38400,
+      "length": 1536,
+      "metadata": {
+        "section": "company-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Policy Settings"
+      }
+    },
+    {
+      "id": "en-create-shift-title",
+      "offset": 39936,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-create-shift-description",
+      "offset": 41472,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-create-shift-feature-0",
+      "offset": 43008,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "feature",
+        "feature": "Use Templates"
+      }
+    },
+    {
+      "id": "en-create-shift-feature-1",
+      "offset": 44544,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "feature",
+        "feature": "Custom Details"
+      }
+    },
+    {
+      "id": "en-create-shift-feature-2",
+      "offset": 46080,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "feature",
+        "feature": "Qualification Matching"
+      }
+    },
+    {
+      "id": "en-create-shift-section-0",
+      "offset": 47616,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-create-shift-section-1",
+      "offset": 49152,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-create-shift-screenshot-0",
+      "offset": 50688,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "en-leave-approval-dashboard-title",
+      "offset": 52224,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-leave-approval-dashboard-description",
+      "offset": 53760,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-leave-approval-dashboard-feature-0",
+      "offset": 55296,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Request Review"
+      }
+    },
+    {
+      "id": "en-leave-approval-dashboard-feature-1",
+      "offset": 56832,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Coverage Check"
+      }
+    },
+    {
+      "id": "en-leave-approval-dashboard-feature-2",
+      "offset": 58368,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Policy Compliance"
+      }
+    },
+    {
+      "id": "en-leave-request-management-title",
+      "offset": 59904,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-leave-request-management-description",
+      "offset": 61440,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-leave-request-management-feature-0",
+      "offset": 62976,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Intelligent Request Submission"
+      }
+    },
+    {
+      "id": "en-leave-request-management-feature-1",
+      "offset": 64512,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Automated Approval Workflows"
+      }
+    },
+    {
+      "id": "en-leave-request-management-feature-2",
+      "offset": 66048,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Comprehensive Request Tracking"
+      }
+    },
+    {
+      "id": "en-leave-request-management-feature-3",
+      "offset": 67584,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Quota Management & Validation"
+      }
+    },
+    {
+      "id": "en-leave-request-management-feature-4",
+      "offset": 69120,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Conflict Detection & Resolution"
+      }
+    },
+    {
+      "id": "en-leave-request-management-feature-5",
+      "offset": 70656,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Policy Compliance & Reporting"
+      }
+    },
+    {
+      "id": "en-leave-request-management-section-0",
+      "offset": 72192,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-leave-request-management-section-1",
+      "offset": 73728,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-leave-request-management-section-2",
+      "offset": 75264,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-member-management-title",
+      "offset": 76800,
+      "length": 1536,
+      "metadata": {
+        "section": "member-management",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-member-management-description",
+      "offset": 78336,
+      "length": 1536,
+      "metadata": {
+        "section": "member-management",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-member-management-feature-0",
+      "offset": 79872,
+      "length": 1536,
+      "metadata": {
+        "section": "member-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Member Addition"
+      }
+    },
+    {
+      "id": "en-member-management-feature-1",
+      "offset": 81408,
+      "length": 1536,
+      "metadata": {
+        "section": "member-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Role Assignment"
+      }
+    },
+    {
+      "id": "en-member-management-feature-2",
+      "offset": 82944,
+      "length": 1536,
+      "metadata": {
+        "section": "member-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Member Settings"
+      }
+    },
+    {
+      "id": "en-new-leave-request-title",
+      "offset": 84480,
+      "length": 1536,
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-new-leave-request-description",
+      "offset": 86016,
+      "length": 1536,
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-new-leave-request-feature-0",
+      "offset": 87552,
+      "length": 1536,
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "en",
+        "type": "feature",
+        "feature": "Leave Type Selection"
+      }
+    },
+    {
+      "id": "en-new-leave-request-feature-1",
+      "offset": 89088,
+      "length": 1536,
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "en",
+        "type": "feature",
+        "feature": "Date Range"
+      }
+    },
+    {
+      "id": "en-new-leave-request-feature-2",
+      "offset": 90624,
+      "length": 1536,
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "en",
+        "type": "feature",
+        "feature": "Additional Information"
+      }
+    },
+    {
+      "id": "en-qualifications-settings-title",
+      "offset": 92160,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-qualifications-settings-description",
+      "offset": 93696,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-qualifications-settings-feature-0",
+      "offset": 95232,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Qualification Creation"
+      }
+    },
+    {
+      "id": "en-qualifications-settings-feature-1",
+      "offset": 96768,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Qualification Assignment"
+      }
+    },
+    {
+      "id": "en-qualifications-settings-feature-2",
+      "offset": 98304,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Visual Organization"
+      }
+    },
+    {
+      "id": "en-qualifications-settings-feature-3",
+      "offset": 99840,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Qualification Management"
+      }
+    },
+    {
+      "id": "en-qualifications-settings-section-0",
+      "offset": 101376,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-qualifications-settings-section-1",
+      "offset": 102912,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-schedule-position-templates-title",
+      "offset": 104448,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-schedule-position-templates-description",
+      "offset": 105984,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-schedule-position-templates-feature-0",
+      "offset": 107520,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "feature",
+        "feature": "Template Overview"
+      }
+    },
+    {
+      "id": "en-schedule-position-templates-feature-1",
+      "offset": 109056,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "feature",
+        "feature": "Color Coding"
+      }
+    },
+    {
+      "id": "en-schedule-position-templates-feature-2",
+      "offset": 110592,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "feature",
+        "feature": "Template Management"
+      }
+    },
+    {
+      "id": "en-schedule-position-templates-feature-3",
+      "offset": 112128,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "feature",
+        "feature": "Visual Preview"
+      }
+    },
+    {
+      "id": "en-schedule-position-templates-section-0",
+      "offset": 113664,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-schedule-position-templates-section-1",
+      "offset": 115200,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-schedule-position-templates-section-2",
+      "offset": 116736,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-title",
+      "offset": 118272,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-description",
+      "offset": 119808,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-feature-0",
+      "offset": 121344,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Create & Edit Shifts"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-feature-1",
+      "offset": 122880,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Assign Team Members"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-feature-2",
+      "offset": 124416,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Auto-Fill Scheduling"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-section-0",
+      "offset": 125952,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-section-1",
+      "offset": 127488,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-section-2",
+      "offset": 129024,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-section-3",
+      "offset": 130560,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-screenshot-0",
+      "offset": 132096,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-screenshot-1",
+      "offset": 133632,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "en-shifts-calendar-screenshot-2",
+      "offset": 135168,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "en-team-invitations-title",
+      "offset": 136704,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-team-invitations-description",
+      "offset": 138240,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-team-invitations-feature-0",
+      "offset": 139776,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "feature",
+        "feature": "Send Invitations"
+      }
+    },
+    {
+      "id": "en-team-invitations-feature-1",
+      "offset": 141312,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "feature",
+        "feature": "Track Status"
+      }
+    },
+    {
+      "id": "en-team-invitations-feature-2",
+      "offset": 142848,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "feature",
+        "feature": "Manage Access"
+      }
+    },
+    {
+      "id": "en-team-invitations-section-0",
+      "offset": 144384,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-team-invitations-section-1",
+      "offset": 145920,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-team-invitations-screenshot-0",
+      "offset": 147456,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "en-team-leave-calendar-title",
+      "offset": 148992,
+      "length": 1536,
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-team-leave-calendar-description",
+      "offset": 150528,
+      "length": 1536,
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-team-leave-calendar-feature-0",
+      "offset": 152064,
+      "length": 1536,
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Leave Overview"
+      }
+    },
+    {
+      "id": "en-team-leave-calendar-feature-1",
+      "offset": 153600,
+      "length": 1536,
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Request Management"
+      }
+    },
+    {
+      "id": "en-team-leave-calendar-feature-2",
+      "offset": 155136,
+      "length": 1536,
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Coverage Planning"
+      }
+    },
+    {
+      "id": "en-team-management-title",
+      "offset": 156672,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-team-management-description",
+      "offset": 158208,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-team-management-feature-0",
+      "offset": 159744,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Strategic Team Creation"
+      }
+    },
+    {
+      "id": "en-team-management-feature-1",
+      "offset": 161280,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Advanced Member Management"
+      }
+    },
+    {
+      "id": "en-team-management-feature-2",
+      "offset": 162816,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Flexible Team Configuration"
+      }
+    },
+    {
+      "id": "en-team-management-feature-3",
+      "offset": 164352,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Performance Analytics & Insights"
+      }
+    },
+    {
+      "id": "en-team-management-feature-4",
+      "offset": 165888,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Integrated Communication Tools"
+      }
+    },
+    {
+      "id": "en-team-management-feature-5",
+      "offset": 167424,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Scalable Team Operations"
+      }
+    },
+    {
+      "id": "en-team-management-section-0",
+      "offset": 168960,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-team-management-section-1",
+      "offset": 170496,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-team-management-section-2",
+      "offset": 172032,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-team-settings-title",
+      "offset": 173568,
+      "length": 1536,
+      "metadata": {
+        "section": "team-settings",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-team-settings-description",
+      "offset": 175104,
+      "length": 1536,
+      "metadata": {
+        "section": "team-settings",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-team-settings-feature-0",
+      "offset": 176640,
+      "length": 1536,
+      "metadata": {
+        "section": "team-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Team Profile"
+      }
+    },
+    {
+      "id": "en-team-settings-feature-1",
+      "offset": 178176,
+      "length": 1536,
+      "metadata": {
+        "section": "team-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Member Management"
+      }
+    },
+    {
+      "id": "en-team-settings-feature-2",
+      "offset": 179712,
+      "length": 1536,
+      "metadata": {
+        "section": "team-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Team Policies"
+      }
+    },
+    {
+      "id": "en-time-off-dashboard-title",
+      "offset": 181248,
+      "length": 1536,
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-time-off-dashboard-description",
+      "offset": 182784,
+      "length": 1536,
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-time-off-dashboard-feature-0",
+      "offset": 184320,
+      "length": 1536,
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Leave Overview"
+      }
+    },
+    {
+      "id": "en-time-off-dashboard-feature-1",
+      "offset": 185856,
+      "length": 1536,
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Balance Tracking"
+      }
+    },
+    {
+      "id": "en-time-off-dashboard-feature-2",
+      "offset": 187392,
+      "length": 1536,
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Coverage Planning"
+      }
+    },
+    {
+      "id": "en-unassign-shift-title",
+      "offset": 188928,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-unassign-shift-description",
+      "offset": 190464,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-unassign-shift-feature-0",
+      "offset": 192000,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "feature",
+        "feature": "Date Range Selection"
+      }
+    },
+    {
+      "id": "en-unassign-shift-feature-1",
+      "offset": 193536,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "feature",
+        "feature": "Bulk Unassignment"
+      }
+    },
+    {
+      "id": "en-unassign-shift-section-0",
+      "offset": 195072,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-unassign-shift-section-1",
+      "offset": 196608,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-unit-management-title",
+      "offset": 198144,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-management",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-unit-management-description",
+      "offset": 199680,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-management",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-unit-management-feature-0",
+      "offset": 201216,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Unit Creation"
+      }
+    },
+    {
+      "id": "en-unit-management-feature-1",
+      "offset": 202752,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Team Organization"
+      }
+    },
+    {
+      "id": "en-unit-management-feature-2",
+      "offset": 204288,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Unit Settings"
+      }
+    },
+    {
+      "id": "en-unit-settings-title",
+      "offset": 205824,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-settings",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-unit-settings-description",
+      "offset": 207360,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-settings",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-unit-settings-feature-0",
+      "offset": 208896,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Unit Profile"
+      }
+    },
+    {
+      "id": "en-unit-settings-feature-1",
+      "offset": 210432,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Team Structure"
+      }
+    },
+    {
+      "id": "en-unit-settings-feature-2",
+      "offset": 211968,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Unit Policies"
+      }
+    },
+    {
+      "id": "en-work-schedule-settings-title",
+      "offset": 213504,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-work-schedule-settings-description",
+      "offset": 215040,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-work-schedule-settings-feature-0",
+      "offset": 216576,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Working Hours"
+      }
+    },
+    {
+      "id": "en-work-schedule-settings-feature-1",
+      "offset": 218112,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Timezone"
+      }
+    },
+    {
+      "id": "en-work-schedule-settings-feature-2",
+      "offset": 219648,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Schedule Rules"
+      }
+    },
+    {
+      "id": "en-work-schedule-settings-section-0",
+      "offset": 221184,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-work-schedule-settings-section-1",
+      "offset": 222720,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "section"
+      }
+    },
+    {
+      "id": "en-yearly-quota-settings-title",
+      "offset": 224256,
+      "length": 1536,
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-yearly-quota-settings-description",
+      "offset": 225792,
+      "length": 1536,
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-yearly-quota-settings-feature-0",
+      "offset": 227328,
+      "length": 1536,
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Leave Types"
+      }
+    },
+    {
+      "id": "en-yearly-quota-settings-feature-1",
+      "offset": 228864,
+      "length": 1536,
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Quota Rules"
+      }
+    },
+    {
+      "id": "en-yearly-quota-settings-feature-2",
+      "offset": 230400,
+      "length": 1536,
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Restrictions"
+      }
+    },
+    {
+      "id": "en-default-title",
+      "offset": 231936,
+      "length": 1536,
+      "metadata": {
+        "section": "default",
+        "language": "en",
+        "type": "title"
+      }
+    },
+    {
+      "id": "en-default-description",
+      "offset": 233472,
+      "length": 1536,
+      "metadata": {
+        "section": "default",
+        "language": "en",
+        "type": "description"
+      }
+    },
+    {
+      "id": "en-default-feature-0",
+      "offset": 235008,
+      "length": 1536,
+      "metadata": {
+        "section": "default",
+        "language": "en",
+        "type": "feature",
+        "feature": "Navigation"
+      }
+    },
+    {
+      "id": "en-default-feature-1",
+      "offset": 236544,
+      "length": 1536,
+      "metadata": {
+        "section": "default",
+        "language": "en",
+        "type": "feature",
+        "feature": "Contextual Help"
+      }
+    }
+  ],
+  "dimension": 384,
+  "language": "en"
+}

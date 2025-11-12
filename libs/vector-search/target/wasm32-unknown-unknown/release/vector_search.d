@@ -1,0 +1,1 @@
+/Users/pedroteixeira/projects/timeclout/libs/vector-search/target/wasm32-unknown-unknown/release/vector_search.wasm: /Users/pedroteixeira/projects/timeclout/libs/vector-search/src/lib.rs /Users/pedroteixeira/projects/timeclout/libs/vector-search/src/search.rs

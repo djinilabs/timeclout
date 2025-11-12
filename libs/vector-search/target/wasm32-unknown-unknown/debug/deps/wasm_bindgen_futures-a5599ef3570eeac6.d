@@ -1,0 +1,9 @@
+/Users/pedroteixeira/projects/timeclout/libs/vector-search/target/wasm32-unknown-unknown/debug/deps/wasm_bindgen_futures-a5599ef3570eeac6.d: /Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/lib.rs /Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/queue.rs /Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/task/singlethread.rs
+
+/Users/pedroteixeira/projects/timeclout/libs/vector-search/target/wasm32-unknown-unknown/debug/deps/libwasm_bindgen_futures-a5599ef3570eeac6.rlib: /Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/lib.rs /Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/queue.rs /Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/task/singlethread.rs
+
+/Users/pedroteixeira/projects/timeclout/libs/vector-search/target/wasm32-unknown-unknown/debug/deps/libwasm_bindgen_futures-a5599ef3570eeac6.rmeta: /Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/lib.rs /Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/queue.rs /Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/task/singlethread.rs
+
+/Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/lib.rs:
+/Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/queue.rs:
+/Users/pedroteixeira/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.55/src/task/singlethread.rs:
