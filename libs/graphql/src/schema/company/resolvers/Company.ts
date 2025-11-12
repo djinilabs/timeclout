@@ -28,11 +28,18 @@ export const Company: CompanyResolvers = {
   units: async (parent, _args, ctx) => {
     const { entity } = await database();
     const permissions = await getAuthorized(ctx, "units");
-    return (
+    const units = (
       await (entity.batchGet(
         permissions.map((p) => p.pk)
       ) as unknown as Promise<Unit[]>)
     ).filter((u) => (u as unknown as EntityRecord).parentPk === parent.pk);
+    
+    // Sort by creation date to ensure consistent ordering
+    return units.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return dateA - dateB;
+    });
   },
   settings: async (parent, args) => {
     const { entity_settings } = await database();

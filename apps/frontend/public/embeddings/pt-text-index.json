@@ -1,0 +1,1608 @@
+{
+  "chunks": [
+    {
+      "id": "pt-auto-fill-title",
+      "text": "Preenchimento Automático de Agendamento",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 0
+    },
+    {
+      "id": "pt-auto-fill-description",
+      "text": "Atribua automaticamente membros da equipa aos turnos usando algoritmos inteligentes. O sistema corresponde qualificações, equilibra carga de trabalho e resolve conflitos.",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 1
+    },
+    {
+      "id": "pt-auto-fill-feature-0",
+      "text": "Atribuição Inteligente: Corresponde automaticamente membros qualificados aos turnos baseado em competências e disponibilidade",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Atribuição Inteligente"
+      },
+      "embeddingIndex": 2
+    },
+    {
+      "id": "pt-auto-fill-feature-1",
+      "text": "Resolução de Conflitos: Resolve conflitos de agendamento como reservas duplas e violações de períodos de descanso",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Resolução de Conflitos"
+      },
+      "embeddingIndex": 3
+    },
+    {
+      "id": "pt-auto-fill-feature-2",
+      "text": "Equilíbrio de Carga de Trabalho: Distribui turnos de forma justa entre membros da equipa para prevenir sobrecarga",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Equilíbrio de Carga de Trabalho"
+      },
+      "embeddingIndex": 4
+    },
+    {
+      "id": "pt-auto-fill-section-0",
+      "text": "Como Usar o Preenchimento Automático\n1. Clique no botão \"Preenchimento Automático\" no calendário 2. Selecione o intervalo de datas que quer preencher 3. Escolha as suas preferências de otimização : • Equilíbrio: Distribuição igual de turnos • Eficiência: Minimizar inconveniência total • Preferências: Respeitar preferências dos membros 4. Clique em \"Executar Preenchimento Automático\" para gerar atribuições 5. Revise os resultados e publique se estiver satisfeito",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 5
+    },
+    {
+      "id": "pt-auto-fill-section-1",
+      "text": "O que o Preenchimento Automático Considera\nQualificações: Só atribui membros com competências necessárias Disponibilidade: Verifica conflitos com atribuições existentes Períodos de Descanso: Garante descanso mínimo entre turnos Carga de Trabalho: Equilibra distribuição de turnos pela equipa",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 6
+    },
+    {
+      "id": "pt-auto-fill-section-2",
+      "text": "Após o Preenchimento Automático\n• Revise as atribuições antes de publicar • Ajustes manuais podem ser feitos se necessário • Publique quando estiver satisfeito com os resultados • Reverta para o estado anterior se não estiver satisfeito",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 7
+    },
+    {
+      "id": "pt-auto-fill-screenshot-0",
+      "text": "Diálogo de preenchimento automático com opções de otimização",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 8
+    },
+    {
+      "id": "pt-auto-fill-screenshot-1",
+      "text": "Vista de resultados mostrando membros atribuídos",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 9
+    },
+    {
+      "id": "pt-company-dashboard-title",
+      "text": "Painel de Gestão da Empresa",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 10
+    },
+    {
+      "id": "pt-company-dashboard-description",
+      "text": "O seu centro de comando central para gerir toda a organização. O painel da empresa fornece supervisão abrangente de todas as unidades, equipas e operações da empresa. Desde planeamento estratégico até monitorização operacional , esta interface poderosa dá-lhe visibilidade e controlo completos sobre a gestão da força de trabalho da sua organização, garantindo consistência, eficiência e conformidade em todos os níveis.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 11
+    },
+    {
+      "id": "pt-company-dashboard-feature-0",
+      "text": "Gestão Estratégica de Unidades: Crie e gere unidades de negócio que representam diferentes departamentos, localizações ou divisões operacionais dentro da sua empresa. Cada unidade pode ter as suas próprias equipas, políticas e parâmetros operacionais mantendo alinhamento com padrões da empresa .",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão Estratégica de Unidades"
+      },
+      "embeddingIndex": 12
+    },
+    {
+      "id": "pt-company-dashboard-feature-1",
+      "text": "Visão Geral Abrangente de Equipas: Visualize todas as equipas em diferentes unidades com o seu estado atual , métricas de performance e saúde operacional. Obtenha insights instantâneos sobre composição da equipa , eficiência de agendamento e utilização de recursos em toda a sua organização.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Visão Geral Abrangente de Equipas"
+      },
+      "embeddingIndex": 13
+    },
+    {
+      "id": "pt-company-dashboard-feature-2",
+      "text": "Controlo de Políticas da Empresa: Configure e gere políticas da empresa , padrões e procedimentos operacionais que se aplicam a todas as unidades e equipas. Garanta consistência em práticas de agendamento, políticas de licença e requisitos de qualificação em toda a organização.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Controlo de Políticas da Empresa"
+      },
+      "embeddingIndex": 14
+    },
+    {
+      "id": "pt-company-dashboard-feature-3",
+      "text": "Análise Organizacional: Aceda a análises de alto nível e relatórios sobre performance organizacional, incluindo utilização da força de trabalho , eficiência de agendamento e métricas operacionais. Use insights baseados em dados para tomar decisões estratégicas e otimizar performance organizacional.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Análise Organizacional"
+      },
+      "embeddingIndex": 15
+    },
+    {
+      "id": "pt-company-dashboard-feature-4",
+      "text": "Controlo de Acesso Multi-Nível: Gere acesso de utilizadores e permissões em diferentes níveis organizacionais. Configure controlos de acesso baseados em funções que garantem visibilidade e capacidades apropriadas para diferentes tipos de utilizadores em toda a organização.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Controlo de Acesso Multi-Nível"
+      },
+      "embeddingIndex": 16
+    },
+    {
+      "id": "pt-company-dashboard-feature-5",
+      "text": "Estrutura Organizacional Escalável: Construa e mantenha uma estrutura organizacional escalável que pode crescer com o seu negócio. Adicione novas unidades, reestruture as existentes e mantenha eficiência operacional à medida que a sua organização evolui e se expande.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Estrutura Organizacional Escalável"
+      },
+      "embeddingIndex": 17
+    },
+    {
+      "id": "pt-company-dashboard-section-0",
+      "text": "Processo de Configuração Organizacional\nSiga este processo estratégico para configurar a sua organização eficazmente: Definir Estrutura Organizacional: Estabeleça a estrutura geral da sua empresa com divisões claras de unidades e relações de reporte Configurar Políticas da Empresa: Configure políticas da empresa para agendamento, gestão de licenças, qualificações e procedimentos operacionais Criar Unidades de Negócio: Estabeleça unidades que representam diferentes departamentos, localizações ou áreas operacionais dentro da sua organização Configurar Equipas: Crie equipas dentro de cada unidade com propósitos específicos , configurações e atribuições de membros Estabelecer Sistemas de Monitorização: Implemente sistemas de análise e relatórios para acompanhar performance organizacional e identificar oportunidades de otimização Configurar Controlos de Acesso: Configure funções de utilizador e permissões apropriadas para garantir operações seguras e eficientes",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 18
+    },
+    {
+      "id": "pt-company-dashboard-section-1",
+      "text": "Boas Práticas de Gestão Estratégica\nHierarquia Organizacional Clara: Mantenha uma estrutura organizacional bem definida com relações de reporte claras e responsabilidade em todos os níveis Implementação Consistente de Políticas: Garanta que políticas da empresa são aplicadas consistentemente em todas as unidades permitindo adaptações específicas da unidade quando necessário Revisões Regulares de Performance: Realize avaliações periódicas de performance organizacional , eficiência da unidade e eficácia da equipa para identificar oportunidades de melhoria Tomada de Decisões Baseada em Dados: Use análises organizacionais e métricas de performance para tomar decisões estratégicas informadas sobre alocação de recursos e otimização operacional Planeamento de Crescimento Escalável: Projete estruturas e processos organizacionais que podem acomodar crescimento e mudança mantendo eficiência operacional Cultura de Melhoria Contínua: Fomente uma cultura de melhoria contínua revendo regularmente processos , recolhendo feedback e implementando melhorias organizacionais",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 19
+    },
+    {
+      "id": "pt-company-dashboard-section-2",
+      "text": "Estratégias de Otimização Organizacional\nMonitorização de Performance Reveja regularmente métricas organizacionais , performance da unidade e eficiência da equipa para identificar áreas de melhoria e otimização em toda a empresa. Otimização de Recursos Analise utilização de recursos entre unidades e equipas para identificar oportunidades de melhor alocação e melhorias de eficiência . Padronização de Políticas Garanta aplicação consistente de políticas da empresa permitindo adaptações específicas da unidade necessárias para satisfazer necessidades operacionais locais. Planeamento de Crescimento Planeie crescimento organizacional projetando estruturas e processos escaláveis que podem acomodar expansão mantendo eficiência operacional.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 20
+    },
+    {
+      "id": "pt-company-settings-title",
+      "text": "Definições da Empresa",
+      "metadata": {
+        "section": "company-settings",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 21
+    },
+    {
+      "id": "pt-company-settings-description",
+      "text": "Gira as definições e preferências da sua empresa. Configure políticas a nível da empresa, papéis de utilizador e outras definições organizacionais.",
+      "metadata": {
+        "section": "company-settings",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 22
+    },
+    {
+      "id": "pt-company-settings-feature-0",
+      "text": "Perfil da Empresa: Atualize as informações e imagem da empresa",
+      "metadata": {
+        "section": "company-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Perfil da Empresa"
+      },
+      "embeddingIndex": 23
+    },
+    {
+      "id": "pt-company-settings-feature-1",
+      "text": "Gestão de Utilizadores: Gira papéis e permissões de utilizadores em toda a empresa",
+      "metadata": {
+        "section": "company-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão de Utilizadores"
+      },
+      "embeddingIndex": 24
+    },
+    {
+      "id": "pt-company-settings-feature-2",
+      "text": "Definições de Políticas: Configure políticas e preferências a nível da empresa",
+      "metadata": {
+        "section": "company-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Definições de Políticas"
+      },
+      "embeddingIndex": 25
+    },
+    {
+      "id": "pt-create-shift-title",
+      "text": "Criar Turno",
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 26
+    },
+    {
+      "id": "pt-create-shift-description",
+      "text": "Adicione uma nova posição de turno ao horário da sua equipa. Use modelos para consistência ou crie do zero.",
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 27
+    },
+    {
+      "id": "pt-create-shift-feature-0",
+      "text": "Usar Modelos: Selecione de modelos existentes para criar rapidamente turnos consistentes",
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Usar Modelos"
+      },
+      "embeddingIndex": 28
+    },
+    {
+      "id": "pt-create-shift-feature-1",
+      "text": "Detalhes Personalizados: Defina nome da posição, requisitos e horário para este turno específico",
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Detalhes Personalizados"
+      },
+      "embeddingIndex": 29
+    },
+    {
+      "id": "pt-create-shift-feature-2",
+      "text": "Correspondência de Qualificações: Defina competências e qualificações necessárias para a posição",
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Correspondência de Qualificações"
+      },
+      "embeddingIndex": 30
+    },
+    {
+      "id": "pt-create-shift-section-0",
+      "text": "Como Criar um Turno\n1. Clique em \"Adicionar Posição\" no calendário 2. Escolha um modelo ou crie do zero 3. Defina o nome da posição e descrição 4. Configure horários de início/fim e duração 5. Adicione qualificações necessárias 6. Clique em \"Guardar\" para criar o turno",
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 31
+    },
+    {
+      "id": "pt-create-shift-section-1",
+      "text": "Modelos vs Personalizado\nModelos: Pré-preenchidos com configurações comuns, bons para consistência Personalizado: Comece do zero, bom para posições únicas",
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 32
+    },
+    {
+      "id": "pt-create-shift-screenshot-0",
+      "text": "Diálogo criar turno com seleção de modelo",
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 33
+    },
+    {
+      "id": "pt-leave-approval-dashboard-title",
+      "text": "Painel de Aprovação de Ausências",
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 34
+    },
+    {
+      "id": "pt-leave-approval-dashboard-description",
+      "text": "Reveja e gira pedidos de ausência pendentes. Aprove ou rejeite pedidos com base na cobertura da equipa e no cumprimento das políticas.",
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 35
+    },
+    {
+      "id": "pt-leave-approval-dashboard-feature-0",
+      "text": "Revisão de Pedidos: Reveja pedidos de ausência pendentes e os seus detalhes",
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Revisão de Pedidos"
+      },
+      "embeddingIndex": 36
+    },
+    {
+      "id": "pt-leave-approval-dashboard-feature-1",
+      "text": "Verificação de Cobertura: Verifique a cobertura da equipa durante os períodos de ausência pedidos",
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Verificação de Cobertura"
+      },
+      "embeddingIndex": 37
+    },
+    {
+      "id": "pt-leave-approval-dashboard-feature-2",
+      "text": "Cumprimento de Políticas: Verifique os pedidos em relação às políticas de ausência da equipa",
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Cumprimento de Políticas"
+      },
+      "embeddingIndex": 38
+    },
+    {
+      "id": "pt-leave-request-management-title",
+      "text": "Gestão Abrangente de Pedidos de Licença",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 39
+    },
+    {
+      "id": "pt-leave-request-management-description",
+      "text": "Simplifique e otimize o processo de gestão de licenças da sua equipa. Este sistema abrangente permite-lhe submeter, acompanhar, aprovar e gerir pedidos de licença eficientemente garantindo conformidade com políticas da empresa e regulamentações laborais . Desde pedidos individuais até planeamento de licenças da equipa, o TT3 fornece todas as ferramentas necessárias para gestão eficaz de tempo livre .",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 40
+    },
+    {
+      "id": "pt-leave-request-management-feature-0",
+      "text": "Submissão Inteligente de Pedidos: Submeta pedidos de licença com informação detalhada incluindo tipo de licença, datas, duração e razões. O sistema valida automaticamente pedidos contra quotas disponíveis , políticas da equipa e conflitos de agendamento para garantir processamento suave.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Submissão Inteligente de Pedidos"
+      },
+      "embeddingIndex": 41
+    },
+    {
+      "id": "pt-leave-request-management-feature-1",
+      "text": "Fluxos de Trabalho de Aprovação Automatizados: Processos de aprovação simplificados com encaminhamento automático para gestores apropriados baseado na estrutura da equipa e políticas de licença. O sistema acompanha estado de aprovação , envia notificações e garante processamento atempado de todos os pedidos.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Fluxos de Trabalho de Aprovação Automatizados"
+      },
+      "embeddingIndex": 42
+    },
+    {
+      "id": "pt-leave-request-management-feature-2",
+      "text": "Acompanhamento Abrangente de Pedidos: Acompanhe o estado de todos os pedidos de licença desde submissão até aprovação/rejeição . Visualize histórico de pedidos, cronogramas de aprovação e quaisquer modificações feitas durante o processo. Mantenha rastos de auditoria completos para conformidade e transparência.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Acompanhamento Abrangente de Pedidos"
+      },
+      "embeddingIndex": 43
+    },
+    {
+      "id": "pt-leave-request-management-feature-3",
+      "text": "Gestão e Validação de Quotas: Validação automática de pedidos de licença contra quotas individuais e da equipa . O sistema previne sobre-alocação , acompanha utilização de quotas e fornece visibilidade clara dos saldos de licença disponíveis para todos os membros da equipa.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão e Validação de Quotas"
+      },
+      "embeddingIndex": 44
+    },
+    {
+      "id": "pt-leave-request-management-feature-4",
+      "text": "Deteção e Resolução de Conflitos: Identifique e resolva conflitos de agendamento entre pedidos de licença e atribuições de trabalho. O sistema alerta gestores sobre problemas potenciais de cobertura e sugere soluções para manter continuidade operacional .",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Deteção e Resolução de Conflitos"
+      },
+      "embeddingIndex": 45
+    },
+    {
+      "id": "pt-leave-request-management-feature-5",
+      "text": "Conformidade de Políticas e Relatórios: Garanta que todos os pedidos de licença cumprem políticas da empresa , regulamentações laborais e regras específicas da equipa. Gere relatórios abrangentes sobre padrões de licença , taxas de aprovação e conformidade de políticas para revisão da gestão.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Conformidade de Políticas e Relatórios"
+      },
+      "embeddingIndex": 46
+    },
+    {
+      "id": "pt-leave-request-management-section-0",
+      "text": "Processo de Pedido de Licença\nSiga este processo simplificado para gestão eficaz de pedidos de licença: Submeter Pedido: Complete o formulário de pedido de licença com toda a informação necessária incluindo datas, tipo de licença e razão para o pedido Validação do Sistema: O sistema valida automaticamente o pedido contra quotas, políticas e conflitos de agendamento Revisão do Gestor: Gestores apropriados revêem o pedido baseado na estrutura da equipa e fluxos de trabalho de aprovação Aprovação/Rejeição: Gestores aprovam ou rejeitam pedidos com comentários e justificação para transparência Notificação e Atualizações: Todas as partes recebem notificações sobre alterações de estado do pedido e quaisquer ações necessárias Integração de Horário: Pedidos aprovados são automaticamente integrados nos horários da equipa e calendários de licença",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 47
+    },
+    {
+      "id": "pt-leave-request-management-section-1",
+      "text": "Boas Práticas para Gestão de Licenças\nSubmissão Antecipada: Submeta pedidos de licença com antecedência para permitir planeamento adequado e processamento de aprovação Comunicação Clara: Forneça razões detalhadas e contexto para pedidos de licença para facilitar tomada de decisões informada Consciência de Políticas: Familiarize-se com políticas de licença da equipa e empresa para garantir que os pedidos cumprem todos os requisitos Monitorização de Quotas: Verifique regularmente o seu saldo de licença e utilização de quotas para planear tempo livre eficazmente Respostas Atempadas: Gestores devem responder aos pedidos de licença promptamente para manter planeamento da equipa e moral Documentação: Mantenha registos de todos os pedidos de licença e aprovações para conformidade e referência futura",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 48
+    },
+    {
+      "id": "pt-leave-request-management-section-2",
+      "text": "Gerir Pedidos de Licença Eficazmente\nPara Membros da Equipa Submeta pedidos cedo , forneça razões claras e monitore o seu saldo de quotas. Comunique com o seu gestor sobre quaisquer circunstâncias especiais ou pedidos urgentes. Para Gestores Revistam pedidos promptamente , considerem necessidades de cobertura da equipa e forneçam feedback claro. Equilibrem necessidades individuais com requisitos operacionais . Para Administradores Monitorem padrões de licença , garantam conformidade de políticas e otimizem fluxos de trabalho de aprovação. Usem análises para identificar tendências e melhorar processos. Resolução de Conflitos Abordem conflitos de agendamento proativamente trabalhando com membros da equipa para encontrar soluções alternativas ou ajustar timing do pedido.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 49
+    },
+    {
+      "id": "pt-member-management-title",
+      "text": "Gestão de Membros",
+      "metadata": {
+        "section": "member-management",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 50
+    },
+    {
+      "id": "pt-member-management-description",
+      "text": "Gira os membros da sua equipa de forma eficaz. Adicione novos membros, atribua papéis e configure definições individuais. Cada membro pode ter qualificações, preferências e disponibilidade específicas.",
+      "metadata": {
+        "section": "member-management",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 51
+    },
+    {
+      "id": "pt-member-management-feature-0",
+      "text": "Adição de Membros: Adicione novos membros à equipa com os seus detalhes e preferências",
+      "metadata": {
+        "section": "member-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Adição de Membros"
+      },
+      "embeddingIndex": 52
+    },
+    {
+      "id": "pt-member-management-feature-1",
+      "text": "Atribuição de Papéis: Atribua e gira papéis e permissões dos membros",
+      "metadata": {
+        "section": "member-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Atribuição de Papéis"
+      },
+      "embeddingIndex": 53
+    },
+    {
+      "id": "pt-member-management-feature-2",
+      "text": "Definições de Membros: Configure definições e preferências individuais dos membros",
+      "metadata": {
+        "section": "member-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Definições de Membros"
+      },
+      "embeddingIndex": 54
+    },
+    {
+      "id": "pt-new-leave-request-title",
+      "text": "Novo Pedido de Ausência",
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 55
+    },
+    {
+      "id": "pt-new-leave-request-description",
+      "text": "Submeta um novo pedido de ausência para aprovação. Especifique o tipo de ausência, duração e qualquer informação adicional exigida pela política de ausências da sua equipa.",
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 56
+    },
+    {
+      "id": "pt-new-leave-request-feature-0",
+      "text": "Seleção do Tipo de Ausência: Escolha entre os tipos de ausência disponíveis de acordo com a política da sua equipa",
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Seleção do Tipo de Ausência"
+      },
+      "embeddingIndex": 57
+    },
+    {
+      "id": "pt-new-leave-request-feature-1",
+      "text": "Intervalo de Datas: Selecione as datas de início e fim para o seu período de ausência",
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Intervalo de Datas"
+      },
+      "embeddingIndex": 58
+    },
+    {
+      "id": "pt-qualifications-settings-title",
+      "text": "Gestão de Qualificações",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 59
+    },
+    {
+      "id": "pt-qualifications-settings-description",
+      "text": "Gerir qualificações e requisitos de competências dos membros da equipa. Crie e configure qualificações que definem as capacidades e conhecimentos necessários para diferentes funções. Utilize esta interface para garantir uma correspondência adequada de competências e cobertura da equipa.",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 60
+    },
+    {
+      "id": "pt-qualifications-settings-feature-0",
+      "text": "Criação de Qualificações: Crie novas qualificações com nomes e cores personalizados. Defina as competências e capacidades necessárias para diferentes funções e posições da equipa.",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Criação de Qualificações"
+      },
+      "embeddingIndex": 61
+    },
+    {
+      "id": "pt-qualifications-settings-feature-1",
+      "text": "Atribuição de Qualificações: Atribua qualificações aos membros da equipa através de uma interface intuitiva. Utilize o sistema de emblemas para adicionar ou remover rapidamente qualificações dos membros da equipa.",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Atribuição de Qualificações"
+      },
+      "embeddingIndex": 62
+    },
+    {
+      "id": "pt-qualifications-settings-feature-2",
+      "text": "Organização Visual: Os emblemas de qualificação codificados por cores facilitam a identificação das capacidades dos membros da equipa num relance. Cada qualificação tem a sua própria cor distinta para reconhecimento rápido.",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Organização Visual"
+      },
+      "embeddingIndex": 63
+    },
+    {
+      "id": "pt-qualifications-settings-feature-3",
+      "text": "Gestão de Qualificações: Adicione ou remova facilmente qualificações utilizando o menu pendente. A interface mostra as qualificações disponíveis e impede atribuições duplicadas.",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão de Qualificações"
+      },
+      "embeddingIndex": 64
+    },
+    {
+      "id": "pt-qualifications-settings-section-0",
+      "text": "Configurar Qualificações\nPara configurar as qualificações da equipa: Navegue até ao separador de definições de qualificações Crie novas qualificações com nomes e cores apropriados Atribua qualificações aos membros da equipa utilizando o sistema de emblemas Utilize o botão + para adicionar novas qualificações aos membros da equipa Remova qualificações clicando no X no emblema da qualificação",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 65
+    },
+    {
+      "id": "pt-qualifications-settings-section-1",
+      "text": "Boas Práticas\nCrie nomes de qualificação claros e específicos que reflitam as competências reais Utilize cores distintas para diferentes tipos de qualificação Reveja e atualize regularmente as qualificações dos membros da equipa Garanta que as qualificações estão alinhadas com os requisitos das posições de turno Mantenha a lista de qualificações gerível e relevante",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 66
+    },
+    {
+      "id": "pt-schedule-position-templates-title",
+      "text": "Modelos de Posições de Horário",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 67
+    },
+    {
+      "id": "pt-schedule-position-templates-description",
+      "text": "Visualize e gere modelos para posições de horário . Estes modelos são criados no diálogo \"Adicionar Posição\" da secção Calendário de Turnos e são utilizados para manter consistência na criação de turnos . Cada modelo inclui um nome e cor para fácil identificação, facilitando o preenchimento de posições com membros da equipa qualificados .",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 68
+    },
+    {
+      "id": "pt-schedule-position-templates-feature-0",
+      "text": "Visão Geral de Modelos: Visualize todos os modelos de posições criados no Calendário de Turnos . Estes modelos servem como base para criar turnos e atribuir membros da equipa.",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Visão Geral de Modelos"
+      },
+      "embeddingIndex": 69
+    },
+    {
+      "id": "pt-schedule-position-templates-feature-1",
+      "text": "Codificação por Cores: Cada tipo de posição tem uma cor distinta para identificação rápida no horário. As cores são atribuídas ao criar posições no Calendário de Turnos.",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Codificação por Cores"
+      },
+      "embeddingIndex": 70
+    },
+    {
+      "id": "pt-schedule-position-templates-feature-2",
+      "text": "Gestão de Modelos: Revise e gere modelos de posições existentes . Note que novos modelos devem ser criados no diálogo 'Adicionar Posição' da secção Calendário de Turnos.",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão de Modelos"
+      },
+      "embeddingIndex": 71
+    },
+    {
+      "id": "pt-schedule-position-templates-feature-3",
+      "text": "Pré-visualização Visual: Veja como cada modelo de posição aparece no horário com a sua cor e nome atribuídos . Isto ajuda a manter consistência no horário da equipa.",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Pré-visualização Visual"
+      },
+      "embeddingIndex": 72
+    },
+    {
+      "id": "pt-schedule-position-templates-section-0",
+      "text": "Criar Novos Modelos de Posições\nPara criar novos modelos de posições: Navegue para a secção Calendário de Turnos Clique em \"Adicionar Posição\" na vista do calendário Introduza um nome descritivo para a posição Selecione uma cor do seletor de cores Guarde o novo modelo de posição O novo modelo aparecerá automaticamente nesta página de configurações e estará disponível para uso na criação futura de turnos .",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 73
+    },
+    {
+      "id": "pt-schedule-position-templates-section-1",
+      "text": "Boas Práticas\nUse nomes claros e descritivos para modelos de posições Escolha cores distintas para diferentes tipos de posições Mantenha nomes de modelos consistentes com terminologia da equipa Revise e atualize regularmente modelos conforme necessidades da equipa mudam Considere criar modelos para todos os tipos de posições comuns",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 74
+    },
+    {
+      "id": "pt-schedule-position-templates-section-2",
+      "text": "Configurar Modelos de Posições de Horário e Modelos de Dia\nModelos de Posições de Horário permitem-lhe definir funções ou posições reutilizáveis (ex: \"Enfermeiro\" , \"Rececionista\" , \"Supervisor\" ) com a sua própria cor, competências necessárias e horários de turno padrão. Crie estes no diálogo \"Adicionar Posição\" no Calendário de Turnos. Use nomes claros e cores distintas para fácil identificação. Modelos de Dia de Horário são coleções de modelos de posições que representam um dia de trabalho típico (ex: \"Dia Útil Padrão\" , \"Cobertura de Fim de Semana\" ). Pode criar e gerir modelos de dia na secção Modelos de Dia . Arraste e largue modelos de posições para construir um modelo de dia, depois arraste modelos de dia para o calendário para preencher rapidamente uma semana ou mês . Boas Práticas: Revise regularmente os seus modelos para garantir que correspondem às necessidades da sua equipa . Use modelos de dia para acelerar o agendamento e manter consistência.",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 75
+    },
+    {
+      "id": "pt-shifts-calendar-title",
+      "text": "Gestão e Agendamento de Turnos",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 76
+    },
+    {
+      "id": "pt-shifts-calendar-description",
+      "text": "A interface principal de agendamento para gerir horários de trabalho da equipa. Crie turnos, atribua membros da equipa e garanta cobertura ideal.",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 77
+    },
+    {
+      "id": "pt-shifts-calendar-feature-0",
+      "text": "Criar e Editar Turnos: Adicione novas posições de turno ou modifique existentes com arrastar e largar",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Criar e Editar Turnos"
+      },
+      "embeddingIndex": 78
+    },
+    {
+      "id": "pt-shifts-calendar-feature-1",
+      "text": "Atribuir Membros da Equipa: Atribua membros qualificados a turnos usando menus pendentes",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Atribuir Membros da Equipa"
+      },
+      "embeddingIndex": 79
+    },
+    {
+      "id": "pt-shifts-calendar-feature-2",
+      "text": "Preenchimento Automático: Deixe o sistema atribuir automaticamente membros baseado em qualificações",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Preenchimento Automático"
+      },
+      "embeddingIndex": 80
+    },
+    {
+      "id": "pt-shifts-calendar-section-0",
+      "text": "Ações Rápidas\n• Criar Turno: Clique no botão \"+\" ou arraste do painel esquerdo • Atribuir Membro: Use o menu pendente no diálogo do turno ou menu de contexto • Preenchimento Automático: Use o botão auto-fill para atribuir automaticamente membros • Publicar: Clique em \"Publicar\" para tornar as alterações visíveis à equipa",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 81
+    },
+    {
+      "id": "pt-shifts-calendar-section-1",
+      "text": "Compreender a Interface\nMembros Disponíveis: Membros da equipa qualificados prontos para atribuir Turnos Atribuídos: Membros atribuídos com sucesso aos turnos Conflitos: Conflitos de agendamento que precisam de resolução",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 82
+    },
+    {
+      "id": "pt-shifts-calendar-section-2",
+      "text": "Publicar Alterações\n• As alterações ficam não publicadas até clicar em \"Publicar\" • Alterações publicadas tornam-se visíveis a todos os membros da equipa • Use \"Reverter para Publicado\" para desfazer alterações não publicadas",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 83
+    },
+    {
+      "id": "pt-shifts-calendar-section-3",
+      "text": "Opções de Visualização\nUse o menu Opções para personalizar o que vê no calendário: • Férias: Mostrar pedidos de férias e ausências dos membros da equipa • Detalhes: Exibir informações adicionais dos turnos como horários de início/fim e qualificações • Analisar: Destacar conflitos de agendamento, violações de regras e oportunidades de otimização • Modelos de Posição: Mostrar modelos de posições de turno arrastáveis para criação rápida • Modelos de Dia: Exibir modelos de dia arrastáveis para copiar horários completos de dias • Filtros: Filtrar a vista do calendário por membros específicos da equipa • Feriados: Mostrar feriados da empresa e dias não úteis",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 84
+    },
+    {
+      "id": "pt-shifts-calendar-screenshot-0",
+      "text": "Vista principal do calendário com posições de turno e atribuições de membros",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 85
+    },
+    {
+      "id": "pt-shifts-calendar-screenshot-1",
+      "text": "Posição de turno com menu de contexto para atribuição de membros",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 86
+    },
+    {
+      "id": "pt-shifts-calendar-screenshot-2",
+      "text": "Diálogo de preenchimento automático com opções de atribuição",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 87
+    },
+    {
+      "id": "pt-team-invitations-title",
+      "text": "Convites da Equipa",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 88
+    },
+    {
+      "id": "pt-team-invitations-description",
+      "text": "Convide novos membros para se juntarem à sua equipa e gere convites pendentes. Controle quem tem acesso aos horários e dados da sua equipa.",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 89
+    },
+    {
+      "id": "pt-team-invitations-feature-0",
+      "text": "Enviar Convites: Clique em 'Convidar Membro' para enviar convites por email com acesso à equipa",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Enviar Convites"
+      },
+      "embeddingIndex": 90
+    },
+    {
+      "id": "pt-team-invitations-feature-1",
+      "text": "Acompanhar Estado: Monitore convites pendentes, aceites e expirados em tempo real",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Acompanhar Estado"
+      },
+      "embeddingIndex": 91
+    },
+    {
+      "id": "pt-team-invitations-feature-2",
+      "text": "Gerir Acesso: Defina funções e permissões dos membros durante o processo de convite",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gerir Acesso"
+      },
+      "embeddingIndex": 92
+    },
+    {
+      "id": "pt-team-invitations-section-0",
+      "text": "Como Convidar Alguém\n1. Clique no botão \"Convidar Membro\" 2. Introduza o endereço de email e selecione a função 3. Escolha as permissões (visualizar, editar, gerir) 4. Envie o convite - receberão um email com instruções de configuração",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 93
+    },
+    {
+      "id": "pt-team-invitations-section-1",
+      "text": "Estado do Convite\nPendente: Convite enviado, à espera de resposta Aceite: Membro juntou-se à equipa Expirado: Convite expirado (7 dias)",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 94
+    },
+    {
+      "id": "pt-team-invitations-screenshot-0",
+      "text": "Lista de convites pendentes com indicadores de estado",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 95
+    },
+    {
+      "id": "pt-team-leave-calendar-title",
+      "text": "Calendário de Ausências da Equipa",
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 96
+    },
+    {
+      "id": "pt-team-leave-calendar-description",
+      "text": "Veja e Gira os pedidos de ausência dos membros da equipa num formato de calendário. Acompanhe pedidos de ausência aprovados e pendentes, e garanta uma cobertura adequada durante as ausências dos membros da equipa.",
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 97
+    },
+    {
+      "id": "pt-team-leave-calendar-feature-0",
+      "text": "Resumo de Ausências: Veja todos os pedidos de ausência dos membros da equipa numa vista de calendário",
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Resumo de Ausências"
+      },
+      "embeddingIndex": 98
+    },
+    {
+      "id": "pt-team-leave-calendar-feature-1",
+      "text": "Gestão de Pedidos: Aprove ou rejeite pedidos de ausência e gira conflitos",
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão de Pedidos"
+      },
+      "embeddingIndex": 99
+    },
+    {
+      "id": "pt-team-management-title",
+      "text": "Gestão Abrangente de Equipas",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 100
+    },
+    {
+      "id": "pt-team-management-description",
+      "text": "Construa e gere equipas de alto desempenho dentro das suas unidades organizacionais. Esta interface poderosa permite-lhe criar equipas, atribuir membros com funções e qualificações específicas , configurar políticas específicas da equipa, e monitorizar métricas de performance . Desde a configuração inicial da equipa até à otimização contínua, o TT3 fornece todas as ferramentas que precisa para garantir que as suas equipas operem eficientemente e eficazmente .",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 101
+    },
+    {
+      "id": "pt-team-management-feature-0",
+      "text": "Criação Estratégica de Equipas: Crie equipas com propósitos específicos , configurações e atribuições de membros. Defina estrutura da equipa, hierarquia e parâmetros operacionais para corresponder às suas necessidades organizacionais. Cada equipa pode ter configurações únicas mantendo consistência com políticas da empresa.",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Criação Estratégica de Equipas"
+      },
+      "embeddingIndex": 102
+    },
+    {
+      "id": "pt-team-management-feature-1",
+      "text": "Gestão Avançada de Membros: Adicione, remova e gere membros da equipa com atribuições de funções detalhadas e níveis de permissão. Acompanhe qualificações, histórico de performance e padrões de disponibilidade dos membros. O sistema fornece perfis abrangentes de membros com toda a informação relevante num só local.",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão Avançada de Membros"
+      },
+      "embeddingIndex": 103
+    },
+    {
+      "id": "pt-team-management-feature-2",
+      "text": "Configuração Flexível de Equipas: Configure políticas específicas da equipa , horários, direitos de licença e requisitos de turno. Configure padrões de trabalho, requisitos de qualificação e regras operacionais que se alinhem com as necessidades e responsabilidades únicas da sua equipa.",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Configuração Flexível de Equipas"
+      },
+      "embeddingIndex": 104
+    },
+    {
+      "id": "pt-team-management-feature-3",
+      "text": "Análise de Performance e Insights: Aceda a métricas abrangentes de performance da equipa incluindo padrões de presença, indicadores de produtividade, estatísticas de utilização de recursos e tendências de eficiência. Use insights baseados em dados para otimizar performance da equipa e identificar oportunidades de melhoria.",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Análise de Performance e Insights"
+      },
+      "embeddingIndex": 105
+    },
+    {
+      "id": "pt-team-management-feature-4",
+      "text": "Ferramentas de Comunicação Integradas: Gere anúncios da equipa , notificações e preferências de comunicação. Configure alertas automatizados para alterações importantes de horário, atualizações de políticas e requisitos operacionais. Mantenha todos informados e alinhados com objetivos da equipa.",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Ferramentas de Comunicação Integradas"
+      },
+      "embeddingIndex": 106
+    },
+    {
+      "id": "pt-team-management-feature-5",
+      "text": "Operações de Equipa Escaláveis: Escale operações de equipa eficientemente à medida que a sua organização cresce. Adicione novas equipas, reestruture as existentes e mantenha consistência entre múltiplas equipas preservando autonomia e flexibilidade individuais da equipa.",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Operações de Equipa Escaláveis"
+      },
+      "embeddingIndex": 107
+    },
+    {
+      "id": "pt-team-management-section-0",
+      "text": "Processo de Configuração de Equipas\nSiga este processo abrangente para configurar equipas eficazes: Definir Propósito da Equipa: Estabeleça claramente a missão, responsabilidades e âmbito operacional da equipa dentro da sua organização Configurar Estrutura da Equipa: Configure hierarquia da equipa, funções e relações de reporte para garantir responsabilidade clara Estabelecer Políticas: Defina políticas específicas da equipa para agendamento, gestão de licenças, qualificações e procedimentos operacionais Adicionar Membros da Equipa: Recrute e atribua membros da equipa com funções, permissões e requisitos de qualificação apropriados Configurar Infraestrutura: Configure modelos de turno , horários de trabalho e parâmetros operacionais específicos às necessidades da equipa Implementar Monitorização: Estabeleça métricas de performance e sistemas de monitorização para acompanhar eficácia da equipa e identificar áreas de melhoria",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 108
+    },
+    {
+      "id": "pt-team-management-section-1",
+      "text": "Boas Práticas de Gestão de Equipas\nDefinição Clara de Funções: Mantenha definições precisas de funções com responsabilidades específicas , permissões e requisitos de qualificação para cada posição da equipa Revisões Regulares de Performance: Realize avaliações periódicas de composição da equipa , métricas de performance e eficiência operacional para identificar oportunidades de otimização Distribuição Justa de Carga de Trabalho: Garanta distribuição equitativa de turnos, responsabilidades e oportunidades entre todos os membros da equipa para manter moral e prevenir esgotamento Consistência de Políticas: Mantenha configurações, políticas e procedimentos da equipa atualizados garantindo alinhamento com padrões organizacionais e requisitos regulatórios Decisões Baseadas em Dados: Use análises e métricas de performance para tomar decisões informadas sobre estrutura da equipa, agendamento e alocação de recursos Melhoria Contínua: Reveja regularmente operações da equipa, recolha feedback e implemente melhorias para aumentar eficiência e satisfação da equipa",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 109
+    },
+    {
+      "id": "pt-team-management-section-2",
+      "text": "Estratégias de Otimização de Equipas\nMonitorização de Performance Reveja regularmente padrões de presença , métricas de produtividade e utilização de recursos para identificar áreas de melhoria e otimização . Desenvolvimento de Competências Acompanhe lacunas de qualificação e forneça oportunidades de formação para aumentar capacidades da equipa e flexibilidade operacional . Melhoria da Comunicação Otimize canais de comunicação e sistemas de notificação para garantir fluxo de informação atempado e coordenação da equipa. Alocação de Recursos Analise distribuição de carga de trabalho e ajuste composição da equipa ou agendamento para maximizar eficiência e minimizar estrangulamentos operacionais.",
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 110
+    },
+    {
+      "id": "pt-team-settings-title",
+      "text": "Definições da Equipa",
+      "metadata": {
+        "section": "team-settings",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 111
+    },
+    {
+      "id": "pt-team-settings-description",
+      "text": "Configure as definições e preferências da sua equipa. Gira políticas específicas da equipa, papéis dos membros e definições operacionais.",
+      "metadata": {
+        "section": "team-settings",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 112
+    },
+    {
+      "id": "pt-team-settings-feature-0",
+      "text": "Perfil da Equipa: Atualize as informações e configuração da equipa",
+      "metadata": {
+        "section": "team-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Perfil da Equipa"
+      },
+      "embeddingIndex": 113
+    },
+    {
+      "id": "pt-team-settings-feature-1",
+      "text": "Gestão de Membros: Gira os membros da equipa e os seus papéis",
+      "metadata": {
+        "section": "team-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão de Membros"
+      },
+      "embeddingIndex": 114
+    },
+    {
+      "id": "pt-team-settings-feature-2",
+      "text": "Políticas da Equipa: Configure políticas e preferências específicas da equipa",
+      "metadata": {
+        "section": "team-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Políticas da Equipa"
+      },
+      "embeddingIndex": 115
+    },
+    {
+      "id": "pt-time-off-dashboard-title",
+      "text": "Painel de Ausências",
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 116
+    },
+    {
+      "id": "pt-time-off-dashboard-description",
+      "text": "Veja e Gira as ausências em toda a organização. Monitorize saldos de dias de ausência, ausências futuras e cobertura da equipa para garantir o bom funcionamento das operações.",
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 117
+    },
+    {
+      "id": "pt-time-off-dashboard-feature-0",
+      "text": "Resumo de Ausências: Veja todos os pedidos de ausência aprovados e pendentes em todas as equipas",
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Resumo de Ausências"
+      },
+      "embeddingIndex": 118
+    },
+    {
+      "id": "pt-time-off-dashboard-feature-1",
+      "text": "Acompanhamento de Saldos: Monitorize os saldos de dias de ausência e quotas dos membros da equipa",
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Acompanhamento de Saldos"
+      },
+      "embeddingIndex": 119
+    },
+    {
+      "id": "pt-time-off-dashboard-feature-2",
+      "text": "Planeamento de Cobertura: Planeie a cobertura da equipa durante as ausências dos membros",
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Planeamento de Cobertura"
+      },
+      "embeddingIndex": 120
+    },
+    {
+      "id": "pt-unassign-shift-title",
+      "text": "Desatribuir Posições de Turno",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 121
+    },
+    {
+      "id": "pt-unassign-shift-description",
+      "text": "Remova atribuições de posições de turno para um intervalo de datas específico.",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 122
+    },
+    {
+      "id": "pt-unassign-shift-feature-0",
+      "text": "Seleção de Intervalo de Datas: Selecione uma data de início e fim para desatribuir todas as posições de turno nesse período. O seletor de datas suporta seleção de um único dia ou de um intervalo.",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Seleção de Intervalo de Datas"
+      },
+      "embeddingIndex": 123
+    },
+    {
+      "id": "pt-unassign-shift-feature-1",
+      "text": "Desatribuição em Massa: Remova de forma eficiente múltiplas atribuições de posições de turno de uma só vez ao selecionar um intervalo de datas. Isto é útil quando precisa de limpar atribuições para um período específico.",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Desatribuição em Massa"
+      },
+      "embeddingIndex": 124
+    },
+    {
+      "id": "pt-unassign-shift-section-0",
+      "text": "Como Utilizar\n1. Selecione um intervalo de datas utilizando o seletor de datas 2. Reveja as datas selecionadas para garantir que abrangem o período correto 3. Clique em \"Desatribuir\" para remover todas as atribuições de posições de turno dentro do intervalo selecionado 4. Uma mensagem de confirmação aparecerá quando a operação for bem-sucedida",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 125
+    },
+    {
+      "id": "pt-unassign-shift-section-1",
+      "text": "Notas Importantes\n• Esta ação não pode ser anulada - todas as atribuições de posições de turno dentro do intervalo selecionado serão removidas permanentemente • Certifique-se de comunicar com os membros da equipa antes de desatribuir turnos • A operação afetará todas as posições de turno dentro do intervalo de datas selecionado",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 126
+    },
+    {
+      "id": "pt-unit-management-title",
+      "text": "Gestão de Unidades",
+      "metadata": {
+        "section": "unit-management",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 127
+    },
+    {
+      "id": "pt-unit-management-description",
+      "text": "Gira as suas unidades de negócio de forma eficaz. Crie, organize e mantenha unidades para estruturar as operações da sua empresa. Cada unidade pode ter múltiplas equipas com papéis e responsabilidades específicas.",
+      "metadata": {
+        "section": "unit-management",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 128
+    },
+    {
+      "id": "pt-unit-management-feature-0",
+      "text": "Criação de Unidades: Crie novas unidades de negócio com configurações e definições específicas",
+      "metadata": {
+        "section": "unit-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Criação de Unidades"
+      },
+      "embeddingIndex": 129
+    },
+    {
+      "id": "pt-unit-management-feature-1",
+      "text": "Organização de Equipas: Organize equipas dentro das unidades e Gira as suas relações",
+      "metadata": {
+        "section": "unit-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Organização de Equipas"
+      },
+      "embeddingIndex": 130
+    },
+    {
+      "id": "pt-unit-management-feature-2",
+      "text": "Definições da Unidade: Configure políticas e preferências específicas da unidade",
+      "metadata": {
+        "section": "unit-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Definições da Unidade"
+      },
+      "embeddingIndex": 131
+    },
+    {
+      "id": "pt-unit-settings-title",
+      "text": "Definições da Unidade",
+      "metadata": {
+        "section": "unit-settings",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 132
+    },
+    {
+      "id": "pt-unit-settings-description",
+      "text": "Configure as definições da sua unidade de negócio. Gira preferências específicas da unidade, estruturas de equipa e definições operacionais.",
+      "metadata": {
+        "section": "unit-settings",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 133
+    },
+    {
+      "id": "pt-unit-settings-feature-0",
+      "text": "Perfil da Unidade: Atualize as informações e configuração da unidade",
+      "metadata": {
+        "section": "unit-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Perfil da Unidade"
+      },
+      "embeddingIndex": 134
+    },
+    {
+      "id": "pt-unit-settings-feature-1",
+      "text": "Estrutura da Equipa: Gira a organização da equipa dentro da unidade",
+      "metadata": {
+        "section": "unit-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Estrutura da Equipa"
+      },
+      "embeddingIndex": 135
+    },
+    {
+      "id": "pt-unit-settings-feature-2",
+      "text": "Políticas da Unidade: Configure políticas e preferências específicas da unidade",
+      "metadata": {
+        "section": "unit-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Políticas da Unidade"
+      },
+      "embeddingIndex": 136
+    },
+    {
+      "id": "pt-work-schedule-settings-title",
+      "text": "Configurações do Horário de Trabalho",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 137
+    },
+    {
+      "id": "pt-work-schedule-settings-description",
+      "text": "Configure os horários de trabalho, fuso horário e preferências de horário da sua equipa. Estas configurações afetam como os turnos são exibidos e agendados.",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 138
+    },
+    {
+      "id": "pt-work-schedule-settings-feature-0",
+      "text": "Horários de Trabalho: Defina dias de trabalho padrão, horários de início/fim e períodos de pausa",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Horários de Trabalho"
+      },
+      "embeddingIndex": 139
+    },
+    {
+      "id": "pt-work-schedule-settings-feature-1",
+      "text": "Fuso Horário: Configure o fuso horário da equipa para agendamento preciso de turnos",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Fuso Horário"
+      },
+      "embeddingIndex": 140
+    },
+    {
+      "id": "pt-work-schedule-settings-feature-2",
+      "text": "Regras de Horário: Defina períodos de descanso, regras de horas extras e restrições de agendamento",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Regras de Horário"
+      },
+      "embeddingIndex": 141
+    },
+    {
+      "id": "pt-work-schedule-settings-section-0",
+      "text": "Configurar Horários de Trabalho\n• Dias de Trabalho: Selecione quais dias da semana são dias de trabalho • Horários de Início/Fim: Defina horários padrão de início e fim dos turnos • Pausas: Defina períodos obrigatórios de pausa durante os turnos • Regras de Horas Extras: Configure quando os turnos contam como horas extras",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 142
+    },
+    {
+      "id": "pt-work-schedule-settings-section-1",
+      "text": "Configuração do Fuso Horário\n• Escolha o fuso horário principal da sua equipa para todo o agendamento • Todos os horários dos turnos serão exibidos neste fuso horário • Considere as mudanças de horário de verão ao configurar os horários",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "section"
+      },
+      "embeddingIndex": 143
+    },
+    {
+      "id": "pt-yearly-quota-settings-title",
+      "text": "Definições de Quota Anual",
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 144
+    },
+    {
+      "id": "pt-yearly-quota-settings-description",
+      "text": "Configure as quotas anuais de ausência para a sua equipa. Defina diferentes tipos de ausência, as suas durações e quaisquer regras ou restrições específicas aplicáveis.",
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 145
+    },
+    {
+      "id": "pt-yearly-quota-settings-feature-0",
+      "text": "Tipos de Ausência: Defina diferentes tipos de ausência e as respetivas quotas",
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Tipos de Ausência"
+      },
+      "embeddingIndex": 146
+    },
+    {
+      "id": "pt-yearly-quota-settings-feature-1",
+      "text": "Regras de Quota: Configure regras para utilização e transferência de quotas",
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Regras de Quota"
+      },
+      "embeddingIndex": 147
+    },
+    {
+      "id": "pt-yearly-quota-settings-feature-2",
+      "text": "Restrições: Configure quaisquer restrições ou condições especiais para as ausências",
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Restrições"
+      },
+      "embeddingIndex": 148
+    },
+    {
+      "id": "pt-default-title",
+      "text": "Centro de Ajuda",
+      "metadata": {
+        "section": "default",
+        "language": "pt",
+        "type": "title"
+      },
+      "embeddingIndex": 149
+    },
+    {
+      "id": "pt-default-description",
+      "text": "Bem-vindo ao centro de ajuda. Selecione uma secção para saber mais sobre as suas funcionalidades e características.",
+      "metadata": {
+        "section": "default",
+        "language": "pt",
+        "type": "description"
+      },
+      "embeddingIndex": 150
+    },
+    {
+      "id": "pt-default-feature-0",
+      "text": "Navegação: Utilize o menu de navegação para aceder a diferentes secções da aplicação.",
+      "metadata": {
+        "section": "default",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Navegação"
+      },
+      "embeddingIndex": 151
+    },
+    {
+      "id": "pt-default-feature-1",
+      "text": "Ajuda Contextual: Cada secção fornece orientação e informação específica relevante para a sua tarefa atual.",
+      "metadata": {
+        "section": "default",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Ajuda Contextual"
+      },
+      "embeddingIndex": 152
+    }
+  ],
+  "language": "pt"
+}

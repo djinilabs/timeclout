@@ -1,0 +1,1609 @@
+{
+  "chunks": [
+    {
+      "id": "pt-auto-fill-title",
+      "offset": 0,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-auto-fill-description",
+      "offset": 1536,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-auto-fill-feature-0",
+      "offset": 3072,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Atribuição Inteligente"
+      }
+    },
+    {
+      "id": "pt-auto-fill-feature-1",
+      "offset": 4608,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Resolução de Conflitos"
+      }
+    },
+    {
+      "id": "pt-auto-fill-feature-2",
+      "offset": 6144,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Equilíbrio de Carga de Trabalho"
+      }
+    },
+    {
+      "id": "pt-auto-fill-section-0",
+      "offset": 7680,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-auto-fill-section-1",
+      "offset": 9216,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-auto-fill-section-2",
+      "offset": 10752,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-auto-fill-screenshot-0",
+      "offset": 12288,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "pt-auto-fill-screenshot-1",
+      "offset": 13824,
+      "length": 1536,
+      "metadata": {
+        "section": "auto-fill",
+        "language": "pt",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-title",
+      "offset": 15360,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-description",
+      "offset": 16896,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-feature-0",
+      "offset": 18432,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão Estratégica de Unidades"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-feature-1",
+      "offset": 19968,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Visão Geral Abrangente de Equipas"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-feature-2",
+      "offset": 21504,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Controlo de Políticas da Empresa"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-feature-3",
+      "offset": 23040,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Análise Organizacional"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-feature-4",
+      "offset": 24576,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Controlo de Acesso Multi-Nível"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-feature-5",
+      "offset": 26112,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Estrutura Organizacional Escalável"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-section-0",
+      "offset": 27648,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-section-1",
+      "offset": 29184,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-company-dashboard-section-2",
+      "offset": 30720,
+      "length": 1536,
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-company-settings-title",
+      "offset": 32256,
+      "length": 1536,
+      "metadata": {
+        "section": "company-settings",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-company-settings-description",
+      "offset": 33792,
+      "length": 1536,
+      "metadata": {
+        "section": "company-settings",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-company-settings-feature-0",
+      "offset": 35328,
+      "length": 1536,
+      "metadata": {
+        "section": "company-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Perfil da Empresa"
+      }
+    },
+    {
+      "id": "pt-company-settings-feature-1",
+      "offset": 36864,
+      "length": 1536,
+      "metadata": {
+        "section": "company-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão de Utilizadores"
+      }
+    },
+    {
+      "id": "pt-company-settings-feature-2",
+      "offset": 38400,
+      "length": 1536,
+      "metadata": {
+        "section": "company-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Definições de Políticas"
+      }
+    },
+    {
+      "id": "pt-create-shift-title",
+      "offset": 39936,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-create-shift-description",
+      "offset": 41472,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-create-shift-feature-0",
+      "offset": 43008,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Usar Modelos"
+      }
+    },
+    {
+      "id": "pt-create-shift-feature-1",
+      "offset": 44544,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Detalhes Personalizados"
+      }
+    },
+    {
+      "id": "pt-create-shift-feature-2",
+      "offset": 46080,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Correspondência de Qualificações"
+      }
+    },
+    {
+      "id": "pt-create-shift-section-0",
+      "offset": 47616,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-create-shift-section-1",
+      "offset": 49152,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-create-shift-screenshot-0",
+      "offset": 50688,
+      "length": 1536,
+      "metadata": {
+        "section": "create-shift",
+        "language": "pt",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "pt-leave-approval-dashboard-title",
+      "offset": 52224,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-leave-approval-dashboard-description",
+      "offset": 53760,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-leave-approval-dashboard-feature-0",
+      "offset": 55296,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Revisão de Pedidos"
+      }
+    },
+    {
+      "id": "pt-leave-approval-dashboard-feature-1",
+      "offset": 56832,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Verificação de Cobertura"
+      }
+    },
+    {
+      "id": "pt-leave-approval-dashboard-feature-2",
+      "offset": 58368,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Cumprimento de Políticas"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-title",
+      "offset": 59904,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-description",
+      "offset": 61440,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-feature-0",
+      "offset": 62976,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Submissão Inteligente de Pedidos"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-feature-1",
+      "offset": 64512,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Fluxos de Trabalho de Aprovação Automatizados"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-feature-2",
+      "offset": 66048,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Acompanhamento Abrangente de Pedidos"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-feature-3",
+      "offset": 67584,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão e Validação de Quotas"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-feature-4",
+      "offset": 69120,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Deteção e Resolução de Conflitos"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-feature-5",
+      "offset": 70656,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Conformidade de Políticas e Relatórios"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-section-0",
+      "offset": 72192,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-section-1",
+      "offset": 73728,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-leave-request-management-section-2",
+      "offset": 75264,
+      "length": 1536,
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-member-management-title",
+      "offset": 76800,
+      "length": 1536,
+      "metadata": {
+        "section": "member-management",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-member-management-description",
+      "offset": 78336,
+      "length": 1536,
+      "metadata": {
+        "section": "member-management",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-member-management-feature-0",
+      "offset": 79872,
+      "length": 1536,
+      "metadata": {
+        "section": "member-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Adição de Membros"
+      }
+    },
+    {
+      "id": "pt-member-management-feature-1",
+      "offset": 81408,
+      "length": 1536,
+      "metadata": {
+        "section": "member-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Atribuição de Papéis"
+      }
+    },
+    {
+      "id": "pt-member-management-feature-2",
+      "offset": 82944,
+      "length": 1536,
+      "metadata": {
+        "section": "member-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Definições de Membros"
+      }
+    },
+    {
+      "id": "pt-new-leave-request-title",
+      "offset": 84480,
+      "length": 1536,
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-new-leave-request-description",
+      "offset": 86016,
+      "length": 1536,
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-new-leave-request-feature-0",
+      "offset": 87552,
+      "length": 1536,
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Seleção do Tipo de Ausência"
+      }
+    },
+    {
+      "id": "pt-new-leave-request-feature-1",
+      "offset": 89088,
+      "length": 1536,
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Intervalo de Datas"
+      }
+    },
+    {
+      "id": "pt-qualifications-settings-title",
+      "offset": 90624,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-qualifications-settings-description",
+      "offset": 92160,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-qualifications-settings-feature-0",
+      "offset": 93696,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Criação de Qualificações"
+      }
+    },
+    {
+      "id": "pt-qualifications-settings-feature-1",
+      "offset": 95232,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Atribuição de Qualificações"
+      }
+    },
+    {
+      "id": "pt-qualifications-settings-feature-2",
+      "offset": 96768,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Organização Visual"
+      }
+    },
+    {
+      "id": "pt-qualifications-settings-feature-3",
+      "offset": 98304,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão de Qualificações"
+      }
+    },
+    {
+      "id": "pt-qualifications-settings-section-0",
+      "offset": 99840,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-qualifications-settings-section-1",
+      "offset": 101376,
+      "length": 1536,
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-schedule-position-templates-title",
+      "offset": 102912,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-schedule-position-templates-description",
+      "offset": 104448,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-schedule-position-templates-feature-0",
+      "offset": 105984,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Visão Geral de Modelos"
+      }
+    },
+    {
+      "id": "pt-schedule-position-templates-feature-1",
+      "offset": 107520,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Codificação por Cores"
+      }
+    },
+    {
+      "id": "pt-schedule-position-templates-feature-2",
+      "offset": 109056,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão de Modelos"
+      }
+    },
+    {
+      "id": "pt-schedule-position-templates-feature-3",
+      "offset": 110592,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Pré-visualização Visual"
+      }
+    },
+    {
+      "id": "pt-schedule-position-templates-section-0",
+      "offset": 112128,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-schedule-position-templates-section-1",
+      "offset": 113664,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-schedule-position-templates-section-2",
+      "offset": 115200,
+      "length": 1536,
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-title",
+      "offset": 116736,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-description",
+      "offset": 118272,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-feature-0",
+      "offset": 119808,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Criar e Editar Turnos"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-feature-1",
+      "offset": 121344,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Atribuir Membros da Equipa"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-feature-2",
+      "offset": 122880,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Preenchimento Automático"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-section-0",
+      "offset": 124416,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-section-1",
+      "offset": 125952,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-section-2",
+      "offset": 127488,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-section-3",
+      "offset": 129024,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-screenshot-0",
+      "offset": 130560,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-screenshot-1",
+      "offset": 132096,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "pt-shifts-calendar-screenshot-2",
+      "offset": 133632,
+      "length": 1536,
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "pt",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "pt-team-invitations-title",
+      "offset": 135168,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-team-invitations-description",
+      "offset": 136704,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-team-invitations-feature-0",
+      "offset": 138240,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Enviar Convites"
+      }
+    },
+    {
+      "id": "pt-team-invitations-feature-1",
+      "offset": 139776,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Acompanhar Estado"
+      }
+    },
+    {
+      "id": "pt-team-invitations-feature-2",
+      "offset": 141312,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gerir Acesso"
+      }
+    },
+    {
+      "id": "pt-team-invitations-section-0",
+      "offset": 142848,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-team-invitations-section-1",
+      "offset": 144384,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-team-invitations-screenshot-0",
+      "offset": 145920,
+      "length": 1536,
+      "metadata": {
+        "section": "team-invitations",
+        "language": "pt",
+        "type": "screenshot"
+      }
+    },
+    {
+      "id": "pt-team-leave-calendar-title",
+      "offset": 147456,
+      "length": 1536,
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-team-leave-calendar-description",
+      "offset": 148992,
+      "length": 1536,
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-team-leave-calendar-feature-0",
+      "offset": 150528,
+      "length": 1536,
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Resumo de Ausências"
+      }
+    },
+    {
+      "id": "pt-team-leave-calendar-feature-1",
+      "offset": 152064,
+      "length": 1536,
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão de Pedidos"
+      }
+    },
+    {
+      "id": "pt-team-management-title",
+      "offset": 153600,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-team-management-description",
+      "offset": 155136,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-team-management-feature-0",
+      "offset": 156672,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Criação Estratégica de Equipas"
+      }
+    },
+    {
+      "id": "pt-team-management-feature-1",
+      "offset": 158208,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão Avançada de Membros"
+      }
+    },
+    {
+      "id": "pt-team-management-feature-2",
+      "offset": 159744,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Configuração Flexível de Equipas"
+      }
+    },
+    {
+      "id": "pt-team-management-feature-3",
+      "offset": 161280,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Análise de Performance e Insights"
+      }
+    },
+    {
+      "id": "pt-team-management-feature-4",
+      "offset": 162816,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Ferramentas de Comunicação Integradas"
+      }
+    },
+    {
+      "id": "pt-team-management-feature-5",
+      "offset": 164352,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Operações de Equipa Escaláveis"
+      }
+    },
+    {
+      "id": "pt-team-management-section-0",
+      "offset": 165888,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-team-management-section-1",
+      "offset": 167424,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-team-management-section-2",
+      "offset": 168960,
+      "length": 1536,
+      "metadata": {
+        "section": "team-management",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-team-settings-title",
+      "offset": 170496,
+      "length": 1536,
+      "metadata": {
+        "section": "team-settings",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-team-settings-description",
+      "offset": 172032,
+      "length": 1536,
+      "metadata": {
+        "section": "team-settings",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-team-settings-feature-0",
+      "offset": 173568,
+      "length": 1536,
+      "metadata": {
+        "section": "team-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Perfil da Equipa"
+      }
+    },
+    {
+      "id": "pt-team-settings-feature-1",
+      "offset": 175104,
+      "length": 1536,
+      "metadata": {
+        "section": "team-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Gestão de Membros"
+      }
+    },
+    {
+      "id": "pt-team-settings-feature-2",
+      "offset": 176640,
+      "length": 1536,
+      "metadata": {
+        "section": "team-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Políticas da Equipa"
+      }
+    },
+    {
+      "id": "pt-time-off-dashboard-title",
+      "offset": 178176,
+      "length": 1536,
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-time-off-dashboard-description",
+      "offset": 179712,
+      "length": 1536,
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-time-off-dashboard-feature-0",
+      "offset": 181248,
+      "length": 1536,
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Resumo de Ausências"
+      }
+    },
+    {
+      "id": "pt-time-off-dashboard-feature-1",
+      "offset": 182784,
+      "length": 1536,
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Acompanhamento de Saldos"
+      }
+    },
+    {
+      "id": "pt-time-off-dashboard-feature-2",
+      "offset": 184320,
+      "length": 1536,
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Planeamento de Cobertura"
+      }
+    },
+    {
+      "id": "pt-unassign-shift-title",
+      "offset": 185856,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-unassign-shift-description",
+      "offset": 187392,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-unassign-shift-feature-0",
+      "offset": 188928,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Seleção de Intervalo de Datas"
+      }
+    },
+    {
+      "id": "pt-unassign-shift-feature-1",
+      "offset": 190464,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Desatribuição em Massa"
+      }
+    },
+    {
+      "id": "pt-unassign-shift-section-0",
+      "offset": 192000,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-unassign-shift-section-1",
+      "offset": 193536,
+      "length": 1536,
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-unit-management-title",
+      "offset": 195072,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-management",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-unit-management-description",
+      "offset": 196608,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-management",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-unit-management-feature-0",
+      "offset": 198144,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Criação de Unidades"
+      }
+    },
+    {
+      "id": "pt-unit-management-feature-1",
+      "offset": 199680,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Organização de Equipas"
+      }
+    },
+    {
+      "id": "pt-unit-management-feature-2",
+      "offset": 201216,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-management",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Definições da Unidade"
+      }
+    },
+    {
+      "id": "pt-unit-settings-title",
+      "offset": 202752,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-settings",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-unit-settings-description",
+      "offset": 204288,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-settings",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-unit-settings-feature-0",
+      "offset": 205824,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Perfil da Unidade"
+      }
+    },
+    {
+      "id": "pt-unit-settings-feature-1",
+      "offset": 207360,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Estrutura da Equipa"
+      }
+    },
+    {
+      "id": "pt-unit-settings-feature-2",
+      "offset": 208896,
+      "length": 1536,
+      "metadata": {
+        "section": "unit-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Políticas da Unidade"
+      }
+    },
+    {
+      "id": "pt-work-schedule-settings-title",
+      "offset": 210432,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-work-schedule-settings-description",
+      "offset": 211968,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-work-schedule-settings-feature-0",
+      "offset": 213504,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Horários de Trabalho"
+      }
+    },
+    {
+      "id": "pt-work-schedule-settings-feature-1",
+      "offset": 215040,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Fuso Horário"
+      }
+    },
+    {
+      "id": "pt-work-schedule-settings-feature-2",
+      "offset": 216576,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Regras de Horário"
+      }
+    },
+    {
+      "id": "pt-work-schedule-settings-section-0",
+      "offset": 218112,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-work-schedule-settings-section-1",
+      "offset": 219648,
+      "length": 1536,
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "pt",
+        "type": "section"
+      }
+    },
+    {
+      "id": "pt-yearly-quota-settings-title",
+      "offset": 221184,
+      "length": 1536,
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-yearly-quota-settings-description",
+      "offset": 222720,
+      "length": 1536,
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-yearly-quota-settings-feature-0",
+      "offset": 224256,
+      "length": 1536,
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Tipos de Ausência"
+      }
+    },
+    {
+      "id": "pt-yearly-quota-settings-feature-1",
+      "offset": 225792,
+      "length": 1536,
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Regras de Quota"
+      }
+    },
+    {
+      "id": "pt-yearly-quota-settings-feature-2",
+      "offset": 227328,
+      "length": 1536,
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Restrições"
+      }
+    },
+    {
+      "id": "pt-default-title",
+      "offset": 228864,
+      "length": 1536,
+      "metadata": {
+        "section": "default",
+        "language": "pt",
+        "type": "title"
+      }
+    },
+    {
+      "id": "pt-default-description",
+      "offset": 230400,
+      "length": 1536,
+      "metadata": {
+        "section": "default",
+        "language": "pt",
+        "type": "description"
+      }
+    },
+    {
+      "id": "pt-default-feature-0",
+      "offset": 231936,
+      "length": 1536,
+      "metadata": {
+        "section": "default",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Navegação"
+      }
+    },
+    {
+      "id": "pt-default-feature-1",
+      "offset": 233472,
+      "length": 1536,
+      "metadata": {
+        "section": "default",
+        "language": "pt",
+        "type": "feature",
+        "feature": "Ajuda Contextual"
+      }
+    }
+  ],
+  "dimension": 384,
+  "language": "pt"
+}

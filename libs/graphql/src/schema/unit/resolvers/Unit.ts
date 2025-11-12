@@ -30,10 +30,22 @@ export const Unit: UnitResolvers = {
     const user = await ctx.userCache.getUser(getResourceRef(userRef));
     return user as unknown as User;
   },
-  teams: async (_parent, _args, ctx) => {
+  teams: async (parent, _args, ctx) => {
     const permissions = await getAuthorized(ctx, "teams");
     const { entity } = await database();
-    return entity.batchGet(permissions.map((p) => p.pk)) as unknown as Team[];
+    const teams = (await entity.batchGet(
+      permissions.map((p) => p.pk)
+    )) as unknown as Team[];
+    
+    // Filter teams for this unit and sort by creation date to ensure consistent ordering
+    const unitTeams = teams.filter(
+      (t) => (t as unknown as EntityRecord).parentPk === parent.pk
+    );
+    return unitTeams.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return dateA - dateB;
+    });
   },
   members: async (parent, _args, ctx) => {
     await ensureAuthorized(

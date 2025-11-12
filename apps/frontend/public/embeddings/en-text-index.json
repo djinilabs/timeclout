@@ -1,0 +1,1630 @@
+{
+  "chunks": [
+    {
+      "id": "en-auto-fill-title",
+      "text": "Auto-Fill Scheduling",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 0
+    },
+    {
+      "id": "en-auto-fill-description",
+      "text": "Automatically assign team members to shifts using intelligent algorithms. The system matches qualifications, balances workload, and resolves conflicts.",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 1
+    },
+    {
+      "id": "en-auto-fill-feature-0",
+      "text": "Smart Assignment: Automatically matches qualified members to shifts based on skills and availability",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "feature",
+        "feature": "Smart Assignment"
+      },
+      "embeddingIndex": 2
+    },
+    {
+      "id": "en-auto-fill-feature-1",
+      "text": "Conflict Resolution: Resolves scheduling conflicts like double-bookings and rest period violations",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "feature",
+        "feature": "Conflict Resolution"
+      },
+      "embeddingIndex": 3
+    },
+    {
+      "id": "en-auto-fill-feature-2",
+      "text": "Workload Balance: Distributes shifts fairly across team members to prevent overloading",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "feature",
+        "feature": "Workload Balance"
+      },
+      "embeddingIndex": 4
+    },
+    {
+      "id": "en-auto-fill-section-0",
+      "text": "How to Use Auto-Fill\n1. Click the \"Auto-Fill\" button in the calendar 2. Select the date range you want to fill 3. Choose your optimization preferences : • Balance: Equal distribution of shifts • Efficiency: Minimize total inconvenience • Preferences: Respect member preferences 4. Click \"Run Auto-Fill\" to generate assignments 5. Review the results and publish if satisfied",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 5
+    },
+    {
+      "id": "en-auto-fill-section-1",
+      "text": "What Auto-Fill Considers\nQualifications: Only assigns members with required skills Availability: Checks for conflicts with existing assignments Rest Periods: Ensures minimum rest between shifts Workload: Balances shift distribution across team",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 6
+    },
+    {
+      "id": "en-auto-fill-section-2",
+      "text": "After Auto-Fill\n• Review assignments before publishing • Manual adjustments can be made if needed • Publish when satisfied with the results • Revert to previous state if not satisfied",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 7
+    },
+    {
+      "id": "en-auto-fill-screenshot-0",
+      "text": "Auto-fill dialog with optimization options",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 8
+    },
+    {
+      "id": "en-auto-fill-screenshot-1",
+      "text": "Results view showing assigned members",
+      "metadata": {
+        "section": "auto-fill",
+        "language": "en",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 9
+    },
+    {
+      "id": "en-company-dashboard-title",
+      "text": "Company Management Dashboard",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 10
+    },
+    {
+      "id": "en-company-dashboard-description",
+      "text": "Your central command center for managing the entire organization. The company dashboard provides comprehensive oversight of all units, teams, and company-wide operations. From strategic planning to operational monitoring , this powerful interface gives you complete visibility and control over your organization's workforce management, ensuring consistency, efficiency, and compliance across all levels.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 11
+    },
+    {
+      "id": "en-company-dashboard-feature-0",
+      "text": "Strategic Unit Management: Create and manage business units that represent different departments, locations, or operational divisions within your company. Each unit can have its own teams, policies, and operational parameters while maintaining alignment with company-wide standards .",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Strategic Unit Management"
+      },
+      "embeddingIndex": 12
+    },
+    {
+      "id": "en-company-dashboard-feature-1",
+      "text": "Comprehensive Team Overview: View all teams across different units with their current status , performance metrics , and operational health. Get instant insights into team composition , scheduling efficiency, and resource utilization across your entire organization.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Comprehensive Team Overview"
+      },
+      "embeddingIndex": 13
+    },
+    {
+      "id": "en-company-dashboard-feature-2",
+      "text": "Company-Wide Policy Control: Configure and manage company-wide policies , standards, and operational procedures that apply across all units and teams. Ensure consistency in scheduling practices, leave policies, and qualification requirements throughout the organization.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Company-Wide Policy Control"
+      },
+      "embeddingIndex": 14
+    },
+    {
+      "id": "en-company-dashboard-feature-3",
+      "text": "Organizational Analytics: Access high-level analytics and reporting on organizational performance, including workforce utilization , scheduling efficiency, and operational metrics. Use data-driven insights to make strategic decisions and optimize organizational performance.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Organizational Analytics"
+      },
+      "embeddingIndex": 15
+    },
+    {
+      "id": "en-company-dashboard-feature-4",
+      "text": "Multi-Level Access Control: Manage user access and permissions across different organizational levels. Configure role-based access controls that ensure appropriate visibility and capabilities for different user types throughout the organization.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Multi-Level Access Control"
+      },
+      "embeddingIndex": 16
+    },
+    {
+      "id": "en-company-dashboard-feature-5",
+      "text": "Scalable Organizational Structure: Build and maintain a scalable organizational structure that can grow with your business. Add new units, restructure existing ones, and maintain operational efficiency as your organization evolves and expands.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Scalable Organizational Structure"
+      },
+      "embeddingIndex": 17
+    },
+    {
+      "id": "en-company-dashboard-section-0",
+      "text": "Organizational Setup Process\nFollow this strategic process to set up your organization effectively: Define Organizational Structure: Establish the overall structure of your company with clear unit divisions and reporting relationships Configure Company Policies: Set up company-wide policies for scheduling, leave management, qualifications, and operational procedures Create Business Units: Establish units that represent different departments, locations, or operational areas within your organization Set Up Teams: Create teams within each unit with specific purposes , configurations, and member assignments Establish Monitoring Systems: Implement analytics and reporting systems to track organizational performance and identify optimization opportunities Configure Access Controls: Set up appropriate user roles and permissions to ensure secure and efficient operations",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 18
+    },
+    {
+      "id": "en-company-dashboard-section-1",
+      "text": "Strategic Management Best Practices\nClear Organizational Hierarchy: Maintain a well-defined organizational structure with clear reporting relationships and accountability at all levels Consistent Policy Implementation: Ensure company-wide policies are consistently applied across all units while allowing for unit-specific adaptations when necessary Regular Performance Reviews: Conduct periodic assessments of organizational performance , unit efficiency, and team effectiveness to identify improvement opportunities Data-Driven Decision Making: Use organizational analytics and performance metrics to make informed strategic decisions about resource allocation and operational optimization Scalable Growth Planning: Design organizational structures and processes that can accommodate growth and change while maintaining operational efficiency Continuous Improvement Culture: Foster a culture of continuous improvement by regularly reviewing processes , gathering feedback, and implementing organizational enhancements",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 19
+    },
+    {
+      "id": "en-company-dashboard-section-2",
+      "text": "Organizational Optimization Strategies\nPerformance Monitoring Regularly review organizational metrics , unit performance, and team efficiency to identify areas for improvement and optimization across the entire company. Resource Optimization Analyze resource utilization across units and teams to identify opportunities for better allocation and efficiency improvements . Policy Standardization Ensure consistent application of company policies while allowing for necessary unit-specific adaptations to meet local operational needs. Growth Planning Plan for organizational growth by designing scalable structures and processes that can accommodate expansion while maintaining operational efficiency.",
+      "metadata": {
+        "section": "company-dashboard",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 20
+    },
+    {
+      "id": "en-company-settings-title",
+      "text": "Company Settings",
+      "metadata": {
+        "section": "company-settings",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 21
+    },
+    {
+      "id": "en-company-settings-description",
+      "text": "Manage your company's settings and preferences. Configure company-wide policies, user roles, and other organizational settings.",
+      "metadata": {
+        "section": "company-settings",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 22
+    },
+    {
+      "id": "en-company-settings-feature-0",
+      "text": "Company Profile: Update company information and branding",
+      "metadata": {
+        "section": "company-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Company Profile"
+      },
+      "embeddingIndex": 23
+    },
+    {
+      "id": "en-company-settings-feature-1",
+      "text": "User Management: Manage user roles and permissions across the company",
+      "metadata": {
+        "section": "company-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "User Management"
+      },
+      "embeddingIndex": 24
+    },
+    {
+      "id": "en-company-settings-feature-2",
+      "text": "Policy Settings: Configure company-wide policies and preferences",
+      "metadata": {
+        "section": "company-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Policy Settings"
+      },
+      "embeddingIndex": 25
+    },
+    {
+      "id": "en-create-shift-title",
+      "text": "Create Shift",
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 26
+    },
+    {
+      "id": "en-create-shift-description",
+      "text": "Add a new shift position to your team's schedule. Use templates for consistency or create from scratch.",
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 27
+    },
+    {
+      "id": "en-create-shift-feature-0",
+      "text": "Use Templates: Select from existing templates to quickly create consistent shifts",
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "feature",
+        "feature": "Use Templates"
+      },
+      "embeddingIndex": 28
+    },
+    {
+      "id": "en-create-shift-feature-1",
+      "text": "Custom Details: Define position name, requirements, and schedule for this specific shift",
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "feature",
+        "feature": "Custom Details"
+      },
+      "embeddingIndex": 29
+    },
+    {
+      "id": "en-create-shift-feature-2",
+      "text": "Qualification Matching: Set required skills and qualifications for the position",
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "feature",
+        "feature": "Qualification Matching"
+      },
+      "embeddingIndex": 30
+    },
+    {
+      "id": "en-create-shift-section-0",
+      "text": "How to Create a Shift\n1. Click \"Add Position\" in the calendar 2. Choose a template or create from scratch 3. Set the position name and description 4. Configure start/end times and duration 5. Add required qualifications 6. Click \"Save\" to create the shift",
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 31
+    },
+    {
+      "id": "en-create-shift-section-1",
+      "text": "Templates vs Custom\nTemplates: Pre-filled with common settings, good for consistency Custom: Start from scratch, good for unique positions",
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 32
+    },
+    {
+      "id": "en-create-shift-screenshot-0",
+      "text": "Create shift dialog with template selection",
+      "metadata": {
+        "section": "create-shift",
+        "language": "en",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 33
+    },
+    {
+      "id": "en-leave-approval-dashboard-title",
+      "text": "Leave Approval Dashboard",
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 34
+    },
+    {
+      "id": "en-leave-approval-dashboard-description",
+      "text": "Review and manage pending leave requests. Approve or reject requests based on team coverage and policy compliance.",
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 35
+    },
+    {
+      "id": "en-leave-approval-dashboard-feature-0",
+      "text": "Request Review: Review pending leave requests and their details",
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Request Review"
+      },
+      "embeddingIndex": 36
+    },
+    {
+      "id": "en-leave-approval-dashboard-feature-1",
+      "text": "Coverage Check: Check team coverage during requested leave periods",
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Coverage Check"
+      },
+      "embeddingIndex": 37
+    },
+    {
+      "id": "en-leave-approval-dashboard-feature-2",
+      "text": "Policy Compliance: Verify requests against team leave policies",
+      "metadata": {
+        "section": "leave-approval-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Policy Compliance"
+      },
+      "embeddingIndex": 38
+    },
+    {
+      "id": "en-leave-request-management-title",
+      "text": "Comprehensive Leave Request Management",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 39
+    },
+    {
+      "id": "en-leave-request-management-description",
+      "text": "Streamline and optimize your team's leave management process . This comprehensive system allows you to submit, track, approve, and manage leave requests efficiently while ensuring compliance with company policies and labor regulations . From individual requests to team-wide leave planning, TT3 provides all the tools needed for effective time-off management .",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 40
+    },
+    {
+      "id": "en-leave-request-management-feature-0",
+      "text": "Intelligent Request Submission: Submit leave requests with detailed information including leave type, dates, duration, and reasons. The system automatically validates requests against available quotas , team policies, and scheduling conflicts to ensure smooth processing.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Intelligent Request Submission"
+      },
+      "embeddingIndex": 41
+    },
+    {
+      "id": "en-leave-request-management-feature-1",
+      "text": "Automated Approval Workflows: Streamlined approval processes with automatic routing to appropriate managers based on team structure and leave policies. The system tracks approval status , sends notifications, and ensures timely processing of all requests.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Automated Approval Workflows"
+      },
+      "embeddingIndex": 42
+    },
+    {
+      "id": "en-leave-request-management-feature-2",
+      "text": "Comprehensive Request Tracking: Track the status of all leave requests from submission to approval/rejection . View request history, approval timelines , and any modifications made during the process. Maintain complete audit trails for compliance and transparency.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Comprehensive Request Tracking"
+      },
+      "embeddingIndex": 43
+    },
+    {
+      "id": "en-leave-request-management-feature-3",
+      "text": "Quota Management & Validation: Automatic validation of leave requests against individual and team quotas . The system prevents over-allocation , tracks quota usage, and provides clear visibility into available leave balances for all team members.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Quota Management & Validation"
+      },
+      "embeddingIndex": 44
+    },
+    {
+      "id": "en-leave-request-management-feature-4",
+      "text": "Conflict Detection & Resolution: Identify and resolve scheduling conflicts between leave requests and work assignments. The system alerts managers to potential coverage issues and suggests solutions to maintain operational continuity .",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Conflict Detection & Resolution"
+      },
+      "embeddingIndex": 45
+    },
+    {
+      "id": "en-leave-request-management-feature-5",
+      "text": "Policy Compliance & Reporting: Ensure all leave requests comply with company policies , labor regulations, and team-specific rules. Generate comprehensive reports on leave patterns , approval rates, and policy compliance for management review.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Policy Compliance & Reporting"
+      },
+      "embeddingIndex": 46
+    },
+    {
+      "id": "en-leave-request-management-section-0",
+      "text": "Leave Request Process\nFollow this streamlined process for effective leave request management: Submit Request: Complete the leave request form with all required information including dates, leave type, and reason for the request System Validation: The system automatically validates the request against quotas, policies , and scheduling conflicts Manager Review: Appropriate managers review the request based on team structure and approval workflows Approval/Rejection: Managers approve or reject requests with comments and reasoning for transparency Notification & Updates: All parties receive notifications about request status changes and any required actions Schedule Integration: Approved requests are automatically integrated into team schedules and leave calendars",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 47
+    },
+    {
+      "id": "en-leave-request-management-section-1",
+      "text": "Best Practices for Leave Management\nEarly Submission: Submit leave requests well in advance to allow for proper planning and approval processing Clear Communication: Provide detailed reasons and context for leave requests to facilitate informed decision-making Policy Awareness: Familiarize yourself with team and company leave policies to ensure requests meet all requirements Quota Monitoring: Regularly check your leave balance and quota usage to plan time-off effectively Timely Responses: Managers should respond to leave requests promptly to maintain team planning and morale Documentation: Keep records of all leave requests and approvals for compliance and future reference",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 48
+    },
+    {
+      "id": "en-leave-request-management-section-2",
+      "text": "Managing Leave Requests Effectively\nFor Team Members Submit requests early , provide clear reasons , and monitor your quota balance. Communicate with your manager about any special circumstances or urgent requests. For Managers Review requests promptly , consider team coverage needs , and provide clear feedback. Balance individual needs with operational requirements . For Administrators Monitor leave patterns , ensure policy compliance , and optimize approval workflows. Use analytics to identify trends and improve processes. Conflict Resolution Address scheduling conflicts proactively by working with team members to find alternative solutions or adjust request timing.",
+      "metadata": {
+        "section": "leave-request-management",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 49
+    },
+    {
+      "id": "en-member-management-title",
+      "text": "Member Management",
+      "metadata": {
+        "section": "member-management",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 50
+    },
+    {
+      "id": "en-member-management-description",
+      "text": "Manage your team members effectively. Add new members, assign roles, and configure individual settings. Each member can have specific qualifications, preferences, and availability.",
+      "metadata": {
+        "section": "member-management",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 51
+    },
+    {
+      "id": "en-member-management-feature-0",
+      "text": "Member Addition: Add new members to the team with their details and preferences",
+      "metadata": {
+        "section": "member-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Member Addition"
+      },
+      "embeddingIndex": 52
+    },
+    {
+      "id": "en-member-management-feature-1",
+      "text": "Role Assignment: Assign and manage member roles and permissions",
+      "metadata": {
+        "section": "member-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Role Assignment"
+      },
+      "embeddingIndex": 53
+    },
+    {
+      "id": "en-member-management-feature-2",
+      "text": "Member Settings: Configure individual member settings and preferences",
+      "metadata": {
+        "section": "member-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Member Settings"
+      },
+      "embeddingIndex": 54
+    },
+    {
+      "id": "en-new-leave-request-title",
+      "text": "New Leave Request",
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 55
+    },
+    {
+      "id": "en-new-leave-request-description",
+      "text": "Submit a new leave request for approval. Specify the type of leave, duration, and any additional information required by your team's leave policy.",
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 56
+    },
+    {
+      "id": "en-new-leave-request-feature-0",
+      "text": "Leave Type Selection: Choose from available leave types based on your team&apos;s policy",
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "en",
+        "type": "feature",
+        "feature": "Leave Type Selection"
+      },
+      "embeddingIndex": 57
+    },
+    {
+      "id": "en-new-leave-request-feature-1",
+      "text": "Date Range: Select start and end dates for your leave period",
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "en",
+        "type": "feature",
+        "feature": "Date Range"
+      },
+      "embeddingIndex": 58
+    },
+    {
+      "id": "en-new-leave-request-feature-2",
+      "text": "Additional Information: Provide any required details or documentation for your request",
+      "metadata": {
+        "section": "new-leave-request",
+        "language": "en",
+        "type": "feature",
+        "feature": "Additional Information"
+      },
+      "embeddingIndex": 59
+    },
+    {
+      "id": "en-qualifications-settings-title",
+      "text": "Qualifications Management",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 60
+    },
+    {
+      "id": "en-qualifications-settings-description",
+      "text": "Manage team member qualifications and skill requirements. Create and configure qualifications that define the capabilities and expertise required for different roles. Use this interface to ensure proper skill matching and team coverage.",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 61
+    },
+    {
+      "id": "en-qualifications-settings-feature-0",
+      "text": "Qualification Creation: Create new qualifications with custom names and colors. Define the skills and capabilities required for different team roles and positions.",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Qualification Creation"
+      },
+      "embeddingIndex": 62
+    },
+    {
+      "id": "en-qualifications-settings-feature-1",
+      "text": "Qualification Assignment: Assign qualifications to team members through an intuitive interface. Use the badge system to quickly add or remove qualifications from team members.",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Qualification Assignment"
+      },
+      "embeddingIndex": 63
+    },
+    {
+      "id": "en-qualifications-settings-feature-2",
+      "text": "Visual Organization: Color-coded qualification badges make it easy to identify team member capabilities at a glance. Each qualification has its own distinct color for quick recognition.",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Visual Organization"
+      },
+      "embeddingIndex": 64
+    },
+    {
+      "id": "en-qualifications-settings-feature-3",
+      "text": "Qualification Management: Easily add or remove qualifications using the dropdown menu. The interface shows available qualifications and prevents duplicate assignments.",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Qualification Management"
+      },
+      "embeddingIndex": 65
+    },
+    {
+      "id": "en-qualifications-settings-section-0",
+      "text": "Setting Up Qualifications\nTo set up team qualifications: Navigate to the qualifications settings tab Create new qualifications with appropriate names and colors Assign qualifications to team members using the badge system Use the + button to add new qualifications to team members Remove qualifications by clicking the X on the qualification badge",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 66
+    },
+    {
+      "id": "en-qualifications-settings-section-1",
+      "text": "Best Practices\nCreate clear, specific qualification names that reflect actual skills Use distinct colors for different qualification types Regularly review and update team member qualifications Ensure qualifications align with shift position requirements Keep qualification list manageable and relevant",
+      "metadata": {
+        "section": "qualifications-settings",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 67
+    },
+    {
+      "id": "en-schedule-position-templates-title",
+      "text": "Schedule Position Templates",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 68
+    },
+    {
+      "id": "en-schedule-position-templates-description",
+      "text": "View and manage templates for schedule positions . These templates are created in the \"Add Position\" dialog of the Shifts Calendar section and are used to maintain consistency in shift creation . Each template includes a name and color for easy identification, making it easier to fill positions with qualified team members .",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 69
+    },
+    {
+      "id": "en-schedule-position-templates-feature-0",
+      "text": "Template Overview: View all position templates created in the Shifts Calendar . These templates serve as the foundation for creating shifts and assigning team members.",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "feature",
+        "feature": "Template Overview"
+      },
+      "embeddingIndex": 70
+    },
+    {
+      "id": "en-schedule-position-templates-feature-1",
+      "text": "Color Coding: Each position type has a distinct color for quick identification in the schedule. Colors are assigned when creating positions in the Shifts Calendar.",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "feature",
+        "feature": "Color Coding"
+      },
+      "embeddingIndex": 71
+    },
+    {
+      "id": "en-schedule-position-templates-feature-2",
+      "text": "Template Management: Review and manage existing position templates . Note that new templates must be created in the 'Add Position' dialog of the Shifts Calendar section.",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "feature",
+        "feature": "Template Management"
+      },
+      "embeddingIndex": 72
+    },
+    {
+      "id": "en-schedule-position-templates-feature-3",
+      "text": "Visual Preview: See how each position template appears in the schedule with its assigned color and name . This helps maintain consistency across the team's schedule.",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "feature",
+        "feature": "Visual Preview"
+      },
+      "embeddingIndex": 73
+    },
+    {
+      "id": "en-schedule-position-templates-section-0",
+      "text": "Creating New Position Templates\nTo create new position templates: Navigate to the Shifts Calendar section Click on \"Add Position\" in the calendar view Enter a descriptive name for the position Select a color from the color picker Save the new position template The new template will automatically appear in this settings page and be available for use in future shift creation .",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 74
+    },
+    {
+      "id": "en-schedule-position-templates-section-1",
+      "text": "Best Practices\nUse clear, descriptive names for position templates Choose distinct colors for different position types Keep template names consistent with team terminology Regularly review and update templates as team needs change Consider creating templates for all common position types",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 75
+    },
+    {
+      "id": "en-schedule-position-templates-section-2",
+      "text": "Setting Up Schedule Position Templates and Day Templates\nSchedule Position Templates allow you to define reusable roles or positions (e.g., \"Nurse\" , \"Receptionist\" , \"Supervisor\" ) with their own color, required skills , and default shift times. Create these in the \"Add Position\" dialog in the Shifts Calendar. Use clear names and distinct colors for easy identification. Schedule Day Templates are collections of position templates that represent a typical workday (e.g., \"Standard Weekday\" , \"Weekend Coverage\" ). You can create and manage day templates in the Day Templates section . Drag and drop position templates to build a day template, then drag day templates onto the calendar to quickly fill out a week or month . Best Practices: Regularly review your templates to ensure they match your team's needs . Use day templates to speed up scheduling and maintain consistency.",
+      "metadata": {
+        "section": "schedule-position-templates",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 76
+    },
+    {
+      "id": "en-shifts-calendar-title",
+      "text": "Shift Management & Scheduling",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 77
+    },
+    {
+      "id": "en-shifts-calendar-description",
+      "text": "The core scheduling interface for managing team work schedules. Create shifts, assign team members, and ensure optimal coverage.",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 78
+    },
+    {
+      "id": "en-shifts-calendar-feature-0",
+      "text": "Create & Edit Shifts: Add new shift positions or modify existing ones with drag-and-drop",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Create & Edit Shifts"
+      },
+      "embeddingIndex": 79
+    },
+    {
+      "id": "en-shifts-calendar-feature-1",
+      "text": "Assign Team Members: Assign qualified members to shifts using dropdown menus",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Assign Team Members"
+      },
+      "embeddingIndex": 80
+    },
+    {
+      "id": "en-shifts-calendar-feature-2",
+      "text": "Auto-Fill Scheduling: Let the system automatically assign members based on qualifications",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Auto-Fill Scheduling"
+      },
+      "embeddingIndex": 81
+    },
+    {
+      "id": "en-shifts-calendar-section-0",
+      "text": "Quick Actions\n• Create Shift: Click the \"+\" button or drag from the left panel • Assign Member: Use the dropdown menu in the shift dialog or context menu • Auto-Fill: Use the auto-fill button to automatically assign members • Publish: Click \"Publish\" to make changes visible to the team",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 82
+    },
+    {
+      "id": "en-shifts-calendar-section-1",
+      "text": "Understanding the Interface\nAvailable Members: Qualified team members ready to assign Assigned Shifts: Members successfully assigned to shifts Conflicts: Scheduling conflicts that need resolution",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 83
+    },
+    {
+      "id": "en-shifts-calendar-section-2",
+      "text": "Publishing Changes\n• Changes are unpublished until you click \"Publish\" • Published changes become visible to all team members • Use \"Revert to Published\" to undo unpublished changes",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 84
+    },
+    {
+      "id": "en-shifts-calendar-section-3",
+      "text": "Display Options\nUse the Options menu to customize what you see in the calendar: • Leaves: Show team member leave requests and time off • Details: Display additional shift information like start/end times and qualifications • Analyze: Highlight scheduling conflicts, rule violations, and optimization opportunities • Position Templates: Show draggable shift position models for quick creation • Day Templates: Display draggable day models to copy entire day schedules • Filters: Filter the calendar view by specific team members • Holidays: Show company holidays and non-working days",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 85
+    },
+    {
+      "id": "en-shifts-calendar-screenshot-0",
+      "text": "Main calendar view with shift positions and member assignments",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 86
+    },
+    {
+      "id": "en-shifts-calendar-screenshot-1",
+      "text": "Shift position with context menu for member assignment",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 87
+    },
+    {
+      "id": "en-shifts-calendar-screenshot-2",
+      "text": "Auto-fill dialog with assignment options",
+      "metadata": {
+        "section": "shifts-calendar",
+        "language": "en",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 88
+    },
+    {
+      "id": "en-team-invitations-title",
+      "text": "Team Invitations",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 89
+    },
+    {
+      "id": "en-team-invitations-description",
+      "text": "Invite new members to join your team and manage pending invitations. Control who has access to your team's schedules and data.",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 90
+    },
+    {
+      "id": "en-team-invitations-feature-0",
+      "text": "Send Invitations: Click 'Invite Member' to send email invitations with team access",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "feature",
+        "feature": "Send Invitations"
+      },
+      "embeddingIndex": 91
+    },
+    {
+      "id": "en-team-invitations-feature-1",
+      "text": "Track Status: Monitor pending, accepted, and expired invitations in real-time",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "feature",
+        "feature": "Track Status"
+      },
+      "embeddingIndex": 92
+    },
+    {
+      "id": "en-team-invitations-feature-2",
+      "text": "Manage Access: Set member roles and permissions during invitation process",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "feature",
+        "feature": "Manage Access"
+      },
+      "embeddingIndex": 93
+    },
+    {
+      "id": "en-team-invitations-section-0",
+      "text": "How to Invite Someone\n1. Click the \"Invite Member\" button 2. Enter their email address and select their role 3. Choose permissions (view, edit, manage) 4. Send invitation - they'll receive an email with setup instructions",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 94
+    },
+    {
+      "id": "en-team-invitations-section-1",
+      "text": "Invitation Status\nPending: Invitation sent, waiting for response Accepted: Member joined the team Expired: Invitation expired (7 days)",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 95
+    },
+    {
+      "id": "en-team-invitations-screenshot-0",
+      "text": "Pending invitations list with status indicators",
+      "metadata": {
+        "section": "team-invitations",
+        "language": "en",
+        "type": "screenshot"
+      },
+      "embeddingIndex": 96
+    },
+    {
+      "id": "en-team-leave-calendar-title",
+      "text": "Team Leave Calendar",
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 97
+    },
+    {
+      "id": "en-team-leave-calendar-description",
+      "text": "View and manage team member leave requests in a calendar format. Track approved and pending leave requests, and ensure proper coverage during team members' absences.",
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 98
+    },
+    {
+      "id": "en-team-leave-calendar-feature-0",
+      "text": "Leave Overview: View all team members&apos; leave requests in a calendar view",
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Leave Overview"
+      },
+      "embeddingIndex": 99
+    },
+    {
+      "id": "en-team-leave-calendar-feature-1",
+      "text": "Request Management: Approve or reject leave requests and manage conflicts",
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Request Management"
+      },
+      "embeddingIndex": 100
+    },
+    {
+      "id": "en-team-leave-calendar-feature-2",
+      "text": "Coverage Planning: Plan for team coverage during member absences",
+      "metadata": {
+        "section": "team-leave-calendar",
+        "language": "en",
+        "type": "feature",
+        "feature": "Coverage Planning"
+      },
+      "embeddingIndex": 101
+    },
+    {
+      "id": "en-team-management-title",
+      "text": "Comprehensive Team Management",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 102
+    },
+    {
+      "id": "en-team-management-description",
+      "text": "Build and manage high-performing teams within your organizational units. This powerful interface allows you to create teams, assign members with specific roles and qualifications , configure team-specific policies, and monitor performance metrics . From initial team setup to ongoing optimization, TT3 provides all the tools you need to ensure your teams operate efficiently and effectively .",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 103
+    },
+    {
+      "id": "en-team-management-feature-0",
+      "text": "Strategic Team Creation: Create teams with specific purposes , configurations, and member assignments. Define team structure, hierarchy, and operational parameters to match your organizational needs. Each team can have unique settings while maintaining consistency with company policies.",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Strategic Team Creation"
+      },
+      "embeddingIndex": 104
+    },
+    {
+      "id": "en-team-management-feature-1",
+      "text": "Advanced Member Management: Add, remove, and manage team members with detailed role assignments and permission levels. Track member qualifications, performance history , and availability patterns. The system provides comprehensive member profiles with all relevant information in one place.",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Advanced Member Management"
+      },
+      "embeddingIndex": 105
+    },
+    {
+      "id": "en-team-management-feature-2",
+      "text": "Flexible Team Configuration: Configure team-specific policies , schedules, leave entitlements, and shift requirements. Set up work patterns, qualification requirements , and operational rules that align with your team's unique needs and responsibilities.",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Flexible Team Configuration"
+      },
+      "embeddingIndex": 106
+    },
+    {
+      "id": "en-team-management-feature-3",
+      "text": "Performance Analytics & Insights: Access comprehensive team performance metrics including attendance patterns, productivity indicators, resource utilization statistics , and efficiency trends. Use data-driven insights to optimize team performance and identify improvement opportunities.",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Performance Analytics & Insights"
+      },
+      "embeddingIndex": 107
+    },
+    {
+      "id": "en-team-management-feature-4",
+      "text": "Integrated Communication Tools: Manage team announcements , notifications, and communication preferences. Set up automated alerts for important schedule changes, policy updates, and operational requirements. Keep everyone informed and aligned with team objectives.",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Integrated Communication Tools"
+      },
+      "embeddingIndex": 108
+    },
+    {
+      "id": "en-team-management-feature-5",
+      "text": "Scalable Team Operations: Scale team operations efficiently as your organization grows. Add new teams, restructure existing ones, and maintain consistency across multiple teams while preserving individual team autonomy and flexibility.",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Scalable Team Operations"
+      },
+      "embeddingIndex": 109
+    },
+    {
+      "id": "en-team-management-section-0",
+      "text": "Team Setup Process\nFollow this comprehensive process to set up effective teams: Define Team Purpose: Clearly establish the team's mission, responsibilities , and operational scope within your organization Configure Team Structure: Set up team hierarchy, roles, and reporting relationships to ensure clear accountability Establish Policies: Define team-specific policies for scheduling, leave management, qualifications, and operational procedures Add Team Members: Recruit and assign team members with appropriate roles, permissions , and qualification requirements Set Up Infrastructure: Configure shift templates , work schedules, and operational parameters specific to the team's needs Implement Monitoring: Establish performance metrics and monitoring systems to track team effectiveness and identify improvement areas",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 110
+    },
+    {
+      "id": "en-team-management-section-1",
+      "text": "Team Management Best Practices\nClear Role Definition: Maintain precise role definitions with specific responsibilities , permissions, and qualification requirements for each team position Regular Performance Reviews: Conduct periodic assessments of team composition , performance metrics, and operational efficiency to identify optimization opportunities Fair Workload Distribution: Ensure equitable distribution of shifts, responsibilities, and opportunities across all team members to maintain morale and prevent burnout Policy Consistency: Keep team settings, policies, and procedures up to date while ensuring alignment with organizational standards and regulatory requirements Data-Driven Decisions: Use analytics and performance metrics to make informed decisions about team structure, scheduling, and resource allocation Continuous Improvement: Regularly review team operations, gather feedback, and implement improvements to enhance efficiency and team satisfaction",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 111
+    },
+    {
+      "id": "en-team-management-section-2",
+      "text": "Team Optimization Strategies\nPerformance Monitoring Regularly review attendance patterns , productivity metrics, and resource utilization to identify areas for improvement and optimization . Skill Development Track qualification gaps and provide training opportunities to enhance team capabilities and operational flexibility . Communication Enhancement Optimize communication channels and notification systems to ensure timely information flow and team coordination. Resource Allocation Analyze workload distribution and adjust team composition or scheduling to maximize efficiency and minimize operational bottlenecks.",
+      "metadata": {
+        "section": "team-management",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 112
+    },
+    {
+      "id": "en-team-settings-title",
+      "text": "Team Settings",
+      "metadata": {
+        "section": "team-settings",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 113
+    },
+    {
+      "id": "en-team-settings-description",
+      "text": "Configure your team's settings and preferences. Manage team-specific policies, member roles, and operational settings.",
+      "metadata": {
+        "section": "team-settings",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 114
+    },
+    {
+      "id": "en-team-settings-feature-0",
+      "text": "Team Profile: Update team information and configuration",
+      "metadata": {
+        "section": "team-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Team Profile"
+      },
+      "embeddingIndex": 115
+    },
+    {
+      "id": "en-team-settings-feature-1",
+      "text": "Member Management: Manage team members and their roles",
+      "metadata": {
+        "section": "team-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Member Management"
+      },
+      "embeddingIndex": 116
+    },
+    {
+      "id": "en-team-settings-feature-2",
+      "text": "Team Policies: Configure team-specific policies and preferences",
+      "metadata": {
+        "section": "team-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Team Policies"
+      },
+      "embeddingIndex": 117
+    },
+    {
+      "id": "en-time-off-dashboard-title",
+      "text": "Time Off Dashboard",
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 118
+    },
+    {
+      "id": "en-time-off-dashboard-description",
+      "text": "View and manage time off across your organization. Monitor leave balances, upcoming absences, and team coverage to ensure smooth operations.",
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 119
+    },
+    {
+      "id": "en-time-off-dashboard-feature-0",
+      "text": "Leave Overview: View all approved and pending leave requests across teams",
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Leave Overview"
+      },
+      "embeddingIndex": 120
+    },
+    {
+      "id": "en-time-off-dashboard-feature-1",
+      "text": "Balance Tracking: Monitor leave balances and quotas for team members",
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Balance Tracking"
+      },
+      "embeddingIndex": 121
+    },
+    {
+      "id": "en-time-off-dashboard-feature-2",
+      "text": "Coverage Planning: Plan for team coverage during member absences",
+      "metadata": {
+        "section": "time-off-dashboard",
+        "language": "en",
+        "type": "feature",
+        "feature": "Coverage Planning"
+      },
+      "embeddingIndex": 122
+    },
+    {
+      "id": "en-unassign-shift-title",
+      "text": "Unassign Shift Positions",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 123
+    },
+    {
+      "id": "en-unassign-shift-description",
+      "text": "Remove shift position assignments for a specific date range.",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 124
+    },
+    {
+      "id": "en-unassign-shift-feature-0",
+      "text": "Date Range Selection: Select a start and end date to unassign all shift positions within that period. The date picker supports both single day and range selection.",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "feature",
+        "feature": "Date Range Selection"
+      },
+      "embeddingIndex": 125
+    },
+    {
+      "id": "en-unassign-shift-feature-1",
+      "text": "Bulk Unassignment: Efficiently remove multiple shift position assignments at once by selecting a date range. This is useful when you need to clear assignments for a specific period.",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "feature",
+        "feature": "Bulk Unassignment"
+      },
+      "embeddingIndex": 126
+    },
+    {
+      "id": "en-unassign-shift-section-0",
+      "text": "How to Use\n1. Select a date range using the date picker 2. Review the selected dates to ensure they cover the correct period 3. Click \"Unassign\" to remove all shift position assignments within the selected range 4. A confirmation message will appear when the operation is successful",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 127
+    },
+    {
+      "id": "en-unassign-shift-section-1",
+      "text": "Important Notes\n• This action cannot be undone - all shift position assignments within the selected range will be permanently removed • Make sure to communicate with team members before unassigning shifts • The operation will affect all shift positions within the selected date range",
+      "metadata": {
+        "section": "unassign-shift",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 128
+    },
+    {
+      "id": "en-unit-management-title",
+      "text": "Unit Management",
+      "metadata": {
+        "section": "unit-management",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 129
+    },
+    {
+      "id": "en-unit-management-description",
+      "text": "Manage your business units effectively. Create, organize, and maintain units to structure your company's operations. Each unit can have multiple teams with specific roles and responsibilities.",
+      "metadata": {
+        "section": "unit-management",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 130
+    },
+    {
+      "id": "en-unit-management-feature-0",
+      "text": "Unit Creation: Create new business units with specific configurations and settings",
+      "metadata": {
+        "section": "unit-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Unit Creation"
+      },
+      "embeddingIndex": 131
+    },
+    {
+      "id": "en-unit-management-feature-1",
+      "text": "Team Organization: Organize teams within units and manage their relationships",
+      "metadata": {
+        "section": "unit-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Team Organization"
+      },
+      "embeddingIndex": 132
+    },
+    {
+      "id": "en-unit-management-feature-2",
+      "text": "Unit Settings: Configure unit-specific policies and preferences",
+      "metadata": {
+        "section": "unit-management",
+        "language": "en",
+        "type": "feature",
+        "feature": "Unit Settings"
+      },
+      "embeddingIndex": 133
+    },
+    {
+      "id": "en-unit-settings-title",
+      "text": "Unit Settings",
+      "metadata": {
+        "section": "unit-settings",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 134
+    },
+    {
+      "id": "en-unit-settings-description",
+      "text": "Configure settings for your business unit. Manage unit-specific preferences, team structures, and operational settings.",
+      "metadata": {
+        "section": "unit-settings",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 135
+    },
+    {
+      "id": "en-unit-settings-feature-0",
+      "text": "Unit Profile: Update unit information and configuration",
+      "metadata": {
+        "section": "unit-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Unit Profile"
+      },
+      "embeddingIndex": 136
+    },
+    {
+      "id": "en-unit-settings-feature-1",
+      "text": "Team Structure: Manage team organization within the unit",
+      "metadata": {
+        "section": "unit-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Team Structure"
+      },
+      "embeddingIndex": 137
+    },
+    {
+      "id": "en-unit-settings-feature-2",
+      "text": "Unit Policies: Configure unit-specific policies and preferences",
+      "metadata": {
+        "section": "unit-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Unit Policies"
+      },
+      "embeddingIndex": 138
+    },
+    {
+      "id": "en-work-schedule-settings-title",
+      "text": "Work Schedule Settings",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 139
+    },
+    {
+      "id": "en-work-schedule-settings-description",
+      "text": "Configure your team's working hours, timezone, and schedule preferences . These settings affect how shifts are displayed and scheduled.",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 140
+    },
+    {
+      "id": "en-work-schedule-settings-feature-0",
+      "text": "Working Hours: Set standard work days, start/end times, and break periods",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Working Hours"
+      },
+      "embeddingIndex": 141
+    },
+    {
+      "id": "en-work-schedule-settings-feature-1",
+      "text": "Timezone: Configure team timezone for accurate shift scheduling",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Timezone"
+      },
+      "embeddingIndex": 142
+    },
+    {
+      "id": "en-work-schedule-settings-feature-2",
+      "text": "Schedule Rules: Define rest periods, overtime rules, and scheduling constraints",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Schedule Rules"
+      },
+      "embeddingIndex": 143
+    },
+    {
+      "id": "en-work-schedule-settings-section-0",
+      "text": "Setting Up Working Hours\n• Work Days: Select which days of the week are working days • Start/End Times: Define standard shift start and end times • Break Times: Set mandatory break periods during shifts • Overtime Rules: Configure when shifts count as overtime",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 144
+    },
+    {
+      "id": "en-work-schedule-settings-section-1",
+      "text": "Timezone Configuration\n• Choose your team's primary timezone for all scheduling • All shift times will be displayed in this timezone • Consider daylight saving time changes when setting up schedules",
+      "metadata": {
+        "section": "work-schedule-settings",
+        "language": "en",
+        "type": "section"
+      },
+      "embeddingIndex": 145
+    },
+    {
+      "id": "en-yearly-quota-settings-title",
+      "text": "Yearly Quota Settings",
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 146
+    },
+    {
+      "id": "en-yearly-quota-settings-description",
+      "text": "Configure yearly leave quotas for your team. Set up different types of leave, their durations, and any specific rules or restrictions that apply.",
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 147
+    },
+    {
+      "id": "en-yearly-quota-settings-feature-0",
+      "text": "Leave Types: Define different types of leave and their quotas",
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Leave Types"
+      },
+      "embeddingIndex": 148
+    },
+    {
+      "id": "en-yearly-quota-settings-feature-1",
+      "text": "Quota Rules: Set up rules for quota usage and carryover",
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Quota Rules"
+      },
+      "embeddingIndex": 149
+    },
+    {
+      "id": "en-yearly-quota-settings-feature-2",
+      "text": "Restrictions: Configure any restrictions or special conditions for leave",
+      "metadata": {
+        "section": "yearly-quota-settings",
+        "language": "en",
+        "type": "feature",
+        "feature": "Restrictions"
+      },
+      "embeddingIndex": 150
+    },
+    {
+      "id": "en-default-title",
+      "text": "Help Center",
+      "metadata": {
+        "section": "default",
+        "language": "en",
+        "type": "title"
+      },
+      "embeddingIndex": 151
+    },
+    {
+      "id": "en-default-description",
+      "text": "Welcome to the help center. Select a section to learn more about its features and functionality.",
+      "metadata": {
+        "section": "default",
+        "language": "en",
+        "type": "description"
+      },
+      "embeddingIndex": 152
+    },
+    {
+      "id": "en-default-feature-0",
+      "text": "Navigation: Use the navigation menu to access different sections of the application.",
+      "metadata": {
+        "section": "default",
+        "language": "en",
+        "type": "feature",
+        "feature": "Navigation"
+      },
+      "embeddingIndex": 153
+    },
+    {
+      "id": "en-default-feature-1",
+      "text": "Contextual Help: Each section provides specific guidance and information relevant to your current task.",
+      "metadata": {
+        "section": "default",
+        "language": "en",
+        "type": "feature",
+        "feature": "Contextual Help"
+      },
+      "embeddingIndex": 154
+    }
+  ],
+  "language": "en"
+}
