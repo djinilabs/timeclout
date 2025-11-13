@@ -9,7 +9,7 @@ const postHogOptions = {
   // This automatically captures button clicks, form submissions, link clicks,
   // text inputs, and other DOM interactions
   autocapture: true,
-  // Disable automatic pageview capture - we'll track manually for better control
+  // Disable automatic pageview capture - manual pageview tracking is handled by the PostHogTracker component for better control
   capture_pageview: false,
   // Enable page leave tracking
   capture_pageleave: true,
