@@ -2,7 +2,9 @@ import { PostHogProvider } from "posthog-js/react";
 import { FC, PropsWithChildren } from "react";
 
 const postHogOptions = {
-  api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
+  // Default to EU endpoint, can be overridden via VITE_PUBLIC_POSTHOG_HOST env var
+  api_host:
+    import.meta.env.VITE_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
   // Enable autocapture for automatic UI interaction tracking
   // This automatically captures button clicks, form submissions, link clicks,
   // text inputs, and other DOM interactions
