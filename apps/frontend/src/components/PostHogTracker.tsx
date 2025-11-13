@@ -1,5 +1,5 @@
-import { usePostHog } from "posthog-js/react";
 import { useSession } from "next-auth/react";
+import { usePostHog } from "posthog-js/react";
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
