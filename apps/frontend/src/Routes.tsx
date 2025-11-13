@@ -4,6 +4,7 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import { AppLayout } from "./AppLayout";
 import { Suspense } from "./components/atoms/Suspense";
 import { CheckLatestAppVersion } from "./components/molecules/CheckLatestAppVersion";
+import { PostHogTracker } from "./components/PostHogTracker";
 import { RequiresSelfSettings } from "./components/personal/RequiresSelfSettings";
 import { EntityNavigationContextProvider } from "./contexts/EntityNavigationContext";
 import { ConfirmDialogProvider } from "./providers/ConfirmDialogProvider";
@@ -36,6 +37,7 @@ const LazyPrivacyStatement = lazy(() => import("./routes/PrivacyStatement"));
 export const AppRoutes: FC = () => {
   return (
     <ConfirmDialogProvider>
+      <PostHogTracker />
       <Suspense fallback={null}>
         <CheckLatestAppVersion />
       </Suspense>
