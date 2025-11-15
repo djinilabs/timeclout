@@ -8,6 +8,7 @@ get /api/v1/ical/*
 any /graphql
 any /api/discord
 post /api/ai/chat
+post /api/discord-messages
 
 @lambda-urls
 post /api/ai/chat
