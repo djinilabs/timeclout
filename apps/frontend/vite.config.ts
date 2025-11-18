@@ -42,6 +42,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@/graphql-client": path.resolve(__dirname, "./src/graphql"),
+      "@/docs": path.resolve(__dirname, "../../docs"),
     },
   },
   build: {

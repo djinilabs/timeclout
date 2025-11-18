@@ -5,6 +5,7 @@ import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
 import { printAOM } from "../../accessibility/printAOM";
 import { AccessibleElement } from "../../accessibility/types";
+import { searchDocuments } from "../../utils/docSearchManager";
 
 import { timeout } from "@/utils";
 
@@ -183,6 +184,48 @@ export const tools = (debounceActivity: () => Promise<void>): ToolSet => ({
           success: false,
           error: `Error filling form element: ${error}`,
         };
+      }
+    },
+  },
+  search_documents: {
+    description:
+      "Search documentation using semantic vector search. Use this to find relevant information from the product documentation. When the user asks about features, use cases, workflows, or any product-related questions, use this tool to find relevant documentation snippets.",
+    inputSchema: z.object({
+      query: z
+        .string()
+        .min(1, "Query parameter is required and cannot be empty")
+        .describe(
+          "The search terms to look for in the documents. Extract this directly from the user's request."
+        ),
+      topN: z
+        .number()
+        .optional()
+        .default(5)
+        .describe("Number of top results to return (default: 5)"),
+    }),
+    execute: async ({ query, topN = 5 }) => {
+      console.log("tool call: search_documents", query, topN);
+      try {
+        const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL || "";
+        const apiUrl = `${BACKEND_API_URL}/api/ai/embedding`;
+
+        const results = await searchDocuments(query, topN, apiUrl);
+
+        if (results.length === 0) {
+          return "No relevant documents found for the query.";
+        }
+
+        // Format results similar to helpmaton
+        const formattedResults = results
+          .map((result) => result.snippet)
+          .join("\n\n---\n\n");
+
+        return `Found ${results.length} relevant document snippet(s):\n\n${formattedResults}`;
+      } catch (error) {
+        console.error("Error in search_documents tool:", error);
+        return `Error searching documents: ${
+          error instanceof Error ? error.message : String(error)
+        }`;
       }
     },
   },
