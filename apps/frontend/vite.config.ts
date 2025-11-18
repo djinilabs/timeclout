@@ -42,6 +42,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@/graphql-client": path.resolve(__dirname, "./src/graphql"),
+      "@/docs": path.resolve(__dirname, "../../docs"),
     },
   },
   build: {
@@ -59,6 +60,11 @@ export default defineConfig({
   worker: {
     plugins: () => [tsconfigPaths()],
     format: "es",
+    resolve: {
+      alias: {
+        "@/docs": path.resolve(__dirname, "../../docs"),
+      },
+    },
   },
   test: {
     environment: "jsdom",

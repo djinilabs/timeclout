@@ -1,20 +1,20 @@
 // Import marketing docs as raw text
-import docMarketing01ProductOverview from "../../../docs/marketing/01-product-overview.md?raw";
-import docMarketing02CoreFeatures from "../../../docs/marketing/02-core-features.md?raw";
-import docMarketing03UseCases from "../../../docs/marketing/03-use-cases-and-industries.md?raw";
-import docMarketing04CompetitiveAdvantages from "../../../docs/marketing/04-competitive-advantages.md?raw";
-import docMarketing05UserWorkflows from "../../../docs/marketing/05-user-workflows.md?raw";
-import docMarketing06BenefitsAndROI from "../../../docs/marketing/06-benefits-and-roi.md?raw";
-import docMarketingREADME from "../../../docs/marketing/README.md?raw";
+import docMarketing01ProductOverview from "@/docs/marketing/01-product-overview.md?raw";
+import docMarketing02CoreFeatures from "@/docs/marketing/02-core-features.md?raw";
+import docMarketing03UseCases from "@/docs/marketing/03-use-cases-and-industries.md?raw";
+import docMarketing04CompetitiveAdvantages from "@/docs/marketing/04-competitive-advantages.md?raw";
+import docMarketing05UserWorkflows from "@/docs/marketing/05-user-workflows.md?raw";
+import docMarketing06BenefitsAndROI from "@/docs/marketing/06-benefits-and-roi.md?raw";
+import docMarketingREADME from "@/docs/marketing/README.md?raw";
 
 // Import product docs as raw text
-import docProduct01ProductOverview from "../../../docs/product/01-product-overview.md?raw";
-import docProduct02KeyFeatures from "../../../docs/product/02-key-features.md?raw";
-import docProduct03CommonQuestions from "../../../docs/product/03-common-questions.md?raw";
-import docProduct04UserWorkflows from "../../../docs/product/04-user-workflows.md?raw";
-import docProduct05Troubleshooting from "../../../docs/product/05-troubleshooting.md?raw";
-import docProduct06AccountManagement from "../../../docs/product/06-account-management.md?raw";
-import docProductREADME from "../../../docs/product/README.md?raw";
+import docProduct01ProductOverview from "@/docs/product/01-product-overview.md?raw";
+import docProduct02KeyFeatures from "@/docs/product/02-key-features.md?raw";
+import docProduct03CommonQuestions from "@/docs/product/03-common-questions.md?raw";
+import docProduct04UserWorkflows from "@/docs/product/04-user-workflows.md?raw";
+import docProduct05Troubleshooting from "@/docs/product/05-troubleshooting.md?raw";
+import docProduct06AccountManagement from "@/docs/product/06-account-management.md?raw";
+import docProductREADME from "@/docs/product/README.md?raw";
 
 // Default chunk size for splitting documents (~2000 characters for more content)
 const DEFAULT_CHUNK_SIZE = 2000;
