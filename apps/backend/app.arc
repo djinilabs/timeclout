@@ -109,6 +109,7 @@ custom-domain
 @aws
 runtime typescript
 region eu-west-2
+timeout 60
 
 @typescript
 build dist
