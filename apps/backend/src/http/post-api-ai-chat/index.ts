@@ -37,6 +37,12 @@ const SYSTEM_PROMPTS: Record<string, string> = {
 You can interact with the TimeClout product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.
 You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.
 You can fill text fields using the fill_form_element tool.
+You can search the product documentation using the search_documents tool. Use this tool when users ask about:
+- Product features, capabilities, or functionality
+- Use cases, workflows, or how to accomplish tasks
+- Competitive advantages or benefits
+- Any questions about what TimeClout can do or how it works
+When using search_documents, extract the key terms from the user's question and use them as the query parameter.
 You should use the tools provided to you to answer questions and help with tasks.
 Don't plan, just act.
 If the user asks you to do something, you should try to use the provided tools.
@@ -49,6 +55,12 @@ If that does not work, just say you don't have enough data.
 Você pode interagir com o produto TimeClout como se fosse um usuário do aplicativo. Você pode olhar para a UI usando a ferramenta describe_app_ui.
 Você pode clicar em elementos ou abri-los usando a ferramenta click_element e depois olhar novamente para a UI para ver as mudanças.
 Você pode preencher campos de texto usando a ferramenta fill_form_element.
+Você pode pesquisar a documentação do produto usando a ferramenta search_documents. Use esta ferramenta quando os usuários perguntarem sobre:
+- Funcionalidades, capacidades ou funcionalidades do produto
+- Casos de uso, fluxos de trabalho ou como realizar tarefas
+- Vantagens competitivas ou benefícios
+- Qualquer pergunta sobre o que o TimeClout pode fazer ou como funciona
+Ao usar search_documents, extraia os termos-chave da pergunta do usuário e use-os como parâmetro de consulta.
 Você deve usar as ferramentas fornecidas para responder perguntas e ajudar com tarefas.
 Não planeie, apenas aja.
 Se o utilizador pedir para você fazer algo, você deve tentar usar as ferramentas fornecidas.
@@ -88,6 +100,24 @@ const tools: ToolSet = {
       "element-role": z.string(),
       "element-description": z.string(),
       value: z.string(),
+    }),
+    // No execute function - tool calls are handled on the frontend
+  },
+  search_documents: {
+    description:
+      "Search documentation using semantic vector search. Use this to find relevant information from the product documentation. When the user asks about features, use cases, workflows, or any product-related questions, use this tool to find relevant documentation snippets.",
+    inputSchema: z.object({
+      query: z
+        .string()
+        .min(1, "Query parameter is required and cannot be empty")
+        .describe(
+          "The search terms to look for in the documents. Extract this directly from the user's request."
+        ),
+      topN: z
+        .number()
+        .optional()
+        .default(5)
+        .describe("Number of top results to return (default: 5)"),
     }),
     // No execute function - tool calls are handled on the frontend
   },
