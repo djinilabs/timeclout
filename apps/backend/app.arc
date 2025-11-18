@@ -8,9 +8,11 @@ get /api/v1/ical/*
 any /graphql
 any /api/discord
 post /api/ai/chat
+post /api/ai/embedding
 
 @lambda-urls
 post /api/ai/chat
+post /api/ai/embedding
 
 @static
 spa true
