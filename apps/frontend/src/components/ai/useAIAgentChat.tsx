@@ -3,7 +3,6 @@ import { useLingui } from "@lingui/react";
 import {
   DefaultChatTransport,
   lastAssistantMessageIsCompleteWithToolCalls,
-  type UIMessage,
 } from "ai";
 import { nanoid } from "nanoid";
 import { useCallback, useMemo } from "react";
@@ -40,292 +39,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
   const tools = useAITools();
 
-  const transport = useMemo(() => {
-    const apiUrl = `${window.location.origin}/api/ai/chat`;
-    const currentLocale = i18n.locale; // Capture current locale at transport creation time
-    console.log(
-      "[useAIAgentChat] Creating transport with API URL:",
-      apiUrl,
-      "locale:",
-      currentLocale
-    );
-    return new DefaultChatTransport({
-      api: apiUrl,
-      prepareSendMessagesRequest: ({ messages }) => {
-        // Filter out any system messages - they should not be sent from client
-        const nonSystemMessages = messages.filter(
-          (msg: UIMessage) => msg.role !== "system"
-        );
-        // Use the locale captured when transport was created
-        const language = currentLocale || "en";
-        console.log(
-          "[useAIAgentChat] prepareSendMessagesRequest called with messages:",
-          JSON.stringify(nonSystemMessages, null, 2)
-        );
-        return {
-          body: {
-            messages: nonSystemMessages,
-          },
-          headers: {
-            "Accept-Language": language === "pt" ? "pt" : "en",
-          },
-        };
-      },
-      async fetch(url, options) {
-        console.log("[useAIAgentChat] fetch called, making request to:", url);
-        console.log("[useAIAgentChat] Request options:", {
-          method: options?.method,
-          headers: options?.headers,
-          hasBody: !!options?.body,
-        });
-
-        let response: Response;
-        try {
-          // Add timeout to fetch request
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
-
-          response = await fetch(url, {
-            ...options,
-            signal: controller.signal,
-          });
-          clearTimeout(timeoutId);
-        } catch (fetchError) {
-          console.error("[useAIAgentChat] Fetch error:", fetchError);
-
-          // Handle network errors, timeouts, and aborted requests
-          if (fetchError instanceof Error) {
-            if (fetchError.name === "AbortError") {
-              throw new Error(i18n.t("Request timed out. Please try again."));
-            }
-            if (
-              fetchError.message.includes("Failed to fetch") ||
-              fetchError.message.includes("NetworkError") ||
-              fetchError.message.includes("network")
-            ) {
-              throw new Error(
-                i18n.t(
-                  "Unable to connect to the server. Please check your internet connection and try again."
-                )
-              );
-            }
-          }
-          throw fetchError;
-        }
-
-        // Check if response is JSON (non-streaming)
-        const contentType = response.headers.get("content-type");
-        console.log(
-          "[useAIAgentChat] Response content-type:",
-          contentType,
-          "status:",
-          response.status
-        );
-
-        // Handle HTTP error status codes
-        if (!response.ok) {
-          let errorMessage = i18n.t(
-            "An error occurred while processing your request."
-          );
-
-          try {
-            const errorData = await response.json();
-            if (errorData.error || errorData.message) {
-              errorMessage = errorData.error || errorData.message;
-            }
-          } catch {
-            // If JSON parsing fails, try to get text
-            try {
-              const errorText = await response.text();
-              if (errorText) {
-                errorMessage = errorText;
-              }
-            } catch {
-              // Use default error message based on status code
-              if (response.status === 401) {
-                errorMessage = i18n.t(
-                  "Authentication required. Please log in again."
-                );
-              } else if (response.status === 403) {
-                errorMessage = i18n.t(
-                  "You don't have permission to perform this action."
-                );
-              } else if (response.status === 404) {
-                errorMessage = i18n.t("The requested resource was not found.");
-              } else if (response.status === 429) {
-                errorMessage = i18n.t(
-                  "Too many requests. Please wait a moment and try again."
-                );
-              } else if (response.status >= 500) {
-                errorMessage = i18n.t("Server error. Please try again later.");
-              } else {
-                errorMessage = i18n.t("Request failed with status {status}.", {
-                  status: response.status,
-                });
-              }
-            }
-          }
-
-          throw new Error(errorMessage);
-        }
-
-        if (contentType?.includes("application/json")) {
-          console.log("[useAIAgentChat] Detected JSON response, parsing...");
-          // Parse the JSON response
-          let data;
-          try {
-            data = await response.json();
-          } catch (parseError) {
-            console.error("[useAIAgentChat] JSON parse error:", parseError);
-            throw new Error(
-              i18n.t("Invalid response from server. Please try again.")
-            );
-          }
-          console.log(
-            "[useAIAgentChat] Parsed JSON data:",
-            JSON.stringify(data, null, 2)
-          );
-
-          // Convert OpenAI-compatible JSON response to streaming format
-          // DefaultChatTransport expects a ReadableStream with specific format
-          if (data.choices && data.choices[0]?.message) {
-            const message = data.choices[0].message;
-            console.log(
-              "[useAIAgentChat] Message from backend:",
-              JSON.stringify(message, null, 2)
-            );
-            const textEncoder = new TextEncoder();
-            const streamChunks: string[] = [];
-
-            // Create a stream that mimics the streaming format
-            // Use async start to ensure proper timing and allow the reader to start
-            const stream = new ReadableStream({
-              async start(controller) {
-                try {
-                  // Send text content if present
-                  if (message.content) {
-                    // Format: 0:"text content"\n
-                    const escapedContent = message.content
-                      .replace(/\\/g, "\\\\")
-                      .replace(/"/g, '\\"')
-                      .replace(/\n/g, "\\n")
-                      .replace(/\r/g, "\\r");
-                    const textChunk = `0:"${escapedContent}"\n`;
-                    streamChunks.push(textChunk);
-                    controller.enqueue(textEncoder.encode(textChunk));
-                    console.log(
-                      "[useAIAgentChat] Enqueued text chunk:",
-                      textChunk
-                    );
-                    // Allow time for chunk to be processed
-                    await new Promise((resolve) => setTimeout(resolve, 10));
-                  }
-
-                  // Send tool calls if present
-                  if (message.tool_calls && message.tool_calls.length > 0) {
-                    console.log(
-                      "[useAIAgentChat] Processing",
-                      message.tool_calls.length,
-                      "tool calls"
-                    );
-                    for (const toolCall of message.tool_calls) {
-                      try {
-                        const parsedArgs = JSON.parse(
-                          toolCall.function.arguments
-                        );
-                        // Format: 2:{"toolCallId":"...","toolName":"...","args":{...}}\n
-                        const toolCallData = {
-                          toolCallId: toolCall.id,
-                          toolName: toolCall.function.name,
-                          args: parsedArgs,
-                        };
-                        const toolCallChunk = `2:${JSON.stringify(
-                          toolCallData
-                        )}\n`;
-                        streamChunks.push(toolCallChunk);
-                        controller.enqueue(textEncoder.encode(toolCallChunk));
-                        console.log(
-                          "[useAIAgentChat] Enqueued tool call chunk:",
-                          toolCallChunk
-                        );
-                        // Allow time between chunks
-                        await new Promise((resolve) => setTimeout(resolve, 10));
-                      } catch (parseError) {
-                        console.error(
-                          "[useAIAgentChat] Error parsing tool call arguments:",
-                          parseError,
-                          "toolCall:",
-                          toolCall
-                        );
-                      }
-                    }
-                  }
-
-                  // Send done signal after a small delay
-                  await new Promise((resolve) => setTimeout(resolve, 10));
-                  const doneChunk = "d\n";
-                  streamChunks.push(doneChunk);
-                  controller.enqueue(textEncoder.encode(doneChunk));
-                  controller.close();
-                  console.log(
-                    "[useAIAgentChat] Stream complete. All chunks:",
-                    streamChunks
-                  );
-                } catch (error) {
-                  console.error("[useAIAgentChat] Stream error:", error);
-                  controller.error(error);
-                }
-              },
-            });
-
-            // Return a new Response with the stream and proper headers
-            // Note: DefaultChatTransport expects text/plain or text/event-stream
-            const streamResponse = new Response(stream, {
-              status: response.status,
-              statusText: response.statusText,
-              headers: {
-                "content-type": "text/plain; charset=utf-8",
-                "cache-control": "no-cache",
-                connection: "keep-alive",
-              },
-            });
-
-            // Log what we're returning for debugging
-            console.log(
-              "[useAIAgentChat] Returning stream response with chunks:",
-              streamChunks
-            );
-
-            return streamResponse;
-          } else {
-            console.warn(
-              "[useAIAgentChat] No choices or message in response:",
-              data
-            );
-            // If response doesn't have expected structure, throw error
-            throw new Error(
-              i18n.t("Invalid response format from server. Please try again.")
-            );
-          }
-        }
-
-        // If not JSON, check if it's a streaming response
-        // For streaming responses, we should still check for errors
-        if (!response.ok) {
-          // For streaming responses with errors, we need to handle them differently
-          // The error will be caught by the onError handler
-          throw new Error(
-            i18n.t("Error receiving response from server. Please try again.")
-          );
-        }
-
-        // If not JSON, return the response as-is (for streaming responses)
-        console.log("[useAIAgentChat] Returning response as-is (not JSON)");
-        return response;
-      },
-    });
-  }, [i18n]);
-
   const handleError = useCallback(
     async (error: Error, messageId = nanoid()) => {
       console.error("[useAIAgentChat] handleError", error);
@@ -353,40 +66,14 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   );
 
   const chat = useChat({
-    transport,
+    transport: new DefaultChatTransport({
+      api: "/api/ai/chat",
+      credentials: "include",
+    }),
     id: "timeclout-ai-chat",
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
     onFinish: async ({ message, isError }) => {
-      console.log(
-        "[useAIAgentChat] onFinish called",
-        JSON.stringify(
-          {
-            message: message
-              ? {
-                  id: message.id,
-                  role: message.role,
-                  parts: message.parts,
-                  partsDetail: message.parts.map((part) => {
-                    if (part.type === "text") {
-                      return { type: part.type, text: part.text };
-                    }
-                    if (part.type.startsWith("tool-") && "toolCallId" in part) {
-                      return {
-                        type: part.type,
-                        toolCallId: part.toolCallId,
-                        state: "state" in part ? part.state : undefined,
-                      };
-                    }
-                    return { type: part.type };
-                  }),
-                }
-              : null,
-            isError,
-          },
-          null,
-          2
-        )
-      );
+      console.log("[useAIAgentChat] onFinish called", { message, isError });
       // Save final message to history when streaming completes
       if (!isError && message) {
         const textContent = message.parts
@@ -396,26 +83,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
         const toolCallParts = message.parts.filter((part) =>
           part.type.startsWith("tool-")
-        );
-
-        console.log(
-          "[useAIAgentChat] Saving message:",
-          JSON.stringify(
-            {
-              id: message.id,
-              textContent,
-              role: message.role,
-              hasToolCalls: toolCallParts.length > 0,
-              toolCallsCount: toolCallParts.length,
-              toolCallParts: toolCallParts.map((part) => ({
-                type: part.type,
-                toolCallId: "toolCallId" in part ? part.toolCallId : undefined,
-                state: "state" in part ? part.state : undefined,
-              })),
-            },
-            null,
-            2
-          )
         );
 
         // If there are tool calls but onToolCall wasn't called, log it
@@ -477,18 +144,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       await handleError(userFriendlyError, nanoid());
     },
     async onToolCall({ toolCall }) {
-      console.log(
-        "[useAIAgentChat] onToolCall",
-        JSON.stringify(
-          {
-            toolCallId: toolCall.toolCallId,
-            toolName: toolCall.toolName,
-            args: "args" in toolCall ? toolCall.args : toolCall.input,
-          },
-          null,
-          2
-        )
-      );
       // Execute tools on frontend (since tools need DOM access)
       const toolName = toolCall.toolName as keyof typeof tools;
       const tool = tools[toolName];
@@ -500,7 +155,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           )(args);
 
           // Add tool result using AI SDK's built-in method
-          chat.addToolResult({
+          chat.addToolOutput({
             toolCallId: toolCall.toolCallId,
             tool: toolCall.toolName,
             output: toolResult,
@@ -517,7 +172,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           );
 
           // Add error as tool result with user-friendly message
-          chat.addToolResult({
+          chat.addToolOutput({
             toolCallId: toolCall.toolCallId,
             tool: toolCall.toolName,
             state: "output-error",
@@ -532,7 +187,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         );
 
         // Add error result for missing tool
-        chat.addToolResult({
+        chat.addToolOutput({
           toolCallId: toolCall.toolCallId,
           tool: toolCall.toolName,
           state: "output-error",
@@ -545,31 +200,10 @@ export const useAIAgentChat = (): AIAgentChatResult => {
     },
   });
 
+  console.log("[useAIAgentChat] chat:", chat);
+
   // Map chat messages to AIMessage format for compatibility with existing UI
   const chatMessages: AIMessage[] = useMemo(() => {
-    console.log(
-      "[useAIAgentChat] chat.messages:",
-      JSON.stringify(
-        chat.messages.map((msg) => ({
-          id: msg.id,
-          role: msg.role,
-          parts: msg.parts,
-        })),
-        null,
-        2
-      )
-    );
-    console.log(
-      "[useAIAgentChat] chat.status:",
-      JSON.stringify(
-        {
-          status: chat.status,
-          error: chat.error,
-        },
-        null,
-        2
-      )
-    );
     return chat.messages.map((chatMsg) => {
       // Extract text content from message parts
       const textParts = chatMsg.parts
@@ -601,7 +235,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         content: content || "",
       };
     });
-  }, [chat.messages, chat.status, chat.error]);
+  }, [chat.messages, chat.status]);
 
   // Combine loaded history with current chat messages
   const allMessages: AIMessage[] = useMemo(() => {
@@ -654,12 +288,11 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
       // Use useChat's sendMessage which handles streaming automatically
       // The system prompt is included via the transport's body configuration
-      console.log("[useAIAgentChat] Calling chat.sendMessage...");
+      console.log("[useAIAgentChat] Sending message:", message);
       try {
         await chat.sendMessage({
           text: message,
         });
-        console.log("[useAIAgentChat] chat.sendMessage completed");
       } catch (error) {
         console.error("[useAIAgentChat] Error in chat.sendMessage:", error);
         // The error will be handled by onError callback, but we should also

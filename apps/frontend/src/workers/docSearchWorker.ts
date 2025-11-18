@@ -690,7 +690,12 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
 
       self.postMessage(response);
     } else {
-      throw new Error(`Unknown message type: ${(message as any).type}`);
+      // This should never happen if WorkerMessage is properly typed
+      // TypeScript exhaustiveness check - if a new message type is added,
+      // TypeScript will error here because message cannot be assigned to never
+      const messageType = (message as WorkerMessage).type;
+      void (message as never); // Exhaustiveness check
+      throw new Error(`Unknown message type: ${messageType}`);
     }
   } catch (error) {
     console.error("[docSearchWorker] Error processing message:", error);

@@ -1,5 +1,5 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { forbidden } from "@hapi/boom";
+import { badRequest, forbidden, methodNotAllowed } from "@hapi/boom";
 import { convertToModelMessages, generateText } from "ai";
 import type { ToolSet, UIMessage } from "ai";
 import {
@@ -15,9 +15,9 @@ import {
   getLocaleFromHeaders,
   initI18n,
 } from "../../../../../libs/locales/src";
+import { handlingErrors } from "../../utils/handlingErrors";
 
 import { getDefined } from "@/utils";
-import { handlingErrors } from "../../utils/handlingErrors";
 
 const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
 
@@ -140,9 +140,9 @@ function sanitizeForLogging(body: unknown): unknown {
   if (!body || typeof body !== "object") {
     return body;
   }
-  
+
   const sanitized = { ...body } as Record<string, unknown>;
-  
+
   // Remove or mask sensitive fields
   if ("messages" in sanitized && Array.isArray(sanitized.messages)) {
     sanitized.messages = sanitized.messages.map((msg: unknown) => {
@@ -152,334 +152,348 @@ function sanitizeForLogging(body: unknown): unknown {
         if ("content" in msgObj && typeof msgObj.content === "string") {
           return {
             ...msgObj,
-            content: msgObj.content.length > 200 
-              ? msgObj.content.substring(0, 200) + "..." 
-              : msgObj.content,
+            content:
+              msgObj.content.length > 200
+                ? msgObj.content.substring(0, 200) + "..."
+                : msgObj.content,
           };
         }
       }
       return msg;
     });
   }
-  
+
   return sanitized;
 }
 
+/**
+ * Validates that the HTTP method is POST.
+ * Throws methodNotAllowed (405) if the method is not POST.
+ */
+function validateRequestMethod(
+  event: APIGatewayProxyEventV2,
+  requestId: string
+): void {
+  if (event.requestContext.http.method !== "POST") {
+    console.warn(
+      `[AI Chat] [${requestId}] Method not allowed: ${event.requestContext.http.method}`
+    );
+    throw methodNotAllowed(
+      `Method ${event.requestContext.http.method} not allowed. Only POST is supported.`
+    );
+  }
+}
+
+/**
+ * Authenticates the user by creating a user cache and retrieving the session.
+ * Throws forbidden (403) if authentication fails or no session is found.
+ */
+async function authenticateUser(
+  event: APIGatewayProxyEventV2,
+  requestId: string
+): Promise<{
+  userCache: Awaited<ReturnType<typeof createUserCache>>;
+  session: Awaited<ReturnType<typeof getSession>>;
+}> {
+  console.log(`[AI Chat] [${requestId}] Creating user cache...`);
+  const userCache = await createUserCache();
+  console.log(`[AI Chat] [${requestId}] User cache created successfully`);
+
+  console.log(`[AI Chat] [${requestId}] Getting session...`);
+  const minimalContext = {
+    event,
+    lambdaContext: {} as Context,
+    userCache,
+  };
+  const session = await getSession(minimalContext);
+  console.log(`[AI Chat] [${requestId}] Session retrieved`, {
+    hasSession: !!session,
+    userId: session?.user?.id || "none",
+  });
+
+  if (!session) {
+    console.warn(
+      `[AI Chat] [${requestId}] Authentication required but no session found`
+    );
+    throw forbidden("Authentication required to access this endpoint");
+  }
+
+  return { userCache, session };
+}
+
+/**
+ * Extracts locale from Accept-Language header, initializes i18n, and returns the appropriate system prompt.
+ */
+async function getSystemPrompt(
+  event: APIGatewayProxyEventV2,
+  requestId: string
+): Promise<string> {
+  console.log(`[AI Chat] [${requestId}] Extracting locale...`);
+  const acceptLanguage =
+    event.headers?.["accept-language"] ||
+    event.headers?.["Accept-Language"] ||
+    "en";
+  const locale = getLocaleFromHeaders(acceptLanguage);
+  console.log(`[AI Chat] [${requestId}] Locale determined: ${locale}`);
+
+  // Initialize i18n for this request (though system prompt is hardcoded for now)
+  await initI18n(locale);
+  console.log(`[AI Chat] [${requestId}] i18n initialized`);
+
+  // Get system prompt based on locale
+  const systemPrompt = SYSTEM_PROMPTS[locale] || SYSTEM_PROMPTS.en;
+  console.log(
+    `[AI Chat] [${requestId}] System prompt selected for locale: ${locale}`
+  );
+
+  return systemPrompt;
+}
+
+/**
+ * Parses and validates the request body to extract messages.
+ * Throws badRequest (400) for invalid JSON or invalid messages format.
+ */
+function parseMessages(
+  event: APIGatewayProxyEventV2,
+  requestId: string
+): Array<UIMessage> {
+  console.log(`[AI Chat] [${requestId}] Parsing request body...`);
+
+  if (!event.body) {
+    console.warn(`[AI Chat] [${requestId}] No request body provided`);
+    return [];
+  }
+
+  let body: { messages?: unknown };
+  try {
+    body = JSON.parse(
+      event.isBase64Encoded
+        ? Buffer.from(event.body, "base64").toString()
+        : event.body
+    );
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      console.error(
+        `[AI Chat] [${requestId}] Failed to parse request body:`,
+        error
+      );
+      throw badRequest("Invalid JSON in request body");
+    }
+    throw error;
+  }
+
+  // Log sanitized body for debugging
+  console.log(`[AI Chat] [${requestId}] Request body parsed:`, {
+    hasMessages: !!body.messages,
+    messageCount: Array.isArray(body.messages) ? body.messages.length : 0,
+    sanitizedBody: sanitizeForLogging(body),
+  });
+
+  if (!body.messages) {
+    return [];
+  }
+
+  if (!Array.isArray(body.messages)) {
+    console.error(
+      `[AI Chat] [${requestId}] Messages is not an array:`,
+      typeof body.messages
+    );
+    throw badRequest("messages must be an array");
+  }
+
+  const messages = body.messages as Array<UIMessage>;
+  console.log(`[AI Chat] [${requestId}] Parsed ${messages.length} messages`);
+
+  return messages;
+}
+
+/**
+ * Creates and configures the Google AI model.
+ */
+function createAIModel(requestId: string) {
+  console.log(`[AI Chat] [${requestId}] Creating Google AI client...`);
+  const google = createGoogleClient();
+  console.log(`[AI Chat] [${requestId}] Google AI client created`);
+
+  console.log(`[AI Chat] [${requestId}] Configuring model: ${MODEL_NAME}`);
+  const model = google(MODEL_NAME);
+  console.log(`[AI Chat] [${requestId}] Model configured`);
+
+  return model;
+}
+
+/**
+ * Generates AI response using the provided model, system prompt, and messages.
+ */
+async function generateAIResponse(
+  model: ReturnType<typeof createAIModel>,
+  systemPrompt: string,
+  messages: Array<UIMessage>,
+  requestId: string
+): Promise<Awaited<ReturnType<typeof generateText>>> {
+  console.log(`[AI Chat] [${requestId}] Generating AI response...`, {
+    messageCount: messages.length,
+    hasSystemPrompt: !!systemPrompt,
+    systemPromptLength: systemPrompt.length,
+    toolCount: Object.keys(tools).length,
+  });
+
+  const result = await generateText({
+    model,
+    system: systemPrompt,
+    messages: convertToModelMessages(messages),
+    tools,
+    toolChoice: "auto",
+  });
+
+  console.log(`[AI Chat] [${requestId}] AI response generated`, {
+    hasText: !!result.text,
+    textLength: result.text?.length || 0,
+    toolCallCount: result.toolCalls?.length || 0,
+    finishReason: result.finishReason,
+    usage: result.usage,
+  });
+
+  return result;
+}
+
+/**
+ * Formats the AI result into streaming response format.
+ * Format: 0:"text content"\n for text, 2:{"toolCallId":"...","toolName":"...","args":{...}}\n for tool calls, d\n for done
+ */
+function formatStreamingResponse(
+  result: Awaited<ReturnType<typeof generateText>>,
+  requestId: string
+): string {
+  console.log(`[AI Chat] [${requestId}] Formatting streaming response...`);
+  const chunks: string[] = [];
+
+  // Add text content if present
+  if (result.text && result.text.trim().length > 0) {
+    // Escape the content: backslashes, quotes, newlines, carriage returns
+    const escapedContent = result.text
+      .replace(/\\/g, "\\\\")
+      .replace(/"/g, '\\"')
+      .replace(/\n/g, "\\n")
+      .replace(/\r/g, "\\r");
+    // Format: 0:"text content"\n
+    chunks.push(`0:"${escapedContent}"\n`);
+    console.log(
+      `[AI Chat] [${requestId}] Added text chunk (length: ${result.text.length})`
+    );
+  } else {
+    console.warn(`[AI Chat] [${requestId}] No text content in result`, {
+      hasText: !!result.text,
+      textValue: result.text,
+      textLength: result.text?.length || 0,
+    });
+  }
+
+  // Add tool calls if present
+  if (result.toolCalls && result.toolCalls.length > 0) {
+    console.log(
+      `[AI Chat] [${requestId}] Adding ${result.toolCalls.length} tool calls`
+    );
+    for (const toolCall of result.toolCalls) {
+      const toolCallArgs = "args" in toolCall ? toolCall.args : toolCall.input;
+      // Format: 2:{"toolCallId":"...","toolName":"...","args":{...}}\n
+      const toolCallData = {
+        toolCallId: toolCall.toolCallId,
+        toolName: toolCall.toolName,
+        args: toolCallArgs,
+      };
+      chunks.push(`2:${JSON.stringify(toolCallData)}\n`);
+      console.log(
+        `[AI Chat] [${requestId}] Added tool call chunk: ${toolCall.toolName}`
+      );
+    }
+  }
+
+  // Add done signal
+  chunks.push("d\n");
+
+  // Join all chunks into the response body
+  const responseBody = chunks.join("");
+  console.log(
+    `[AI Chat] [${requestId}] Streaming response formatted (${chunks.length} chunks)`
+  );
+
+  return responseBody;
+}
+
 export const handler = handlingErrors(
-  async (
-    event: APIGatewayProxyEventV2
-  ): Promise<APIGatewayProxyResult> => {
+  async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResult> => {
     const requestId = event.requestContext.requestId;
     const startTime = Date.now();
-    
-    try {
-      console.log(`[AI Chat] [${requestId}] Request received`, {
-        method: event.requestContext.http.method,
-        path: event.rawPath,
-        hasBody: !!event.body,
-        bodyLength: event.body?.length || 0,
-        isBase64Encoded: event.isBase64Encoded,
-        headers: {
-          "accept-language": event.headers?.["accept-language"] || event.headers?.["Accept-Language"],
-          "content-type": event.headers?.["content-type"] || event.headers?.["Content-Type"],
-        },
-      });
 
-      // Only handle POST requests
-      if (event.requestContext.http.method !== "POST") {
-        console.warn(`[AI Chat] [${requestId}] Method not allowed: ${event.requestContext.http.method}`);
-        return {
-          statusCode: 405,
-          body: JSON.stringify({ error: "Method not allowed" }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
-      }
-
-      // Check authentication - user must be authenticated to use this endpoint
-      let userCache;
-      let session;
-      try {
-        console.log(`[AI Chat] [${requestId}] Creating user cache...`);
-        userCache = await createUserCache();
-        console.log(`[AI Chat] [${requestId}] User cache created successfully`);
-      } catch (error) {
-        console.error(`[AI Chat] [${requestId}] Failed to create user cache:`, error);
-        throw error;
-      }
-
-      try {
-        console.log(`[AI Chat] [${requestId}] Getting session...`);
-        const minimalContext = {
-          event,
-          lambdaContext: {} as Context,
-          userCache,
-        };
-        session = await getSession(minimalContext);
-        console.log(`[AI Chat] [${requestId}] Session retrieved`, {
-          hasSession: !!session,
-          userId: session?.user?.id || "none",
-        });
-      } catch (error) {
-        console.error(`[AI Chat] [${requestId}] Failed to get session:`, error);
-        throw error;
-      }
-
-      if (!session) {
-        console.warn(`[AI Chat] [${requestId}] Authentication required but no session found`);
-        throw forbidden("Authentication required to access this endpoint");
-      }
-
-      // Extract language from Accept-Language header
-      let locale: string;
-      let systemPrompt: string;
-      try {
-        console.log(`[AI Chat] [${requestId}] Extracting locale...`);
-        const acceptLanguage =
+    console.log(`[AI Chat] [${requestId}] Request received`, {
+      method: event.requestContext.http.method,
+      path: event.rawPath,
+      hasBody: !!event.body,
+      bodyLength: event.body?.length || 0,
+      isBase64Encoded: event.isBase64Encoded,
+      headers: {
+        "accept-language":
           event.headers?.["accept-language"] ||
-          event.headers?.["Accept-Language"] ||
-          "en";
-        locale = getLocaleFromHeaders(acceptLanguage);
-        console.log(`[AI Chat] [${requestId}] Locale determined: ${locale}`);
+          event.headers?.["Accept-Language"],
+        "content-type":
+          event.headers?.["content-type"] || event.headers?.["Content-Type"],
+      },
+    });
 
-        // Initialize i18n for this request (though system prompt is hardcoded for now)
-        await initI18n(locale);
-        console.log(`[AI Chat] [${requestId}] i18n initialized`);
+    // Validate HTTP method
+    validateRequestMethod(event, requestId);
 
-        // Get system prompt based on locale
-        systemPrompt = SYSTEM_PROMPTS[locale] || SYSTEM_PROMPTS.en;
-        console.log(`[AI Chat] [${requestId}] System prompt selected for locale: ${locale}`);
-      } catch (error) {
-        console.error(`[AI Chat] [${requestId}] Failed to initialize i18n:`, error);
-        throw error;
+    // Authenticate user
+    await authenticateUser(event, requestId);
+
+    // Get system prompt based on locale
+    const systemPrompt = await getSystemPrompt(event, requestId);
+
+    // Parse and validate messages
+    const messages = parseMessages(event, requestId);
+
+    // Filter out any system messages from client (shouldn't be any, but just in case)
+    const nonSystemMessages = messages.filter((msg) => msg.role !== "system");
+    console.log(
+      `[AI Chat] [${requestId}] Filtered to ${nonSystemMessages.length} non-system messages`
+    );
+
+    // Create and configure AI model
+    const model = createAIModel(requestId);
+
+    // Generate AI response
+    const result = await generateAIResponse(
+      model,
+      systemPrompt,
+      nonSystemMessages,
+      requestId
+    );
+
+    // Format streaming response
+    const responseBody = formatStreamingResponse(result, requestId);
+
+    const duration = Date.now() - startTime;
+    console.log(
+      `[AI Chat] [${requestId}] Request completed successfully in ${duration}ms`,
+      {
+        hasText: !!result.text,
+        textLength: result.text?.length || 0,
+        toolCallCount: result.toolCalls?.length || 0,
+        responseBodyLength: responseBody.length,
       }
+    );
 
-      // Parse and validate messages
-      let messages: Array<UIMessage> = [];
-      try {
-        console.log(`[AI Chat] [${requestId}] Parsing request body...`);
-        if (event.body) {
-          const body = JSON.parse(
-            event.isBase64Encoded
-              ? Buffer.from(event.body, "base64").toString()
-              : event.body
-          );
-          
-          // Log sanitized body for debugging
-          console.log(`[AI Chat] [${requestId}] Request body parsed:`, {
-            hasMessages: !!body.messages,
-            messageCount: Array.isArray(body.messages) ? body.messages.length : 0,
-            sanitizedBody: sanitizeForLogging(body),
-          });
-          
-          if (body.messages) {
-            if (!Array.isArray(body.messages)) {
-              console.error(`[AI Chat] [${requestId}] Messages is not an array:`, typeof body.messages);
-              return {
-                statusCode: 400,
-                body: JSON.stringify({ error: "messages must be an array" }),
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              };
-            }
-            messages = body.messages;
-          }
-        } else {
-          console.warn(`[AI Chat] [${requestId}] No request body provided`);
-        }
-        console.log(`[AI Chat] [${requestId}] Parsed ${messages.length} messages`);
-      } catch (error) {
-        console.error(`[AI Chat] [${requestId}] Failed to parse request body:`, error);
-        if (error instanceof SyntaxError) {
-          return {
-            statusCode: 400,
-            body: JSON.stringify({ error: "Invalid JSON in request body" }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          };
-        }
-        throw error;
-      }
-
-      // Filter out any system messages from client (shouldn't be any, but just in case)
-      const nonSystemMessages = messages.filter(
-        (msg) => msg.role !== "system"
-      );
-      console.log(`[AI Chat] [${requestId}] Filtered to ${nonSystemMessages.length} non-system messages`);
-
-      // Create Google AI client and configure model
-      let google;
-      let model;
-      try {
-        console.log(`[AI Chat] [${requestId}] Creating Google AI client...`);
-        google = createGoogleClient();
-        console.log(`[AI Chat] [${requestId}] Google AI client created`);
-        
-        console.log(`[AI Chat] [${requestId}] Configuring model: ${MODEL_NAME}`);
-        model = google(MODEL_NAME);
-        console.log(`[AI Chat] [${requestId}] Model configured`);
-      } catch (error) {
-        console.error(`[AI Chat] [${requestId}] Failed to create Google AI client or configure model:`, error);
-        throw error;
-      }
-
-      // Generate the AI response with tools and system prompt
-      let result;
-      try {
-        console.log(`[AI Chat] [${requestId}] Generating AI response...`, {
-          messageCount: nonSystemMessages.length,
-          hasSystemPrompt: !!systemPrompt,
-          systemPromptLength: systemPrompt.length,
-          toolCount: Object.keys(tools).length,
-        });
-        
-        result = await generateText({
-          model,
-          system: systemPrompt,
-          messages: convertToModelMessages(nonSystemMessages),
-          tools,
-          toolChoice: "auto",
-        });
-        
-        console.log(`[AI Chat] [${requestId}] AI response generated`, {
-          hasText: !!result.text,
-          textLength: result.text?.length || 0,
-          toolCallCount: result.toolCalls?.length || 0,
-          finishReason: result.finishReason,
-          usage: result.usage,
-        });
-      } catch (error) {
-        console.error(`[AI Chat] [${requestId}] Failed to generate AI response:`, error);
-        // Log additional context for AI generation errors
-        if (error instanceof Error) {
-          console.error(`[AI Chat] [${requestId}] Error details:`, {
-            name: error.name,
-            message: error.message,
-            stack: error.stack,
-          });
-        }
-        throw error;
-      }
-
-      // Format response for AI SDK's DefaultChatTransport
-      let message: {
-        role: "assistant";
-        content: string | null;
-        tool_calls?: Array<{
-          id: string;
-          type: "function";
-          function: {
-            name: string;
-            arguments: string;
-          };
-        }>;
-      };
-      try {
-        console.log(`[AI Chat] [${requestId}] Formatting response message...`);
-        message = {
-          role: "assistant",
-          content: result.text || null,
-        };
-
-        // Include tool calls inside the message if any
-        if (result.toolCalls && result.toolCalls.length > 0) {
-          console.log(`[AI Chat] [${requestId}] Adding ${result.toolCalls.length} tool calls to message`);
-          message.tool_calls = result.toolCalls.map((toolCall) => ({
-            id: toolCall.toolCallId,
-            type: "function" as const,
-            function: {
-              name: toolCall.toolName,
-              arguments: JSON.stringify(
-                "args" in toolCall ? toolCall.args : toolCall.input
-              ),
-            },
-          }));
-        }
-        console.log(`[AI Chat] [${requestId}] Message formatted`);
-      } catch (error) {
-        console.error(`[AI Chat] [${requestId}] Failed to format response message:`, error);
-        throw error;
-      }
-
-      // Format response in OpenAI-compatible format
-      let responseBody;
-      try {
-        console.log(`[AI Chat] [${requestId}] Formatting OpenAI-compatible response...`);
-        responseBody = {
-          id: result.response.id || `chatcmpl-${Date.now()}`,
-          object: "chat.completion",
-          created: Math.floor(Date.now() / 1000),
-          model: MODEL_NAME,
-          choices: [
-            {
-              index: 0,
-              message,
-              finish_reason: result.finishReason || "stop",
-            },
-          ],
-          usage: {
-            prompt_tokens:
-              result.usage && "promptTokens" in result.usage
-                ? (result.usage as { promptTokens: number }).promptTokens
-                : 0,
-            completion_tokens:
-              result.usage && "completionTokens" in result.usage
-                ? (result.usage as { completionTokens: number }).completionTokens
-                : 0,
-            total_tokens:
-              result.usage && "totalTokens" in result.usage
-                ? (result.usage as { totalTokens: number }).totalTokens
-                : 0,
-          },
-        };
-        console.log(`[AI Chat] [${requestId}] Response body formatted`);
-      } catch (error) {
-        console.error(`[AI Chat] [${requestId}] Failed to format response body:`, error);
-        throw error;
-      }
-
-      const duration = Date.now() - startTime;
-      console.log(`[AI Chat] [${requestId}] Request completed successfully in ${duration}ms`, {
-        responseId: responseBody.id,
-        hasToolCalls: !!(message.tool_calls && message.tool_calls.length > 0),
-        tokenUsage: responseBody.usage,
-      });
-
-      return {
-        statusCode: 200,
-        body: JSON.stringify(responseBody),
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Accept-Language",
-        },
-        isBase64Encoded: false,
-      };
-    } catch (error) {
-      const duration = Date.now() - startTime;
-      console.error(`[AI Chat] [${requestId}] Request failed after ${duration}ms:`, error);
-      
-      // Log detailed error information
-      if (error instanceof Error) {
-        console.error(`[AI Chat] [${requestId}] Error details:`, {
-          name: error.name,
-          message: error.message,
-          stack: error.stack,
-          cause: error.cause,
-        });
-      } else {
-        console.error(`[AI Chat] [${requestId}] Unknown error type:`, {
-          type: typeof error,
-          value: String(error),
-        });
-      }
-      
-      // Re-throw to let handlingErrors wrapper handle it
-      throw error;
-    }
+    return {
+      statusCode: 200,
+      body: responseBody,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Accept-Language",
+      },
+      isBase64Encoded: false,
+    };
   }
 );
