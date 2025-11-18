@@ -1,28 +1,29 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { badRequest, forbidden, methodNotAllowed } from "@hapi/boom";
-import { convertToModelMessages, generateText } from "ai";
-import type { ToolSet, UIMessage } from "ai";
-import {
+import { boomify } from "@hapi/boom";
+import { createUIMessageStream, streamText } from "ai";
+import type { ModelMessage, ToolSet } from "ai";
+import type {
   APIGatewayProxyEventV2,
-  APIGatewayProxyResult,
-  Context,
+  APIGatewayProxyHandlerV2,
+  APIGatewayProxyResultV2,
 } from "aws-lambda";
 import { z } from "zod";
 
-import { createUserCache } from "../../../../../libs/graphql/src/resolverContext";
-import { getSession } from "../../../../../libs/graphql/src/session/getSession";
 import {
   getLocaleFromHeaders,
   initI18n,
 } from "../../../../../libs/locales/src";
 import { handlingErrors } from "../../utils/handlingErrors";
 
+import { convertUIMessagesToModelMessages } from "./utils/messageConversion";
+import { authenticateUser, validateRequest } from "./utils/requestValidation";
+import type { UIMessage } from "./utils/types";
+
 import { getDefined } from "@/utils";
 
 const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
 
 // Helper function to create Google AI client
-// This is called inside the handler to ensure errors are caught properly
 const createGoogleClient = () => {
   const apiKey = getDefined(
     process.env.GEMINI_API_KEY,
@@ -129,300 +130,25 @@ const tools: ToolSet = {
   },
 };
 
-export interface ChatRequest {
-  messages: UIMessage[];
-}
-
-/**
- * Sanitize request body for logging (remove sensitive data)
- */
-function sanitizeForLogging(body: unknown): unknown {
-  if (!body || typeof body !== "object") {
-    return body;
-  }
-
-  const sanitized = { ...body } as Record<string, unknown>;
-
-  // Remove or mask sensitive fields
-  if ("messages" in sanitized && Array.isArray(sanitized.messages)) {
-    sanitized.messages = sanitized.messages.map((msg: unknown) => {
-      if (typeof msg === "object" && msg !== null) {
-        const msgObj = msg as Record<string, unknown>;
-        // Keep structure but limit content length for logging
-        if ("content" in msgObj && typeof msgObj.content === "string") {
-          return {
-            ...msgObj,
-            content:
-              msgObj.content.length > 200
-                ? msgObj.content.substring(0, 200) + "..."
-                : msgObj.content,
-          };
-        }
-      }
-      return msg;
-    });
-  }
-
-  return sanitized;
-}
-
-/**
- * Validates that the HTTP method is POST.
- * Throws methodNotAllowed (405) if the method is not POST.
- */
-function validateRequestMethod(
-  event: APIGatewayProxyEventV2,
-  requestId: string
-): void {
-  if (event.requestContext.http.method !== "POST") {
-    console.warn(
-      `[AI Chat] [${requestId}] Method not allowed: ${event.requestContext.http.method}`
-    );
-    throw methodNotAllowed(
-      `Method ${event.requestContext.http.method} not allowed. Only POST is supported.`
-    );
-  }
-}
-
-/**
- * Authenticates the user by creating a user cache and retrieving the session.
- * Throws forbidden (403) if authentication fails or no session is found.
- */
-async function authenticateUser(
-  event: APIGatewayProxyEventV2,
-  requestId: string
-): Promise<{
-  userCache: Awaited<ReturnType<typeof createUserCache>>;
-  session: Awaited<ReturnType<typeof getSession>>;
-}> {
-  console.log(`[AI Chat] [${requestId}] Creating user cache...`);
-  const userCache = await createUserCache();
-  console.log(`[AI Chat] [${requestId}] User cache created successfully`);
-
-  console.log(`[AI Chat] [${requestId}] Getting session...`);
-  const minimalContext = {
-    event,
-    lambdaContext: {} as Context,
-    userCache,
-  };
-  const session = await getSession(minimalContext);
-  console.log(`[AI Chat] [${requestId}] Session retrieved`, {
-    hasSession: !!session,
-    userId: session?.user?.id || "none",
-  });
-
-  if (!session) {
-    console.warn(
-      `[AI Chat] [${requestId}] Authentication required but no session found`
-    );
-    throw forbidden("Authentication required to access this endpoint");
-  }
-
-  return { userCache, session };
-}
-
 /**
  * Extracts locale from Accept-Language header, initializes i18n, and returns the appropriate system prompt.
  */
-async function getSystemPrompt(
-  event: APIGatewayProxyEventV2,
-  requestId: string
-): Promise<string> {
-  console.log(`[AI Chat] [${requestId}] Extracting locale...`);
+async function getSystemPrompt(event: APIGatewayProxyEventV2): Promise<string> {
   const acceptLanguage =
     event.headers?.["accept-language"] ||
     event.headers?.["Accept-Language"] ||
     "en";
   const locale = getLocaleFromHeaders(acceptLanguage);
-  console.log(`[AI Chat] [${requestId}] Locale determined: ${locale}`);
 
-  // Initialize i18n for this request (though system prompt is hardcoded for now)
+  // Initialize i18n for this request
   await initI18n(locale);
-  console.log(`[AI Chat] [${requestId}] i18n initialized`);
 
   // Get system prompt based on locale
-  const systemPrompt = SYSTEM_PROMPTS[locale] || SYSTEM_PROMPTS.en;
-  console.log(
-    `[AI Chat] [${requestId}] System prompt selected for locale: ${locale}`
-  );
-
-  return systemPrompt;
+  return SYSTEM_PROMPTS[locale] || SYSTEM_PROMPTS.en;
 }
 
-/**
- * Parses and validates the request body to extract messages.
- * Throws badRequest (400) for invalid JSON or invalid messages format.
- */
-function parseMessages(
-  event: APIGatewayProxyEventV2,
-  requestId: string
-): Array<UIMessage> {
-  console.log(`[AI Chat] [${requestId}] Parsing request body...`);
-
-  if (!event.body) {
-    console.warn(`[AI Chat] [${requestId}] No request body provided`);
-    return [];
-  }
-
-  let body: { messages?: unknown };
-  try {
-    body = JSON.parse(
-      event.isBase64Encoded
-        ? Buffer.from(event.body, "base64").toString()
-        : event.body
-    );
-  } catch (error) {
-    if (error instanceof SyntaxError) {
-      console.error(
-        `[AI Chat] [${requestId}] Failed to parse request body:`,
-        error
-      );
-      throw badRequest("Invalid JSON in request body");
-    }
-    throw error;
-  }
-
-  // Log sanitized body for debugging
-  console.log(`[AI Chat] [${requestId}] Request body parsed:`, {
-    hasMessages: !!body.messages,
-    messageCount: Array.isArray(body.messages) ? body.messages.length : 0,
-    sanitizedBody: sanitizeForLogging(body),
-  });
-
-  if (!body.messages) {
-    return [];
-  }
-
-  if (!Array.isArray(body.messages)) {
-    console.error(
-      `[AI Chat] [${requestId}] Messages is not an array:`,
-      typeof body.messages
-    );
-    throw badRequest("messages must be an array");
-  }
-
-  const messages = body.messages as Array<UIMessage>;
-  console.log(`[AI Chat] [${requestId}] Parsed ${messages.length} messages`);
-
-  return messages;
-}
-
-/**
- * Creates and configures the Google AI model.
- */
-function createAIModel(requestId: string) {
-  console.log(`[AI Chat] [${requestId}] Creating Google AI client...`);
-  const google = createGoogleClient();
-  console.log(`[AI Chat] [${requestId}] Google AI client created`);
-
-  console.log(`[AI Chat] [${requestId}] Configuring model: ${MODEL_NAME}`);
-  const model = google(MODEL_NAME);
-  console.log(`[AI Chat] [${requestId}] Model configured`);
-
-  return model;
-}
-
-/**
- * Generates AI response using the provided model, system prompt, and messages.
- */
-async function generateAIResponse(
-  model: ReturnType<typeof createAIModel>,
-  systemPrompt: string,
-  messages: Array<UIMessage>,
-  requestId: string
-): Promise<Awaited<ReturnType<typeof generateText>>> {
-  console.log(`[AI Chat] [${requestId}] Generating AI response...`, {
-    messageCount: messages.length,
-    hasSystemPrompt: !!systemPrompt,
-    systemPromptLength: systemPrompt.length,
-    toolCount: Object.keys(tools).length,
-  });
-
-  const result = await generateText({
-    model,
-    system: systemPrompt,
-    messages: convertToModelMessages(messages),
-    tools,
-    toolChoice: "auto",
-  });
-
-  console.log(`[AI Chat] [${requestId}] AI response generated`, {
-    hasText: !!result.text,
-    textLength: result.text?.length || 0,
-    toolCallCount: result.toolCalls?.length || 0,
-    finishReason: result.finishReason,
-    usage: result.usage,
-  });
-
-  return result;
-}
-
-/**
- * Formats the AI result into streaming response format.
- * Format: 0:"text content"\n for text, 2:{"toolCallId":"...","toolName":"...","args":{...}}\n for tool calls, d\n for done
- */
-function formatStreamingResponse(
-  result: Awaited<ReturnType<typeof generateText>>,
-  requestId: string
-): string {
-  console.log(`[AI Chat] [${requestId}] Formatting streaming response...`);
-  const chunks: string[] = [];
-
-  // Add text content if present
-  if (result.text && result.text.trim().length > 0) {
-    // Escape the content: backslashes, quotes, newlines, carriage returns
-    const escapedContent = result.text
-      .replace(/\\/g, "\\\\")
-      .replace(/"/g, '\\"')
-      .replace(/\n/g, "\\n")
-      .replace(/\r/g, "\\r");
-    // Format: 0:"text content"\n
-    chunks.push(`0:"${escapedContent}"\n`);
-    console.log(
-      `[AI Chat] [${requestId}] Added text chunk (length: ${result.text.length})`
-    );
-  } else {
-    console.warn(`[AI Chat] [${requestId}] No text content in result`, {
-      hasText: !!result.text,
-      textValue: result.text,
-      textLength: result.text?.length || 0,
-    });
-  }
-
-  // Add tool calls if present
-  if (result.toolCalls && result.toolCalls.length > 0) {
-    console.log(
-      `[AI Chat] [${requestId}] Adding ${result.toolCalls.length} tool calls`
-    );
-    for (const toolCall of result.toolCalls) {
-      const toolCallArgs = "args" in toolCall ? toolCall.args : toolCall.input;
-      // Format: 2:{"toolCallId":"...","toolName":"...","args":{...}}\n
-      const toolCallData = {
-        toolCallId: toolCall.toolCallId,
-        toolName: toolCall.toolName,
-        args: toolCallArgs,
-      };
-      chunks.push(`2:${JSON.stringify(toolCallData)}\n`);
-      console.log(
-        `[AI Chat] [${requestId}] Added tool call chunk: ${toolCall.toolName}`
-      );
-    }
-  }
-
-  // Add done signal
-  chunks.push("d\n");
-
-  // Join all chunks into the response body
-  const responseBody = chunks.join("");
-  console.log(
-    `[AI Chat] [${requestId}] Streaming response formatted (${chunks.length} chunks)`
-  );
-
-  return responseBody;
-}
-
-export const handler = handlingErrors(
-  async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResult> => {
+export const handler: APIGatewayProxyHandlerV2 = handlingErrors(
+  async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
     const requestId = event.requestContext.requestId;
     const startTime = Date.now();
 
@@ -432,68 +158,302 @@ export const handler = handlingErrors(
       hasBody: !!event.body,
       bodyLength: event.body?.length || 0,
       isBase64Encoded: event.isBase64Encoded,
-      headers: {
-        "accept-language":
-          event.headers?.["accept-language"] ||
-          event.headers?.["Accept-Language"],
-        "content-type":
-          event.headers?.["content-type"] || event.headers?.["Content-Type"],
-      },
     });
 
-    // Validate HTTP method
-    validateRequestMethod(event, requestId);
+    try {
+      // Validate request
+      const { messages } = validateRequest(event);
 
-    // Authenticate user
-    await authenticateUser(event, requestId);
+      // Log raw messages as they arrive
+      console.log(`[AI Chat] [${requestId}] Raw messages received:`, {
+        count: messages.length,
+        messages: JSON.stringify(messages, null, 2),
+      });
 
-    // Get system prompt based on locale
-    const systemPrompt = await getSystemPrompt(event, requestId);
+      // Log each message individually
+      messages.forEach((msg, idx) => {
+        console.log(`[AI Chat] [${requestId}] Message ${idx}:`, {
+          type: typeof msg,
+          isObject: typeof msg === "object",
+          isNull: msg === null,
+          keys: typeof msg === "object" && msg !== null ? Object.keys(msg) : [],
+          fullMessage: JSON.stringify(msg, null, 2),
+        });
+      });
 
-    // Parse and validate messages
-    const messages = parseMessages(event, requestId);
+      // Authenticate user
+      await authenticateUser(event);
 
-    // Filter out any system messages from client (shouldn't be any, but just in case)
-    const nonSystemMessages = messages.filter((msg) => msg.role !== "system");
-    console.log(
-      `[AI Chat] [${requestId}] Filtered to ${nonSystemMessages.length} non-system messages`
-    );
+      // Get system prompt based on locale
+      const systemPrompt = await getSystemPrompt(event);
 
-    // Create and configure AI model
-    const model = createAIModel(requestId);
+      // Create Google AI client and model
+      const google = createGoogleClient();
+      const model = google(MODEL_NAME);
 
-    // Generate AI response
-    const result = await generateAIResponse(
-      model,
-      systemPrompt,
-      nonSystemMessages,
-      requestId
-    );
+      // Convert messages to ModelMessage format
+      let modelMessages: ModelMessage[];
+      try {
+        // Convert messages from AI SDK format (with parts) to UIMessage format
+        // AI SDK sends messages with 'parts' array, we need to convert to 'content'
+        const convertedMessages: UIMessage[] = messages
+          .filter(
+            (
+              msg
+            ): msg is { role: string; parts?: unknown[]; content?: unknown } =>
+              msg != null &&
+              typeof msg === "object" &&
+              "role" in msg &&
+              typeof msg.role === "string" &&
+              (msg.role === "user" ||
+                msg.role === "assistant" ||
+                msg.role === "system" ||
+                msg.role === "tool")
+          )
+          .map((msg) => {
+            // If message has 'parts' array (from AI SDK useChat), convert to 'content'
+            if ("parts" in msg && Array.isArray(msg.parts)) {
+              const content = msg.parts.map((part) => {
+                if (
+                  typeof part === "object" &&
+                  part !== null &&
+                  "type" in part &&
+                  part.type === "text" &&
+                  "text" in part
+                ) {
+                  return { type: "text" as const, text: String(part.text) };
+                }
+                return part;
+              });
+              return {
+                role: msg.role as UIMessage["role"],
+                content,
+              } as UIMessage;
+            }
+            // If message already has 'content', use it as-is
+            if ("content" in msg) {
+              return {
+                role: msg.role as UIMessage["role"],
+                content: msg.content,
+              } as UIMessage;
+            }
+            // Fallback: create empty content
+            return {
+              role: msg.role as UIMessage["role"],
+              content: "",
+            } as UIMessage;
+          });
 
-    // Format streaming response
-    const responseBody = formatStreamingResponse(result, requestId);
+        // Validate and filter messages to ensure they match UIMessage format
+        const validMessages: UIMessage[] = convertedMessages.filter(
+          (msg): msg is UIMessage =>
+            msg != null &&
+            typeof msg === "object" &&
+            "role" in msg &&
+            typeof msg.role === "string" &&
+            (msg.role === "user" ||
+              msg.role === "assistant" ||
+              msg.role === "system" ||
+              msg.role === "tool") &&
+            "content" in msg
+        );
 
-    const duration = Date.now() - startTime;
-    console.log(
-      `[AI Chat] [${requestId}] Request completed successfully in ${duration}ms`,
-      {
-        hasText: !!result.text,
-        textLength: result.text?.length || 0,
-        toolCallCount: result.toolCalls?.length || 0,
-        responseBodyLength: responseBody.length,
+        console.log(`[AI Chat] [${requestId}] Validated messages:`, {
+          originalCount: messages.length,
+          validCount: validMessages.length,
+          validMessages: JSON.stringify(validMessages, null, 2),
+        });
+
+        // Filter out system messages (system prompt is passed separately)
+        const nonSystemMessages = validMessages.filter(
+          (msg) => msg.role !== "system"
+        );
+
+        console.log(`[AI Chat] [${requestId}] Non-system messages:`, {
+          count: nonSystemMessages.length,
+          messages: JSON.stringify(nonSystemMessages, null, 2),
+        });
+
+        modelMessages = convertUIMessagesToModelMessages(nonSystemMessages);
+
+        console.log(`[AI Chat] [${requestId}] Converted model messages:`, {
+          count: modelMessages.length,
+          messages: JSON.stringify(modelMessages, null, 2),
+        });
+
+        // Validate that we have at least one message
+        if (modelMessages.length === 0) {
+          console.error(
+            `[AI Chat] [${requestId}] No valid messages after conversion`,
+            {
+              originalMessages: messages.length,
+              validMessages: validMessages.length,
+              nonSystemMessages: nonSystemMessages.length,
+            }
+          );
+          throw new Error(
+            "No valid messages found. At least one user or assistant message is required."
+          );
+        }
+      } catch (error) {
+        console.error("[AI Chat] Error converting messages:", {
+          error: error instanceof Error ? error.message : String(error),
+          stack: error instanceof Error ? error.stack : undefined,
+        });
+        throw error;
       }
-    );
 
-    return {
-      statusCode: 200,
-      body: responseBody,
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Accept-Language",
-      },
-      isBase64Encoded: false,
-    };
+      // Generate AI response using streaming
+      let stream: ReadableStream<unknown>;
+      try {
+        console.log(
+          `[AI Chat] [${requestId}] Creating UI message stream with ${modelMessages.length} messages`
+        );
+
+        // Create UI message stream with execute function that uses streamText
+        stream = createUIMessageStream({
+          execute: async ({ writer }) => {
+            const result = await streamText({
+              model: model as unknown as Parameters<
+                typeof streamText
+              >[0]["model"],
+              system: systemPrompt,
+              messages: modelMessages,
+              tools,
+            });
+
+            // Get message ID for the stream (generate a simple ID)
+            const messageId = `msg-${Date.now()}`;
+
+            // Write text-start chunk
+            writer.write({
+              type: "text-start",
+              id: messageId,
+            });
+
+            // Write text deltas to the stream
+            for await (const textPart of result.textStream) {
+              writer.write({
+                type: "text-delta",
+                delta: textPart,
+                id: messageId,
+              });
+            }
+
+            // Write text-end chunk
+            writer.write({
+              type: "text-end",
+              id: messageId,
+            });
+
+            // Write tool calls if present
+            const toolCalls = await result.toolCalls;
+            if (toolCalls && toolCalls.length > 0) {
+              for (const toolCall of toolCalls) {
+                const toolCallArgs =
+                  "args" in toolCall ? toolCall.args : toolCall.input;
+                writer.write({
+                  type: "tool-input-available",
+                  toolCallId: toolCall.toolCallId,
+                  toolName: toolCall.toolName,
+                  input: toolCallArgs,
+                });
+              }
+            }
+
+            // Finish the stream
+            writer.write({
+              type: "finish",
+            });
+          },
+        });
+      } catch (error) {
+        console.error("[AI Chat] Error creating stream:", {
+          error: error instanceof Error ? error.message : String(error),
+          stack: error instanceof Error ? error.stack : undefined,
+          messageCount: modelMessages.length,
+        });
+        throw error;
+      }
+
+      // Consume the entire stream (since Lambda doesn't support true streaming)
+      // Convert UIMessageChunk objects to data stream format
+      const dataStreamChunks: string[] = [];
+      const reader = stream.getReader();
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            break;
+          }
+          if (value && typeof value === "object" && "type" in value) {
+            // Convert UIMessageChunk to data stream format
+            if (value.type === "text-delta" && "delta" in value) {
+              // Format: 0:${JSON.stringify(delta)}\n
+              dataStreamChunks.push(`0:${JSON.stringify(value.delta)}\n`);
+            } else if (
+              value.type === "tool-input-available" &&
+              "toolCallId" in value &&
+              "toolName" in value
+            ) {
+              // Format: 2:${JSON.stringify(toolCall)}\n
+              const toolCallData = {
+                toolCallId: value.toolCallId,
+                toolName: value.toolName,
+                args: "input" in value ? value.input : {},
+              };
+              dataStreamChunks.push(`2:${JSON.stringify(toolCallData)}\n`);
+            } else if (value.type === "finish") {
+              // Format: d\n
+              dataStreamChunks.push("d\n");
+            }
+            // Ignore other chunk types (text-start, text-end, etc.) as they're not needed in data stream format
+          }
+        }
+      } finally {
+        reader.releaseLock();
+      }
+
+      // Join all chunks into a single string
+      const body = dataStreamChunks.join("");
+
+      const duration = Date.now() - startTime;
+      console.log(
+        `[AI Chat] [${requestId}] Request completed successfully in ${duration}ms`,
+        {
+          responseBodyLength: body.length,
+        }
+      );
+
+      return {
+        statusCode: 200,
+        headers: {
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache",
+          Connection: "keep-alive",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Accept-Language",
+        },
+        body,
+      };
+    } catch (error) {
+      console.error("[AI Chat] Unhandled error:", {
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      });
+      const err = boomify(
+        error instanceof Error ? error : new Error(String(error))
+      );
+      return {
+        statusCode: err.output.statusCode,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          error: err.message,
+        }),
+      };
+    }
   }
 );
