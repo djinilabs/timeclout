@@ -79,7 +79,7 @@ class DocSearchManager {
     this.worker.addEventListener("error", (error) => {
       console.error("[DocSearchManager] Worker error:", error);
       // Reject all pending requests
-      for (const [requestId, pending] of this.pendingRequests.entries()) {
+      for (const [, pending] of this.pendingRequests.entries()) {
         pending.reject(new Error(`Worker error: ${error.message}`));
       }
       this.pendingRequests.clear();
@@ -171,7 +171,7 @@ class DocSearchManager {
   destroy(): void {
     if (this.worker) {
       // Reject all pending requests
-      for (const [requestId, pending] of this.pendingRequests.entries()) {
+      for (const [, pending] of this.pendingRequests.entries()) {
         pending.reject(new Error("Worker destroyed"));
       }
       this.pendingRequests.clear();

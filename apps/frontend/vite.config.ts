@@ -60,11 +60,6 @@ export default defineConfig({
   worker: {
     plugins: () => [tsconfigPaths()],
     format: "es",
-    resolve: {
-      alias: {
-        "@/docs": path.resolve(__dirname, "../../docs"),
-      },
-    },
   },
   test: {
     environment: "jsdom",

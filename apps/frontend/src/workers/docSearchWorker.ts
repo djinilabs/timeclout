@@ -6,7 +6,6 @@ import docMarketing04CompetitiveAdvantages from "@/docs/marketing/04-competitive
 import docMarketing05UserWorkflows from "@/docs/marketing/05-user-workflows.md?raw";
 import docMarketing06BenefitsAndROI from "@/docs/marketing/06-benefits-and-roi.md?raw";
 import docMarketingREADME from "@/docs/marketing/README.md?raw";
-
 // Import product docs as raw text
 import docProduct01ProductOverview from "@/docs/product/01-product-overview.md?raw";
 import docProduct02KeyFeatures from "@/docs/product/02-key-features.md?raw";
@@ -402,7 +401,7 @@ async function performIndexing(apiUrl: string): Promise<void> {
  * Perform the actual search using cached embeddings
  */
 async function performSearch(
-  query: string,
+  _query: string,
   queryEmbedding: number[],
   topN: number,
   apiUrl: string

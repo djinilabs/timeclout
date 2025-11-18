@@ -1,5 +1,9 @@
 import { forbidden } from "@hapi/boom";
-import { Context } from "aws-lambda";
+import {
+  APIGatewayProxyEventV2,
+  APIGatewayProxyResult,
+  Context,
+} from "aws-lambda";
 
 import { createUserCache } from "../../../../../libs/graphql/src/resolverContext";
 import { getSession } from "../../../../../libs/graphql/src/session/getSession";
@@ -42,15 +46,9 @@ export interface EmbeddingResponse {
   embedding: number[];
 }
 
-export const handler = async (event: {
-  requestContext: { http: { method: string } };
-  body?: string;
-  isBase64Encoded?: boolean;
-}): Promise<{
-  statusCode: number;
-  body: string;
-  headers?: Record<string, string>;
-}> => {
+export const handler = async (
+  event: APIGatewayProxyEventV2
+): Promise<APIGatewayProxyResult> => {
   try {
     // Only handle POST requests
     if (event.requestContext.http.method !== "POST") {
@@ -200,6 +198,7 @@ export const handler = async (event: {
           headers: {
             "Content-Type": "application/json",
           },
+          isBase64Encoded: false,
         };
       } catch (error) {
         // Check if it's a network/fetch error that might be retryable
