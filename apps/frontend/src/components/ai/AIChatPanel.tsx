@@ -71,11 +71,25 @@ const AIChatPanel: FC<AIChatPanelProps> = ({ onClose }) => {
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
+      console.log("[AIChatPanel] handleSubmit called");
       e.preventDefault();
       const message = inputValue.trim();
-      if (!message) return;
+      console.log("[AIChatPanel] Message:", message);
+      if (!message) {
+        console.log("[AIChatPanel] Message is empty, returning");
+        return;
+      }
       setInputValue("");
-      await handleUserMessageSubmit(message);
+      console.log("[AIChatPanel] Calling handleUserMessageSubmit...");
+      try {
+        await handleUserMessageSubmit(message);
+        console.log("[AIChatPanel] handleUserMessageSubmit completed");
+      } catch (error) {
+        console.error("[AIChatPanel] Error in handleUserMessageSubmit:", error);
+        // Error is already handled by useAIAgentChat's error handling
+        // The error message will be displayed in the chat
+        // We don't need to show a toast here as it would be redundant
+      }
       debouncedFocusOnTextareaRef.current?.();
     },
     [inputValue, handleUserMessageSubmit]
