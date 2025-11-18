@@ -29,6 +29,10 @@ interface ErrorResponse {
 
 type WorkerResponse = SearchResponse | ErrorResponse;
 
+// Timeout constants
+const SEARCH_TIMEOUT_MS = 30000; // 30 seconds
+const INDEXING_TIMEOUT_MS = 300000; // 5 minutes
+
 /**
  * Manager for document search web worker
  */
@@ -116,13 +120,13 @@ class DocSearchManager {
 
       this.worker!.postMessage(message);
 
-      // Timeout after 30 seconds
+      // Timeout after configured duration
       setTimeout(() => {
         if (this.pendingRequests.has(requestId)) {
           this.pendingRequests.delete(requestId);
           reject(new Error("Search request timed out"));
         }
-      }, 30000);
+      }, SEARCH_TIMEOUT_MS);
     });
   }
 
@@ -142,7 +146,7 @@ class DocSearchManager {
           this.pendingRequests.delete(requestId);
           reject(new Error("Indexing request timed out"));
         }
-      }, 300000); // 5 minutes timeout for indexing
+      }, INDEXING_TIMEOUT_MS);
 
       this.pendingRequests.set(requestId, {
         resolve: () => {

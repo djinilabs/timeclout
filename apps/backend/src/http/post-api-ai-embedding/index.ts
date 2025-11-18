@@ -17,6 +17,7 @@ const BACKOFF_INITIAL_DELAY_MS = 1000; // 1 second
 const BACKOFF_MAX_RETRIES = 5;
 const BACKOFF_MAX_DELAY_MS = 60000; // 60 seconds
 const BACKOFF_MULTIPLIER = 2;
+const BACKOFF_JITTER_FACTOR = 0.2; // 20% jitter
 
 /**
  * Check if an error is a throttling/rate limit error
@@ -100,7 +101,7 @@ export const handler = async (
 
     // Generate embedding with retry logic
     let lastError: Error | null = null;
-    for (let attempt = 0; attempt <= BACKOFF_MAX_RETRIES; attempt++) {
+    for (let attempt = 0; attempt < BACKOFF_MAX_RETRIES; attempt++) {
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${EMBEDDING_MODEL}:embedContent?key=${apiKey}`;
 
@@ -154,7 +155,7 @@ export const handler = async (
               BACKOFF_MAX_DELAY_MS
             );
             // Add jitter: random value between 0 and 20% of base delay
-            const jitter = Math.random() * baseDelay * 0.2;
+            const jitter = Math.random() * baseDelay * BACKOFF_JITTER_FACTOR;
             const delay = baseDelay + jitter;
 
             await sleep(delay);
@@ -211,7 +212,7 @@ export const handler = async (
               BACKOFF_INITIAL_DELAY_MS * Math.pow(BACKOFF_MULTIPLIER, attempt),
               BACKOFF_MAX_DELAY_MS
             );
-            const jitter = Math.random() * baseDelay * 0.2;
+            const jitter = Math.random() * baseDelay * BACKOFF_JITTER_FACTOR;
             const delay = baseDelay + jitter;
 
             await sleep(delay);
@@ -222,7 +223,7 @@ export const handler = async (
 
         // If we've exhausted retries or it's a non-retryable error, throw
         if (
-          attempt === BACKOFF_MAX_RETRIES ||
+          attempt >= BACKOFF_MAX_RETRIES - 1 ||
           !isThrottlingError(
             0,
             error instanceof Error ? error.message : String(error)
@@ -263,11 +264,19 @@ export const handler = async (
     const errorMessage =
       error instanceof Error ? error.message : String(error);
     return {
-      statusCode: error instanceof Error && "output" in error
-        ? (error as { output?: { statusCode?: number } }).output?.statusCode || 500
-        : 500,
+      statusCode: getErrorStatusCode(error),
       body: JSON.stringify({ error: errorMessage }),
     };
   }
 };
+
+/**
+ * Extract error status code from error object
+ */
+function getErrorStatusCode(error: unknown): number {
+  if (error instanceof Error && "output" in error) {
+    return (error as { output?: { statusCode?: number } }).output?.statusCode || 500;
+  }
+  return 500;
+}
 

@@ -15,8 +15,16 @@ import docProduct05Troubleshooting from "@/docs/product/05-troubleshooting.md?ra
 import docProduct06AccountManagement from "@/docs/product/06-account-management.md?raw";
 import docProductREADME from "@/docs/product/README.md?raw";
 
-// Default chunk size for splitting documents (~2000 characters for more content)
+// Default chunk size for splitting documents.
+// 2000 characters is chosen to balance context and granularity: it fits comfortably within the input limits of most embedding models,
+// provides enough context for semantic search, and avoids excessive fragmentation of the document.
 const DEFAULT_CHUNK_SIZE = 2000;
+
+// Minimum acceptable chunk size as a percentage when breaking at sentence boundaries
+const MIN_CHUNK_RATIO = 0.5;
+
+// Length of paragraph separator ("\n\n")
+const PARAGRAPH_SEPARATOR_LENGTH = 2;
 
 // In-memory cache for embeddings
 // Key format: `${documentId}:${snippetHash}`
@@ -137,7 +145,7 @@ export function splitDocumentIntoSnippets(
           const lastNewline = paragraph.lastIndexOf("\n", end);
           const breakPoint = Math.max(lastPeriod, lastNewline);
 
-          if (breakPoint > start + chunkSize * 0.5) {
+          if (breakPoint > start + chunkSize * MIN_CHUNK_RATIO) {
             // Use sentence/line break if it's not too early
             end = breakPoint + 1;
           }
@@ -153,7 +161,7 @@ export function splitDocumentIntoSnippets(
     }
 
     // Check if adding this paragraph would exceed chunkSize
-    const separatorLength = currentChunk.length > 0 ? 2 : 0; // "\n\n" separator
+    const separatorLength = currentChunk.length > 0 ? PARAGRAPH_SEPARATOR_LENGTH : 0;
     if (
       currentLength + separatorLength + paragraphLength > chunkSize &&
       currentChunk.length > 0
@@ -336,14 +344,12 @@ async function performIndexing(apiUrl: string): Promise<void> {
     // Check document cache first
     const docCacheKey = getDocumentCacheKey(doc.id);
     const cachedDoc = documentCache.get(docCacheKey);
-    let contentText: string;
     let snippets: string[];
 
     if (cachedDoc) {
-      contentText = cachedDoc.content;
       snippets = cachedDoc.snippets;
     } else {
-      contentText = doc.content;
+      const contentText = doc.content;
       snippets = splitDocumentIntoSnippets(contentText);
 
       // Cache the document content and snippets
