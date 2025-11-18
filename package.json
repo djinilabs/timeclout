@@ -55,9 +55,6 @@
   },
   "dependencies": {
     "@0no-co/graphqlsp": "^1.12.16",
-    "@ai-sdk/google": "^2.0.8",
-    "@ai-sdk/provider": "^2.0.0",
-    "@ai-sdk/react": "^2.0.81",
     "@architect/asap": "^7.0.10",
     "@architect/functions": "^8.1.6",
     "@auth/core": "^0.41.0",
@@ -103,7 +100,6 @@
     "@urql/core": "^6.0.1",
     "@urql/exchange-graphcache": "^8.0.0",
     "@vendia/serverless-express": "^4.12.6",
-    "ai": "^5.0.0",
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1692.0",
     "chalk": "^5.4.1",
