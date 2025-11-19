@@ -8,7 +8,9 @@ import { settingsTypes } from "@/settings";
 import { database } from "@/tables";
 import { resourceRef } from "@/utils";
 
-export const updateMySettings: NonNullable<MutationResolvers['updateMySettings']> = async (_parent, args, ctx) => {
+export const updateMySettings: NonNullable<
+  MutationResolvers["updateMySettings"]
+> = async (_parent, args, ctx) => {
   const session = await requireSession(ctx);
   const userId = session.user?.id;
   if (!userId) {
@@ -23,8 +25,9 @@ export const updateMySettings: NonNullable<MutationResolvers['updateMySettings']
   if (!(args.name in settingsTypes)) {
     throw badRequest("Invalid settings name");
   }
-  const settings =
-    settingsTypes[args.name as keyof typeof settingsTypes].parse(args.settings);
+  const settings = settingsTypes[args.name as keyof typeof settingsTypes].parse(
+    args.settings
+  );
   await entity_settings.upsert({
     pk: userRef,
     sk: args.name,

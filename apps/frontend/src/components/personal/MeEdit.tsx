@@ -55,7 +55,7 @@ export const MeEdit = () => {
         name: "location",
         settings: {
           country: value.country,
-          region: value.region,
+          ...(value.region ? { region: value.region } : {}),
         },
       });
       if (!result.error) {

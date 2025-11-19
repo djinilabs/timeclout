@@ -9,9 +9,9 @@ import { settingsTypes } from "@/settings";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
-
-
-export const updateUserSettings: NonNullable<MutationResolvers['updateUserSettings']> = async (_parent, args, ctx) => {
+export const updateUserSettings: NonNullable<
+  MutationResolvers["updateUserSettings"]
+> = async (_parent, args, ctx) => {
   const teamPk = resourceRef("teams", args.teamPk);
   const userPk = await ensureAuthorized(ctx, teamPk, PERMISSION_LEVELS.WRITE);
   const { entity, entity_settings } = await database();
@@ -31,8 +31,9 @@ export const updateUserSettings: NonNullable<MutationResolvers['updateUserSettin
   if (!(args.name in settingsTypes)) {
     throw badRequest("Invalid settings name");
   }
-  const settings =
-    settingsTypes[args.name as keyof typeof settingsTypes].parse(args.settings);
+  const settings = settingsTypes[args.name as keyof typeof settingsTypes].parse(
+    args.settings
+  );
   await entity_settings.upsert({
     pk: userRef,
     sk: args.name,

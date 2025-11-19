@@ -109,7 +109,7 @@ export const CreateOrEditTeamMember: FC<CreateOrEditTeamMemberProps> = ({
           name: "location",
           settings: {
             country: value.country,
-            region: value.region,
+            ...(value.region ? { region: value.region } : {}),
           },
         });
         if (!updateSettingsResult.error) {
