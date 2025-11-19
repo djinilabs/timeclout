@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@0no-co/graphqlsp": "^1.12.16",
-    "@ai-sdk/google": "^1.2.22",
+    "@ai-sdk/google": "^2.0.8",
     "@architect/asap": "^7.0.10",
     "@architect/functions": "^8.1.6",
     "@auth/core": "^0.41.0",

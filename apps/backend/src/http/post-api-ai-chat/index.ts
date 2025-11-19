@@ -17,11 +17,31 @@ import {
 
 // Initialize Google Generative AI client at module level
 const apiKey = process.env.GEMINI_API_KEY || "";
+const referer =
+  process.env.GEMINI_REFERER || "http://localhost:3000/api/ai/chat";
+
+// Create custom fetch function with referer header
+const customFetch = async (
+  url: string | URL | Request,
+  init?: RequestInit
+): Promise<Response> => {
+  const headers = new Headers(init?.headers);
+  headers.set("Referer", referer);
+  headers.set("referer", referer); // lowercase version
+
+  return fetch(url, {
+    ...init,
+    headers,
+    referrer: referer,
+  });
+};
+
 const googleClient = createGoogleGenerativeAI({
   apiKey,
+  fetch: customFetch,
 });
 
-const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
+const MODEL_NAME = "gemini-2.5-flash";
 
 // System prompts
 const SYSTEM_PROMPT_EN =
