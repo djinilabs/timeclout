@@ -5,9 +5,13 @@ import Markdown from "react-markdown";
 import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
 import { printAOM } from "../../accessibility/printAOM";
+import { AccessibleElement } from "../../accessibility/types";
+import { useFetchActivity } from "../../hooks/useFetchActivity";
 import { useLocale } from "../../hooks/useLocale";
-import { getDocSearchManager } from "../../utils/docSearchManager";
+import { searchDocuments } from "../../utils/docSearchManager";
+import { timeout } from "../../utils/timeout";
 
+import { ActivityDebouncer } from "./ActivityDebouncer";
 import { type AIMessage } from "./types";
 import { useAIChatHistory } from "./useAIChatHistory";
 
@@ -19,183 +23,167 @@ const GREETING_PT =
 
 // API URL for backend
 const API_URL = "/api/ai/chat";
-const EMBEDDING_API_URL = "/api/ai/embedding";
 
-// Activity debouncing delay
-const ACTIVITY_DEBOUNCE_MS = 500;
+// Helper functions for tool execution (from main branch)
+const clickableRoles = ["button", "link", "checkbox", "radio", "combobox"];
+const isElementClickable = (element: AccessibleElement) => {
+  return (
+    !!element.attributes.clickable || clickableRoles.includes(element.role)
+  );
+};
 
-/**
- * Wait for activity to settle (debounce fetch activity)
- */
-const waitForActivityToSettle = (): Promise<void> => {
-  return new Promise((resolve) => {
-    let lastActivityTime = Date.now();
-    const checkInterval = setInterval(() => {
-      const now = Date.now();
-      if (now - lastActivityTime >= ACTIVITY_DEBOUNCE_MS) {
-        clearInterval(checkInterval);
-        resolve();
-      }
-    }, 100);
+const simulateClick = (element: AccessibleElement) => {
+  if (element.domElement instanceof HTMLElement) {
+    element.domElement.click();
+  }
+};
 
-    // Monitor fetch activity
-    const originalFetch = window.fetch;
-    let fetchCount = 0;
-    window.fetch = (...args) => {
-      lastActivityTime = Date.now();
-      fetchCount++;
-      const result = originalFetch(...args);
-      result.finally(() => {
-        fetchCount--;
-        if (fetchCount === 0) {
-          lastActivityTime = Date.now();
-        }
-      });
-      return result;
-    };
-
-    // Restore after timeout
-    setTimeout(() => {
-      window.fetch = originalFetch;
-      clearInterval(checkInterval);
-      resolve();
-    }, ACTIVITY_DEBOUNCE_MS * 2);
-  });
+const simulateTyping = (
+  element: HTMLInputElement | HTMLTextAreaElement,
+  text: string
+) => {
+  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+    (element instanceof HTMLInputElement
+      ? HTMLInputElement
+      : HTMLTextAreaElement
+    ).prototype,
+    "value"
+  )?.set;
+  nativeInputValueSetter?.call(element, text);
 };
 
 /**
- * Tool execution functions
+ * Tool execution functions (from main branch implementation)
  */
 const executeDescribeAppUI = async (): Promise<string> => {
-  const aom = generateAccessibilityObjectModel(document, false);
+  console.log("tool call: describe_app_ui");
+  const aom = generateAccessibilityObjectModel(document);
   return printAOM(aom);
 };
 
 const executeClickElement = async (
   role: string,
-  description: string
+  description: string,
+  debounceActivity: () => Promise<void>
 ): Promise<{ success: boolean; error?: string }> => {
-  try {
-    const aom = generateAccessibilityObjectModel(document, true);
-    const element = findFirstElementInAOM(aom, role, description);
-
-    if (!element) {
+  console.log("tool call: click_element", role, description);
+  const aom = generateAccessibilityObjectModel(document, true);
+  const element = findFirstElementInAOM(aom, role, description);
+  if (element) {
+    console.log("Element found", element);
+    if (!isElementClickable(element)) {
+      console.log("Element is not clickable", element);
       return {
         success: false,
-        error: `Element with role "${role}" and description "${description}" not found`,
+        error:
+          "Element is not clickable. Perhaps try clicking on a sub-element of this element.",
       };
     }
+    //  ------------- click the element -------------
 
-    if (!element.domElement) {
-      return { success: false, error: "Element DOM reference not available" };
-    }
-
-    // Check if element is clickable
-    const clickableRoles = new Set([
-      "button",
-      "link",
-      "checkbox",
-      "radio",
-      "combobox",
-    ]);
-    const isClickable =
-      clickableRoles.has(element.role) ||
-      element.domElement.getAttribute("role") === "button" ||
-      element.domElement.tagName === "BUTTON" ||
-      element.domElement.tagName === "A";
-
-    if (!isClickable) {
+    if (element.domElement instanceof HTMLElement) {
+      console.log("Clicking element", element.domElement);
+      simulateClick(element);
+      await debounceActivity();
+    } else {
+      console.log("Element is not an HTMLElement", element);
       return {
         success: false,
-        error: `Element with role "${role}" is not clickable`,
+        error: "Element is not an HTMLElement",
       };
     }
-
-    // Simulate click
-    (element.domElement as HTMLElement).click();
-
-    // Wait for UI to update
-    await waitForActivityToSettle();
-
+    console.log("Element clicked with success", element);
     return { success: true };
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : String(error),
-    };
   }
+  console.log(
+    "Element with the following role and description not found: role: ",
+    role,
+    "description: ",
+    description
+  );
+  return {
+    success: false,
+    error: `Element with the following role and description not found: role: ${role}, description: ${description}`,
+  };
 };
 
 const executeFillFormElement = async (
   role: string,
   description: string,
-  value: string
+  value: string,
+  debounceActivity: () => Promise<void>
 ): Promise<{ success: boolean; error?: string }> => {
-  try {
-    const aom = generateAccessibilityObjectModel(document, true);
-    const element = findFirstElementInAOM(aom, role, description);
+  console.log("tool call: fill_form_element", role, description, value);
+  const aom = generateAccessibilityObjectModel(document, true);
+  const element = findFirstElementInAOM(aom, role, description);
 
-    if (!element) {
+  if (!element) {
+    console.log(
+      "Element with the following role and description not found: role: ",
+      role,
+      "description: ",
+      description
+    );
+    return {
+      success: false,
+      error: `Element with the following role and description not found: role: ${role}, description: ${description}`,
+    };
+  }
+
+  if (!element.domElement) {
+    return {
+      success: false,
+      error: "Element has no DOM element",
+    };
+  }
+
+  const domElement = element.domElement as HTMLElement;
+
+  try {
+    domElement.focus();
+    // Handle different types of form elements
+    if (domElement instanceof HTMLInputElement) {
+      // if the role is "combobox", open it first, and then click the matching element
+      if (element.role === "combobox") {
+        console.log("Element is a combobox, opening it");
+        domElement.click();
+        await debounceActivity();
+      }
+
+      if (domElement.type === "checkbox") {
+        domElement.checked = value.toLowerCase() === "true";
+      } else if (domElement.type === "radio") {
+        domElement.checked = true;
+      } else {
+        simulateTyping(domElement, value);
+      }
+    } else if (domElement instanceof HTMLTextAreaElement) {
+      domElement.value = value;
+    } else if (domElement instanceof HTMLSelectElement) {
+      console.log("Element is a select element, setting value to", value);
+      domElement.value = value;
+    } else {
       return {
         success: false,
-        error: `Element with role "${role}" and description "${description}" not found`,
+        error: "Element is not a form input element",
       };
     }
 
-    if (!element.domElement) {
-      return { success: false, error: "Element DOM reference not available" };
-    }
+    await timeout(100);
 
-    const domElement = element.domElement as HTMLElement;
-
-    // Focus the element
-    domElement.focus();
-
-    // Fill based on element type
-    if (role === "combobox" || domElement.tagName === "SELECT") {
-      // For combobox/select, open dropdown first if needed
-      if (domElement.tagName === "SELECT") {
-        (domElement as HTMLSelectElement).value = value;
-        domElement.dispatchEvent(new Event("change", { bubbles: true }));
-      } else {
-        // For custom combobox, try to set value
-        (domElement as HTMLInputElement).value = value;
-        domElement.dispatchEvent(new Event("input", { bubbles: true }));
-        domElement.dispatchEvent(new Event("change", { bubbles: true }));
-      }
-    } else if (role === "checkbox") {
-      const checkbox = domElement as HTMLInputElement;
-      const boolValue = value.toLowerCase() === "true" || value === "1";
-      checkbox.checked = boolValue;
-      checkbox.dispatchEvent(new Event("change", { bubbles: true }));
-    } else if (role === "radio") {
-      const radio = domElement as HTMLInputElement;
-      radio.checked = true;
-      radio.dispatchEvent(new Event("change", { bubbles: true }));
-    } else if (
-      domElement.tagName === "TEXTAREA" ||
-      domElement.tagName === "INPUT"
-    ) {
-      const input = domElement as HTMLInputElement | HTMLTextAreaElement;
-      input.value = value;
-      input.dispatchEvent(new Event("input", { bubbles: true }));
-      input.dispatchEvent(new Event("change", { bubbles: true }));
-    } else {
-      // Try generic approach
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (domElement as any).value = value;
-      domElement.dispatchEvent(new Event("input", { bubbles: true }));
-      domElement.dispatchEvent(new Event("change", { bubbles: true }));
-    }
-
-    // Wait for UI to update
-    await waitForActivityToSettle();
+    // Trigger input event to ensure React/other frameworks detect the change
+    document.dispatchEvent(new Event("change", { bubbles: true }));
+    document.dispatchEvent(new Event("input", { bubbles: true }));
+    domElement.dispatchEvent(new Event("change", { bubbles: true }));
+    domElement.dispatchEvent(new Event("input", { bubbles: true }));
+    await debounceActivity();
 
     return { success: true };
   } catch (error) {
+    console.error("Error filling form element:", error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : String(error),
+      error: `Error filling form element: ${error}`,
     };
   }
 };
@@ -203,23 +191,29 @@ const executeFillFormElement = async (
 const executeSearchDocuments = async (
   query: string,
   topN: number = 5
-): Promise<{
-  results: Array<{ snippet: string; documentName: string; similarity: number }>;
-}> => {
+): Promise<string> => {
+  console.log("tool call: search_documents", query, topN);
   try {
-    const manager = getDocSearchManager(EMBEDDING_API_URL);
-    const searchResults = await manager.searchDocuments(query, topN);
-    return {
-      results: searchResults.map((r) => ({
-        snippet: r.snippet,
-        documentName: r.documentName,
-        similarity: r.similarity,
-      })),
-    };
-  } catch {
-    return {
-      results: [],
-    };
+    const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL || "";
+    const apiUrl = `${BACKEND_API_URL}/api/ai/embedding`;
+
+    const results = await searchDocuments(query, topN, apiUrl);
+
+    if (results.length === 0) {
+      return "No relevant documents found for the query.";
+    }
+
+    // Format results similar to helpmaton
+    const formattedResults = results
+      .map((result) => result.snippet)
+      .join("\n\n---\n\n");
+
+    return `Found ${results.length} relevant document snippet(s):\n\n${formattedResults}`;
+  } catch (error) {
+    console.error("Error in search_documents tool:", error);
+    return `Error searching documents: ${
+      error instanceof Error ? error.message : String(error)
+    }`;
   }
 };
 
@@ -255,6 +249,13 @@ export const useAIAgentChat = (): AIAgentChatResult => {
   const [messages, setMessages] = useState<AIMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Get activity debouncer (from main branch pattern)
+  const { monitorFetch } = useFetchActivity();
+  const { debounceActivity } = useMemo(
+    () => ActivityDebouncer(monitorFetch),
+    [monitorFetch]
+  );
+
   // Load messages from history on mount
   useEffect(() => {
     if (historyMessages.length > 0 && messages.length === 0) {
@@ -262,7 +263,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
     }
   }, [historyMessages, messages.length]);
 
-  // Execute tool and get result
+  // Execute tool and get result (from main branch implementation)
   const executeTool = useCallback(
     async (toolCall: {
       toolCallId: string;
@@ -276,20 +277,42 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         switch (toolName) {
           case "describe_app_ui":
             return await executeDescribeAppUI();
-          case "click_element":
+          case "click_element": {
+            // Handle both parameter name formats (role/description from backend, element-role/element-description from main branch)
+            const clickRole =
+              (argsObj["element-role"] as string) ||
+              (argsObj.role as string) ||
+              "";
+            const clickDescription =
+              (argsObj["element-description"] as string) ||
+              (argsObj.description as string) ||
+              "";
             return await executeClickElement(
-              argsObj.role as string,
-              argsObj.description as string
+              clickRole,
+              clickDescription,
+              debounceActivity
             );
-          case "fill_form_element":
+          }
+          case "fill_form_element": {
+            // Handle both parameter name formats
+            const fillRole =
+              (argsObj["element-role"] as string) ||
+              (argsObj.role as string) ||
+              "";
+            const fillDescription =
+              (argsObj["element-description"] as string) ||
+              (argsObj.description as string) ||
+              "";
             return await executeFillFormElement(
-              argsObj.role as string,
-              argsObj.description as string,
-              argsObj.value as string
+              fillRole,
+              fillDescription,
+              (argsObj.value as string) || "",
+              debounceActivity
             );
+          }
           case "search_documents":
             return await executeSearchDocuments(
-              argsObj.query as string,
+              (argsObj.query as string) || "",
               (argsObj.topN as number) || 5
             );
           default:
@@ -301,7 +324,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         };
       }
     },
-    []
+    [debounceActivity]
   );
 
   // Send message to backend and handle response

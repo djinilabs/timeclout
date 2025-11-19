@@ -52,7 +52,10 @@ async function hashSnippet(text: string): Promise<string> {
   const data = encoder.encode(text);
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("").substring(0, 16);
+  return hashArray
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("")
+    .substring(0, 16);
 }
 
 /**
@@ -161,7 +164,8 @@ export function splitDocumentIntoSnippets(
     }
 
     // Check if adding this paragraph would exceed chunkSize
-    const separatorLength = currentChunk.length > 0 ? PARAGRAPH_SEPARATOR_LENGTH : 0;
+    const separatorLength =
+      currentChunk.length > 0 ? PARAGRAPH_SEPARATOR_LENGTH : 0;
     if (
       currentLength + separatorLength + paragraphLength > chunkSize &&
       currentChunk.length > 0
@@ -518,7 +522,10 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
   try {
     if (message.type === "search") {
       // Generate query embedding
-      const queryEmbedding = await generateEmbedding(message.query, message.apiUrl);
+      const queryEmbedding = await generateEmbedding(
+        message.query,
+        message.apiUrl
+      );
 
       // Perform search
       const results = await performSearch(
@@ -557,4 +564,3 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
     self.postMessage(errorResponse);
   }
 });
-

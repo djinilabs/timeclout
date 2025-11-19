@@ -1,13 +1,65 @@
 import debounce from "lodash.debounce";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+import Markdown from "react-markdown";
 
-import { type AIMessage, isAiMessageValid } from "./types";
+import { type AIMessage } from "./types";
 
 const DB_NAME = "tt3-ai-chat";
 const STORE_NAME = "messages";
 const DB_VERSION = 1;
 const DEBOUNCE_TIME = 500;
+
+// Serializable version of AIMessage for IndexedDB storage
+interface SerializableAIMessage {
+  id: string;
+  timestamp: Date;
+  isLoading?: boolean;
+  isError?: boolean;
+  isWarning?: boolean;
+  message: {
+    role: "user" | "assistant" | "tool";
+    content: string | unknown[];
+  };
+  // Store content as string (from message.content) instead of ReactNode
+  contentString: string;
+}
+
+// Convert AIMessage to serializable format for IndexedDB
+const serializeMessage = (message: AIMessage): SerializableAIMessage => {
+  // Extract string content from message.message.content (which is always a string)
+  const contentString =
+    typeof message.message.content === "string"
+      ? message.message.content
+      : JSON.stringify(message.message.content);
+
+  return {
+    id: message.id,
+    timestamp: message.timestamp,
+    isLoading: message.isLoading,
+    isError: message.isError,
+    isWarning: message.isWarning,
+    message: message.message,
+    contentString,
+  };
+};
+
+// Convert serializable format back to AIMessage with React elements
+const deserializeMessage = (serialized: SerializableAIMessage): AIMessage => {
+  return {
+    id: serialized.id,
+    timestamp: serialized.timestamp,
+    isLoading: serialized.isLoading,
+    isError: serialized.isError,
+    isWarning: serialized.isWarning,
+    message: serialized.message,
+    // Convert string back to React element (Markdown) for display
+    content:
+      serialized.message.role === "assistant"
+        ? React.createElement(Markdown, null, serialized.contentString)
+        : serialized.contentString,
+  };
+};
 
 export const useAIChatHistory = () => {
   const [messages, setMessages] = useState<AIMessage[]>([]);
@@ -48,14 +100,16 @@ export const useAIChatHistory = () => {
 
           request.onsuccess = () => {
             const existingMessage = request.result;
+            // Serialize message before storing (remove React elements)
+            const serialized = serializeMessage(message);
             if (existingMessage) {
               // update the message
-              const result = store.put(message);
+              const result = store.put(serialized);
               result.onsuccess = () => resolve();
               result.onerror = () => reject(result.error);
             } else {
               // add the message
-              const result = store.add(message);
+              const result = store.add(serialized);
               result.onsuccess = () => resolve();
               result.onerror = () => reject(result.error);
             }
@@ -129,14 +183,37 @@ export const useAIChatHistory = () => {
 
       request.onsuccess = () => {
         const messages = request.result
-          .filter(isAiMessageValid)
-          .map((msg: AIMessage) => ({
-            ...msg,
-            timestamp: new Date(msg.timestamp),
-            isLoading: false,
-            isWarning: msg.isWarning || msg.isLoading,
-            content: msg.isLoading ? "Interrupted" : msg.content,
-          }))
+          .map((serialized: SerializableAIMessage & { content?: unknown }) => {
+            // Handle migration: if contentString doesn't exist, try to extract from message.content
+            const contentString =
+              serialized.contentString ||
+              (typeof serialized.message?.content === "string"
+                ? serialized.message.content
+                : JSON.stringify(serialized.message?.content || ""));
+
+            // Deserialize messages from IndexedDB (convert strings back to React elements)
+            const msg = deserializeMessage({
+              ...serialized,
+              contentString,
+              timestamp: new Date(serialized.timestamp),
+            });
+            return {
+              ...msg,
+              isLoading: false,
+              isWarning: msg.isWarning || serialized.isLoading,
+              // If message was loading, show "Interrupted" text instead of markdown
+              content: serialized.isLoading ? "Interrupted" : msg.content,
+            };
+          })
+          .filter((msg): msg is AIMessage => {
+            // Validate the deserialized message
+            return (
+              msg.id &&
+              msg.timestamp instanceof Date &&
+              msg.message &&
+              typeof msg.message.role === "string"
+            );
+          })
           .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
         setMessages(messages);
         resolve();
