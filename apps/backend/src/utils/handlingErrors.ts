@@ -1,5 +1,10 @@
 import { boomify } from "@hapi/boom";
-import { init, wrapHandler } from "@sentry/aws-serverless";
+import {
+  init,
+  wrapHandler,
+  captureException,
+  flush,
+} from "@sentry/aws-serverless";
 import {
   APIGatewayProxyHandlerV2,
   APIGatewayProxyEventV2,
@@ -8,11 +13,14 @@ import {
   APIGatewayProxyResult,
 } from "aws-lambda";
 
-if (process.env.NODE_ENV === "production") {
+// Initialize Sentry in all environments (DSN can be empty in non-production)
+if (process.env.SENTRY_DSN) {
   init({
     dsn: process.env.SENTRY_DSN,
-    tracesSampleRate: Number(process.env.SENTRY_TRACES_SAMPLE_RATE),
-    profilesSampleRate: Number(process.env.SENTRY_PROFILES_SAMPLE_RATE),
+    tracesSampleRate: Number(process.env.SENTRY_TRACES_SAMPLE_RATE || "1.0"),
+    profilesSampleRate: Number(
+      process.env.SENTRY_PROFILES_SAMPLE_RATE || "1.0"
+    ),
   });
 }
 
@@ -30,7 +38,20 @@ export const handlingErrors = (
         | APIGatewayProxyResult
         | string;
     } catch (error) {
-      const boomed = boomify(error as Error);
+      const originalError =
+        error instanceof Error ? error : new Error(String(error));
+      const boomed = boomify(originalError);
+
+      // Report server errors (5xx) to Sentry
+      // User errors (4xx) are not reported as they are expected client errors
+      if (boomed.isServer && process.env.SENTRY_DSN) {
+        try {
+          captureException(originalError);
+        } catch (sentryError) {
+          // Don't fail the request if Sentry reporting fails
+          console.error("Failed to capture exception to Sentry:", sentryError);
+        }
+      }
 
       // Try to translate the error message if it's a translatable message
       let translatedMessage = boomed.message;
@@ -68,6 +89,17 @@ export const handlingErrors = (
         "Cache-Control": "no-store, no-cache, must-revalidate",
         "X-Content-Type-Options": "nosniff",
       } as Record<string, string | number | boolean>;
+
+      // Flush Sentry before returning response (critical for Lambda)
+      // Use timeout to prevent hanging (2 seconds max)
+      if (process.env.SENTRY_DSN) {
+        try {
+          await flush(2000);
+        } catch (flushError) {
+          // Don't fail the request if Sentry flush fails
+          console.error("Failed to flush Sentry:", flushError);
+        }
+      }
 
       return {
         statusCode,

@@ -1,3 +1,4 @@
+import { badRequest } from "@hapi/boom";
 import { APIGatewayProxyEventV2, APIGatewayProxyResult } from "aws-lambda";
 
 import { handlingErrors } from "../../utils/handlingErrors";
@@ -28,11 +29,8 @@ export const handler = handlingErrors(
     let body;
     try {
       body = JSON.parse(event.body || "{}");
-    } catch (error) {
-      console.error("Error parsing Discord webhook payload:", error);
-      return discordResponse(
-        "❌ **Error:** Invalid JSON payload. Request could not be parsed."
-      );
+    } catch {
+      throw badRequest("Invalid JSON payload. Request could not be parsed.");
     }
 
     // Handle Discord interaction

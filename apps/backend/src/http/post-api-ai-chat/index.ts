@@ -1,5 +1,5 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { badRequest, boomify, forbidden, internal } from "@hapi/boom";
+import { badRequest, forbidden, internal } from "@hapi/boom";
 import { generateText, tool } from "ai";
 import type { ModelMessage } from "ai";
 import {
@@ -166,18 +166,6 @@ interface ChatRequest {
   }>;
 }
 
-/**
- * Extract error status code from error object
- */
-function getErrorStatusCode(error: unknown): number {
-  if (error && typeof error === "object" && "output" in error) {
-    return (
-      (error as { output?: { statusCode?: number } }).output?.statusCode || 500
-    );
-  }
-  return 500;
-}
-
 const handlerImpl = async (
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResult> => {
@@ -188,210 +176,11 @@ const handlerImpl = async (
     routeKey: event.requestContext.routeKey,
   });
 
-  try {
-    // Only handle POST requests
-    if (event.requestContext.http.method !== "POST") {
-      return {
-        statusCode: 405,
-        body: JSON.stringify({ error: "Method not allowed" }),
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "no-store, no-cache, must-revalidate",
-          "X-Content-Type-Options": "nosniff",
-        },
-      };
-    }
-
-    // Check authentication - user must be authenticated to use this endpoint
-    const userCache = await createUserCache();
-    const minimalContext = {
-      event,
-      lambdaContext: {} as Context,
-      userCache,
-    };
-    const session = await getSession(minimalContext);
-    if (!session) {
-      throw forbidden("Authentication required to access this endpoint");
-    }
-
-    // Validate API key
-    if (!apiKey) {
-      throw internal("GEMINI_API_KEY is not set");
-    }
-
-    // Extract locale from Accept-Language header
-    const acceptLanguage =
-      event.headers?.["accept-language"] || event.headers?.["Accept-Language"];
-    const locale = getLocaleFromHeaders(acceptLanguage);
-
-    // Initialize i18n for this request
-    await initI18n(locale);
-
-    // Select system prompt based on locale
-    const systemPrompt = locale === "pt" ? SYSTEM_PROMPT_PT : SYSTEM_PROMPT_EN;
-
-    // Parse request body
-    let body: ChatRequest;
-    if (event.body) {
-      try {
-        body = JSON.parse(
-          event.isBase64Encoded
-            ? Buffer.from(event.body, "base64").toString()
-            : event.body
-        );
-      } catch {
-        throw badRequest("Invalid JSON in request body");
-      }
-    } else {
-      throw badRequest("Request body is required");
-    }
-
-    // Validate messages
-    if (!body.messages || !Array.isArray(body.messages)) {
-      throw badRequest("Messages array is required");
-    }
-
-    // Filter out system messages (don't send to AI, but we'll add our own system prompt)
-    const filteredMessages = body.messages.filter(
-      (msg) => msg.role !== "system"
-    );
-
-    // Prepare messages for AI SDK in ModelMessage format
-    const aiMessages: ModelMessage[] = [];
-
-    for (let i = 0; i < filteredMessages.length; i++) {
-      const msg = filteredMessages[i];
-
-      if (msg.role === "user") {
-        const content =
-          typeof msg.content === "string"
-            ? msg.content
-            : JSON.stringify(msg.content);
-        aiMessages.push({
-          role: "user",
-          content,
-        });
-      } else if (msg.role === "assistant") {
-        const content =
-          typeof msg.content === "string"
-            ? msg.content
-            : JSON.stringify(msg.content);
-        aiMessages.push({
-          role: "assistant",
-          content,
-        });
-      } else if (msg.role === "tool") {
-        // Tool messages contain tool results
-        // Format: { role: "tool", content: [{ toolCallId, toolName, result }] }
-        // Need to convert to ToolResultPart[] format for AI SDK
-        if (Array.isArray(msg.content) && msg.content.length > 0) {
-          const toolResult = msg.content[0] as {
-            toolCallId?: string;
-            toolName?: string;
-            result?: unknown;
-          };
-
-          if (
-            toolResult.toolCallId &&
-            toolResult.result !== undefined &&
-            toolResult.result !== null
-          ) {
-            // Format as ToolResultPart[] according to AI SDK specification
-            // ToolResultPart requires: type, toolCallId, toolName, output
-            // output must be LanguageModelV2ToolResultOutput, which is { type: "text", value: string }
-            const outputValue =
-              typeof toolResult.result === "string"
-                ? toolResult.result
-                : JSON.stringify(toolResult.result);
-
-            aiMessages.push({
-              role: "tool",
-              content: [
-                {
-                  type: "tool-result",
-                  toolCallId: toolResult.toolCallId,
-                  toolName: toolResult.toolName || "unknown",
-                  output: {
-                    type: "text",
-                    value: outputValue,
-                  },
-                },
-              ],
-            } as ModelMessage);
-          }
-        }
-      }
-    }
-
-    // Create model instance
-    const model = googleClient(MODEL_NAME);
-
-    console.log("aiMessages", JSON.stringify(aiMessages, null, 2));
-
-    // Generate text with tools
-    // Note: The frontend will handle tool execution and send results back
-    const result = await generateText({
-      model,
-      system: systemPrompt,
-      messages: aiMessages,
-      tools, // Tools are defined with type assertions to work around AI SDK v5 type issues
-    });
-
-    // Format response
-    const response = {
-      text: result.text,
-      toolCalls: result.toolCalls,
-      toolResults: result.toolResults,
-      finishReason: result.finishReason,
-    };
-
+  // Only handle POST requests
+  if (event.requestContext.http.method !== "POST") {
     return {
-      statusCode: 200,
-      body: JSON.stringify(response),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-  } catch (error) {
-    // Convert to Boom error if not already
-    let boomError;
-    if (error && typeof error === "object" && "isBoom" in error) {
-      boomError = error;
-    } else {
-      boomError = boomify(
-        error instanceof Error ? error : new Error(String(error))
-      );
-    }
-
-    const statusCode = getErrorStatusCode(boomError);
-    const errorMessage =
-      boomError instanceof Error ? boomError.message : String(boomError);
-
-    // Enhanced error logging
-    const errorDetails = {
-      message: errorMessage,
-      statusCode,
-      errorType: error instanceof Error ? error.constructor.name : typeof error,
-      stack: error instanceof Error ? error.stack : undefined,
-      requestMethod: event.requestContext?.http?.method,
-      requestPath: event.requestContext?.http?.path,
-      requestId: event.requestContext?.requestId,
-      isBoom:
-        boomError && typeof boomError === "object" && "isBoom" in boomError,
-    };
-
-    console.error(
-      "Error in AI chat handler:",
-      JSON.stringify(errorDetails, null, 2)
-    );
-
-    if (error instanceof Error && error.stack) {
-      console.error("Error stack trace:", error.stack);
-    }
-
-    return {
-      statusCode,
-      body: JSON.stringify({ error: errorMessage }),
+      statusCode: 405,
+      body: JSON.stringify({ error: "Method not allowed" }),
       headers: {
         "Content-Type": "application/json",
         "Cache-Control": "no-store, no-cache, must-revalidate",
@@ -399,6 +188,155 @@ const handlerImpl = async (
       },
     };
   }
+
+  // Check authentication - user must be authenticated to use this endpoint
+  const userCache = await createUserCache();
+  const minimalContext = {
+    event,
+    lambdaContext: {} as Context,
+    userCache,
+  };
+  const session = await getSession(minimalContext);
+  if (!session) {
+    throw forbidden("Authentication required to access this endpoint");
+  }
+
+  // Validate API key
+  if (!apiKey) {
+    throw internal("GEMINI_API_KEY is not set");
+  }
+
+  // Extract locale from Accept-Language header
+  const acceptLanguage =
+    event.headers?.["accept-language"] || event.headers?.["Accept-Language"];
+  const locale = getLocaleFromHeaders(acceptLanguage);
+
+  // Initialize i18n for this request
+  await initI18n(locale);
+
+  // Select system prompt based on locale
+  const systemPrompt = locale === "pt" ? SYSTEM_PROMPT_PT : SYSTEM_PROMPT_EN;
+
+  // Parse request body
+  let body: ChatRequest;
+  if (event.body) {
+    try {
+      body = JSON.parse(
+        event.isBase64Encoded
+          ? Buffer.from(event.body, "base64").toString()
+          : event.body
+      );
+    } catch {
+      throw badRequest("Invalid JSON in request body");
+    }
+  } else {
+    throw badRequest("Request body is required");
+  }
+
+  // Validate messages
+  if (!body.messages || !Array.isArray(body.messages)) {
+    throw badRequest("Messages array is required");
+  }
+
+  // Filter out system messages (don't send to AI, but we'll add our own system prompt)
+  const filteredMessages = body.messages.filter((msg) => msg.role !== "system");
+
+  // Prepare messages for AI SDK in ModelMessage format
+  const aiMessages: ModelMessage[] = [];
+
+  for (let i = 0; i < filteredMessages.length; i++) {
+    const msg = filteredMessages[i];
+
+    if (msg.role === "user") {
+      const content =
+        typeof msg.content === "string"
+          ? msg.content
+          : JSON.stringify(msg.content);
+      aiMessages.push({
+        role: "user",
+        content,
+      });
+    } else if (msg.role === "assistant") {
+      const content =
+        typeof msg.content === "string"
+          ? msg.content
+          : JSON.stringify(msg.content);
+      aiMessages.push({
+        role: "assistant",
+        content,
+      });
+    } else if (msg.role === "tool") {
+      // Tool messages contain tool results
+      // Format: { role: "tool", content: [{ toolCallId, toolName, result }] }
+      // Need to convert to ToolResultPart[] format for AI SDK
+      if (Array.isArray(msg.content) && msg.content.length > 0) {
+        const toolResult = msg.content[0] as {
+          toolCallId?: string;
+          toolName?: string;
+          result?: unknown;
+        };
+
+        if (
+          toolResult.toolCallId &&
+          toolResult.result !== undefined &&
+          toolResult.result !== null
+        ) {
+          // Format as ToolResultPart[] according to AI SDK specification
+          // ToolResultPart requires: type, toolCallId, toolName, output
+          // output must be LanguageModelV2ToolResultOutput, which is { type: "text", value: string }
+          const outputValue =
+            typeof toolResult.result === "string"
+              ? toolResult.result
+              : JSON.stringify(toolResult.result);
+
+          aiMessages.push({
+            role: "tool",
+            content: [
+              {
+                type: "tool-result",
+                toolCallId: toolResult.toolCallId,
+                toolName: toolResult.toolName || "unknown",
+                output: {
+                  type: "text",
+                  value: outputValue,
+                },
+              },
+            ],
+          } as ModelMessage);
+        }
+      }
+    }
+  }
+
+  // Create model instance
+  const model = googleClient(MODEL_NAME);
+
+  console.log("aiMessages", JSON.stringify(aiMessages, null, 2));
+
+  // Generate text with tools
+  // Note: The frontend will handle tool execution and send results back
+  const result = await generateText({
+    model,
+    system: systemPrompt,
+    messages: aiMessages,
+    tools, // Tools are defined with type assertions to work around AI SDK v5 type issues
+  });
+
+  // Format response
+  const response = {
+    text: result.text,
+    toolCalls: result.toolCalls,
+    toolResults: result.toolResults,
+    finishReason: result.finishReason,
+  };
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(response),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 };
 
 export const handler = handlingErrors(handlerImpl);
