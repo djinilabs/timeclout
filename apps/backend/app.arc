@@ -2,13 +2,13 @@
 tt3
 
 @http
-any /*
+post /api/ai/chat
+post /api/ai/embedding
 any /api/v1/auth/*
 get /api/v1/ical/*
 any /graphql
 any /api/discord
-post /api/ai/chat
-post /api/ai/embedding
+any /*
 
 @static
 spa true
