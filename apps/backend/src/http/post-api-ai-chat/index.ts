@@ -1,6 +1,7 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { badRequest, boomify, forbidden, internal } from "@hapi/boom";
 import { generateText, tool } from "ai";
+import type { ModelMessage } from "ai";
 import {
   APIGatewayProxyEventV2,
   APIGatewayProxyResult,
@@ -245,21 +246,77 @@ export const handler = async (
       (msg) => msg.role !== "system"
     );
 
-    // Prepare messages for AI SDK
-    // Note: Tool results from frontend will be handled in subsequent requests
-    // For now, we only process user and assistant messages
-    const aiMessages = filteredMessages
-      .filter((msg) => msg.role === "user" || msg.role === "assistant")
-      .map((msg) => ({
-        role: msg.role as "user" | "assistant",
-        content:
+    // Prepare messages for AI SDK in ModelMessage format
+    const aiMessages: ModelMessage[] = [];
+
+    for (let i = 0; i < filteredMessages.length; i++) {
+      const msg = filteredMessages[i];
+
+      if (msg.role === "user") {
+        const content =
           typeof msg.content === "string"
             ? msg.content
-            : JSON.stringify(msg.content),
-      }));
+            : JSON.stringify(msg.content);
+        aiMessages.push({
+          role: "user",
+          content,
+        });
+      } else if (msg.role === "assistant") {
+        const content =
+          typeof msg.content === "string"
+            ? msg.content
+            : JSON.stringify(msg.content);
+        aiMessages.push({
+          role: "assistant",
+          content,
+        });
+      } else if (msg.role === "tool") {
+        // Tool messages contain tool results
+        // Format: { role: "tool", content: [{ toolCallId, toolName, result }] }
+        // Need to convert to ToolResultPart[] format for AI SDK
+        if (Array.isArray(msg.content) && msg.content.length > 0) {
+          const toolResult = msg.content[0] as {
+            toolCallId?: string;
+            toolName?: string;
+            result?: unknown;
+          };
+
+          if (
+            toolResult.toolCallId &&
+            toolResult.result !== undefined &&
+            toolResult.result !== null
+          ) {
+            // Format as ToolResultPart[] according to AI SDK specification
+            // ToolResultPart requires: type, toolCallId, toolName, output
+            // output must be LanguageModelV2ToolResultOutput, which is { type: "text", value: string }
+            const outputValue =
+              typeof toolResult.result === "string"
+                ? toolResult.result
+                : JSON.stringify(toolResult.result);
+
+            aiMessages.push({
+              role: "tool",
+              content: [
+                {
+                  type: "tool-result",
+                  toolCallId: toolResult.toolCallId,
+                  toolName: toolResult.toolName || "unknown",
+                  output: {
+                    type: "text",
+                    value: outputValue,
+                  },
+                },
+              ],
+            } as ModelMessage);
+          }
+        }
+      }
+    }
 
     // Create model instance
     const model = googleClient(MODEL_NAME);
+
+    console.log("aiMessages", JSON.stringify(aiMessages, null, 2));
 
     // Generate text with tools
     // Note: The frontend will handle tool execution and send results back

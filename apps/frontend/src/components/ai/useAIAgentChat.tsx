@@ -14,6 +14,7 @@ import { timeout } from "../../utils/timeout";
 import { ActivityDebouncer } from "./ActivityDebouncer";
 import { type AIMessage } from "./types";
 import { useAIChatHistory } from "./useAIChatHistory";
+import { C } from "vitest/dist/chunks/reporters.d.keG-yFSu";
 
 // Greeting messages
 const GREETING_EN =
@@ -268,10 +269,21 @@ export const useAIAgentChat = (): AIAgentChatResult => {
     async (toolCall: {
       toolCallId: string;
       toolName: string;
-      args: unknown;
+      args?: unknown;
+      input?: unknown;
     }): Promise<unknown> => {
-      const { toolName, args } = toolCall;
-      const argsObj = args as Record<string, unknown>;
+      console.log("executeTool", JSON.stringify(toolCall, null, 2));
+      const { toolName, input, args } = toolCall;
+
+      // Tool call arguments can be in 'input' or 'args' property
+      // Prefer 'input' as that's the format from AI SDK
+      const rawArgs = input !== undefined ? input : args;
+
+      // Ensure args is an object, default to empty object if undefined or not an object
+      const argsObj =
+        rawArgs && typeof rawArgs === "object" && !Array.isArray(rawArgs)
+          ? (rawArgs as Record<string, unknown>)
+          : {};
 
       try {
         switch (toolName) {
@@ -319,6 +331,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             return { error: `Unknown tool: ${toolName}` };
         }
       } catch (error) {
+        console.error(`Error executing tool ${toolName}:`, error);
         return {
           error: error instanceof Error ? error.message : String(error),
         };
@@ -408,17 +421,48 @@ export const useAIAgentChat = (): AIAgentChatResult => {
         // Send to backend
         let response = await sendMessage(chatMessages);
 
-        // Handle tool calls
-        while (response.toolCalls && response.toolCalls.length > 0) {
+        // Handle tool calls with safety limit to prevent infinite loops
+        let toolCallIterations = 0;
+        const MAX_TOOL_CALL_ITERATIONS = 10;
+
+        while (
+          response.toolCalls &&
+          response.toolCalls.length > 0 &&
+          toolCallIterations < MAX_TOOL_CALL_ITERATIONS
+        ) {
+          toolCallIterations++;
+
           // Execute tools
           const toolResults = await Promise.all(
             response.toolCalls.map(async (toolCall) => {
-              const result = await executeTool(toolCall);
-              return {
-                toolCallId: toolCall.toolCallId,
-                toolName: toolCall.toolName,
-                result,
-              };
+              try {
+                const result = await executeTool(toolCall);
+                // Check if result contains an error
+                if (result && typeof result === "object" && "error" in result) {
+                  console.error(
+                    `Tool ${toolCall.toolName} returned an error:`,
+                    result
+                  );
+                }
+                return {
+                  toolCallId: toolCall.toolCallId,
+                  toolName: toolCall.toolName,
+                  result,
+                };
+              } catch (error) {
+                console.error(
+                  `Error executing tool ${toolCall.toolName}:`,
+                  error
+                );
+                return {
+                  toolCallId: toolCall.toolCallId,
+                  toolName: toolCall.toolName,
+                  result: {
+                    error:
+                      error instanceof Error ? error.message : String(error),
+                  },
+                };
+              }
             })
           );
 
@@ -439,6 +483,13 @@ export const useAIAgentChat = (): AIAgentChatResult => {
           ];
 
           response = await sendMessage(followUpMessages);
+        }
+
+        // Warn if we hit the iteration limit
+        if (toolCallIterations >= MAX_TOOL_CALL_ITERATIONS) {
+          console.warn(
+            "Tool call iteration limit reached. This may indicate an infinite loop."
+          );
         }
 
         // Update assistant message with final response
