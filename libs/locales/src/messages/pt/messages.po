@@ -83,17 +83,17 @@ msgid "User is not in the specified team"
 msgstr "O utilizador não pertence à equipa especificada"
 
 #. js-lingui-explicit-id
+#: libs/business-logic/src/invitation/acceptInvitation.ts:62
+#: libs/graphql/src/schema/company/resolvers/Query/company.ts:26
+msgid "Company not found"
+msgstr "Empresa não encontrada"
+
+#. js-lingui-explicit-id
 #: libs/graphql/src/schema/company/resolvers/Mutation/deleteCompany.ts:23
 #: libs/graphql/src/schema/company/resolvers/Mutation/updateCompany.ts:23
 #: libs/graphql/src/schema/company/resolvers/Mutation/updateCompanySettings.ts:23
 msgid "Company with pk {companyPk} not found"
 msgstr "Empresa com pk {companyPk} não encontrada"
-
-#. js-lingui-explicit-id
-#: libs/business-logic/src/invitation/acceptInvitation.ts:62
-#: libs/graphql/src/schema/company/resolvers/Query/company.ts:26
-msgid "Company not found"
-msgstr "Empresa não encontrada"
 
 #. js-lingui-explicit-id
 #: libs/graphql/src/schema/company/resolvers/Mutation/deleteCompany.ts:37
@@ -126,6 +126,11 @@ msgid "Leave type not found"
 msgstr "Tipo de ausência não encontrado"
 
 #. js-lingui-explicit-id
+#: libs/business-logic/src/leaveRequest/canApproveLeaveRequest.ts:28
+msgid "No unit managers found for the units the user is in"
+msgstr "Não foram encontrados gestores de unidade para as unidades do utilizador"
+
+#. js-lingui-explicit-id
 #: libs/business-logic/src/leaveRequest/createLeaveRequestsForSingleDays.ts:60
 msgid "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
 msgstr "O pedido de ausência sobrepõe-se a {type} existente do tipo {culpritType} para o dia {day}"
@@ -137,24 +142,9 @@ msgid "Leave request overlaps with existing {type} of type {culpritType}"
 msgstr "O pedido de ausência sobrepõe-se a {type} existente do tipo {culpritType}"
 
 #. js-lingui-explicit-id
-#: libs/business-logic/src/leaveRequest/canApproveLeaveRequest.ts:28
-msgid "No unit managers found for the units the user is in"
-msgstr "Não foram encontrados gestores de unidade para as unidades do utilizador"
-
-#. js-lingui-explicit-id
 #: libs/business-logic/src/invitation/createInvitation.ts:40
 msgid "Invited to entity not found"
 msgstr "Entidade convidada não encontrada"
-
-#. js-lingui-explicit-id
-#: libs/business-logic/src/holiday/getHolidaysForDateRange.ts:22
-msgid "User location settings not found"
-msgstr "Configurações de localização do utilizador não encontradas"
-
-#. js-lingui-explicit-id
-#: libs/business-logic/src/entity/updateEntitySettings.ts:17
-msgid "Entity with pk {entityRef} not found"
-msgstr "Entidade com pk {entityRef} não encontrada"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/invitation/acceptInvitation.ts:31
@@ -167,6 +157,16 @@ msgstr "Convite não encontrado"
 #: libs/business-logic/src/invitation/acceptInvitation.ts:43
 msgid "Team not found"
 msgstr "Equipa não encontrada"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/holiday/getHolidaysForDateRange.ts:22
+msgid "User location settings not found"
+msgstr "Configurações de localização do utilizador não encontradas"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/entity/updateEntitySettings.ts:17
+msgid "Entity with pk {entityRef} not found"
+msgstr "Entidade com pk {entityRef} não encontrada"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/entity/getEntitySettings.ts:23
@@ -189,22 +189,6 @@ msgid "Worker {workerPk} not found"
 msgstr "Trabalhador {workerPk} não encontrado"
 
 #. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectUniqueRandomWeighted.ts:11
-msgid "not enough items to select"
-msgstr "itens insuficientes para selecionar"
-
-#. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectUniqueRandom.ts:16
-#: libs/scheduler/src/utils/selectUniqueRandomWeighted.ts:20
-msgid "tryFrom is undefined"
-msgstr "tryFrom não está definido"
-
-#. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectUniqueRandom.ts:10
-msgid "count must be smaller or equal to from array"
-msgstr "a contagem deve ser menor ou igual ao tamanho do array"
-
-#. js-lingui-explicit-id
 #: libs/scheduler/src/utils/selectRandom.ts:5
 msgid "No elements to select from"
 msgstr "Nenhum elemento para selecionar"
@@ -220,16 +204,20 @@ msgid "No element selected"
 msgstr "Nenhum elemento selecionado"
 
 #. js-lingui-explicit-id
-#: libs/scheduler/src/rules/maximumInconvenience.ts:10
-#: libs/scheduler/src/rules/maximumInconvenience.ts:16
-msgid "maximumInconvenience must be a number"
-msgstr "maximumInconvenience deve ser um número"
+#: libs/scheduler/src/utils/selectUniqueRandom.ts:10
+msgid "count must be smaller or equal to from array"
+msgstr "a contagem deve ser menor ou igual ao tamanho do array"
 
 #. js-lingui-explicit-id
-#: libs/scheduler/src/rules/minimumShiftsInStandardWorkdayPerWeek.ts:11
-#: libs/scheduler/src/rules/minimumShiftsInStandardWorkdayPerWeek.ts:22
-msgid "minimumShiftsInStandardWorkday must be a number"
-msgstr "minimumShiftsInStandardWorkday deve ser um número"
+#: libs/scheduler/src/utils/selectUniqueRandom.ts:16
+#: libs/scheduler/src/utils/selectUniqueRandomWeighted.ts:20
+msgid "tryFrom is undefined"
+msgstr "tryFrom não está definido"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectUniqueRandomWeighted.ts:11
+msgid "not enough items to select"
+msgstr "itens insuficientes para selecionar"
 
 #. js-lingui-explicit-id
 #: libs/scheduler/src/rules/minimumFrequency.ts:11
@@ -243,9 +231,21 @@ msgid "minimumFrequency must be a number"
 msgstr "minimumFrequency deve ser um número"
 
 #. js-lingui-explicit-id
+#: libs/scheduler/src/rules/minimumShiftsInStandardWorkdayPerWeek.ts:11
+#: libs/scheduler/src/rules/minimumShiftsInStandardWorkdayPerWeek.ts:22
+msgid "minimumShiftsInStandardWorkday must be a number"
+msgstr "minimumShiftsInStandardWorkday deve ser um número"
+
+#. js-lingui-explicit-id
 #: libs/scheduler/src/rules/index.ts:30
 msgid "Rule {ruleName} not found"
 msgstr "Regra {ruleName} não encontrada"
+
+#. js-lingui-explicit-id
+#: libs/scheduler/src/rules/maximumInconvenience.ts:10
+#: libs/scheduler/src/rules/maximumInconvenience.ts:16
+msgid "maximumInconvenience must be a number"
+msgstr "maximumInconvenience deve ser um número"
 
 #. js-lingui-explicit-id
 #: libs/scheduler/src/rules/firstShiftAfterExtendedLeave.ts:78
