@@ -25,6 +25,14 @@ export const updateMySettings: NonNullable<
   if (!(args.name in settingsTypes)) {
     throw badRequest("Invalid settings name");
   }
+  // Skip update if settings is empty object (no fields provided)
+  if (
+    typeof args.settings === "object" &&
+    args.settings !== null &&
+    Object.keys(args.settings).length === 0
+  ) {
+    return user as unknown as User;
+  }
   const settings = settingsTypes[args.name as keyof typeof settingsTypes].parse(
     args.settings
   );

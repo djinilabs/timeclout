@@ -53,10 +53,12 @@ export const MeEdit = () => {
           name: value.name,
         },
         name: "location",
-        settings: {
-          country: value.country,
-          ...(value.region ? { region: value.region } : {}),
-        },
+        settings: value.country
+          ? {
+              country: value.country,
+              ...(value.region ? { region: value.region } : {}),
+            }
+          : {},
       });
       if (!result.error) {
         toast.success(i18n.t("Your profile has been updated"));
