@@ -26,23 +26,48 @@ const MIN_CHUNK_RATIO = 0.5;
 // Length of paragraph separator ("\n\n")
 const PARAGRAPH_SEPARATOR_LENGTH = 2;
 
-// In-memory cache for embeddings
+// IndexedDB configuration
+const DB_NAME = "docSearchCache";
+const DB_VERSION = 1;
+const STORE_EMBEDDINGS = "embeddings";
+const STORE_DOCUMENTS = "documents";
+const STORE_SNIPPETS = "snippets"; // Pre-built array of all snippets with embeddings
+
+// Check if IndexedDB is available
+const INDEXEDDB_AVAILABLE = typeof self !== "undefined" && "indexedDB" in self;
+
+// In-memory cache for embeddings (fallback if IndexedDB unavailable)
 // Key format: `${documentId}:${snippetHash}`
 // Value: embedding vector (number[])
 const embeddingCache = new Map<string, number[]>();
 
 // Cache for document content and snippets
 // Key format: `${documentId}`
-// Value: { content: string, snippets: string[], lastModified: number }
+// Value: { content: string, snippets: string[], snippetHashes: string[], lastModified: number }
 interface DocumentCacheEntry {
   content: string;
   snippets: string[];
+  snippetHashes: string[]; // Pre-computed hashes to avoid recomputation
   lastModified: number;
 }
 const documentCache = new Map<string, DocumentCacheEntry>();
 
+// Pre-built array of all snippets with embeddings for fast search
+// Built once during indexing, stored in IndexedDB
+interface SnippetWithEmbedding {
+  hash: string;
+  text: string;
+  documentId: string;
+  documentName: string;
+  embedding: number[];
+}
+let allSnippetsWithEmbeddings: SnippetWithEmbedding[] = [];
+
 // Promise-based locking mechanism to prevent concurrent indexing
 let indexingPromise: Promise<void> | null = null;
+
+// IndexedDB database instance
+let db: IDBDatabase | null = null;
 
 /**
  * Generate a hash for a snippet to use as cache key
@@ -70,6 +95,246 @@ function getSnippetCacheKey(documentId: string, snippetHash: string): string {
  */
 function getDocumentCacheKey(documentId: string): string {
   return documentId;
+}
+
+/**
+ * Initialize IndexedDB database
+ */
+async function initIndexedDB(): Promise<IDBDatabase> {
+  if (!INDEXEDDB_AVAILABLE) {
+    throw new Error("IndexedDB is not available");
+  }
+
+  if (db) {
+    return db;
+  }
+
+  return new Promise((resolve, reject) => {
+    const request = self.indexedDB.open(DB_NAME, DB_VERSION);
+
+    request.onerror = () => {
+      reject(new Error(`Failed to open IndexedDB: ${request.error}`));
+    };
+
+    request.onsuccess = () => {
+      db = request.result;
+      resolve(db);
+    };
+
+    request.onupgradeneeded = (event) => {
+      const database = (event.target as IDBOpenDBRequest).result;
+
+      // Create embeddings store if it doesn't exist
+      if (!database.objectStoreNames.contains(STORE_EMBEDDINGS)) {
+        const embeddingStore = database.createObjectStore(STORE_EMBEDDINGS, {
+          keyPath: "key",
+        });
+        embeddingStore.createIndex("documentId", "documentId", {
+          unique: false,
+        });
+      }
+
+      // Create documents store if it doesn't exist
+      if (!database.objectStoreNames.contains(STORE_DOCUMENTS)) {
+        database.createObjectStore(STORE_DOCUMENTS, { keyPath: "documentId" });
+      }
+
+      // Create snippets array store if it doesn't exist
+      if (!database.objectStoreNames.contains(STORE_SNIPPETS)) {
+        database.createObjectStore(STORE_SNIPPETS, { keyPath: "id" });
+      }
+    };
+  });
+}
+
+/**
+ * Load embeddings from IndexedDB
+ */
+async function loadEmbeddingsFromIndexedDB(): Promise<void> {
+  if (!INDEXEDDB_AVAILABLE) {
+    return;
+  }
+
+  try {
+    const database = await initIndexedDB();
+    const transaction = database.transaction([STORE_EMBEDDINGS], "readonly");
+    const store = transaction.objectStore(STORE_EMBEDDINGS);
+    const request = store.getAll();
+
+    await new Promise<void>((resolve, reject) => {
+      request.onsuccess = () => {
+        const results = request.result as Array<{
+          key: string;
+          embedding: number[];
+        }>;
+        for (const result of results) {
+          embeddingCache.set(result.key, result.embedding);
+        }
+        resolve();
+      };
+      request.onerror = () => {
+        reject(new Error(`Failed to load embeddings: ${request.error}`));
+      };
+    });
+  } catch (error) {
+    console.warn(
+      "[loadEmbeddingsFromIndexedDB] Failed to load embeddings:",
+      error
+    );
+  }
+}
+
+/**
+ * Save embedding to IndexedDB
+ */
+async function saveEmbeddingToIndexedDB(
+  key: string,
+  embedding: number[],
+  documentId: string
+): Promise<void> {
+  if (!INDEXEDDB_AVAILABLE) {
+    return;
+  }
+
+  try {
+    const database = await initIndexedDB();
+    const transaction = database.transaction([STORE_EMBEDDINGS], "readwrite");
+    const store = transaction.objectStore(STORE_EMBEDDINGS);
+    store.put({ key, embedding, documentId });
+  } catch (error) {
+    console.warn("[saveEmbeddingToIndexedDB] Failed to save embedding:", error);
+  }
+}
+
+/**
+ * Load document cache from IndexedDB
+ */
+async function loadDocumentCacheFromIndexedDB(): Promise<void> {
+  if (!INDEXEDDB_AVAILABLE) {
+    return;
+  }
+
+  try {
+    const database = await initIndexedDB();
+    const transaction = database.transaction([STORE_DOCUMENTS], "readonly");
+    const store = transaction.objectStore(STORE_DOCUMENTS);
+    const request = store.getAll();
+
+    await new Promise<void>((resolve, reject) => {
+      request.onsuccess = () => {
+        const results = request.result as Array<{
+          documentId: string;
+          content: string;
+          snippets: string[];
+          snippetHashes: string[];
+          lastModified: number;
+        }>;
+        for (const result of results) {
+          documentCache.set(result.documentId, {
+            content: result.content,
+            snippets: result.snippets,
+            snippetHashes: result.snippetHashes || [],
+            lastModified: result.lastModified,
+          });
+        }
+        resolve();
+      };
+      request.onerror = () => {
+        reject(new Error(`Failed to load document cache: ${request.error}`));
+      };
+    });
+  } catch (error) {
+    console.warn(
+      "[loadDocumentCacheFromIndexedDB] Failed to load document cache:",
+      error
+    );
+  }
+}
+
+/**
+ * Save document cache to IndexedDB
+ */
+async function saveDocumentCacheToIndexedDB(
+  documentId: string,
+  entry: DocumentCacheEntry
+): Promise<void> {
+  if (!INDEXEDDB_AVAILABLE) {
+    return;
+  }
+
+  try {
+    const database = await initIndexedDB();
+    const transaction = database.transaction([STORE_DOCUMENTS], "readwrite");
+    const store = transaction.objectStore(STORE_DOCUMENTS);
+    store.put({
+      documentId,
+      ...entry,
+    });
+  } catch (error) {
+    console.warn(
+      "[saveDocumentCacheToIndexedDB] Failed to save document cache:",
+      error
+    );
+  }
+}
+
+/**
+ * Load pre-built snippets array from IndexedDB
+ */
+async function loadSnippetsArrayFromIndexedDB(): Promise<void> {
+  if (!INDEXEDDB_AVAILABLE) {
+    return;
+  }
+
+  try {
+    const database = await initIndexedDB();
+    const transaction = database.transaction([STORE_SNIPPETS], "readonly");
+    const store = transaction.objectStore(STORE_SNIPPETS);
+    const request = store.get("all");
+
+    await new Promise<void>((resolve, reject) => {
+      request.onsuccess = () => {
+        const result = request.result as
+          | { id: string; snippets: SnippetWithEmbedding[] }
+          | undefined;
+        if (result?.snippets) {
+          allSnippetsWithEmbeddings = result.snippets;
+        }
+        resolve();
+      };
+      request.onerror = () => {
+        reject(new Error(`Failed to load snippets array: ${request.error}`));
+      };
+    });
+  } catch (error) {
+    console.warn(
+      "[loadSnippetsArrayFromIndexedDB] Failed to load snippets array:",
+      error
+    );
+  }
+}
+
+/**
+ * Save pre-built snippets array to IndexedDB
+ */
+async function saveSnippetsArrayToIndexedDB(
+  snippets: SnippetWithEmbedding[]
+): Promise<void> {
+  if (!INDEXEDDB_AVAILABLE) {
+    return;
+  }
+
+  try {
+    const database = await initIndexedDB();
+    const transaction = database.transaction([STORE_SNIPPETS], "readwrite");
+    const store = transaction.objectStore(STORE_SNIPPETS);
+    store.put({ id: "all", snippets });
+  } catch (error) {
+    console.warn(
+      "[saveSnippetsArrayToIndexedDB] Failed to save snippets array:",
+      error
+    );
+  }
 }
 
 export interface DocumentSnippet {
@@ -332,10 +597,21 @@ const documents = [
 ];
 
 /**
- * Perform indexing: split documents into snippets and generate embeddings
+ * Process a single document: split into snippets and collect snippets that need embeddings
  */
-async function performIndexing(apiUrl: string): Promise<void> {
-  // Process all documents: split into snippets
+async function processDocument(doc: {
+  id: string;
+  name: string;
+  content: string;
+}): Promise<
+  Array<{
+    documentId: string;
+    documentName: string;
+    snippetText: string;
+    snippetHash: string;
+    snippetIndex: number;
+  }>
+> {
   const documentSnippets: Array<{
     documentId: string;
     documentName: string;
@@ -344,67 +620,251 @@ async function performIndexing(apiUrl: string): Promise<void> {
     snippetIndex: number;
   }> = [];
 
-  for (const doc of documents) {
-    // Check document cache first
-    const docCacheKey = getDocumentCacheKey(doc.id);
-    const cachedDoc = documentCache.get(docCacheKey);
-    let snippets: string[];
+  // Check document cache first
+  const docCacheKey = getDocumentCacheKey(doc.id);
+  const cachedDoc = documentCache.get(docCacheKey);
+  let snippets: string[];
+  let snippetHashes: string[];
 
-    if (cachedDoc) {
-      snippets = cachedDoc.snippets;
-    } else {
-      const contentText = doc.content;
-      snippets = splitDocumentIntoSnippets(contentText);
+  if (cachedDoc && cachedDoc.snippetHashes.length > 0) {
+    // Use cached snippets and hashes
+    snippets = cachedDoc.snippets;
+    snippetHashes = cachedDoc.snippetHashes;
+  } else {
+    const contentText = doc.content;
+    snippets = splitDocumentIntoSnippets(contentText);
 
-      // Cache the document content and snippets
-      documentCache.set(docCacheKey, {
-        content: contentText,
-        snippets,
-        lastModified: Date.now(),
-      });
+    // Pre-compute all hashes in parallel
+    snippetHashes = await Promise.all(
+      snippets.map((snippetText) => hashSnippet(snippetText))
+    );
+
+    // Cache the document content, snippets, and hashes
+    const cacheEntry: DocumentCacheEntry = {
+      content: contentText,
+      snippets,
+      snippetHashes,
+      lastModified: Date.now(),
+    };
+    documentCache.set(docCacheKey, cacheEntry);
+    await saveDocumentCacheToIndexedDB(doc.id, cacheEntry);
+  }
+
+  // Collect all snippets that need embeddings
+  for (let snippetIndex = 0; snippetIndex < snippets.length; snippetIndex++) {
+    const snippetText = snippets[snippetIndex];
+    const snippetHash = snippetHashes[snippetIndex];
+    const snippetCacheKey = getSnippetCacheKey(doc.id, snippetHash);
+
+    // Check both in-memory cache and IndexedDB
+    if (embeddingCache.has(snippetCacheKey)) {
+      continue;
     }
 
-    // Collect all snippets that need embeddings
-    for (let snippetIndex = 0; snippetIndex < snippets.length; snippetIndex++) {
-      const snippetText = snippets[snippetIndex];
-      const snippetHash = await hashSnippet(snippetText);
-      const snippetCacheKey = getSnippetCacheKey(doc.id, snippetHash);
+    documentSnippets.push({
+      documentId: doc.id,
+      documentName: doc.name,
+      snippetText,
+      snippetHash,
+      snippetIndex,
+    });
+  }
 
-      // Skip if embedding is already cached
-      if (embeddingCache.has(snippetCacheKey)) {
-        continue;
+  return documentSnippets;
+}
+
+/**
+ * Generate embedding with timeout and error handling
+ */
+async function generateEmbeddingWithRetry(
+  snippetText: string,
+  snippetHash: string,
+  documentId: string,
+  documentName: string,
+  apiUrl: string,
+  timeoutMs: number = 30000
+): Promise<{
+  success: boolean;
+  documentId?: string;
+  documentName?: string;
+  snippetText?: string;
+  snippetHash?: string;
+  embedding?: number[];
+  error?: unknown;
+}> {
+  try {
+    // Create a timeout promise
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => {
+        reject(
+          new Error(`Embedding generation timed out after ${timeoutMs}ms`)
+        );
+      }, timeoutMs);
+    });
+
+    // Race between embedding generation and timeout
+    const snippetCacheKey = getSnippetCacheKey(documentId, snippetHash);
+    const embedding = await Promise.race([
+      generateEmbedding(snippetText, apiUrl),
+      timeoutPromise,
+    ]);
+
+    // Save to both in-memory cache and IndexedDB
+    embeddingCache.set(snippetCacheKey, embedding);
+    await saveEmbeddingToIndexedDB(snippetCacheKey, embedding, documentId);
+
+    return {
+      success: true,
+      documentId,
+      documentName,
+      snippetText,
+      snippetHash,
+      embedding,
+    };
+  } catch (error) {
+    console.error(
+      `[generateEmbeddingWithRetry] Failed to generate embedding for snippet in document ${documentName}:`,
+      error
+    );
+    return { success: false, documentName, error };
+  }
+}
+
+/**
+ * Process embeddings with concurrency control using a semaphore pattern
+ */
+async function processEmbeddingsWithConcurrency(
+  documentSnippets: Array<{
+    documentId: string;
+    documentName: string;
+    snippetText: string;
+    snippetHash: string;
+    snippetIndex: number;
+  }>,
+  apiUrl: string,
+  concurrency: number = 20
+): Promise<
+  Array<{
+    documentId: string;
+    documentName: string;
+    snippetText: string;
+    snippetHash: string;
+    embedding: number[];
+  }>
+> {
+  const results: Array<{
+    documentId: string;
+    documentName: string;
+    snippetText: string;
+    snippetHash: string;
+    embedding: number[];
+  }> = [];
+
+  if (documentSnippets.length === 0) {
+    return results;
+  }
+
+  // Semaphore to control concurrency
+  let active = 0;
+  let index = 0;
+  let completed = 0;
+
+  return new Promise((resolve) => {
+    const processNext = () => {
+      // Process items while we have capacity and items remaining
+      while (active < concurrency && index < documentSnippets.length) {
+        const snippet = documentSnippets[index++];
+        active++;
+
+        generateEmbeddingWithRetry(
+          snippet.snippetText,
+          snippet.snippetHash,
+          snippet.documentId,
+          snippet.documentName,
+          apiUrl
+        )
+          .then((result) => {
+            if (result.success && result.embedding) {
+              results.push({
+                documentId: result.documentId!,
+                documentName: result.documentName!,
+                snippetText: result.snippetText!,
+                snippetHash: result.snippetHash!,
+                embedding: result.embedding,
+              });
+            }
+          })
+          .catch((error) => {
+            console.error(
+              `[processEmbeddingsWithConcurrency] Error processing embedding:`,
+              error
+            );
+          })
+          .finally(() => {
+            active--;
+            completed++;
+            // If all items are processed, resolve
+            if (completed === documentSnippets.length) {
+              resolve(results);
+            } else {
+              // Process next item
+              processNext();
+            }
+          });
       }
+    };
 
-      documentSnippets.push({
-        documentId: doc.id,
-        documentName: doc.name,
-        snippetText,
-        snippetHash,
-        snippetIndex,
-      });
+    // Start processing
+    processNext();
+  });
+}
+
+/**
+ * Perform indexing: split documents into snippets and generate embeddings
+ */
+async function performIndexing(apiUrl: string): Promise<void> {
+  // Process all documents in parallel
+  const documentSnippetsArrays = await Promise.all(
+    documents.map((doc) => processDocument(doc))
+  );
+
+  // Flatten all snippets that need embeddings
+  const documentSnippets = documentSnippetsArrays.flat();
+
+  // Process all embeddings in parallel with concurrency control
+  // Backend handles throttling/backoff, so we can use higher concurrency
+  const CONCURRENCY = 20; // Process up to 20 embeddings concurrently
+  await processEmbeddingsWithConcurrency(documentSnippets, apiUrl, CONCURRENCY);
+
+  // Build the pre-computed snippets array for fast search
+  allSnippetsWithEmbeddings = [];
+
+  for (const doc of documents) {
+    const docCacheKey = getDocumentCacheKey(doc.id);
+    const cachedDoc = documentCache.get(docCacheKey);
+
+    if (cachedDoc) {
+      for (let i = 0; i < cachedDoc.snippets.length; i++) {
+        const snippetText = cachedDoc.snippets[i];
+        const snippetHash = cachedDoc.snippetHashes[i];
+        const snippetCacheKey = getSnippetCacheKey(doc.id, snippetHash);
+        const embedding = embeddingCache.get(snippetCacheKey);
+
+        if (embedding) {
+          allSnippetsWithEmbeddings.push({
+            hash: snippetHash,
+            text: snippetText,
+            documentId: doc.id,
+            documentName: doc.name,
+            embedding,
+          });
+        }
+      }
     }
   }
 
-  // Generate embeddings in parallel
-  const embeddingPromises = documentSnippets.map(
-    async ({ documentName, snippetText, snippetHash, documentId }) => {
-      try {
-        const snippetCacheKey = getSnippetCacheKey(documentId, snippetHash);
-        const embedding = await generateEmbedding(snippetText, apiUrl);
-        embeddingCache.set(snippetCacheKey, embedding);
-        return { success: true, documentName };
-      } catch (error) {
-        console.error(
-          `[performIndexing] Failed to generate embedding for snippet in document ${documentName}:`,
-          error
-        );
-        return { success: false, documentName, error };
-      }
-    }
-  );
-
-  // Wait for all embeddings to complete (or fail)
-  await Promise.allSettled(embeddingPromises);
+  // Save the pre-built array to IndexedDB
+  await saveSnippetsArrayToIndexedDB(allSnippetsWithEmbeddings);
 }
 
 /**
@@ -416,7 +876,7 @@ async function performSearch(
   topN: number,
   apiUrl: string
 ): Promise<SearchResult[]> {
-  // Ensure indexing is complete
+  // Ensure indexing is complete - all searches wait for indexing
   if (indexingPromise) {
     await indexingPromise;
   } else {
@@ -425,49 +885,19 @@ async function performSearch(
     await indexingPromise;
   }
 
-  // Get all cached embeddings
-  const snippetEmbeddings: Array<{
-    snippet: DocumentSnippet;
-    embedding: number[];
-  }> = [];
-
-  // Reconstruct embeddings from cache
-  for (const doc of documents) {
-    const docCacheKey = getDocumentCacheKey(doc.id);
-    const cachedDoc = documentCache.get(docCacheKey);
-
-    if (cachedDoc) {
-      for (const snippetText of cachedDoc.snippets) {
-        const snippetHash = await hashSnippet(snippetText);
-        const snippetCacheKey = getSnippetCacheKey(doc.id, snippetHash);
-        const embedding = embeddingCache.get(snippetCacheKey);
-
-        if (embedding) {
-          snippetEmbeddings.push({
-            snippet: {
-              text: snippetText,
-              documentId: doc.id,
-              documentName: doc.name,
-            },
-            embedding,
-          });
-        }
-      }
-    }
-  }
-
-  if (snippetEmbeddings.length === 0) {
+  // Use pre-built array for fast search (no hash computation needed)
+  if (allSnippetsWithEmbeddings.length === 0) {
     return [];
   }
 
-  // Calculate similarity scores
-  const results: SearchResult[] = snippetEmbeddings.map(
-    ({ snippet, embedding }) => {
+  // Calculate similarity scores using pre-built array
+  const results: SearchResult[] = allSnippetsWithEmbeddings.map(
+    ({ text, documentName, documentId, embedding }) => {
       const similarity = cosineSimilarity(queryEmbedding, embedding);
       return {
-        snippet: snippet.text,
-        documentName: snippet.documentName,
-        documentId: snippet.documentId,
+        snippet: text,
+        documentName,
+        documentId,
         similarity,
       };
     }
@@ -514,6 +944,27 @@ interface ErrorResponse {
 type WorkerResponse = SearchResponse | ErrorResponse;
 
 /**
+ * Initialize worker: load cached data from IndexedDB and start indexing
+ */
+async function initializeWorker(apiUrl: string): Promise<void> {
+  // Load cached data from IndexedDB in parallel
+  await Promise.all([
+    loadEmbeddingsFromIndexedDB(),
+    loadDocumentCacheFromIndexedDB(),
+    loadSnippetsArrayFromIndexedDB(),
+  ]);
+
+  // Start indexing in background if not already started
+  if (!indexingPromise) {
+    indexingPromise = performIndexing(apiUrl);
+    // Don't await - let it run in background
+    indexingPromise.catch((error) => {
+      console.error("[initializeWorker] Indexing failed:", error);
+    });
+  }
+}
+
+/**
  * Handle messages from main thread
  */
 self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
@@ -521,13 +972,19 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
 
   try {
     if (message.type === "search") {
-      // Generate query embedding
+      // Ensure worker is initialized and indexing has started
+      if (!indexingPromise) {
+        // Initialize worker and start indexing
+        await initializeWorker(message.apiUrl);
+      }
+
+      // Generate query embedding (can happen in parallel with indexing)
       const queryEmbedding = await generateEmbedding(
         message.query,
         message.apiUrl
       );
 
-      // Perform search
+      // Perform search (will wait for indexing to complete)
       const results = await performSearch(
         message.query,
         queryEmbedding,
@@ -543,8 +1000,15 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
 
       self.postMessage(response);
     } else if (message.type === "index") {
-      // Perform indexing
-      await performIndexing(message.apiUrl);
+      // Initialize worker if needed
+      if (!indexingPromise) {
+        await initializeWorker(message.apiUrl);
+      }
+
+      // Wait for indexing to complete
+      if (indexingPromise) {
+        await indexingPromise;
+      }
 
       const response: WorkerResponse = {
         type: "search-response",

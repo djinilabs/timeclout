@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
@@ -7,7 +7,10 @@ import { printAOM } from "../../accessibility/printAOM";
 import { AccessibleElement } from "../../accessibility/types";
 import { useFetchActivity } from "../../hooks/useFetchActivity";
 import { useLocale } from "../../hooks/useLocale";
-import { searchDocuments } from "../../utils/docSearchManager";
+import {
+  getDocSearchManager,
+  searchDocuments,
+} from "../../utils/docSearchManager";
 import { timeout } from "../../utils/timeout";
 
 import { ActivityDebouncer } from "./ActivityDebouncer";
@@ -250,6 +253,15 @@ export const useAIAgentChat = (): AIAgentChatResult => {
     () => ActivityDebouncer(monitorFetch),
     [monitorFetch]
   );
+
+  // Initialize doc search manager and start pre-indexing on mount
+  useEffect(() => {
+    const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL || "";
+    const apiUrl = `${BACKEND_API_URL}/api/ai/embedding`;
+    const manager = getDocSearchManager(apiUrl);
+    // Pre-indexing starts automatically in manager constructor, but we can also call it explicitly
+    manager.preIndexDocuments();
+  }, []);
 
   // Execute tool and get result (from main branch implementation)
   const executeTool = useCallback(
