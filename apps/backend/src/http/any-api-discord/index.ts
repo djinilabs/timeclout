@@ -1,4 +1,4 @@
-import { badRequest } from "@hapi/boom";
+import { badRequest, methodNotAllowed } from "@hapi/boom";
 import { APIGatewayProxyEventV2, APIGatewayProxyResult } from "aws-lambda";
 
 import { handlingErrors } from "../../utils/handlingErrors";
@@ -14,7 +14,7 @@ export const handler = handlingErrors(
   async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResult> => {
     // Only handle POST requests
     if (event.requestContext.http.method !== "POST") {
-      return discordResponse("Method not allowed", 405);
+      throw methodNotAllowed("Method not allowed");
     }
 
     // Verify Discord webhook signature
