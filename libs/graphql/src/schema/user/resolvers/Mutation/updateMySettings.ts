@@ -1,4 +1,4 @@
-import { notFound } from "@hapi/boom";
+import { badRequest, notFound } from "@hapi/boom";
 
 import { requireSession } from "../../../../session/requireSession";
 
@@ -20,6 +20,9 @@ export const updateMySettings: NonNullable<MutationResolvers['updateMySettings']
     throw notFound("User not found");
   }
   const userRef = resourceRef("users", userId);
+  if (!(args.name in settingsTypes)) {
+    throw badRequest("Invalid settings name");
+  }
   const settings =
     settingsTypes[args.name as keyof typeof settingsTypes].parse(args.settings);
   await entity_settings.upsert({

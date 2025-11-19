@@ -1,4 +1,4 @@
-import { forbidden, notFound } from "@hapi/boom";
+import { badRequest, forbidden, notFound } from "@hapi/boom";
 
 import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 
@@ -27,6 +27,9 @@ export const updateUserSettings: NonNullable<MutationResolvers['updateUserSettin
   const user = await entity.get(userRef);
   if (!user) {
     throw notFound("User not found");
+  }
+  if (!(args.name in settingsTypes)) {
+    throw badRequest("Invalid settings name");
   }
   const settings =
     settingsTypes[args.name as keyof typeof settingsTypes].parse(args.settings);
