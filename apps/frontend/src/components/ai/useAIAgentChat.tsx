@@ -1,6 +1,5 @@
 import { nanoid } from "nanoid";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Markdown from "react-markdown";
 
 import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
@@ -14,7 +13,6 @@ import { timeout } from "../../utils/timeout";
 import { ActivityDebouncer } from "./ActivityDebouncer";
 import { type AIMessage } from "./types";
 import { useAIChatHistory } from "./useAIChatHistory";
-import { C } from "vitest/dist/chunks/reporters.d.keG-yFSu";
 
 // Greeting messages
 const GREETING_EN =
@@ -500,7 +498,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             role: "assistant",
             content: response.text,
           },
-          content: <Markdown>{response.text}</Markdown>,
+          content: response.text, // Store as string - AIChatMessagePanel will render Markdown
         };
         saveNewMessage(finalMessage);
         setMessages((prev) =>
@@ -549,7 +547,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
             role: "assistant",
             content: greeting,
           },
-          content: <Markdown>{greeting}</Markdown>,
+          content: greeting, // Store as string - AIChatMessagePanel will render Markdown
         } as AIMessage,
       ];
     }
