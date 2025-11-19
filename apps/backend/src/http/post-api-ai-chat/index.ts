@@ -1,11 +1,12 @@
-import { Writable } from "node:stream";
-
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { boomify, forbidden } from "@hapi/boom";
-import { convertToModelMessages, streamText } from "ai";
-import type { ToolSet, UIMessage } from "ai";
-import { Context } from "aws-lambda";
-import { streamifyResponse, ResponseStream } from "lambda-stream";
+import { badRequest, boomify, forbidden, internal } from "@hapi/boom";
+import { generateText, tool } from "ai";
+import type { ModelMessage } from "ai";
+import {
+  APIGatewayProxyEventV2,
+  APIGatewayProxyResult,
+  Context,
+} from "aws-lambda";
 import { z } from "zod";
 
 import { createUserCache } from "../../../../../libs/graphql/src/resolverContext";
@@ -15,226 +16,355 @@ import {
   initI18n,
 } from "../../../../../libs/locales/src";
 
-import { enhanceResponseStream } from "./enhanceResponseStream";
-import { HttpResponseStream } from "./HttpResponseStream";
+// Initialize Google Generative AI client at module level
+const apiKey = process.env.GEMINI_API_KEY || "";
+const referer =
+  process.env.GEMINI_REFERER || "http://localhost:3000/api/ai/chat";
 
-import { getDefined } from "@/utils";
+// Create custom fetch function with referer header
+const customFetch = async (
+  url: string | URL | Request,
+  init?: RequestInit
+): Promise<Response> => {
+  const headers = new Headers(init?.headers);
+  headers.set("Referer", referer);
+  headers.set("referer", referer); // lowercase version
 
-// The GEMINI_API_KEY should be set in environment variables
-const google = createGoogleGenerativeAI({
-  apiKey: getDefined(process.env.GEMINI_API_KEY, "GEMINI_API_KEY is not set"),
-  headers: {
-    Referer: "http://localhost:3000/api/ai/chat",
-    "Content-Type": "text/event-stream",
-  },
-});
-
-const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
-
-// System prompts for different languages
-const SYSTEM_PROMPTS: Record<string, string> = {
-  en: `You are a helpful assistant that lives inside the TimeClout product (an application to help with team scheduling shifts).
-You can interact with the TimeClout product like if you were a user of the application. You can look at the UI using the describe_app_ui tool.
-You can click and on elements or open them using the click_element tool and then looking again to the UI to see the changes.
-You can fill text fields using the fill_form_element tool.
-You can search the product documentation using the search_documents tool. Use this tool when users ask about:
-- Product features, capabilities, or functionality
-- Use cases, workflows, or how to accomplish tasks
-- Competitive advantages or benefits
-- Any questions about what TimeClout can do or how it works
-When using search_documents, extract the key terms from the user's question and use them as the query parameter.
-You should use the tools provided to you to answer questions and help with tasks.
-Don't plan, just act.
-If the user asks you to do something, you should try to use the provided tools.
-After you have received a tool-result, reply to the user in __plain english__ with your findings.
-If a tool result is an error, you should try to use the tools again.
-If the tool does not get you the data you need, try navigating to another page.
-If that does not work, just say you don't have enough data.
-`,
-  pt: `Você é um assistente útil que vive dentro do produto TimeClout (um aplicativo para ajudar com agendamento de turnos de equipe).
-Você pode interagir com o produto TimeClout como se fosse um usuário do aplicativo. Você pode olhar para a UI usando a ferramenta describe_app_ui.
-Você pode clicar em elementos ou abri-los usando a ferramenta click_element e depois olhar novamente para a UI para ver as mudanças.
-Você pode preencher campos de texto usando a ferramenta fill_form_element.
-Você pode pesquisar a documentação do produto usando a ferramenta search_documents. Use esta ferramenta quando os usuários perguntarem sobre:
-- Funcionalidades, capacidades ou funcionalidades do produto
-- Casos de uso, fluxos de trabalho ou como realizar tarefas
-- Vantagens competitivas ou benefícios
-- Qualquer pergunta sobre o que o TimeClout pode fazer ou como funciona
-Ao usar search_documents, extraia os termos-chave da pergunta do usuário e use-os como parâmetro de consulta.
-Você deve usar as ferramentas fornecidas para responder perguntas e ajudar com tarefas.
-Não planeie, apenas aja.
-Se o utilizador pedir para você fazer algo, você deve tentar usar as ferramentas fornecidas.
-Depois de receber um resultado de ferramenta, responda ao usuário em __português simples__ com suas descobertas.
-Se um resultado de ferramenta for um erro, você deve tentar usar as ferramentas novamente.
-Se a ferramenta não conseguir os dados de que você precisa, tente navegar para outra página.
-Se isso não funcionar, simplesmente diga que não tem dados suficientes.
-`,
+  return fetch(url, {
+    ...init,
+    headers,
+    referrer: referer,
+  });
 };
 
-// Define tools that will be executed on the frontend
-// These tools allow the AI to interact with the UI
-// Tool execution happens on the frontend, but definitions are here so the AI knows about them
-// When tools are called, they will be streamed to the frontend for execution
-// NOTE: We do NOT include execute functions here - this prevents server-side execution
-// The frontend will handle execution via the onToolCall handler
-const tools: ToolSet = {
-  describe_app_ui: {
+const googleClient = createGoogleGenerativeAI({
+  apiKey,
+  fetch: customFetch,
+});
+
+const MODEL_NAME = "gemini-2.5-flash";
+
+// System prompts
+const SYSTEM_PROMPT_EN = `You are the TimeClout AI assistant, a helpful customer support agent for TimeClout, a team scheduling application. Your name is TimeClout AI Assistant, not Gemini. You help users with questions about TimeClout, guide them through the application, and assist with scheduling tasks. Always identify yourself as the TimeClout AI Assistant.
+
+You have access to the following tools to interact with the TimeClout application:
+
+1. **describe_app_ui**: Use this tool to see what's currently on the screen. Call this FIRST when you need to understand the current UI state, find elements, or see what data is displayed. This tool returns a structured description of all accessible elements on the page, including their roles and descriptions.
+
+2. **click_element**: Use this tool to click on buttons, links, or other clickable elements. You need to provide the element's role and description (obtained from describe_app_ui). Only click elements that are marked as clickable (buttons, links, checkboxes, radio buttons, comboboxes). After clicking, wait for the UI to update before taking the next action.
+
+3. **fill_form_element**: Use this tool to fill in form fields like text inputs, textareas, selects, checkboxes, or radio buttons. You need to provide the element's role, description (from describe_app_ui), and the value to fill. The tool handles different input types automatically (text, checkboxes, dropdowns, etc.).
+
+4. **search_documents**: Use this tool to search through TimeClout's product documentation when you need to answer questions about features, workflows, or how things work. Provide a search query and optionally the number of results (default is 5). This uses semantic search to find relevant documentation snippets.
+
+**Tool Usage Guidelines:**
+- Always start by calling describe_app_ui to understand the current screen state
+- Use search_documents when users ask about features, how to do something, or need information from the documentation
+- Use click_element to navigate or interact with buttons/links
+- Use fill_form_element to enter data into forms
+- After any click or form fill, the UI will update automatically - wait for it to settle before the next action
+- If a tool fails, try again or use describe_app_ui to see if the UI has changed
+- Don't plan ahead - just use the tools as needed to accomplish the user's goal
+- Work step by step: describe the UI, interact with elements, describe again if needed, continue until the task is complete`;
+
+const SYSTEM_PROMPT_PT = `Você é o assistente de IA do TimeClout, um agente de suporte ao cliente útil para o TimeClout, uma aplicação de agendamento de equipas. O seu nome é Assistente de IA do TimeClout, não Gemini. Ajuda os utilizadores com perguntas sobre o TimeClout, guia-os através da aplicação e auxilia com tarefas de agendamento. Identifique-se sempre como o Assistente de IA do TimeClout.
+
+Tem acesso às seguintes ferramentas para interagir com a aplicação TimeClout:
+
+1. **describe_app_ui**: Use esta ferramenta para ver o que está atualmente no ecrã. Chame esta PRIMEIRO quando precisar de entender o estado atual da interface, encontrar elementos ou ver quais dados estão exibidos. Esta ferramenta retorna uma descrição estruturada de todos os elementos acessíveis na página, incluindo os seus papéis e descrições.
+
+2. **click_element**: Use esta ferramenta para clicar em botões, links ou outros elementos clicáveis. Precisa de fornecer o papel do elemento e a descrição (obtidos de describe_app_ui). Apenas clique em elementos marcados como clicáveis (botões, links, checkboxes, botões de rádio, comboboxes). Após clicar, aguarde a atualização da interface antes de tomar a próxima ação.
+
+3. **fill_form_element**: Use esta ferramenta para preencher campos de formulário como entradas de texto, áreas de texto, seleções, checkboxes ou botões de rádio. Precisa de fornecer o papel do elemento, a descrição (de describe_app_ui) e o valor a preencher. A ferramenta trata automaticamente diferentes tipos de entrada (texto, checkboxes, dropdowns, etc.).
+
+4. **search_documents**: Use esta ferramenta para pesquisar na documentação do produto TimeClout quando precisar de responder a perguntas sobre funcionalidades, fluxos de trabalho ou como as coisas funcionam. Forneça uma consulta de pesquisa e opcionalmente o número de resultados (o padrão é 5). Isto usa pesquisa semântica para encontrar trechos relevantes da documentação.
+
+**Diretrizes de Uso de Ferramentas:**
+- Sempre comece chamando describe_app_ui para entender o estado atual do ecrã
+- Use search_documents quando os utilizadores perguntarem sobre funcionalidades, como fazer algo ou precisarem de informações da documentação
+- Use click_element para navegar ou interagir com botões/links
+- Use fill_form_element para inserir dados em formulários
+- Após qualquer clique ou preenchimento de formulário, a interface será atualizada automaticamente - aguarde até estabilizar antes da próxima ação
+- Se uma ferramenta falhar, tente novamente ou use describe_app_ui para ver se a interface mudou
+- Não planeie com antecedência - apenas use as ferramentas conforme necessário para alcançar o objetivo do utilizador
+- Trabalhe passo a passo: descreva a interface, interaja com elementos, descreva novamente se necessário, continue até a tarefa estar completa`;
+
+// Tool definitions
+// Note: Tools execute on the frontend, but we need to define them here
+// so the AI knows what tools are available. The execute functions are
+// placeholders - actual execution happens on the frontend.
+// Using type assertion to work around AI SDK v5 type issues
+const tools = {
+  describe_app_ui: tool({
     description:
-      "Describes the current app UI. Use this to answer user queries and read the application state, like the list of companies, units or teams. You can also use this to read the item being displayed on the page.",
-    inputSchema: z.object({}),
-    // No execute function - tool calls are handled on the frontend
-  },
-  click_element: {
+      "Describes the current application UI state by scanning the DOM and creating a structured representation of all accessible elements on the page.",
+    parameters: z.object({}),
+    execute: async () => {
+      // Tool execution happens on frontend - return placeholder
+      // The frontend will execute the actual tool and send results back
+      return { description: "" };
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any),
+  click_element: tool({
     description:
-      'Click on the first element that matches the role and the description (or label) for that element that you got from the describe_app_ui tool. Can be used to navigate the application state to answer user queries. The element needs the "clickable" attribute to be "true".',
-    inputSchema: z.object({
-      "element-role": z.string(),
-      "element-description": z.string(),
-    }),
-    // No execute function - tool calls are handled on the frontend
-  },
-  fill_form_element: {
-    description:
-      "Fill in a form element (textarea, input, select, radio, checkbox) with a value. Use this to interact with form elements in the UI. The element needs to be found by its role and description.",
-    inputSchema: z.object({
-      "element-role": z.string(),
-      "element-description": z.string(),
-      value: z.string(),
-    }),
-    // No execute function - tool calls are handled on the frontend
-  },
-  search_documents: {
-    description:
-      "Search documentation using semantic vector search. Use this to find relevant information from the product documentation. When the user asks about features, use cases, workflows, or any product-related questions, use this tool to find relevant documentation snippets.",
-    inputSchema: z.object({
-      query: z
+      "Clicks on UI elements to navigate or interact. Requires an element role and element description obtained from describe_app_ui.",
+    parameters: z.object({
+      role: z.string().describe("The role of the element to click"),
+      description: z
         .string()
-        .min(1, "Query parameter is required and cannot be empty")
-        .describe(
-          "The search terms to look for in the documents. Extract this directly from the user's request."
-        ),
+        .describe("The description of the element to click"),
+    }),
+    execute: async () => {
+      // Tool execution happens on frontend - return placeholder
+      // The frontend will execute the actual tool and send results back
+      return { success: false };
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any),
+  fill_form_element: tool({
+    description:
+      "Fills in form fields with values. Finds the form element and fills it based on element type.",
+    parameters: z.object({
+      role: z.string().describe("The role of the form element"),
+      description: z.string().describe("The description of the form element"),
+      value: z.string().describe("The value to fill in the form element"),
+    }),
+    execute: async () => {
+      // Tool execution happens on frontend - return placeholder
+      // The frontend will execute the actual tool and send results back
+      return { success: false };
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any),
+  search_documents: tool({
+    description:
+      "Performs semantic vector search through product documentation to find relevant information.",
+    parameters: z.object({
+      query: z.string().describe("The search query string"),
       topN: z
         .number()
         .optional()
         .default(5)
-        .describe("Number of top results to return (default: 5)"),
+        .describe("Number of results to return (default: 5)"),
     }),
-    // No execute function - tool calls are handled on the frontend
-  },
+    execute: async () => {
+      // Tool execution happens on frontend - return placeholder
+      // The frontend will execute the actual tool and send results back
+      return { results: [] };
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any),
 };
 
-export interface ChatRequest {
-  messages: UIMessage[];
+// Request/Response types
+interface ChatRequest {
+  messages: Array<{
+    role: "user" | "assistant" | "system" | "tool";
+    content: string | unknown[];
+  }>;
 }
 
-const replyWithError = (responseStream: Writable, _error: Error) => {
-  const err = boomify(_error);
-  const httpResponseMetadata = err.output.payload;
-  responseStream = HttpResponseStream.from(
-    responseStream,
-    httpResponseMetadata
-  );
-  responseStream.write(`3:${JSON.stringify(err.output.payload.message)}\n`);
-  responseStream.end();
-};
-
-export const handler = streamifyResponse(
-  async (event, responseStream: Writable) => {
-    return new Promise<void>((resolve) => {
-      const httpResponseMetadata = {
-        statusCode: 200,
-        statusMessage: "OK",
-        headers: {},
-      };
-
-      responseStream = HttpResponseStream.from(
-        responseStream,
-        httpResponseMetadata
-      );
-
-      // Use async IIFE to handle async operations inside the Promise constructor
-      (async () => {
-        try {
-          // Only handle POST requests
-          if (event.requestContext.http.method !== "POST") {
-            responseStream.write("event: error\ndata: Method not allowed\n\n");
-            responseStream.end();
-            return;
-          }
-
-          // Check authentication - user must be authenticated to use this endpoint
-          // Create minimal context for getSession (it only uses event, but needs proper typing)
-          const userCache = await createUserCache();
-          const minimalContext = {
-            event,
-            lambdaContext: {} as Context,
-            userCache,
-          };
-          const session = await getSession(minimalContext);
-          if (!session) {
-            throw forbidden("Authentication required to access this endpoint");
-          }
-
-          // Extract language from Accept-Language header
-          const acceptLanguage =
-            event.headers?.["accept-language"] ||
-            event.headers?.["Accept-Language"] ||
-            "en";
-          const locale = getLocaleFromHeaders(acceptLanguage);
-
-          // Initialize i18n for this request (though system prompt is hardcoded for now)
-          await initI18n(locale);
-
-          // Get system prompt based on locale
-          const systemPrompt = SYSTEM_PROMPTS[locale] || SYSTEM_PROMPTS.en;
-
-          // get messages
-          let messages: Array<UIMessage> = [];
-          if (event.body) {
-            const body = JSON.parse(
-              event.isBase64Encoded
-                ? Buffer.from(event.body, "base64").toString()
-                : event.body
-            );
-            if (body.messages) {
-              messages = body.messages;
-            }
-          }
-
-          // Filter out any system messages from client (shouldn't be any, but just in case)
-          const nonSystemMessages = messages.filter(
-            (msg) => msg.role !== "system"
-          );
-
-          // Configure model
-          const model = google(MODEL_NAME);
-
-          // Stream the AI response with tools and system prompt
-          const result = streamText({
-            model,
-            system: systemPrompt,
-            messages: convertToModelMessages(nonSystemMessages),
-            tools,
-            toolChoice: "auto",
-          });
-
-          const enhancedResponseStream = enhanceResponseStream(
-            responseStream as ResponseStream,
-            httpResponseMetadata
-          );
-
-          enhancedResponseStream.on("finish", () => {
-            resolve();
-          });
-
-          // pipe result to response stream
-          result.pipeUIMessageStreamToResponse(enhancedResponseStream);
-        } catch (error) {
-          console.error("Error in handler:", error);
-          replyWithError(responseStream, error as Error);
-          resolve();
-        }
-      })();
-    });
+/**
+ * Extract error status code from error object
+ */
+function getErrorStatusCode(error: unknown): number {
+  if (error && typeof error === "object" && "output" in error) {
+    return (
+      (error as { output?: { statusCode?: number } }).output?.statusCode || 500
+    );
   }
-);
+  return 500;
+}
+
+export const handler = async (
+  event: APIGatewayProxyEventV2
+): Promise<APIGatewayProxyResult> => {
+  try {
+    // Only handle POST requests
+    if (event.requestContext.http.method !== "POST") {
+      return {
+        statusCode: 405,
+        body: JSON.stringify({ error: "Method not allowed" }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+    }
+
+    // Check authentication - user must be authenticated to use this endpoint
+    const userCache = await createUserCache();
+    const minimalContext = {
+      event,
+      lambdaContext: {} as Context,
+      userCache,
+    };
+    const session = await getSession(minimalContext);
+    if (!session) {
+      throw forbidden("Authentication required to access this endpoint");
+    }
+
+    // Validate API key
+    if (!apiKey) {
+      throw internal("GEMINI_API_KEY is not set");
+    }
+
+    // Extract locale from Accept-Language header
+    const acceptLanguage =
+      event.headers?.["accept-language"] || event.headers?.["Accept-Language"];
+    const locale = getLocaleFromHeaders(acceptLanguage);
+
+    // Initialize i18n for this request
+    await initI18n(locale);
+
+    // Select system prompt based on locale
+    const systemPrompt = locale === "pt" ? SYSTEM_PROMPT_PT : SYSTEM_PROMPT_EN;
+
+    // Parse request body
+    let body: ChatRequest;
+    if (event.body) {
+      try {
+        body = JSON.parse(
+          event.isBase64Encoded
+            ? Buffer.from(event.body, "base64").toString()
+            : event.body
+        );
+      } catch {
+        throw badRequest("Invalid JSON in request body");
+      }
+    } else {
+      throw badRequest("Request body is required");
+    }
+
+    // Validate messages
+    if (!body.messages || !Array.isArray(body.messages)) {
+      throw badRequest("Messages array is required");
+    }
+
+    // Filter out system messages (don't send to AI, but we'll add our own system prompt)
+    const filteredMessages = body.messages.filter(
+      (msg) => msg.role !== "system"
+    );
+
+    // Prepare messages for AI SDK in ModelMessage format
+    const aiMessages: ModelMessage[] = [];
+
+    for (let i = 0; i < filteredMessages.length; i++) {
+      const msg = filteredMessages[i];
+
+      if (msg.role === "user") {
+        const content =
+          typeof msg.content === "string"
+            ? msg.content
+            : JSON.stringify(msg.content);
+        aiMessages.push({
+          role: "user",
+          content,
+        });
+      } else if (msg.role === "assistant") {
+        const content =
+          typeof msg.content === "string"
+            ? msg.content
+            : JSON.stringify(msg.content);
+        aiMessages.push({
+          role: "assistant",
+          content,
+        });
+      } else if (msg.role === "tool") {
+        // Tool messages contain tool results
+        // Format: { role: "tool", content: [{ toolCallId, toolName, result }] }
+        // Need to convert to ToolResultPart[] format for AI SDK
+        if (Array.isArray(msg.content) && msg.content.length > 0) {
+          const toolResult = msg.content[0] as {
+            toolCallId?: string;
+            toolName?: string;
+            result?: unknown;
+          };
+
+          if (
+            toolResult.toolCallId &&
+            toolResult.result !== undefined &&
+            toolResult.result !== null
+          ) {
+            // Format as ToolResultPart[] according to AI SDK specification
+            // ToolResultPart requires: type, toolCallId, toolName, output
+            // output must be LanguageModelV2ToolResultOutput, which is { type: "text", value: string }
+            const outputValue =
+              typeof toolResult.result === "string"
+                ? toolResult.result
+                : JSON.stringify(toolResult.result);
+
+            aiMessages.push({
+              role: "tool",
+              content: [
+                {
+                  type: "tool-result",
+                  toolCallId: toolResult.toolCallId,
+                  toolName: toolResult.toolName || "unknown",
+                  output: {
+                    type: "text",
+                    value: outputValue,
+                  },
+                },
+              ],
+            } as ModelMessage);
+          }
+        }
+      }
+    }
+
+    // Create model instance
+    const model = googleClient(MODEL_NAME);
+
+    console.log("aiMessages", JSON.stringify(aiMessages, null, 2));
+
+    // Generate text with tools
+    // Note: The frontend will handle tool execution and send results back
+    const result = await generateText({
+      model,
+      system: systemPrompt,
+      messages: aiMessages,
+      tools, // Tools are defined with type assertions to work around AI SDK v5 type issues
+    });
+
+    // Format response
+    const response = {
+      text: result.text,
+      toolCalls: result.toolCalls,
+      toolResults: result.toolResults,
+      finishReason: result.finishReason,
+    };
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(response),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  } catch (error) {
+    console.error("Error in AI chat handler:", error);
+
+    // Convert to Boom error if not already
+    let boomError;
+    if (error && typeof error === "object" && "isBoom" in error) {
+      boomError = error;
+    } else {
+      boomError = boomify(
+        error instanceof Error ? error : new Error(String(error))
+      );
+    }
+
+    const statusCode = getErrorStatusCode(boomError);
+    const errorMessage =
+      boomError instanceof Error ? boomError.message : String(boomError);
+
+    return {
+      statusCode,
+      body: JSON.stringify({ error: errorMessage }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  }
+};

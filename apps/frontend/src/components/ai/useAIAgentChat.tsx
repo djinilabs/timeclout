@@ -1,16 +1,223 @@
-import { useChat } from "@ai-sdk/react";
-import { useLingui } from "@lingui/react";
-import {
-  DefaultChatTransport,
-  lastAssistantMessageIsCompleteWithToolCalls,
-  type UIMessage,
-} from "ai";
 import { nanoid } from "nanoid";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { AIMessage } from "./types";
+import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
+import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
+import { printAOM } from "../../accessibility/printAOM";
+import { AccessibleElement } from "../../accessibility/types";
+import { useFetchActivity } from "../../hooks/useFetchActivity";
+import { useLocale } from "../../hooks/useLocale";
+import {
+  getDocSearchManager,
+  searchDocuments,
+} from "../../utils/docSearchManager";
+import { timeout } from "../../utils/timeout";
+
+import { ActivityDebouncer } from "./ActivityDebouncer";
+import { type AIMessage } from "./types";
 import { useAIChatHistory } from "./useAIChatHistory";
-import { useAITools } from "./useAITools";
+
+// Greeting messages
+const GREETING_EN =
+  "Hello, I'm your TimeClout AI assistant. How can I help you today?";
+const GREETING_PT =
+  "Olá, sou o seu assistente de IA do TimeClout. Como posso ajudá-lo hoje?";
+
+// API URL for backend
+const API_URL = "/api/ai/chat";
+
+// Helper functions for tool execution (from main branch)
+const clickableRoles = ["button", "link", "checkbox", "radio", "combobox"];
+const isElementClickable = (element: AccessibleElement) => {
+  return (
+    !!element.attributes.clickable || clickableRoles.includes(element.role)
+  );
+};
+
+const simulateClick = (element: AccessibleElement) => {
+  if (element.domElement instanceof HTMLElement) {
+    element.domElement.click();
+  }
+};
+
+const simulateTyping = (
+  element: HTMLInputElement | HTMLTextAreaElement,
+  text: string
+) => {
+  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+    (element instanceof HTMLInputElement
+      ? HTMLInputElement
+      : HTMLTextAreaElement
+    ).prototype,
+    "value"
+  )?.set;
+  nativeInputValueSetter?.call(element, text);
+};
+
+/**
+ * Tool execution functions (from main branch implementation)
+ */
+const executeDescribeAppUI = async (): Promise<string> => {
+  console.log("tool call: describe_app_ui");
+  const aom = generateAccessibilityObjectModel(document);
+  return printAOM(aom);
+};
+
+const executeClickElement = async (
+  role: string,
+  description: string,
+  debounceActivity: () => Promise<void>
+): Promise<{ success: boolean; error?: string }> => {
+  console.log("tool call: click_element", role, description);
+  const aom = generateAccessibilityObjectModel(document, true);
+  const element = findFirstElementInAOM(aom, role, description);
+  if (element) {
+    console.log("Element found", element);
+    if (!isElementClickable(element)) {
+      console.log("Element is not clickable", element);
+      return {
+        success: false,
+        error:
+          "Element is not clickable. Perhaps try clicking on a sub-element of this element.",
+      };
+    }
+    //  ------------- click the element -------------
+
+    if (element.domElement instanceof HTMLElement) {
+      console.log("Clicking element", element.domElement);
+      simulateClick(element);
+      await debounceActivity();
+    } else {
+      console.log("Element is not an HTMLElement", element);
+      return {
+        success: false,
+        error: "Element is not an HTMLElement",
+      };
+    }
+    console.log("Element clicked with success", element);
+    return { success: true };
+  }
+  console.log(
+    "Element with the following role and description not found: role: ",
+    role,
+    "description: ",
+    description
+  );
+  return {
+    success: false,
+    error: `Element with the following role and description not found: role: ${role}, description: ${description}`,
+  };
+};
+
+const executeFillFormElement = async (
+  role: string,
+  description: string,
+  value: string,
+  debounceActivity: () => Promise<void>
+): Promise<{ success: boolean; error?: string }> => {
+  console.log("tool call: fill_form_element", role, description, value);
+  const aom = generateAccessibilityObjectModel(document, true);
+  const element = findFirstElementInAOM(aom, role, description);
+
+  if (!element) {
+    console.log(
+      "Element with the following role and description not found: role: ",
+      role,
+      "description: ",
+      description
+    );
+    return {
+      success: false,
+      error: `Element with the following role and description not found: role: ${role}, description: ${description}`,
+    };
+  }
+
+  if (!element.domElement) {
+    return {
+      success: false,
+      error: "Element has no DOM element",
+    };
+  }
+
+  const domElement = element.domElement as HTMLElement;
+
+  try {
+    domElement.focus();
+    // Handle different types of form elements
+    if (domElement instanceof HTMLInputElement) {
+      // if the role is "combobox", open it first, and then click the matching element
+      if (element.role === "combobox") {
+        console.log("Element is a combobox, opening it");
+        domElement.click();
+        await debounceActivity();
+      }
+
+      if (domElement.type === "checkbox") {
+        domElement.checked = value.toLowerCase() === "true";
+      } else if (domElement.type === "radio") {
+        domElement.checked = true;
+      } else {
+        simulateTyping(domElement, value);
+      }
+    } else if (domElement instanceof HTMLTextAreaElement) {
+      domElement.value = value;
+    } else if (domElement instanceof HTMLSelectElement) {
+      console.log("Element is a select element, setting value to", value);
+      domElement.value = value;
+    } else {
+      return {
+        success: false,
+        error: "Element is not a form input element",
+      };
+    }
+
+    await timeout(100);
+
+    // Trigger input event to ensure React/other frameworks detect the change
+    document.dispatchEvent(new Event("change", { bubbles: true }));
+    document.dispatchEvent(new Event("input", { bubbles: true }));
+    domElement.dispatchEvent(new Event("change", { bubbles: true }));
+    domElement.dispatchEvent(new Event("input", { bubbles: true }));
+    await debounceActivity();
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error filling form element:", error);
+    return {
+      success: false,
+      error: `Error filling form element: ${error}`,
+    };
+  }
+};
+
+const executeSearchDocuments = async (
+  query: string,
+  topN: number = 5
+): Promise<string> => {
+  console.log("tool call: search_documents", query, topN);
+  try {
+    const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL || "";
+    const apiUrl = `${BACKEND_API_URL}/api/ai/embedding`;
+
+    const results = await searchDocuments(query, topN, apiUrl);
+
+    if (results.length === 0) {
+      return "No relevant documents found for the query.";
+    }
+
+    // Format results similar to helpmaton
+    const formattedResults = results
+      .map((result) => result.snippet)
+      .join("\n\n---\n\n");
+
+    return `Found ${results.length} relevant document snippet(s):\n\n${formattedResults}`;
+  } catch (error) {
+    console.error("Error in search_documents tool:", error);
+    return `Error searching documents: ${
+      error instanceof Error ? error.message : String(error)
+    }`;
+  }
+};
 
 export interface AIAgentChatResult {
   messages: AIMessage[];
@@ -18,227 +225,339 @@ export interface AIAgentChatResult {
   clearMessages: () => Promise<void>;
 }
 
+interface ChatMessage {
+  role: "user" | "assistant" | "system" | "tool";
+  content: string | unknown[];
+}
+
+interface ChatResponse {
+  text: string;
+  toolCalls?: Array<{
+    toolCallId: string;
+    toolName: string;
+    args: unknown;
+  }>;
+  toolResults?: unknown[];
+  finishReason?: string;
+}
+
 export const useAIAgentChat = (): AIAgentChatResult => {
-  const { i18n } = useLingui();
+  const { locale } = useLocale();
+  const { saveNewMessage, clearMessages: clearHistory } = useAIChatHistory();
+  const [messages, setMessages] = useState<AIMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    messages: loadedMessages,
-    saveNewMessage,
-    clearMessages,
-    loading,
-  } = useAIChatHistory();
-
-  const GREETING_MESSAGE = useMemo(
-    () =>
-      i18n.t(
-        "Hello, I'm your TimeClout AI assistant. How can I help you today?"
-      ),
-    [i18n]
+  // Get activity debouncer (from main branch pattern)
+  const { monitorFetch } = useFetchActivity();
+  const { debounceActivity } = useMemo(
+    () => ActivityDebouncer(monitorFetch),
+    [monitorFetch]
   );
 
-  const tools = useAITools();
+  // Initialize doc search manager and start pre-indexing on mount
+  useEffect(() => {
+    const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL || "";
+    const apiUrl = `${BACKEND_API_URL}/api/ai/embedding`;
+    const manager = getDocSearchManager(apiUrl);
+    // Pre-indexing starts automatically in manager constructor, but we can also call it explicitly
+    manager.preIndexDocuments();
+  }, []);
 
-  const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL || "";
+  // Execute tool and get result (from main branch implementation)
+  const executeTool = useCallback(
+    async (toolCall: {
+      toolCallId: string;
+      toolName: string;
+      args?: unknown;
+      input?: unknown;
+    }): Promise<unknown> => {
+      console.log("executeTool", JSON.stringify(toolCall, null, 2));
+      const { toolName, input, args } = toolCall;
 
-  const transport = useMemo(
-    () =>
-      new DefaultChatTransport({
-        api: `${BACKEND_API_URL}/api/ai/chat`,
-        prepareSendMessagesRequest: ({ messages }) => {
-          // Filter out any system messages - they should not be sent from client
-          const nonSystemMessages = messages.filter(
-            (msg: UIMessage) => msg.role !== "system"
-          );
-          // Get current language from i18n
-          const language = i18n.locale || "en";
-          return {
-            body: {
-              messages: nonSystemMessages,
-            },
-            headers: {
-              "Accept-Language": language === "pt" ? "pt" : "en",
-            },
-          };
-        },
-      }),
-    [BACKEND_API_URL, i18n.locale]
-  );
+      // Tool call arguments can be in 'input' or 'args' property
+      // Prefer 'input' as that's the format from AI SDK
+      const rawArgs = input !== undefined ? input : args;
 
-  const chat = useChat({
-    transport,
-    id: "timeclout-ai-chat",
-    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
-    onFinish: async ({ message, isError }) => {
-      // Save final message to history when streaming completes
-      if (!isError && message) {
-        const textContent = message.parts
-          .filter((part) => part.type === "text")
-          .map((part) => part.text)
-          .join("");
+      // Ensure args is an object, default to empty object if undefined or not an object
+      const argsObj =
+        rawArgs && typeof rawArgs === "object" && !Array.isArray(rawArgs)
+          ? (rawArgs as Record<string, unknown>)
+          : {};
 
-        await saveNewMessage({
-          id: message.id,
-          timestamp: new Date(),
-          content: textContent,
-          isLoading: false,
-          message: {
-            role:
-              message.role === "user"
-                ? "user"
-                : message.role === "assistant"
-                ? "assistant"
-                : "system",
-            content: textContent,
-          },
-        });
-      }
-    },
-    onError: async (error) => {
-      console.error("Chat error:", error);
-      await handleError(error, nanoid());
-    },
-    async onToolCall({ toolCall }) {
-      console.log("onToolCall", toolCall);
-      // Execute tools on frontend (since tools need DOM access)
-      const toolName = toolCall.toolName as keyof typeof tools;
-      const tool = tools[toolName];
-      if (tool && tool.execute) {
-        try {
-          const args = "args" in toolCall ? toolCall.args : toolCall.input;
-          const toolResult = await (
-            tool.execute as (input: unknown) => Promise<unknown>
-          )(args);
-
-          // Add tool result using AI SDK's built-in method
-          chat.addToolResult({
-            toolCallId: toolCall.toolCallId,
-            tool: toolCall.toolName,
-            output: toolResult,
-          });
-        } catch (toolError) {
-          console.error("[onToolCall] Tool error:", toolError);
-          // Add error as tool result
-          chat.addToolResult({
-            toolCallId: toolCall.toolCallId,
-            tool: toolCall.toolName,
-            state: "output-error",
-            errorText: String(toolError),
-          });
+      try {
+        switch (toolName) {
+          case "describe_app_ui":
+            return await executeDescribeAppUI();
+          case "click_element": {
+            // Handle both parameter name formats (role/description from backend, element-role/element-description from main branch)
+            const clickRole =
+              (argsObj["element-role"] as string) ||
+              (argsObj.role as string) ||
+              "";
+            const clickDescription =
+              (argsObj["element-description"] as string) ||
+              (argsObj.description as string) ||
+              "";
+            return await executeClickElement(
+              clickRole,
+              clickDescription,
+              debounceActivity
+            );
+          }
+          case "fill_form_element": {
+            // Handle both parameter name formats
+            const fillRole =
+              (argsObj["element-role"] as string) ||
+              (argsObj.role as string) ||
+              "";
+            const fillDescription =
+              (argsObj["element-description"] as string) ||
+              (argsObj.description as string) ||
+              "";
+            return await executeFillFormElement(
+              fillRole,
+              fillDescription,
+              (argsObj.value as string) || "",
+              debounceActivity
+            );
+          }
+          case "search_documents":
+            return await executeSearchDocuments(
+              (argsObj.query as string) || "",
+              (argsObj.topN as number) || 5
+            );
+          default:
+            return { error: `Unknown tool: ${toolName}` };
         }
-      } else {
-        console.error(
-          "[onToolCall] Tool not found or has no execute:",
-          toolName,
-          tool
-        );
+      } catch (error) {
+        console.error(`Error executing tool ${toolName}:`, error);
+        return {
+          error: error instanceof Error ? error.message : String(error),
+        };
       }
     },
-  });
-
-  const handleError = useCallback(
-    async (error: Error, messageId = nanoid()) => {
-      console.error("handleError", error);
-      await saveNewMessage({
-        id: messageId,
-        message: {
-          role: "assistant",
-          content: "Error: " + error.message,
-        },
-        content: "Error: " + error.message,
-        isError: true,
-        timestamp: new Date(),
-      });
-    },
-    [saveNewMessage]
+    [debounceActivity]
   );
 
-  // Map chat messages to AIMessage format for compatibility with existing UI
-  const chatMessages: AIMessage[] = useMemo(() => {
-    return chat.messages.map((chatMsg) => {
-      // Extract text content from message parts
-      const textParts = chatMsg.parts
-        .filter((part) => part.type === "text")
-        .map((part) => part.text);
-      const content = textParts.join("");
-
-      return {
-        id: chatMsg.id,
-        timestamp: new Date(),
-        isLoading: chat.status === "streaming" && chatMsg.role === "assistant",
-        message: {
-          role: (chatMsg.role === "user"
-            ? "user"
-            : chatMsg.role === "assistant"
-            ? "assistant"
-            : "system") as "user" | "assistant" | "system",
-          content: content || "",
+  // Send message to backend and handle response
+  const sendMessage = useCallback(
+    async (chatMessages: ChatMessage[]): Promise<ChatResponse> => {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept-Language": locale,
         },
-        content: content || "",
-      };
-    });
-  }, [chat.messages, chat.status]);
+        credentials: "include",
+        body: JSON.stringify({ messages: chatMessages }),
+      });
 
-  // Combine loaded history with current chat messages
-  const allMessages: AIMessage[] = useMemo(() => {
-    // Merge logic: prefer chat messages if they exist, otherwise use loaded history
-    if (loading) {
-      return chatMessages;
-    }
-    if (chatMessages.length > 0) {
-      return chatMessages;
-    }
-    if (loadedMessages.length === 0) {
-      return [
-        {
-          id: nanoid(),
-          timestamp: new Date(),
-          message: {
-            role: "assistant" as const,
-            content: GREETING_MESSAGE,
-          },
-          content: GREETING_MESSAGE,
-        },
-        ...loadedMessages,
-      ];
-    }
-    return loadedMessages;
-  }, [loading, chatMessages, loadedMessages, GREETING_MESSAGE]);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`API error: ${response.status} ${errorText}`);
+      }
 
+      return (await response.json()) as ChatResponse;
+    },
+    [locale]
+  );
+
+  // Handle user message submission
   const handleUserMessageSubmit = useCallback(
     async (message: string) => {
-      // Save user message to history
-      const userMessage: AIMessage = {
-        id: nanoid(),
-        content: message,
-        timestamp: new Date(),
-        message: {
-          role: "user",
+      if (!message.trim() || isLoading) return;
+
+      setIsLoading(true);
+
+      try {
+        // Save user message
+        const userMessageId = nanoid();
+        const userMessage: AIMessage = {
+          id: userMessageId,
+          timestamp: new Date(),
+          message: {
+            role: "user",
+            content: message,
+          },
           content: message,
-        },
-      };
-      await saveNewMessage(userMessage);
+        };
+        saveNewMessage(userMessage);
+        setMessages((prev) => [...prev, userMessage]);
 
-      // Use useChat's sendMessage which handles streaming automatically
-      // The system prompt is included via the transport's body configuration
-      await chat.sendMessage({
-        text: message,
-      });
+        // Build message history for API
+        const chatMessages: ChatMessage[] = [
+          ...messages
+            .filter(
+              (m) => m.message.role === "user" || m.message.role === "assistant"
+            )
+            .map((m) => ({
+              role: m.message.role as "user" | "assistant",
+              content:
+                typeof m.message.content === "string"
+                  ? m.message.content
+                  : JSON.stringify(m.message.content),
+            })),
+          {
+            role: "user",
+            content: message,
+          },
+        ];
+
+        // Create loading assistant message
+        const assistantMessageId = nanoid();
+        const loadingMessage: AIMessage = {
+          id: assistantMessageId,
+          timestamp: new Date(),
+          isLoading: true,
+          message: {
+            role: "assistant",
+            content: "",
+          },
+          content: "",
+        };
+        setMessages((prev) => [...prev, loadingMessage]);
+
+        // Send to backend
+        let response = await sendMessage(chatMessages);
+
+        // Handle tool calls with safety limit to prevent infinite loops
+        let toolCallIterations = 0;
+        const MAX_TOOL_CALL_ITERATIONS = 10;
+
+        while (
+          response.toolCalls &&
+          response.toolCalls.length > 0 &&
+          toolCallIterations < MAX_TOOL_CALL_ITERATIONS
+        ) {
+          toolCallIterations++;
+
+          // Execute tools
+          const toolResults = await Promise.all(
+            response.toolCalls.map(async (toolCall) => {
+              try {
+                const result = await executeTool(toolCall);
+                // Check if result contains an error
+                if (result && typeof result === "object" && "error" in result) {
+                  console.error(
+                    `Tool ${toolCall.toolName} returned an error:`,
+                    result
+                  );
+                }
+                return {
+                  toolCallId: toolCall.toolCallId,
+                  toolName: toolCall.toolName,
+                  result,
+                };
+              } catch (error) {
+                console.error(
+                  `Error executing tool ${toolCall.toolName}:`,
+                  error
+                );
+                return {
+                  toolCallId: toolCall.toolCallId,
+                  toolName: toolCall.toolName,
+                  result: {
+                    error:
+                      error instanceof Error ? error.message : String(error),
+                  },
+                };
+              }
+            })
+          );
+
+          // Add tool results to messages
+          const toolMessages: ChatMessage[] = toolResults.map((tr) => ({
+            role: "tool",
+            content: [tr],
+          }));
+
+          // Send follow-up with tool results
+          const followUpMessages: ChatMessage[] = [
+            ...chatMessages,
+            {
+              role: "assistant",
+              content: response.text || "",
+            },
+            ...toolMessages,
+          ];
+
+          response = await sendMessage(followUpMessages);
+        }
+
+        // Warn if we hit the iteration limit
+        if (toolCallIterations >= MAX_TOOL_CALL_ITERATIONS) {
+          console.warn(
+            "Tool call iteration limit reached. This may indicate an infinite loop."
+          );
+        }
+
+        // Update assistant message with final response
+        const finalMessage: AIMessage = {
+          id: assistantMessageId,
+          timestamp: new Date(),
+          message: {
+            role: "assistant",
+            content: response.text,
+          },
+          content: response.text, // Store as string - AIChatMessagePanel will render Markdown
+        };
+        saveNewMessage(finalMessage);
+        setMessages((prev) =>
+          prev.map((m) => (m.id === assistantMessageId ? finalMessage : m))
+        );
+      } catch (error) {
+        console.error("AI chat error:", error);
+        const errorMessage: AIMessage = {
+          id: nanoid(),
+          timestamp: new Date(),
+          isError: true,
+          message: {
+            role: "assistant",
+            content: `Error: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          },
+          content: `Error: ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        };
+        saveNewMessage(errorMessage);
+        setMessages((prev) => [...prev, errorMessage]);
+      } finally {
+        setIsLoading(false);
+      }
     },
-    [saveNewMessage, chat]
+    [isLoading, messages, saveNewMessage, sendMessage, executeTool]
   );
 
-  // Filter out system messages before returning - they shouldn't be displayed in the UI
-  const visibleMessages = useMemo(
-    () => allMessages.filter((msg) => msg.message.role !== "system"),
-    [allMessages]
-  );
+  // Clear messages
+  const clearMessages = useCallback(async () => {
+    setMessages([]);
+    await clearHistory();
+  }, [clearHistory]);
+
+  // Display messages with greeting
+  const displayMessages = useMemo(() => {
+    if (messages.length === 0) {
+      const greeting = locale === "pt" ? GREETING_PT : GREETING_EN;
+      return [
+        {
+          id: "greeting",
+          timestamp: new Date(),
+          message: {
+            role: "assistant",
+            content: greeting,
+          },
+          content: greeting, // Store as string - AIChatMessagePanel will render Markdown
+        } as AIMessage,
+      ];
+    }
+    return messages;
+  }, [messages, locale]);
 
   return {
-    messages: visibleMessages,
+    messages: displayMessages,
     handleUserMessageSubmit,
-    clearMessages: async () => {
-      chat.setMessages([]);
-      await clearMessages();
-    },
+    clearMessages,
   };
 };

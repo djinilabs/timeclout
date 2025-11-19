@@ -50,6 +50,11 @@ class DocSearchManager {
   constructor(apiUrl: string) {
     this.apiUrl = apiUrl;
     this.initWorker();
+    // Start pre-indexing in background when manager is created
+    // Use setTimeout to ensure worker is fully initialized
+    setTimeout(() => {
+      this.preIndexDocuments();
+    }, 0);
   }
 
   private initWorker(): void {
@@ -59,26 +64,29 @@ class DocSearchManager {
 
     this.worker = new DocSearchWorker();
 
-    this.worker.addEventListener("message", (event: MessageEvent<WorkerResponse>) => {
-      const response = event.data;
+    this.worker.addEventListener(
+      "message",
+      (event: MessageEvent<WorkerResponse>) => {
+        const response = event.data;
 
-      if (response.type === "error") {
-        const pending = this.pendingRequests.get(response.requestId);
-        if (pending) {
-          pending.reject(new Error(response.error));
-          this.pendingRequests.delete(response.requestId);
+        if (response.type === "error") {
+          const pending = this.pendingRequests.get(response.requestId);
+          if (pending) {
+            pending.reject(new Error(response.error));
+            this.pendingRequests.delete(response.requestId);
+          }
+          return;
         }
-        return;
-      }
 
-      if (response.type === "search-response") {
-        const pending = this.pendingRequests.get(response.requestId);
-        if (pending) {
-          pending.resolve(response.results);
-          this.pendingRequests.delete(response.requestId);
+        if (response.type === "search-response") {
+          const pending = this.pendingRequests.get(response.requestId);
+          if (pending) {
+            pending.resolve(response.results);
+            this.pendingRequests.delete(response.requestId);
+          }
         }
       }
-    });
+    );
 
     this.worker.addEventListener("error", (error) => {
       console.error("[DocSearchManager] Worker error:", error);
@@ -131,7 +139,9 @@ class DocSearchManager {
   }
 
   /**
-   * Trigger indexing (optional, indexing happens on first search)
+   * Trigger indexing (pre-indexing). Indexing also happens automatically on first search.
+   * This method can be called to start indexing early in the background.
+   * @returns Promise that resolves when indexing is complete
    */
   async indexDocuments(): Promise<void> {
     if (!this.worker) {
@@ -167,6 +177,38 @@ class DocSearchManager {
 
       this.worker!.postMessage(message);
     });
+  }
+
+  /**
+   * Check if the worker is initialized
+   * @returns true if worker is initialized, false otherwise
+   */
+  isInitialized(): boolean {
+    return this.worker !== null;
+  }
+
+  /**
+   * Pre-index documents in the background. This starts indexing immediately
+   * so it's ready when the first search arrives. Non-blocking - returns immediately.
+   */
+  preIndexDocuments(): void {
+    if (!this.worker) {
+      throw new Error("Worker not initialized");
+    }
+
+    // Trigger indexing by sending an index message
+    // The worker will handle it in the background
+    const requestId = `${Date.now()}-${Math.random()}`;
+    const message: WorkerMessage = {
+      type: "index",
+      apiUrl: this.apiUrl,
+      requestId,
+    };
+
+    this.worker.postMessage(message);
+
+    // Don't wait for response - let it run in background
+    // The promise will be handled but we don't track it
   }
 
   /**
@@ -210,4 +252,3 @@ export async function searchDocuments(
   const manager = getDocSearchManager(apiUrl);
   return manager.searchDocuments(query, topN);
 }
-

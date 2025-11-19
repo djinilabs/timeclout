@@ -1,6 +1,19 @@
-import { CoreMessage } from "ai";
 import { ReactNode } from "react";
 import { z } from "zod";
+
+export type CoreMessage =
+  | {
+      role: "user";
+      content: string;
+    }
+  | {
+      role: "assistant";
+      content: string;
+    }
+  | {
+      role: "tool";
+      content: unknown[];
+    };
 
 export type AIMessage = {
   id: string;
