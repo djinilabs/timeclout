@@ -83,17 +83,17 @@ msgid "User is not in the specified team"
 msgstr "User is not in the specified team"
 
 #. js-lingui-explicit-id
-#: libs/business-logic/src/invitation/acceptInvitation.ts:62
-#: libs/graphql/src/schema/company/resolvers/Query/company.ts:26
-msgid "Company not found"
-msgstr "Company not found"
-
-#. js-lingui-explicit-id
 #: libs/graphql/src/schema/company/resolvers/Mutation/deleteCompany.ts:23
 #: libs/graphql/src/schema/company/resolvers/Mutation/updateCompany.ts:23
 #: libs/graphql/src/schema/company/resolvers/Mutation/updateCompanySettings.ts:23
 msgid "Company with pk {companyPk} not found"
 msgstr "Company with pk {companyPk} not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/invitation/acceptInvitation.ts:62
+#: libs/graphql/src/schema/company/resolvers/Query/company.ts:26
+msgid "Company not found"
+msgstr "Company not found"
 
 #. js-lingui-explicit-id
 #: libs/graphql/src/schema/company/resolvers/Mutation/deleteCompany.ts:37
@@ -126,15 +126,15 @@ msgid "Leave type not found"
 msgstr "Leave type not found"
 
 #. js-lingui-explicit-id
+#: libs/business-logic/src/leaveRequest/createLeaveRequestsForSingleDays.ts:60
+msgid "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
+msgstr "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
+
+#. js-lingui-explicit-id
 #: libs/business-logic/src/leaveRequest/approveLeaveRequest.ts:24
 #: libs/business-logic/src/leaveRequest/createLeaveRequest.ts:60
 msgid "Leave request overlaps with existing {type} of type {culpritType}"
 msgstr "Leave request overlaps with existing {type} of type {culpritType}"
-
-#. js-lingui-explicit-id
-#: libs/business-logic/src/leaveRequest/createLeaveRequestsForSingleDays.ts:60
-msgid "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
-msgstr "Leave request overlaps with existing {type} of type {culpritType} for day {day}"
 
 #. js-lingui-explicit-id
 #: libs/business-logic/src/leaveRequest/canApproveLeaveRequest.ts:28
@@ -157,16 +157,6 @@ msgid "Entity with pk {entityRef} not found"
 msgstr "Entity with pk {entityRef} not found"
 
 #. js-lingui-explicit-id
-#: libs/business-logic/src/entity/getEntitySettings.ts:23
-msgid "Error getting entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
-msgstr "Error getting entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
-
-#. js-lingui-explicit-id
-#: libs/business-logic/src/entity/getEntitySettings.ts:42
-msgid "Error parsing entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
-msgstr "Error parsing entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
-
-#. js-lingui-explicit-id
 #: libs/business-logic/src/invitation/acceptInvitation.ts:31
 #: libs/business-logic/src/invitation/acceptInvitation.ts:37
 msgid "Invitation not found"
@@ -177,6 +167,16 @@ msgstr "Invitation not found"
 #: libs/business-logic/src/invitation/acceptInvitation.ts:43
 msgid "Team not found"
 msgstr "Team not found"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/entity/getEntitySettings.ts:23
+msgid "Error getting entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
+msgstr "Error getting entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
+
+#. js-lingui-explicit-id
+#: libs/business-logic/src/entity/getEntitySettings.ts:42
+msgid "Error parsing entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
+msgstr "Error parsing entity settings for entity: {entityPk} and settings key: {settingsKey}: {settings}: {errorMessage}"
 
 #. js-lingui-explicit-id
 #: libs/scheduler/src/schedule.ts:72
@@ -200,6 +200,11 @@ msgid "tryFrom is undefined"
 msgstr "tryFrom is undefined"
 
 #. js-lingui-explicit-id
+#: libs/scheduler/src/utils/selectUniqueRandom.ts:10
+msgid "count must be smaller or equal to from array"
+msgstr "count must be smaller or equal to from array"
+
+#. js-lingui-explicit-id
 #: libs/scheduler/src/utils/selectRandom.ts:5
 msgid "No elements to select from"
 msgstr "No elements to select from"
@@ -213,11 +218,6 @@ msgstr "from and weights must have the same length"
 #: libs/scheduler/src/utils/selectRandomWeighted.ts:26
 msgid "No element selected"
 msgstr "No element selected"
-
-#. js-lingui-explicit-id
-#: libs/scheduler/src/utils/selectUniqueRandom.ts:10
-msgid "count must be smaller or equal to from array"
-msgstr "count must be smaller or equal to from array"
 
 #. js-lingui-explicit-id
 #: libs/scheduler/src/rules/maximumInconvenience.ts:10

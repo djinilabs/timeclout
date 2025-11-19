@@ -14,29 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/utils/permissionTypeToString.ts:5
-msgid "Unknown"
-msgstr "Unknown"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/PermissionInput.tsx:29
-#: apps/frontend/src/utils/permissionTypeToString.ts:10
-msgid "Member"
-msgstr "Member"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/PermissionInput.tsx:30
-#: apps/frontend/src/utils/permissionTypeToString.ts:12
-msgid "Admin"
-msgstr "Admin"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/PermissionInput.tsx:31
-#: apps/frontend/src/utils/permissionTypeToString.ts:14
-msgid "Owner"
-msgstr "Owner"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/components/company/CompanyYearlyQuota.tsx:126
 #: apps/frontend/src/utils/months.ts:5
 msgid "January"
@@ -107,6 +84,29 @@ msgstr "November"
 #: apps/frontend/src/utils/months.ts:16
 msgid "December"
 msgstr "December"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/utils/permissionTypeToString.ts:5
+msgid "Unknown"
+msgstr "Unknown"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PermissionInput.tsx:29
+#: apps/frontend/src/utils/permissionTypeToString.ts:10
+msgid "Member"
+msgstr "Member"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PermissionInput.tsx:30
+#: apps/frontend/src/utils/permissionTypeToString.ts:12
+msgid "Admin"
+msgstr "Admin"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PermissionInput.tsx:31
+#: apps/frontend/src/utils/permissionTypeToString.ts:14
+msgid "Owner"
+msgstr "Owner"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/utils/errorMessages.ts:33
@@ -246,6 +246,11 @@ msgid "Pending Leave Requests"
 msgstr "Pending Leave Requests"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/pages/PageNewTeam.tsx:144
+msgid "Create team"
+msgstr "Create team"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/pages/PageNewUnit.tsx:82
 msgid "Unit name is required"
 msgstr "Unit name is required"
@@ -263,11 +268,6 @@ msgstr "Cancel"
 #: apps/frontend/src/pages/PageNewUnit.tsx:156
 msgid "Create unit"
 msgstr "Create unit"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/pages/PageNewTeam.tsx:144
-msgid "Create team"
-msgstr "Create team"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/pages/PageNewCompany.tsx:57
@@ -532,6 +532,36 @@ msgid "Skip"
 msgstr "Skip"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/AllUserCompanies.tsx:135
+msgid "Are you sure you want to delete {companyName}? This action cannot be undone."
+msgstr "Are you sure you want to delete {companyName}? This action cannot be undone."
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/AllUserCompanies.tsx:139
+msgid "Delete"
+msgstr "Delete"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/AllUserCompanies.tsx:147
+msgid "Company deleted"
+msgstr "Company deleted"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/AcceptInvite.tsx:50
+msgid "Invitation accepted"
+msgstr "Invitation accepted"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/AcceptInvite.tsx:66
+msgid "Invitation details"
+msgstr "Invitation details"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/AcceptInvite.tsx:95
+msgid "Accept invitation to join"
+msgstr "Accept invitation to join"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/InviteToTeam.tsx:40
 msgid "Invitation sent"
 msgstr "Invitation sent"
@@ -570,51 +600,6 @@ msgid "Cancel invitation"
 msgstr "Cancel invitation"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/AcceptInvite.tsx:50
-msgid "Invitation accepted"
-msgstr "Invitation accepted"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/AcceptInvite.tsx:66
-msgid "Invitation details"
-msgstr "Invitation details"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/AcceptInvite.tsx:95
-msgid "Accept invitation to join"
-msgstr "Accept invitation to join"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:179
-msgid "Are you sure you want to remove this team?"
-msgstr "Are you sure you want to remove this team?"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:182
-msgid "Remove team"
-msgstr "Remove team"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/unit/AllUnitTeams.tsx:190
-msgid "Team removed successfully"
-msgstr "Team removed successfully"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/AllUserCompanies.tsx:135
-msgid "Are you sure you want to delete {companyName}? This action cannot be undone."
-msgstr "Are you sure you want to delete {companyName}? This action cannot be undone."
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/AllUserCompanies.tsx:139
-msgid "Delete"
-msgstr "Delete"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/AllUserCompanies.tsx:147
-msgid "Company deleted"
-msgstr "Company deleted"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/components/LeaveRequest.tsx:63
 msgid "Leave request rejected"
 msgstr "Leave request rejected"
@@ -628,46 +613,6 @@ msgstr "Leave request approved"
 #: apps/frontend/src/components/LeaveRequest.tsx:100
 msgid "Leave request removed"
 msgstr "Leave request removed"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:217
-#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:61
-msgid "By day"
-msgstr "By day"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:222
-#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:62
-msgid "By member"
-msgstr "By member"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:227
-#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:63
-msgid "By duration"
-msgstr "By duration"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:194
-#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:64
-msgid "Stats"
-msgstr "Stats"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:479
-#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:77
-msgid "Calendar view options"
-msgstr "Calendar view options"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsActionsMenu.tsx:26
-msgid "Open actions menu"
-msgstr "Open actions menu"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:54
-msgid "Open schedule options menu"
-msgstr "Open schedule options menu"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/unit/UnitManagers.tsx:54
@@ -700,6 +645,56 @@ msgid "Select a user to add as manager"
 msgstr "Select a user to add as manager"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:179
+msgid "Are you sure you want to remove this team?"
+msgstr "Are you sure you want to remove this team?"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:182
+msgid "Remove team"
+msgstr "Remove team"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/unit/AllUnitTeams.tsx:190
+msgid "Team removed successfully"
+msgstr "Team removed successfully"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsActionsMenu.tsx:26
+msgid "Open actions menu"
+msgstr "Open actions menu"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:217
+#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:61
+msgid "By day"
+msgstr "By day"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:222
+#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:62
+msgid "By member"
+msgstr "By member"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:227
+#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:63
+msgid "By duration"
+msgstr "By duration"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:194
+#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:64
+msgid "Stats"
+msgstr "Stats"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:479
+#: apps/frontend/src/components/team-shifts/TeamShiftsCalendar.tsx:77
+msgid "Calendar view options"
+msgstr "Calendar view options"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/UnassignShiftPositions.tsx:69
 msgid "Shift positions unassigned successfully"
 msgstr "Shift positions unassigned successfully"
@@ -725,9 +720,32 @@ msgid "Unassign shift positions for selected date range"
 msgstr "Unassign shift positions for selected date range"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/TeamShiftsScheduleOptionsMenu.tsx:54
+msgid "Open schedule options menu"
+msgstr "Open schedule options menu"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/TeamShiftPositionTemplates.tsx:151
 msgid "Delete template"
 msgstr "Delete template"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:133
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:172
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:209
+msgid "Shift positions assigned successfully"
+msgstr "Shift positions assigned successfully"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:156
+#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:196
+msgid "Shift position unassigned successfully"
+msgstr "Shift position unassigned successfully"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:189
+msgid "Calendar"
+msgstr "Calendar"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/TeamDayTemplates.tsx:141
@@ -805,55 +823,6 @@ msgid "Schedule Position Templates"
 msgstr "Schedule Position Templates"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:413
-#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:8
-msgid "Team shifts calendar"
-msgstr "Team shifts calendar"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:424
-msgid "Analysis settings"
-msgstr "Analysis settings"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:487
-msgid "Calendar view by day"
-msgstr "Calendar view by day"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:495
-msgid "Calendar view by member"
-msgstr "Calendar view by member"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:502
-msgid "Team shifts summary"
-msgstr "Team shifts summary"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:133
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:172
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:209
-msgid "Shift positions assigned successfully"
-msgstr "Shift positions assigned successfully"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:156
-#: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:196
-msgid "Shift position unassigned successfully"
-msgstr "Shift position unassigned successfully"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/ShiftsAutoFillSolution.tsx:189
-msgid "Calendar"
-msgstr "Calendar"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team/TeamMemberQualifications.tsx:44
-msgid "Qualifications changed"
-msgstr "Qualifications changed"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/components/team/TeamSchedulePositionTemplates.tsx:79
 msgid "Team schedule position templates saved"
 msgstr "Team schedule position templates saved"
@@ -905,19 +874,9 @@ msgid "Save schedule position template changes"
 msgstr "Save schedule position template changes"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:9
-msgid "Team leaves calendar"
-msgstr "Team leaves calendar"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:75
-msgid "Copied!"
-msgstr "Copied!"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:83
-msgid "Copy URL"
-msgstr "Copy URL"
+#: apps/frontend/src/components/team/TeamMemberQualifications.tsx:44
+msgid "Qualifications changed"
+msgstr "Qualifications changed"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team/TeamQualifications.tsx:77
@@ -956,6 +915,52 @@ msgid "Save qualification changes"
 msgstr "Save qualification changes"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:413
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:8
+msgid "Team shifts calendar"
+msgstr "Team shifts calendar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:9
+msgid "Team leaves calendar"
+msgstr "Team leaves calendar"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:75
+msgid "Copied!"
+msgstr "Copied!"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team/TeamCalendarIntegrations.tsx:83
+msgid "Copy URL"
+msgstr "Copy URL"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:424
+msgid "Analysis settings"
+msgstr "Analysis settings"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:487
+msgid "Calendar view by day"
+msgstr "Calendar view by day"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:495
+msgid "Calendar view by member"
+msgstr "Calendar view by member"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/ShiftsAutofillSolutionMonthCalendar.tsx:502
+msgid "Team shifts summary"
+msgstr "Team shifts summary"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:257
+msgid "Use template for position"
+msgstr "Use template for position"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/team/CreateTeamMemberLeaveRequest.tsx:74
 msgid "Book Company Time Off"
 msgstr "Book Company Time Off"
@@ -972,42 +977,6 @@ msgid "Leave quota fulfillment for {name}"
 msgstr "Leave quota fulfillment for {name}"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/team-shifts/CreateOrEditScheduleShiftPosition.tsx:257
-msgid "Use template for position"
-msgstr "Use template for position"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/personal/MeEdit.tsx:62
-msgid "Your profile has been updated"
-msgstr "Your profile has been updated"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/personal/MeEdit.tsx:85
-msgid "Personal information form"
-msgstr "Personal information form"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/personal/MeEdit.tsx:106
-msgid "Professional name is required"
-msgstr "Professional name is required"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/personal/MeEdit.tsx:133
-#: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:205
-msgid "Professional name"
-msgstr "Professional name"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/personal/MeEdit.tsx:233
-msgid "Cancel profile changes"
-msgstr "Cancel profile changes"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/personal/MeEdit.tsx:237
-msgid "Save profile changes"
-msgstr "Save profile changes"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/components/particles/TeamShiftsTimeDistributionStats.tsx:110
 msgid "Days between shifts"
 msgstr "Days between shifts"
@@ -1016,6 +985,12 @@ msgstr "Days between shifts"
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:122
 msgid "Please fill in all fields correctly"
 msgstr "Please fill in all fields correctly"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/personal/MeEdit.tsx:133
+#: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:205
+msgid "Professional name"
+msgstr "Professional name"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team/CreateOrEditTeamMember.tsx:243
@@ -1049,6 +1024,37 @@ msgid "Hours between shifts"
 msgstr "Hours between shifts"
 
 #. js-lingui-explicit-id
+#: apps/frontend/src/components/personal/MeEdit.tsx:62
+msgid "Your profile has been updated"
+msgstr "Your profile has been updated"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/personal/MeEdit.tsx:85
+msgid "Personal information form"
+msgstr "Personal information form"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/personal/MeEdit.tsx:106
+msgid "Professional name is required"
+msgstr "Professional name is required"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/personal/MeEdit.tsx:233
+msgid "Cancel profile changes"
+msgstr "Cancel profile changes"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/personal/MeEdit.tsx:237
+msgid "Save profile changes"
+msgstr "Save profile changes"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:149
+#: apps/frontend/src/components/particles/TeamShiftsInconvenienceDeviationStats.tsx:171
+msgid "Inconvenience:Deviation from Expected"
+msgstr "Inconvenience:Deviation from Expected"
+
+#. js-lingui-explicit-id
 #: apps/frontend/src/components/particles/EditCountryAndRegion.tsx:68
 #: apps/frontend/src/components/particles/SelectCountryAndRegion.tsx:68
 msgid "Select a country"
@@ -1059,12 +1065,6 @@ msgstr "Select a country"
 #: apps/frontend/src/components/particles/SelectCountryAndRegion.tsx:108
 msgid "Select a region"
 msgstr "Select a region"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/particles/ShiftsAutoFillSolutionInconvenienceDeviationStats.tsx:149
-#: apps/frontend/src/components/particles/TeamShiftsInconvenienceDeviationStats.tsx:171
-msgid "Inconvenience:Deviation from Expected"
-msgstr "Inconvenience:Deviation from Expected"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/particles/Avatar.tsx:57
@@ -1305,29 +1305,14 @@ msgid "An unexpected error occurred: {message}"
 msgstr "An unexpected error occurred: {message}"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/company/CreateLeaveType.tsx:53
-msgid "Leave type created"
-msgstr "Leave type created"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/components/company/EditCompanySetting.tsx:59
 msgid "Settings updated"
 msgstr "Settings updated"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/company/CompanySettings.tsx:19
-msgid "Leave Types"
-msgstr "Leave Types"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/company/CompanySettings.tsx:24
-msgid "Yearly quota"
-msgstr "Yearly quota"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/company/CompanySettings.tsx:28
-msgid "Work schedule"
-msgstr "Work schedule"
+#: apps/frontend/src/components/company/CreateLeaveType.tsx:53
+msgid "Leave type created"
+msgstr "Leave type created"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/company/CompanyTimeOff.tsx:164
@@ -1344,6 +1329,21 @@ msgstr "Leave requests submitted"
 #: apps/frontend/src/components/company/CompanyTimeOff.tsx:227
 msgid "Error fetching holidays: {message}"
 msgstr "Error fetching holidays: {message}"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/company/CompanySettings.tsx:19
+msgid "Leave Types"
+msgstr "Leave Types"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/company/CompanySettings.tsx:24
+msgid "Yearly quota"
+msgstr "Yearly quota"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/company/CompanySettings.tsx:28
+msgid "Work schedule"
+msgstr "Work schedule"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/company/CompanyLeaveTypes.tsx:76
@@ -1421,16 +1421,26 @@ msgid "Unassign shift"
 msgstr "Unassign shift"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/PermissionInput.tsx:20
-msgid "Please select a permission"
-msgstr "Please select a permission"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/SelectUser.tsx:69
 #: apps/frontend/src/components/atoms/SelectUser.tsx:74
 #: apps/frontend/src/components/atoms/SelectUser.tsx:76
 msgid "Please select a user"
 msgstr "Please select a user"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PublishActions.tsx:40
+msgid "Unpublished"
+msgstr "Unpublished"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PublishActions.tsx:40
+msgid "Published"
+msgstr "Published"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/PermissionInput.tsx:20
+msgid "Please select a permission"
+msgstr "Please select a permission"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/ShiftPosition.tsx:365
@@ -1492,21 +1502,6 @@ msgid "Default yearly quota"
 msgstr "Default yearly quota"
 
 #. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/PublishActions.tsx:40
-msgid "Unpublished"
-msgstr "Unpublished"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/PublishActions.tsx:40
-msgid "Published"
-msgstr "Published"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/atoms/Login.tsx:83
-msgid "Enter your email address"
-msgstr "Enter your email address"
-
-#. js-lingui-explicit-id
 #: apps/frontend/src/components/atoms/ColorPicker.tsx:19
 msgid "Select a color"
 msgstr "Select a color"
@@ -1515,6 +1510,11 @@ msgstr "Select a color"
 #: apps/frontend/src/components/atoms/ColorPicker.tsx:25
 msgid "Select {color} color"
 msgstr "Select {color} color"
+
+#. js-lingui-explicit-id
+#: apps/frontend/src/components/atoms/Login.tsx:83
+msgid "Enter your email address"
+msgstr "Enter your email address"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:139
@@ -1530,11 +1530,6 @@ msgstr "Please provide a reason for your leave request."
 #: apps/frontend/src/components/company/BookCompanyTimeOff.tsx:217
 msgid "Reason for leave"
 msgstr "Reason for leave"
-
-#. js-lingui-explicit-id
-#: apps/frontend/src/components/ai/useAIAgentChat.tsx:33
-msgid "Hello, I'm your TimeClout AI assistant. How can I help you today?"
-msgstr "Hello, I'm your TimeClout AI assistant. How can I help you today?"
 
 #. js-lingui-explicit-id
 #: apps/frontend/src/components/team-shifts/TeamShiftsSchedule.tsx:966
