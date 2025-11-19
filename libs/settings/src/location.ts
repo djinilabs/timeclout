@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const locationSchema = z.object({
   country: z.string(),
-  region: z.string(),
+  region: z.string().optional(),
 });
 
 export const locationParser = {

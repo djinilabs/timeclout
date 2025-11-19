@@ -5,6 +5,7 @@ import { ensureAuthorized } from "../../../../auth/ensureAuthorized";
 import type { MutationResolvers, User } from "./../../../../types.generated";
 
 import { isUserAuthorized } from "@/business-logic";
+import { settingsTypes } from "@/settings";
 import { database, PERMISSION_LEVELS } from "@/tables";
 import { resourceRef } from "@/utils";
 
@@ -27,10 +28,12 @@ export const updateUserSettings: NonNullable<MutationResolvers['updateUserSettin
   if (!user) {
     throw notFound("User not found");
   }
+  const settings =
+    settingsTypes[args.name as keyof typeof settingsTypes].parse(args.settings);
   await entity_settings.upsert({
     pk: userRef,
     sk: args.name,
-    settings: args.settings,
+    settings,
     createdAt: new Date().toISOString(),
     createdBy: userPk,
     updatedAt: new Date().toISOString(),
