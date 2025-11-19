@@ -23,11 +23,13 @@ import "./styles/print.css";
 import { monitorActivityFetch } from "./utils/monitorActivityFetch";
 
 const SENTRY_DSN = process.env.VITE_PUBLIC_SENTRY_DSN;
+const SENTRY_RELEASE = process.env.VITE_PUBLIC_SENTRY_RELEASE;
 
 if (SENTRY_DSN) {
   console.debug("initializing Sentry...");
   initSentry({
     dsn: SENTRY_DSN,
+    release: SENTRY_RELEASE,
   });
   console.debug("Sentry initialized.");
 }

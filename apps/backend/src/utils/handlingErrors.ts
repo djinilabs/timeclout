@@ -17,6 +17,7 @@ import {
 if (process.env.SENTRY_DSN) {
   init({
     dsn: process.env.SENTRY_DSN,
+    release: process.env.SENTRY_RELEASE,
     tracesSampleRate: Number(process.env.SENTRY_TRACES_SAMPLE_RATE || "1.0"),
     profilesSampleRate: Number(
       process.env.SENTRY_PROFILES_SAMPLE_RATE || "1.0"

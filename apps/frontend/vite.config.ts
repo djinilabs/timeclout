@@ -23,6 +23,10 @@ export default defineConfig({
     sentryVitePlugin({
       org: "tt3",
       project: "tt3",
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      release: {
+        name: process.env.SENTRY_RELEASE,
+      },
     }),
   ],
   server: {
@@ -52,6 +56,7 @@ export default defineConfig({
   define: {
     "process.env": {
       VITE_PUBLIC_SENTRY_DSN: process.env.VITE_PUBLIC_SENTRY_DSN,
+      VITE_PUBLIC_SENTRY_RELEASE: process.env.SENTRY_RELEASE,
       VITE_PUBLIC_POSTHOG_KEY: process.env.VITE_PUBLIC_POSTHOG_KEY,
       VITE_PUBLIC_POSTHOG_HOST: process.env.VITE_PUBLIC_POSTHOG_HOST,
     },

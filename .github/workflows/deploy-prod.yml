@@ -45,6 +45,15 @@ jobs:
       - name: Install
         run: pnpm install -w
 
+      - name: Calculate Sentry Release
+        id: sentry-release
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          TIMESTAMP=$(date -u +"%Y%m%d-%H%M")
+          SENTRY_RELEASE="${PACKAGE_VERSION}-${TIMESTAMP}"
+          echo "release=${SENTRY_RELEASE}" >> $GITHUB_OUTPUT
+          echo "📦 Sentry release: ${SENTRY_RELEASE}"
+
       - name: Deploy to production
         env:
           NODE_ENV: "production"
@@ -62,6 +71,8 @@ jobs:
           SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           SENTRY_TRACES_SAMPLE_RATE: "1.0"
           SENTRY_PROFILES_SAMPLE_RATE: "1.0"
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_RELEASE: ${{ steps.sentry-release.outputs.release }}
           DISCORD_PUBLIC_KEY: ${{ secrets.DISCORD_PUBLIC_KEY }}
           DISCORD_CS_USERS: ${{ secrets.DISCORD_CS_USERS }}
           DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_APPLICATION_ID }}
@@ -77,6 +88,7 @@ jobs:
           pnpm arc env --add --env production SENTRY_DSN "${SENTRY_DSN}"
           pnpm arc env --add --env production SENTRY_TRACES_SAMPLE_RATE "${SENTRY_TRACES_SAMPLE_RATE}"
           pnpm arc env --add --env production SENTRY_PROFILES_SAMPLE_RATE "${SENTRY_PROFILES_SAMPLE_RATE}"
+          pnpm arc env --add --env production SENTRY_RELEASE "${SENTRY_RELEASE}"
           pnpm arc env --add --env production DISCORD_PUBLIC_KEY "${DISCORD_PUBLIC_KEY}"
           pnpm arc env --add --env production DISCORD_CS_USERS "${DISCORD_CS_USERS}"
           pnpm arc env --add --env production GEMINI_API_KEY "${GEMINI_API_KEY}"
@@ -84,6 +96,20 @@ jobs:
           pnpm build
           cd apps/backend
           pnpm arc deploy --production --no-hydrate --verbose
+
+      - name: Create Sentry Release
+        if: success()
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: "tt3"
+          SENTRY_PROJECT: "tt3"
+          SENTRY_RELEASE: ${{ steps.sentry-release.outputs.release }}
+        run: |
+          echo "📦 Creating Sentry release: ${SENTRY_RELEASE}"
+          npx @sentry/cli releases new "${SENTRY_RELEASE}" || true
+          npx @sentry/cli releases set-commits "${SENTRY_RELEASE}" --auto || true
+          npx @sentry/cli releases finalize "${SENTRY_RELEASE}" || true
+          echo "✅ Sentry release ${SENTRY_RELEASE} created and finalized"
 
       - name: Register Discord Commands
         env:
