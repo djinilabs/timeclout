@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { findFirstElementInAOM } from "../../accessibility/findFirstElement";
 import { generateAccessibilityObjectModel } from "../../accessibility/generateAOM";
@@ -240,11 +240,7 @@ interface ChatResponse {
 
 export const useAIAgentChat = (): AIAgentChatResult => {
   const { locale } = useLocale();
-  const {
-    messages: historyMessages,
-    saveNewMessage,
-    clearMessages: clearHistory,
-  } = useAIChatHistory();
+  const { saveNewMessage, clearMessages: clearHistory } = useAIChatHistory();
   const [messages, setMessages] = useState<AIMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -254,13 +250,6 @@ export const useAIAgentChat = (): AIAgentChatResult => {
     () => ActivityDebouncer(monitorFetch),
     [monitorFetch]
   );
-
-  // Load messages from history on mount
-  useEffect(() => {
-    if (historyMessages.length > 0 && messages.length === 0) {
-      setMessages(historyMessages);
-    }
-  }, [historyMessages, messages.length]);
 
   // Execute tool and get result (from main branch implementation)
   const executeTool = useCallback(
@@ -537,7 +526,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
 
   // Display messages with greeting
   const displayMessages = useMemo(() => {
-    if (messages.length === 0 && historyMessages.length === 0) {
+    if (messages.length === 0) {
       const greeting = locale === "pt" ? GREETING_PT : GREETING_EN;
       return [
         {
@@ -552,7 +541,7 @@ export const useAIAgentChat = (): AIAgentChatResult => {
       ];
     }
     return messages;
-  }, [messages, historyMessages.length, locale]);
+  }, [messages, locale]);
 
   return {
     messages: displayMessages,

@@ -1,165 +1,11 @@
-import debounce from "lodash.debounce";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
-import Markdown from "react-markdown";
+import { useCallback, useState } from "react";
 
 import { type AIMessage } from "./types";
-
-const DB_NAME = "tt3-ai-chat";
-const STORE_NAME = "messages";
-const DB_VERSION = 1;
-const DEBOUNCE_TIME = 500;
-
-// Serializable version of AIMessage for IndexedDB storage
-interface SerializableAIMessage {
-  id: string;
-  timestamp: Date;
-  isLoading?: boolean;
-  isError?: boolean;
-  isWarning?: boolean;
-  message: {
-    role: "user" | "assistant" | "tool";
-    content: string | unknown[];
-  };
-  // Store content as string (from message.content) instead of ReactNode
-  contentString: string;
-}
-
-// Convert AIMessage to serializable format for IndexedDB
-const serializeMessage = (message: AIMessage): SerializableAIMessage => {
-  // Extract string content from message.message.content (which is always a string)
-  const contentString =
-    typeof message.message.content === "string"
-      ? message.message.content
-      : JSON.stringify(message.message.content);
-
-  return {
-    id: message.id,
-    timestamp: message.timestamp,
-    isLoading: message.isLoading,
-    isError: message.isError,
-    isWarning: message.isWarning,
-    message: message.message,
-    contentString,
-  };
-};
-
-// Convert serializable format back to AIMessage with React elements
-const deserializeMessage = (serialized: SerializableAIMessage): AIMessage => {
-  return {
-    id: serialized.id,
-    timestamp: serialized.timestamp,
-    isLoading: serialized.isLoading,
-    isError: serialized.isError,
-    isWarning: serialized.isWarning,
-    message: serialized.message,
-    // Convert string back to React element (Markdown) for display
-    content:
-      serialized.message.role === "assistant"
-        ? React.createElement(Markdown, null, serialized.contentString)
-        : serialized.contentString,
-  };
-};
 
 export const useAIChatHistory = () => {
   const [messages, setMessages] = useState<AIMessage[]>([]);
 
-  const dbPromise: Promise<IDBDatabase> = useMemo(() => {
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-      request.onerror = (event) => {
-        console.error("Error opening IndexedDB:", event);
-        reject(new Error("Error opening IndexedDB"));
-      };
-
-      request.onsuccess = (event) => {
-        const database = (event.target as IDBOpenDBRequest).result;
-        resolve(database);
-      };
-
-      request.onupgradeneeded = (event) => {
-        const database = (event.target as IDBOpenDBRequest).result;
-        if (!database.objectStoreNames.contains(STORE_NAME)) {
-          database.createObjectStore(STORE_NAME, { keyPath: "id" });
-        }
-      };
-    });
-  }, []);
-
-  const upsertMessageInDb = useMemo(
-    () =>
-      async (message: AIMessage): Promise<void> => {
-        const db = await dbPromise;
-        const transaction = db.transaction([STORE_NAME], "readwrite");
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.get(message.id);
-
-        return new Promise<void>((resolve, reject) => {
-          // get message from db
-
-          request.onsuccess = () => {
-            const existingMessage = request.result;
-            // Serialize message before storing (remove React elements)
-            const serialized = serializeMessage(message);
-            if (existingMessage) {
-              // update the message
-              const result = store.put(serialized);
-              result.onsuccess = () => resolve();
-              result.onerror = () => reject(result.error);
-            } else {
-              // add the message
-              const result = store.add(serialized);
-              result.onsuccess = () => resolve();
-              result.onerror = () => reject(result.error);
-            }
-          };
-
-          request.onerror = () => reject(request.error);
-        });
-      },
-    [dbPromise]
-  );
-
-  const changedMessages = useRef<Array<AIMessage>>([]);
-
-  const saveChangedMessages = useCallback(async (): Promise<void> => {
-    for (const message of changedMessages.current) {
-      try {
-        await upsertMessageInDb(message);
-      } catch (error) {
-        console.error("Error saving message", error);
-        toast.error("Error saving message");
-      } finally {
-        changedMessages.current = changedMessages.current.filter(
-          (m) => m.id !== message.id
-        );
-      }
-    }
-  }, [upsertMessageInDb]);
-
-  const saveChangedMessagesDebounced = useMemo(
-    () => debounce(saveChangedMessages, DEBOUNCE_TIME),
-    [saveChangedMessages]
-  );
-
-  const upsertMessage = useCallback(
-    (message: AIMessage): void => {
-      // add or update the message in the changedMessages list
-      const existingMessageIndex = changedMessages.current.findIndex(
-        (m) => m.id === message.id
-      );
-      if (existingMessageIndex !== -1) {
-        changedMessages.current[existingMessageIndex] = message;
-      } else {
-        changedMessages.current.push(message);
-      }
-      saveChangedMessagesDebounced();
-    },
-    [saveChangedMessagesDebounced]
-  );
-
-  const saveNewMessage = (message: AIMessage): void => {
+  const saveNewMessage = useCallback((message: AIMessage): void => {
     setMessages((prev) => {
       const exists = prev.some((m) => m.id === message.id);
       if (exists) {
@@ -168,90 +14,16 @@ export const useAIChatHistory = () => {
         return [...prev, message];
       }
     });
-
-    upsertMessage(message);
-  };
-
-  const [loading, setLoading] = useState(false);
-
-  const loadMessages = useCallback(async (): Promise<void> => {
-    const db = await dbPromise;
-    return new Promise<void>((resolve, reject) => {
-      const transaction = db.transaction([STORE_NAME], "readonly");
-      const store = transaction.objectStore(STORE_NAME);
-      const request = store.getAll();
-
-      request.onsuccess = () => {
-        const messages = request.result
-          .map((serialized: SerializableAIMessage & { content?: unknown }) => {
-            // Handle migration: if contentString doesn't exist, try to extract from message.content
-            const contentString =
-              serialized.contentString ||
-              (typeof serialized.message?.content === "string"
-                ? serialized.message.content
-                : JSON.stringify(serialized.message?.content || ""));
-
-            // Deserialize messages from IndexedDB (convert strings back to React elements)
-            const msg = deserializeMessage({
-              ...serialized,
-              contentString,
-              timestamp: new Date(serialized.timestamp),
-            });
-            return {
-              ...msg,
-              isLoading: false,
-              isWarning: msg.isWarning || serialized.isLoading,
-              // If message was loading, show "Interrupted" text instead of markdown
-              content: serialized.isLoading ? "Interrupted" : msg.content,
-            };
-          })
-          .filter((msg): msg is AIMessage => {
-            // Validate the deserialized message
-            return (
-              msg.id &&
-              msg.timestamp instanceof Date &&
-              msg.message &&
-              typeof msg.message.role === "string"
-            );
-          })
-          .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
-        setMessages(messages);
-        resolve();
-      };
-
-      request.onerror = () => reject(request.error);
-    });
-  }, [dbPromise]);
+  }, []);
 
   const clearMessages = useCallback(async (): Promise<void> => {
-    const db = await dbPromise;
     setMessages([]);
-    return new Promise<void>((resolve, reject) => {
-      const transaction = db.transaction([STORE_NAME], "readwrite");
-      const store = transaction.objectStore(STORE_NAME);
-      const request = store.clear();
-
-      request.onsuccess = () => resolve();
-      request.onerror = () => reject(request.error);
-    });
-  }, [dbPromise]);
-
-  useEffect(() => {
-    setLoading(true);
-    loadMessages()
-      .catch((error) => {
-        console.error("Error loading messages", error);
-        toast.error("Error loading messages");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [loadMessages]);
+  }, []);
 
   return {
     messages: [...messages],
     saveNewMessage,
     clearMessages,
-    loading,
+    loading: false,
   };
 };
