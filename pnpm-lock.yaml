@@ -165,7 +165,7 @@ importers:
         version: 4.12.6
       ai:
         specifier: ^5.0.94
-        version: 5.0.101(zod@4.1.13)
+        version: 5.0.102(zod@4.1.13)
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -4649,8 +4649,8 @@ packages:
     resolution: {integrity: sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==}
     engines: {node: '>= 14'}
 
-  ai@5.0.101:
-    resolution: {integrity: sha512-/P4fgs2PGYTBaZi192YkPikOudsl9vccA65F7J7LvoNTOoP5kh1yAsJPsKAy6FXU32bAngai7ft1UDyC3u7z5g==}
+  ai@5.0.102:
+    resolution: {integrity: sha512-snRK3nS5DESOjjpq7S74g8YszWVMzjagfHqlJWZsbtl9PyOS+2XUd8dt2wWg/jdaq/jh0aU66W1mx5qFjUQyEg==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -14120,7 +14120,7 @@ snapshots:
 
   agent-base@7.1.4: {}
 
-  ai@5.0.101(zod@4.1.13):
+  ai@5.0.102(zod@4.1.13):
     dependencies:
       '@ai-sdk/gateway': 2.0.15(zod@4.1.13)
       '@ai-sdk/provider': 2.0.0
