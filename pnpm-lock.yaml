@@ -219,7 +219,7 @@ importers:
         version: 5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.57.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
       posthog-js:
         specifier: ^1.230.2
-        version: 1.303.0
+        version: 1.303.1
       radix-ui:
         specifier: ^1.4.2
         version: 1.4.3(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -7192,8 +7192,8 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  posthog-js@1.303.0:
-    resolution: {integrity: sha512-CTfH9HOJWptYhApq0kKDgigx2rr9MyZ18bVIwQvHTu1Pikwa6mHkFCD5bc7asNJttOjneRleyb7sDXwqPgeTTg==}
+  posthog-js@1.303.1:
+    resolution: {integrity: sha512-qSQ5T/eBwtJx/FzokB6dTCpICdz1Vi5nNfeRTlhbz7NTrb6VAc14g2XQtgYb6fr4AhRoFs61aPHZRcQJJlDjfA==}
 
   preact-render-to-string@6.5.11:
     resolution: {integrity: sha512-ubnauqoGczeGISiOh6RjX0/cdaF8v/oDXIjO85XALCQjwQP+SB4RDXXtvZ6yTYSjG+PC1QRP2AhPgCEsM2EvUw==}
@@ -16790,7 +16790,7 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.303.0:
+  posthog-js@1.303.1:
     dependencies:
       '@posthog/core': 1.7.1
       core-js: 3.47.0
