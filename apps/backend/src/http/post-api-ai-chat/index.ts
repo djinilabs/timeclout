@@ -16,6 +16,7 @@ import {
   initI18n,
 } from "../../../../../libs/locales/src";
 import { handlingErrors } from "../../utils/handlingErrors";
+import { getPostHogClient, hashUserId } from "../../utils/posthog";
 
 // Initialize Google Generative AI client at module level
 const apiKey = process.env.GEMINI_API_KEY || "";
@@ -313,30 +314,95 @@ const handlerImpl = async (
 
   console.log("aiMessages", JSON.stringify(aiMessages, null, 2));
 
-  // Generate text with tools
-  // Note: The frontend will handle tool execution and send results back
-  const result = await generateText({
-    model,
-    system: systemPrompt,
-    messages: aiMessages,
-    tools, // Tools are defined with type assertions to work around AI SDK v5 type issues
-  });
+  // Get PostHog client for tracking
+  const posthog = getPostHogClient();
+  const hashedUserId = session.user?.id
+    ? hashUserId(session.user.id)
+    : undefined;
 
-  // Format response
-  const response = {
-    text: result.text,
-    toolCalls: result.toolCalls,
-    toolResults: result.toolResults,
-    finishReason: result.finishReason,
-  };
+  // Measure latency
+  const startTime = Date.now();
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(response),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+  try {
+    // Generate text with tools
+    // Note: The frontend will handle tool execution and send results back
+    const result = await generateText({
+      model,
+      system: systemPrompt,
+      messages: aiMessages,
+      tools, // Tools are defined with type assertions to work around AI SDK v5 type issues
+    });
+
+    const latencyMs = Date.now() - startTime;
+
+    // Extract usage metrics from result
+    const usage = result.usage;
+    const promptTokens = usage?.promptTokens ?? 0;
+    const completionTokens = usage?.completionTokens ?? 0;
+    const totalTokens = usage?.totalTokens ?? 0;
+
+    // Extract tool call information
+    const toolCalls = result.toolCalls ?? [];
+    const toolCallsCount = toolCalls.length;
+    const toolNames = toolCalls.map((tc) => tc.toolName).filter(Boolean) as string[];
+    const hasToolCalls = toolCallsCount > 0;
+
+    // Track successful LLM call
+    if (posthog && hashedUserId) {
+      posthog.capture({
+        distinctId: hashedUserId,
+        event: "llm_call",
+        properties: {
+          model: MODEL_NAME,
+          prompt_tokens: promptTokens,
+          completion_tokens: completionTokens,
+          total_tokens: totalTokens,
+          finish_reason: result.finishReason ?? "unknown",
+          tool_calls_count: toolCallsCount,
+          tool_names: toolNames,
+          latency_ms: latencyMs,
+          locale: locale,
+          has_tool_calls: hasToolCalls,
+        },
+      });
+    }
+
+    // Format response
+    const response = {
+      text: result.text,
+      toolCalls: result.toolCalls,
+      toolResults: result.toolResults,
+      finishReason: result.finishReason,
+    };
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(response),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  } catch (error) {
+    const latencyMs = Date.now() - startTime;
+
+    // Track LLM call error
+    if (posthog && hashedUserId) {
+      posthog.capture({
+        distinctId: hashedUserId,
+        event: "llm_call_error",
+        properties: {
+          model: MODEL_NAME,
+          error_message:
+            error instanceof Error ? error.message : String(error),
+          locale: locale,
+          latency_ms: latencyMs,
+        },
+      });
+    }
+
+    // Re-throw error to be handled by error handler
+    throw error;
+  }
 };
 
 export const handler = handlingErrors(handlerImpl);
