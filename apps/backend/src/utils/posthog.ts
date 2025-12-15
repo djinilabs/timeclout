@@ -21,8 +21,7 @@ export const getPostHogClient = (): PostHog | null => {
   }
 
   // Initialize PostHog client
-  const host =
-    process.env.POSTHOG_HOST || "https://eu.i.posthog.com";
+  const host = process.env.POSTHOG_HOST || "https://eu.i.posthog.com";
 
   posthogClient = new PostHog(apiKey, {
     host,
@@ -44,6 +43,38 @@ export const hashUserId = (userId: string): string => {
 };
 
 /**
+ * Flush PostHog events to ensure they are sent before Lambda completes.
+ * This is critical in Lambda environments where the function may terminate
+ * before events are sent. Use this before returning from a handler.
+ *
+ * Note: This calls shutdown() which closes the client. If the Lambda container
+ * is reused, the client will be reinitialized on the next getPostHogClient() call.
+ */
+export const flushPostHog = async (): Promise<void> => {
+  if (posthogClient) {
+    try {
+      // Flush with timeout to prevent hanging (2 seconds max)
+      await Promise.race([
+        posthogClient.shutdown(),
+        new Promise<void>((resolve) => {
+          setTimeout(() => {
+            console.warn("PostHog flush timeout, events may be lost");
+            resolve();
+          }, 2000);
+        }),
+      ]);
+      // Reset client so it can be reinitialized if container is reused
+      posthogClient = null;
+    } catch (error) {
+      // Don't fail the request if PostHog flush fails
+      console.error("Failed to flush PostHog:", error);
+      // Reset client on error to allow reinitialization
+      posthogClient = null;
+    }
+  }
+};
+
+/**
  * Shutdown PostHog client gracefully.
  * Should be called when Lambda is shutting down (optional but recommended).
  */
@@ -53,4 +84,3 @@ export const shutdownPostHog = async (): Promise<void> => {
     posthogClient = null;
   }
 };
-

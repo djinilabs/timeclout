@@ -16,7 +16,11 @@ import {
   initI18n,
 } from "../../../../../libs/locales/src";
 import { handlingErrors } from "../../utils/handlingErrors";
-import { getPostHogClient, hashUserId } from "../../utils/posthog";
+import {
+  flushPostHog,
+  getPostHogClient,
+  hashUserId,
+} from "../../utils/posthog";
 
 // Initialize Google Generative AI client at module level
 const apiKey = process.env.GEMINI_API_KEY || "";
@@ -345,7 +349,9 @@ const handlerImpl = async (
     // Extract tool call information
     const toolCalls = result.toolCalls ?? [];
     const toolCallsCount = toolCalls.length;
-    const toolNames = toolCalls.map((tc) => tc.toolName).filter(Boolean) as string[];
+    const toolNames = toolCalls
+      .map((tc) => tc.toolName)
+      .filter(Boolean) as string[];
     const hasToolCalls = toolCallsCount > 0;
 
     // Track successful LLM call
@@ -377,6 +383,9 @@ const handlerImpl = async (
       finishReason: result.finishReason,
     };
 
+    // Flush PostHog events before returning (critical for Lambda)
+    await flushPostHog();
+
     return {
       statusCode: 200,
       body: JSON.stringify(response),
@@ -394,13 +403,15 @@ const handlerImpl = async (
         event: "llm_call_error",
         properties: {
           model: MODEL_NAME,
-          error_message:
-            error instanceof Error ? error.message : String(error),
+          error_message: error instanceof Error ? error.message : String(error),
           locale: locale,
           latency_ms: latencyMs,
         },
       });
     }
+
+    // Flush PostHog events before re-throwing error (critical for Lambda)
+    await flushPostHog();
 
     // Re-throw error to be handled by error handler
     throw error;
