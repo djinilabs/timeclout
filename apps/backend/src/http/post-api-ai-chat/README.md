@@ -103,3 +103,5 @@ pnpm dev
 ## Environment Variables
 
 - `GEMINI_API_KEY`: Google Gemini API key (required)
+- `POSTHOG_API_KEY`: PostHog project API key (optional, for LLM call tracking)
+- `POSTHOG_HOST`: PostHog host URL (optional, defaults to `https://eu.i.posthog.com`)

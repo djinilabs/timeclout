@@ -337,8 +337,9 @@ const handlerImpl = async (
 
     // Extract usage metrics from result
     const usage = result.usage;
-    const promptTokens = usage?.promptTokens ?? 0;
-    const completionTokens = usage?.completionTokens ?? 0;
+    const promptTokens = usage?.inputTokens ?? 0;
+    const completionTokens = usage?.outputTokens ?? 0;
+    const reasoningTokens = usage?.reasoningTokens ?? 0;
     const totalTokens = usage?.totalTokens ?? 0;
 
     // Extract tool call information
@@ -356,6 +357,7 @@ const handlerImpl = async (
           model: MODEL_NAME,
           prompt_tokens: promptTokens,
           completion_tokens: completionTokens,
+          reasoning_tokens: reasoningTokens,
           total_tokens: totalTokens,
           finish_reason: result.finishReason ?? "unknown",
           tool_calls_count: toolCallsCount,
