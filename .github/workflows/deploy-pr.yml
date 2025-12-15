@@ -105,12 +105,59 @@ jobs:
       - name: Trigger E2E Tests
         if: success()
         run: |
-          echo "Deployment successful, triggering E2E tests..."
-          gh workflow run e2e-tests.yml \
+          echo "✅ Deployment successful, triggering E2E tests..."
+          echo "PR Number: ${{ github.event.pull_request.number }}"
+          echo "Head Ref: ${{ github.head_ref }}"
+          echo "PR URL: https://${{ github.event.pull_request.number }}.timeclout.com"
+
+          # Validate PR number is set
+          if [ -z "${{ github.event.pull_request.number }}" ]; then
+            echo "❌ Error: Pull request number is not set"
+            exit 1
+          fi
+
+          # Validate head ref is set
+          if [ -z "${{ github.head_ref }}" ]; then
+            echo "❌ Error: Head ref is not set. Using default branch instead."
+            HEAD_REF="main"
+          else
+            HEAD_REF="${{ github.head_ref }}"
+          fi
+
+          # Check if workflow exists
+          if ! gh workflow view e2e-tests.yml &>/dev/null; then
+            echo "❌ Error: e2e-tests.yml workflow not found"
+            echo "Available workflows:"
+            gh workflow list
+            echo ""
+            echo "Note: The workflow file must exist on the default branch (main) to be triggered."
+            exit 1
+          fi
+
+          # Trigger the E2E Tests workflow
+          echo "Triggering E2E Tests workflow..."
+          if gh workflow run e2e-tests.yml \
             --field environment=pr \
             --field pull_request_number=${{ github.event.pull_request.number }} \
             --field run_specific_tests="" \
-            --ref ${{ github.head_ref }}
+            --ref $HEAD_REF; then
+            echo "✅ E2E Tests workflow triggered successfully"
+            echo "You can view the run at: https://github.com/${{ github.repository }}/actions"
+            echo "Testing against: https://${{ github.event.pull_request.number }}.timeclout.com"
+          else
+            echo "❌ Failed to trigger E2E Tests workflow"
+            echo "Exit code: $?"
+            echo ""
+            echo "Troubleshooting:"
+            echo "1. Ensure e2e-tests.yml exists on the default branch (main)"
+            echo "2. Check that the workflow has workflow_dispatch enabled"
+            echo "3. Verify E2E_TRIGGER_TOKEN has actions:write permission"
+            echo "4. Check that the PR number is valid: ${{ github.event.pull_request.number }}"
+            echo ""
+            echo "Available workflows:"
+            gh workflow list
+            exit 1
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.E2E_TRIGGER_TOKEN }}
 

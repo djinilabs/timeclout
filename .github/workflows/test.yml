@@ -46,7 +46,7 @@ jobs:
           pnpm build
 
       - name: Trigger E2E Tests (After Version Bump, Auto Merge, or Push to Main)
-        if: github.event_name == 'workflow_run' || github.event_name == 'push'
+        if: success() && (github.event_name == 'workflow_run' || github.event_name == 'push')
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then
             echo "Triggering E2E Tests workflow after push to main..."
@@ -67,12 +67,42 @@ jobs:
           fi
 
           # Trigger the E2E Tests workflow with local sandbox environment
-          gh workflow run e2e-tests.yml \
+          echo "Triggering E2E Tests workflow..."
+          echo "Workflow file: e2e-tests.yml"
+          echo "Branch: $HEAD_REF"
+          echo "Environment: custom"
+          echo "Custom URL: http://localhost:3000"
+          
+          # Check if workflow exists
+          if ! gh workflow view e2e-tests.yml &>/dev/null; then
+            echo "❌ Error: e2e-tests.yml workflow not found"
+            echo "Available workflows:"
+            gh workflow list
+            echo ""
+            echo "Note: The workflow file must exist on the default branch (main) to be triggered."
+            exit 1
+          fi
+          
+          # Trigger the workflow
+          if gh workflow run e2e-tests.yml \
             --field environment="custom" \
             --field custom_url="http://localhost:3000" \
-            --ref $HEAD_REF
-
-          echo "E2E Tests workflow triggered successfully"
+            --ref $HEAD_REF; then
+            echo "✅ E2E Tests workflow triggered successfully"
+            echo "You can view the run at: https://github.com/${{ github.repository }}/actions"
+          else
+            echo "❌ Failed to trigger E2E Tests workflow"
+            echo "Exit code: $?"
+            echo ""
+            echo "Troubleshooting:"
+            echo "1. Ensure e2e-tests.yml exists on the default branch (main)"
+            echo "2. Check that the workflow has workflow_dispatch enabled"
+            echo "3. Verify GITHUB_TOKEN has actions:write permission"
+            echo ""
+            echo "Available workflows:"
+            gh workflow list
+            exit 1
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
