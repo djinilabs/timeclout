@@ -80,7 +80,7 @@ export const flushPostHog = async (): Promise<void> => {
  */
 export const shutdownPostHog = async (): Promise<void> => {
   if (posthogClient) {
-    await posthogClient.shutdown();
+    await posthogClient.shutdown(2000);
     posthogClient = null;
   }
 };
