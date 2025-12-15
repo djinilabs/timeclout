@@ -320,9 +320,6 @@ const handlerImpl = async (
 
   // Get PostHog client for tracking
   const posthog = getPostHogClient();
-  const hashedUserId = session.user?.id
-    ? hashUserId(session.user.id)
-    : undefined;
 
   // Measure latency
   const startTime = Date.now();
@@ -355,7 +352,8 @@ const handlerImpl = async (
     const hasToolCalls = toolCallsCount > 0;
 
     // Track successful LLM call
-    if (posthog && hashedUserId) {
+    if (posthog && session.user?.id) {
+      const hashedUserId = hashUserId(session.user.id);
       posthog.capture({
         distinctId: hashedUserId,
         event: "llm_call",
@@ -396,8 +394,9 @@ const handlerImpl = async (
   } catch (error) {
     const latencyMs = Date.now() - startTime;
 
-    // Track LLM call error
-    if (posthog && hashedUserId) {
+    // Track LLM call error (fire-and-forget to avoid adding latency to error responses)
+    if (posthog && session.user?.id) {
+      const hashedUserId = hashUserId(session.user.id);
       posthog.capture({
         distinctId: hashedUserId,
         event: "llm_call_error",
@@ -408,10 +407,11 @@ const handlerImpl = async (
           latency_ms: latencyMs,
         },
       });
+      // Flush in background without blocking error response
+      flushPostHog().catch((flushError) => {
+        console.error("Failed to flush PostHog in error path:", flushError);
+      });
     }
-
-    // Flush PostHog events before re-throwing error (critical for Lambda)
-    await flushPostHog();
 
     // Re-throw error to be handled by error handler
     throw error;
