@@ -16,6 +16,11 @@ import {
   initI18n,
 } from "../../../../../libs/locales/src";
 import { handlingErrors } from "../../utils/handlingErrors";
+import {
+  flushPostHog,
+  getPostHogClient,
+  hashUserId,
+} from "../../utils/posthog";
 
 // Initialize Google Generative AI client at module level
 const apiKey = process.env.GEMINI_API_KEY || "";
@@ -313,30 +318,104 @@ const handlerImpl = async (
 
   console.log("aiMessages", JSON.stringify(aiMessages, null, 2));
 
-  // Generate text with tools
-  // Note: The frontend will handle tool execution and send results back
-  const result = await generateText({
-    model,
-    system: systemPrompt,
-    messages: aiMessages,
-    tools, // Tools are defined with type assertions to work around AI SDK v5 type issues
-  });
+  // Get PostHog client for tracking
+  const posthog = getPostHogClient();
 
-  // Format response
-  const response = {
-    text: result.text,
-    toolCalls: result.toolCalls,
-    toolResults: result.toolResults,
-    finishReason: result.finishReason,
-  };
+  // Measure latency
+  const startTime = Date.now();
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(response),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+  try {
+    // Generate text with tools
+    // Note: The frontend will handle tool execution and send results back
+    const result = await generateText({
+      model,
+      system: systemPrompt,
+      messages: aiMessages,
+      tools, // Tools are defined with type assertions to work around AI SDK v5 type issues
+    });
+
+    const latencyMs = Date.now() - startTime;
+
+    // Extract usage metrics from result
+    const usage = result.usage;
+    const promptTokens = usage?.inputTokens ?? 0;
+    const completionTokens = usage?.outputTokens ?? 0;
+    const reasoningTokens = usage?.reasoningTokens ?? 0;
+    const totalTokens = usage?.totalTokens ?? 0;
+
+    // Extract tool call information
+    const toolCalls = result.toolCalls ?? [];
+    const toolCallsCount = toolCalls.length;
+    const toolNames = toolCalls
+      .map((tc) => tc.toolName)
+      .filter(Boolean) as string[];
+    const hasToolCalls = toolCallsCount > 0;
+
+    // Track successful LLM call
+    if (posthog && session.user?.id) {
+      const hashedUserId = hashUserId(session.user.id);
+      posthog.capture({
+        distinctId: hashedUserId,
+        event: "llm_call",
+        properties: {
+          model: MODEL_NAME,
+          prompt_tokens: promptTokens,
+          completion_tokens: completionTokens,
+          reasoning_tokens: reasoningTokens,
+          total_tokens: totalTokens,
+          finish_reason: result.finishReason ?? "unknown",
+          tool_calls_count: toolCallsCount,
+          tool_names: toolNames,
+          latency_ms: latencyMs,
+          locale: locale,
+          has_tool_calls: hasToolCalls,
+        },
+      });
+    }
+
+    // Format response
+    const response = {
+      text: result.text,
+      toolCalls: result.toolCalls,
+      toolResults: result.toolResults,
+      finishReason: result.finishReason,
+    };
+
+    // Flush PostHog events before returning (critical for Lambda)
+    await flushPostHog();
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(response),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  } catch (error) {
+    const latencyMs = Date.now() - startTime;
+
+    // Track LLM call error (fire-and-forget to avoid adding latency to error responses)
+    if (posthog && session.user?.id) {
+      const hashedUserId = hashUserId(session.user.id);
+      posthog.capture({
+        distinctId: hashedUserId,
+        event: "llm_call_error",
+        properties: {
+          model: MODEL_NAME,
+          error_message: error instanceof Error ? error.message : String(error),
+          locale: locale,
+          latency_ms: latencyMs,
+        },
+      });
+      // Flush in background without blocking error response
+      flushPostHog().catch((flushError) => {
+        console.error("Failed to flush PostHog in error path:", flushError);
+      });
+    }
+
+    // Re-throw error to be handled by error handler
+    throw error;
+  }
 };
 
 export const handler = handlingErrors(handlerImpl);

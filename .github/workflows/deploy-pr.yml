@@ -60,6 +60,11 @@ jobs:
           VITE_PUBLIC_SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           VITE_PUBLIC_POSTHOG_KEY: ${{ secrets.VITE_PUBLIC_POSTHOG_KEY }}
           VITE_PUBLIC_POSTHOG_HOST: "https://eu.i.posthog.com"
+          # Note: PostHog recommends using a dedicated server-side API key for better security.
+          # Currently using the same key as frontend. To use a separate key, create a POSTHOG_API_KEY
+          # secret and update this line to: POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          POSTHOG_API_KEY: ${{ secrets.VITE_PUBLIC_POSTHOG_KEY }}
+          POSTHOG_HOST: "https://eu.i.posthog.com"
           SENTRY_DSN: "${{secrets.VITE_SENTRY_DSN}}"
           SENTRY_TRACES_SAMPLE_RATE: "1.0"
           SENTRY_PROFILES_SAMPLE_RATE: "1.0"
@@ -82,6 +87,8 @@ jobs:
           pnpm arc env --add --env staging DISCORD_PUBLIC_KEY "${DISCORD_PUBLIC_KEY}"
           pnpm arc env --add --env staging DISCORD_CS_USERS "${DISCORD_CS_USERS}"
           pnpm arc env --add --env staging GEMINI_API_KEY "${GEMINI_API_KEY}"
+          pnpm arc env --add --env staging POSTHOG_API_KEY "${POSTHOG_API_KEY}"
+          pnpm arc env --add --env staging POSTHOG_HOST "${POSTHOG_HOST}"
           cd ../..
           pnpm build
           cd apps/backend
