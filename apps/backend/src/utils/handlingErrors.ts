@@ -39,33 +39,21 @@ export const handlingErrors = (
         | APIGatewayProxyResult
         | string;
     } catch (error) {
-      const originalError =
-        error instanceof Error ? error : new Error(String(error));
-      const boomed = boomify(originalError);
+      const boomed = boomify(
+        error != null && typeof error === "object"
+          ? error
+          : new Error(String(error))
+      );
 
       // Report server errors (5xx) to Sentry
       // User errors (4xx) are not reported as they are expected client errors
       if (boomed.isServer && process.env.SENTRY_DSN) {
         try {
-          captureException(originalError);
+          captureException(boomed);
         } catch (sentryError) {
           // Don't fail the request if Sentry reporting fails
           console.error("Failed to capture exception to Sentry:", sentryError);
         }
-      }
-
-      // Try to translate the error message if it's a translatable message
-      let translatedMessage = boomed.message;
-      try {
-        // Check if the message looks like a translatable message (contains t`...`)
-        if (boomed.message && !boomed.message.includes("t`")) {
-          // For now, we'll keep the original message
-          // In the future, we can implement more sophisticated translation logic
-          translatedMessage = boomed.message;
-        }
-      } catch (translationError) {
-        console.warn("Failed to translate error message:", translationError);
-        translatedMessage = boomed.message;
       }
 
       if (boomed.isServer) {
@@ -79,7 +67,7 @@ export const handlingErrors = (
       // Update the payload with the translated message
       const updatedPayload = {
         ...payload,
-        message: translatedMessage,
+        message: boomed.message,
       };
 
       // Ensure API error responses have proper headers to prevent CloudFront
