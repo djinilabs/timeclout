@@ -219,7 +219,7 @@ importers:
         version: 5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
       posthog-js:
         specifier: ^1.230.2
-        version: 1.311.0
+        version: 1.312.0
       posthog-node:
         specifier: ^5.0.0
         version: 5.18.1
@@ -7357,8 +7357,8 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  posthog-js@1.311.0:
-    resolution: {integrity: sha512-P1dWYNFr1dlfa5sAOFj4uq2jJuGfNce3ctYl565t0Fm/i4ZJZq4D2hmKyTMjKu5f9wyZVlTeRdxdmTIGDjCegw==}
+  posthog-js@1.312.0:
+    resolution: {integrity: sha512-rdXprhuRzhutU8powMJpIfC0uRtI3OyuYktmLhZRMsD4DQaO3fnudKNq4zxtNmqMPFCSTfmlBH8ByLNOppm2tg==}
 
   posthog-node@5.18.1:
     resolution: {integrity: sha512-Hi7cRqAlvuEitdiurXJFdMip+BxcwYoX66at5RErMVP91V+Ph9BspGiawC3mJx/4znjwUjF29kAhf8oZQ2uJ5Q==}
@@ -17041,7 +17041,7 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.311.0:
+  posthog-js@1.312.0:
     dependencies:
       '@posthog/core': 1.9.0
       core-js: 3.47.0
