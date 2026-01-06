@@ -222,7 +222,7 @@ importers:
         version: 1.314.0
       posthog-node:
         specifier: ^5.0.0
-        version: 5.18.1
+        version: 5.19.0
       radix-ui:
         specifier: ^1.4.2
         version: 1.4.3(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -7370,8 +7370,8 @@ packages:
   posthog-js@1.314.0:
     resolution: {integrity: sha512-qW1T73UAFpA0g2Ln0blsOUJxRhv0Tn4DrPdhGyTpw+MupW+qvVjzEg/i9jWQ4Al+8AkrNcmZFafJcSWXxWsWqg==}
 
-  posthog-node@5.18.1:
-    resolution: {integrity: sha512-Hi7cRqAlvuEitdiurXJFdMip+BxcwYoX66at5RErMVP91V+Ph9BspGiawC3mJx/4znjwUjF29kAhf8oZQ2uJ5Q==}
+  posthog-node@5.19.0:
+    resolution: {integrity: sha512-5Nx+/b1JbAy6TaCENuO+mLFfZIXyYavae+D6FABd52gzkGryRkRTsKi+WLlILI5shSCAMWs5gxzGAZ3nOC0gFA==}
     engines: {node: '>=20'}
 
   preact-render-to-string@6.5.11:
@@ -17066,7 +17066,7 @@ snapshots:
       preact: 10.28.1
       web-vitals: 4.2.4
 
-  posthog-node@5.18.1:
+  posthog-node@5.19.0:
     dependencies:
       '@posthog/core': 1.9.0
 
