@@ -219,7 +219,7 @@ importers:
         version: 5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
       posthog-js:
         specifier: ^1.230.2
-        version: 1.315.1
+        version: 1.316.0
       posthog-node:
         specifier: ^5.0.0
         version: 5.19.0
@@ -2829,8 +2829,11 @@ packages:
   '@posthog/core@1.9.0':
     resolution: {integrity: sha512-j7KSWxJTUtNyKynLt/p0hfip/3I46dWU2dk+pt7dKRoz2l5CYueHuHK4EO7Wlgno5yo1HO4sc4s30MXMTICHJw==}
 
-  '@posthog/types@1.315.1':
-    resolution: {integrity: sha512-m2NggfJRYby3AkAES6yHMLURvTeK+rxN+5nmkuaCbOXQPdtWacSFIG5ZwN8d3crSx+WpiFauCDdr1sc3ZFkTHg==}
+  '@posthog/core@1.9.1':
+    resolution: {integrity: sha512-kRb1ch2dhQjsAapZmu6V66551IF2LnCbc1rnrQqnR7ArooVyJN9KOPXre16AJ3ObJz2eTfuP7x25BMyS2Y5Exw==}
+
+  '@posthog/types@1.316.0':
+    resolution: {integrity: sha512-2CS2wecsv9Eafa8euXePr6ba1/eV9k7BLAREKd2SqCsTd6bYRFILvVDlkrvPCSpdZ6qOq/b6IA//HMC1Z0fN8w==}
 
   '@prisma/instrumentation@6.19.0':
     resolution: {integrity: sha512-QcuYy25pkXM8BJ37wVFBO7Zh34nyRV1GOb2n3lPkkbRYfl4hWl3PTcImP41P0KrzVXfa/45p6eVCos27x3exIg==}
@@ -5066,8 +5069,8 @@ packages:
   caniuse-lite@1.0.30001760:
     resolution: {integrity: sha512-7AAMPcueWELt1p3mi13HR/LHH0TJLT11cnwDJEs3xA4+CK/PLKeO9Kl1oru24htkyUKtkGCvAx4ohB0Ttry8Dw==}
 
-  caniuse-lite@1.0.30001762:
-    resolution: {integrity: sha512-PxZwGNvH7Ak8WX5iXzoK1KPZttBXNPuaOvI2ZYU7NrlM+d9Ov+TUvlLOBNGzVXAntMSMMlJPd+jY6ovrVjSmUw==}
+  caniuse-lite@1.0.30001763:
+    resolution: {integrity: sha512-mh/dGtq56uN98LlNX9qdbKnzINhX0QzhiWBFEkFfsFO4QyCvL8YegrJAazCwXIeqkIob8BlZPGM3xdnY+sgmvQ==}
 
   capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
@@ -7385,8 +7388,8 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  posthog-js@1.315.1:
-    resolution: {integrity: sha512-ambT1azidu4hKhSmB95KdLY6yHfj9vvz1XNn68syh8DtkQ0uSdjpRY6tjMp96EQtPqCrDKr+8QpcusT1KQEZSA==}
+  posthog-js@1.316.0:
+    resolution: {integrity: sha512-Y8JKqv61HQKHB4savYnbp1+zUhfkSLSE4famJONaPuBq9lX+F8j9uNENvIWioe2roJa7FU3g5Ji/CjwwRh+/kA==}
 
   posthog-node@5.19.0:
     resolution: {integrity: sha512-5Nx+/b1JbAy6TaCENuO+mLFfZIXyYavae+D6FABd52gzkGryRkRTsKi+WLlILI5shSCAMWs5gxzGAZ3nOC0gFA==}
@@ -12018,7 +12021,11 @@ snapshots:
     dependencies:
       cross-spawn: 7.0.6
 
-  '@posthog/types@1.315.1': {}
+  '@posthog/core@1.9.1':
+    dependencies:
+      cross-spawn: 7.0.6
+
+  '@posthog/types@1.316.0': {}
 
   '@prisma/instrumentation@6.19.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -14515,7 +14522,7 @@ snapshots:
 
   caniuse-lite@1.0.30001760: {}
 
-  caniuse-lite@1.0.30001762: {}
+  caniuse-lite@1.0.30001763: {}
 
   capital-case@1.0.4:
     dependencies:
@@ -16765,7 +16772,7 @@ snapshots:
     dependencies:
       '@next/env': 15.5.4
       '@swc/helpers': 0.5.15
-      caniuse-lite: 1.0.30001762
+      caniuse-lite: 1.0.30001763
       postcss: 8.4.31
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
@@ -17087,10 +17094,10 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.315.1:
+  posthog-js@1.316.0:
     dependencies:
-      '@posthog/core': 1.9.0
-      '@posthog/types': 1.315.1
+      '@posthog/core': 1.9.1
+      '@posthog/types': 1.316.0
       core-js: 3.47.0
       fflate: 0.4.8
       preact: 10.28.2
