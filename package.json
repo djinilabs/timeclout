@@ -101,7 +101,7 @@
     "@urql/core": "^6.0.1",
     "@urql/exchange-graphcache": "^8.0.0",
     "@vendia/serverless-express": "^4.12.6",
-    "ai": "^5.0.94",
+    "ai": "^6.0.0",
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1692.0",
     "chalk": "^5.4.1",
