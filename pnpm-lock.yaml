@@ -165,7 +165,7 @@ importers:
         version: 4.12.6
       ai:
         specifier: ^5.0.94
-        version: 5.0.120(zod@4.3.5)
+        version: 5.0.121(zod@4.3.5)
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -430,8 +430,8 @@ packages:
   '@adobe/css-tools@4.4.4':
     resolution: {integrity: sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==}
 
-  '@ai-sdk/gateway@2.0.26':
-    resolution: {integrity: sha512-ACxps7/yUkv/TTmh8GdH/KTAWBoK1vH5ZirqftR4txmePruvSWFmXWiMgLdw9APPC0LIfP2pogMSc2CjtJk9SQ==}
+  '@ai-sdk/gateway@2.0.27':
+    resolution: {integrity: sha512-8hbezMsGa0crSt7/DKjkYL1UbbJJW/UFxTfhmf5qcIeYeeWG4dTNmm+DWbUdIsTaWvp59KC4eeC9gYXBbTHd7w==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -4940,8 +4940,8 @@ packages:
     resolution: {integrity: sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==}
     engines: {node: '>= 14'}
 
-  ai@5.0.120:
-    resolution: {integrity: sha512-2U+6nYaO2ZC+xoBu0ZgWMvuPoKcVrHwLpl9IhMDMgN5s8ayc8qGAXfDcbdJbYugVJw1Vi+6HzvsPNSTHAk8K5A==}
+  ai@5.0.121:
+    resolution: {integrity: sha512-3iYPdARKGLryC/7OA9RgBUaym1gynvWS7UPy8NwoRNCKP52lshldtHB5xcEfVviw7liWH2zJlW9yEzsDglcIEQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -8865,7 +8865,7 @@ snapshots:
 
   '@adobe/css-tools@4.4.4': {}
 
-  '@ai-sdk/gateway@2.0.26(zod@4.3.5)':
+  '@ai-sdk/gateway@2.0.27(zod@4.3.5)':
     dependencies:
       '@ai-sdk/provider': 2.0.1
       '@ai-sdk/provider-utils': 3.0.20(zod@4.3.5)
@@ -14485,9 +14485,9 @@ snapshots:
 
   agent-base@7.1.4: {}
 
-  ai@5.0.120(zod@4.3.5):
+  ai@5.0.121(zod@4.3.5):
     dependencies:
-      '@ai-sdk/gateway': 2.0.26(zod@4.3.5)
+      '@ai-sdk/gateway': 2.0.27(zod@4.3.5)
       '@ai-sdk/provider': 2.0.1
       '@ai-sdk/provider-utils': 3.0.20(zod@4.3.5)
       '@opentelemetry/api': 1.9.0
