@@ -84,13 +84,13 @@ importers:
         version: 2.2.0(react@19.2.3)
       '@lingui/cli':
         specifier: ^5.2.0
-        version: 5.8.0(typescript@5.9.3)
+        version: 5.9.0(typescript@5.9.3)
       '@lingui/core':
         specifier: ^5.2.0
-        version: 5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3))
+        version: 5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3))
       '@lingui/react':
         specifier: ^5.2.0
-        version: 5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3))(react@19.2.3)
+        version: 5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3))(react@19.2.3)
       '@nivo/bar':
         specifier: ^0.99.0
         version: 0.99.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -216,7 +216,7 @@ importers:
         version: 5.1.6
       next-auth:
         specifier: 5.0.0-beta.30
-        version: 5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
+        version: 5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
       posthog-js:
         specifier: ^1.230.2
         version: 1.335.2
@@ -298,10 +298,10 @@ importers:
         version: 3.0.1(graphql@16.12.0)
       '@lingui/swc-plugin':
         specifier: ^5.4.0
-        version: 5.6.1(@lingui/core@5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3)))(next@15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
+        version: 5.6.1(@lingui/core@5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3)))(next@15.5.4(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       '@lingui/vite-plugin':
         specifier: ^5.2.0
-        version: 5.8.0(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.2))
+        version: 5.9.0(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.2))
       '@playwright/test':
         specifier: ^1.48.0
         version: 1.58.0
@@ -402,7 +402,7 @@ importers:
     dependencies:
       '@lingui/core':
         specifier: ^5.2.0
-        version: 5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3))
+        version: 5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3))
     devDependencies:
       '@types/node':
         specifier: ^24.0.0
@@ -2369,12 +2369,12 @@ packages:
   '@levischuck/tiny-cbor@0.2.11':
     resolution: {integrity: sha512-llBRm4dT4Z89aRsm6u2oEZ8tfwL/2l6BwpZ7JcyieouniDECM5AqNgr/y08zalEIvW3RSK4upYyybDcmjXqAow==}
 
-  '@lingui/babel-plugin-extract-messages@5.8.0':
-    resolution: {integrity: sha512-r+3yBdkqW3/JeTOYjzQpN0JQMW5aJBDy9ZYzkK6qHefezPgp8APbvnfL1yL6QIS5HhaPOYOAV6wAMoy5ocVaOQ==}
+  '@lingui/babel-plugin-extract-messages@5.9.0':
+    resolution: {integrity: sha512-1uLhq9u6zUoTMsNzaoHKi+PnySdeLMaxOHC9L5dbXotJim7eiUH5d3OiuXajN4sDW+xKSMg0/KE9Oo8ge6gzpA==}
     engines: {node: '>=20.0.0'}
 
-  '@lingui/babel-plugin-lingui-macro@5.8.0':
-    resolution: {integrity: sha512-g1Jtrnn9VbHMdVHwMfhvRsUEav/HTkW6JwnQT1386aClI06ZCN3CGnO4mEcCtf12n6cObK345x2BnaZF+MiRcg==}
+  '@lingui/babel-plugin-lingui-macro@5.9.0':
+    resolution: {integrity: sha512-TWpxsoG5R4km/5//mjT90a1cGXlljt9hLP6VJGDsO+31uYr8qQ4PN92DvXKrKicBDZTDxtH5K+TkaBTZhPNqzQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       babel-plugin-macros: 2 || 3
@@ -2382,20 +2382,20 @@ packages:
       babel-plugin-macros:
         optional: true
 
-  '@lingui/cli@5.8.0':
-    resolution: {integrity: sha512-uJX3hq/wxifCfQs6x0PkaJd+MhoQHoXg9YtOuqSGsrCivmcBf0z5gP0Um6eHgrJIbFB6YHqKayzfGqfJ6jqBfg==}
+  '@lingui/cli@5.9.0':
+    resolution: {integrity: sha512-c4fle6xGZAFxEWADE1rN22PbVRbNFiNK0LBtxbtGN4G6ziO/AVhXua+liMy/fFkRCyooSbM3J5hU35xih0jMMg==}
     engines: {node: '>=20.0.0'}
     hasBin: true
 
-  '@lingui/conf@5.8.0':
-    resolution: {integrity: sha512-4paMnxAtZEvuKmqmEvrPKjDBxMepTxDkYcN30snrUc5aIErr/cZQX0HO0sa1vdu1Xy7RMt6LCzpvBpcKnWNpXw==}
+  '@lingui/conf@5.9.0':
+    resolution: {integrity: sha512-dtRUlz3IyG+XwFRDzA45vllJwiY5zY92Skb3GE1QtZxV28B3oP/8G16Z9vQvDn1WpupQbf8EsqfOvaPAraa2cw==}
     engines: {node: '>=20.0.0'}
 
-  '@lingui/core@5.8.0':
-    resolution: {integrity: sha512-YHl7ej5jgQqCjvFWVQBWZY46SSROycHDx760KE1iOxp4dpzAAwHeKbXxERz3Tgu+o+aIIY2Pg3G9GLeOGiFaWA==}
+  '@lingui/core@5.9.0':
+    resolution: {integrity: sha512-TJFhRttwHdWpcYRT3KVXh4nT+Qc4yxvrpalV5Vrs/sQTyrQWbT1/Lc9qXNYSALb5BAglZq0XU46oRpJdt+PVMQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      '@lingui/babel-plugin-lingui-macro': 5.8.0
+      '@lingui/babel-plugin-lingui-macro': 5.9.0
       babel-plugin-macros: 2 || 3
     peerDependenciesMeta:
       '@lingui/babel-plugin-lingui-macro':
@@ -2403,21 +2403,21 @@ packages:
       babel-plugin-macros:
         optional: true
 
-  '@lingui/format-po@5.8.0':
-    resolution: {integrity: sha512-7/nf1dccWia+qz+1uVvzB5ov/+6YOg4rYXwRfVi1uoVk1D0002slGaytk9rva17g/ENH8poJgf/pJ0tey3ngKw==}
+  '@lingui/format-po@5.9.0':
+    resolution: {integrity: sha512-Umm2dt2TjiWl2kLSXk7+t5V3V/p9AaUUtRA7Ky3XHMYanKuxp0/Km/MTJfdSdCH6Rftefk/aQ3hJKuQORP8Bsw==}
     engines: {node: '>=20.0.0'}
 
-  '@lingui/message-utils@5.8.0':
-    resolution: {integrity: sha512-w6GtFPnd3QDsRHFvsITcflueeB/lLusB7tmwhXt9Vo3RV1ffRmCraAbVS1+iuRYTDC/Yq35UyweHwMG7Q2nAYw==}
+  '@lingui/message-utils@5.9.0':
+    resolution: {integrity: sha512-BL5MZt7yCLuyEbuIm+w0TZIZ/ctQOX5IO3yVOrWpM8L3rh2uP/MPDUKhGy8e/XPNMgBVFhlpos/tSzvdh03ErQ==}
     engines: {node: '>=20.0.0'}
 
-  '@lingui/react@5.8.0':
-    resolution: {integrity: sha512-AHlXR12D6b6JDYcsTr7raWXlB6+tc8W/IJsQJDUXtfbLebR5IADrC94B0dKVAXwHiOh6rDGvAUTecFJbP7F3YA==}
+  '@lingui/react@5.9.0':
+    resolution: {integrity: sha512-3887EeVNwXZXWIMBpdziuNiSWtA1g2Kb8XLWOrIEJorAXOds3Oo+0NrTKWlBmIsUMmgw9SeK1e6RPZxeQk+B+g==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      '@lingui/babel-plugin-lingui-macro': 5.8.0
+      '@lingui/babel-plugin-lingui-macro': 5.9.0
       babel-plugin-macros: 2 || 3
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
     peerDependenciesMeta:
       '@lingui/babel-plugin-lingui-macro':
         optional: true
@@ -2436,8 +2436,8 @@ packages:
       next:
         optional: true
 
-  '@lingui/vite-plugin@5.8.0':
-    resolution: {integrity: sha512-rtFuyoZmUKyT6NVwkrSGJz8fdrgmNHCXn6KWRwqPE3/4PH+9MQnFy9LbgLB2uu4QuusX4gP5vEaeG/yM3JD8xw==}
+  '@lingui/vite-plugin@5.9.0':
+    resolution: {integrity: sha512-qNr4UE/QZ36mo5+XVQ0hTWoQSIULoVQ2b1G+aNbGk6Z7olc8yYAtdytJyOCTEk9gCBeyMBTK7zonlxVngNsCfA==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       vite: ^3 || ^4 || ^5.0.9 || ^6 || ^7
@@ -5152,8 +5152,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  baseline-browser-mapping@2.9.15:
-    resolution: {integrity: sha512-kX8h7K2srmDyYnXRIppo4AH/wYgzWVCs+eKr3RusRSQ5PvRYoEFmR/I0PbdTjKFAoKqp5+kbxnNTFO9jOfSVJg==}
+  baseline-browser-mapping@2.9.17:
+    resolution: {integrity: sha512-agD0MgJFUP/4nvjqzIB29zRPUuCF7Ge6mEv9s8dHrtYD7QWXRcx75rOADE/d5ah1NI+0vkDl0yorDd5U852IQQ==}
     hasBin: true
 
   bidi-js@1.0.3:
@@ -5242,9 +5242,6 @@ packages:
   camelcase@6.3.0:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
-
-  caniuse-lite@1.0.30001764:
-    resolution: {integrity: sha512-9JGuzl2M+vPL+pz70gtMF9sHdMFbY9FJaQBi186cHKH3pSzDvzoUJUPV6fqiKIMyXbud9ZLg4F3Yza1vJ1+93g==}
 
   caniuse-lite@1.0.30001766:
     resolution: {integrity: sha512-4C0lfJ0/YPjJQHagaE9x2Elb69CIqEPZeG0anQt9SIvIoOH4a4uaRl73IavyO+0qZh6MDLH//DrXThEYKHkmYA==}
@@ -5734,8 +5731,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  electron-to-chromium@1.5.267:
-    resolution: {integrity: sha512-0Drusm6MVRXSOJpGbaSVgcQsuB4hEkMpHXaVstcPmhu5LIedxs1xNK/nIxmQIU/RPC0+1/o0AVZfBTkTNJOdUw==}
+  electron-to-chromium@1.5.278:
+    resolution: {integrity: sha512-dQ0tM1svDRQOwxnXxm+twlGTjr9Upvt8UFWAgmLsxEzFQxhbti4VwxmMjsDxVC51Zo84swW7FVCXEV+VAkhuPw==}
 
   emoji-regex@10.6.0:
     resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
@@ -11640,33 +11637,33 @@ snapshots:
 
   '@levischuck/tiny-cbor@0.2.11': {}
 
-  '@lingui/babel-plugin-extract-messages@5.8.0': {}
+  '@lingui/babel-plugin-extract-messages@5.9.0': {}
 
-  '@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3)':
+  '@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3)':
     dependencies:
       '@babel/core': 7.28.6
       '@babel/runtime': 7.28.6
       '@babel/types': 7.28.6
-      '@lingui/conf': 5.8.0(typescript@5.9.3)
-      '@lingui/core': 5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3))
-      '@lingui/message-utils': 5.8.0
+      '@lingui/conf': 5.9.0(typescript@5.9.3)
+      '@lingui/core': 5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3))
+      '@lingui/message-utils': 5.9.0
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  '@lingui/cli@5.8.0(typescript@5.9.3)':
+  '@lingui/cli@5.9.0(typescript@5.9.3)':
     dependencies:
       '@babel/core': 7.28.6
       '@babel/generator': 7.28.6
       '@babel/parser': 7.28.6
       '@babel/runtime': 7.28.6
       '@babel/types': 7.28.6
-      '@lingui/babel-plugin-extract-messages': 5.8.0
-      '@lingui/babel-plugin-lingui-macro': 5.8.0(typescript@5.9.3)
-      '@lingui/conf': 5.8.0(typescript@5.9.3)
-      '@lingui/core': 5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3))
-      '@lingui/format-po': 5.8.0(typescript@5.9.3)
-      '@lingui/message-utils': 5.8.0
+      '@lingui/babel-plugin-extract-messages': 5.9.0
+      '@lingui/babel-plugin-lingui-macro': 5.9.0(typescript@5.9.3)
+      '@lingui/conf': 5.9.0(typescript@5.9.3)
+      '@lingui/core': 5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3))
+      '@lingui/format-po': 5.9.0(typescript@5.9.3)
+      '@lingui/message-utils': 5.9.0
       chokidar: 3.5.1
       cli-table: 0.3.11
       commander: 10.0.1
@@ -11688,7 +11685,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@lingui/conf@5.8.0(typescript@5.9.3)':
+  '@lingui/conf@5.9.0(typescript@5.9.3)':
     dependencies:
       '@babel/runtime': 7.28.6
       cosmiconfig: 8.3.6(typescript@5.9.3)
@@ -11698,45 +11695,45 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@lingui/core@5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3))':
+  '@lingui/core@5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3))':
     dependencies:
       '@babel/runtime': 7.28.6
-      '@lingui/message-utils': 5.8.0
+      '@lingui/message-utils': 5.9.0
     optionalDependencies:
-      '@lingui/babel-plugin-lingui-macro': 5.8.0(typescript@5.9.3)
+      '@lingui/babel-plugin-lingui-macro': 5.9.0(typescript@5.9.3)
 
-  '@lingui/format-po@5.8.0(typescript@5.9.3)':
+  '@lingui/format-po@5.9.0(typescript@5.9.3)':
     dependencies:
-      '@lingui/conf': 5.8.0(typescript@5.9.3)
-      '@lingui/message-utils': 5.8.0
+      '@lingui/conf': 5.9.0(typescript@5.9.3)
+      '@lingui/message-utils': 5.9.0
       date-fns: 3.6.0
       pofile: 1.1.4
     transitivePeerDependencies:
       - typescript
 
-  '@lingui/message-utils@5.8.0':
+  '@lingui/message-utils@5.9.0':
     dependencies:
       '@messageformat/parser': 5.1.1
       js-sha256: 0.10.1
 
-  '@lingui/react@5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3))(react@19.2.3)':
+  '@lingui/react@5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3))(react@19.2.3)':
     dependencies:
       '@babel/runtime': 7.28.6
-      '@lingui/core': 5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3))
+      '@lingui/core': 5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3))
       react: 19.2.3
     optionalDependencies:
-      '@lingui/babel-plugin-lingui-macro': 5.8.0(typescript@5.9.3)
+      '@lingui/babel-plugin-lingui-macro': 5.9.0(typescript@5.9.3)
 
-  '@lingui/swc-plugin@5.6.1(@lingui/core@5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3)))(next@15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
+  '@lingui/swc-plugin@5.6.1(@lingui/core@5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3)))(next@15.5.4(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
     dependencies:
-      '@lingui/core': 5.8.0(@lingui/babel-plugin-lingui-macro@5.8.0(typescript@5.9.3))
+      '@lingui/core': 5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3))
     optionalDependencies:
-      next: 15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      next: 15.5.4(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
 
-  '@lingui/vite-plugin@5.8.0(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.2))':
+  '@lingui/vite-plugin@5.9.0(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.2))':
     dependencies:
-      '@lingui/cli': 5.8.0(typescript@5.9.3)
-      '@lingui/conf': 5.8.0(typescript@5.9.3)
+      '@lingui/cli': 5.9.0(typescript@5.9.3)
+      '@lingui/conf': 5.9.0(typescript@5.9.3)
       vite: 7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.2)
     transitivePeerDependencies:
       - babel-plugin-macros
@@ -14876,7 +14873,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  baseline-browser-mapping@2.9.15: {}
+  baseline-browser-mapping@2.9.17: {}
 
   bidi-js@1.0.3:
     dependencies:
@@ -14938,9 +14935,9 @@ snapshots:
 
   browserslist@4.28.1:
     dependencies:
-      baseline-browser-mapping: 2.9.15
-      caniuse-lite: 1.0.30001764
-      electron-to-chromium: 1.5.267
+      baseline-browser-mapping: 2.9.17
+      caniuse-lite: 1.0.30001766
+      electron-to-chromium: 1.5.278
       node-releases: 2.0.27
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
 
@@ -14995,8 +14992,6 @@ snapshots:
       tslib: 2.8.1
 
   camelcase@6.3.0: {}
-
-  caniuse-lite@1.0.30001764: {}
 
   caniuse-lite@1.0.30001766: {}
 
@@ -15477,7 +15472,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.267: {}
+  electron-to-chromium@1.5.278: {}
 
   emoji-regex@10.6.0: {}
 
@@ -17241,16 +17236,16 @@ snapshots:
 
   negotiator@1.0.0: {}
 
-  next-auth@5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3):
+  next-auth@5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3):
     dependencies:
       '@auth/core': 0.41.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
-      next: 15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      next: 15.5.4(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       react: 19.2.3
     optionalDependencies:
       '@simplewebauthn/browser': 13.2.2
       '@simplewebauthn/server': 13.2.2
 
-  next@15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  next@15.5.4(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@next/env': 15.5.4
       '@swc/helpers': 0.5.15
@@ -17258,7 +17253,7 @@ snapshots:
       postcss: 8.4.31
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
-      styled-jsx: 5.1.6(@babel/core@7.28.6)(react@19.2.3)
+      styled-jsx: 5.1.6(@babel/core@7.28.5)(react@19.2.3)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.5.4
       '@next/swc-darwin-x64': 15.5.4
@@ -18459,12 +18454,12 @@ snapshots:
     dependencies:
       inline-style-parser: 0.2.4
 
-  styled-jsx@5.1.6(@babel/core@7.28.6)(react@19.2.3):
+  styled-jsx@5.1.6(@babel/core@7.28.5)(react@19.2.3):
     dependencies:
       client-only: 0.0.1
       react: 19.2.3
     optionalDependencies:
-      '@babel/core': 7.28.6
+      '@babel/core': 7.28.5
 
   supports-color@7.2.0:
     dependencies:
