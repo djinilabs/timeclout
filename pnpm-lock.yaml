@@ -201,7 +201,7 @@ importers:
         version: 10.0.0(@types/node@24.10.9)
       javascript-time-ago:
         specifier: ^2.5.11
-        version: 2.5.12
+        version: 2.6.1
       lambda-stream:
         specifier: ^0.6.0
         version: 0.6.0
@@ -258,7 +258,7 @@ importers:
         version: 7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react-time-ago:
         specifier: ^7.3.3
-        version: 7.3.5(javascript-time-ago@2.5.12)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 7.3.5(javascript-time-ago@2.6.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
@@ -6758,8 +6758,8 @@ packages:
     resolution: {integrity: sha512-zptv57P3GpL+O0I7VdMJNBZCu+BPHVQUk55Ft8/QCJjTVxrnJHuVuX/0Bl2A6/+2oyR/ZMEuFKwmzqqZ/U5nPQ==}
     engines: {node: 20 || >=22}
 
-  javascript-time-ago@2.5.12:
-    resolution: {integrity: sha512-s8PPq2HQ3HIbSU0SjhNvTitf5VoXbQWof9q6k3gIX7F2il0ptjD5lONTDccpuKt/2U7RjbCp/TCHPK7eDwO7zQ==}
+  javascript-time-ago@2.6.1:
+    resolution: {integrity: sha512-vO1OPRNn1tOWqEG0EB/nW1ZlZrCYu5bwd6tEzSdydOmRwFPRsqgmCi4DIp3TSRGyeV+TxCvPS1dzuv9q1LbSMA==}
 
   jest-get-type@29.6.3:
     resolution: {integrity: sha512-zrteXnqYxfQh7l5FHyL38jL39di8H8rHoecLH3JNxH3BwOrBsNeabdap5e0I23lD4HHI8W5VFBZqG4Eaq5LNcw==}
@@ -16694,7 +16694,7 @@ snapshots:
     dependencies:
       '@isaacs/cliui': 8.0.2
 
-  javascript-time-ago@2.5.12:
+  javascript-time-ago@2.6.1:
     dependencies:
       relative-time-format: 1.1.11
 
@@ -17952,9 +17952,9 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.10
 
-  react-time-ago@7.3.5(javascript-time-ago@2.5.12)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  react-time-ago@7.3.5(javascript-time-ago@2.6.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
-      javascript-time-ago: 2.5.12
+      javascript-time-ago: 2.6.1
       memoize-one: 6.0.0
       prop-types: 15.8.1
       raf: 3.4.1
