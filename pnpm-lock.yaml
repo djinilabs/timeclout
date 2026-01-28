@@ -201,7 +201,7 @@ importers:
         version: 10.0.0(@types/node@24.10.9)
       javascript-time-ago:
         specifier: ^2.5.11
-        version: 2.6.1
+        version: 2.6.2
       lambda-stream:
         specifier: ^0.6.0
         version: 0.6.0
@@ -6758,8 +6758,8 @@ packages:
     resolution: {integrity: sha512-zptv57P3GpL+O0I7VdMJNBZCu+BPHVQUk55Ft8/QCJjTVxrnJHuVuX/0Bl2A6/+2oyR/ZMEuFKwmzqqZ/U5nPQ==}
     engines: {node: 20 || >=22}
 
-  javascript-time-ago@2.6.1:
-    resolution: {integrity: sha512-vO1OPRNn1tOWqEG0EB/nW1ZlZrCYu5bwd6tEzSdydOmRwFPRsqgmCi4DIp3TSRGyeV+TxCvPS1dzuv9q1LbSMA==}
+  javascript-time-ago@2.6.2:
+    resolution: {integrity: sha512-gagMB4fetS1M1ZHaxQ9kX2amORXa5Los5PGh8NZzWSKrytz43KnpJlaPFTXbg/R7iPMN7U/6MoevgxqJ0QQ5lA==}
 
   jest-get-type@29.6.3:
     resolution: {integrity: sha512-zrteXnqYxfQh7l5FHyL38jL39di8H8rHoecLH3JNxH3BwOrBsNeabdap5e0I23lD4HHI8W5VFBZqG4Eaq5LNcw==}
@@ -16687,7 +16687,7 @@ snapshots:
     dependencies:
       '@isaacs/cliui': 8.0.2
 
-  javascript-time-ago@2.6.1:
+  javascript-time-ago@2.6.2:
     dependencies:
       relative-time-format: 1.1.11
 
@@ -17941,7 +17941,7 @@ snapshots:
 
   react-time-ago@7.4.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
-      javascript-time-ago: 2.6.1
+      javascript-time-ago: 2.6.2
       memoize-one: 6.0.0
       prop-types: 15.8.1
       react: 19.2.4
