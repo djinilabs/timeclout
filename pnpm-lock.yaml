@@ -216,13 +216,13 @@ importers:
         version: 5.1.6
       next-auth:
         specifier: 5.0.0-beta.30
-        version: 5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       posthog-js:
         specifier: ^1.230.2
         version: 1.336.4
       posthog-node:
         specifier: ^5.0.0
-        version: 5.24.7
+        version: 5.24.8
       radix-ui:
         specifier: ^1.4.2
         version: 1.4.3(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -298,7 +298,7 @@ importers:
         version: 3.0.1(graphql@16.12.0)
       '@lingui/swc-plugin':
         specifier: ^5.4.0
-        version: 5.6.1(@lingui/core@5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3)))(next@15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
+        version: 5.6.1(@lingui/core@5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3)))(next@15.5.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
       '@lingui/vite-plugin':
         specifier: ^5.2.0
         version: 5.9.0(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.2))
@@ -3010,6 +3010,9 @@ packages:
 
   '@posthog/core@1.17.0':
     resolution: {integrity: sha512-8pDNL+/u9ojzXloA5wILVDXBCV5daJ7w2ipCALQlEEZmL752cCKhRpbyiHn3tjKXh3Hy6aOboJneYa1JdlVHrQ==}
+
+  '@posthog/core@1.18.0':
+    resolution: {integrity: sha512-irPbrcopCT0LCRgGM4V8jFuMNCFos6EM4QFf5KA2sHQFC/6pGaHZYoyHcjRUDUKFw4vmpLlmGEXA5ah8x5K4LQ==}
 
   '@posthog/types@1.336.4':
     resolution: {integrity: sha512-BY3cq/8segbXEvHbEXx9SWmaKJEM0AGgsOgMFH2yy13AV+rUHsGcp4Z5LDI5pU25DURN9EAZvzcoVyYy/Iokmw==}
@@ -7633,8 +7636,8 @@ packages:
   posthog-js@1.336.4:
     resolution: {integrity: sha512-NX81XaqOjS/gue3UsbAAuJxi6vD0AGy1HUvywBIhAArCwbTXKS04NhEFwUcYJdrmwXUf94MntEIWGoc1pTFDtg==}
 
-  posthog-node@5.24.7:
-    resolution: {integrity: sha512-IJ0Zj+v+eg/JQMZ75n0Hcp4NzuQzWcZjqFjcUQs6RhW2l5FiQIq09sKJMleXX33hYxD6sfjFsDTqugJlgeAohg==}
+  posthog-node@5.24.8:
+    resolution: {integrity: sha512-rE6p7DYGRR2wHP0FPJIJ9xpDmCPPe6x5p+3CwnyAbO27n7XL4d2GbLeJYpBl0QRGKdUbmDwkEMDXC9u4xvhxZQ==}
     engines: {node: ^20.20.0 || >=22.22.0}
 
   preact-render-to-string@6.5.11:
@@ -11835,11 +11838,11 @@ snapshots:
     optionalDependencies:
       '@lingui/babel-plugin-lingui-macro': 5.9.0(typescript@5.9.3)
 
-  '@lingui/swc-plugin@5.6.1(@lingui/core@5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3)))(next@15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
+  '@lingui/swc-plugin@5.6.1(@lingui/core@5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3)))(next@15.5.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
     dependencies:
       '@lingui/core': 5.9.0(@lingui/babel-plugin-lingui-macro@5.9.0(typescript@5.9.3))
     optionalDependencies:
-      next: 15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      next: 15.5.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
 
   '@lingui/vite-plugin@5.9.0(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.2))':
     dependencies:
@@ -12545,6 +12548,10 @@ snapshots:
   '@popperjs/core@2.11.8': {}
 
   '@posthog/core@1.17.0':
+    dependencies:
+      cross-spawn: 7.0.6
+
+  '@posthog/core@1.18.0':
     dependencies:
       cross-spawn: 7.0.6
 
@@ -17314,16 +17321,16 @@ snapshots:
 
   negotiator@1.0.0: {}
 
-  next-auth@5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
+  next-auth@5.0.0-beta.30(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)(next@15.5.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
     dependencies:
       '@auth/core': 0.41.0(patch_hash=82f799c13ec4149583665a398e6b43f0d1f0c32b327a07f598bdfe3d9cb23912)(@simplewebauthn/browser@13.2.2)(@simplewebauthn/server@13.2.2)
-      next: 15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      next: 15.5.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react: 19.2.4
     optionalDependencies:
       '@simplewebauthn/browser': 13.2.2
       '@simplewebauthn/server': 13.2.2
 
-  next@15.5.4(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  next@15.5.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       '@next/env': 15.5.4
       '@swc/helpers': 0.5.15
@@ -17331,7 +17338,7 @@ snapshots:
       postcss: 8.4.31
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
-      styled-jsx: 5.1.6(@babel/core@7.28.6)(react@19.2.4)
+      styled-jsx: 5.1.6(@babel/core@7.29.0)(react@19.2.4)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.5.4
       '@next/swc-darwin-x64': 15.5.4
@@ -17663,9 +17670,9 @@ snapshots:
       query-selector-shadow-dom: 1.0.1
       web-vitals: 5.1.0
 
-  posthog-node@5.24.7:
+  posthog-node@5.24.8:
     dependencies:
-      '@posthog/core': 1.17.0
+      '@posthog/core': 1.18.0
 
   preact-render-to-string@6.5.11(preact@10.24.3):
     dependencies:
@@ -18525,12 +18532,12 @@ snapshots:
     dependencies:
       inline-style-parser: 0.2.4
 
-  styled-jsx@5.1.6(@babel/core@7.28.6)(react@19.2.4):
+  styled-jsx@5.1.6(@babel/core@7.29.0)(react@19.2.4):
     dependencies:
       client-only: 0.0.1
       react: 19.2.4
     optionalDependencies:
-      '@babel/core': 7.28.6
+      '@babel/core': 7.29.0
 
   supports-color@7.2.0:
     dependencies:
