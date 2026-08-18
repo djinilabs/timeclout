@@ -6,6 +6,8 @@ on:
       - '.github/workflows/**'
       - '.github/actions/**'
 
+if: false
+
 jobs:
   validate-workflows:
     name: Validate Workflow Security

@@ -8,6 +8,8 @@ on:
         required: true
         type: string
 
+if: false
+
 jobs:
   version-bump:
     name: Bump Version

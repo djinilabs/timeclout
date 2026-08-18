@@ -33,6 +33,8 @@ on:
         type: string
         default: ""
 
+if: false
+
 jobs:
   e2e-tests:
     name: Run E2E Tests

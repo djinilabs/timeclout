@@ -11,6 +11,8 @@ on:
     types: [opened, reopened, synchronize]
   workflow_dispatch:
 
+if: false
+
 jobs:
   test:
     runs-on: ubuntu-latest

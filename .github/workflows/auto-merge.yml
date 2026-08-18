@@ -8,6 +8,8 @@ on:
         required: true
         type: string
 
+if: false
+
 jobs:
   auto-merge:
     name: Auto Merge PR

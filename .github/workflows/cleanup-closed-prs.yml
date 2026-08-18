@@ -5,6 +5,8 @@ on:
     - cron: "0 2 * * *" # Every day at 02:00 UTC
   workflow_dispatch:
 
+if: false
+
 jobs:
   cleanup:
     runs-on: ubuntu-latest

@@ -8,6 +8,8 @@ on:
       - ".github/workflows/**"
       - ".github/actions/**"
 
+if: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
